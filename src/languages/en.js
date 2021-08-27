@@ -2690,6 +2690,28 @@ export default {
       'Point and phase monitoring are not the same type of station',
     selectPhaseError: 'Please select the monitoring batch',
   },
+  importDataForecast: {
+    stationKeyNotExist: 'Monitoring station code does not exist',
+    emptyFile: 'Empty File',
+    alarmLevelIinvalid: 'Invalid alarm level (I)',
+    alarmLevelIIinvalid: 'Invalid alarm level (II)',
+    alarmLevelIIIinvalid: 'Invalid alarm level (III)',
+    dateInvalid: 'Invalid date',
+    hourInvalid: 'Invalid time',
+    measureValueInvalid: 'Wrong format parameter value',
+    dataTypeInvalid: 'Invalid type of data',
+    dataSourceInvalid: 'Invalid data source',
+    broadcastDateInvalid: 'Invalid broadcast time',
+    broadcastTimeInvalid: 'Wrong format broadcast date',
+    realDataInvalid: 'Real data has invalid date',
+    invalidDayDataNumber: 'Invalid number of data on the same day',
+    forecastDataInvalid: 'Forecast data with invalid date',
+    titleConfirm: 'Upload Confirmation',
+    confirm1: 'Be sure of the accuracy of the data. Data already exists if',
+    confirm2: 'the same day as the news release',
+    confirm3:
+      'with the data in the uploaded file will be changed and cannot be restored.',
+  },
   dataPointReport: {
     base: {
       title: 'Search data',
@@ -2932,7 +2954,7 @@ export default {
         'Select monitoring points and parameters for data publication',
       ftpConfig:
         'Select monitoring points and parameters to transfer to an external folder using FTP',
-      shareAPI: 'API Share',
+      shareAPI: 'Manage lists, create new API and share API',
     },
     shareDataSub: 'Configure to share data from the system to the outside',
     reportSub: 'Select the report type to export the results',
@@ -3398,7 +3420,7 @@ export default {
       cityId: 'Town/City',
       parameterList: 'Parameters',
       days: 'Forecast Days',
-      broadcastTime: 'Broadcast Date'
+      broadcastTime: 'Broadcast Date',
     },
     titleMenu: {
       'data-station-auto-newest-data': 'Latest Data',
@@ -3410,7 +3432,7 @@ export default {
       'weather-newest-data': 'Real-time Data',
       'weather-feature': 'Weather Forecast Data',
       'data-periodical-forecast-newest-data': 'Lastest data',
-      'data-periodical-forecast-history-data': 'History data'
+      'data-periodical-forecast-history-data': 'History data',
     },
     detailPage: {
       header: {
@@ -3441,7 +3463,7 @@ export default {
         paramenter: 'Parameters',
         days: 'Forecast Days',
         chooseCondition: 'Select Conditions',
-        broadcastTime: 'Broadcast Date'
+        broadcastTime: 'Broadcast Date',
       },
       description: {
         province: 'Province',
@@ -3457,7 +3479,7 @@ export default {
         days: 'Forecast Days',
         viewBy: 'View by: Monthly, Quarterly or Yearly',
         timeRange: 'Time ranges',
-        broadcastTime: 'Broadcast Date'
+        broadcastTime: 'Broadcast Date',
       },
       table: {
         tt: 'No.',
@@ -3474,7 +3496,7 @@ export default {
         alarmLevelIII: 'Alarm Level III (m)',
         dataSource: 'Data Source',
         nodata: 'No Data',
-        exportData: 'Export Data'
+        exportData: 'Export Data Excel',
       },
       message: {
         create: 'Create Success',
@@ -3486,7 +3508,7 @@ export default {
         max: 'Do not enter more than 64 characters',
         requireChoose: 'Please select at least 1 value',
         requireStation: 'Please select at least 1 value',
-        requireBroadcastTime: 'Please select at least 1 value',
+        requireBroadcastTime: 'Please select Broadcast Date',
       },
     },
     button: {
@@ -3513,7 +3535,14 @@ export default {
   periodicalForecast: {
     menu: {
       periodical: 'Periodic Forecast',
-      station: 'Station Management'
+      station: 'Station Management',
+    },
+    toolTipMenu: {
+      periodical: 'Monitoring data of periodic forecast and look up data',
+      station: 'Manage lists and create new monitoring stations',
+      import:
+        ' Import data of the monitoring station and look up import history',
+      search: ' Look up the monitoring station by time',
     },
     title: {
       search: 'Search Data',
@@ -3524,13 +3553,13 @@ export default {
       broadcastTime: 'Broadcast Date',
       createdAt: 'Created At',
       user: 'User',
-      downloadFile: 'Download'
+      downloadFile: 'Download',
     },
     label: {
       stationNam: 'Station Name',
       stationKey: 'Station Code',
       stationInfo: 'Station Information',
-      unit: 'Unit'
-    }
-  }
+      unit: 'Unit',
+    },
+  },
 }

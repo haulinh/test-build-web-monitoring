@@ -1,4 +1,4 @@
-import { Button, Col, DatePicker, Form, Input, Row } from 'antd'
+import { Button, Col, DatePicker, Form, Input, Row, Icon } from 'antd'
 import PeriodicForecastApi from 'api/station-fixed/PeriodicForecastApi'
 import DynamicTable from 'components/elements/dynamic-table'
 import { DD_MM_YYYY, HH_MM_DD_MM_YYYY } from 'constants/format-date'
@@ -51,7 +51,9 @@ export default class HistoryTab extends Component {
     this.setState({ data: result, loading: false })
   }
 
-  onSearch = async () => {
+  onSearch = async e => {
+    e.preventDefault()
+
     const { form } = this.props
     const values = form.getFieldsValue()
 
@@ -118,28 +120,32 @@ export default class HistoryTab extends Component {
 
     return (
       <React.Fragment>
-        <Row type="flex" gutter={16}>
-          <Col>
-            {form.getFieldDecorator(FIELDS.FILE_NAME)(
-              <Input
-                placeholder={i18n.fileName}
-                // onSearch={this.onSearch}
-                style={{ width: 320 }}
-              />
-            )}
-          </Col>
-          <Col>
-            {form.getFieldDecorator(FIELDS.RANGE_TIME)(
-              <RangePicker
-                locale={this.locale.default}
-                style={{ width: 320 }}
-              />
-            )}
-          </Col>
-          <Col>
-            <Button icon="search" shape="circle" onClick={this.onSearch} />
-          </Col>
-        </Row>
+        <Form
+          className="fadeIn animated"
+          onSubmit={this.onSearch}
+          style={{ width: '100%' }}
+        >
+          <Row type="flex" gutter={16}>
+            <Col>
+              {form.getFieldDecorator(FIELDS.FILE_NAME)(
+                <Input placeholder={i18n.fileName} style={{ width: 320 }} />
+              )}
+            </Col>
+            <Col>
+              {form.getFieldDecorator(FIELDS.RANGE_TIME)(
+                <RangePicker
+                  locale={this.locale.default}
+                  style={{ width: 320 }}
+                />
+              )}
+            </Col>
+            <Col>
+              <Button shape="circle" htmlType="submit">
+                <Icon type="search" />
+              </Button>
+            </Col>
+          </Row>
+        </Form>
         <DynamicTable
           isLoading={loading}
           rows={this.getRows()}

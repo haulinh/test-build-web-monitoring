@@ -1,5 +1,6 @@
 import { Col, Input, Row } from 'antd'
 import TextArea from 'antd/lib/input/TextArea'
+import { Clearfix } from 'components/elements'
 import { i18n } from 'containers/api-sharing/constants'
 import { BoxShadow, Header } from 'containers/api-sharing/layout/styles'
 import { getPathname, isView } from 'containers/api-sharing/util'
@@ -12,6 +13,7 @@ const GeneralInfo = withRouter(({ form, location, rule }) => {
   return (
     <BoxShadow>
       <Header>{i18n.detailPage.header.generalInfo}</Header>
+      <Clearfix height={12} />
       <Row gutter={12}>
         <Col span={12}>
           <FormItem label={i18n.detailPage.label.apiName}>

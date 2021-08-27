@@ -1,5 +1,6 @@
 import { Col, Row } from 'antd'
 import PeriodicForecastApi from 'api/station-fixed/PeriodicForecastApi'
+import { Clearfix } from 'components/elements'
 import SelectStation from 'components/elements/select-data/periodic-forecast/SelectStation'
 import FormItem from 'containers/api-sharing/component/FormItem'
 import { i18n } from 'containers/api-sharing/constants'
@@ -52,6 +53,7 @@ export default class Condition extends React.Component {
     return (
       <BoxShadow>
         {!isQuery && <Header>{i18n.detailPage.header.condition}</Header>}
+        <Clearfix height={12} />
         <Row gutter={12}>
           <Col span={16}>
             <FormItem label={i18n.detailPage.label.stationName}>

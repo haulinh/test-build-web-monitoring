@@ -1,5 +1,5 @@
 import React from 'react'
-import { Row, Col, Icon, Form, Button, Alert, Spin } from 'antd'
+import { Row, Col, Icon, Form, Button, Alert, Spin, Modal } from 'antd'
 import Dragger from 'antd/lib/upload/Dragger'
 import { translate as t } from 'hoc/create-lang'
 import styled from 'styled-components'
@@ -18,7 +18,8 @@ const i18n = {
   stationTypeLabel: t('importDataPoint.stationTypeLabel'),
   requirements: (
     <p>
-      {t('importDataPoint.requirements1')} <b>{t('importDataPoint.requirements2')}</b>
+      {t('importDataPoint.requirements1')}{' '}
+      <b>{t('importDataPoint.requirements2')}</b>
     </p>
   ),
   step1: t('importDataPoint.step1'),
@@ -44,7 +45,31 @@ const i18n = {
   ),
   selectPhaseError: t('importDataPoint.selectPhaseError'),
   upload: t('global.upload'),
-  stationKeyNotExist: 'Mã trạm quan trắc không tồn tại',
+  stationKeyNotExist: t('importDataForecast.stationKeyNotExist'),
+  emptyFile: t('importDataForecast.emptyFile'),
+  alarmLevelIinvalid: t('importDataForecast.alarmLevelIinvalid'),
+  alarmLevelIIinvalid: t('importDataForecast.alarmLevelIIinvalid'),
+  alarmLevelIIIinvalid: t('importDataForecast.alarmLevelIIIinvalid'),
+  dateInvalid: t('importDataForecast.dateInvalid'),
+  hourInvalid: t('importDataForecast.hourInvalid'),
+  measureValueInvalid: t('importDataForecast.measureValueInvalid'),
+  dataTypeInvalid: t('importDataForecast.dataTypeInvalid'),
+  dataSourceInvalid: t('importDataForecast.dataSourceInvalid'),
+  broadcastDateInvalid: t('importDataForecast.broadcastDateInvalid'),
+  broadcastTimeInvalid: t('importDataForecast.broadcastTimeInvalid'),
+  realDataInvalid: t('importDataForecast.realDataInvalid'),
+  invalidDayDataNumber: t('importDataForecast.invalidDayDataNumber'),
+  forecastDataInvalid: t('importDataForecast.forecastDataInvalid'),
+  titleConfirm: t('importDataForecast.titleConfirm'),
+  confirm: (
+    <p>
+      {' '}
+      {t('importDataForecast.confirm1')}{' '}
+      <b>{t('importDataForecast.confirm2')}</b>{' '}
+      {t('importDataForecast.confirm1')}
+    </p>
+  ),
+  cancel: t('global.cancel'),
 }
 
 const FIELDS = {
@@ -69,20 +94,20 @@ const IMPORT_DATA_ERROR = {
   REQUIRE_ONE_MEASURE_PARAMERTER: i18n.requireOneMeasureParamerter,
 
   STATION_KEY_NOT_EXIST: i18n.stationKeyNotExist,
-  EMPTY_FILE: 'File rỗng',
-  ALARM_LEVEL_I_INVALID: 'Cấp báo động I không hợp lệ',
-  ALARM_LEVEL_II_INVALID: 'Cấp báo động II không hợp lệ',
-  ALARM_LEVEL_III_INVALID: 'Cấp báo động III không hợp lệ',
-  DATE_INVALID: 'Ngày không hợp lệ',
-  HOUR_INVALID: 'Giờ không hợp lệ',
-  MEASURE_VALUE_INVALID: 'Thông số sai định dạng',
-  DATA_TYPE_INVALID: 'Kiểu dữ liệu không hợp lệ',
-  DATA_SOURCE_INVALID: 'Nguồn dữ liệu không hợp lệ',
-  BROADCAST_TIME_INVALID: 'Thời gian phát bản tin không hợp lệ',
-  BROADCAST_DATE_INVALID: 'Ngày phát bản tin sai định dạng',
-  REAL_DATA_INVALID: 'Dữ liệu thật có ngày không hợp lệ',
-  INVALID_DAY_DATA_NUMBER: 'Số dữ liệu ngày không hợp lệ',
-  FORECAST_DATA_INVALID: 'Dữ liệu dự báo có ngày không hợp lệ',
+  EMPTY_FILE: i18n.emptyFile,
+  ALARM_LEVEL_I_INVALID: i18n.alarmLevelIinvalid,
+  ALARM_LEVEL_II_INVALID: i18n.alarmLevelIIinvalid,
+  ALARM_LEVEL_III_INVALID: i18n.alarmLevelIIIinvalid,
+  DATE_INVALID: i18n.dateInvalid,
+  HOUR_INVALID: i18n.hourInvalid,
+  MEASURE_VALUE_INVALID: i18n.measureValueInvalid,
+  DATA_TYPE_INVALID: i18n.dataTypeInvalid,
+  DATA_SOURCE_INVALID: i18n.dataSourceInvalid,
+  BROADCAST_TIME_INVALID: i18n.broadcastTimeInvalid,
+  BROADCAST_DATE_INVALID: i18n.broadcastDateInvalid,
+  REAL_DATA_INVALID: i18n.realDataInvalid,
+  INVALID_DAY_DATA_NUMBER: i18n.invalidDayDataNumber,
+  FORECAST_DATA_INVALID: i18n.forecastDataInvalid,
 }
 
 const Text = styled.div`
@@ -144,6 +169,7 @@ export default class ImportTab extends React.Component {
     isDownloadingFile: false,
     errorDetail: null,
     count: 0,
+    isModalVisible: false,
   }
 
   onDownloadFile = async () => {
@@ -236,7 +262,22 @@ export default class ImportTab extends React.Component {
 
   onSubmit = e => {
     e.preventDefault()
+    const { form } = this.props
+    const file = form.getFieldValue(FIELDS.FILE)
+    if (file) this.showModal()
+  }
+
+  showModal = () => {
+    this.setState({ isModalVisible: true })
+  }
+
+  handleOk = () => {
     this.submitData()
+    this.setState({ isModalVisible: false })
+  }
+
+  handleCancel = () => {
+    this.setState({ isModalVisible: false })
   }
 
   render() {
@@ -250,6 +291,7 @@ export default class ImportTab extends React.Component {
       errorDetail,
       isSuccess,
       count,
+      isModalVisible,
     } = this.state
 
     return (
@@ -356,6 +398,17 @@ export default class ImportTab extends React.Component {
             </Col>
           </Row>
         </Form>
+        <Modal
+          visible={isModalVisible}
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+          cancelText={i18n.cancel}
+          okText={i18n.upload}
+        >
+          <b style={{ fontSize: '16px' }}>{i18n.titleConfirm}</b>
+          <Clearfix height={12} />
+          {i18n.confirm}
+        </Modal>
       </Container>
     )
   }
