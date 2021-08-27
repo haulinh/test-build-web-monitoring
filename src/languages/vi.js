@@ -2912,7 +2912,7 @@ export default {
       shareConfig: 'Lựa chọn điểm quan trắc và thông số để công bố',
       ftpConfig:
         'Lựa chọn trạm và thông số truyền vào thư mục bên ngoài bằng FTP',
-      shareAPI: 'Chia sẻ API',
+      shareAPI: 'Quản lý danh sách API, tạo mới API và chia sẻ API',
     },
     reportSub: 'Lựa chọn loại báo cáo để xuất kết quả',
     report: {
@@ -3403,7 +3403,7 @@ export default {
       cityId: 'Tỉnh/Thành phố',
       parameterList: 'Các thông số thời tiết',
       days: 'Số ngày dự báo',
-      broadcastTime: 'Ngày phát bản tin'
+      broadcastTime: 'Ngày phát bản tin',
     },
     titleMenu: {
       'data-station-auto-newest-data': 'Dữ liệu mới nhất',
@@ -3415,7 +3415,7 @@ export default {
       'weather-newest-data': 'Dữ liệu mới nhất',
       'weather-feature': 'Dự báo thời tiết',
       'data-periodical-forecast-newest-data': 'Dữ liệu mới nhất',
-      'data-periodical-forecast-history-data': 'Dữ liệu lịch sử'
+      'data-periodical-forecast-history-data': 'Dữ liệu lịch sử',
     },
     detailPage: {
       header: {
@@ -3446,7 +3446,7 @@ export default {
         paramenter: 'Các thông số thời tiết',
         days: 'Số ngày dự báo',
         chooseCondition: 'Chọn điều kiện',
-        broadcastTime: 'Ngày phát bản tin'
+        broadcastTime: 'Ngày phát bản tin',
       },
       description: {
         province: 'Mã đơn vị quản lý',
@@ -3462,7 +3462,7 @@ export default {
         days: 'Số ngày dự báo',
         viewBy: 'Xem theo: Tháng, Quý hoặc Năm',
         timeRange: 'Khoảng thời gian',
-        broadcastTime: 'Ngày phát bản tin'
+        broadcastTime: 'Ngày phát bản tin',
       },
       table: {
         tt: 'STT',
@@ -3479,7 +3479,7 @@ export default {
         alarmLevelIII: 'Cấp báo động III (m)',
         dataSource: 'Nguồn dữ liệu',
         nodata: 'Dữ liệu trống',
-        exportData: 'Xuất dữ liệu'
+        exportData: 'Xuất dữ liệu Excel',
       },
       message: {
         create: 'Tạo thành công',
@@ -3518,7 +3518,14 @@ export default {
   periodicalForecast: {
     menu: {
       periodical: 'Dự báo định kỳ',
-      station: 'Trạm quan trắc'
+      station: 'Trạm quan trắc',
+    },
+    toolTipMenu: {
+      periodical:
+        'Giám sát dữ liệu dự báo nhập liệu định kỳ và tra cứu dữ liệu',
+      station: 'Quản lý danh sách và tạo mới trạm quan trắc',
+      import: 'Nhập dữ liệu trạm quan trắc và tra cứu lịch sử tải lên',
+      search: 'Tra cứu dữ liệu của các trạm quan trắc theo thời gian',
     },
     title: {
       search: 'Tra cứu dữ liệu',
@@ -3529,13 +3536,13 @@ export default {
       broadcastTime: 'Ngày phát bản tin',
       createdAt: 'Thời gian tải lên',
       user: 'Người tải lên',
-      downloadFile: 'Tải về'
+      downloadFile: 'Tải về',
     },
     label: {
       stationNam: 'Tên trạm',
       stationKey: 'Mã trạm',
       stationInfo: 'Thông tin trạm',
-      unit: 'Đơn vị'
-    }
-  }
+      unit: 'Đơn vị',
+    },
+  },
 }

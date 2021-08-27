@@ -1,11 +1,10 @@
-import { Menu, Tooltip } from 'antd'
+import { Menu, Tooltip, Icon as IconAntd } from 'antd'
 import ROLE from 'constants/role'
 import slug, { MENU_GROUP, TOOLTIP_MENU } from 'constants/slug'
 import protectRole from 'hoc/protect-role/forMenu'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { translate as t } from 'hoc/create-lang'
-import Icon from 'themes/icon'
 
 const CENTER = {
   display: 'flex',
@@ -18,9 +17,20 @@ export default {
     <Menu.SubMenu
       key={MENU_GROUP.PERIODICAL_FORECAST}
       title={
-        <Tooltip placement="right" title={TOOLTIP_MENU.processDataSub}>
+        <Tooltip
+          placement="right"
+          title={TOOLTIP_MENU.periodicalForecast.periodical}
+        >
           <div style={CENTER}>
-            {Icon.handleData}
+            <IconAntd
+              type="fund"
+              style={{
+                fontSize: '24px',
+                fontWeight: 'bold',
+                marginLeft: '2px',
+                marginRight: '0px',
+              }}
+            />
             <span style={{ marginLeft: 12 }}>
               {/* {MENU_NAME.processDataSub} */}
               {t('periodicalForecast.menu.periodical')}
@@ -39,7 +49,10 @@ export default {
             props.selectMenu(slug.periodicalForecast.station)
           }}
         >
-          <Tooltip placement="right" title={TOOLTIP_MENU.processData.configNew}>
+          <Tooltip
+            placement="right"
+            title={TOOLTIP_MENU.periodicalForecast.station}
+          >
             <Link to={slug.periodicalForecast.station}>
               {/* {MENU_NAME.processData.configNew} */}
               {t('periodicalForecast.menu.station')}
@@ -57,7 +70,7 @@ export default {
         >
           <Tooltip
             placement="right"
-            title={TOOLTIP_MENU.processData.approveData}
+            title={TOOLTIP_MENU.periodicalForecast.import}
           >
             <Link to={slug.periodicalForecast.importStation}>
               {/* {MENU_NAME.processData.approveData} */}
@@ -76,7 +89,7 @@ export default {
         >
           <Tooltip
             placement="right"
-            title={TOOLTIP_MENU.processData.approveData}
+            title={TOOLTIP_MENU.periodicalForecast.search}
           >
             <Link to={slug.periodicalForecast.search}>
               {/* {MENU_NAME.processData.approveData} */}
