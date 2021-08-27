@@ -57,7 +57,7 @@ const SettingQuery = withRouter(({ location, form, excludeFields = [] }) => {
   return (
     <BoxShadow>
       <Header>{i18n.detailPage.header.querySetting}</Header>
-      <Clearfix height={16} />
+      <Clearfix height={12} />
       <Form.Item>
         {form.getFieldDecorator('optionParams')(<TransferForm data={data} />)}
       </Form.Item>
