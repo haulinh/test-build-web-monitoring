@@ -2689,6 +2689,7 @@ export default {
     pointAndPhaseNotBelongToStationType:
       'Point and phase monitoring are not the same type of station',
     selectPhaseError: 'Please select the monitoring batch',
+    stationKeyNotExist: 'Monitoring station code does not exist',
   },
   dataPointReport: {
     base: {
@@ -3486,7 +3487,7 @@ export default {
         max: 'Do not enter more than 64 characters',
         requireChoose: 'Please select at least 1 value',
         requireStation: 'Please select at least 1 value',
-        requireBroadcastTime: 'Please select at least 1 value',
+        requireBroadcastTime: 'Please select Broadcast Date',
       },
     },
     button: {

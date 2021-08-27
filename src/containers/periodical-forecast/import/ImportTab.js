@@ -44,7 +44,7 @@ const i18n = {
   ),
   selectPhaseError: t('importDataPoint.selectPhaseError'),
   upload: t('global.upload'),
-  stationKeyNotExist: 'Mã trạm quan trắc không tồn tại',
+  stationKeyNotExist: t('importDataPoint.stationKeyNotExist'),
 }
 
 const FIELDS = {

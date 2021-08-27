@@ -1,7 +1,6 @@
-import { Button, Col, Collapse, Form, Input, Row } from 'antd'
+import { Button, Col, Collapse, Form, Input, Row, InputNumber } from 'antd'
 /** */
 import Clearfix from 'components/elements/clearfix'
-import InputNumberCell from 'components/elements/input-number-cell'
 import InputPhoneNumber from 'components/elements/input-phone-number'
 import { PATTERN_KEY, PATTERN_NAME } from 'constants/format-string'
 import createLanguageHoc, { translate } from 'hoc/create-lang'
@@ -25,14 +24,14 @@ const i18n = {
   keyExisted: translate('stationFixedPoint.create.keyExisted'),
   key: {
     label: translate('periodicalForecast.label.stationKey'),
-    placeholder: translate('stationFixedPoint.form.key.placeholder'),
+    placeholder: translate('periodicalForecast.label.stationKey'),
     required: translate('stationFixedPoint.form.key.required'),
     pattern: translate('stationFixedPoint.form.key.pattern'),
     max: translate('stationFixedPoint.form.key.max'),
   },
   name: {
     label: translate('periodicalForecast.label.stationNam'),
-    placeholder: translate('stationFixedPoint.form.name.placeholder'),
+    placeholder: translate('periodicalForecast.placeholder.stationName'),
     required: translate('stationFixedPoint.form.name.required'),
     pattern: translate('stationFixedPoint.form.name.pattern'),
     max: translate('stationFixedPoint.form.name.max'),
@@ -472,11 +471,10 @@ export default class StationForm extends React.Component {
                     'yearOperate',
                     {}
                   )(
-                    <InputNumberCell
+                    <InputNumber
                       editable={true}
-                      size="medium"
-                      min={1800}
-                      max={2050}
+                      type="number"
+                      style={{ width: '100%' }}
                     />
                   )}
                 </FormItem>
