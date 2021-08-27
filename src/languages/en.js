@@ -2689,7 +2689,23 @@ export default {
     pointAndPhaseNotBelongToStationType:
       'Point and phase monitoring are not the same type of station',
     selectPhaseError: 'Please select the monitoring batch',
+  },
+  importDataForecast: {
     stationKeyNotExist: 'Monitoring station code does not exist',
+    emptyFile: 'Empty File',
+    alarmLevelIinvalid: 'Invalid alarm level (I)',
+    alarmLevelIIinvalid: 'Invalid alarm level (II)',
+    alarmLevelIIIinvalid: 'Invalid alarm level (III)',
+    dateInvalid: 'Invalid date',
+    hourInvalid: 'Invalid time',
+    measureValueInvalid: 'Wrong format parameter value',
+    dataTypeInvalid: 'Invalid type of data',
+    dataSourceInvalid: 'Invalid data source',
+    broadcastDateInvalid: 'Invalid broadcast time',
+    broadcastTimeInvalid: 'Wrong format broadcast date',
+    realDataInvalid: 'Real data has invalid date',
+    invalidDayDataNumber: 'Invalid number of data on the same day',
+    forecastDataInvalid: 'Forecast data with invalid date',
   },
   dataPointReport: {
     base: {

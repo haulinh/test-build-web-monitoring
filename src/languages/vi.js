@@ -2680,7 +2680,23 @@ export default {
     parameterNotTypeNumber: 'Thông số sai định dạng',
     pointAndPhaseNotBelongToStationType: 'Điểm và đợt không cùng loại trạm',
     selectPhaseError: 'Vui lòng chọn đợt quan trắc',
+  },
+  importDataForecast: {
     stationKeyNotExist: 'Mã trạm quan trắc không tồn tại',
+    emptyFile: 'File rỗng',
+    alarmLevelIinvalid: 'Cấp báo động I không hợp lệ',
+    alarmLevelIIinvalid: 'Cấp báo động II không hợp lệ',
+    alarmLevelIIIinvalid: 'Cấp báo động III không hợp lệ',
+    dateInvalid: 'Ngày không hợp lệ',
+    hourInvalid: 'Giờ không hợp lệ',
+    measureValueInvalid: 'Thông số sai định dạng',
+    dataTypeInvalid: 'Kiểu dữ liệu không hợp lệ',
+    dataSourceInvalid: 'Nguồn dữ liệu không hợp lệ',
+    broadcastDateInvalid: 'Thời gian phát bản tin không hợp lệ',
+    broadcastTimeInvalid: 'Ngày phát bản tin sai định dạng',
+    realDataInvalid: 'Dữ liệu thật có ngày không hợp lệ',
+    invalidDayDataNumber: 'Số dữ liệu ngày không hợp lệ',
+    forecastDataInvalid: 'Dữ liệu dự báo có ngày không hợp lệ',
   },
   dataPointReport: {
     base: {
