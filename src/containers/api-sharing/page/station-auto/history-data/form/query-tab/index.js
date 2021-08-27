@@ -119,7 +119,7 @@ export default class QueryTab extends Component {
         fieldName: field.fieldName,
         value: field.value,
       }))
-      .filter(field => field.value && field.fieldName !== 'rangeTime')
+      .filter(field => field.value && !['rangeTime', 'stationNames'].includes(field.fieldName))
 
     const urlParams = fieldsParams
       .map(field => `${field.fieldName}=${field.value}`)
