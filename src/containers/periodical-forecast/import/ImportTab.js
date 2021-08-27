@@ -66,7 +66,7 @@ const i18n = {
       {' '}
       {t('importDataForecast.confirm1')}{' '}
       <b>{t('importDataForecast.confirm2')}</b>{' '}
-      {t('importDataForecast.confirm1')}
+      {t('importDataForecast.confirm3')}
     </p>
   ),
   cancel: t('global.cancel'),
