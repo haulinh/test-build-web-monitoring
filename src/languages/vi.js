@@ -2680,6 +2680,7 @@ export default {
     parameterNotTypeNumber: 'Thông số sai định dạng',
     pointAndPhaseNotBelongToStationType: 'Điểm và đợt không cùng loại trạm',
     selectPhaseError: 'Vui lòng chọn đợt quan trắc',
+    stationKeyNotExist: 'Mã trạm quan trắc không tồn tại',
   },
   dataPointReport: {
     base: {
@@ -3536,6 +3537,9 @@ export default {
       stationKey: 'Mã trạm',
       stationInfo: 'Thông tin trạm',
       unit: 'Đơn vị'
+    },
+    placeholder: {
+      stationName: 'Tên trạm quan trắc'
     }
   }
 }
