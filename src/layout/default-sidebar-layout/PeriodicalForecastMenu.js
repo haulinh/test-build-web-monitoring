@@ -26,8 +26,8 @@ export default {
               type="fund"
               style={{
                 fontSize: '20px',
-                width: '24px',
-                height: '24px',
+                width: '22px',
+                height: '22px',
                 fontWeight: 'bold',
                 marginLeft: '2px',
                 marginRight: '0px',
