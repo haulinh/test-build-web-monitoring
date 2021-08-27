@@ -96,8 +96,15 @@ export default class SearchContainer extends Component {
           .format(),
     }
     this.setState({ loading: true })
-    const result = await PeriodicForecastApi.getDataPeriodicForecast(params)
-    this.setState({ data: result, loading: false })
+    try {
+      const result = await PeriodicForecastApi.getDataPeriodicForecast(params)
+      if (result) {
+        this.setState({ data: result, loading: false })
+      }
+    } catch (error) {
+      this.setState({ data: {} })
+      console.log(error)
+    }
   }
 
   onFetchStationSuccess = stations => {
