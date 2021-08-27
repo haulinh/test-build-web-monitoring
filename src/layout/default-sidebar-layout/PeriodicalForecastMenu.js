@@ -25,7 +25,9 @@ export default {
             <IconAntd
               type="fund"
               style={{
-                fontSize: '24px',
+                fontSize: '20px',
+                width: '24px',
+                height: '24px',
                 fontWeight: 'bold',
                 marginLeft: '2px',
                 marginRight: '0px',
