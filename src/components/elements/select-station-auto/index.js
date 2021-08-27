@@ -84,13 +84,12 @@ export default class SelectStationAuto extends React.PureComponent {
 
     const {stationAutoSelects} = this.state;
     const {mode, onChange, onChangeObject} = this.props;
-    const stationAutoMaps = new Map(stationAutoSelects.map(item => [item.key, item.name]))
-
-    const stationKeys = list.filter(key => stationAutoMaps.has(key))
-
     let stationType = stationAutoSelects.find(s => s.key === list)
+    let stationKeys = list
 
     if (mode === 'multiple') {
+      const stationAutoMaps = new Map(stationAutoSelects.map(item => [item.key, item.name]))
+      stationKeys = list.filter(key => stationAutoMaps.has(key))
       stationType = stationAutoSelects
         .filter(item => {
           return stationKeys.includes(item.key)
