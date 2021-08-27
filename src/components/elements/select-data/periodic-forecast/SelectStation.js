@@ -21,6 +21,7 @@ export default class SelectStation extends Component {
     return (
       <Select
         onChange={onChange}
+        allowClear
         value={value}
         style={{ width: '100%' }}
         mode="multiple"
