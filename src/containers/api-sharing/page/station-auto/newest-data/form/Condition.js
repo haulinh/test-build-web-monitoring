@@ -1,4 +1,5 @@
 import { Col, Row, Switch } from 'antd'
+import { Clearfix } from 'components/elements'
 import SelectMeasureParameter from 'components/elements/select-measure-parameter'
 import SelectProvince from 'components/elements/select-province'
 import SelectQueryType from 'components/elements/select-query-type'
@@ -143,6 +144,7 @@ export default class Condition extends React.Component {
     return (
       <BoxShadow>
         {!isQuery && <Header>{i18n.detailPage.header.condition}</Header>}
+        <Clearfix height={12} />
         <Row gutter={12}>
           <Col span={12}>
             <FormItem label={i18n.detailPage.label.province}>
