@@ -1,5 +1,5 @@
 import React from 'react'
-import { Row, Col, Icon, Form, Button, Alert, Spin } from 'antd'
+import { Row, Col, Icon, Form, Button, Alert, Spin, Modal } from 'antd'
 import Dragger from 'antd/lib/upload/Dragger'
 import { translate as t } from 'hoc/create-lang'
 import styled from 'styled-components'
@@ -18,7 +18,8 @@ const i18n = {
   stationTypeLabel: t('importDataPoint.stationTypeLabel'),
   requirements: (
     <p>
-      {t('importDataPoint.requirements1')} <b>{t('importDataPoint.requirements2')}</b>
+      {t('importDataPoint.requirements1')}{' '}
+      <b>{t('importDataPoint.requirements2')}</b>
     </p>
   ),
   step1: t('importDataPoint.step1'),
@@ -59,6 +60,16 @@ const i18n = {
   realDataInvalid: t('importDataForecast.realDataInvalid'),
   invalidDayDataNumber: t('importDataForecast.invalidDayDataNumber'),
   forecastDataInvalid: t('importDataForecast.forecastDataInvalid'),
+  titleConfirm: t('importDataForecast.titleConfirm'),
+  confirm: (
+    <p>
+      {' '}
+      {t('importDataForecast.confirm1')}{' '}
+      <b>{t('importDataForecast.confirm2')}</b>{' '}
+      {t('importDataForecast.confirm1')}
+    </p>
+  ),
+  cancel: t('global.cancel'),
 }
 
 const FIELDS = {
@@ -158,6 +169,7 @@ export default class ImportTab extends React.Component {
     isDownloadingFile: false,
     errorDetail: null,
     count: 0,
+    isModalVisible: false,
   }
 
   onDownloadFile = async () => {
@@ -250,7 +262,22 @@ export default class ImportTab extends React.Component {
 
   onSubmit = e => {
     e.preventDefault()
+    const { form } = this.props
+    const file = form.getFieldValue(FIELDS.FILE)
+    if (file) this.showModal()
+  }
+
+  showModal = () => {
+    this.setState({ isModalVisible: true })
+  }
+
+  handleOk = () => {
     this.submitData()
+    this.setState({ isModalVisible: false })
+  }
+
+  handleCancel = () => {
+    this.setState({ isModalVisible: false })
   }
 
   render() {
@@ -264,6 +291,7 @@ export default class ImportTab extends React.Component {
       errorDetail,
       isSuccess,
       count,
+      isModalVisible,
     } = this.state
 
     return (
@@ -370,6 +398,17 @@ export default class ImportTab extends React.Component {
             </Col>
           </Row>
         </Form>
+        <Modal
+          visible={isModalVisible}
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+          cancelText={i18n.cancel}
+          okText={i18n.upload}
+        >
+          <b style={{ fontSize: '16px' }}>{i18n.titleConfirm}</b>
+          <Clearfix height={12} />
+          {i18n.confirm}
+        </Modal>
       </Container>
     )
   }

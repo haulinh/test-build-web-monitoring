@@ -2706,6 +2706,11 @@ export default {
     realDataInvalid: 'Real data has invalid date',
     invalidDayDataNumber: 'Invalid number of data on the same day',
     forecastDataInvalid: 'Forecast data with invalid date',
+    titleConfirm: 'Upload Confirmation',
+    confirm1: 'Be sure of the accuracy of the data. Data already exists if',
+    confirm2: 'the same day as the news release',
+    confirm3:
+      'with the data in the uploaded file will be changed and cannot be restored.',
   },
   dataPointReport: {
     base: {

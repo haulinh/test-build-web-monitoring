@@ -2697,6 +2697,12 @@ export default {
     realDataInvalid: 'Dữ liệu thật có ngày không hợp lệ',
     invalidDayDataNumber: 'Số dữ liệu ngày không hợp lệ',
     forecastDataInvalid: 'Dữ liệu dự báo có ngày không hợp lệ',
+    titleConfirm: 'Xác nhận tải lên',
+    confirm1:
+      'Hãy chắc chắn về tính chính xác của dữ liệu. Dữ liệu đã tồn tại nếu',
+    confirm2: 'cùng ngày phát bản tin',
+    confirm3:
+      'với dữ liệu trong file tải lên sẽ bị thay đổi và không thể khôi phục.',
   },
   dataPointReport: {
     base: {
