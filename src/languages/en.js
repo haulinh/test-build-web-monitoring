@@ -2933,7 +2933,7 @@ export default {
         'Select monitoring points and parameters for data publication',
       ftpConfig:
         'Select monitoring points and parameters to transfer to an external folder using FTP',
-      shareAPI: 'API Share',
+      shareAPI: 'Manage lists, create new API and share API',
     },
     shareDataSub: 'Configure to share data from the system to the outside',
     reportSub: 'Select the report type to export the results',
@@ -3399,7 +3399,7 @@ export default {
       cityId: 'Town/City',
       parameterList: 'Parameters',
       days: 'Forecast Days',
-      broadcastTime: 'Broadcast Date'
+      broadcastTime: 'Broadcast Date',
     },
     titleMenu: {
       'data-station-auto-newest-data': 'Latest Data',
@@ -3411,7 +3411,7 @@ export default {
       'weather-newest-data': 'Real-time Data',
       'weather-feature': 'Weather Forecast Data',
       'data-periodical-forecast-newest-data': 'Lastest data',
-      'data-periodical-forecast-history-data': 'History data'
+      'data-periodical-forecast-history-data': 'History data',
     },
     detailPage: {
       header: {
@@ -3442,7 +3442,7 @@ export default {
         paramenter: 'Parameters',
         days: 'Forecast Days',
         chooseCondition: 'Select Conditions',
-        broadcastTime: 'Broadcast Date'
+        broadcastTime: 'Broadcast Date',
       },
       description: {
         province: 'Province',
@@ -3458,7 +3458,7 @@ export default {
         days: 'Forecast Days',
         viewBy: 'View by: Monthly, Quarterly or Yearly',
         timeRange: 'Time ranges',
-        broadcastTime: 'Broadcast Date'
+        broadcastTime: 'Broadcast Date',
       },
       table: {
         tt: 'No.',
@@ -3475,7 +3475,7 @@ export default {
         alarmLevelIII: 'Alarm Level III (m)',
         dataSource: 'Data Source',
         nodata: 'No Data',
-        exportData: 'Export Data'
+        exportData: 'Export Data Excel',
       },
       message: {
         create: 'Create Success',
@@ -3514,7 +3514,14 @@ export default {
   periodicalForecast: {
     menu: {
       periodical: 'Periodic Forecast',
-      station: 'Station Management'
+      station: 'Station Management',
+    },
+    toolTipMenu: {
+      periodical: 'Monitoring data of periodic forecast and look up data',
+      station: 'Manage lists and create new monitoring stations',
+      import:
+        ' Import data of the monitoring station and look up import history',
+      search: ' Look up the monitoring station by time',
     },
     title: {
       search: 'Search Data',
@@ -3525,13 +3532,13 @@ export default {
       broadcastTime: 'Broadcast Date',
       createdAt: 'Created At',
       user: 'User',
-      downloadFile: 'Download'
+      downloadFile: 'Download',
     },
     label: {
       stationNam: 'Station Name',
       stationKey: 'Station Code',
       stationInfo: 'Station Information',
-      unit: 'Unit'
-    }
-  }
+      unit: 'Unit',
+    },
+  },
 }

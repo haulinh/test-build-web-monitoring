@@ -446,7 +446,7 @@ export const TOOLTIP_MENU = {
   shareData: {
     shareConfig: translate('tooltipMenuApp.shareData.shareConfig'),
     ftpConfig: translate('tooltipMenuApp.shareData.ftpConfig'),
-    apiSharing: translate('tooltipMenuApp.shareData.apiSharing'),
+    apiSharing: translate('tooltipMenuApp.shareData.shareAPI'),
   },
   reportSub: translate('tooltipMenuApp.reportSub'),
   report: {
@@ -487,5 +487,11 @@ export const TOOLTIP_MENU = {
     role: translate('tooltipMenuApp.config.role'),
     user: translate('tooltipMenuApp.config.user'),
     dataLogger: translate('tooltipMenuApp.config.dataLogger'),
+  },
+  periodicalForecast: {
+    periodical: translate('periodicalForecast.toolTipMenu.periodical'),
+    station: translate('periodicalForecast.toolTipMenu.station'),
+    import: translate('periodicalForecast.toolTipMenu.import'),
+    search: translate('periodicalForecast.toolTipMenu.search'),
   },
 }

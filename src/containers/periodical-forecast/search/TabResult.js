@@ -120,6 +120,15 @@ const TableStation = ({ data, station, loading }) => {
 }
 
 export default function TabResult({ data, loading, exportData }) {
+  if (_.isEmpty(data)) {
+    return (
+      <Empty
+        style={{ margin: '0 auto', padding: '8px 16px' }}
+        description={i18n.nodata}
+      />
+    )
+  }
+
   const tabs = Object.keys(data)
   return (
     <div>
