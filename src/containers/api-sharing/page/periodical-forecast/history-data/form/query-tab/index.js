@@ -170,6 +170,7 @@ export default class QueryTab extends Component {
         this.setState({ dataTable: data })
       }
     } catch (error) {
+      this.setState({dataTable: []})
       console.log(error)
     }
     const initPagination = { current: 1, pageSize: 10 }

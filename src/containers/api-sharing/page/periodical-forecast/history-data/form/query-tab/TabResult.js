@@ -1,4 +1,4 @@
-import { Table, Tabs } from 'antd'
+import { Empty, Table, Tabs } from 'antd'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import { i18n } from 'containers/api-sharing/constants'
 import _ from 'lodash'
@@ -119,6 +119,16 @@ class TableStation extends React.Component {
 }
 
 export default function TabResult({ data, loading }) {
+  console.log({data})
+  if (_.isEmpty(data)) {
+    return (
+      <Empty
+        style={{ margin: '0 auto', padding: '8px 16px' }}
+        description={i18n.nodata}
+      />
+    )
+  }
+
   const tabs = Object.keys(data)
   return (
     <div>
