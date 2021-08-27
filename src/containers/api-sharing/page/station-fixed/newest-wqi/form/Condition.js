@@ -1,5 +1,6 @@
 import { Col, Row } from 'antd'
 import CalculateApi from 'api/CalculateApi'
+import { Clearfix } from 'components/elements'
 import { SelectPoint } from 'components/elements/select-data'
 import SelectProvince from 'components/elements/select-province'
 import SelectStationType from 'components/elements/select-station-type'
@@ -126,6 +127,7 @@ export default class Condition extends React.Component {
     return (
       <BoxShadow>
         <Header>{i18n.detailPage.header.condition}</Header>
+        <Clearfix height={12} />
         <Row gutter={12}>
           <Col span={12}>
             <FormItem label={i18n.detailPage.label.province}>

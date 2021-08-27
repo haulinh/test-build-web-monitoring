@@ -1,4 +1,5 @@
 import { Col, Row, Select } from 'antd'
+import { Clearfix } from 'components/elements'
 import SelectCities from 'components/elements/select-data/weather/SelectCity'
 import SelectParamenterWeather, { optionsWeather } from 'components/elements/select-data/weather/SelectParamenter'
 import FormItem from 'containers/api-sharing/component/FormItem'
@@ -47,8 +48,8 @@ export default class Condition extends React.Component {
     return (
       <BoxShadow>
         {!isQuery && <Header>{i18n.detailPage.header.condition}</Header>}
+        <Clearfix height={12} />
         <Row gutter={12}>
-
           <Col span={12}>
             <FormItem label={i18n.detailPage.label.country}>
               <Select style={{ width: '100%' }} value={i18n.init.country} disabled={true}></Select>
