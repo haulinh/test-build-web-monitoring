@@ -3,6 +3,7 @@ import Clearfix from 'components/elements/clearfix'
 import { i18n } from 'containers/api-sharing/constants'
 import { BoxShadow, Header } from 'containers/api-sharing/layout/styles'
 import React, { Component } from 'react'
+import { Row } from 'react-bootstrap'
 import { withRouter } from 'react-router'
 
 class TransferForm extends Component {
@@ -57,7 +58,7 @@ const SettingQuery = withRouter(({ location, form, excludeFields = [] }) => {
   return (
     <BoxShadow>
       <Header>{i18n.detailPage.header.querySetting}</Header>
-      <Clearfix height={12} />
+      <Clearfix height={16} />
       <Form.Item>
         {form.getFieldDecorator('optionParams')(<TransferForm data={data} />)}
       </Form.Item>
