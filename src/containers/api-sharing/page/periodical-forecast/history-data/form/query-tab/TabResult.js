@@ -124,7 +124,7 @@ export default function TabResult({ data, loading }) {
     return (
       <Empty
         style={{ margin: '0 auto', padding: '8px 16px' }}
-        description={i18n.nodata}
+        description={i18n.button.nodata}
       />
     )
   }

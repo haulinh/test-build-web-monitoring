@@ -2705,7 +2705,7 @@ export default {
     broadcastTimeInvalid: 'Wrong format broadcast date',
     realDataInvalid: 'Real data has invalid date',
     invalidDayDataNumber: 'Invalid number of data on the same day',
-    forecastDataInvalid: 'Forecast data with invalid date',
+    forecastDataInvalid: 'Forecast data has invalid date',
     titleConfirm: 'Upload Confirmation',
     confirm1: 'Be sure of the accuracy of the data. Data already exists if',
     confirm2: 'the same day as the news release',
