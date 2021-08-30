@@ -93,7 +93,10 @@ const ReportTable = ({
           isMerged = item.measuringLogs[measuring.key].isMerged
         }
         if (!valueColumn) return
-        if (!_.isNumber(valueColumn.value)) return valueColumn.textValue
+        if (
+          !_.isNumber(valueColumn.value) || 
+          valueColumn.value !== +valueColumn.textValue
+        ) return valueColumn.textValue
 
         return (
           <div

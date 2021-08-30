@@ -183,7 +183,9 @@ export default class MarkerStation extends PureComponent {
             <td>{index + 1}</td>
             <td>{name}</td>
             {
-              textValue === 'KPH' ? 
+              (!_.isNumber(value) || 
+                value !== +textValue
+              ) ? 
               <td>{textValue}</td> :
               <td
                 style={{
