@@ -65,7 +65,7 @@ class TableStation extends React.Component {
     {
       title: i18n.table.alarmLevelI,
       align: 'center',
-      width: 120,
+      width: 130,
       dataIndex: 'alarmLevelI',
       render: value => {
         return <div>{value}</div>
@@ -74,7 +74,7 @@ class TableStation extends React.Component {
     {
       title: i18n.table.alarmLevelII,
       align: 'center',
-      width: 125,
+      width: 135,
       dataIndex: 'alarmLevelII',
       render: value => {
         return <div>{value}</div>
@@ -83,7 +83,7 @@ class TableStation extends React.Component {
     {
       title: i18n.table.alarmLevelIII,
       align: 'center',
-      width: 125,
+      width: 140,
       dataIndex: 'alarmLevelIII',
       render: value => {
         return <div>{value}</div>
