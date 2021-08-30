@@ -177,15 +177,13 @@ export default class MarkerStation extends PureComponent {
 
         const value = _get(lastLog, ['measuringLogs', key, 'value'], '')
         const textValue = _get(lastLog, ['measuringLogs', key, 'textValue'], '')
-        // console.log(value, "value")
+
         return (
           <tr key={`${index + 1}`}>
             <td>{index + 1}</td>
             <td>{name}</td>
             {
-              (!_.isNumber(value) || 
-                value !== +textValue
-              ) ? 
+              !_.isNumber(value) ? 
               <td>{textValue}</td> :
               <td
                 style={{
@@ -194,7 +192,7 @@ export default class MarkerStation extends PureComponent {
                   textAlign: 'right',
                 }}
               >
-                {typeof value === 'number' ? getFormatNumber(value) : ''}
+                {+textValue === value ? getFormatNumber(value) : textValue}
               </td>
             }
             <td>{unit}</td>

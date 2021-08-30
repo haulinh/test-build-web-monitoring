@@ -93,10 +93,11 @@ const ReportTable = ({
           isMerged = item.measuringLogs[measuring.key].isMerged
         }
         if (!valueColumn) return
-        if (
-          !_.isNumber(valueColumn.value) || 
-          valueColumn.value !== +valueColumn.textValue
-        ) return valueColumn.textValue
+
+        const textValue = valueColumn.textValue
+        const value = valueColumn.value
+
+        if(!_.isNumber(value)) return textValue;
 
         return (
           <div
@@ -106,7 +107,7 @@ const ReportTable = ({
             }}
           >
             <Tooltip title={isMerged ? i18n.qcvn.invalid : qcvn}>
-              {valueColumn && valueColumn.value}
+              {textValue}
             </Tooltip>
           </div>
         )
