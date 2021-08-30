@@ -12,7 +12,7 @@ const i18n = {
   okText: translate('addon.ok'),
   addButton: translate('stationAutoManager.create.label'),
   stationType: translate('stationFixedPoint.form.stationType.placeholder'),
-  stationName: translate('stationFixedPoint.form.name.placeholder'),
+  stationName: translate('periodicalForecast.placeholder.stationName'),
   title: translate('stationAutoManager.limit.station.title'),
   callAction: translate('stationAutoManager.limit.station.callAction'),
 }

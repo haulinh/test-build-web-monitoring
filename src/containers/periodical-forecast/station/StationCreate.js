@@ -12,7 +12,7 @@ import Breadcrumb from '../breadcrumb'
 import StationForm from './StationForm'
 
 const i18n = {
-  success: 'Thêm mới trạm thành công ',
+  success: translate('periodicalForecast.message.createSuccess'),
   error: translate('addon.onSave.add.error'),
 }
 @protectRole(ROLE.STATION_FIXED.CREATE)

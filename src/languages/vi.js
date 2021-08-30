@@ -3570,5 +3570,8 @@ export default {
     placeholder: {
       stationName: 'Tên trạm quan trắc',
     },
+    message: {
+      createSuccess: 'Thêm mới trạm thành công',
+    },
   },
 }
