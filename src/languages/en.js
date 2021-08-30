@@ -3546,20 +3546,26 @@ export default {
     },
     title: {
       search: 'Search Data',
-      station: 'Station Name',
+      station: 'Station Management',
       importData: 'Import Data',
       historyData: 'History Data',
       fileName: 'File Name',
       broadcastTime: 'Broadcast Date',
       createdAt: 'Created At',
-      user: 'User',
+      user: 'Users',
       downloadFile: 'Download',
     },
     label: {
-      stationNam: 'Station Name',
-      stationKey: 'Station Code',
+      stationNam: 'Name',
+      stationKey: 'Code',
       stationInfo: 'Station Information',
       unit: 'Unit',
+    },
+    placeholder: {
+      stationName: 'Name',
+    },
+    message: {
+      createSuccess: 'Add New Station Successfully',
     },
   },
 }
