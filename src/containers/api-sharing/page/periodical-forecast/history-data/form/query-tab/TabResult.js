@@ -46,6 +46,7 @@ class TableStation extends React.Component {
     },
     {
       title: i18n.table.dataType,
+      width: 120,
       align: 'center',
       dataIndex: 'dataType',
 
@@ -88,6 +89,7 @@ class TableStation extends React.Component {
     {
       title: i18n.table.dataSource,
       align: 'center',
+      width: 130,
       dataIndex: 'dataSource',
       render: value => {
         return <div>{valueMapKey.dataSource[value]}</div>
