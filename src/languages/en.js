@@ -3551,7 +3551,7 @@ export default {
       historyData: 'History Data',
       fileName: 'File Name',
       broadcastTime: 'Broadcast Date',
-      createdAt: 'Created At',
+      createdAt: 'Upload Time',
       user: 'Users',
       downloadFile: 'Download',
     },
