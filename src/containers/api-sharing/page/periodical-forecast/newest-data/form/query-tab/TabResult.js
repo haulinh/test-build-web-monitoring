@@ -57,6 +57,7 @@ class TableStation extends React.Component {
     {
       title: `${this.measure} ${this.unit && `(${this.unit})`}`,
       align: 'center',
+      width: 145,
       dataIndex: 'measureValue',
       render: value => {
         return <div>{value}</div>
@@ -65,6 +66,7 @@ class TableStation extends React.Component {
     {
       title: i18n.table.alarmLevelI,
       align: 'center',
+      width: 120,
       dataIndex: 'alarmLevelI',
       render: value => {
         return <div>{value}</div>
@@ -73,6 +75,7 @@ class TableStation extends React.Component {
     {
       title: i18n.table.alarmLevelII,
       align: 'center',
+      width: 120,
       dataIndex: 'alarmLevelII',
       render: value => {
         return <div>{value}</div>
@@ -81,6 +84,7 @@ class TableStation extends React.Component {
     {
       title: i18n.table.alarmLevelIII,
       align: 'center',
+      width: 120,
       dataIndex: 'alarmLevelIII',
       render: value => {
         return <div>{value}</div>
@@ -121,7 +125,7 @@ class TableStation extends React.Component {
 }
 
 export default function TabResult({ data, loading }) {
-  console.log({data})
+  console.log({ data })
   if (_.isEmpty(data)) {
     return (
       <Empty
