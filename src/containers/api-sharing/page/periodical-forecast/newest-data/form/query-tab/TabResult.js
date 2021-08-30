@@ -49,7 +49,6 @@ class TableStation extends React.Component {
       width: 120,
       align: 'center',
       dataIndex: 'dataType',
-
       render: value => {
         return <div>{valueMapKey.dataType[value]}</div>
       },
@@ -84,7 +83,7 @@ class TableStation extends React.Component {
     {
       title: i18n.table.alarmLevelIII,
       align: 'center',
-      width: 120,
+      width: 125,
       dataIndex: 'alarmLevelIII',
       render: value => {
         return <div>{value}</div>
@@ -92,7 +91,7 @@ class TableStation extends React.Component {
     },
     {
       title: i18n.table.dataSource,
-      width: 130,
+      width: 125,
       align: 'center',
       dataIndex: 'dataSource',
       render: value => {
@@ -125,7 +124,6 @@ class TableStation extends React.Component {
 }
 
 export default function TabResult({ data, loading }) {
-  console.log({ data })
   if (_.isEmpty(data)) {
     return (
       <Empty
