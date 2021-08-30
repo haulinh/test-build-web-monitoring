@@ -2701,16 +2701,16 @@ export default {
     measureValueInvalid: 'Wrong format parameter value',
     dataTypeInvalid: 'Invalid type of data',
     dataSourceInvalid: 'Invalid data source',
-    broadcastDateInvalid: 'Invalid broadcast time',
-    broadcastTimeInvalid: 'Wrong format broadcast date',
+    broadcastDateInvalid: 'Wrong format broadcast date',
+    broadcastTimeInvalid: ' Invalid broadcast time',
     realDataInvalid: 'Real data has invalid date',
     invalidDayDataNumber: 'Invalid number of data on the same day',
     forecastDataInvalid: 'Forecast data has invalid date',
     titleConfirm: 'Upload Confirmation',
-    confirm1: 'Be sure of the accuracy of the data. Data already exists if',
-    confirm2: 'the same day as the news release',
+    confirm1: 'Be sure of the accuracy of the data. Existing data if',
+    confirm2: 'the same broadcast date',
     confirm3:
-      'with the data in the uploaded file will be changed and cannot be restored.',
+      'as the data in the uploaded file will be changed and cannot be restored.',
   },
   dataPointReport: {
     base: {
