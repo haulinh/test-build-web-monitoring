@@ -24,14 +24,14 @@ const i18n = {
   keyExisted: translate('stationFixedPoint.create.keyExisted'),
   key: {
     label: translate('periodicalForecast.label.stationKey'),
-    placeholder: translate('periodicalForecast.label.stationKey'),
+    placeholder: translate('periodicalForecast.placeholder.stationKey'),
     required: translate('stationFixedPoint.form.key.required'),
     pattern: translate('stationFixedPoint.form.key.pattern'),
     max: translate('stationFixedPoint.form.key.max'),
   },
   name: {
     label: translate('periodicalForecast.label.stationNam'),
-    placeholder: translate('periodicalForecast.placeholder.stationName'),
+    placeholder: translate('periodicalForecast.placeholder.name'),
     required: translate('stationFixedPoint.form.name.required'),
     pattern: translate('stationFixedPoint.form.name.pattern'),
     max: translate('stationFixedPoint.form.name.max'),
@@ -472,6 +472,7 @@ export default class StationForm extends React.Component {
                     {}
                   )(
                     <InputNumber
+                      placeholder={i18n.yearOperate.placeholder}
                       editable={true}
                       type="number"
                       style={{ width: '100%' }}

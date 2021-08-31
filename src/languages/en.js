@@ -2664,7 +2664,7 @@ export default {
     measuringLabel: 'Order of data input',
     measuringRequired: 'Please select 1 parameter',
     stationTypeLabel: 'Station Type',
-    requirements1: `Upload the data containing the monitoring points in the form below. Make sure the fields are absolutely correct. Data uploaded to the system stored in`,
+    requirements1: `Upload the data containing the monitoring stations in the form below. Make sure the fields are absolutely correct. Data uploaded to the system stored in`,
     requirements2: `Import History`,
     requirements:
       'Upload the data containing the monitoring points in the form below. Make sure the fields are absolutely correct. Data uploaded to the system cannot be removed',
@@ -3562,11 +3562,13 @@ export default {
       unit: 'Unit',
     },
     placeholder: {
-      stationName: 'Name',
+      stationName: 'Monitoring station name',
+      stationKey: 'Code of station name',
+      name: 'Station name',
     },
     message: {
       createSuccess: 'Add New Station Successfully',
     },
-    export: 'Broadcast data of'
+    export: 'Broadcast data of',
   },
 }
