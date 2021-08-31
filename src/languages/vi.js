@@ -3573,5 +3573,6 @@ export default {
     message: {
       createSuccess: 'Thêm mới trạm thành công',
     },
+    export: 'Dữ liệu bản tin ngày'
   },
 }

@@ -73,7 +73,7 @@ export default class SearchContainer extends Component {
     const result = await PeriodicForecastApi.exportData({ ...params, lang })
     downFileExcel(
       result.data,
-      `Dữ liệu bản tin ngày ${moment(params.broadcastTime).format(DD_MM_YYYY)}`
+      `${t('periodicalForecast.export')} ${moment(params.broadcastTime).format(DD_MM_YYYY)}`
     )
   }
 
