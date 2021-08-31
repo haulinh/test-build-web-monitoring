@@ -49,7 +49,6 @@ class TableStation extends React.Component {
       width: 120,
       align: 'center',
       dataIndex: 'dataType',
-
       render: value => {
         return <div>{valueMapKey.dataType[value]}</div>
       },
@@ -57,6 +56,7 @@ class TableStation extends React.Component {
     {
       title: `${this.measure} ${this.unit && `(${this.unit})`}`,
       align: 'center',
+      width: 145,
       dataIndex: 'measureValue',
       render: value => {
         return <div>{value}</div>
@@ -65,6 +65,7 @@ class TableStation extends React.Component {
     {
       title: i18n.table.alarmLevelI,
       align: 'center',
+      width: 130,
       dataIndex: 'alarmLevelI',
       render: value => {
         return <div>{value}</div>
@@ -73,6 +74,7 @@ class TableStation extends React.Component {
     {
       title: i18n.table.alarmLevelII,
       align: 'center',
+      width: 135,
       dataIndex: 'alarmLevelII',
       render: value => {
         return <div>{value}</div>
@@ -81,6 +83,7 @@ class TableStation extends React.Component {
     {
       title: i18n.table.alarmLevelIII,
       align: 'center',
+      width: 140,
       dataIndex: 'alarmLevelIII',
       render: value => {
         return <div>{value}</div>
@@ -88,8 +91,8 @@ class TableStation extends React.Component {
     },
     {
       title: i18n.table.dataSource,
+      width: 125,
       align: 'center',
-      width: 130,
       dataIndex: 'dataSource',
       render: value => {
         return <div>{valueMapKey.dataSource[value]}</div>
@@ -121,7 +124,6 @@ class TableStation extends React.Component {
 }
 
 export default function TabResult({ data, loading }) {
-  console.log({data})
   if (_.isEmpty(data)) {
     return (
       <Empty
