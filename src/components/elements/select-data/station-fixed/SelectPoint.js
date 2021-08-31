@@ -67,11 +67,11 @@ export class SelectPoint extends React.Component {
     const { mode, value, pointNames, ...otherProps } = this.props
     const points = this.getPoints()
 
-    const pointMap = new Map(points.map(item => [item.key, item]));
+    const pointMap = new Map(points.map(item => [item.key, item.name]));
 
     const selectValue = Array.isArray(value)
       ? value.map((key, idx) => pointMap.has(key) ? key : get(pointNames, idx, key))
-      : value
+      : (pointMap.has(value) ? value : pointNames)
 
     return (
       <Select
