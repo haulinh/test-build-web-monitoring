@@ -3567,5 +3567,6 @@ export default {
     message: {
       createSuccess: 'Add New Station Successfully',
     },
+    export: 'Broadcast data of'
   },
 }
