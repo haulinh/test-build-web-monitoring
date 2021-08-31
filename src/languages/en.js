@@ -1274,7 +1274,7 @@ export default {
       },
       note: {
         label: 'Note',
-        placeholder: 'Notes',
+        placeholder: 'Note',
       },
       measuringList: {
         required: 'Please enter parameters',
@@ -3548,7 +3548,7 @@ export default {
       search: 'Search Data',
       station: 'Station Management',
       importData: 'Import Data',
-      historyData: 'History Data',
+      historyData: 'Import History',
       fileName: 'File Name',
       broadcastTime: 'Broadcast Date',
       createdAt: 'Created At',

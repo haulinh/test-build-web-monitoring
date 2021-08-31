@@ -1,4 +1,4 @@
-import { Button, Col, DatePicker, Form, Input, Row, Icon } from 'antd'
+import { Button, Col, DatePicker, Form, Input, Row, Icon, Empty } from 'antd'
 import PeriodicForecastApi from 'api/station-fixed/PeriodicForecastApi'
 import DynamicTable from 'components/elements/dynamic-table'
 import { DD_MM_YYYY, HH_MM_DD_MM_YYYY } from 'constants/format-date'
@@ -21,6 +21,7 @@ const i18n = {
   createdAt: t('periodicalForecast.title.createdAt'),
   user: t('periodicalForecast.title.user'),
   downloadFile: t('periodicalForecast.title.downloadFile'),
+  nodata: t('apiSharingNew.button.nodata'),
 }
 
 @connect(state => ({
@@ -116,7 +117,7 @@ export default class HistoryTab extends Component {
 
   render() {
     const { form } = this.props
-    const { loading } = this.state
+    const { loading, data } = this.state
 
     return (
       <React.Fragment>
@@ -146,11 +147,21 @@ export default class HistoryTab extends Component {
             </Col>
           </Row>
         </Form>
-        <DynamicTable
-          isLoading={loading}
-          rows={this.getRows()}
-          head={this.head}
-        />
+        {data.length > 0 ? (
+          <DynamicTable
+            isLoading={loading}
+            rows={this.getRows()}
+            head={this.head}
+            paginationOptions={{
+              isSticky: true,
+            }}
+          />
+        ) : (
+          <Empty
+            style={{ margin: '0 auto', padding: '8px 16px' }}
+            description={i18n.nodata}
+          />
+        )}
       </React.Fragment>
     )
   }
