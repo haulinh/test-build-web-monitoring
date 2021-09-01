@@ -1,6 +1,6 @@
 import { Select } from 'antd'
 import { getPoint } from 'api/station-fixed/StationFixedPointApi'
-import {get} from 'lodash-es'
+import { get } from 'lodash-es'
 import React from 'react'
 
 export class SelectPoint extends React.Component {
@@ -9,13 +9,13 @@ export class SelectPoint extends React.Component {
   }
 
   fetchPoints = async () => {
-    const {condition} = this.props
+    const { condition } = this.props
     const filterPoint = {
       limit: 100,
       skip: 0,
       where: {
         active: true,
-        ...condition
+        ...condition,
       },
     }
 
@@ -53,13 +53,13 @@ export class SelectPoint extends React.Component {
     const { onChange, onChangeName } = this.props
     const pointMaps = new Map(points.map(item => [item.key, item.name]))
 
-    const pointKeys = list.filter(key => pointMaps.has(key));
+    const pointKeys = list.filter(key => pointMaps.has(key))
 
-    onChange(pointKeys);
+    onChange(pointKeys)
 
     if (typeof onChangeName === 'function') {
-      const pointNames = pointKeys.map(key => pointMaps.get(key));
-      onChangeName(pointNames);
+      const pointNames = pointKeys.map(key => pointMaps.get(key))
+      onChangeName(pointNames)
     }
   }
 
@@ -67,17 +67,21 @@ export class SelectPoint extends React.Component {
     const { mode, value, pointNames, ...otherProps } = this.props
     const points = this.getPoints()
 
-    const pointMap = new Map(points.map(item => [item.key, item.name]));
+    const pointMap = new Map(points.map(item => [item.key, item.name]))
 
     const selectValue = Array.isArray(value)
-      ? value.map((key, idx) => pointMap.has(key) ? key : get(pointNames, idx, key))
-      : (pointMap.has(value) ? value : pointNames)
+      ? value.map((key, idx) =>
+          pointMap.has(key) ? key : get(pointNames, idx, key)
+        )
+      : pointMap.has(value)
+      ? value
+      : pointNames
 
     return (
       <Select
         {...otherProps}
         allowClear
-        value={selectValue}
+        value={!value ? value : selectValue}
         onChange={this.handleOnChange}
         autoClearSearchValue
         mode={mode || 'default'}

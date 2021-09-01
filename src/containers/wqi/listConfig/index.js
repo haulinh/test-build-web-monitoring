@@ -13,6 +13,7 @@ import { Clearfix } from 'containers/map/map-default/components/box-analytic-lis
 import { getListConfigWqi, postListConfigWqi } from 'api/CategoryApi'
 import { translate } from 'hoc/create-lang'
 import createBreadcrumb from 'shared/breadcrumb/hoc'
+import { getConfigApi } from 'config'
 
 const Breadcrumb = createBreadcrumb()
 
@@ -133,13 +134,14 @@ export default class ListAQI extends React.Component {
       dataIndex: 'downloadUrl',
       key: 'downloadUrl',
       align: 'center',
-      render: text => {
+      render: (text, record) => {
+        const file = `${getConfigApi().calculate}/wqi-${record.key}.pdf`
         if (text) {
           return (
             <a
               style={{ color: PRIMARY }}
               onClick={() => {
-                window.open(text)
+                window.open(file)
               }}
             >
               {i18n.view}
