@@ -97,7 +97,20 @@ const ReportTable = ({
         const textValue = valueColumn.textValue
         const value = valueColumn.value
 
-        if(!_.isNumber(value)) return textValue;
+        if (!_.isNumber(value)) return (
+          <Tooltip title={textValue}>
+            <div style={{
+              maxWidth: 180,
+              fontSize: 14,
+              color: "#262626",
+              textOverflow: "ellipsis",
+              whiteSpace: "pre",
+              overflow: "hidden"
+            }}>
+              {textValue}
+            </div>
+          </Tooltip>
+        )
 
         return (
           <div
