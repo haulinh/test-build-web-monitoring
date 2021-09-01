@@ -135,7 +135,7 @@ export default class ListAQI extends React.Component {
       key: 'downloadUrl',
       align: 'center',
       render: (text, record) => {
-        const file = `${getConfigApi().calculate}/${record.name}.pdf`
+        const file = `${getConfigApi().calculate}/wqi-${record.key}.pdf`
         if (text) {
           return (
             <a
