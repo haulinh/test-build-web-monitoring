@@ -44,7 +44,7 @@ export default {
       {/* {protectRole(ROLE.QAQC.CONFIG_NEW)(
 
         )} */}
-      {protectRole(ROLE.XU_LY_KIEM_DUYET_DU_LIEU_CONFIG.VIEW)(
+      {protectRole(ROLE.PERIODICAL_STATION.VIEW)(
         <Menu.Item
           key={slug.periodicalForecast.station}
           onClick={() => {
@@ -63,7 +63,7 @@ export default {
         </Menu.Item>
       )}
 
-      {protectRole(ROLE.XU_LY_KIEM_DUYET_DU_LIEU.VIEW)(
+      {protectRole(ROLE.PERIODICAL_IMPORT_DATA.VIEW)(
         <Menu.Item
           key={slug.periodicalForecast.importStation}
           onClick={() => {
@@ -82,7 +82,7 @@ export default {
         </Menu.Item>
       )}
 
-      {protectRole(ROLE.XU_LY_KIEM_DUYET_DU_LIEU.VIEW)(
+      {protectRole(ROLE.PERIODICAL_SEARCH_DATA.VIEW)(
         <Menu.Item
           key={slug.periodicalForecast.search}
           onClick={() => {

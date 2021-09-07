@@ -15,6 +15,8 @@ import { DD_MM_YYYY } from 'constants/format-date'
 import styled from 'styled-components'
 import Clearfix from 'components/elements/clearfix'
 import { translate as t } from 'hoc/create-lang'
+import protectRole from 'hoc/protect-role'
+import ROLE from 'constants/role'
 
 const FIELDS = {
   stationKeys: 'stationKeys',
@@ -24,7 +26,9 @@ const FIELDS = {
 const i18n = {
   broadcastTime: t('apiSharingNew.fields.broadcastTime'),
   stationKeys: t('apiSharingNew.fields.stationKeys'),
-  requireBroadcastTime: t('apiSharingNew.detailPage.rules.requireBroadcastTime'),
+  requireBroadcastTime: t(
+    'apiSharingNew.detailPage.rules.requireBroadcastTime'
+  ),
   requireStation: t('apiSharingNew.detailPage.rules.requireStation'),
 }
 
@@ -43,7 +47,7 @@ const FormItem = styled(Form.Item)`
     flex-direction: row-reverse;
   }
 `
-
+@protectRole(ROLE.PERIODICAL_SEARCH_DATA.CREATE)
 @Form.create()
 export default class SearchContainer extends Component {
   state = {
@@ -73,7 +77,9 @@ export default class SearchContainer extends Component {
     const result = await PeriodicForecastApi.exportData({ ...params, lang })
     downFileExcel(
       result.data,
-      `${t('periodicalForecast.export')} ${moment(params.broadcastTime).format(DD_MM_YYYY)}`
+      `${t('periodicalForecast.export')} ${moment(params.broadcastTime).format(
+        DD_MM_YYYY
+      )}`
     )
   }
 

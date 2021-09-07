@@ -2148,6 +2148,15 @@ export default {
       kiemDuyetDuLieu: {
         name: 'Check Data',
       },
+      periodicalStation: {
+        name: 'Periodic Forecast Station Management',
+      },
+      periodicalImportStation: {
+        name: 'Import Periodic Forecast Data',
+      },
+      periodicalSeachData: {
+        name: 'Search Periodic Forecast Data',
+      },
       qaqcConfig: {
         name: 'Sharing Configurations',
       },

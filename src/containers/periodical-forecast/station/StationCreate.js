@@ -15,7 +15,7 @@ const i18n = {
   success: translate('periodicalForecast.message.createSuccess'),
   error: translate('addon.onSave.add.error'),
 }
-@protectRole(ROLE.STATION_FIXED.CREATE)
+@protectRole(ROLE.PERIODICAL_STATION.CREATE)
 @createLanguageHoc
 export default class StationCreate extends React.Component {
   constructor(props) {
