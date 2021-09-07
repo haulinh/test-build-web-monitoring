@@ -12,7 +12,7 @@ import protectRole from 'hoc/protect-role'
 import StationForm from './StationForm'
 import PeriodicForecastApi from 'api/station-fixed/PeriodicForecastApi'
 
-@protectRole(ROLE.STATION_FIXED.EDIT)
+@protectRole(ROLE.PERIODICAL_STATION.EDIT)
 @createManagerEdit({
   apiUpdate: PeriodicForecastApi.updateStation,
   apiGetByKey: PeriodicForecastApi.getStationById,
