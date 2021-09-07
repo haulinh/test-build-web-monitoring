@@ -4,6 +4,8 @@ import _ from 'lodash'
 import moment from 'moment'
 import React from 'react'
 import { translate as t } from 'hoc/create-lang'
+import protectRole from 'hoc/protect-role'
+import ROLE from 'constants/role'
 
 const { TabPane } = Tabs
 
@@ -133,11 +135,11 @@ export default function TabResult({ data, loading, exportData }) {
   return (
     <div>
       <Tabs
-        tabBarExtraContent={
+        tabBarExtraContent={protectRole(ROLE.PERIODICAL_SEARCH_DATA.EXPORT)(
           <Button type="primary" onClick={exportData} icon="file-excel">
             {i18n.exportData}
           </Button>
-        }
+        )}
       >
         {tabs.map(tabKey => (
           <TabPane tab={data[tabKey].station.name} key={tabKey}>

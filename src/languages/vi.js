@@ -2141,6 +2141,15 @@ export default {
       kiemDuyetDuLieu: {
         name: 'Kiểm duyệt dữ liệu',
       },
+      periodicalStation: {
+        name: 'Trạm quan trắc dự báo định kỳ',
+      },
+      periodicalImportStation: {
+        name: 'Nhập dữ liệu dự báo định kỳ',
+      },
+      periodicalSeachData: {
+        name: 'Tra cứu dữ liệu dự báo định kỳ',
+      },
       qaqcConfig: {
         name: 'Cấu hình chia sẻ dữ liệu',
       },
@@ -3573,6 +3582,6 @@ export default {
     message: {
       createSuccess: 'Thêm mới trạm thành công',
     },
-    export: 'Dữ liệu bản tin ngày'
+    export: 'Dữ liệu bản tin ngày',
   },
 }

@@ -227,8 +227,9 @@ export default class MenuApp extends React.PureComponent {
             ]) && HandleDataMenu.renderComp(this.props)}
 
             {this.checkRoleForGroup([
-              ROLE.XU_LY_KIEM_DUYET_DU_LIEU_CONFIG.VIEW,
-              ROLE.XU_LY_KIEM_DUYET_DU_LIEU.VIEW,
+              ROLE.PERIODICAL_STATION.VIEW,
+              ROLE.PERIODICAL_IMPORT_DATA.VIEW,
+              ROLE.PERIODICAL_SEARCH_DATA.VIEW,
             ]) && PeriodicalForecastMenu.renderComp(this.props)}
 
             {this.checkRoleForGroup([

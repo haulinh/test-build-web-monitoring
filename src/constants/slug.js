@@ -316,6 +316,10 @@ export const parentMenuFromSub = {
   '/station-fixed-phase': MENU_GROUP.STATIONFIXED,
   '/station-fixed/import-data': MENU_GROUP.STATIONFIXED,
   '/station-fixed-report': MENU_GROUP.STATIONFIXED,
+
+  '/periodical-forecast/station': MENU_GROUP.PERIODICAL_FORECAST,
+  '/periodical-forecast/import': MENU_GROUP.PERIODICAL_FORECAST,
+  '/periodical-forecast/search': MENU_GROUP.PERIODICAL_FORECAST,
 }
 
 export const MENU_NAME = {

@@ -61,7 +61,7 @@ const i18n = {
   },
 }
 
-@protectRole(ROLE.STATION_FIXED.VIEW)
+@protectRole(ROLE.PERIODICAL_STATION.VIEW)
 @createManagerList({
   apiList: PeriodicForecastApi.getStationPeriodicForecast,
   itemPerPage: 1000,
@@ -88,7 +88,7 @@ export default class Station extends React.Component {
     const {
       lang: { t },
     } = this.props
-    return protectRole(ROLE.STATION_FIXED.CREATE)(
+    return protectRole(ROLE.PERIODICAL_STATION.CREATE)(
       <Link to={slug.periodicalForecast.stationCreate}>
         <Button type="primary">
           <Icon type="plus" />
@@ -160,14 +160,14 @@ export default class Station extends React.Component {
     if (isActive) {
       return (
         <span>
-          {protectRole(ROLE.STATION_FIXED.EDIT)(
+          {protectRole(ROLE.PERIODICAL_STATION.EDIT)(
             <Link to={slug.periodicalForecast.stationEdit + '/' + row._id}>
               {i18n.edit.label}
             </Link>
           )}
 
           <Divider type="vertical" />
-          {protectRole(ROLE.STATION_FIXED.DELETE)(
+          {protectRole(ROLE.PERIODICAL_STATION.DELETE)(
             <a
               onClick={() =>
                 this.handleOnDeactivate(row._id, this.props.fetchData)
@@ -205,7 +205,7 @@ export default class Station extends React.Component {
           </Menu.Item>
         </Menu>
       )
-      return protectRole(ROLE.STATION_FIXED.DELETE)(
+      return protectRole(ROLE.PERIODICAL_STATION.DELETE)(
         <Dropdown overlay={dropDown} trigger={['click']}>
           <LinkSpan className="ant-dropdown-link">
             <Icon type="setting" style={{ fontSize: 20, color: '#3E90F7' }} />

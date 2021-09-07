@@ -65,6 +65,19 @@ export default {
   XU_LY_KIEM_DUYET_DU_LIEU: {
     VIEW: 'menu.kiemDuyetDuLieu.actions.view',
   },
+  PERIODICAL_STATION: {
+    VIEW: 'menu.periodicalStation.actions.view',
+    CREATE: 'menu.periodicalStation.actions.create',
+    EDIT: 'menu.periodicalStation.actions.edit',
+    DELETE: 'menu.periodicalStation.actions.delete',
+  },
+  PERIODICAL_IMPORT_DATA: {
+    VIEW: 'menu.periodicalImportStation.actions.view',
+  },
+  PERIODICAL_SEARCH_DATA: {
+    VIEW: 'menu.periodicalSeachData.actions.view',
+    EXPORT: 'menu.periodicalSeachData.actions.export',
+  },
   QAQCCONFIG: {
     VIEW: 'menu.qaqcConfig.actions.view',
   },

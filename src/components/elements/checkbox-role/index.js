@@ -60,7 +60,7 @@ export default class CheckBoxRole extends PureComponent {
   }
 
   async onChangeMenu(e, menuName) {
-    console.log(menuName, '--onChangeMenu-')
+    // console.log(menuName, '--onChangeMenu-')
     if (!e.target.checked) {
       this.setState(
         prevState =>
