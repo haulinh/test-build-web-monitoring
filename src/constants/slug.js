@@ -268,6 +268,13 @@ export default {
     importStation: '/periodical-forecast/import',
     search: '/periodical-forecast/search',
   },
+  billing: {
+    base: '/billing',
+    report: '/billing/report',
+    config: '/billing/config',
+    configEdit: '/billing/config/edit',
+    configCreate: '/billing/config/create',
+  },
 }
 
 export const MENU_GROUP = {
@@ -280,6 +287,7 @@ export const MENU_GROUP = {
   CONFIG: 'config',
   STATIONFIXED: 'stationFixed',
   PERIODICAL_FORECAST: 'periodicalForecast',
+  BILLING: 'billing',
 }
 
 export const parentMenuFromSub = {
@@ -414,6 +422,7 @@ export const MENU_NAME = {
     dataLogger: translate('menuApp.config.dataLogger'),
     service: translate('menuApp.config.service'),
   },
+  billing: translate('menuApp.billing'),
 }
 
 export const TOOLTIP_MENU = {
@@ -493,6 +502,12 @@ export const TOOLTIP_MENU = {
     dataLogger: translate('tooltipMenuApp.config.dataLogger'),
   },
   periodicalForecast: {
+    periodical: translate('periodicalForecast.toolTipMenu.periodical'),
+    station: translate('periodicalForecast.toolTipMenu.station'),
+    import: translate('periodicalForecast.toolTipMenu.import'),
+    search: translate('periodicalForecast.toolTipMenu.search'),
+  },
+  billing: {
     periodical: translate('periodicalForecast.toolTipMenu.periodical'),
     station: translate('periodicalForecast.toolTipMenu.station'),
     import: translate('periodicalForecast.toolTipMenu.import'),

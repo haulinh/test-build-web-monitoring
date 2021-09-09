@@ -40,6 +40,12 @@ export const getTimesUTC = times => {
   }
 }
 
+export const getTimeUTC = time =>
+  time
+    .clone()
+    .utc()
+    .format()
+
 const quarterSysbol = {
   1: 'I',
   2: 'II',

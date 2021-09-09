@@ -31,6 +31,8 @@ export default {
     example: 'Example',
     copySuccess: 'Copy successfully',
     loading: 'Loading',
+    edit: 'Edit',
+    delete: 'Delete',
   },
   rules: {
     required: 'Required',
@@ -2929,6 +2931,7 @@ export default {
       wqiDay: 'WQI - Day',
       status_data: 'Status Data',
     },
+    billing: 'Billing',
   },
   tooltipMenuApp: {
     notification: 'Notifications',
@@ -3579,5 +3582,22 @@ export default {
       createSuccess: 'Add New Station Successfully',
     },
     export: 'Broadcast data of',
+  },
+  billing: {
+    menu: {
+      billingReport: 'Báo cáo phí',
+      billingConfig: 'Cấu hình tính phí',
+    },
+    label: {
+      key: 'Mã cấu hình phí',
+      name: 'Tên cấu hình phí',
+      fixFee: 'Phí cố định (đồng/đợt)',
+      flowKey: 'Thông số tính cố định',
+      timeStart: 'Thời gian bắt đầu',
+      timeEnd: 'Thời gian kết thúc',
+      note: 'Ghi chú',
+      time: 'Thời gian',
+    },
+    now: 'Hiện tại',
   },
 }

@@ -31,6 +31,8 @@ export default {
     example: 'Ví dụ',
     copySuccess: 'Sao chép thành công',
     loading: 'Đang tải',
+    edit: 'Sửa',
+    delete: 'Xoá',
   },
   rules: {
     required: 'Bắt buộc',
@@ -2929,6 +2931,7 @@ export default {
       wqiDay: 'WQI - Ngày',
       status_data: 'Tình trạng dữ liệu', // Qui them cho dong bo voi file EN
     },
+    billing: 'Phí môi trường',
   },
   tooltipMenuApp: {
     notification: 'Thông báo',
@@ -3583,5 +3586,43 @@ export default {
       createSuccess: 'Thêm mới trạm thành công',
     },
     export: 'Dữ liệu bản tin ngày',
+  },
+  billing: {
+    title: {
+      config: 'Cấu hình tính phí',
+    },
+    menu: {
+      billingReport: 'Báo cáo phí',
+      billingConfig: 'Cấu hình tính phí',
+    },
+    label: {
+      key: 'Mã cấu hình phí',
+      name: 'Tên cấu hình phí',
+      fixedFee: 'Phí cố định (đồng/đợt)',
+      flowKey: 'Thông số tính cố định',
+      timeStart: 'Thời gian bắt đầu',
+      timeEnd: 'Thời gian kết thúc',
+      note: 'Ghi chú',
+      time: 'Thời gian',
+    },
+    placeholder: {
+      key: 'Mã cấu hình phí',
+      name: 'Tên cấu hình phí',
+      fixedFee: 'Phí cố định (đồng/đợt)',
+      flowKey: 'Thông số tính cố định',
+      timeStart: 'Thời gian bắt đầu',
+      timeEnd: 'Thời gian kết thúc',
+      note: 'Ghi chú',
+      time: 'Thời gian',
+    },
+    pattern: 'Không được nhập kí tự đặc biệt',
+    max: 'Không quá 64 kí tự',
+    now: 'Hiện tại',
+    required: {
+      key: 'Vui lòng nhập mã',
+      name: 'Vui lòng nhập tên',
+      fixedFee: 'Vui lòng nhập phí cố định ',
+      timeStart: 'Vui lòng nhập thời gian bắt đầu ',
+    },
   },
 }
