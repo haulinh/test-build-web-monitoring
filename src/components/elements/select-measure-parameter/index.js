@@ -13,8 +13,8 @@ const SelectMeasureParameter = ({
 
   return (
     <Select
-      {...props}
       mode="multiple"
+      {...props}
       value={value}
       maxTagCount={20}
       maxTagTextLength={15}

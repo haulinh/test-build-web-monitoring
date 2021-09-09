@@ -23,6 +23,7 @@ import ConfigMenu from '../ConfigMenu'
 import StationFixedMenu from '../StationFixedMenu'
 import DashboardMenu from '../DashboardMenu'
 import PeriodicalForecastMenu from '../PeriodicalForecastMenu'
+import BillingMenu from '../BillingMenu'
 
 import { SIDEBAR_GLOBAL_WIDTH } from '../sidebar-global/style'
 import objectPath from 'object-path'
@@ -245,6 +246,12 @@ export default class MenuApp extends React.PureComponent {
               ROLE.FTPTRANSFER.VIEW,
               ROLE.SHARE_API.VIEW,
             ]) && ShareDataMenu.renderComp(this.props)}
+
+            {this.checkRoleForGroup([
+              ROLE.QAQCCONFIG.VIEW,
+              ROLE.FTPTRANSFER.VIEW,
+              ROLE.SHARE_API.VIEW,
+            ]) && BillingMenu.renderComp(this.props)}
 
             {/* TODO  Chưa có role nên dùng tạm của STATION_AUTO, xem lại */}
             {this.checkRoleForGroup([
