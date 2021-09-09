@@ -111,6 +111,7 @@ export default class BillingList extends React.Component {
       location,
       lang: { t },
     } = this.props
+    const style = { width: '200px', wordWrap: 'break-word' }
     return this.props.dataSource.map((item, idx) => {
       const timeEnd = item.timeEnd
         ? moment(item.timeEnd).format(DD_MM_YYYY)
@@ -121,16 +122,16 @@ export default class BillingList extends React.Component {
           content: <strong>{idx + 1}</strong>,
         },
         {
-          content: <div>{item.key}</div>,
+          content: <div style={style}>{item.key}</div>,
         },
         {
-          content: <div>{item.name}</div>,
+          content: <div style={style}>{item.name}</div>,
         },
         {
-          content: <div>{time}</div>,
+          content: <div style={style}>{time}</div>,
         },
         {
-          content: <div>{item.note}</div>,
+          content: <div style={{ ...style, width: '450px' }}>{item.note}</div>,
         },
         {
           content: (
