@@ -3,14 +3,17 @@ import PropTypes from 'prop-types'
 import { Button, Modal } from 'antd'
 import ReactJson from 'react-json-view'
 import { translate } from 'hoc/create-lang'
+import * as _ from 'lodash'
+
 const i18n = {
   jsonView: translate('dataLogger.list.jsonView'),
 }
 
-export default class JsonView extends Component {
+export default class JsonViewCustom extends Component {
   static propTypes = {
     title: PropTypes.string,
     content: PropTypes.any,
+    dataStructure: PropTypes.any,
     isEdit: PropTypes.bool,
   }
   state = {
@@ -38,6 +41,38 @@ export default class JsonView extends Component {
   handleEditJson = select => {
     console.log(select, '--select--')
   }
+
+  getReduce = (data, callback) => {
+    let result = {}
+    const content = this.props.content
+    result = _.reduce(
+      data,
+      function(result, value, key) {
+        if (typeof value === 'object') {
+          const temp = callback(value)
+          _.set(result, key, temp)
+        } else {
+          // console.log(content, '-getContent--')
+          const valueTemp = _.get(content, key, '')
+          _.set(result, key, valueTemp)
+        }
+
+        return result
+      },
+      {}
+    )
+    return result
+  }
+
+  getContent = () => {
+    let result = this.getReduce(this.props.dataStructure, this.getReduce)
+
+    if (this.props.dataStructure) {
+      return result
+    } else {
+      return this.props.content
+    }
+  }
   render() {
     return (
       <React.Fragment>
@@ -51,10 +86,12 @@ export default class JsonView extends Component {
           onOk={this.handleOk}
           onCancel={this.handleCancel}
         >
-          <ReactJson
-            onEdit={this.props.isEdit ? this.handleEditJson : false}
-            src={this.props.content}
-          />
+          {this.state.visible && (
+            <ReactJson
+              onEdit={this.props.isEdit ? this.handleEditJson : false}
+              src={this.getContent()}
+            />
+          )}
         </Modal>
       </React.Fragment>
     )

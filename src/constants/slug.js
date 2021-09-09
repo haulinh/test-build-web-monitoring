@@ -268,6 +268,10 @@ export default {
     importStation: '/periodical-forecast/import',
     search: '/periodical-forecast/search',
   },
+  language: {
+    base: '/language',
+    list: '/language',
+  },
 }
 
 export const MENU_GROUP = {
@@ -361,6 +365,12 @@ export const MENU_NAME = {
     shareConfig: translate('menuApp.shareData.shareConfig'),
     ftpConfig: translate('menuApp.shareData.ftpConfig'),
     apiSharing: translate('menuApp.shareData.apiSharing'),
+  },
+  periodicalForecast: {
+    periodical: translate('periodicalForecast.menu.periodical'),
+    station: translate('periodicalForecast.menu.station'),
+    import: translate('periodicalForecast.title.importData'),
+    search: translate('periodicalForecast.menu.search'),
   },
 
   reportSub: translate('menuApp.reportSub'),

@@ -3584,4 +3584,17 @@ export default {
     },
     export: 'Dữ liệu bản tin ngày',
   },
+  language: {
+    breadcrumb: {
+      base: 'Cấu hình ngôn ngữ',
+    },
+    list: {
+      emptyView: 'Không có dữ liệu',
+      colFeature: 'Tính năng',
+      colVI: 'Việt Nam',
+      colEN: 'Tiếng Anh',
+      colCN: 'Tiếng Trung',
+      jsonView: 'Xem Json',
+    },
+  },
 }

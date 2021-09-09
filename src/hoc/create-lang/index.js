@@ -9,7 +9,7 @@ import dot from 'dot'
 import languages from 'languages'
 import { getLanguage } from 'utils/localStorage'
 
-window.currentLanguage = languages[getLanguage()]
+window.currentLanguage = languages()[getLanguage()]
 
 // eslint-disable-next-line
 export const langPropTypes = PropTypes.shape({

@@ -68,7 +68,7 @@ class DataLoggerPage extends React.Component {
           content: _.get(row, 'deviceInfo.info.os.name', ''),
         },
         {
-          content: <JsonView content={row} />,
+          content: <JsonView title={row.actor.email} content={row} />,
         },
         // {
         //   content: (

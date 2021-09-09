@@ -7,7 +7,7 @@ import { getLanguage } from 'utils/localStorage'
 
 const initialState = {
   locale: getLanguage(),
-  data: languages,
+  data: languages(),
 }
 
 export default function createReducer(state = initialState, action) {
