@@ -326,6 +326,16 @@ export const parentMenuFromSub = {
   '/periodical-forecast/search': MENU_GROUP.PERIODICAL_FORECAST,
 }
 
+export function menuName() {
+  return {
+    dashboard: {
+      base: translate('menuApp.dashboard.base'),
+      healthCheck: translate('menuApp.dashboard.healthcheck'),
+      overview: translate('menuApp.dashboard.overview'),
+    },
+  }
+}
+
 export const MENU_NAME = {
   dashboard: {
     base: translate('menuApp.dashboard.base'),

@@ -5,9 +5,9 @@ import createBreadcrumb from 'shared/breadcrumb/hoc'
 
 export default createBreadcrumb({
   list: {
-    name: translate('dataLogger.breadcrumb.base'),
+    name: translate('language.breadcrumb.base'),
     id: 'base',
     icon: '',
-    href: slug.dataLogger.base,
+    href: slug.language.base,
   },
 })

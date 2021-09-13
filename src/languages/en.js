@@ -2638,6 +2638,7 @@ export default {
           </div>
         `,
       },
+      saveSampingConfig: 'Please enter all information before Saving',
     },
   },
   modal: {
@@ -2650,13 +2651,6 @@ export default {
           cancelExceededSampling:
             'Are you sure you want to Cancel exceeded sampling?',
         },
-      },
-    },
-  },
-  alert: {
-    error: {
-      monitoring: {
-        saveSampingConfig: 'Please enter all information before Saving',
       },
     },
   },

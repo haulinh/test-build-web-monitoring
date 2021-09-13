@@ -13,7 +13,6 @@ import { deepParseJson } from 'utils/string'
 import { NOTIFY_TYPE } from 'constants/notification'
 import { translate as t } from 'hoc/create-lang'
 
-
 // import { deepParseJson } from 'deep-parse-json'
 
 // import { TAB_KEYS } from 'constants/notification'
@@ -46,47 +45,38 @@ const getNotificationInfo = status => {
   switch (status) {
     case NOTIFY_TYPE.SENSOR_GOOD:
       return {
-
         statusText: i18n.sensorGood,
       }
     case NOTIFY_TYPE.SENSOR_ERROR:
       return {
-
         statusText: i18n.sensorError,
       }
     case NOTIFY_TYPE.DATA_CONNECTED:
       return {
-
         statusText: i18n.dataConnected,
       }
     case NOTIFY_TYPE.DATA_EXCEEDED:
       return {
-
         statusText: i18n.dataExeeded,
       }
     case NOTIFY_TYPE.DATA_EXCEEDED_PREPARED:
       return {
-
         statusText: i18n.dataExceededPrepare,
       }
     case NOTIFY_TYPE.SENSOR_ADJUST:
       return {
-
         statusText: i18n.sensorAdjust,
       }
     case NOTIFY_TYPE.DATA_GOOD:
       return {
-
         statusText: i18n.dataGood,
       }
     case NOTIFY_TYPE.DATA_LOSS:
       return {
-
         statusText: i18n.dataLoss,
       }
     default:
       return {
-
         statusText: '',
       }
   }
@@ -98,7 +88,11 @@ const getNotificationInfo = status => {
     navigationIsOpen: state.theme.navigation.isOpen,
     stationAuto: state.stationAuto.list,
   }),
-  { toggleNavigation, updateNotificationOnMessage, setFcmToken }
+  {
+    toggleNavigation,
+    updateNotificationOnMessage,
+    setFcmToken,
+  }
 )
 @withRouter
 @autobind
@@ -130,7 +124,7 @@ export default class DefaultSidebarLayoutContainer extends Component {
         // NOTE  request permission Noti và đăng ký sự kiện 'message' với serviceWorker
         messaging
           .requestPermission()
-          .then(async function () {
+          .then(async function() {
             const token = await messaging.getToken()
             // NOTE  sau khi get đuợc token, sẽ cần báo cho back-end bik, token này link với email:user nào
             try {
@@ -143,7 +137,7 @@ export default class DefaultSidebarLayoutContainer extends Component {
               console.log('error linkToken2Email', e)
             }
           })
-          .catch(function (err) {
+          .catch(function(err) {
             console.log('Unable to get permission to notify.', err)
           })
 
@@ -169,7 +163,6 @@ export default class DefaultSidebarLayoutContainer extends Component {
       }
     }
   }
-
 
   _showNotification(payload) {
     const { statusText } = getNotificationInfo(payload.data.status)
@@ -207,10 +200,6 @@ export default class DefaultSidebarLayoutContainer extends Component {
       ? SIDEBAR_GLOBAL_WIDTH + SIDEBAR_MENU_WIDTH
       : SIDEBAR_GLOBAL_WIDTH + SIDEBAR_MENU_MINIMAL_WIDTH
   }
-
-
-
-
 
   render() {
     // const payload = {

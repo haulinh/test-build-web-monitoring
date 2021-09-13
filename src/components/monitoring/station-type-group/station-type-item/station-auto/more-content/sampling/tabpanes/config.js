@@ -27,7 +27,7 @@ const i18n = {
   alertNull: t('error.nullValue'),
   alertSuccess: t('success.text'),
   alertError: t('error.text'),
-  alertSaveConfigError: t('alert.error.monitoring.saveSampingConfig'),
+  alertSaveConfigError: t('error.monitoring.saveSampingConfig'),
   generalConfig: t(
     'monitoring.moreContent.sampling.content.config.generalConfig'
   ),

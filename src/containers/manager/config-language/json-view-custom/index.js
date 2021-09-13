@@ -7,6 +7,7 @@ import * as _ from 'lodash'
 
 const i18n = {
   jsonView: translate('dataLogger.list.jsonView'),
+  btnSave: translate('global.save'),
 }
 
 export default class JsonViewCustom extends Component {
@@ -15,9 +16,11 @@ export default class JsonViewCustom extends Component {
     content: PropTypes.any,
     dataStructure: PropTypes.any,
     isEdit: PropTypes.bool,
+    onChange: PropTypes.func,
   }
   state = {
     visible: false,
+    dataSource: null,
   }
 
   showModal = () => {
@@ -27,6 +30,9 @@ export default class JsonViewCustom extends Component {
   }
 
   handleOk = e => {
+    if (this.props.onChange) {
+      this.props.onChange(this.state.dataSource)
+    }
     this.setState({
       visible: false,
     })
@@ -39,12 +45,17 @@ export default class JsonViewCustom extends Component {
   }
 
   handleEditJson = select => {
-    console.log(select, '--select--')
+    this.setState({
+      dataSource: select.updated_src,
+    })
+    // return select
   }
 
   getReduce = (data, callback) => {
     let result = {}
-    const content = this.props.content
+    const content = this.state.dataSource
+      ? this.state.dataSource
+      : this.props.content
     result = _.reduce(
       data,
       function(result, value, key) {
@@ -84,6 +95,7 @@ export default class JsonViewCustom extends Component {
           title={this.props.title}
           visible={this.state.visible}
           onOk={this.handleOk}
+          okText={i18n.btnSave}
           onCancel={this.handleCancel}
         >
           {this.state.visible && (

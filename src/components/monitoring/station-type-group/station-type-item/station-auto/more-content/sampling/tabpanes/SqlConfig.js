@@ -19,7 +19,7 @@ const i18n = {
   alertNull: translate('error.nullValue'),
   alertSuccess: translate('success.text'),
   alertError: translate('error.text'),
-  alertSaveConfigError: translate('alert.error.monitoring.saveSampingConfig'),
+  alertSaveConfigError: translate('error.monitoring.saveSampingConfig'),
 }
 
 export default class SqlConfig extends React.Component {

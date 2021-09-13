@@ -14,6 +14,7 @@ export default function createProtectedAuth(Component) {
       isAuthenticated: state.auth.isAuthenticated,
       isPending: state.auth.isPending,
       isFail: state.auth.isFail,
+      isLoading: state.language.isLoading,
     }),
     { fetchUserMe }
   )
@@ -37,14 +38,18 @@ export default function createProtectedAuth(Component) {
     }
 
     render() {
-      if (this.props.isAuthenticated && !this.props.isPending) {
+      if (
+        this.props.isAuthenticated &&
+        !this.props.isPending &&
+        !this.props.isLoading
+      ) {
         return (
           <div style={{ height: '100%' }} className="app">
             <Component {...this.props} />
           </div>
         )
       }
-      if (this.props.isPending) return <SplashLoading />
+      if (this.props.isPending || this.props.isLoading) return <SplashLoading />
       return null
     }
   }

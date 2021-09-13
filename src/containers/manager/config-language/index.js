@@ -1,16 +1,16 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Typography } from 'antd'
+import { Typography, message } from 'antd'
 
 import DynamicTable from 'components/elements/dynamic-table'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
+import languageApi from 'api/languageApi'
 import DataLoggerSearchForm from './user-search-form'
 import Breadcrumb from './breadcrumb'
 import Clearfix from 'components/elements/clearfix'
 import { translate } from 'hoc/create-lang'
 import * as _ from 'lodash'
 import { connectAutoDispatch } from 'redux/connect'
-import languages from 'languages'
 
 // import ROLE from 'constants/role'
 // import protectRole from 'hoc/protect-role'
@@ -24,14 +24,21 @@ const { Text } = Typography
 const DataLoggerWrapper = styled.div``
 const i18n = {
   emptyView: translate('language.list.emptyView'),
+  colSTT: translate('language.list.colSTT'),
+  colKey: translate('language.list.colKey'),
   colFeature: translate('language.list.colFeature'),
   colVI: translate('language.list.colVI'),
   colEN: translate('language.list.colEN'),
   colCN: translate('language.list.colCN'),
+  success: translate('language.edit.success'),
+  error: translate('language.edit.error'),
 }
-
+const VI = 'vi'
+const EN = 'en'
+const CN = 'cn'
 @connectAutoDispatch(state => ({
-  dataMenu: state.auth.userInfo.organization.menu,
+  language: _.get(state, 'language.locale'),
+  dataInitial: _.get(state, 'language.dataInitial'),
 }))
 class ConfigLanguagePage extends React.Component {
   state = {
@@ -39,37 +46,70 @@ class ConfigLanguagePage extends React.Component {
     dataSource: null,
   }
 
-  componentDidMount = () => {
-    const data = languages()
-    console.log(data)
-    this.setState({
-      dataSource: data,
-      isLoading: false,
-    })
+  componentDidMount = async () => {
+    let res = await languageApi.getListLanguages()
+    let { success, data } = res
+
+    if (success) {
+      this.setState({
+        dataSource: data,
+        isLoading: false,
+      })
+    }
+  }
+
+  handleOnChangeLanguage = async (value, locale, key) => {
+    _.set(this.state.dataSource, `${locale}.${key}`, value)
+    const data = _.get(this.state.dataSource, `${locale}`)
+    let res = await languageApi.updateLanguage(locale, data, false)
+    if (res && res.success) {
+      message.success(i18n.success)
+    } else {
+      message.error(i18n.error)
+    }
+  }
+
+  getContent = (language, key) => {
+    let data = _.get(this.props.dataInitial, `${language}.${key}`)
+    data = {
+      ...data,
+      ..._.get(this.state.dataSource, `${language}.${key}`),
+    }
+    return data
   }
 
   getRows = () => {
-    return _.map(this.props.dataMenu, ({ description, key }, index) => {
+    const dataInitial = _.get(this.props.dataInitial, `${this.props.language}`)
+
+    let index = 0
+
+    return _.map(_.keys(dataInitial), key => {
       let dataEN = null
       let dataVI = null
       let dataCN = null
-      const title = description
-      dataVI = _.get(this.state.dataSource, `vi.${key}`)
-      dataEN = _.get(this.state.dataSource, `en.${key}`)
-      dataCN = _.get(this.state.dataSource, `cn.${key}`)
-      if (key === 'dashboard') {
-        // console.log(description, key, '--dataMenu--')
-        // console.log(dataVI, '---dataVI--')
-      }
-      // translate(`menuApp`)
+      const title = _.get(
+        this.props.dataInitial,
+        `${this.props.language}.language.content.${key}`,
+        key
+      )
+      dataVI = this.getContent(VI, key)
+      dataEN = this.getContent(EN, key)
+      dataCN = this.getContent(CN, key)
+
+      index++
+
       return [
         {
-          content: <strong>{description}</strong>,
+          content: <strong>{index}</strong>,
         },
         {
-          content: (
-            <JsonViewCustom isEdit={true} title={title} content={dataVI} />
-          ),
+          content: key.toLocaleUpperCase(),
+        },
+        {
+          content: title,
+        },
+        {
+          content: <JsonViewCustom title={title} content={dataVI} />,
         },
         {
           content: <JsonViewCustom title={title} content={dataEN} />,
@@ -77,6 +117,9 @@ class ConfigLanguagePage extends React.Component {
         {
           content: (
             <JsonViewCustom
+              onChange={data => {
+                this.handleOnChangeLanguage(data, CN, key)
+              }}
               isEdit={true}
               dataStructure={dataVI}
               title={title}
@@ -89,6 +132,8 @@ class ConfigLanguagePage extends React.Component {
   }
   getHead = () => {
     return [
+      { content: i18n.colSTT, width: 2 },
+      { content: i18n.colKey },
       { content: i18n.colFeature },
       { content: i18n.colVI },
       { content: i18n.colEN },
@@ -125,6 +170,7 @@ class ConfigLanguagePage extends React.Component {
                 isSticky: true,
               }}
               emptyView={this.getRenderEmpty()}
+
               // onSetPage={this.props.onChangePage}
               // pagination={this.props.pagination}
             />
