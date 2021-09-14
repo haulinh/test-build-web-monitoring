@@ -2161,6 +2161,9 @@ export default {
       shareAPI: {
         name: 'Chia sẻ API',
       },
+      billing: {
+        name: 'Phí môi trường',
+      },
       tiLeDuLieuThuDuoc: {
         name: 'Tỉ lệ dữ liệu thu được',
       },

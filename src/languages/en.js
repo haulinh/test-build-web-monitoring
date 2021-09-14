@@ -2168,6 +2168,9 @@ export default {
       shareAPI: {
         name: 'API sharing',
       },
+      billing: {
+        name: 'Billing',
+      },
       tiLeDuLieuThuDuoc: {
         name: 'Percentage of obtained data',
       },
