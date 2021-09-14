@@ -26,7 +26,7 @@ export default class SummaryList extends React.PureComponent {
   componentDidMount() {}
 
   render() {
-    let indexScroll = 1
+    let indexScroll = 0
     return (
       <SummaryListWrapper>
         {this.props.data.map((item, index) => {
