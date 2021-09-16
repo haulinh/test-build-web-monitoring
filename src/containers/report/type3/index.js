@@ -3,7 +3,7 @@ import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import Breadcrumb from '../breadcrumb'
 import { translate } from 'hoc/create-lang'
 // import SearchForm from "../search-form";
-import { Table, Typography, Button, Spin } from 'antd'
+import { Table, Typography, Button, Spin, message } from 'antd'
 import { map as _map, get as _get } from 'lodash'
 import SearchForm from '../search-form/search-form-3'
 import {
@@ -30,7 +30,7 @@ const i18n = {
   timeZone: _get(state, 'auth.userInfo.organization.timeZone', null),
   locale: state.language.locale,
 }))
-export default class ReportType1 extends React.Component {
+export default class ReportType3 extends React.Component {
   constructor(props) {
     super(props)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -131,16 +131,18 @@ export default class ReportType1 extends React.Component {
   }
   handleExcel = async () => {
     const language = this.getLanguage(this.props.locale)
-    let url = await getUrlReportType3Excel(
-      this.props.token,
+    let res = await getUrlReportType3Excel(
+      null,
       this.state.dataSearch.stationAuto,
       this.state.dataSearch.time,
       this.state.dataSearch.measuringListStr,
       this.state.dataSearch.measuringListUnitStr,
       language,
-      this.state.isFilter
+      this.state.isFilter,
     )
-    window.open(url, '_blank')
+    
+    if (res && res.success) window.location = res.data
+    else message.error('Export Error') //message.error(res.message)
   }
 
   render() {

@@ -4,7 +4,7 @@ import { translate } from 'hoc/create-lang'
 import Breadcrumb from '../breadcrumb'
 // import SearchForm from "../search-form";
 import SearchForm from '../search-form/search-form-3'
-import { Table, Typography, Button, Spin } from 'antd'
+import { Table, Typography, Button, Spin, message } from 'antd'
 import {
   getUrlReportType4,
   getUrlReportType4Excel,
@@ -129,8 +129,7 @@ export default class ReportType1 extends React.Component {
 
   handleExcel = async () => {
     const language = this.getLanguage(this.props.locale)
-
-    let url = await getUrlReportType4Excel(
+    let res = await getUrlReportType4Excel(
       this.props.token,
       this.state.dataSearch.stationAuto,
       this.state.dataSearch.time,
@@ -139,7 +138,8 @@ export default class ReportType1 extends React.Component {
       language,
       this.state.isFilter || false
     )
-    window.open(url, '_blank')
+    if (res && res.success) window.location = res.data
+    else message.error('Export Error') //message.error(res.message)
   }
 
   render() {
