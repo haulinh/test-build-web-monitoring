@@ -182,7 +182,7 @@ class Dashboard extends Component {
               status: i18n.good,
             },
           ].map((item, idx) => (
-            <GeneralBadge key={item.status} background={bgColors[idx]} span={6}>
+            <GeneralBadge key={idx} background={bgColors[idx]} span={6}>
               <div>
                 {item.icon}
                 <div className="count">

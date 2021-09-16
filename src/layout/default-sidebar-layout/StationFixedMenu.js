@@ -1,6 +1,6 @@
 import React from 'react'
 import { Menu, Tooltip } from 'antd'
-import slug, { MENU_NAME, MENU_GROUP, TOOLTIP_MENU } from 'constants/slug'
+import slug, { MENU_GROUP, listTooltipMenu, listMenuName } from 'constants/slug'
 import protectRole from 'hoc/protect-role/forMenu'
 import ROLE from 'constants/role'
 import Icon from 'themes/icon'
@@ -17,10 +17,12 @@ export default {
     <Menu.SubMenu
       key={MENU_GROUP.STATIONFIXED}
       title={
-        <Tooltip placement="right" title={TOOLTIP_MENU.stationFixedSub}>
+        <Tooltip placement="right" title={listTooltipMenu().stationFixedSub}>
           <div style={CENTER}>
             {Icon.stationFixed}
-            <span style={{ marginLeft: 12 }}>{MENU_NAME.stationFixedSub}</span>
+            <span style={{ marginLeft: 12 }}>
+              {listMenuName().stationFixedSub}
+            </span>
           </div>
         </Tooltip>
       }
@@ -33,14 +35,17 @@ export default {
             props.selectMenu(slug.stationFixedPhase.base)
           }}
         >
-          <Tooltip placement="right" title={TOOLTIP_MENU.stationFixed.base}>
+          <Tooltip
+            placement="right"
+            title={listTooltipMenu().stationFixed.base}
+          >
             <Link to={slug.stationFixedPhase.base}>
-              {MENU_NAME.stationFixed.base}
+              {listMenuName().stationFixed.base}
             </Link>
           </Tooltip>
         </Menu.Item>
       )}
- 
+
       {/* NOTE  quản lý điểm quan trắc */}
       {protectRole(ROLE.STATION_FIXED.VIEW)(
         <Menu.Item
@@ -49,9 +54,12 @@ export default {
             props.selectMenu(slug.stationFixed.base)
           }}
         >
-          <Tooltip placement="right" title={TOOLTIP_MENU.stationFixed.point}>
+          <Tooltip
+            placement="right"
+            title={listTooltipMenu().stationFixed.point}
+          >
             <Link to={slug.stationFixed.base}>
-              {MENU_NAME.stationFixed.point}
+              {listMenuName().stationFixed.point}
             </Link>
           </Tooltip>
         </Menu.Item>
@@ -65,9 +73,12 @@ export default {
             props.selectMenu(slug.stationFixed.importData)
           }}
         >
-          <Tooltip placement="right" title={TOOLTIP_MENU.stationFixed.importData}>
+          <Tooltip
+            placement="right"
+            title={listTooltipMenu().stationFixed.importData}
+          >
             <Link to={slug.stationFixed.importData}>
-              {MENU_NAME.stationFixed.importData}
+              {listMenuName().stationFixed.importData}
             </Link>
           </Tooltip>
         </Menu.Item>
@@ -81,9 +92,12 @@ export default {
             props.selectMenu(slug.stationFixedReport.base)
           }}
         >
-          <Tooltip placement="right" title={TOOLTIP_MENU.stationFixed.report}>
+          <Tooltip
+            placement="right"
+            title={listTooltipMenu().stationFixed.report}
+          >
             <Link to={slug.stationFixedReport.base}>
-              {MENU_NAME.stationFixed.report}
+              {listMenuName().stationFixed.report}
             </Link>
           </Tooltip>
         </Menu.Item>
@@ -97,9 +111,9 @@ export default {
             props.selectMenu(slug.stationFixed.map)
           }}
         >
-          <Tooltip placement="right" title={TOOLTIP_MENU.stationFixed.map}>
+          <Tooltip placement="right" title={listTooltipMenu().stationFixed.map}>
             <Link to={slug.stationFixed.map}>
-              {MENU_NAME.stationFixed.map}
+              {listMenuName().stationFixed.map}
             </Link>
           </Tooltip>
         </Menu.Item>

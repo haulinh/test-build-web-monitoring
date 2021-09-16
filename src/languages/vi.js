@@ -582,6 +582,10 @@ export default {
       all: 'Tất cả',
       time: 'Thời gian',
       search: 'Tìm kiếm',
+      device: {
+        label: 'Thiết bị',
+        placeholder: 'Chọn thiết bị',
+      },
       stationType: {
         label: 'Loại trạm',
         placeholder: 'Chọn loại trạm',
@@ -3622,6 +3626,7 @@ export default {
     list: {
       emptyView: 'Không có dữ liệu',
       colSTT: 'STT',
+      colDevice: 'Thiết bị',
       colKey: 'Mã',
       colFeature: 'Tính năng',
       colVI: 'Việt Nam',

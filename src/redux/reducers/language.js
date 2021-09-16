@@ -4,6 +4,7 @@ import update from 'react-addons-update'
 import { CHANGE_LANGUAGE, GET_LANGUAGES } from '../actions/languageAction'
 import languages from 'languages'
 import { getLanguage } from 'utils/localStorage'
+import * as _ from 'lodash'
 
 const initialState = {
   locale: getLanguage(),
@@ -17,7 +18,7 @@ export default function createReducer(state = initialState, action) {
     case CHANGE_LANGUAGE:
       return changeLanguage(state, action)
     case GET_LANGUAGES:
-      return getListLanguages(state, action)
+      return getListLanguageWeb(state, action)
     default:
       return state
   }
@@ -31,8 +32,9 @@ export function changeLanguage(state, { locale }) {
   })
 }
 
-function getListLanguages(state, { payload }) {
-  window.currentLanguage = languages()[getLanguage()]
+function getListLanguageWeb(state, { payload }) {
+  const data = getLanguageChoice(state.dataInitial, payload, state.locale)
+  window.currentLanguage = data
   return update(state, {
     dataSource: {
       $set: payload,
@@ -41,4 +43,13 @@ function getListLanguages(state, { payload }) {
       $set: false,
     },
   })
+}
+
+function getLanguageChoice(dataInitial, dataSource, language) {
+  let data = _.get(dataInitial, `${language}`)
+  data = {
+    ...data,
+    ..._.get(dataSource, `${language}`),
+  }
+  return data
 }

@@ -1,5 +1,5 @@
 import AuthApi from 'api/AuthApi'
-import CategoryApi from 'api/CategoryApi'
+// import CategoryApi from 'api/CategoryApi'
 import {
   setAuthToken,
   getAuthToken,
@@ -10,7 +10,7 @@ import {
 import moment from 'moment-timezone'
 import _, { result as _result } from 'lodash'
 
-import { CONFIGS } from './config'
+// import { CONFIGS } from './config'
 import { setLanguage } from 'utils/localStorage'
 
 export const UPDATE_USER_INFO = 'AUTH/update-user-info'
@@ -32,18 +32,18 @@ export function fetchUserMe() {
       return { error: true }
     }
 
-    const warningLevelColor = await CategoryApi.getWarningLevelColor()
+    // const warningLevelColor = await CategoryApi.getWarningLevelColor()
 
-    if (warningLevelColor.error) {
-      return dispatch({
-        type: FETCH_FAIL_USER,
-      })
-    }
+    // if (warningLevelColor.error) {
+    //   return dispatch({
+    //     type: FETCH_FAIL_USER,
+    //   })
+    // }
 
-    dispatch({
-      type: CONFIGS.GET_WARNING_LEVELS_COLOR,
-      payload: warningLevelColor.data,
-    })
+    // dispatch({
+    //   type: CONFIGS.GET_WARNING_LEVELS_COLOR,
+    //   payload: warningLevelColor.data,
+    // })
     dispatch({
       type: FETCH_PENDING_USER,
     })

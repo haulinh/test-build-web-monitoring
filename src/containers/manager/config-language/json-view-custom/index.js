@@ -5,9 +5,11 @@ import ReactJson from 'react-json-view'
 import { translate } from 'hoc/create-lang'
 import * as _ from 'lodash'
 
-const i18n = {
-  jsonView: translate('dataLogger.list.jsonView'),
-  btnSave: translate('global.save'),
+function i18n() {
+  return {
+    jsonView: translate('dataLogger.list.jsonView'),
+    btnSave: translate('global.save'),
+  }
 }
 
 export default class JsonViewCustom extends Component {
@@ -30,7 +32,7 @@ export default class JsonViewCustom extends Component {
   }
 
   handleOk = e => {
-    if (this.props.onChange) {
+    if (this.props.onChange && this.state.dataSource) {
       this.props.onChange(this.state.dataSource)
     }
     this.setState({
@@ -41,6 +43,7 @@ export default class JsonViewCustom extends Component {
   handleCancel = e => {
     this.setState({
       visible: false,
+      dataSource: null,
     })
   }
 
@@ -48,23 +51,25 @@ export default class JsonViewCustom extends Component {
     this.setState({
       dataSource: select.updated_src,
     })
-    // return select
   }
 
-  getReduce = (data, callback) => {
+  getReduce = (dataStructure, callback, root) => {
     let result = {}
     const content = this.state.dataSource
       ? this.state.dataSource
       : this.props.content
     result = _.reduce(
-      data,
+      dataStructure,
       function(result, value, key) {
         if (typeof value === 'object') {
-          const temp = callback(value)
+          const temp = callback(value, callback, key)
           _.set(result, key, temp)
         } else {
-          // console.log(content, '-getContent--')
-          const valueTemp = _.get(content, key, '')
+          let path = key
+          if (root) {
+            path = `${root}.${key}`
+          }
+          const valueTemp = _.get(content, path, '')
           _.set(result, key, valueTemp)
         }
 
@@ -84,26 +89,26 @@ export default class JsonViewCustom extends Component {
       return this.props.content
     }
   }
+
   render() {
     return (
       <React.Fragment>
         <Button type="primary" onClick={this.showModal}>
-          {i18n.jsonView}
+          {i18n().jsonView}
         </Button>
         <Modal
           width={720}
           title={this.props.title}
           visible={this.state.visible}
           onOk={this.handleOk}
-          okText={i18n.btnSave}
+          okText={i18n().btnSave}
           onCancel={this.handleCancel}
+          okButtonProps={!this.props.isEdit}
         >
-          {this.state.visible && (
-            <ReactJson
-              onEdit={this.props.isEdit ? this.handleEditJson : false}
-              src={this.getContent()}
-            />
-          )}
+          <ReactJson
+            onEdit={this.props.isEdit ? this.handleEditJson : false}
+            src={this.getContent()}
+          />
         </Modal>
       </React.Fragment>
     )

@@ -586,6 +586,10 @@ export default {
       all: 'All',
       time: 'Time',
       search: 'Search',
+      device: {
+        label: 'Device',
+        placeholder: 'Select Device',
+      },
       stationType: {
         label: 'Types Of Station',
         placeholder: 'Select Types Of Station',

@@ -13,9 +13,9 @@ export function changeLanguage(locale = 'vi') {
   }
 }
 
-export function getListLanguages() {
+export function getListLanguageWeb() {
   return async dispatch => {
-    let res = await languageApi.getListLanguages()
+    let res = await languageApi.getListLanguageWeb()
     let { success, data } = res
     if (!success) return
     dispatch({

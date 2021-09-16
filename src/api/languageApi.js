@@ -5,8 +5,12 @@ export function getLanguageUrl(prefix = '') {
   return getConfigApi().language + '/' + prefix
 }
 
-export function getListLanguages() {
-  return getFetch(getLanguageUrl('all'))
+export function getListLanguageWeb() {
+  return getFetch(getLanguageUrl('web'))
+}
+
+export function getListLanguageAll(query) {
+  return getFetch(getLanguageUrl(''), query)
 }
 
 export function updateLanguage(locale, value = {}, isMobile = false) {
@@ -22,6 +26,7 @@ export function updateLanguage(locale, value = {}, isMobile = false) {
 /* #region  NOTE  cấu hình WQI-Calculation */
 
 export default {
-  getListLanguages,
+  getListLanguageWeb,
+  getListLanguageAll,
   updateLanguage,
 }

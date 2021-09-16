@@ -10,7 +10,7 @@ import languages, { getData } from 'languages'
 import { getLanguage } from 'utils/localStorage'
 
 // window.currentLanguage = languages()[getLanguage()]
-
+console.log('after')
 // eslint-disable-next-line
 export const langPropTypes = PropTypes.shape({
   t: PropTypes.func,
@@ -48,12 +48,6 @@ export function removeAccentsSort(str) {
 }
 
 export function translate(key, params = {}, isParse = true) {
-  // if (!window.currentLanguage) {
-  //   window.currentLanguage = languages()[getLanguage()]
-  //   // const abc = await getData()
-  //   // console.log(abc, '---sww---')
-  // }
-  console.log(window.currentLanguage, ' --translate-   ')
   const languageData =
     typeof window !== 'undefined'
       ? window.currentLanguage

@@ -23,7 +23,7 @@ export default function createBreadCrumbHoc(config) {
           icon={itemObject.icon}
           id={itemObject.id}
           key={itemObject.id}
-          name={itemObject.name}
+          name={itemObject.getName ? itemObject.getName() : itemObject.name}
           href={itemObject.href}
         />
       )
