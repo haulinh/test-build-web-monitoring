@@ -18,6 +18,12 @@ export function exportDataTemplate(measurings = []) {
   return getFetchDownFile(url, { measurings })
 }
 
+export function exportSimpleDataTemplate(measurings = []) {
+  const lang = getLanguage()
+  const url = getStationFixedPointUrl('export-simple-data-template') + '/' + lang
+  return getFetchDownFile(url, { measurings })
+}
+
 export function exportMonitoringPointTemplate(measurings = []) {
   const lang = getLanguage()
   const url =
@@ -129,6 +135,10 @@ export function getPoint(filter) {
 }
 export function importDataStationFixed(data) {
   return postFetch(getStationFixedPointUrl('import-data'), data)
+}
+
+export function importSimpleDataStationFixed(data) {
+  return postFetch(getStationFixedPointUrl('import-data-simple'), data)
 }
 
 export function importMultiPoint(data) {

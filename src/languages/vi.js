@@ -2694,6 +2694,9 @@ export default {
     parameterNotTypeNumber: 'Thông số sai định dạng',
     pointAndPhaseNotBelongToStationType: 'Điểm và đợt không cùng loại trạm',
     selectPhaseError: 'Vui lòng chọn đợt quan trắc',
+    complexForm: "Mẫu chi tiết",
+    simpleForm: "Mẫu đơn giản",
+    inputForm: "Chọn mẫu nhập liệu"
   },
   importDataForecast: {
     stationKeyNotExist: 'Mã trạm quan trắc không tồn tại',
