@@ -3591,6 +3591,9 @@ export default {
     title: {
       config: 'Cấu hình tính phí',
       report: 'Báo cáo phí',
+      name: 'BÁO CÁO PHÍ BẢO VỆ MÔI TRƯỜNG ĐỐI VỚI NƯỚC THẢI CÔNG NGHIỆP',
+      detail:
+        'Các số liệu được thống kê theo {{=it.time}} từ ngày {{=it.from}} đến {{=it.to}}',
     },
     menu: {
       billingReport: 'Báo cáo phí',
@@ -3653,6 +3656,9 @@ export default {
         totalFee: 'Tổng số tiền phải nộp trong quí',
         debt: 'Số phí từ quý trước chưa nộp hoặc nộp thiếu',
       },
+    },
+    button: {
+      exportReport: 'Xuất báo cáo',
     },
   },
 }
