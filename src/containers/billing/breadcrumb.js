@@ -19,4 +19,9 @@ export default createBreadcrumb({
     href: slug.billing.configEdit,
     name: t('stationFixedPoint.edit.label'),
   },
+  report: {
+    id: 'search',
+    href: slug.billing.report,
+    name: t('billing.title.report'),
+  },
 })

@@ -1,11 +1,11 @@
-import {Button, Col, DatePicker, Form, Radio, Row} from 'antd'
+import { Button, Col, DatePicker, Form, Radio, Row } from 'antd'
 import CalculateApi from 'api/CalculateApi'
-import {getPhase} from 'api/station-fixed/StationFixedPhaseApi'
-import {getPoint} from 'api/station-fixed/StationFixedPointApi'
-import {default as BoxShadowStyle} from 'components/elements/box-shadow'
+import { getPhase } from 'api/station-fixed/StationFixedPhaseApi'
+import { getPoint } from 'api/station-fixed/StationFixedPointApi'
+import { default as BoxShadowStyle } from 'components/elements/box-shadow'
 import Heading from 'components/elements/heading'
-import {MM_YYYY, YYYY} from 'constants/format-date'
-import {translate as t} from 'hoc/create-lang'
+import { MM_YYYY, YYYY } from 'constants/format-date'
+import { translate as t } from 'hoc/create-lang'
 import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
@@ -59,11 +59,11 @@ class SearchForm extends React.Component {
 
   async componentDidMount() {
     const stationTypes = await CalculateApi.getStationTypeCalculateByWQI()
-    this.setState({stationTypes})
+    this.setState({ stationTypes })
   }
 
   fetchPhase = async () => {
-    this.setState({ isLoading: true})
+    this.setState({ isLoading: true })
     const stationTypeId = this.props.form.getFieldValue(FIELDS.STATION_TYPE_ID)
     const filterPhase = {
       limit: 100,
@@ -71,9 +71,9 @@ class SearchForm extends React.Component {
       where: {
         stationTypeId: stationTypeId ? stationTypeId : undefined,
       },
-      include: [{relation: 'stationType'}],
+      include: [{ relation: 'stationType' }],
     }
-    const phases = await getPhase({filter: filterPhase})
+    const phases = await getPhase({ filter: filterPhase })
 
     this.setState({
       isLoading: false,
@@ -95,7 +95,7 @@ class SearchForm extends React.Component {
         active: true,
       },
     }
-    const points = await getPoint({filter: filterPoint})
+    const points = await getPoint({ filter: filterPoint })
 
     this.setState({
       isLoading: false,
@@ -104,7 +104,7 @@ class SearchForm extends React.Component {
   }
 
   handleOnSelectStationType = () => {
-    const {form} = this.props
+    const { form } = this.props
     form.setFieldsValue({
       [FIELDS.PHASE]: undefined,
       [FIELDS.POINT]: undefined,
@@ -115,7 +115,7 @@ class SearchForm extends React.Component {
 
   handleOnSubmit = async e => {
     e.preventDefault()
-    const {onSearch} = this.props;
+    const { onSearch } = this.props
     const values = await this.props.form.validateFields()
 
     const [from, to] = values[FIELDS.RANGE_PICKER]
@@ -133,14 +133,17 @@ class SearchForm extends React.Component {
 
   getConfig = msg => {
     return {
-      rules: [{required: true, message: msg}],
+      rules: [{ required: true, message: msg }],
     }
   }
 
   render() {
-    const {form, loadingSearch} = this.props
-    const {phases, points, stationTypes} = this.state
-    const formatTime = form.getFieldValue(FIELDS.TYPE) === 'year' ? YYYY : MM_YYYY
+    const { form, loadingSearch } = this.props
+    const { phases, points, stationTypes } = this.state
+    const formatTime =
+      form.getFieldValue(FIELDS.TYPE) === 'year' ? YYYY : MM_YYYY
+
+    console.log({ values: form.getFieldsValue() })
 
     return (
       <SearchFormContainer>
@@ -160,7 +163,7 @@ class SearchForm extends React.Component {
             textColor="#ffffff"
             isBackground
             fontSize={14}
-            style={{padding: '8px 16px'}}
+            style={{ padding: '8px 16px' }}
           >
             {t('addon.search')}
           </Heading>
@@ -204,7 +207,9 @@ class SearchForm extends React.Component {
             <Row gutter={24}>
               <Col xs={8}>
                 <Form.Item label={i18n.viewBy}>
-                {form.getFieldDecorator(FIELDS.TYPE, {initialValue: 'month'})(
+                  {form.getFieldDecorator(FIELDS.TYPE, {
+                    initialValue: 'month',
+                  })(
                     <Radio.Group>
                       <Radio value={'month'}>{i18n.month}</Radio>
                       <Radio value={'quarter'}>{i18n.quarter}</Radio>
@@ -219,11 +224,9 @@ class SearchForm extends React.Component {
                     //initialValue: [
                     //moment().subtract(2, 'year').startOf('year'),
                     //moment().add(1, 'year').startOf(year)
-                  //],
-                    rules: this.getConfig(i18n.requireTime).rules
-                  })(
-                    <DatePicker.RangePicker format={formatTime} />
-                  )}
+                    //],
+                    rules: this.getConfig(i18n.requireTime).rules,
+                  })(<DatePicker.RangePicker format={formatTime} />)}
                 </Form.Item>
               </Col>
             </Row>

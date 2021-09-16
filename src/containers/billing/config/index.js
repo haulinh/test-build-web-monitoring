@@ -1,55 +1,20 @@
-import { Button, Divider, Dropdown, Icon, Menu, message, Modal } from 'antd'
+import { Button, Divider, Icon } from 'antd'
 import DataInsight from 'api/DataInsight'
-import PeriodicForecastApi from 'api/station-fixed/PeriodicForecastApi'
 import DynamicTable from 'components/elements/dynamic-table'
 import { DD_MM_YYYY } from 'constants/format-date'
 import ROLE from 'constants/role'
 import slug from 'constants/slug'
 import { autobind } from 'core-decorators'
-import createLanguageHoc, { langPropTypes, translate } from 'hoc/create-lang'
+import createLanguageHoc, { langPropTypes } from 'hoc/create-lang'
 import createManagerDelete from 'hoc/manager-delete'
 import createManagerList from 'hoc/manager-list'
 import protectRole from 'hoc/protect-role'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import * as _ from 'lodash'
 import moment from 'moment'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { Link } from 'react-router-dom'
-import styled from 'styled-components'
 import Breadcrumb from '../breadcrumb'
-
-const LinkSpan = styled.span`
-  color: #000;
-  &:hover {
-    cursor: pointer;
-  }
-`
-const IconButton = styled(Icon)`
-  padding-right: 5px;
-  color: ${props => (props.color ? props.color : '#3E90F7')};
-`
-
-const Span = styled.span`
-  color: ${props => (props.deleted ? '#999999' : '')};
-  text-decoration: ${props => (props.deleted ? 'line-through' : '')};
-`
-
-const i18n = {
-  cancelText: translate('addon.cancel'),
-  okText: translate('addon.ok'),
-  deleteConfirmMsg: translate('confirm.msg.delete'),
-  edit: {
-    label: translate('stationFixedPoint.edit.label'),
-  },
-  disable: {
-    label: translate('stationFixedPoint.disable.label'),
-  },
-  list: {
-    restore: translate('stationFixedPoint.list.restore'),
-    remove: translate('stationAutoManager.list.remove'),
-  },
-}
 
 @protectRole(ROLE.PERIODICAL_STATION.VIEW)
 @createManagerList({
