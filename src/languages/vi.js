@@ -31,6 +31,8 @@ export default {
     example: 'Ví dụ',
     copySuccess: 'Sao chép thành công',
     loading: 'Đang tải',
+    edit: 'Sửa',
+    delete: 'Xoá',
   },
   rules: {
     required: 'Bắt buộc',
@@ -2163,6 +2165,9 @@ export default {
       shareAPI: {
         name: 'Chia sẻ API',
       },
+      billing: {
+        name: 'Phí môi trường',
+      },
       tiLeDuLieuThuDuoc: {
         name: 'Tỉ lệ dữ liệu thu được',
       },
@@ -2687,6 +2692,9 @@ export default {
     parameterNotTypeNumber: 'Thông số sai định dạng',
     pointAndPhaseNotBelongToStationType: 'Điểm và đợt không cùng loại trạm',
     selectPhaseError: 'Vui lòng chọn đợt quan trắc',
+    complexForm: 'Mẫu chi tiết',
+    simpleForm: 'Mẫu đơn giản',
+    inputForm: 'Chọn mẫu nhập liệu',
   },
   importDataForecast: {
     stationKeyNotExist: 'Mã trạm quan trắc không tồn tại',
@@ -2927,6 +2935,7 @@ export default {
       wqiDay: 'WQI - Ngày',
       status_data: 'Tình trạng dữ liệu', // Qui them cho dong bo voi file EN
     },
+    billing: 'Phí môi trường',
   },
   tooltipMenuApp: {
     notification: 'Thông báo',
@@ -3633,6 +3642,74 @@ export default {
       colEN: 'Tiếng Anh',
       colTW: 'Tiếng Đài Loan',
       jsonView: 'Xem Json',
+    },
+  },
+  billing: {
+    title: {
+      config: 'Cấu hình tính phí',
+      report: 'Báo cáo phí',
+    },
+    menu: {
+      billingReport: 'Báo cáo phí',
+      billingConfig: 'Cấu hình tính phí',
+    },
+    option: {
+      reportQuarter: 'Báo cáo quý',
+      reportMonth: 'Báo cáo tháng',
+      reportCustom: 'Báo cáo tuỳ chọn',
+      quarter: 'Quý',
+      month: 'Tháng',
+    },
+    label: {
+      key: 'Mã cấu hình phí',
+      name: 'Tên cấu hình phí',
+      fixedFee: 'Phí cố định (đồng/đợt)',
+      flowKey: 'Thông số tính cố định',
+      timeStart: 'Thời gian bắt đầu',
+      timeEnd: 'Thời gian kết thúc',
+      note: 'Ghi chú',
+      time: 'Thời gian',
+      reportType: 'Loại báo cáo',
+      stationType: 'Loại trạm',
+      stationName: 'Tên trạm',
+      billingConfig: 'Bộ công thức',
+    },
+    placeholder: {
+      key: 'Mã cấu hình phí',
+      name: 'Tên cấu hình phí',
+      fixedFee: 'Phí cố định (đồng/đợt)',
+      flowKey: 'Thông số tính cố định',
+      timeStart: 'Thời gian bắt đầu',
+      timeEnd: 'Thời gian kết thúc',
+      note: 'Ghi chú',
+      time: 'Thời gian',
+    },
+    pattern: 'Không được nhập kí tự đặc biệt',
+    max: 'Không quá 64 kí tự',
+    now: 'Hiện tại',
+    required: {
+      key: 'Vui lòng nhập mã',
+      name: 'Vui lòng nhập tên',
+      fixedFee: 'Vui lòng nhập phí cố định ',
+      timeStart: 'Vui lòng nhập thời gian bắt đầu ',
+    },
+    table: {
+      month: {
+        stt: 'STT',
+        date: 'Ngày',
+        avgValue: 'Giá trị trung bình thông số ô nhiễm/ngày (24h)',
+        price: 'Thành tiền',
+        sumPrice: 'Tổng tiền (đồng)',
+        flow: 'Lưu lượng (M³/ngày)',
+      },
+      quarter: {
+        typeFee: 'Loại phí',
+        month: 'Tháng',
+        amountOfWastewater: 'Lượng nước thải',
+        price: 'Thành tiền',
+        totalFee: 'Tổng số tiền phải nộp trong quí',
+        debt: 'Số phí từ quý trước chưa nộp hoặc nộp thiếu',
+      },
     },
   },
 }

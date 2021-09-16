@@ -449,6 +449,7 @@ export default class StationFixedForm extends React.Component {
                     <SelectProvince
                       allowClear
                       isUsedId={true}
+                      fieldValue="_id"
                       placeholder={i18n.provinceId.placeholder}
                     />
                   )}

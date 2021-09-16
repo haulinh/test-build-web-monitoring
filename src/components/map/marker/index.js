@@ -192,7 +192,7 @@ export default class MarkerStation extends PureComponent {
                   textAlign: 'right',
                 }}
               >
-                {+textValue === value ? getFormatNumber(value) : textValue}
+                {(!textValue || +textValue === value) ? getFormatNumber(value) : textValue}
               </td>
             }
             <td>{unit}</td>

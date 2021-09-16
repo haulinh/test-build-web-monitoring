@@ -63,17 +63,19 @@ export default class SelectProvince extends PureComponent {
 
   handleOnChange = value => {
     this.setState({ value })
-    let res = this.state.provinces.find(item => item.key === value)
+    const {provinces} = this.state
+    const {onHandleChange,onChange, isUsedId, fieldValue} = this.props
+    let res = provinces.find(item => item[fieldValue || 'key'] === value)
     if (value === '' || !res) {
       res = { key: '' }
     }
-    if (this.props.onHandleChange) this.props.onHandleChange(res, this)
+    if (typeof onHandleChange === 'function') onHandleChange(res, this)
     if (value === undefined) value = null
-    if (this.props.onChange) {
-      if (this.props.isUsedId) {
-        this.props.onChange(res._id)
+    if (onChange) {
+      if (isUsedId) {
+        onChange(res._id)
       } else {
-        this.props.onChange(value)
+        onChange(value)
       }
     }
   }
