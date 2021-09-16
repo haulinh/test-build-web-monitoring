@@ -25,7 +25,7 @@ function i18n() {
     colFeature: translate('language.list.colFeature'),
     colVI: translate('language.list.colVI'),
     colEN: translate('language.list.colEN'),
-    colCN: translate('language.list.colCN'),
+    colTW: translate('language.list.colTW'),
     success: translate('language.edit.success'),
     error: translate('language.edit.error'),
   }
@@ -33,7 +33,7 @@ function i18n() {
 
 const VI = 'vi'
 const EN = 'en'
-const CN = 'cn'
+const TW = 'tw'
 const MOBILE = 'mobile'
 const WEB = 'web'
 
@@ -92,7 +92,7 @@ class ConfigLanguagePage extends React.Component {
       dataWeb = _.map(_.keys(dataInitialWeb), key => {
         let dataEN = null
         let dataVI = null
-        let dataCN = null
+        let dataTW = null
         const title = _.get(
           this.props.dataInitial,
           `${this.props.language}.language.content.${key}`,
@@ -100,7 +100,7 @@ class ConfigLanguagePage extends React.Component {
         )
         dataVI = this.getContent(this.props.dataInitial, VI, key, WEB)
         dataEN = this.getContent(this.props.dataInitial, EN, key, WEB)
-        dataCN = this.getContent(this.props.dataInitial, CN, key, WEB)
+        dataTW = this.getContent(this.props.dataInitial, TW, key, WEB)
 
         index++
 
@@ -141,12 +141,12 @@ class ConfigLanguagePage extends React.Component {
             content: (
               <JsonViewCustom
                 onChange={data => {
-                  this.handleOnChangeLanguage(data, CN, key)
+                  this.handleOnChangeLanguage(data, TW, key)
                 }}
                 isEdit={true}
                 dataStructure={dataVI}
                 title={title}
-                content={dataCN}
+                content={dataTW}
               />
             ),
           },
@@ -160,7 +160,7 @@ class ConfigLanguagePage extends React.Component {
       dataMobile = _.map(_.keys(dataInitialMobile), key => {
         let dataEN = null
         let dataVI = null
-        let dataCN = null
+        let dataTW = null
         const title = _.get(
           this.props.dataInitial,
           `${this.props.language}.language.content.${key}`,
@@ -168,7 +168,7 @@ class ConfigLanguagePage extends React.Component {
         )
         dataVI = this.getContent(dataInitialMobile, VI, key, MOBILE)
         dataEN = this.getContent(dataInitialMobile, EN, key, MOBILE)
-        dataCN = this.getContent(dataInitialMobile, CN, key, MOBILE)
+        dataTW = this.getContent(dataInitialMobile, TW, key, MOBILE)
 
         index++
         return [
@@ -214,12 +214,12 @@ class ConfigLanguagePage extends React.Component {
             content: (
               <JsonViewCustom
                 onChange={data => {
-                  this.handleOnChangeLanguage(data, CN, key, true)
+                  this.handleOnChangeLanguage(data, TW, key, true)
                 }}
                 isEdit={true}
                 dataStructure={dataVI}
                 title={title}
-                content={dataCN}
+                content={dataTW}
               />
             ),
           },
@@ -238,7 +238,7 @@ class ConfigLanguagePage extends React.Component {
       { content: i18n().colFeature },
       { content: i18n().colVI },
       { content: i18n().colEN },
-      { content: i18n().colCN },
+      { content: i18n().colTW },
     ]
   }
 

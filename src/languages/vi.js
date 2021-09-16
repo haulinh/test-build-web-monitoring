@@ -3631,7 +3631,7 @@ export default {
       colFeature: 'Tính năng',
       colVI: 'Việt Nam',
       colEN: 'Tiếng Anh',
-      colCN: 'Tiếng Trung',
+      colTW: 'Tiếng Đài Loan',
       jsonView: 'Xem Json',
     },
   },
