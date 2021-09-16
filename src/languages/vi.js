@@ -3590,10 +3590,18 @@ export default {
   billing: {
     title: {
       config: 'Cấu hình tính phí',
+      report: 'Báo cáo phí',
     },
     menu: {
       billingReport: 'Báo cáo phí',
       billingConfig: 'Cấu hình tính phí',
+    },
+    option: {
+      reportQuarter: 'Báo cáo quý',
+      reportMonth: 'Báo cáo tháng',
+      reportCustom: 'Báo cáo tuỳ chọn',
+      quarter: 'Quý',
+      month: 'Tháng',
     },
     label: {
       key: 'Mã cấu hình phí',
@@ -3604,6 +3612,10 @@ export default {
       timeEnd: 'Thời gian kết thúc',
       note: 'Ghi chú',
       time: 'Thời gian',
+      reportType: 'Loại báo cáo',
+      stationType: 'Loại trạm',
+      stationName: 'Tên trạm',
+      billingConfig: 'Bộ công thức',
     },
     placeholder: {
       key: 'Mã cấu hình phí',
@@ -3623,6 +3635,24 @@ export default {
       name: 'Vui lòng nhập tên',
       fixedFee: 'Vui lòng nhập phí cố định ',
       timeStart: 'Vui lòng nhập thời gian bắt đầu ',
+    },
+    table: {
+      month: {
+        stt: 'STT',
+        date: 'Ngày',
+        avgValue: 'Giá trị trung bình thông số ô nhiễm/ngày (24h)',
+        price: 'Thành tiền',
+        sumPrice: 'Tổng tiền (đồng)',
+        flow: 'Lưu lượng (M³/ngày)',
+      },
+      quarter: {
+        typeFee: 'Loại phí',
+        month: 'Tháng',
+        amountOfWastewater: 'Lượng nước thải',
+        price: 'Thành tiền',
+        totalFee: 'Tổng số tiền phải nộp trong quí',
+        debt: 'Số phí từ quý trước chưa nộp hoặc nộp thiếu',
+      },
     },
   },
 }

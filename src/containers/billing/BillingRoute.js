@@ -4,6 +4,7 @@ import { Switch, Route } from 'react-router-dom'
 import Config from './config'
 import ConfigCreate from './config/ConfigCreate'
 import ConfigEdit from './config/ConfigEdit'
+import BillingReport from './report'
 
 export default function BillingRoute() {
   return (
@@ -15,6 +16,7 @@ export default function BillingRoute() {
         path={`${slug.billing.configEdit}/:key`}
         component={ConfigEdit}
       />
+      <Route exact path={slug.billing.report} component={BillingReport} />
     </Switch>
   )
 }

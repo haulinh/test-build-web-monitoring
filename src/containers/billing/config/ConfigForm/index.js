@@ -118,7 +118,6 @@ export default class ConfigForm extends React.Component {
 
   render() {
     const { form } = this.props
-    const { t } = this.props.lang
     const { measuringList } = this.state
 
     return (

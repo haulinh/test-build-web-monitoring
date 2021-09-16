@@ -2,10 +2,10 @@ import { Button, Icon, Popconfirm, Select, Table } from 'antd'
 import CategoryApi from 'api/CategoryApi'
 import AutoCompleteCell from 'components/elements/auto-complete-cell'
 import InputNumberCell from 'components/elements/input-number-cell'
-import _ from 'lodash'
-import React, { Component } from 'react'
-import styled from 'styled-components'
 import { translate } from 'hoc/create-lang'
+import _ from 'lodash'
+import React from 'react'
+import styled from 'styled-components'
 
 // const i18n = {
 //   stt: 'STT',
