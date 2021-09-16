@@ -1,5 +1,5 @@
 import React from 'react'
-import { Alert, Button, Col, Form, Icon, Row, Spin } from 'antd'
+import { Alert, Button, Col, Form, Icon, Row, Spin, Select } from 'antd'
 import styled from 'styled-components'
 import { isEmpty } from 'lodash'
 import Dragger from 'antd/lib/upload/Dragger'
@@ -8,6 +8,8 @@ import { translate as t } from 'hoc/create-lang'
 import {
   importDataStationFixed,
   exportDataTemplate,
+  exportSimpleDataTemplate,
+  importSimpleDataStationFixed,
 } from 'api/station-fixed/StationFixedPointApi'
 import SelectPhase from './select-phase'
 import SelectMeasuring from './select-measuring'
@@ -104,7 +106,15 @@ const i18n = {
   ),
   selectPhaseError: t('importDataPoint.selectPhaseError'),
   upload: t('global.upload'),
+  complexForm: t('importDataPoint.complexForm'),
+  simpleForm: t('importDataPoint.simpleForm'),
+  inputForm: t('importDataPoint.inputForm')
 }
+
+const optionExportData = [
+  { key: "simple", label: i18n.simpleForm },
+  { key: "complex", label: i18n.complexForm },
+]
 
 const FIELDS = {
   FILE: 'file',
@@ -112,6 +122,7 @@ const FIELDS = {
   MEASURING: 'measuring',
   STATION_TYPE_ID: 'stationTypeId',
   PHASE_ID: 'phaseId',
+  typeExport: 'typeExport'
 }
 
 const IMPORT_DATA_ERROR = {
@@ -134,6 +145,7 @@ class StationFixedImportData extends React.Component {
     isDownloadingFile: false,
     errorDetail: null,
     count: 0,
+    typeExport: ""
   }
 
   getErrorDetail = errors => {
@@ -180,6 +192,7 @@ class StationFixedImportData extends React.Component {
     const values = await form.validateFields()
     const phase = values[FIELDS.PHASE]
     const file = values[FIELDS.FILE]
+    const typeImport = values[FIELDS.STATION_TYPE_ID]
 
     const formData = new FormData()
     formData.append(FIELDS.FILE, file)
@@ -188,7 +201,13 @@ class StationFixedImportData extends React.Component {
 
     try {
       this.setState({ isLoading: true, errorDetail: null, isSuccess: false })
-      const result = await importDataStationFixed(formData)
+      let result;
+      if (typeImport === "complex") {
+        result = await importDataStationFixed(formData)
+      }else{
+        result = await importSimpleDataStationFixed(formData)
+      }
+
       if (result.success) {
         this.setState({
           isLoading: false,
@@ -198,7 +217,6 @@ class StationFixedImportData extends React.Component {
         })
         return
       }
-
       this.setState({ isLoading: false, errorDetail: result, isSuccess: false })
     } catch (error) {
       console.log(error)
@@ -210,8 +228,14 @@ class StationFixedImportData extends React.Component {
     const { form } = this.props
     this.setState({ isDownloadingFile: true })
     const measurings = form.getFieldValue(FIELDS.MEASURING)
-    const result = await exportDataTemplate(measurings)
-    downFileExcel(result.data, 'data-template')
+    const typeForm = form.getFieldValue(FIELDS.typeExport)
+    if (typeForm === "complex") {
+      const result = await exportDataTemplate(measurings)
+      downFileExcel(result.data, 'data-template')
+    } else {
+      const result = await exportSimpleDataTemplate(measurings)
+      downFileExcel(result.data, 'simple-data-template')
+    }
     this.setState({ isDownloadingFile: false })
   }
 
@@ -234,7 +258,7 @@ class StationFixedImportData extends React.Component {
 
     const stationTypeId =
       form.getFieldValue(FIELDS.PHASE) &&
-      form.getFieldValue(FIELDS.PHASE).length === 2
+        form.getFieldValue(FIELDS.PHASE).length === 2
         ? form.getFieldValue(FIELDS.PHASE)[0].stationTypeId
         : null
 
@@ -256,7 +280,7 @@ class StationFixedImportData extends React.Component {
           </Text>
 
           <Form onSubmit={this.onSubmit}>
-            <Row>
+            <Row gutter={36}>
               <Col span={8}>
                 <Form.Item label={i18n.phaseLabel}>
                   {form.getFieldDecorator(FIELDS.PHASE, {
@@ -265,6 +289,19 @@ class StationFixedImportData extends React.Component {
                       { validator: this.validatePhase, required: true },
                     ],
                   })(<SelectPhase />)}
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item label={i18n.inputForm}>
+                  {form.getFieldDecorator(FIELDS.typeExport, {
+                    initialValue: "complex"
+                  })(<Select>
+                    {optionExportData.map(item => (
+                      <Select.Option key={item.key} value={item.key}>
+                        {item.label}
+                      </Select.Option>
+                    ))}
+                  </Select>)}
                 </Form.Item>
               </Col>
             </Row>
@@ -293,9 +330,8 @@ class StationFixedImportData extends React.Component {
               <Col span={8} className="download-wrapper">
                 {isDownloadingFile && <Spin className="spin" />}
                 <div
-                  className={`ant-upload ant-upload-drag ${
-                    countMeasuring < 1 ? 'disabled-download' : ''
-                  }`}
+                  className={`ant-upload ant-upload-drag ${countMeasuring < 1 ? 'disabled-download' : ''
+                    }`}
                   onClick={this.onDownloadFile}
                 >
                   <Text
