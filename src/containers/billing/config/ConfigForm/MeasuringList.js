@@ -55,7 +55,6 @@ export default class MeasuringList extends React.Component {
     if (this.props.onFetchMeasuringListSuccess) {
       this.props.onFetchMeasuringListSuccess(measuringList.data)
     }
-    console.log({ value: this.props.value })
     this.setState({
       measuringListSource: measuringList.data,
       measuringList: (this.props.value || []).map(item => ({

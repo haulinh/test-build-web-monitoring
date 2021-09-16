@@ -14,7 +14,6 @@ const i18n = () => ({
 })
 
 export default function TableQuarter({ resultReport = {}, form }) {
-  console.log({ resultReport })
   const dataSource = [
     ...(resultReport.data || []),
     {
