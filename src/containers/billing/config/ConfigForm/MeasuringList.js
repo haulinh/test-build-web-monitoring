@@ -21,9 +21,9 @@ const i18n = {
   addMeasuring: translate('stationFixedPoint.form.measuringForm.addMeasuring'),
   tendToExceed: translate('stationFixedPoint.form.measuringForm.tendToExceed'),
   qcvn: translate('stationFixedPoint.form.measuringForm.qcvn'),
-  qcvnMin: translate('stationFixedPoint.form.measuringForm.qcvnMin'),
-  qcvnMax: translate('stationFixedPoint.form.measuringForm.qcvnMax'),
+  qcvnMax: translate('aqiConfigCalculation.colValue'),
   delete: translate('stationFixedPoint.delete.require'),
+  stt: translate('dataPointReport.title.numberOrder')
 }
 
 export default class MeasuringList extends React.Component {
@@ -105,6 +105,14 @@ export default class MeasuringList extends React.Component {
   }
 
   columns = [
+    {
+      title: i18n.stt,
+      align: 'center',
+      render: (value, _, index) => {
+        return <div>{index + 1}</div>
+      },
+      width: 80
+    },
     {
       dataIndex: 'key',
       align: 'center',
