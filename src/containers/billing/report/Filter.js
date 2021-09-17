@@ -9,7 +9,7 @@ import moment from 'moment'
 import React from 'react'
 import { Fields, i18n } from './index'
 
-export default function Filter({ form }) {
+export default function Filter({ form, setResultReport }) {
   const { stationType, reportType } = form.getFieldsValue() || {}
 
   return (
@@ -19,6 +19,7 @@ export default function Filter({ form }) {
           <FormItem label={i18n.reportType.label}>
             {form.getFieldDecorator(Fields.reportType, {
               initialValue: 'month',
+              onChange: () => setResultReport({}),
             })(<SelectReportType form={form} />)}
           </FormItem>
         </Col>

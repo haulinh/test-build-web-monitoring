@@ -1,8 +1,8 @@
-import { Input, Table } from 'antd'
-import React from 'react'
+import { InputNumber, Table } from 'antd'
 import { translate as t } from 'hoc/create-lang'
-import moment from 'moment'
 import _ from 'lodash'
+import moment from 'moment'
+import React from 'react'
 
 const i18n = () => ({
   typeFee: t('billing.table.quarter.typeFee'),
@@ -84,6 +84,8 @@ export default function TableQuarter({ resultReport = {}, form }) {
     },
   ]
 
+  const debt = form.getFieldValue('debt')
+
   const BodyWrapper = props => {
     const renderFooter = () => {
       return (
@@ -92,7 +94,11 @@ export default function TableQuarter({ resultReport = {}, form }) {
             <td colSpan="2" style={{ textAlign: 'center' }}>
               {i18n().debt}
             </td>
-            <td>{form.getFieldDecorator('debt')(<Input />)}</td>
+            <td>
+              {form.getFieldDecorator('debt')(
+                <InputNumber style={{ width: '100%' }} />
+              )}
+            </td>
             <td></td>
           </tr>
           <tr className="ant-table-row">
@@ -100,7 +106,7 @@ export default function TableQuarter({ resultReport = {}, form }) {
               {i18n().totalFee}
             </td>
             <td style={{ textAlign: 'center' }}>
-              {_.get(resultReport, 'summary.totalFee')}
+              {_.get(resultReport, 'summary.totalFee', 0) + (debt || 0)}
             </td>
             <td></td>
           </tr>
@@ -117,12 +123,15 @@ export default function TableQuarter({ resultReport = {}, form }) {
   }
 
   return (
-    <Table
-      bordered
-      dataSource={dataSource}
-      columns={columns}
-      pagination={false}
-      components={{ body: { wrapper: BodyWrapper } }}
-    />
+    <React.Fragment>
+      <Table
+        bordered
+        dataSource={dataSource}
+        columns={columns}
+        pagination={false}
+        components={{ body: { wrapper: BodyWrapper } }}
+        rowKey={record => record.month}
+      />
+    </React.Fragment>
   )
 }
