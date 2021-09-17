@@ -14,6 +14,7 @@ import ConfigForm from './ConfigForm'
 const i18n = {
   success: translate('periodicalForecast.message.createSuccess'),
   error: translate('addon.onSave.add.error'),
+  exist: translate('addon.onSave.add.keyExited_error'),
 }
 @protectRole(ROLE.PERIODICAL_STATION.CREATE)
 @createLanguageHoc
@@ -27,19 +28,22 @@ export default class ConfigCreate extends React.Component {
 
   handleSubmit = async data => {
     this.setState({ isLoading: true })
-    console.log('run')
     return DataInsight.createConfigBilling(data)
       .then(values => {
         this.setState({ isLoading: false })
         if (values) {
           message.success(i18n.success)
-          this.props.history.push(slug.periodicalForecast.station)
+          this.props.history.push(slug.billing.config)
         }
         return values
       })
       .catch(error => {
-        this.setState({ isUpdating: false })
+        if (error.status === 422) {
+          message.error(i18n.exist)
+          return;
+        }
         message.error(i18n.error)
+        this.setState({ isUpdating: false })
         return {
           ...error,
         }

@@ -7,13 +7,6 @@ import _ from 'lodash'
 import React from 'react'
 import styled from 'styled-components'
 
-// const i18n = {
-//   stt: 'STT',
-//   measureKey: 'Mã thông số',
-//   measureName: 'Thông số ô nhiễm tính phí',
-//   value: 'Giá trị',
-// }
-
 const WrapperComponent = styled.div`
   .disable-measuring {
     opacity: 0.7;
@@ -24,13 +17,13 @@ const WrapperComponent = styled.div`
 
 const i18n = {
   key: translate('stationFixedPoint.form.measuringForm.key'),
-  name: translate('stationFixedPoint.form.measuringForm.name'),
+  name: translate('stationFixedPoint.form.measuringForm.nameMeasuring'),
   addMeasuring: translate('stationFixedPoint.form.measuringForm.addMeasuring'),
   tendToExceed: translate('stationFixedPoint.form.measuringForm.tendToExceed'),
   qcvn: translate('stationFixedPoint.form.measuringForm.qcvn'),
-  qcvnMin: translate('stationFixedPoint.form.measuringForm.qcvnMin'),
-  qcvnMax: translate('stationFixedPoint.form.measuringForm.qcvnMax'),
+  qcvnMax: translate('aqiConfigCalculation.colValue'),
   delete: translate('stationFixedPoint.delete.require'),
+  stt: translate('dataPointReport.title.numberOrder')
 }
 
 export default class MeasuringList extends React.Component {
@@ -112,6 +105,14 @@ export default class MeasuringList extends React.Component {
   }
 
   columns = [
+    {
+      title: i18n.stt,
+      align: 'center',
+      render: (value, _, index) => {
+        return <div>{index + 1}</div>
+      },
+      width: 80
+    },
     {
       dataIndex: 'key',
       align: 'center',

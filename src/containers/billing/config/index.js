@@ -96,7 +96,7 @@ export default class BillingList extends React.Component {
           content: <div style={style}>{time}</div>,
         },
         {
-          content: <div style={{ ...style, width: '450px' }}>{item.note}</div>,
+          content: <div style={{ ...style, width: '350px' }}>{item.note}</div>,
         },
         {
           content: (

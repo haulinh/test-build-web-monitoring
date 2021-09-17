@@ -1160,6 +1160,7 @@ export default {
       measuringForm: {
         key: 'Mã thông số',
         name: 'Tên thông số',
+        nameMeasuring: 'Thông số ô nhiễm tính phí',
         addMeasuring: 'Thêm thông số',
         qcvn: 'Giới hạn vượt ngưỡng',
         tendToExceed: 'Chuẩn bị vượt',
@@ -3638,11 +3639,13 @@ export default {
     },
     pattern: 'Không được nhập kí tự đặc biệt',
     max: 'Không quá 64 kí tự',
+    max256: 'Không quá 256 kí tự',
     now: 'Hiện tại',
     required: {
       key: 'Vui lòng nhập mã',
       name: 'Vui lòng nhập tên',
       fixedFee: 'Vui lòng nhập phí cố định ',
+      flowKey: 'Vui lòng chọn 1 thông số ',
       timeStart: 'Vui lòng nhập thời gian bắt đầu ',
     },
     table: {

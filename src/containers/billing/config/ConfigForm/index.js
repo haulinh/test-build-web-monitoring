@@ -33,6 +33,7 @@ const i18n = {
   flowKey: {
     label: translate('billing.label.flowKey'),
     placeholder: translate('billing.placeholder.flowKey'),
+    required: translate('billing.required.flowKey'),
   },
   timeStart: {
     label: translate('billing.label.timeStart'),
@@ -47,6 +48,7 @@ const i18n = {
   note: {
     label: translate('billing.label.note'),
     placeholder: translate('billing.placeholder.note'),
+    max: translate('billing.max256'),
   },
 }
 
@@ -138,6 +140,10 @@ export default class ConfigForm extends React.Component {
                       pattern: PATTERN_KEY,
                       message: i18n.key.pattern,
                     },
+                    {
+                      max: 64,
+                      message: i18n.key.max,
+                    },
                   ],
                 })(<Input />)}
               </FormItem>
@@ -175,7 +181,14 @@ export default class ConfigForm extends React.Component {
           <Row gutter={32}>
             <Col span={8}>
               <FormItem label={i18n.flowKey.label}>
-                {form.getFieldDecorator(Fields.flowKey)(
+                {form.getFieldDecorator(Fields.flowKey, {
+                  rules: [
+                    {
+                      required: true,
+                      message: i18n.fixedFee.required,
+                    },
+                  ]
+                })(
                   <SelectMeasureParameter
                     mode="default"
                     measuringList={measuringList}
@@ -207,7 +220,14 @@ export default class ConfigForm extends React.Component {
           <Row>
             <Col span={24}>
               <FormItem label={i18n.note.label}>
-                {form.getFieldDecorator(Fields.note)(<Input />)}
+                {form.getFieldDecorator(Fields.note, {
+                  rules: [
+                    {
+                      max: 256,
+                      message: i18n.note.max,
+                    },
+                  ]
+                })(<Input />)}
               </FormItem>
             </Col>
           </Row>
