@@ -3649,6 +3649,7 @@ export default {
       fixedFee: 'Vui lòng nhập phí cố định ',
       flowKey: 'Vui lòng chọn 1 thông số ',
       timeStart: 'Vui lòng nhập thời gian bắt đầu ',
+      timeEnd: 'Ngày kết thúc phải lớn hơn ngày bắt đầu',
       stationType: 'Vui lòng chọn loại trạm',
       stationName: 'Vui lòng chọn tên trạm',
       billingConfig: 'Vui lòng chọn bộ công thức',
