@@ -21,6 +21,7 @@ import InputNumberCell from 'components/elements/input-number-cell'
 import InputPhoneNumber from 'components/elements/input-phone-number'
 import SelectProvice from 'components/elements/select-province'
 import SelectQCVN from 'components/elements/select-qcvn'
+import SelectStationAuto from 'components/elements/select-station-auto'
 import SelectStationType from 'components/elements/select-station-type'
 import { PATTERN_KEY, PATTERN_NAME } from 'constants/format-string'
 import { autobind } from 'core-decorators'
@@ -93,6 +94,7 @@ export default class StationAutoForm extends React.PureComponent {
       allowUpdateStandardsVN: props.isEdit,
       tabKey: ['1'],
       isStandardsVN: false,
+      stationAutoSelects: [],
     }
   }
 
@@ -113,8 +115,8 @@ export default class StationAutoForm extends React.PureComponent {
     if (initialValues.mapLocationVN2000) {
       initialValues = {
         ...initialValues,
-        latVn2000: _.get(initialValues,'mapLocationVN2000.lat',null),
-        longVn2000:_.get(initialValues,'mapLocationVN2000.long',null),
+        latVn2000: _.get(initialValues, 'mapLocationVN2000.lat', null),
+        longVn2000: _.get(initialValues, 'mapLocationVN2000.long', null),
       }
     }
 
@@ -285,6 +287,7 @@ export default class StationAutoForm extends React.PureComponent {
         activatedAt: values.activatedAt,
         dataFrequency: values.dataFrequency,
         note: values.note,
+        linkedStation: values.linkedStation,
         measuringList: _.compact(measuringList), // values.measuringList,
         options: this.state.options,
         image: this.state.imgList.length > 0 ? this.state.imgList[0] : null,
@@ -915,6 +918,37 @@ export default class StationAutoForm extends React.PureComponent {
                 </FormItem>
               </Col>
             </Row>
+
+            <Row gutter={8} type="flex" justify="center">
+              <Col span={11}>
+                <FormItem
+                  {...formItemLayout}
+                  label={t('stationAutoManager.form.linkStation.label')}
+                  labelCol={{
+                    sm: { span: 12, offset: 0 },
+                  }}
+                  wrapperCol={{
+                    sm: { span: 12, offset: 0 },
+                  }}
+                >
+                  {getFieldDecorator('linkedStation')(
+                    <SelectStationAuto
+                      fieldValue="key"
+                    >
+                    </SelectStationAuto>
+                  )}
+                </FormItem>
+              </Col>
+              <i
+                style={{
+                  paddingTop: '10px',
+                  marginLeft: '8px',
+                }}
+              >
+                {t('stationAutoManager.form.linkStation.description')}
+              </i>
+            </Row>
+
             <Row gutter={8}>
               <Col span={24} />
             </Row>
@@ -939,12 +973,12 @@ export default class StationAutoForm extends React.PureComponent {
                     this.state.measuringList
                       ? this.state.measuringList
                       : [
-                          {
-                            key: '',
-                            name: '',
-                            unit: '',
-                          },
-                        ]
+                        {
+                          key: '',
+                          name: '',
+                          unit: '',
+                        },
+                      ]
                   }
                   measuringListSource={this.state.measuringListSource}
                 />

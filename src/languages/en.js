@@ -1675,6 +1675,12 @@ export default {
         placeholder: 'Note',
         error: 'Please Choose Note',
       },
+      linkStation: {
+        label: 'Note',
+        placeholder: 'Note',
+        description:
+          'Chú ý: việc liên kết dữ liệu Tự động và Cố định nhằm liên kết dữ liệu để thực hiện tính toán',
+      },
       long: {
         label: 'Longitude',
         placeholder: 'Input longitude',
