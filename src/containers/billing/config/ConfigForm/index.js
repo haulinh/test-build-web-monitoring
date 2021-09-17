@@ -60,7 +60,7 @@ const Fields = {
   timeStart: 'timeStart',
   timeEnd: 'timeEnd',
   note: 'note',
-  measuringList: 'measuringList',
+  measuringList: 'measurings',
 }
 
 @Form.create({})
@@ -73,14 +73,14 @@ export default class ConfigForm extends React.Component {
     e.preventDefault()
     const { form, onSubmit } = this.props
     const values = await form.validateFields()
-    const measuringList = values.measuringList.map(measure => {
+    const measurings = values.measurings.map(measure => {
       const { rowKey, ...newMeasure } = measure
       return newMeasure
     })
 
     const params = {
       ...values,
-      measuringList,
+      measurings,
       timeStart: values.timeStart && getTimeUTC(values.timeStart),
       timeEnd: values.timeEnd && getTimeUTC(values.timeEnd),
     }

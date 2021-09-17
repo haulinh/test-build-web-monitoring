@@ -19,4 +19,8 @@ export default {
     const url = calc('billing/query-data')
     return getFetch(url, params)
   },
+  exportReportBilling: params => {
+    const url = calc('billing/export-data')
+    return getFetchDownFile(url, params)
+  },
 }

@@ -1,6 +1,6 @@
 import { Col, DatePicker, Row, Select } from 'antd'
-import React from 'react'
 import { translate as t } from 'hoc/create-lang'
+import React from 'react'
 
 const options = [
   {
@@ -13,18 +13,61 @@ const options = [
   },
 ]
 
-const TimePicker = ({ reportType, type, onChange, valuePicker }) => {
-  const style = { width: '100%' }
+class TimePicker extends React.Component {
+  style = { width: '100%' }
 
-  const handleOnChange = value => {
-    onChange({ ...valuePicker, value: value })
+  state = {
+    dates: [],
   }
 
-  if (reportType === 'month') {
-    return <DatePicker.MonthPicker style={style} onChange={handleOnChange} />
+  handleOnChange = value => {
+    const { valuePicker } = this.props
+    this.props.onChange({ ...valuePicker, value: value })
   }
 
-  return <DatePicker.RangePicker style={style} onChange={handleOnChange} />
+  disabledDate = current => {
+    const { dates } = this.state
+    const { type } = this.props
+    if (!dates || dates.length === 0) {
+      return false
+    }
+
+    if (type === 'month') {
+      return !current.isSame(dates[0], 'month')
+    }
+
+    return !current.isSame(dates[0], 'quarter')
+  }
+
+  onOpenChange = open => {
+    if (open) {
+      this.setState({ dates: [], hackValue: [] })
+    }
+  }
+
+  render() {
+    const { reportType, valuePicker } = this.props
+
+    if (reportType === 'month') {
+      return (
+        <DatePicker.MonthPicker
+          style={this.style}
+          onChange={this.handleOnChange}
+          value={valuePicker.value}
+        />
+      )
+    }
+
+    return (
+      <DatePicker.RangePicker
+        style={this.style}
+        onCalendarChange={val => this.setState({ dates: val })}
+        onChange={this.handleOnChange}
+        disabledDate={this.disabledDate}
+        onOpenChange={() => this.setState({ dates: [] })}
+      />
+    )
+  }
 }
 
 const SelectTimeReport = ({ value = {}, onChange, reportType }) => {

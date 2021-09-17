@@ -5,6 +5,7 @@ import SelectTimeReport from 'components/elements/select-data/billing/SelectTime
 import SelectStationAuto from 'components/elements/select-station-auto'
 import SelectStationType from 'components/elements/select-station-type'
 import { FormItem } from 'components/layouts/styles'
+import moment from 'moment'
 import React from 'react'
 import { Fields, i18n } from './index'
 
@@ -24,7 +25,7 @@ export default function Filter({ form }) {
         <Col span={6}>
           <FormItem label={i18n.time.label}>
             {form.getFieldDecorator(Fields.time, {
-              initialValue: { type: 'month' },
+              initialValue: { type: 'month', value: moment() },
               rules: [
                 {
                   required: true,

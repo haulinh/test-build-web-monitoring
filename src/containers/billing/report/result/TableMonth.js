@@ -65,5 +65,13 @@ export default function TableMonth({ resultReport = {} }) {
       render: value => <div>{value.fee}</div>,
     },
   ]
-  return <Table bordered dataSource={resultReport.data} columns={columns} />
+  return (
+    <Table
+      bordered
+      dataSource={resultReport.data}
+      columns={columns}
+      pagination={false}
+      rowKey={record => record.datetime}
+    />
+  )
 }
