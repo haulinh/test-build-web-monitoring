@@ -9,7 +9,7 @@ import React from 'react'
 import { getTimeUTC } from 'utils/datetime'
 import MeasuringList from './MeasuringList'
 
-const i18n = {
+const i18n = () => ({
   save: translate('addon.save'),
   keyExisted: translate('billing.create.keyExisted'),
   key: {
@@ -50,7 +50,10 @@ const i18n = {
     placeholder: translate('billing.placeholder.note'),
     max: translate('billing.max256'),
   },
-}
+  measuringList: {
+    required: translate('stationFixedPoint.form.measuringList.required'),
+  },
+})
 
 const Fields = {
   name: 'name',
@@ -118,6 +121,16 @@ export default class ConfigForm extends React.Component {
     this.setState({ measuringList })
   }
 
+  validateTimeEnd = (rule, value, callback) => {
+    const { form } = this.props
+    const timeStart = form.getFieldValue(Fields.timeStart)
+    console.log({ timeStart })
+    console.log({ value })
+    if (value < timeStart) {
+      callback(i18n().timeEnd.required)
+    } else callback()
+  }
+
   render() {
     const { form } = this.props
     const { measuringList } = this.state
@@ -128,49 +141,49 @@ export default class ConfigForm extends React.Component {
         <BoxShadow>
           <Row gutter={32}>
             <Col span={8}>
-              <FormItem label={i18n.key.label}>
+              <FormItem label={i18n().key.label}>
                 {form.getFieldDecorator(Fields.key, {
                   rules: [
                     {
                       required: true,
                       whitespace: true,
-                      message: i18n.key.required,
+                      message: i18n().key.required,
                     },
                     {
                       pattern: PATTERN_KEY,
-                      message: i18n.key.pattern,
+                      message: i18n().key.pattern,
                     },
                     {
                       max: 64,
-                      message: i18n.key.max,
+                      message: i18n().key.max,
                     },
                   ],
                 })(<Input />)}
               </FormItem>
             </Col>
             <Col span={8}>
-              <FormItem label={i18n.name.label}>
+              <FormItem label={i18n().name.label}>
                 {form.getFieldDecorator(Fields.name, {
                   rules: [
                     {
                       required: true,
-                      message: i18n.name.required,
+                      message: i18n().name.required,
                     },
                     {
                       max: 64,
-                      message: i18n.key.max,
+                      message: i18n().key.max,
                     },
                   ],
                 })(<Input />)}
               </FormItem>
             </Col>
             <Col span={8}>
-              <FormItem label={i18n.fixedFee.label}>
+              <FormItem label={i18n().fixedFee.label}>
                 {form.getFieldDecorator(Fields.fixedFee, {
                   rules: [
                     {
                       required: true,
-                      message: i18n.fixedFee.required,
+                      message: i18n().fixedFee.required,
                     },
                   ],
                 })(<InputNumber style={{ width: '100%' }} />)}
@@ -180,14 +193,14 @@ export default class ConfigForm extends React.Component {
 
           <Row gutter={32}>
             <Col span={8}>
-              <FormItem label={i18n.flowKey.label}>
+              <FormItem label={i18n().flowKey.label}>
                 {form.getFieldDecorator(Fields.flowKey, {
                   rules: [
                     {
                       required: true,
-                      message: i18n.fixedFee.required,
+                      message: i18n().fixedFee.required,
                     },
-                  ]
+                  ],
                 })(
                   <SelectMeasureParameter
                     mode="default"
@@ -197,36 +210,41 @@ export default class ConfigForm extends React.Component {
               </FormItem>
             </Col>
             <Col span={8}>
-              <FormItem label={i18n.timeStart.label}>
+              <FormItem label={i18n().timeStart.label}>
                 {form.getFieldDecorator(Fields.timeStart, {
                   rules: [
                     {
                       required: true,
-                      message: i18n.timeStart.required,
+                      message: i18n().timeStart.required,
                     },
                   ],
                 })(<DatePicker style={{ width: '100%' }} />)}
               </FormItem>
             </Col>
             <Col span={8}>
-              <FormItem label={i18n.timeEnd.label}>
-                {form.getFieldDecorator(Fields.timeEnd)(
-                  <DatePicker style={{ width: '100%' }} />
-                )}
+              <FormItem label={i18n().timeEnd.label}>
+                {form.getFieldDecorator(Fields.timeEnd, {
+                  rules: [
+                    {
+                      validator: (rule, value, callback) =>
+                        this.validateTimeEnd(rule, value, callback),
+                    },
+                  ],
+                })(<DatePicker style={{ width: '100%' }} />)}
               </FormItem>
             </Col>
           </Row>
 
           <Row>
             <Col span={24}>
-              <FormItem label={i18n.note.label}>
+              <FormItem label={i18n().note.label}>
                 {form.getFieldDecorator(Fields.note, {
                   rules: [
                     {
                       max: 256,
-                      message: i18n.note.max,
+                      message: i18n().note.max,
                     },
-                  ]
+                  ],
                 })(<Input />)}
               </FormItem>
             </Col>
@@ -236,17 +254,27 @@ export default class ConfigForm extends React.Component {
         <Clearfix height={36} />
 
         <BoxShadow>
-          {form.getFieldDecorator(Fields.measuringList)(
-            <MeasuringList
-              onFetchMeasuringListSuccess={this.onFetchMeasuringListSuccess}
-            />
-          )}
+          <FormItem>
+            {form.getFieldDecorator(Fields.measuringList, {
+              rules: [
+                {
+                  type: 'array',
+                  required: true,
+                  message: i18n().measuringList.required,
+                },
+              ],
+            })(
+              <MeasuringList
+                onFetchMeasuringListSuccess={this.onFetchMeasuringListSuccess}
+              />
+            )}
+          </FormItem>
         </BoxShadow>
 
         <Clearfix height={36} />
 
         <Button style={{ width: '100%' }} type="primary" htmlType="submit">
-          {i18n.save}
+          {i18n().save}
         </Button>
       </Form>
     )
