@@ -14,6 +14,7 @@ import ConfigForm from './ConfigForm'
 const i18n = {
   success: translate('periodicalForecast.message.createSuccess'),
   error: translate('addon.onSave.add.error'),
+  exist: translate('addon.onSave.add.keyExited_error'),
 }
 @protectRole(ROLE.PERIODICAL_STATION.CREATE)
 @createLanguageHoc
@@ -38,8 +39,12 @@ export default class ConfigCreate extends React.Component {
         return values
       })
       .catch(error => {
-        this.setState({ isUpdating: false })
+        if (error.status === 422) {
+          message.error(i18n.exist)
+          return;
+        }
         message.error(i18n.error)
+        this.setState({ isUpdating: false })
         return {
           ...error,
         }
