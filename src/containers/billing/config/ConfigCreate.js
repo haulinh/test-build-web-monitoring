@@ -31,7 +31,6 @@ export default class ConfigCreate extends React.Component {
     return DataInsight.createConfigBilling(data)
       .then(values => {
         this.setState({ isLoading: false })
-        console.log(values)
         if (values) {
           message.success(i18n.success)
           this.props.history.push(slug.billing.config)
