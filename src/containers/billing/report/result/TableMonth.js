@@ -21,7 +21,7 @@ export default function TableMonth({ resultReport = {} }) {
   const columns = [
     {
       title: i18n().stt,
-      render: (_, __, index) => <div>{index}</div>,
+      render: (_, __, index) => <div>{index + 1}</div>,
       align: 'center',
     },
     {
@@ -72,7 +72,6 @@ export default function TableMonth({ resultReport = {} }) {
       dataSource={resultReport.data}
       columns={columns}
       pagination={false}
-      rowKey={record => record.datetime}
     />
   )
 }

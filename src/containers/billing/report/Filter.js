@@ -30,6 +30,7 @@ export default function Filter({ form, setResultReport }) {
               rules: [
                 {
                   required: true,
+                  message: i18n.time.required,
                 },
               ],
             })(
@@ -46,6 +47,7 @@ export default function Filter({ form, setResultReport }) {
               rules: [
                 {
                   required: true,
+                  message: i18n.stationType.required,
                 },
               ],
             })(<SelectStationType />)}
@@ -57,6 +59,7 @@ export default function Filter({ form, setResultReport }) {
               rules: [
                 {
                   required: true,
+                  message: i18n.stationName.required,
                 },
               ],
             })(
@@ -75,6 +78,7 @@ export default function Filter({ form, setResultReport }) {
               rules: [
                 {
                   required: true,
+                  message: i18n.billingConfig.required,
                 },
               ],
             })(<SelectConfig />)}
