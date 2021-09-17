@@ -95,7 +95,7 @@ export default function TableQuarter({ resultReport = {}, form }) {
               {i18n().debt}
             </td>
             <td>
-              {form.getFieldDecorator('debt')(
+              {form.getFieldDecorator('debt', { trigger: 'onBlur' })(
                 <InputNumber style={{ width: '100%' }} />
               )}
             </td>
