@@ -56,7 +56,14 @@ export default class BillingReport extends Component {
   getQueryParams = async () => {
     const { form } = this.props
     const values = await form.validateFields()
-    if (!_.get(values, 'time.value')) {
+    const time = _.get(values, 'time.value')
+    if (
+      !time ||
+      (values.reportType === 'quarter' &&
+        (!Array.isArray(time) || _.isEmpty(time))) ||
+      (values.reportType === 'custom' &&
+        (!Array.isArray(time) || _.isEmpty(time)))
+    ) {
       form.setFields({
         time: {
           errors: [new Error(i18n.time.required)],
@@ -70,7 +77,6 @@ export default class BillingReport extends Component {
     let from, to
 
     if (values.reportType === 'month') {
-      console.log({ time: moment(values.time.value).format(DD_MM_YYYY) })
       from = values.time.value
         .clone()
         .startOf('month')

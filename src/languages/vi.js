@@ -3625,7 +3625,7 @@ export default {
     label: {
       key: 'Mã cấu hình phí',
       name: 'Tên cấu hình phí',
-      fixedFee: 'Phí cố định (đồng/đợt)',
+      fixedFee: 'Phí cố định (đồng/năm)',
       flowKey: 'Thông số tính cố định',
       timeStart: 'Thời gian bắt đầu',
       timeEnd: 'Thời gian kết thúc',

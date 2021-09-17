@@ -14,6 +14,7 @@ const i18n = () => ({
 })
 
 export default function TableQuarter({ resultReport = {}, form }) {
+  const fixedFee = _.get(resultReport, 'summary.fixedFee')
   const dataSource = [
     ...(resultReport.data || []),
     {
@@ -34,8 +35,8 @@ export default function TableQuarter({ resultReport = {}, form }) {
     {
       extra: true,
       title: 'Phí cố định',
-      month: 'f/4',
-      flow: _.get(resultReport, 'summary.fixedFee'),
+      month: `f/4=${fixedFee}/4 (E)`,
+      flow: Math.round(fixedFee / 4),
     },
   ]
   const columns = [
