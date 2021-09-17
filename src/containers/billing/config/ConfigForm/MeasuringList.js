@@ -23,7 +23,7 @@ const i18n = {
   qcvn: translate('stationFixedPoint.form.measuringForm.qcvn'),
   qcvnMax: translate('aqiConfigCalculation.colValue'),
   delete: translate('stationFixedPoint.delete.require'),
-  stt: translate('dataPointReport.title.numberOrder')
+  stt: translate('dataPointReport.title.numberOrder'),
 }
 
 export default class MeasuringList extends React.Component {
@@ -111,7 +111,7 @@ export default class MeasuringList extends React.Component {
       render: (value, _, index) => {
         return <div>{index + 1}</div>
       },
-      width: 80
+      width: 80,
     },
     {
       dataIndex: 'key',
@@ -148,7 +148,7 @@ export default class MeasuringList extends React.Component {
       },
     },
     {
-      dataIndex: 'value',
+      dataIndex: 'fee',
       align: 'center',
       title: i18n.qcvnMax,
       width: 150,
@@ -157,7 +157,7 @@ export default class MeasuringList extends React.Component {
           return (
             <InputNumberCell
               value={text}
-              onChange={e => this.handleOnChange(e, index, 'value')}
+              onChange={e => this.handleOnChange(e, index, 'fee')}
               editable
             />
           )
