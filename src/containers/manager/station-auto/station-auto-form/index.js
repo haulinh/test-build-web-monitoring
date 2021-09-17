@@ -21,7 +21,7 @@ import InputNumberCell from 'components/elements/input-number-cell'
 import InputPhoneNumber from 'components/elements/input-phone-number'
 import SelectProvice from 'components/elements/select-province'
 import SelectQCVN from 'components/elements/select-qcvn'
-import SelectStationAuto from 'components/elements/select-station-auto'
+import SelectStationFix from 'components/elements/select-station-fixed'
 import SelectStationType from 'components/elements/select-station-type'
 import { PATTERN_KEY, PATTERN_NAME } from 'constants/format-string'
 import { autobind } from 'core-decorators'
@@ -932,10 +932,10 @@ export default class StationAutoForm extends React.PureComponent {
                   }}
                 >
                   {getFieldDecorator('linkedStation')(
-                    <SelectStationAuto
+                    <SelectStationFix
                       fieldValue="key"
                     >
-                    </SelectStationAuto>
+                    </SelectStationFix>
                   )}
                 </FormItem>
               </Col>
