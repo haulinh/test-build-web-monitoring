@@ -32,7 +32,12 @@ export default function Filter({ form, setResultReport }) {
                   required: true,
                 },
               ],
-            })(<SelectTimeReport reportType={reportType} />)}
+            })(
+              <SelectTimeReport
+                reportType={reportType}
+                setResultReport={setResultReport}
+              />
+            )}
           </FormItem>
         </Col>
         <Col span={6}>

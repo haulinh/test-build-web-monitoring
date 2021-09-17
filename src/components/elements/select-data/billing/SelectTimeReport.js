@@ -70,8 +70,14 @@ class TimePicker extends React.Component {
   }
 }
 
-const SelectTimeReport = ({ value = {}, onChange, reportType }) => {
+const SelectTimeReport = ({
+  value = {},
+  onChange,
+  reportType,
+  setResultReport,
+}) => {
   const handleOnChangeOption = key => {
+    setResultReport({})
     onChange({ ...value, type: key })
   }
 
