@@ -2709,9 +2709,9 @@ export default {
     pointAndPhaseNotBelongToStationType:
       'Point and phase monitoring are not the same type of station',
     selectPhaseError: 'Please select the monitoring batch',
-    complexForm: "Complex template",
-    simpleForm: "Simple template",
-    inputForm: "Choose input form"
+    complexForm: 'Complex template',
+    simpleForm: 'Simple template',
+    inputForm: 'Choose input form',
   },
   importDataForecast: {
     stationKeyNotExist: 'Monitoring station code does not exist',
@@ -2767,6 +2767,7 @@ export default {
       equipmentlist: 'Equipment list',
       analyst: 'Analyst',
       placeOfAnalysis: 'Place Of Analysis',
+      createdAt: 'Data entry date',
     },
     form: {
       label: {

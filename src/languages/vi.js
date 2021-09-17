@@ -2760,6 +2760,7 @@ export default {
       equipmentlist: 'Danh sách thiết bị lấy mẫu',
       analyst: 'Người phân tích',
       placeOfAnalysis: 'Nơi phân tích',
+      createdAt: 'Ngày nhập dữ liệu',
     },
     form: {
       label: {

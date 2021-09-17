@@ -37,6 +37,7 @@ export const i18n = {
     equipmentlist: t('dataPointReport.optionalInfo.equipmentlist'),
     analyst: t('dataPointReport.optionalInfo.analyst'),
     placeOfAnalysis: t('dataPointReport.optionalInfo.placeOfAnalysis'),
+    createdAt: t('dataPointReport.optionalInfo.createdAt'),
   },
   addButton: t('dataPointReport.button.add'),
   exportExcelButton: t('dataPointReport.button.exportExcel'),
@@ -59,6 +60,7 @@ const optionalInfo = [
   { field: 'equipmentlist', checked: false },
   { field: 'analyst', checked: false },
   { field: 'placeOfAnalysis', checked: false },
+  { field: 'createdAt', checked: false },
 ]
 
 export const PAGE_SIZE = 50
