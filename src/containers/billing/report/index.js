@@ -14,6 +14,7 @@ import Filter from './Filter'
 import TableMonth from './result/TableMonth'
 import TableQuarter from './result/TableQuarter'
 import { DD_MM_YYYY } from 'constants/format-date'
+import moment from 'moment'
 
 export const Fields = {
   stationType: 'stationType',
@@ -29,15 +30,19 @@ export const i18n = {
   },
   time: {
     label: t('billing.label.time'),
+    required: t('billing.required.time'),
   },
   stationType: {
     label: t('billing.label.stationType'),
+    required: t('billing.required.stationType'),
   },
   stationName: {
     label: t('billing.label.stationName'),
+    required: t('billing.required.stationName'),
   },
   billingConfig: {
     label: t('billing.label.billingConfig'),
+    required: t('billing.required.billingConfig'),
   },
 }
 
@@ -51,11 +56,29 @@ export default class BillingReport extends Component {
   getQueryParams = async () => {
     const { form } = this.props
     const values = await form.validateFields()
+    if (!_.get(values, 'time.value')) {
+      form.setFields({
+        time: {
+          errors: [new Error(i18n.time.required)],
+        },
+      })
+      return
+    }
+
+    if (!values) return
+
     let from, to
 
     if (values.reportType === 'month') {
-      from = values.time.value.startOf('month').toDate()
-      to = values.time.value.endOf('month').toDate()
+      console.log({ time: moment(values.time.value).format(DD_MM_YYYY) })
+      from = values.time.value
+        .clone()
+        .startOf('month')
+        .toDate()
+      to = values.time.value
+        .clone()
+        .endOf('month')
+        .toDate()
     } else {
       from = values.time.value[0].toDate()
       to = values.time.value[1].toDate()

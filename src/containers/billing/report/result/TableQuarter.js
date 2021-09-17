@@ -85,6 +85,8 @@ export default function TableQuarter({ resultReport = {}, form }) {
   ]
 
   const debt = form.getFieldValue('debt')
+  const totalFee =
+    _.get(resultReport, 'summary.totalFee', 0) + (Number(debt) || 0)
 
   const BodyWrapper = props => {
     const renderFooter = () => {
@@ -105,9 +107,7 @@ export default function TableQuarter({ resultReport = {}, form }) {
             <td colSpan="2" style={{ textAlign: 'center' }}>
               {i18n().totalFee}
             </td>
-            <td style={{ textAlign: 'center' }}>
-              {_.get(resultReport, 'summary.totalFee', 0) + (debt || 0)}
-            </td>
+            <td style={{ textAlign: 'center' }}>{totalFee}</td>
             <td></td>
           </tr>
         </React.Fragment>
