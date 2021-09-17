@@ -1669,7 +1669,7 @@ export default {
         error: 'Vui lòng điền ghi chú',
       },
       linkStation: {
-        label: 'Liên kết dữ liệu Quan trắc định kỳ: ',
+        label: 'Liên kết dữ liệu quan trắc định kì: ',
         placeholder: 'Điểm quan trắc',
         description:
           'Chú ý: việc liên kết dữ liệu Tự động và Cố định nhằm liên kết dữ liệu để thực hiện tính toán',

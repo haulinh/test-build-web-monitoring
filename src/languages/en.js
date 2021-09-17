@@ -1676,10 +1676,10 @@ export default {
         error: 'Please Choose Note',
       },
       linkStation: {
-        label: 'Note',
-        placeholder: 'Note',
+        label: 'Linking Environmental Monitoring Data',
+        placeholder: 'Enviromental Monitoring Point',
         description:
-          'Chú ý: việc liên kết dữ liệu Tự động và Cố định nhằm liên kết dữ liệu để thực hiện tính toán',
+          'Notice: Data binding automatic and fixed to link data to perform calculations',
       },
       long: {
         label: 'Longitude',
