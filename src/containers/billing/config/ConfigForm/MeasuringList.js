@@ -7,13 +7,6 @@ import _ from 'lodash'
 import React from 'react'
 import styled from 'styled-components'
 
-// const i18n = {
-//   stt: 'STT',
-//   measureKey: 'Mã thông số',
-//   measureName: 'Thông số ô nhiễm tính phí',
-//   value: 'Giá trị',
-// }
-
 const WrapperComponent = styled.div`
   .disable-measuring {
     opacity: 0.7;
@@ -24,7 +17,7 @@ const WrapperComponent = styled.div`
 
 const i18n = {
   key: translate('stationFixedPoint.form.measuringForm.key'),
-  name: translate('stationFixedPoint.form.measuringForm.name'),
+  name: translate('stationFixedPoint.form.measuringForm.nameMeasuring'),
   addMeasuring: translate('stationFixedPoint.form.measuringForm.addMeasuring'),
   tendToExceed: translate('stationFixedPoint.form.measuringForm.tendToExceed'),
   qcvn: translate('stationFixedPoint.form.measuringForm.qcvn'),
