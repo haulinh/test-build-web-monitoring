@@ -131,6 +131,10 @@ export default class BillingReport extends Component {
     return startTitle
   }
 
+  setResultReport = resultReport => {
+    this.setState({ resultReport })
+  }
+
   render() {
     const { form } = this.props
     const { loading, resultReport } = this.state
@@ -149,7 +153,7 @@ export default class BillingReport extends Component {
         <Breadcrumb items={['report']} />
         <Search loading={loading} onSearch={this.handleOnSearch}>
           <BoxShadow>
-            <Filter form={form} />
+            <Filter form={form} setResultReport={this.setResultReport} />
           </BoxShadow>
         </Search>
         <Clearfix height={32} />

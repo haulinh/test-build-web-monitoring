@@ -38,6 +38,7 @@ export default function TableMonth({ resultReport = {} }) {
     },
     {
       title: i18n().avgValue,
+      align: 'center',
       children: measuringList.map(measure => ({
         title: measure.key,
         dataIndex: 'measure',
