@@ -86,7 +86,7 @@ const WrapperNameStationTypeName = styled.div`
 `
 
 const ReceivedAt = styled.span`
-  color: ${props => (props.status !== 'GOOD' ? SHAPE.RED : '#000')};
+  color: #000;
   font-style: ${props =>
     props.status === STATUS_STATION.DATA_LOSS ? 'italic' : 'normal'};
 `
