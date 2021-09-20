@@ -38,11 +38,11 @@ export default {
         </Tooltip>
       }
     >
-      {protectRole(ROLE.PERIODICAL_STATION.VIEW)(
+      {protectRole(ROLE.BILLING_REPORT.VIEW)(
         <Menu.Item
           key={slug.billing.report}
           onClick={() => {
-            props.selectMenu(slug.periodicalForecast.station)
+            props.selectMenu(slug.billing.report)
           }}
         >
           <Tooltip
@@ -56,7 +56,7 @@ export default {
         </Menu.Item>
       )}
 
-      {protectRole(ROLE.PERIODICAL_IMPORT_DATA.VIEW)(
+      {protectRole(ROLE.BILLING_CONFIG.VIEW)(
         <Menu.Item
           key={slug.billing.config}
           onClick={() => {
