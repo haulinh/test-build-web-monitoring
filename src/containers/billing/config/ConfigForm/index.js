@@ -77,7 +77,7 @@ export default class ConfigForm extends React.Component {
     const { form, onSubmit } = this.props
     const values = await form.validateFields()
     const measurings = values.measurings.map(measure => {
-      const { rowKey, name, unit, ...newMeasure } = measure
+      const { rowKey, unit, ...newMeasure } = measure
       return newMeasure
     })
 
@@ -124,7 +124,7 @@ export default class ConfigForm extends React.Component {
   validateTimeEnd = (rule, value, callback) => {
     const { form } = this.props
     const timeStart = form.getFieldValue(Fields.timeStart)
-    if (value < timeStart) {
+    if (value <= timeStart) {
       callback(i18n().timeEnd.required)
     } else callback()
   }
