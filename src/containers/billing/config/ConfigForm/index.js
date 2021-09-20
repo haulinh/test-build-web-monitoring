@@ -1,6 +1,7 @@
 import { Button, Col, DatePicker, Form, Input, InputNumber, Row } from 'antd'
 import SelectMeasureParameter from 'components/elements/select-measure-parameter'
 import { BoxShadow, Clearfix, FormItem } from 'components/layouts/styles'
+import { DD_MM_YYYY, DD_MM_YYYY_HH_MM_SS } from 'constants/format-date'
 import { PATTERN_KEY } from 'constants/format-string'
 import createLanguageHoc, { translate } from 'hoc/create-lang'
 import _ from 'lodash'
@@ -124,7 +125,9 @@ export default class ConfigForm extends React.Component {
   validateTimeEnd = (rule, value, callback) => {
     const { form } = this.props
     const timeStart = form.getFieldValue(Fields.timeStart)
-    if (value <= timeStart) {
+    if (
+      moment(value).format(DD_MM_YYYY) <= moment(timeStart).format(DD_MM_YYYY)
+    ) {
       callback(i18n().timeEnd.required)
     } else callback()
   }
