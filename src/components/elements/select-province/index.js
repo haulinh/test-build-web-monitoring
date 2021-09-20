@@ -107,9 +107,6 @@ export default class SelectProvince extends PureComponent {
         value={defaultValue || this.state.value}
         filterOption={false}
       >
-        <Select.Option value="">
-          {translate('dataSearchFrom.form.all')}
-        </Select.Option>
         {this.props.isShowAll && (
           <Select.Option value="">
             {translate('dataSearchFrom.form.all')}
