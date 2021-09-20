@@ -2,6 +2,7 @@ import { Button, Col, Empty, Form, Row } from 'antd'
 import CalculateApi from 'api/CalculateApi'
 import Clearfix from 'components/elements/clearfix'
 import { Search } from 'components/layouts/styles'
+import { DD_MM_YYYY } from 'constants/format-date'
 import { BoxShadow } from 'containers/api-sharing/layout/styles'
 import { translate as t } from 'hoc/create-lang'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
@@ -13,8 +14,6 @@ import Breadcrumb from '../breadcrumb'
 import Filter from './Filter'
 import TableMonth from './result/TableMonth'
 import TableQuarter from './result/TableQuarter'
-import { DD_MM_YYYY } from 'constants/format-date'
-import moment from 'moment'
 
 export const Fields = {
   stationType: 'stationType',
