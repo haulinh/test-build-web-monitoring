@@ -5,6 +5,7 @@ import { Search } from 'components/layouts/styles'
 import { DD_MM_YYYY } from 'constants/format-date'
 import { BoxShadow } from 'containers/api-sharing/layout/styles'
 import { translate as t } from 'hoc/create-lang'
+import createProtectRole from 'hoc/protect-role'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import _ from 'lodash'
 import React, { Component } from 'react'
@@ -14,6 +15,8 @@ import Breadcrumb from '../breadcrumb'
 import Filter from './Filter'
 import TableMonth from './result/TableMonth'
 import TableQuarter from './result/TableQuarter'
+import ROLE from 'constants/role'
+import protectRole from 'hoc/protect-role'
 
 export const Fields = {
   stationType: 'stationType',
@@ -45,6 +48,7 @@ export const i18n = {
   },
 }
 
+@createProtectRole(ROLE.BILLING_REPORT.VIEW)
 @Form.create()
 export default class BillingReport extends Component {
   state = {
@@ -185,13 +189,17 @@ export default class BillingReport extends Component {
           </BoxShadow>
         </Search>
         <Clearfix height={32} />
-        <Row type="flex" justify="end">
-          <Col>
-            <Button onClick={this.handleExportBilling} type="primary">
-              {t('billing.button.exportReport')}
-            </Button>
-          </Col>
-        </Row>
+
+        {protectRole(ROLE.BILLING_REPORT.EXPORT)(
+          <Row type="flex" justify="end">
+            <Col>
+              <Button onClick={this.handleExportBilling} type="primary">
+                {t('billing.button.exportReport')}
+              </Button>
+            </Col>
+          </Row>
+        )}
+
         <Row type="flex" justify="center" align="center">
           <Col span={24}>
             <div
@@ -201,7 +209,7 @@ export default class BillingReport extends Component {
                 fontWeight: 'bold',
               }}
             >
-              {t('billing.title.name')}{' '}
+              {t('billing.title.name')}
             </div>
           </Col>
           {!_.isEmpty(timeValue) && (

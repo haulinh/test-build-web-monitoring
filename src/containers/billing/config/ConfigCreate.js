@@ -16,7 +16,7 @@ const i18n = {
   error: translate('addon.onSave.add.error'),
   exist: translate('addon.onSave.add.keyExited_error'),
 }
-@protectRole(ROLE.PERIODICAL_STATION.CREATE)
+@protectRole(ROLE.BILLING_CONFIG.CREATE)
 @createLanguageHoc
 export default class ConfigCreate extends React.Component {
   constructor(props) {
@@ -40,7 +40,7 @@ export default class ConfigCreate extends React.Component {
       .catch(error => {
         if (error.status === 422) {
           message.error(i18n.exist)
-          return;
+          return
         }
         message.error(i18n.error)
         this.setState({ isUpdating: false })
