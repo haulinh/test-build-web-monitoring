@@ -27,41 +27,45 @@ import * as _ from 'lodash'
 
 const { Option } = Select
 
-const i18n = {
-  submit: translate('addon.save'),
-  warning: translate('addon.warning'),
-  refresh: translate('addon.refresh'),
-  yes: translate('add.yes'),
-  cancel: translate('addon.cancel'),
-  confirmMsgDelete: translate('confirm.msg.delete'),
-  updateSuccess: translate('addon.onSave.update.success'),
-  updateError: translate('addon.onSave.update.error'),
+function i18n() {
+  return {
+    submit: translate('addon.save'),
+    warning: translate('addon.warning'),
+    refresh: translate('addon.refresh'),
+    yes: translate('add.yes'),
+    cancel: translate('addon.cancel'),
+    confirmMsgDelete: translate('confirm.msg.delete'),
+    updateSuccess: translate('addon.onSave.update.success'),
+    updateError: translate('addon.onSave.update.error'),
 
-  add: translate('wqiConfigCalculation.add'),
-  errorDuplicate: translate('wqiConfigCalculation.error.MEASURE_KEY_DUPLICATE'),
-  required1D_1H: translate('wqiConfigCalculation.required1D_1H'),
-  required: translate('wqiConfigCalculation.required'),
-  colLevel: translate('wqiConfigCalculation.colLevel'),
-  colMin: translate('wqiConfigCalculation.colMin'),
-  colMax: translate('wqiConfigCalculation.colMax'),
-  colColor: translate('wqiConfigCalculation.colColor'),
-  colDescription: translate('wqiConfigCalculation.colDescription'),
+    add: translate('wqiConfigCalculation.add'),
+    errorDuplicate: translate(
+      'wqiConfigCalculation.error.MEASURE_KEY_DUPLICATE'
+    ),
+    required1D_1H: translate('wqiConfigCalculation.required1D_1H'),
+    required: translate('wqiConfigCalculation.required'),
+    colLevel: translate('wqiConfigCalculation.colLevel'),
+    colMin: translate('wqiConfigCalculation.colMin'),
+    colMax: translate('wqiConfigCalculation.colMax'),
+    colColor: translate('wqiConfigCalculation.colColor'),
+    colDescription: translate('wqiConfigCalculation.colDescription'),
 
-  colMeasureKey: translate('wqiConfigCalculation.colMeasureKey'),
-  colMeasure: translate('wqiConfigCalculation.colMeasure'),
-  colBatBuoc: translate('wqiConfigCalculation.colBatBuoc'),
-  colAvg1H: translate('wqiConfigCalculation.colAvg1H'),
-  colAvg8H: translate('wqiConfigCalculation.colAvg8H'),
-  colAvg1D: translate('wqiConfigCalculation.colAvg1D'),
-  colUnit: translate('wqiConfigCalculation.colUnit'),
+    colMeasureKey: translate('wqiConfigCalculation.colMeasureKey'),
+    colMeasure: translate('wqiConfigCalculation.colMeasure'),
+    colBatBuoc: translate('wqiConfigCalculation.colBatBuoc'),
+    colAvg1H: translate('wqiConfigCalculation.colAvg1H'),
+    colAvg8H: translate('wqiConfigCalculation.colAvg8H'),
+    colAvg1D: translate('wqiConfigCalculation.colAvg1D'),
+    colUnit: translate('wqiConfigCalculation.colUnit'),
 
-  colGroupI: translate('wqiConfigCalculation.colGroupI'),
-  colGroupII: translate('wqiConfigCalculation.colGroupII'),
-  colGroupIII: translate('wqiConfigCalculation.colGroupIII'),
-  colGroupIV: translate('wqiConfigCalculation.colGroupIV'),
-  colGroupV: translate('wqiConfigCalculation.colGroupV'),
-  colBelongTemp: translate('wqiConfigCalculation.colBelongTemp'),
-  colGroupParam: translate('wqiConfigCalculation.colGroupParam'),
+    colGroupI: translate('wqiConfigCalculation.colGroupI'),
+    colGroupII: translate('wqiConfigCalculation.colGroupII'),
+    colGroupIII: translate('wqiConfigCalculation.colGroupIII'),
+    colGroupIV: translate('wqiConfigCalculation.colGroupIV'),
+    colGroupV: translate('wqiConfigCalculation.colGroupV'),
+    colBelongTemp: translate('wqiConfigCalculation.colBelongTemp'),
+    colGroupParam: translate('wqiConfigCalculation.colGroupParam'),
+  }
 }
 
 @Form.create({})
@@ -93,7 +97,7 @@ export default class TabThongSo extends React.Component {
 
   columns = [
     {
-      title: i18n.colMeasureKey,
+      title: i18n().colMeasureKey,
       dataIndex: 'viewMeasure',
       key: 'viewMeasure',
       align: 'center',
@@ -104,7 +108,7 @@ export default class TabThongSo extends React.Component {
       },
     },
     {
-      title: i18n.colMeasure,
+      title: i18n().colMeasure,
       dataIndex: 'keyMeasure',
       key: 'keyMeasure',
       align: 'center',
@@ -116,7 +120,7 @@ export default class TabThongSo extends React.Component {
               rules: [
                 {
                   required: true,
-                  message: i18n.required,
+                  message: i18n().required,
                 },
                 // {
                 //   validator: this.validateMeasure,
@@ -128,7 +132,7 @@ export default class TabThongSo extends React.Component {
       },
     },
     {
-      title: i18n.colGroupParam,
+      title: i18n().colGroupParam,
       dataIndex: 'group',
       key: 'group',
       align: 'center',
@@ -140,16 +144,16 @@ export default class TabThongSo extends React.Component {
               rules: [
                 {
                   required: true,
-                  message: i18n.required,
+                  message: i18n().required,
                 },
               ],
             })(
               <Select style={{ width: '100%' }}>
-                <Option value="groupI">{i18n.colGroupI}</Option>
-                <Option value="groupII">{i18n.colGroupII}</Option>
-                <Option value="groupIII">{i18n.colGroupIII}</Option>
-                <Option value="groupIV">{i18n.colGroupIV}</Option>
-                <Option value="groupV">{i18n.colGroupV}</Option>
+                <Option value="groupI">{i18n().colGroupI}</Option>
+                <Option value="groupII">{i18n().colGroupII}</Option>
+                <Option value="groupIII">{i18n().colGroupIII}</Option>
+                <Option value="groupIV">{i18n().colGroupIV}</Option>
+                <Option value="groupV">{i18n().colGroupV}</Option>
               </Select>
             )}
           </Form.Item>
@@ -157,7 +161,7 @@ export default class TabThongSo extends React.Component {
       },
     },
     // {
-    //   title: i18n.colBatBuoc,
+    //   title: i18n().colBatBuoc,
     //   dataIndex: 'isrequired',
     //   key: 'isrequired',
     //   align: 'center',
@@ -176,7 +180,7 @@ export default class TabThongSo extends React.Component {
     //   },
     // },
     {
-      title: i18n.colBelongTemp,
+      title: i18n().colBelongTemp,
       dataIndex: 'belongTemp',
       key: 'belongTemp',
       align: 'center',
@@ -210,7 +214,7 @@ export default class TabThongSo extends React.Component {
                 rules: [
                   {
                     required: isCheckedBelong,
-                    message: i18n.required,
+                    message: i18n().required,
                   },
                 ],
               })(<this.SelectMeasure disabled={!isCheckedBelong} />)}
@@ -220,7 +224,7 @@ export default class TabThongSo extends React.Component {
       },
     },
     {
-      title: i18n.colUnit,
+      title: i18n().colUnit,
       dataIndex: 'unit',
       key: 'unit',
       align: 'center',
@@ -240,9 +244,9 @@ export default class TabThongSo extends React.Component {
         return (
           <Popconfirm
             onConfirm={this.delete.bind(this, record.key)}
-            title={i18n.confirmMsgDelete}
-            okText={i18n.yes}
-            cancelText={i18n.cancel}
+            title={i18n().confirmMsgDelete}
+            okText={i18n().yes}
+            cancelText={i18n().cancel}
             placement="left"
           >
             <Icon
@@ -283,9 +287,9 @@ export default class TabThongSo extends React.Component {
             transformData
           )
           if (response.success) {
-            message.success(i18n.updateSuccess)
+            message.success(i18n().updateSuccess)
           } else {
-            message.error(i18n.errorDuplicate)
+            message.error(i18n().errorDuplicate)
           }
         } finally {
           this.setState({ isSubmit: false })
@@ -363,7 +367,7 @@ export default class TabThongSo extends React.Component {
         <Row gutter={12}>
           <Col xs={12}>
             <Button block type="primary" onClick={this.add}>
-              {i18n.add}
+              {i18n().add}
             </Button>
           </Col>
           <Col xs={12}>
@@ -373,7 +377,7 @@ export default class TabThongSo extends React.Component {
               type="primary"
               onClick={this.submit}
             >
-              {i18n.submit}
+              {i18n().submit}
             </Button>
           </Col>
         </Row>

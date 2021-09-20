@@ -22,16 +22,16 @@ const ItemWrapper = styled.div`
     margin-right: 0px;
     margin-left: 4px;
     &.data-loss {
-      color: #A4A6B5;
+      color: #a4a6b5;
     }
     &.data-exceed {
-      color: #E54C3C;
+      color: #e54c3c;
     }
     &.data-extend-prepare {
-      color: #EDC30F;
+      color: #edc30f;
     }
     &.data-good {
-      color: #2CCA73;
+      color: #2cca73;
     }
   }
 `
@@ -45,11 +45,11 @@ const Item = ({ type, children }) => (
 export default function HeaderLeft({ i18n }) {
   return (
     <HeaderLeftWrapper>
-      <SpanTitle>{i18n.statusData}</SpanTitle>
-      <Item type="data-loss">{i18n.dataLoss}</Item>
-      <Item type="data-exceed">{i18n.dataExceeded}</Item>
-      <Item type="data-extend-prepare">{i18n.dataExceededPrepare}</Item>
-      <Item type="data-good">{i18n.dataGood}</Item>
+      <SpanTitle>{i18n().statusData}</SpanTitle>
+      <Item type="data-loss">{i18n().dataLoss}</Item>
+      <Item type="data-exceed">{i18n().dataExceeded}</Item>
+      <Item type="data-extend-prepare">{i18n().dataExceededPrepare}</Item>
+      <Item type="data-good">{i18n().dataGood}</Item>
     </HeaderLeftWrapper>
   )
 }

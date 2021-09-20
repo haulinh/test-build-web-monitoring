@@ -29,22 +29,24 @@ const Item = props => (
   />
 )
 
-const i18n = {
-  label: {
-    buttonSearch: translate('addon.search'),
-    headerSearch: translate('addon.searchSelect'),
-    province: translate('qaqc.province.label'),
-    stationType: translate('dataSearchFrom.form.stationType.label'),
-    stationAuto: translate('dataSearchFrom.form.stationAuto.label'),
-    selectTimeRange: translate('avgSearchFrom.selectTimeRange.month'),
-    selectTimeRange2: translate('avgSearchFrom.selectTimeRange.day'),
-    processData: translate('dataSearchFrom.processData'),
-  },
-  error: {
-    stationAuto: translate('avgSearchFrom.form.stationAuto.error'),
-    selectTimeRange: translate('avgSearchFrom.selectTimeRange.error'),
-    stationType: translate('dataSearchFrom.form.stationType.require'),
-  },
+function i18n() {
+  return {
+    label: {
+      buttonSearch: translate('addon.search'),
+      headerSearch: translate('addon.searchSelect'),
+      province: translate('qaqc.province.label'),
+      stationType: translate('dataSearchFrom.form.stationType.label'),
+      stationAuto: translate('dataSearchFrom.form.stationAuto.label'),
+      selectTimeRange: translate('avgSearchFrom.selectTimeRange.month'),
+      selectTimeRange2: translate('avgSearchFrom.selectTimeRange.day'),
+      processData: translate('dataSearchFrom.processData'),
+    },
+    error: {
+      stationAuto: translate('avgSearchFrom.form.stationAuto.error'),
+      selectTimeRange: translate('avgSearchFrom.selectTimeRange.error'),
+      stationType: translate('dataSearchFrom.form.stationType.require'),
+    },
+  }
 }
 
 @Form.create()
@@ -127,7 +129,7 @@ export default class SearchForm extends React.Component {
               onClick={this.submit}
               size="small"
             >
-              {i18n.label.buttonSearch}
+              {i18n().label.buttonSearch}
             </Button>
           }
           textColor="#ffffff"
@@ -135,12 +137,12 @@ export default class SearchForm extends React.Component {
           fontSize={14}
           style={{ padding: '8px 16px' }}
         >
-          {i18n.label.headerSearch}
+          {i18n().label.headerSearch}
         </Heading>
         <div style={{ padding: '8px 16px' }}>
           <Row gutter={16}>
             <Col span={6}>
-              <Item label={i18n.label.province}>
+              <Item label={i18n().label.province}>
                 {getFieldDecorator('province', {
                   onChange: val => {
                     setFieldsValue({ stationAuto: null })
@@ -149,12 +151,12 @@ export default class SearchForm extends React.Component {
               </Item>
             </Col>
             <Col span={6}>
-              <Item label={i18n.label.stationType}>
+              <Item label={i18n().label.stationType}>
                 {getFieldDecorator('stationType', {
                   rules: [
                     {
                       required: true,
-                      message: i18n.error.stationType,
+                      message: i18n().error.stationType,
                     },
                   ],
                   onChange: val => {
@@ -169,12 +171,12 @@ export default class SearchForm extends React.Component {
               </Item>
             </Col>
             <Col span={6}>
-              <Item label={i18n.label.stationAuto}>
+              <Item label={i18n().label.stationAuto}>
                 {getFieldDecorator('stationAuto', {
                   rules: [
                     {
                       required: true,
-                      message: i18n.error.stationAuto,
+                      message: i18n().error.stationAuto,
                     },
                   ],
                 })(
@@ -198,13 +200,13 @@ export default class SearchForm extends React.Component {
             </Col>
             {!this.props.isDatePicker && (
               <Col span={6}>
-                <Item label={i18n.label.selectTimeRange}>
+                <Item label={i18n().label.selectTimeRange}>
                   {getFieldDecorator('time', {
                     initialValue: moment(),
                     rules: [
                       {
                         required: true,
-                        message: i18n.error.selectTimeRange,
+                        message: i18n().error.selectTimeRange,
                       },
                     ],
                   })(
@@ -219,13 +221,13 @@ export default class SearchForm extends React.Component {
             )}
             {this.props.isDatePicker && (
               <Col span={6}>
-                <Item label={i18n.label.selectTimeRange2}>
+                <Item label={i18n().label.selectTimeRange2}>
                   {getFieldDecorator('time', {
                     initialValue: moment(),
                     rules: [
                       {
                         required: true,
-                        message: i18n.error.selectTimeRange,
+                        message: i18n().error.selectTimeRange,
                       },
                     ],
                   })(
@@ -247,7 +249,7 @@ export default class SearchForm extends React.Component {
                 </Col>
                 <Col>
                   <div style={{ fontSize: '16px', fontWeight: '600' }}>
-                    {i18n.label.processData}
+                    {i18n().label.processData}
                   </div>
                 </Col>
                 <Col>

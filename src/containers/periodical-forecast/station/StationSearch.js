@@ -8,13 +8,15 @@ import { mapPropsToFields } from 'utils/form'
 import { translate } from 'hoc/create-lang'
 import createLanguageHoc, { langPropTypes } from 'hoc/create-lang'
 
-const i18n = {
-  okText: translate('addon.ok'),
-  addButton: translate('stationAutoManager.create.label'),
-  stationType: translate('stationFixedPoint.form.stationType.placeholder'),
-  stationName: translate('periodicalForecast.placeholder.stationName'),
-  title: translate('stationAutoManager.limit.station.title'),
-  callAction: translate('stationAutoManager.limit.station.callAction'),
+function i18n() {
+  return {
+    okText: translate('addon.ok'),
+    addButton: translate('stationAutoManager.create.label'),
+    stationType: translate('stationFixedPoint.form.stationType.placeholder'),
+    stationName: translate('periodicalForecast.placeholder.stationName'),
+    title: translate('stationAutoManager.limit.station.title'),
+    callAction: translate('stationAutoManager.limit.station.callAction'),
+  }
 }
 
 @Form.create({
@@ -64,7 +66,7 @@ export default class StationSearch extends React.PureComponent {
               {/* NHẬP TÊN TRẠM */}
               <Col span={9}>
                 {getFieldDecorator(`name`)(
-                  <Input placeholder={i18n.stationName} />
+                  <Input placeholder={i18n().stationName} />
                 )}
               </Col>
 

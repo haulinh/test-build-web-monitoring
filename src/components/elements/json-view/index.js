@@ -3,8 +3,11 @@ import PropTypes from 'prop-types'
 import { Button, Modal } from 'antd'
 import ReactJson from 'react-json-view'
 import { translate } from 'hoc/create-lang'
-const i18n = {
-  jsonView: translate('dataLogger.list.jsonView'),
+
+function i18n() {
+  return {
+    jsonView: translate('dataLogger.list.jsonView'),
+  }
 }
 
 export default class JsonView extends Component {
@@ -42,7 +45,7 @@ export default class JsonView extends Component {
     return (
       <React.Fragment>
         <Button type="primary" onClick={this.showModal}>
-          {i18n.jsonView}
+          {i18n().jsonView}
         </Button>
         <Modal
           width={720}

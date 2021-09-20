@@ -9,45 +9,47 @@ import React from 'react'
 import { getTimeUTC } from 'utils/datetime'
 import MeasuringList from './MeasuringList'
 
-const i18n = {
-  save: translate('addon.save'),
-  keyExisted: translate('billing.create.keyExisted'),
-  key: {
-    label: translate('billing.label.key'),
-    placeholder: translate('billing.placeholder.key'),
-    required: translate('billing.required.key'),
-    pattern: translate('billing.pattern'),
-    max: translate('billing.max'),
-  },
-  name: {
-    label: translate('billing.label.name'),
-    placeholder: translate('billing.placeholder.name'),
-    required: translate('billing.required.name'),
-    max: translate('billing.max'),
-  },
-  fixedFee: {
-    label: translate('billing.label.fixedFee'),
-    placeholder: translate('billing.placeholder.fixedFee'),
-    required: translate('billing.required.fixedFee'),
-  },
-  flowKey: {
-    label: translate('billing.label.flowKey'),
-    placeholder: translate('billing.placeholder.flowKey'),
-  },
-  timeStart: {
-    label: translate('billing.label.timeStart'),
-    placeholder: translate('billing.placeholder.timeStart'),
-    required: translate('billing.required.timeStart'),
-  },
-  timeEnd: {
-    label: translate('billing.label.timeEnd'),
-    placeholder: translate('billing.placeholder.timeEnd'),
-    required: translate('billing.required.timeEnd'),
-  },
-  note: {
-    label: translate('billing.label.note'),
-    placeholder: translate('billing.placeholder.note'),
-  },
+function i18n() {
+  return {
+    save: translate('addon.save'),
+    keyExisted: translate('billing.create.keyExisted'),
+    key: {
+      label: translate('billing.label.key'),
+      placeholder: translate('billing.placeholder.key'),
+      required: translate('billing.required.key'),
+      pattern: translate('billing.pattern'),
+      max: translate('billing.max'),
+    },
+    name: {
+      label: translate('billing.label.name'),
+      placeholder: translate('billing.placeholder.name'),
+      required: translate('billing.required.name'),
+      max: translate('billing.max'),
+    },
+    fixedFee: {
+      label: translate('billing.label.fixedFee'),
+      placeholder: translate('billing.placeholder.fixedFee'),
+      required: translate('billing.required.fixedFee'),
+    },
+    flowKey: {
+      label: translate('billing.label.flowKey'),
+      placeholder: translate('billing.placeholder.flowKey'),
+    },
+    timeStart: {
+      label: translate('billing.label.timeStart'),
+      placeholder: translate('billing.placeholder.timeStart'),
+      required: translate('billing.required.timeStart'),
+    },
+    timeEnd: {
+      label: translate('billing.label.timeEnd'),
+      placeholder: translate('billing.placeholder.timeEnd'),
+      required: translate('billing.required.timeEnd'),
+    },
+    note: {
+      label: translate('billing.label.note'),
+      placeholder: translate('billing.placeholder.note'),
+    },
+  }
 }
 
 const Fields = {
@@ -126,45 +128,45 @@ export default class ConfigForm extends React.Component {
         <BoxShadow>
           <Row gutter={32}>
             <Col span={8}>
-              <FormItem label={i18n.key.label}>
+              <FormItem label={i18n().key.label}>
                 {form.getFieldDecorator(Fields.key, {
                   rules: [
                     {
                       required: true,
                       whitespace: true,
-                      message: i18n.key.required,
+                      message: i18n().key.required,
                     },
                     {
                       pattern: PATTERN_KEY,
-                      message: i18n.key.pattern,
+                      message: i18n().key.pattern,
                     },
                   ],
                 })(<Input />)}
               </FormItem>
             </Col>
             <Col span={8}>
-              <FormItem label={i18n.name.label}>
+              <FormItem label={i18n().name.label}>
                 {form.getFieldDecorator(Fields.name, {
                   rules: [
                     {
                       required: true,
-                      message: i18n.name.required,
+                      message: i18n().name.required,
                     },
                     {
                       max: 64,
-                      message: i18n.key.max,
+                      message: i18n().key.max,
                     },
                   ],
                 })(<Input />)}
               </FormItem>
             </Col>
             <Col span={8}>
-              <FormItem label={i18n.fixedFee.label}>
+              <FormItem label={i18n().fixedFee.label}>
                 {form.getFieldDecorator(Fields.fixedFee, {
                   rules: [
                     {
                       required: true,
-                      message: i18n.fixedFee.required,
+                      message: i18n().fixedFee.required,
                     },
                   ],
                 })(<InputNumber style={{ width: '100%' }} />)}
@@ -174,7 +176,7 @@ export default class ConfigForm extends React.Component {
 
           <Row gutter={32}>
             <Col span={8}>
-              <FormItem label={i18n.flowKey.label}>
+              <FormItem label={i18n().flowKey.label}>
                 {form.getFieldDecorator(Fields.flowKey)(
                   <SelectMeasureParameter
                     mode="default"
@@ -184,19 +186,19 @@ export default class ConfigForm extends React.Component {
               </FormItem>
             </Col>
             <Col span={8}>
-              <FormItem label={i18n.timeStart.label}>
+              <FormItem label={i18n().timeStart.label}>
                 {form.getFieldDecorator(Fields.timeStart, {
                   rules: [
                     {
                       required: true,
-                      message: i18n.timeStart.required,
+                      message: i18n().timeStart.required,
                     },
                   ],
                 })(<DatePicker style={{ width: '100%' }} />)}
               </FormItem>
             </Col>
             <Col span={8}>
-              <FormItem label={i18n.timeEnd.label}>
+              <FormItem label={i18n().timeEnd.label}>
                 {form.getFieldDecorator(Fields.timeEnd)(
                   <DatePicker style={{ width: '100%' }} />
                 )}
@@ -206,7 +208,7 @@ export default class ConfigForm extends React.Component {
 
           <Row>
             <Col span={24}>
-              <FormItem label={i18n.note.label}>
+              <FormItem label={i18n().note.label}>
                 {form.getFieldDecorator(Fields.note)(<Input />)}
               </FormItem>
             </Col>
@@ -226,7 +228,7 @@ export default class ConfigForm extends React.Component {
         <Clearfix height={36} />
 
         <Button style={{ width: '100%' }} type="primary" htmlType="submit">
-          {i18n.save}
+          {i18n().save}
         </Button>
       </Form>
     )

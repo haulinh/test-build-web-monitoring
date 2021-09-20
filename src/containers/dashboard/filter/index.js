@@ -4,7 +4,7 @@ import { Select } from 'antd'
 import styled from 'styled-components'
 
 import ProvinceApi from 'api/ProvinceApi'
-import {translate as t} from 'hoc/create-lang'
+import { translate as t } from 'hoc/create-lang'
 
 const SelectWrapper = styled.div`
   width: 160px;
@@ -12,9 +12,11 @@ const SelectWrapper = styled.div`
     width: 100%;
   }
 `
-const i18n = {
-  placeholder: t('dashboard.managementArea'),
-  all: t('global.all')
+function i18n() {
+  return {
+    placeholder: t('dashboard.managementArea'),
+    all: t('global.all'),
+  }
 }
 
 class ProvinceSelect extends PureComponent {
@@ -46,8 +48,8 @@ class ProvinceSelect extends PureComponent {
     const { provinces } = this.state
     return (
       <SelectWrapper>
-        <Select placeholder={i18n.placeholder} onChange={this.onChange}>
-          <Select.Option value={null}>{i18n.all}</Select.Option>
+        <Select placeholder={i18n().placeholder} onChange={this.onChange}>
+          <Select.Option value={null}>{i18n().all}</Select.Option>
           {provinces.map(item => (
             <Select.Option key={item._id} value={item.key}>
               {item.name}

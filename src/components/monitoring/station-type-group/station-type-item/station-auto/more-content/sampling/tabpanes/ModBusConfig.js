@@ -23,21 +23,23 @@ const ConfigModBusWrapper = styled.div`
   }
 `
 
-const i18n = {
-  totalBottles: translate(
-    'monitoring.moreContent.sampling.content.config.totalBottles'
-  ),
-  controlTagName: translate(
-    'monitoring.moreContent.sampling.content.config.controlTagName'
-  ),
-  timeToTakeOneBottle: translate(
-    'monitoring.moreContent.sampling.content.config.timeToTakeOneBottle'
-  ),
-  save: translate('monitoring.moreContent.sampling.content.config.save'),
-  alertNull: translate('error.nullValue'),
-  alertSuccess: translate('success.text'),
-  alertError: translate('error.text'),
-  alertSaveConfigError: translate('error.monitoring.saveSampingConfig'),
+function i18n() {
+  return {
+    totalBottles: translate(
+      'monitoring.moreContent.sampling.content.config.totalBottles'
+    ),
+    controlTagName: translate(
+      'monitoring.moreContent.sampling.content.config.controlTagName'
+    ),
+    timeToTakeOneBottle: translate(
+      'monitoring.moreContent.sampling.content.config.timeToTakeOneBottle'
+    ),
+    save: translate('monitoring.moreContent.sampling.content.config.save'),
+    alertNull: translate('error.nullValue'),
+    alertSuccess: translate('success.text'),
+    alertError: translate('error.text'),
+    alertSaveConfigError: translate('error.monitoring.saveSampingConfig'),
+  }
 }
 
 export default class ModBusConfig extends React.PureComponent {
@@ -60,7 +62,7 @@ export default class ModBusConfig extends React.PureComponent {
     this.props.form.validateFields(async (err, values) => {
       if (err) {
         this.setState({ isSaving: false })
-        swal({ title: i18n.alertSaveConfigError, type: 'error' })
+        swal({ title: i18n().alertSaveConfigError, type: 'error' })
         return
       }
 
@@ -72,7 +74,7 @@ export default class ModBusConfig extends React.PureComponent {
           },
         })
         this.setState({ isSaving: false })
-        swal({ title: i18n.alertSuccess, type: 'success' })
+        swal({ title: i18n().alertSuccess, type: 'success' })
       } catch (error) {
         console.error(
           error,
@@ -105,7 +107,7 @@ export default class ModBusConfig extends React.PureComponent {
               rules: [
                 {
                   required: true,
-                  message: i18n.alertNull,
+                  message: i18n().alertNull,
                 },
               ],
               initialValue: modbusTcpAddr,
@@ -122,7 +124,7 @@ export default class ModBusConfig extends React.PureComponent {
               rules: [
                 {
                   required: true,
-                  message: i18n.alertNull,
+                  message: i18n().alertNull,
                 },
               ],
               initialValue: modbusPort,
@@ -136,7 +138,7 @@ export default class ModBusConfig extends React.PureComponent {
               rules: [
                 {
                   required: true,
-                  message: i18n.alertNull,
+                  message: i18n().alertNull,
                 },
               ],
               initialValue: startAddress,
@@ -148,7 +150,7 @@ export default class ModBusConfig extends React.PureComponent {
               rules: [
                 {
                   required: true,
-                  message: i18n.alertNull,
+                  message: i18n().alertNull,
                 },
               ],
               initialValue: totalRegister,
@@ -159,7 +161,7 @@ export default class ModBusConfig extends React.PureComponent {
               rules: [
                 {
                   required: true,
-                  message: i18n.alertNull,
+                  message: i18n().alertNull,
                 },
               ],
               initialValue: functionCode,
@@ -171,7 +173,7 @@ export default class ModBusConfig extends React.PureComponent {
               rules: [
                 {
                   required: true,
-                  message: i18n.alertNull,
+                  message: i18n().alertNull,
                 },
               ],
               initialValue: coilAddr,
@@ -188,7 +190,7 @@ export default class ModBusConfig extends React.PureComponent {
               rules: [
                 {
                   required: true,
-                  message: i18n.alertNull,
+                  message: i18n().alertNull,
                 },
               ],
               initialValue: totalBottles,
@@ -201,7 +203,7 @@ export default class ModBusConfig extends React.PureComponent {
           </FormItem>
         </ConfigModBusWrapper>
         <Button block type="primary" loading={isSaving} htmlType="submit">
-          {i18n.save}
+          {i18n().save}
         </Button>
       </Form>
     )

@@ -10,7 +10,7 @@ import { BoxShadow, Header } from 'containers/api-sharing/layout/styles'
 import {
   getMeasuringListFromStationAutos,
   isCreate,
-  isView
+  isView,
 } from 'containers/api-sharing/util'
 import { withApiSharingDetailContext } from 'containers/api-sharing/withShareApiContext'
 import React from 'react'
@@ -35,13 +35,13 @@ export default class Condition extends React.Component {
   }
 
   onFetchPointsSuccess = points => {
-    this.setState({points}, () => {
+    this.setState({ points }, () => {
       this.setFormInit()
     })
   }
 
   onFetchStationTypesSuccess = stationTypes => {
-    this.setState({stationTypes}, () => {
+    this.setState({ stationTypes }, () => {
       this.setFormInit()
     })
   }
@@ -53,14 +53,14 @@ export default class Condition extends React.Component {
   }
 
   setFormInit = () => {
-    const {form, rule} = this.props
-    const {stationTypes} = this.state
+    const { form, rule } = this.props
+    const { stationTypes } = this.state
     if (!isCreate(rule)) return
     if (stationTypes.length === 0) return
 
     const stationTypeInit = stationTypes[0]._id
 
-    const stationAutos = this.getPoints({stationType: stationTypeInit})
+    const stationAutos = this.getPoints({ stationType: stationTypeInit })
 
     const stationKeys = stationAutos.map(stationAuto => stationAuto.key)
     const stationNames = stationAutos.map(stationAuto => stationAuto.name)
@@ -88,9 +88,10 @@ export default class Condition extends React.Component {
     })
   }
 
-  getPoints = ({stationType}) => {
-    let {points} = this.state
-    if (stationType) points = points.filter(point => point.stationTypeId === stationType)
+  getPoints = ({ stationType }) => {
+    let { points } = this.state
+    if (stationType)
+      points = points.filter(point => point.stationTypeId === stationType)
     return points
   }
 
@@ -116,7 +117,7 @@ export default class Condition extends React.Component {
   }
 
   isDisable = fieldName => {
-    const {rule, fieldsDefault = {}} = this.props
+    const { rule, fieldsDefault = {} } = this.props
     return isView(rule) && fieldsDefault[fieldName]
   }
 
@@ -126,11 +127,11 @@ export default class Condition extends React.Component {
     form.getFieldDecorator(`config.${FIELDS.POINT_NAME}`)
     return (
       <BoxShadow>
-        <Header>{i18n.detailPage.header.condition}</Header>
+        <Header>{i18n().detailPage.header.condition}</Header>
         <Clearfix height={12} />
         <Row gutter={12}>
           <Col span={12}>
-            <FormItem label={i18n.detailPage.label.province}>
+            <FormItem label={i18n().detailPage.label.province}>
               {form.getFieldDecorator(`config.${FIELDS.PROVINCE}`, {
                 onChange: this.handleOnFieldChange,
               })(
@@ -144,13 +145,13 @@ export default class Condition extends React.Component {
           </Col>
 
           <Col span={12}>
-            <FormItem label={i18n.detailPage.label.stationType}>
+            <FormItem label={i18n().detailPage.label.stationType}>
               {form.getFieldDecorator(`config.${FIELDS.STATION_TYPE}`, {
                 onChange: this.handleOnFieldChange,
                 rules: [
                   {
                     required: true,
-                    message: i18n.rules.requireChoose,
+                    message: i18n().rules.requireChoose,
                   },
                 ],
               })(
@@ -166,12 +167,12 @@ export default class Condition extends React.Component {
           </Col>
 
           <Col span={12}>
-            <FormItem label={i18n.detailPage.label.point}>
+            <FormItem label={i18n().detailPage.label.point}>
               {form.getFieldDecorator(`config.${FIELDS.POINT}`, {
                 rules: [
                   {
                     required: true,
-                    message: i18n.rules.requireChoose,
+                    message: i18n().rules.requireChoose,
                   },
                 ],
               })(
@@ -180,12 +181,14 @@ export default class Condition extends React.Component {
                   mode="multiple"
                   stationTypeId={stationType}
                   provinceId={province}
-                  condition={{calculateType: 'WQI'}}
+                  condition={{ calculateType: 'WQI' }}
                   onFetchSuccess={this.onFetchPointsSuccess}
                   pointNames={form.getFieldValue(`config.${FIELDS.POINT_NAME}`)}
-                  onChangeName={pointNames => form.setFieldsValue({
-                    [`config.${FIELDS.POINT_NAME}`]: pointNames
-                  })}
+                  onChangeName={pointNames =>
+                    form.setFieldsValue({
+                      [`config.${FIELDS.POINT_NAME}`]: pointNames,
+                    })
+                  }
                 />
               )}
             </FormItem>

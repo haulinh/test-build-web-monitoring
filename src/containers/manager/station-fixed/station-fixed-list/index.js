@@ -47,36 +47,38 @@ const Span = styled.span`
   text-decoration: ${props => (props.deleted ? 'line-through' : '')};
 `
 
-const i18n = {
-  cancelText: translate('addon.cancel'),
-  okText: translate('addon.ok'),
-  restoreConfirmMsg: translate('confirm.msg.restore'),
-  deleteConfirmMsg: translate('confirm.msg.delete'),
-  disableConfirmMsg: translate('confirm.msg.disable'),
-  edit: {
-    label: translate('stationFixedPoint.edit.label'),
-  },
-  disable: {
-    label: translate('stationFixedPoint.disable.label'),
-  },
-  list: {
-    restore: translate('stationFixedPoint.list.restore'),
-    remove: translate('stationAutoManager.list.remove'),
-  },
-  onDisable: {
-    success: translate('addon.onDisable.success'),
-    error: translate('addon.onDisable.error'),
-  },
-  onRestore: {
-    success: translate('addon.onRestore.success'),
-    error: translate('addon.onRestore.error'),
-  },
+function i18n() {
+  return {
+    cancelText: translate('addon.cancel'),
+    okText: translate('addon.ok'),
+    restoreConfirmMsg: translate('confirm.msg.restore'),
+    deleteConfirmMsg: translate('confirm.msg.delete'),
+    disableConfirmMsg: translate('confirm.msg.disable'),
+    edit: {
+      label: translate('stationFixedPoint.edit.label'),
+    },
+    disable: {
+      label: translate('stationFixedPoint.disable.label'),
+    },
+    list: {
+      restore: translate('stationFixedPoint.list.restore'),
+      remove: translate('stationAutoManager.list.remove'),
+    },
+    onDisable: {
+      success: translate('addon.onDisable.success'),
+      error: translate('addon.onDisable.error'),
+    },
+    onRestore: {
+      success: translate('addon.onRestore.success'),
+      error: translate('addon.onRestore.error'),
+    },
+  }
 }
 
 @protectRole(ROLE.STATION_FIXED.VIEW)
 @createManagerList({
   apiList: StationFixedPointApi.getStationFixedPoints,
-  itemPerPage:1000
+  itemPerPage: 1000,
 })
 @createManagerDelete({
   apiDelete: StationFixedPointApi.deleteStationFixedPoint,
@@ -246,7 +248,7 @@ export default class StationFixedList extends React.Component {
         <span>
           {protectRole(ROLE.STATION_FIXED.EDIT)(
             <Link to={slug.stationFixed.editWithKey + '/' + row._id}>
-              {i18n.edit.label}
+              {i18n().edit.label}
             </Link>
           )}
 
@@ -257,7 +259,7 @@ export default class StationFixedList extends React.Component {
                 this.handleOnDeactivate(row._id, this.props.fetchData)
               }
             >
-              {i18n.disable.label}
+              {i18n().disable.label}
             </a>
           )}
         </span>
@@ -274,7 +276,7 @@ export default class StationFixedList extends React.Component {
               onClick={() => this.onRestoreItem(row._id, this.props.fetchData)}
             >
               <IconButton type="reload" />
-              {i18n.list.restore}
+              {i18n().list.restore}
             </a>
           </Menu.Item>
           <Menu.Item key="2">
@@ -284,7 +286,7 @@ export default class StationFixedList extends React.Component {
               }
             >
               <IconButton type="close-square-o" color={'red'} />
-              {i18n.list.remove}
+              {i18n().list.remove}
             </a>
           </Menu.Item>
         </Menu>
@@ -301,21 +303,21 @@ export default class StationFixedList extends React.Component {
 
   async handleOnDeactivate(_id, callback) {
     Modal.confirm({
-      title: i18n.disableConfirmMsg,
-      okText: i18n.okText,
-      cancelText: i18n.cancelText,
+      title: i18n().disableConfirmMsg,
+      okText: i18n().okText,
+      cancelText: i18n().cancelText,
       onOk() {
         return new Promise(async (resolve, reject) => {
           const res = await StationFixedPointApi.deactivateStationFixedPoint(
             _id
           )
           if (res.status === 'ok') {
-            message.success(i18n.onDisable.success)
+            message.success(i18n().onDisable.success)
             callback()
-          } else message.error(i18n.onDisable.error)
+          } else message.error(i18n().onDisable.error)
           resolve()
         }).catch(() => {
-          message.error(i18n.onDisable.error)
+          message.error(i18n().onDisable.error)
           console.log('Oops errors!')
         })
       },
@@ -325,20 +327,20 @@ export default class StationFixedList extends React.Component {
 
   async onRestoreItem(_id, callback) {
     Modal.confirm({
-      title: i18n.restoreConfirmMsg,
-      okText: i18n.okText,
-      cancelText: i18n.cancelText,
+      title: i18n().restoreConfirmMsg,
+      okText: i18n().okText,
+      cancelText: i18n().cancelText,
       onOk() {
         return new Promise(async (resolve, reject) => {
           const res = await StationFixedPointApi.activeStationFixedPoint(_id)
           if (res.status === 'ok') {
-            message.info(i18n.onRestore.success)
+            message.info(i18n().onRestore.success)
             callback()
-          } else message.error(i18n.onRestore.error)
+          } else message.error(i18n().onRestore.error)
           resolve()
         }).catch(() => {
           console.log('Oops errors!')
-          message.error(i18n.onRestore.error)
+          message.error(i18n().onRestore.error)
         })
       },
       onCancel() {},

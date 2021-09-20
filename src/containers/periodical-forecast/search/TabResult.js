@@ -20,16 +20,18 @@ const valueMapKey = {
   },
 }
 
-const i18n = {
-  date: t('apiSharingNew.detailPage.table.date'),
-  dataType: t('apiSharingNew.detailPage.table.dataType'),
-  measureValue: t('apiSharingNew.detailPage.table.measureValue'),
-  alarmLevelI: t('apiSharingNew.detailPage.table.alarmLevelI'),
-  alarmLevelII: t('apiSharingNew.detailPage.table.alarmLevelII'),
-  alarmLevelIII: t('apiSharingNew.detailPage.table.alarmLevelIII'),
-  dataSource: t('apiSharingNew.detailPage.table.dataSource'),
-  nodata: t('apiSharingNew.detailPage.table.nodata'),
-  exportData: t('apiSharingNew.detailPage.table.exportData'),
+function i18n() {
+  return {
+    date: t('apiSharingNew.detailPage.table.date'),
+    dataType: t('apiSharingNew.detailPage.table.dataType'),
+    measureValue: t('apiSharingNew.detailPage.table.measureValue'),
+    alarmLevelI: t('apiSharingNew.detailPage.table.alarmLevelI'),
+    alarmLevelII: t('apiSharingNew.detailPage.table.alarmLevelII'),
+    alarmLevelIII: t('apiSharingNew.detailPage.table.alarmLevelIII'),
+    dataSource: t('apiSharingNew.detailPage.table.dataSource'),
+    nodata: t('apiSharingNew.detailPage.table.nodata'),
+    exportData: t('apiSharingNew.detailPage.table.exportData'),
+  }
 }
 
 const TableStation = ({ data, station, loading }) => {
@@ -43,7 +45,7 @@ const TableStation = ({ data, station, loading }) => {
       },
     },
     {
-      title: i18n.date,
+      title: i18n().date,
       dataIndex: 'datetime',
       defaultSortOrder: 'ascend',
       sorter: (a, b) => new Date(a.datetime) - new Date(b.datetime),
@@ -52,7 +54,7 @@ const TableStation = ({ data, station, loading }) => {
       },
     },
     {
-      title: i18n.dataType,
+      title: i18n().dataType,
       align: 'center',
       dataIndex: 'dataType',
 
@@ -69,7 +71,7 @@ const TableStation = ({ data, station, loading }) => {
       },
     },
     {
-      title: i18n.alarmLevelI,
+      title: i18n().alarmLevelI,
       align: 'center',
       dataIndex: 'alarmLevelI',
       render: value => {
@@ -77,7 +79,7 @@ const TableStation = ({ data, station, loading }) => {
       },
     },
     {
-      title: i18n.alarmLevelII,
+      title: i18n().alarmLevelII,
       align: 'center',
       dataIndex: 'alarmLevelII',
       render: value => {
@@ -85,7 +87,7 @@ const TableStation = ({ data, station, loading }) => {
       },
     },
     {
-      title: i18n.alarmLevelIII,
+      title: i18n().alarmLevelIII,
       align: 'center',
       dataIndex: 'alarmLevelIII',
       render: value => {
@@ -93,7 +95,7 @@ const TableStation = ({ data, station, loading }) => {
       },
     },
     {
-      title: i18n.dataSource,
+      title: i18n().dataSource,
       align: 'center',
       dataIndex: 'dataSource',
       render: value => {
@@ -106,7 +108,7 @@ const TableStation = ({ data, station, loading }) => {
     return (
       <Empty
         style={{ margin: '0 auto', padding: '8px 16px' }}
-        description={i18n.nodata}
+        description={i18n().nodata}
       />
     )
   }
@@ -126,7 +128,7 @@ export default function TabResult({ data, loading, exportData }) {
     return (
       <Empty
         style={{ margin: '0 auto', padding: '8px 16px' }}
-        description={i18n.nodata}
+        description={i18n().nodata}
       />
     )
   }
@@ -137,7 +139,7 @@ export default function TabResult({ data, loading, exportData }) {
       <Tabs
         tabBarExtraContent={protectRole(ROLE.PERIODICAL_SEARCH_DATA.EXPORT)(
           <Button type="primary" onClick={exportData} icon="file-excel">
-            {i18n.exportData}
+            {i18n().exportData}
           </Button>
         )}
       >

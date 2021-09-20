@@ -17,14 +17,16 @@ import DynamicTable from 'components/elements/dynamic-table'
 import moment from 'moment-timezone'
 import { DD_MM_YYYY } from 'constants/format-date.js'
 
-const i18n = {
-  begin: {
-    label: translate('qcvn.form.begin.label'),
-  },
-  expired: {
-    label: translate('qcvn.form.expired.label'),
-    isApplying: translate('qcvn.form.expired.stillWork'),
-  },
+function i18n() {
+  return {
+    begin: {
+      label: translate('qcvn.form.begin.label'),
+    },
+    expired: {
+      label: translate('qcvn.form.expired.label'),
+      isApplying: translate('qcvn.form.expired.stillWork'),
+    },
+  }
 }
 
 @protectRole(ROLE.QCVN.VIEW)
@@ -78,8 +80,8 @@ export default class QCVNList extends React.Component {
       { content: '#', width: 2 },
       { content: t('qcvn.form.key.label'), width: 15 },
       { content: t('qcvn.form.name.label'), width: 15 },
-      { content: i18n.begin.label, width: 15 },
-      { content: i18n.expired.label, width: 15 },
+      { content: i18n().begin.label, width: 15 },
+      { content: i18n().expired.label, width: 15 },
       { content: t('stationAutoManager.list.action'), width: 10 },
     ]
   }
@@ -112,7 +114,7 @@ export default class QCVNList extends React.Component {
       {
         content: row.expired
           ? moment(row.expired).format(DD_MM_YYYY)
-          : i18n.expired.isApplying,
+          : i18n().expired.isApplying,
       },
       {
         content: (

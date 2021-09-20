@@ -22,14 +22,16 @@ import HeaderSearchWrapper from 'components/elements/header-search-wrapper'
 
 import DynamicTable from 'components/elements/dynamic-table'
 
-const i18n = {
-  cancel: 'Bõ chọn' /* MARK  @translate */,
-  submit: translate('addon.save'),
-  updateSuccess: translate('addon.onSave.update.success'),
-  updateError: translate('addon.onSave.update.error'),
-  stationName: translate('stationAutoManager.form.name.label'),
-  stationAddr: translate('stationAutoManager.form.address.label'),
-  allowSampling: translate('stationAutoManager.options.allowSampling.label'),
+function i18n() {
+  return {
+    cancel: translate('addon.cancel'),
+    submit: translate('addon.save'),
+    updateSuccess: translate('addon.onSave.update.success'),
+    updateError: translate('addon.onSave.update.error'),
+    stationName: translate('stationAutoManager.form.name.label'),
+    stationAddr: translate('stationAutoManager.form.address.label'),
+    allowSampling: translate('stationAutoManager.options.allowSampling.label'),
+  }
 }
 
 const showSuccess = msg => {
@@ -123,7 +125,7 @@ export default class StationAutoConfigSampling extends React.Component {
 
         <Row style={{ marginBottom: 16 }}>
           {/* NOTE  KHONG XOA, uncomment khi a @hung thay đổi yêu cầu */}
-          {/* <Button onClick={this.props.clearCache}>{i18n.cancel}</Button> */}
+          {/* <Button onClick={this.props.clearCache}>{i18n().cancel}</Button> */}
           <Button
             block
             type="primary"
@@ -131,7 +133,7 @@ export default class StationAutoConfigSampling extends React.Component {
             onClick={this.submitCache}
             disabled={_.keys(this.state.cachedData).length === 0}
           >
-            {i18n.submit}
+            {i18n().submit}
           </Button>
         </Row>
       </PageContainer>
@@ -141,8 +143,8 @@ export default class StationAutoConfigSampling extends React.Component {
   getHead() {
     return [
       { content: '#', width: 2 },
-      { content: i18n.stationName, width: 15 },
-      { content: i18n.stationAddr, width: 20 },
+      { content: i18n().stationName, width: 15 },
+      { content: i18n().stationAddr, width: 20 },
       {
         content: (
           <div>
@@ -156,7 +158,7 @@ export default class StationAutoConfigSampling extends React.Component {
                 )
               }
             >
-              {i18n.allowSampling}
+              {i18n().allowSampling}
             </Checkbox>
           </div>
         ),
@@ -369,10 +371,10 @@ export default class StationAutoConfigSampling extends React.Component {
         dataSourceOriginal: _.cloneDeep(this.state.dataSource),
         cachedData: {},
       })
-      showSuccess(i18n.updateSuccess)
+      showSuccess(i18n().updateSuccess)
     } else if (res.error) {
       swal({
-        title: i18n.updateError,
+        title: i18n().updateError,
         type: 'error',
       })
     }

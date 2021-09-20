@@ -22,10 +22,12 @@ const SamplingWrapper = styled.div`
   flex: 1;
 `
 
-const i18n = {
-  /* NOTE  chưa dịch */
-  getStatusFail: 'Không thể lấy trạng thái, hãy thử lại',
-  disconnected: translate('network.sampling.lostConnection'),
+function i18n() {
+  return {
+    /* NOTE  chưa dịch */
+    getStatusFail: 'Không thể lấy trạng thái, hãy thử lại',
+    disconnected: translate('network.sampling.lostConnection'),
+  }
 }
 
 const TabPane = Tabs.TabPane
@@ -153,7 +155,7 @@ export default class SamplingMoreInfo extends React.Component {
     return (
       <React.Fragment>
         {this.state.isDisconnection
-          ? this._renderDisconnection(i18n.disconnected)
+          ? this._renderDisconnection(i18n().disconnected)
           : this._renderTabs()}
       </React.Fragment>
     )

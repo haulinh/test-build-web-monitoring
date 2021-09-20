@@ -45,7 +45,7 @@ const DataTable = ({
 
   const columns = [
     {
-      title: i18n.table.tt,
+      title: i18n().table.tt,
       render: (_, __, index) => {
         const { current, pageSize } = pagination
         return <div>{(current - 1) * pageSize + (index + 1)}</div>
@@ -53,7 +53,7 @@ const DataTable = ({
     },
     {
       dataIndex: 'receivedAt',
-      title: i18n.table.time,
+      title: i18n().table.time,
       render: value => {
         const time = moment(value).format(DD_MM_YYYY_HH_MM)
         return <div>{time}</div>

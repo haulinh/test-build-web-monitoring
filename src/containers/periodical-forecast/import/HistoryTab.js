@@ -15,13 +15,15 @@ const FIELDS = {
   RANGE_TIME: 'rangeTime',
 }
 
-const i18n = {
-  fileName: t('periodicalForecast.title.fileName'),
-  broadcastTime: t('periodicalForecast.title.broadcastTime'),
-  createdAt: t('periodicalForecast.title.createdAt'),
-  user: t('periodicalForecast.title.user'),
-  downloadFile: t('periodicalForecast.title.downloadFile'),
-  nodata: t('apiSharingNew.button.nodata'),
+function i18n() {
+  return {
+    fileName: t('periodicalForecast.title.fileName'),
+    broadcastTime: t('periodicalForecast.title.broadcastTime'),
+    createdAt: t('periodicalForecast.title.createdAt'),
+    user: t('periodicalForecast.title.user'),
+    downloadFile: t('periodicalForecast.title.downloadFile'),
+    nodata: t('apiSharingNew.button.nodata'),
+  }
 }
 
 @connect(state => ({
@@ -81,10 +83,10 @@ export default class HistoryTab extends Component {
 
   head = [
     { content: '#', width: 2 },
-    { content: i18n.fileName },
-    { content: i18n.broadcastTime },
-    { content: i18n.createdAt },
-    { content: i18n.user },
+    { content: i18n().fileName },
+    { content: i18n().broadcastTime },
+    { content: i18n().createdAt },
+    { content: i18n().user },
     { content: '' },
   ]
 
@@ -110,7 +112,7 @@ export default class HistoryTab extends Component {
         content: <div>{`${item.user.lastName} ${item.user.firstName}`}</div>,
       },
       {
-        content: <a href={item.filePath}>{i18n.downloadFile}</a>,
+        content: <a href={item.filePath}>{i18n().downloadFile}</a>,
       },
     ])
   }
@@ -129,7 +131,7 @@ export default class HistoryTab extends Component {
           <Row type="flex" gutter={16}>
             <Col>
               {form.getFieldDecorator(FIELDS.FILE_NAME)(
-                <Input placeholder={i18n.fileName} style={{ width: 320 }} />
+                <Input placeholder={i18n().fileName} style={{ width: 320 }} />
               )}
             </Col>
             <Col>
@@ -159,7 +161,7 @@ export default class HistoryTab extends Component {
         ) : (
           <Empty
             style={{ margin: '0 auto', padding: '8px 16px' }}
-            description={i18n.nodata}
+            description={i18n().nodata}
           />
         )}
       </React.Fragment>

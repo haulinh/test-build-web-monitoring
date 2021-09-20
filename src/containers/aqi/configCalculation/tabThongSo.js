@@ -19,33 +19,37 @@ import { getMeasurings, getConfigAqiQC, postConfigAqiQC } from 'api/CategoryApi'
 import { translate } from 'hoc/create-lang'
 import * as _ from 'lodash'
 
-const i18n = {
-  submit: translate('addon.save'),
-  warning: translate('addon.warning'),
-  refresh: translate('addon.refresh'),
-  yes: translate('add.yes'),
-  cancel: translate('addon.cancel'),
-  confirmMsgDelete: translate('confirm.msg.delete'),
-  updateSuccess: translate('addon.onSave.update.success'),
-  updateError: translate('addon.onSave.update.error'),
+function i18n() {
+  return {
+    submit: translate('addon.save'),
+    warning: translate('addon.warning'),
+    refresh: translate('addon.refresh'),
+    yes: translate('add.yes'),
+    cancel: translate('addon.cancel'),
+    confirmMsgDelete: translate('confirm.msg.delete'),
+    updateSuccess: translate('addon.onSave.update.success'),
+    updateError: translate('addon.onSave.update.error'),
 
-  add: translate('aqiConfigCalculation.add'),
-  errorDuplicate: translate('aqiConfigCalculation.error.MEASURE_KEY_DUPLICATE'),
-  required1D_1H: translate('aqiConfigCalculation.required1D_1H'),
-  required: translate('aqiConfigCalculation.required'),
-  colLevel: translate('aqiConfigCalculation.colLevel'),
-  colMin: translate('aqiConfigCalculation.colMin'),
-  colMax: translate('aqiConfigCalculation.colMax'),
-  colColor: translate('aqiConfigCalculation.colColor'),
-  colDescription: translate('aqiConfigCalculation.colDescription'),
+    add: translate('aqiConfigCalculation.add'),
+    errorDuplicate: translate(
+      'aqiConfigCalculation.error.MEASURE_KEY_DUPLICATE'
+    ),
+    required1D_1H: translate('aqiConfigCalculation.required1D_1H'),
+    required: translate('aqiConfigCalculation.required'),
+    colLevel: translate('aqiConfigCalculation.colLevel'),
+    colMin: translate('aqiConfigCalculation.colMin'),
+    colMax: translate('aqiConfigCalculation.colMax'),
+    colColor: translate('aqiConfigCalculation.colColor'),
+    colDescription: translate('aqiConfigCalculation.colDescription'),
 
-  colMeasureKey: translate('aqiConfigCalculation.colMeasureKey'),
-  colMeasure: translate('aqiConfigCalculation.colMeasure'),
-  colBatBuoc: translate('aqiConfigCalculation.colBatBuoc'),
-  colAvg1H: translate('aqiConfigCalculation.colAvg1H'),
-  colAvg8H: translate('aqiConfigCalculation.colAvg8H'),
-  colAvg1D: translate('aqiConfigCalculation.colAvg1D'),
-  colUnit: translate('aqiConfigCalculation.colUnit'),
+    colMeasureKey: translate('aqiConfigCalculation.colMeasureKey'),
+    colMeasure: translate('aqiConfigCalculation.colMeasure'),
+    colBatBuoc: translate('aqiConfigCalculation.colBatBuoc'),
+    colAvg1H: translate('aqiConfigCalculation.colAvg1H'),
+    colAvg8H: translate('aqiConfigCalculation.colAvg8H'),
+    colAvg1D: translate('aqiConfigCalculation.colAvg1D'),
+    colUnit: translate('aqiConfigCalculation.colUnit'),
+  }
 }
 
 @Form.create({})
@@ -64,7 +68,7 @@ export default class TabThongSo extends React.Component {
   }
   columns = [
     {
-      title: i18n.colMeasureKey,
+      title: i18n().colMeasureKey,
       dataIndex: 'viewMeasure',
       key: 'viewMeasure',
       align: 'center',
@@ -77,7 +81,7 @@ export default class TabThongSo extends React.Component {
       },
     },
     {
-      title: i18n.colMeasure,
+      title: i18n().colMeasure,
       dataIndex: 'selectMeasure',
       key: 'selectMeasure',
       align: 'center',
@@ -89,7 +93,7 @@ export default class TabThongSo extends React.Component {
               rules: [
                 {
                   required: true,
-                  message: i18n.required,
+                  message: i18n().required,
                 },
               ],
             })(<this.SelectMeasure />)}
@@ -98,7 +102,7 @@ export default class TabThongSo extends React.Component {
       },
     },
     {
-      title: i18n.colBatBuoc,
+      title: i18n().colBatBuoc,
       dataIndex: 'isrequired',
       key: 'isrequired',
       align: 'center',
@@ -128,7 +132,7 @@ export default class TabThongSo extends React.Component {
       },
     },
     {
-      title: i18n.colAvg1H,
+      title: i18n().colAvg1H,
       dataIndex: '1h',
       key: '1h',
       align: 'center',
@@ -156,7 +160,7 @@ export default class TabThongSo extends React.Component {
       },
     },
     {
-      title: i18n.colAvg8H,
+      title: i18n().colAvg8H,
       dataIndex: '8h',
       key: '8h',
       align: 'center',
@@ -176,7 +180,7 @@ export default class TabThongSo extends React.Component {
               // rules: [
               //   {
               //     required: !getFieldValue(`aqiQCMeasures[${record.key}].8h`),
-              //     message: i18n.required1D_1H
+              //     message: i18n().required1D_1H
               //   }
               // ]
             })(
@@ -190,7 +194,7 @@ export default class TabThongSo extends React.Component {
       },
     },
     {
-      title: i18n.colAvg1D,
+      title: i18n().colAvg1D,
       dataIndex: '24h',
       key: '24h',
       align: 'center',
@@ -210,7 +214,7 @@ export default class TabThongSo extends React.Component {
               // rules: [
               //   {
               //     required: !getFieldValue(`aqiQCMeasures[${record.key}].24h`),
-              //     message: i18n.required1D_1H
+              //     message: i18n().required1D_1H
               //   }
               // ]
             })(
@@ -224,7 +228,7 @@ export default class TabThongSo extends React.Component {
       },
     },
     {
-      title: i18n.colUnit,
+      title: i18n().colUnit,
       dataIndex: 'unit',
       key: 'unit',
       align: 'center',
@@ -245,9 +249,9 @@ export default class TabThongSo extends React.Component {
           <Popconfirm
             onConfirm={this.delete.bind(this, record.key)}
             // onCancel={cancel}
-            title={i18n.confirmMsgDelete}
-            okText={i18n.yes}
-            cancelText={i18n.cancel}
+            title={i18n().confirmMsgDelete}
+            okText={i18n().yes}
+            cancelText={i18n().cancel}
             placement="left"
           >
             <Icon
@@ -293,7 +297,7 @@ export default class TabThongSo extends React.Component {
             'keyMeasure'
           )
           if (aqiQCMeasuresValue.length !== uniqueAqiQCMeasuresValue.length) {
-            message.error(i18n.errorDuplicate)
+            message.error(i18n().errorDuplicate)
             return
           }
           //
@@ -311,7 +315,7 @@ export default class TabThongSo extends React.Component {
             aqiQCMeasures: _.keyBy(transformData, 'keyMeasure'),
           })
           if (response.success) {
-            message.success(i18n.updateSuccess)
+            message.success(i18n().updateSuccess)
           }
         } finally {
           this.setState({ isSubmit: false })
@@ -380,7 +384,7 @@ export default class TabThongSo extends React.Component {
     return (
       <Spin spinning={!this.state.isLoaded}>
         <Button type="primary" onClick={this.add}>
-          {i18n.add}
+          {i18n().add}
         </Button>
         <Clearfix height={16} />
         <Table
@@ -397,7 +401,7 @@ export default class TabThongSo extends React.Component {
           type="primary"
           onClick={this.submit}
         >
-          {i18n.submit}
+          {i18n().submit}
         </Button>
       </Spin>
     )

@@ -13,7 +13,7 @@ const DataTable = ({
   loading,
   stationAutos,
   pagination = {},
-  setPagination = () => { },
+  setPagination = () => {},
 }) => {
   const measureListData = keyBy(
     getMeasuringListFromStationAutos(stationAutos),
@@ -48,7 +48,7 @@ const DataTable = ({
 
   const columns = [
     {
-      title: i18n.table.tt,
+      title: i18n().table.tt,
       render: (_, __, index) => {
         const { current, pageSize } = pagination
         return <div>{(current - 1) * pageSize + (index + 1)}</div>
@@ -56,7 +56,7 @@ const DataTable = ({
     },
     {
       dataIndex: 'receivedAt',
-      title: i18n.table.time,
+      title: i18n().table.time,
       width: 120,
       render: value => {
         const time = moment(value).format(DD_MM_YYYY_HH_MM)
@@ -64,13 +64,13 @@ const DataTable = ({
       },
     },
     {
-      title: i18n.table.phaseName,
+      title: i18n().table.phaseName,
       width: 120,
       dataIndex: 'phase',
       render: value => <div>{value.name}</div>,
     },
     {
-      title: i18n.table.pointName,
+      title: i18n().table.pointName,
       width: 270,
       dataIndex: 'name',
       render: value => <div>{value}</div>,

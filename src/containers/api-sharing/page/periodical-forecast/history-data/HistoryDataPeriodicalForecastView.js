@@ -33,7 +33,7 @@ export class HistoryDataPeriodicalForecastView extends Component {
           items={[
             {
               id: '1',
-              name: i18n.titleMenu[pathname],
+              name: i18n().titleMenu[pathname],
               href: routeList,
             },
             {

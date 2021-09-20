@@ -4,8 +4,10 @@ import { Result, Button } from 'antd'
 import { translate } from 'hoc/create-lang'
 import DisconnectionImage from './disconnection.jpg'
 
-const i18n = {
-  tryAgain: translate('actions.tryAgain'),
+function i18n() {
+  return {
+    tryAgain: translate('actions.tryAgain'),
+  }
 }
 
 export default class Disconnection extends React.Component {
@@ -29,7 +31,7 @@ export default class Disconnection extends React.Component {
               onClick={onClickTryAgain}
               loading={isLoading}
             >
-              {i18n.tryAgain}
+              {i18n().tryAgain}
             </Button>
           )
         }

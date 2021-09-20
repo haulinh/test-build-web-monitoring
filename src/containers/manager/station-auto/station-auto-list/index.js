@@ -23,12 +23,14 @@ import HeaderSearchWrapper from 'components/elements/header-search-wrapper'
 
 import DynamicTable from 'components/elements/dynamic-table'
 
-const i18n = {
-  cancelText: translate('addon.cancel'),
-  okText: translate('addon.ok'),
-  restoreConfirmMsg: translate('confirm.msg.restore'),
-  deleteConfirmMsg: translate('confirm.msg.delete'),
-  disableConfirmMsg: translate('confirm.msg.disable'),
+function i18n() {
+  return {
+    cancelText: translate('addon.cancel'),
+    okText: translate('addon.ok'),
+    restoreConfirmMsg: translate('confirm.msg.restore'),
+    deleteConfirmMsg: translate('confirm.msg.delete'),
+    disableConfirmMsg: translate('confirm.msg.disable'),
+  }
 }
 
 const LinkSpan = styled.span`
@@ -79,9 +81,9 @@ export default class StationAutoList extends React.Component {
       lang: { t },
     } = this.props
     Modal.confirm({
-      title: i18n.disableConfirmMsg,
-      okText: i18n.okText,
-      cancelText: i18n.cancelText,
+      title: i18n().disableConfirmMsg,
+      okText: i18n().okText,
+      cancelText: i18n().cancelText,
       onOk() {
         return new Promise(async (resolve, reject) => {
           const res = await StationAutoApi.deleteStationAuto(_id)
@@ -101,9 +103,9 @@ export default class StationAutoList extends React.Component {
       lang: { t },
     } = this.props
     Modal.confirm({
-      title: i18n.restoreConfirmMsg,
-      okText: i18n.okText,
-      cancelText: i18n.cancelText,
+      title: i18n().restoreConfirmMsg,
+      okText: i18n().okText,
+      cancelText: i18n().cancelText,
       onOk() {
         return new Promise(async (resolve, reject) => {
           const res = await StationAutoApi.restoreStationAuto(_id)

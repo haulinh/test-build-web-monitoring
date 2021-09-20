@@ -95,16 +95,18 @@ const Title = styled.div`
 
 const bgColors = ['#A4A6B5', '#E54C3C', '#EDC30F', '#2CCA73']
 
-const i18n = {
-  total: total => t('dashboard.total', { total }),
-  disconnected: t('dashboard.status.disconnected'),
-  exceeded: t('dashboard.status.exceeded'),
-  exceededPreparing: t('dashboard.status.exceededPreparing'),
-  good: t('dashboard.status.good'),
-  newNotification: t('dashboard.newNotification'),
-  maintenance: t('monitoring.deviceStatus.maintenance'),
-  sensorError: t('monitoring.deviceStatus.sensorError'),
-  goodDevice: t('monitoring.deviceStatus.good'),
+function i18n() {
+  return {
+    total: total => t('dashboard.total', { total }),
+    disconnected: t('dashboard.status.disconnected'),
+    exceeded: t('dashboard.status.exceeded'),
+    exceededPreparing: t('dashboard.status.exceededPreparing'),
+    good: t('dashboard.status.good'),
+    newNotification: t('dashboard.newNotification'),
+    maintenance: t('monitoring.deviceStatus.maintenance'),
+    sensorError: t('monitoring.deviceStatus.sensorError'),
+    goodDevice: t('monitoring.deviceStatus.good'),
+  }
 }
 
 @connectAutoDispatch(state => ({
@@ -147,7 +149,7 @@ class Dashboard extends Component {
         >
           <Col>
             <Text fontSize={20} fontWeight={700} margin="0 0 10px">
-              {i18n.total(dashboardInfo.total || 0)}
+              {i18n().total(dashboardInfo.total || 0)}
             </Text>
           </Col>
           <Col>
@@ -164,22 +166,22 @@ class Dashboard extends Component {
             {
               count: dashboardInfo.lossData || 0,
               icon: <img src={iconDisconnected} alt="" />,
-              status: i18n.disconnected,
+              status: i18n().disconnected,
             },
             {
               count: dashboardInfo.exceed || 0,
               icon: <img src={iconExceed} alt="" />,
-              status: i18n.exceeded,
+              status: i18n().exceeded,
             },
             {
               count: dashboardInfo.exceedPreparing || 0,
               icon: <img src={iconTendToExceed} alt="" />,
-              status: i18n.exceededPreparing,
+              status: i18n().exceededPreparing,
             },
             {
               count: dashboardInfo.good || 0,
               icon: <img src={iconGood} alt="" />,
-              status: i18n.good,
+              status: i18n().good,
             },
           ].map((item, idx) => (
             <GeneralBadge key={idx} background={bgColors[idx]} span={6}>
@@ -220,7 +222,7 @@ class Dashboard extends Component {
         </Row>
         <Row className="notification">
           <Text fontSize={20} fontWeight={700} margin="0 0 10px">
-            {i18n.newNotification}
+            {i18n().newNotification}
           </Text>
           {stationAuto.length > 0 ? (
             <NotificationContent useWindow inline />

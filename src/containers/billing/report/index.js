@@ -19,22 +19,24 @@ export const Fields = {
   time: 'time',
 }
 
-export const i18n = {
-  reportType: {
-    label: t('billing.label.reportType'),
-  },
-  time: {
-    label: t('billing.label.time'),
-  },
-  stationType: {
-    label: t('billing.label.stationType'),
-  },
-  stationName: {
-    label: t('billing.label.stationName'),
-  },
-  billingConfig: {
-    label: t('billing.label.billingConfig'),
-  },
+export function i18n() {
+  return {
+    reportType: {
+      label: t('billing.label.reportType'),
+    },
+    time: {
+      label: t('billing.label.time'),
+    },
+    stationType: {
+      label: t('billing.label.stationType'),
+    },
+    stationName: {
+      label: t('billing.label.stationName'),
+    },
+    billingConfig: {
+      label: t('billing.label.billingConfig'),
+    },
+  }
 }
 
 @Form.create()

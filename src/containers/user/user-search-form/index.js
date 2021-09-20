@@ -32,12 +32,14 @@ require('./index.css')
 
 // const FormItem = FormStyle.Item
 
-const i18n = {
-  create: translate('addon.create'),
-  roleAssign: translate('userManager.list.roleAssign'),
-  okText: translate('addon.ok'),
-  title: translate('userManager.modal.title'),
-  callAction: translate('userManager.modal.callAction'),
+function i18n() {
+  return {
+    create: translate('addon.create'),
+    roleAssign: translate('userManager.list.roleAssign'),
+    okText: translate('addon.ok'),
+    title: translate('userManager.modal.title'),
+    callAction: translate('userManager.modal.callAction'),
+  }
 }
 
 const Form = styled(FormStyle)`
@@ -136,8 +138,8 @@ export default class UserSearchForm extends React.PureComponent {
       Modal.warning({
         icon: null,
         width: '50%',
-        title: <Title>{i18n.title}</Title>,
-        okText: i18n.okText,
+        title: <Title>{i18n().title}</Title>,
+        okText: i18n().okText,
         content: (
           <Container>
             <Desc
@@ -148,7 +150,7 @@ export default class UserSearchForm extends React.PureComponent {
               }}
             />
             <ContentWrapper>
-              <Heading>{i18n.callAction}</Heading>
+              <Heading>{i18n().callAction}</Heading>
               <Wrapper>
                 <Flex>
                   <Label>{translate('contact.phone')}</Label>
@@ -235,7 +237,7 @@ export default class UserSearchForm extends React.PureComponent {
           {protectRole(ROLE.USER.ROLE)(
             <Link to={slug.user.rule}>
               <Button type="primary">
-                <Icon type="usergroup-add" /> {i18n.roleAssign}
+                <Icon type="usergroup-add" /> {i18n().roleAssign}
               </Button>
             </Link>
           )}
@@ -247,7 +249,7 @@ export default class UserSearchForm extends React.PureComponent {
               type="primary"
               style={{ marginLeft: 16 }}
             >
-              <Icon type="plus" /> {i18n.create}
+              <Icon type="plus" /> {i18n().create}
             </Button>
             // </Link>
           )}

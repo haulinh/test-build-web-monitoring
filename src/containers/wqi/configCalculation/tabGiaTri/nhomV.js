@@ -20,24 +20,26 @@ import { translate } from 'hoc/create-lang'
 import * as _ from 'lodash'
 import LockComp from './lockComp'
 
-const i18n = {
-  submit: translate('addon.save'),
-  warning: translate('addon.warning'),
-  refresh: translate('addon.refresh'),
-  yes: translate('add.yes'),
-  cancel: translate('addon.cancel'),
-  confirmMsgDelete: translate('confirm.msg.delete'),
-  updateSuccess: translate('addon.onSave.update.success'),
-  updateError: translate('addon.onSave.update.error'),
-  required: translate('wqiConfigCalculation.required'),
+function i18n() {
+  return {
+    submit: translate('addon.save'),
+    warning: translate('addon.warning'),
+    refresh: translate('addon.refresh'),
+    yes: translate('add.yes'),
+    cancel: translate('addon.cancel'),
+    confirmMsgDelete: translate('confirm.msg.delete'),
+    updateSuccess: translate('addon.onSave.update.success'),
+    updateError: translate('addon.onSave.update.error'),
+    required: translate('wqiConfigCalculation.required'),
 
-  add: translate('wqiConfigCalculation.add'),
-  collevel: translate('wqiConfigCalculation.collevel'),
-  colMin2: translate('wqiConfigCalculation.colMin2'),
-  colMax2: translate('wqiConfigCalculation.colMax2'),
-  colValue: translate('wqiConfigCalculation.colValue'),
-  compareToMax: translate('wqiConfigCalculation.compareToMax'),
-  compareToMin: translate('wqiConfigCalculation.compareToMin'),
+    add: translate('wqiConfigCalculation.add'),
+    collevel: translate('wqiConfigCalculation.collevel'),
+    colMin2: translate('wqiConfigCalculation.colMin2'),
+    colMax2: translate('wqiConfigCalculation.colMax2'),
+    colValue: translate('wqiConfigCalculation.colValue'),
+    compareToMax: translate('wqiConfigCalculation.compareToMax'),
+    compareToMin: translate('wqiConfigCalculation.compareToMin'),
+  }
 }
 
 const CODE = 'vi'
@@ -60,10 +62,10 @@ export default class TabGiaTri_NhomV extends React.Component {
     const columnDynamic = []
     props.configMeasure.forEach(item => {
       columnDynamic.push({
-        title: i18n.colValue + ' ' + item.keyMeasure,
+        title: i18n().colValue + ' ' + item.keyMeasure,
         children: [
           {
-            title: i18n.colMin2,
+            title: i18n().colMin2,
             dataIndex: 'min_' + item.keyMeasure,
             key: 'min_' + item.keyMeasure,
             align: 'center',
@@ -114,7 +116,7 @@ export default class TabGiaTri_NhomV extends React.Component {
                                 isFirst &&
                                 this.state.isLockFirst[item.keyMeasure]
                               ),
-                            message: i18n.required,
+                            message: i18n().required,
                           },
                           {
                             validator: (rule, value, callback) =>
@@ -130,7 +132,7 @@ export default class TabGiaTri_NhomV extends React.Component {
                     )(
                       <InputNumber
                         style={{ ...styleWidth }}
-                        placeholder={i18n.colMin2}
+                        placeholder={i18n().colMin2}
                         disabled={
                           item.isBelongTemp ||
                           (isFirst && this.state.isLockFirst[item.keyMeasure])
@@ -143,7 +145,7 @@ export default class TabGiaTri_NhomV extends React.Component {
             },
           },
           {
-            title: i18n.colMax2,
+            title: i18n().colMax2,
             dataIndex: 'max_' + item.keyMeasure,
             key: 'max_' + item.keyMeasure,
             align: 'center',
@@ -172,7 +174,7 @@ export default class TabGiaTri_NhomV extends React.Component {
                               !(
                                 isLast && this.state.isLockLast[item.keyMeasure]
                               ),
-                            message: i18n.required,
+                            message: i18n().required,
                           },
                           {
                             validator: (rule, value, callback) =>
@@ -188,7 +190,7 @@ export default class TabGiaTri_NhomV extends React.Component {
                     )(
                       <InputNumber
                         style={{ ...styleWidth }}
-                        placeholder={i18n.colMax2}
+                        placeholder={i18n().colMax2}
                         disabled={
                           item.isBelongTemp ||
                           (isLast && this.state.isLockLast[item.keyMeasure])
@@ -226,7 +228,7 @@ export default class TabGiaTri_NhomV extends React.Component {
     })
     this.columns = [
       {
-        title: i18n.collevel,
+        title: i18n().collevel,
         dataIndex: 'name',
         key: 'name',
         align: 'center',
@@ -239,16 +241,16 @@ export default class TabGiaTri_NhomV extends React.Component {
                 rules: [
                   {
                     required: true,
-                    message: i18n.required,
+                    message: i18n().required,
                   },
                 ],
-              })(<Input placeholder={i18n.collevel} />)}
+              })(<Input placeholder={i18n().collevel} />)}
             </Form.Item>
           )
         },
       },
       {
-        title: i18n.colValue + ' qi',
+        title: i18n().colValue + ' qi',
         children: [
           {
             title: 'qi',
@@ -270,13 +272,13 @@ export default class TabGiaTri_NhomV extends React.Component {
                     rules: [
                       {
                         required: true,
-                        message: i18n.required,
+                        message: i18n().required,
                       },
                     ],
                   })(
                     <InputNumber
                       style={{ ...styleWidth }}
-                      placeholder={i18n.colMin2}
+                      placeholder={i18n().colMin2}
                     />
                   )}
                 </Form.Item>
@@ -303,13 +305,13 @@ export default class TabGiaTri_NhomV extends React.Component {
                     rules: [
                       {
                         required: true,
-                        message: i18n.required,
+                        message: i18n().required,
                       },
                     ],
                   })(
                     <InputNumber
                       style={{ ...styleWidth }}
-                      placeholder={i18n.colMax2}
+                      placeholder={i18n().colMax2}
                     />
                   )}
                 </Form.Item>
@@ -329,9 +331,9 @@ export default class TabGiaTri_NhomV extends React.Component {
           return (
             <Popconfirm
               onConfirm={this.delete.bind(this, record.key)}
-              title={i18n.confirmMsgDelete}
-              okText={i18n.yes}
-              cancelText={i18n.cancel}
+              title={i18n().confirmMsgDelete}
+              okText={i18n().yes}
+              cancelText={i18n().cancel}
               placement="left"
             >
               <Icon
@@ -350,7 +352,7 @@ export default class TabGiaTri_NhomV extends React.Component {
     const { form } = this.props
     const valueMax = form.getFieldValue(fliedName)
     if (_.isNumber(value) && _.isNumber(valueMax) && value >= valueMax) {
-      callback(i18n.compareToMax)
+      callback(i18n().compareToMax)
     } else {
       callback()
     }
@@ -361,7 +363,7 @@ export default class TabGiaTri_NhomV extends React.Component {
     const valueMin = form.getFieldValue(fliedName)
 
     if (_.isNumber(value) && _.isNumber(valueMin) && value <= valueMin) {
-      callback(i18n.compareToMin)
+      callback(i18n().compareToMin)
     } else {
       callback()
     }
@@ -437,7 +439,7 @@ export default class TabGiaTri_NhomV extends React.Component {
             groupV: transformData,
           })
           if (response.success) {
-            message.success(i18n.updateSuccess)
+            message.success(i18n().updateSuccess)
           }
         } finally {
           this.setState({ isSubmit: false })
@@ -460,7 +462,7 @@ export default class TabGiaTri_NhomV extends React.Component {
         <Row gutter={12}>
           <Col xs={12}>
             <Button block type="primary" onClick={this.add}>
-              {i18n.add}
+              {i18n().add}
             </Button>
           </Col>
           <Col xs={12}>
@@ -470,7 +472,7 @@ export default class TabGiaTri_NhomV extends React.Component {
               type="primary"
               onClick={this.submit}
             >
-              {i18n.submit}
+              {i18n().submit}
             </Button>
           </Col>
         </Row>

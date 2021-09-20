@@ -15,14 +15,14 @@ export default function Filter({ form }) {
     <React.Fragment>
       <Row gutter={12}>
         <Col span={6}>
-          <FormItem label={i18n.reportType.label}>
+          <FormItem label={i18n().reportType.label}>
             {form.getFieldDecorator(Fields.reportType, {
               initialValue: 'month',
             })(<SelectReportType form={form} />)}
           </FormItem>
         </Col>
         <Col span={6}>
-          <FormItem label={i18n.time.label}>
+          <FormItem label={i18n().time.label}>
             {form.getFieldDecorator(Fields.time, {
               initialValue: { type: 'month' },
               rules: [
@@ -34,7 +34,7 @@ export default function Filter({ form }) {
           </FormItem>
         </Col>
         <Col span={6}>
-          <FormItem label={i18n.stationType.label}>
+          <FormItem label={i18n().stationType.label}>
             {form.getFieldDecorator(Fields.stationType, {
               rules: [
                 {
@@ -45,7 +45,7 @@ export default function Filter({ form }) {
           </FormItem>
         </Col>
         <Col span={6}>
-          <FormItem label={i18n.stationName.label}>
+          <FormItem label={i18n().stationName.label}>
             {form.getFieldDecorator(Fields.stationKey, {
               rules: [
                 {
@@ -63,7 +63,7 @@ export default function Filter({ form }) {
       </Row>
       <Row gutter={12}>
         <Col span={6}>
-          <FormItem label={i18n.billingConfig.label}>
+          <FormItem label={i18n().billingConfig.label}>
             {form.getFieldDecorator(Fields.billingConfigId, {
               rules: [
                 {

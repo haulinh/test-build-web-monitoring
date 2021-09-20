@@ -22,9 +22,12 @@ import { connect } from 'react-redux'
 // import axios from 'axios'
 
 const { Title, Text } = Typography
-const i18n = {
-  header7: translate('avgSearchFrom.table.header7'),
-  title: translate('avgSearchFrom.table.title2'),
+
+function i18n() {
+  return {
+    header7: translate('avgSearchFrom.table.header7'),
+    title: translate('avgSearchFrom.table.title2'),
+  }
 }
 
 @protectRole(ROLE.TB24H.VIEW)
@@ -64,7 +67,7 @@ export default class ReportType2 extends React.Component {
     })
     return [
       {
-        title: i18n.header7,
+        title: i18n().header7,
         dataIndex: 'date_utc',
         render: value => {
           return (
@@ -81,13 +84,13 @@ export default class ReportType2 extends React.Component {
   }
 
   handleSubmit = async values => {
-    console.log(values, "handleSubmit");
+    console.log(values, 'handleSubmit')
     let measuringListUnitStr = ''
     if (values.measuringList) {
       this.setState({
         isHaveData: false,
         isLoading: true,
-        isFilter: values.isFilter
+        isFilter: values.isFilter,
       })
       measuringListUnitStr = values.measuringList
         .map(item => encodeURIComponent(item.unit))
@@ -143,7 +146,6 @@ export default class ReportType2 extends React.Component {
     // window.open(url, '_blank')
   }
 
-
   render() {
     return (
       <PageContainer>
@@ -152,7 +154,7 @@ export default class ReportType2 extends React.Component {
         <SearchForm cbSubmit={this.handleSubmit} />
         <Clearfix height={16} />
         <div style={{ position: 'relative', textAlign: 'center' }}>
-          <Title level={4}>{i18n.title}</Title>
+          <Title level={4}>{i18n().title}</Title>
           <Text>
             {' '}
             {translate('avgSearchFrom.table.description2', {

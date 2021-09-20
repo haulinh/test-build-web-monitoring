@@ -29,51 +29,55 @@ const Wrapper = styled.div`
   padding-left: ${props => props.allSidebarWidth}px;
   transition: all 0.3s linear;
 `
-const i18n = {
-  station: t('common.station'),
-  measurings: t('common.measures'),
-  dataConnected: t('common.deviceStatus.dataConnected'),
-  dataExeeded: t('common.deviceStatus.dataExceeded'),
-  dataExceededPrepare: t('common.deviceStatus.dataExceededPrepare'),
-  dataGood: t('common.deviceStatus.dataGood2'),
-  dataLoss: t('common.deviceStatus.dataLoss'),
-  sensorAdjust: t('common.deviceStatus.sensorMaintain'),
-  sensorError: t('common.deviceStatus.sensorError'),
-  sensorGood: t('common.deviceStatus.sensorGood'),
+
+function i18n() {
+  return {
+    station: t('common.station'),
+    measurings: t('common.measures'),
+    dataConnected: t('common.deviceStatus.dataConnected'),
+    dataExeeded: t('common.deviceStatus.dataExceeded'),
+    dataExceededPrepare: t('common.deviceStatus.dataExceededPrepare'),
+    dataGood: t('common.deviceStatus.dataGood2'),
+    dataLoss: t('common.deviceStatus.dataLoss'),
+    sensorAdjust: t('common.deviceStatus.sensorMaintain'),
+    sensorError: t('common.deviceStatus.sensorError'),
+    sensorGood: t('common.deviceStatus.sensorGood'),
+  }
 }
+
 const getNotificationInfo = status => {
   switch (status) {
     case NOTIFY_TYPE.SENSOR_GOOD:
       return {
-        statusText: i18n.sensorGood,
+        statusText: i18n().sensorGood,
       }
     case NOTIFY_TYPE.SENSOR_ERROR:
       return {
-        statusText: i18n.sensorError,
+        statusText: i18n().sensorError,
       }
     case NOTIFY_TYPE.DATA_CONNECTED:
       return {
-        statusText: i18n.dataConnected,
+        statusText: i18n().dataConnected,
       }
     case NOTIFY_TYPE.DATA_EXCEEDED:
       return {
-        statusText: i18n.dataExeeded,
+        statusText: i18n().dataExeeded,
       }
     case NOTIFY_TYPE.DATA_EXCEEDED_PREPARED:
       return {
-        statusText: i18n.dataExceededPrepare,
+        statusText: i18n().dataExceededPrepare,
       }
     case NOTIFY_TYPE.SENSOR_ADJUST:
       return {
-        statusText: i18n.sensorAdjust,
+        statusText: i18n().sensorAdjust,
       }
     case NOTIFY_TYPE.DATA_GOOD:
       return {
-        statusText: i18n.dataGood,
+        statusText: i18n().dataGood,
       }
     case NOTIFY_TYPE.DATA_LOSS:
       return {
-        statusText: i18n.dataLoss,
+        statusText: i18n().dataLoss,
       }
     default:
       return {

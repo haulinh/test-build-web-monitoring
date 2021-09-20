@@ -5,10 +5,12 @@ import createLanguageHoc, { translate } from 'hoc/create-lang'
 import PropTypes from 'prop-types'
 import React from 'react'
 
-const i18n = {
-  addButton: translate('stationAutoManager.create.label'),
-  stationType: translate('stationAutoManager.form.stationType.placeholder'),
-  stationName: translate('stationAutoManager.form.name.placeholder'),
+function i18n() {
+  return {
+    addButton: translate('stationAutoManager.create.label'),
+    stationType: translate('stationAutoManager.form.stationType.placeholder'),
+    stationName: translate('stationAutoManager.form.name.placeholder'),
+  }
 }
 
 @Form.create({
@@ -55,7 +57,7 @@ export default class StationAutoSearchForm extends React.PureComponent {
                     getFieldDecorator={getFieldDecorator}
                     isShowAll
                     // onChangeStationType={this.changeStationType}
-                    placeholder={i18n.stationType}
+                    placeholder={i18n().stationType}
                   />
                 )}
               </Col>
@@ -63,7 +65,7 @@ export default class StationAutoSearchForm extends React.PureComponent {
               {/* NHẬP TÊN TRẠM */}
               <Col span={11}>
                 {getFieldDecorator(`name`)(
-                  <Input placeholder={i18n.stationName} />
+                  <Input placeholder={i18n().stationName} />
                 )}
               </Col>
 

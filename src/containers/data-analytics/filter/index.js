@@ -18,19 +18,21 @@ import { getTimes } from 'utils/datetime'
 import { ToolTip } from 'containers/search/common/tooltip'
 // import OptionsTimeRange from 'containers/search/common/options-time-range'
 
-const i18n = {
-  btnSearchText: t('addon.search'),
-  provinceLabel: t('dataAnalytics.filterForm.province.label'),
-  stationTypeLabel: t('dataAnalytics.filterForm.stationType.label'),
-  operatorLabel: t('dataAnalytics.filterForm.operator.label'),
-  timeLabel: t('dataAnalytics.filterForm.time.label'),
-  stationAutoLabel: count =>
-    t('dataAnalytics.filterForm.stationAutoLabel.label', { count }),
-  parameterLabel: count =>
-    t('dataAnalytics.filterForm.parameterLabel.label', { count }),
-  stationAuto: t('dataAnalytics.filterForm.stationAuto'),
-  parameter: t('dataAnalytics.filterForm.parameter'),
-  isProcessData: t('dataSearchFrom.processData'),
+function i18n() {
+  return {
+    btnSearchText: t('addon.search'),
+    provinceLabel: t('dataAnalytics.filterForm.province.label'),
+    stationTypeLabel: t('dataAnalytics.filterForm.stationType.label'),
+    operatorLabel: t('dataAnalytics.filterForm.operator.label'),
+    timeLabel: t('dataAnalytics.filterForm.time.label'),
+    stationAutoLabel: count =>
+      t('dataAnalytics.filterForm.stationAutoLabel.label', { count }),
+    parameterLabel: count =>
+      t('dataAnalytics.filterForm.parameterLabel.label', { count }),
+    stationAuto: t('dataAnalytics.filterForm.stationAuto'),
+    parameter: t('dataAnalytics.filterForm.parameter'),
+    isProcessData: t('dataSearchFrom.processData'),
+  }
 }
 
 const FormSearch = styled.div`
@@ -230,7 +232,7 @@ class FilterForm extends Component {
               onClick={this.handleSearch}
               loading={isLoadingData}
             >
-              {i18n.btnSearchText}
+              {i18n().btnSearchText}
             </Button>
           }
           textColor="#ffffff"
@@ -238,19 +240,19 @@ class FilterForm extends Component {
           fontSize={14}
           style={{ padding: '8px 16px' }}
         >
-          {i18n.btnSearchText}
+          {i18n().btnSearchText}
         </Heading>
         <FormSearch>
           <Row gutter={20}>
             <Col md={6} lg={6} sm={12}>
-              <FormItem label={i18n.provinceLabel}>
+              <FormItem label={i18n().provinceLabel}>
                 {form.getFieldDecorator(FIELDS.PROVINCE, {
                   onChange: this.onChange,
                 })(<SelectProvince isShowAll />)}
               </FormItem>
             </Col>
             <Col md={6} lg={6} sm={12}>
-              <FormItem label={i18n.stationTypeLabel}>
+              <FormItem label={i18n().stationTypeLabel}>
                 {form.getFieldDecorator(FIELDS.STATION_TYPE, {
                   onChange: this.onChange,
                 })(
@@ -261,14 +263,14 @@ class FilterForm extends Component {
               </FormItem>
             </Col>
             <Col md={4} lg={4} sm={12}>
-              <FormItem label={i18n.operatorLabel}>
+              <FormItem label={i18n().operatorLabel}>
                 {form.getFieldDecorator(FIELDS.OPERATOR, {
                   initialValue: OPERATOR.AVG,
                 })(<SelectOperator />)}
               </FormItem>
             </Col>
             <Col md={8} lg={8} sm={12}>
-              <FormItem label={i18n.timeLabel}>
+              <FormItem label={i18n().timeLabel}>
                 {form.getFieldDecorator(FIELDS.RANGE_TIME, {
                   initialValue: 1,
                 })(
@@ -281,9 +283,9 @@ class FilterForm extends Component {
           </Row>
           <Row gutter={20}>
             <Col sm={24} md={24} lg={24}>
-              <FormItem label={i18n.stationAutoLabel(numberStation)}>
+              <FormItem label={i18n().stationAutoLabel(numberStation)}>
                 {form.getFieldDecorator(FIELDS.STATION_AUTO, {
-                  rules: [requiredFieldRule(i18n.stationAuto)],
+                  rules: [requiredFieldRule(i18n().stationAuto)],
                   onChange: this.onStationAutoChange,
                 })(
                   <SelectStationAuto
@@ -295,9 +297,9 @@ class FilterForm extends Component {
               </FormItem>
             </Col>
             <Col sm={24} md={24} lg={24}>
-              <FormItem label={i18n.parameterLabel(numberMeasuringList)}>
+              <FormItem label={i18n().parameterLabel(numberMeasuringList)}>
                 {form.getFieldDecorator(FIELDS.MEASURING_LIST, {
-                  rules: [requiredFieldRule(i18n.parameter)],
+                  rules: [requiredFieldRule(i18n().parameter)],
                 })(<SelectMeasureParameter options={measuringList} />)}
               </FormItem>
             </Col>
@@ -306,7 +308,7 @@ class FilterForm extends Component {
             <ToolTip />
             <Form.Item
               style={{ marginBottom: '0' }}
-              label={i18n.isProcessData}
+              label={i18n().isProcessData}
               colon={false}
               labelCol={{ span: 16 }}
               wrapperCol={{ span: 8 }}

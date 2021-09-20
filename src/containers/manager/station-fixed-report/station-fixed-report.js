@@ -14,34 +14,36 @@ import Breadcrumb from './breadcrumb'
 import ReportTable from './ReportTable'
 import { SearchForm } from './search-form'
 
-export const i18n = {
-  receivedAt: t('dataPointReport.title.receivedAt'),
-  phaseName: t('dataPointReport.title.phaseName'),
-  pointName: t('dataPointReport.title.pointName'),
-  qcvn: {
-    isApplying: t('qcvn.form.expired.isApplying'),
-    invalid: t('qcvn.invalid'),
-  },
-  optionalInfo: {
-    year: t('dataPointReport.optionalInfo.year'),
-    month: t('dataPointReport.optionalInfo.month'),
-    symbol: t('dataPointReport.optionalInfo.symbol'),
-    weather: t('dataPointReport.optionalInfo.weather'),
-    sampler: t('dataPointReport.optionalInfo.sampler'),
-    notes: t('dataPointReport.optionalInfo.notes'),
-    monitoringPlace: t('dataPointReport.optionalInfo.monitoringPlace'),
-    requirements: t('dataPointReport.optionalInfo.requirements'),
-    method: t('dataPointReport.optionalInfo.method'),
-    chemical: t('dataPointReport.optionalInfo.chemical'),
-    conditions: t('dataPointReport.optionalInfo.conditions'),
-    equipmentlist: t('dataPointReport.optionalInfo.equipmentlist'),
-    analyst: t('dataPointReport.optionalInfo.analyst'),
-    placeOfAnalysis: t('dataPointReport.optionalInfo.placeOfAnalysis'),
-  },
-  addButton: t('dataPointReport.button.add'),
-  exportExcelButton: t('dataPointReport.button.exportExcel'),
-  dataTab: t('dataPointReport.tab.data'),
-  numberOrder: t('dataPointReport.title.numberOrder'),
+export function i18n() {
+  return {
+    receivedAt: t('dataPointReport.title.receivedAt'),
+    phaseName: t('dataPointReport.title.phaseName'),
+    pointName: t('dataPointReport.title.pointName'),
+    qcvn: {
+      isApplying: t('qcvn.form.expired.isApplying'),
+      invalid: t('qcvn.invalid'),
+    },
+    optionalInfo: {
+      year: t('dataPointReport.optionalInfo.year'),
+      month: t('dataPointReport.optionalInfo.month'),
+      symbol: t('dataPointReport.optionalInfo.symbol'),
+      weather: t('dataPointReport.optionalInfo.weather'),
+      sampler: t('dataPointReport.optionalInfo.sampler'),
+      notes: t('dataPointReport.optionalInfo.notes'),
+      monitoringPlace: t('dataPointReport.optionalInfo.monitoringPlace'),
+      requirements: t('dataPointReport.optionalInfo.requirements'),
+      method: t('dataPointReport.optionalInfo.method'),
+      chemical: t('dataPointReport.optionalInfo.chemical'),
+      conditions: t('dataPointReport.optionalInfo.conditions'),
+      equipmentlist: t('dataPointReport.optionalInfo.equipmentlist'),
+      analyst: t('dataPointReport.optionalInfo.analyst'),
+      placeOfAnalysis: t('dataPointReport.optionalInfo.placeOfAnalysis'),
+    },
+    addButton: t('dataPointReport.button.add'),
+    exportExcelButton: t('dataPointReport.button.exportExcel'),
+    dataTab: t('dataPointReport.tab.data'),
+    numberOrder: t('dataPointReport.title.numberOrder'),
+  }
 }
 
 const optionalInfo = [
@@ -105,7 +107,7 @@ export class StationFixedReport extends React.Component {
     <Flex>
       <Popover content={this.content()} placement="bottom" trigger="click">
         <Button icon="profile" style={{ marginRight: '8px' }}>
-          {i18n.addButton}
+          {i18n().addButton}
         </Button>
       </Popover>
       {protectRole(ROLE.STATION_FIXED_SEARCH.EXPORT)(
@@ -115,7 +117,7 @@ export class StationFixedReport extends React.Component {
           onClick={this.handleExportExcel}
           type="primary"
         >
-          {i18n.exportExcelButton}
+          {i18n().exportExcelButton}
         </Button>
       )}
     </Flex>
@@ -131,7 +133,7 @@ export class StationFixedReport extends React.Component {
           {optionalInfo.map(item => (
             <div key={item.key} style={{ marginBottom: '8px' }}>
               {form.getFieldDecorator(item.field)(
-                <Checkbox>{i18n.optionalInfo[item.field]}</Checkbox>
+                <Checkbox>{i18n().optionalInfo[item.field]}</Checkbox>
               )}
             </div>
           ))}
@@ -274,7 +276,7 @@ export class StationFixedReport extends React.Component {
           setStandardVNObject={this.setStandardVNObject}
         />
         <Tabs defaultActiveKey="1" tabBarExtraContent={this.operations()}>
-          <TabPane tab={i18n.dataTab} key="1" />
+          <TabPane tab={i18n().dataTab} key="1" />
         </Tabs>
         <ReportTable
           standardsVNObject={standardsVNObject}

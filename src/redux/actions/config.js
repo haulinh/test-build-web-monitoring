@@ -3,9 +3,11 @@ import { message } from 'antd'
 import CategoryAPI from '../../api/CategoryApi'
 import { translate } from 'hoc/create-lang'
 
-const i18n = {
-  submitError: translate('addon.onSave.update.error'),
-  submitSuccess: translate('addon.onSave.update.success'),
+function i18n() {
+  return {
+    submitError: translate('addon.onSave.update.error'),
+    submitSuccess: translate('addon.onSave.update.success'),
+  }
 }
 
 export const CONFIGS = {
@@ -39,10 +41,10 @@ export function updateWarningLevelColorData(id, data) {
           payload: res.data,
         })
       }
-      message.success(i18n.submitSuccess)
+      message.success(i18n().submitSuccess)
     } catch (e) {
       console.error('--updateWarningLevelColorData--', e)
-      message.error(i18n.submitError)
+      message.error(i18n().submitError)
     }
   }
 }
@@ -56,11 +58,11 @@ export function updateWarningLevelColorSensor(id, data) {
           type: CONFIGS.UPDATE_WARNING_LEVELS_COLOR_SENSOR,
           payload: res.data,
         })
-        message.success(i18n.submitSuccess)
+        message.success(i18n().submitSuccess)
       }
     } catch (e) {
       console.error('--updateWarningLevelColorSensor--', e)
-      message.error(i18n.submitError)
+      message.error(i18n().submitError)
     }
   }
 }

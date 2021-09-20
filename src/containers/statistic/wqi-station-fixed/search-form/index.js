@@ -14,21 +14,23 @@ import SelectPoint from './SelectPoint'
 import SelectProvinceForm from './SelectProvince'
 import SelectStationTypes from './SelectStationTypes'
 
-export const i18n = {
-  provinceLabel: t('dataPointReport.form.label.province'),
-  stationTypeLabel: t('dataPointReport.form.label.stationType'),
-  phaseLabel: t('dataPointReport.form.label.phase'),
-  pointLabel: t('dataPointReport.form.label.point'),
-  timeLabel: t('dataPointReport.form.label.time'),
-  stationTypeRequired: t('dataPointReport.form.required.stationType'),
-  phaseRequired: t('dataPointReport.form.required.phase'),
-  pointRequired: t('dataPointReport.form.required.point'),
-  viewBy: t('wqiStationFix.viewBy'),
-  month: t('wqiStationFix.month'),
-  year: t('wqiStationFix.year'),
-  quarter: t('wqiStationFix.quarter'),
-  time: t('wqiStationFix.time'),
-  requireTime: t('wqiStationFix.requireTime'),
+export function i18n() {
+  return {
+    provinceLabel: t('dataPointReport.form.label.province'),
+    stationTypeLabel: t('dataPointReport.form.label.stationType'),
+    phaseLabel: t('dataPointReport.form.label.phase'),
+    pointLabel: t('dataPointReport.form.label.point'),
+    timeLabel: t('dataPointReport.form.label.time'),
+    stationTypeRequired: t('dataPointReport.form.required.stationType'),
+    phaseRequired: t('dataPointReport.form.required.phase'),
+    pointRequired: t('dataPointReport.form.required.point'),
+    viewBy: t('wqiStationFix.viewBy'),
+    month: t('wqiStationFix.month'),
+    year: t('wqiStationFix.year'),
+    quarter: t('wqiStationFix.quarter'),
+    time: t('wqiStationFix.time'),
+    requireTime: t('wqiStationFix.requireTime'),
+  }
 }
 
 const SearchFormContainer = styled(BoxShadowStyle)``
@@ -171,15 +173,15 @@ class SearchForm extends React.Component {
             <Row gutter={24}>
               <Col span={6}>
                 <SelectProvinceForm
-                  label={i18n.provinceLabel}
+                  label={i18n().provinceLabel}
                   fetchPoints={this.fetchPoints}
                   form={form}
                 />
               </Col>
               <Col span={6}>
                 <SelectStationTypes
-                  label={i18n.stationTypeLabel}
-                  getConfig={() => this.getConfig(i18n.stationTypeRequired)}
+                  label={i18n().stationTypeLabel}
+                  getConfig={() => this.getConfig(i18n().stationTypeRequired)}
                   handleOnSelectStationType={this.handleOnSelectStationType}
                   stationTypes={stationTypes}
                   form={form}
@@ -191,14 +193,14 @@ class SearchForm extends React.Component {
                 <SelectPhase
                   form={form}
                   phases={phases}
-                  label={i18n.phaseLabel}
-                  getConfig={() => this.getConfig(i18n.phaseRequired)}
+                  label={i18n().phaseLabel}
+                  getConfig={() => this.getConfig(i18n().phaseRequired)}
                 />
               </Col>
               <Col span={12}>
                 <SelectPoint
-                  label={i18n.pointLabel}
-                  getConfig={() => this.getConfig(i18n.pointRequired)}
+                  label={i18n().pointLabel}
+                  getConfig={() => this.getConfig(i18n().pointRequired)}
                   form={form}
                   points={points}
                 />
@@ -206,26 +208,26 @@ class SearchForm extends React.Component {
             </Row>
             <Row gutter={24}>
               <Col xs={8}>
-                <Form.Item label={i18n.viewBy}>
+                <Form.Item label={i18n().viewBy}>
                   {form.getFieldDecorator(FIELDS.TYPE, {
                     initialValue: 'month',
                   })(
                     <Radio.Group>
-                      <Radio value={'month'}>{i18n.month}</Radio>
-                      <Radio value={'quarter'}>{i18n.quarter}</Radio>
-                      <Radio value={'year'}>{i18n.year}</Radio>
+                      <Radio value={'month'}>{i18n().month}</Radio>
+                      <Radio value={'quarter'}>{i18n().quarter}</Radio>
+                      <Radio value={'year'}>{i18n().year}</Radio>
                     </Radio.Group>
                   )}
                 </Form.Item>
               </Col>
               <Col xs={8}>
-                <Form.Item label={i18n.time}>
+                <Form.Item label={i18n().time}>
                   {form.getFieldDecorator(FIELDS.RANGE_PICKER, {
                     //initialValue: [
                     //moment().subtract(2, 'year').startOf('year'),
                     //moment().add(1, 'year').startOf(year)
                     //],
-                    rules: this.getConfig(i18n.requireTime).rules,
+                    rules: this.getConfig(i18n().requireTime).rules,
                   })(<DatePicker.RangePicker format={formatTime} />)}
                 </Form.Item>
               </Col>

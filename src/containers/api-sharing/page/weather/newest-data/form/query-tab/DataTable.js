@@ -29,7 +29,7 @@ const DataTable = ({
         let paramValue = (Math.round(getValue * 100) / 100).toFixed(2)
 
         if (param === 'wind_cdir_full')
-          paramValue = i18n.windDirection[getValue]
+          paramValue = i18n().windDirection[getValue]
 
         return <div>{paramValue}</div>
       },
@@ -38,7 +38,7 @@ const DataTable = ({
 
   const columns = [
     {
-      title: i18n.table.tt,
+      title: i18n().table.tt,
       render: (_, __, index) => {
         const { current, pageSize } = pagination
         return <div>{(current - 1) * pageSize + (index + 1)}</div>
@@ -46,7 +46,7 @@ const DataTable = ({
     },
     {
       dataIndex: 'time',
-      title: i18n.table.timeWeather,
+      title: i18n().table.timeWeather,
       render: (value, record) => {
         const time = moment(value).format(DD_MM_YYYY_HH_MM)
         return (

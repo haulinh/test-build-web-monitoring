@@ -10,9 +10,11 @@ import { translate } from 'hoc/create-lang'
 import { isNumber } from 'lodash'
 
 const FormItem = Form.Item
-const i18n = {
-  compareToMax: translate('aqiConfigCalculation.compareToMax'),
-  compareToMin: translate('aqiConfigCalculation.compareToMin'),
+function i18n() {
+  return {
+    compareToMax: translate('aqiConfigCalculation.compareToMax'),
+    compareToMin: translate('aqiConfigCalculation.compareToMin'),
+  }
 }
 @autobind
 export default class QCVNFormTable extends React.PureComponent {
@@ -213,7 +215,7 @@ export default class QCVNFormTable extends React.PureComponent {
     const { form } = this.props
     const valueMax = form.getFieldValue(fliedName)
     if (isNumber(value) && isNumber(valueMax) && value >= valueMax) {
-      callback(i18n.compareToMax)
+      callback(i18n().compareToMax)
     } else {
       callback()
     }
@@ -223,7 +225,7 @@ export default class QCVNFormTable extends React.PureComponent {
     const valueMin = form.getFieldValue(fliedName)
 
     if (isNumber(value) && isNumber(valueMin) && value <= valueMin) {
-      callback(i18n.compareToMin)
+      callback(i18n().compareToMin)
     } else {
       callback()
     }

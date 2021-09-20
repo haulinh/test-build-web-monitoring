@@ -7,11 +7,13 @@ import { BoldTextWrap } from './_helperComponent'
 import styled from 'styled-components'
 import _ from 'lodash'
 
-const i18n = {
-  station: translate('common.station'),
-  device: translate('common.device'),
-  sensorError: translate('common.deviceStatus.sensorError'),
-  measurings: translate('common.measures'),
+function i18n() {
+  return {
+    station: translate('common.station'),
+    device: translate('common.device'),
+    sensorError: translate('common.deviceStatus.sensorError'),
+    measurings: translate('common.measures'),
+  }
 }
 
 const TitleWrapper = styled.div`
@@ -27,9 +29,9 @@ export default function SensorErrorCell(props) {
     <React.Fragment>
       <TitleWrapper>
         <BoldTextWrap>
-          {i18n.station} {cellContent.station}
+          {i18n().station} {cellContent.station}
         </BoldTextWrap>
-        <span>&nbsp; {i18n.sensorError}</span>
+        <span>&nbsp; {i18n().sensorError}</span>
       </TitleWrapper>
 
       <ul>

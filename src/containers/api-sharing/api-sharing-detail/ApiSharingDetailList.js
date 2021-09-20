@@ -15,10 +15,12 @@ import ROLE from 'constants/role'
 
 const Breadcrumb = createBreadcrumb()
 
-const i18nTrans = {
-  cancelText: translate('addon.cancel'),
-  okText: translate('addon.ok'),
-  deleteConfirmMsg: translate('confirm.msg.delete'),
+function i18nTrans() {
+  return {
+    cancelText: translate('addon.cancel'),
+    okText: translate('addon.ok'),
+    deleteConfirmMsg: translate('confirm.msg.delete'),
+  }
 }
 
 @protectRole(ROLE.SHARE_API.VIEW)
@@ -56,16 +58,16 @@ export default class ApiSharingDetailList extends React.Component {
 
   handleDeleteItem = async id => {
     Modal.confirm({
-      title: i18nTrans.deleteConfirmMsg,
-      okText: i18nTrans.okText,
-      cancelText: i18nTrans.cancelText,
+      title: i18nTrans().deleteConfirmMsg,
+      okText: i18nTrans().okText,
+      cancelText: i18nTrans().cancelText,
       onOk: async () => {
         this.setState({ loading: true })
         try {
           const res = await shareApiApi.deleteApiDetailById(id)
           if (res.success) {
             const dataUpdated = this.state.data.filter(item => item._id !== id)
-            message.success(i18n.message.delete)
+            message.success(i18n().message.delete)
             this.setState({ data: dataUpdated })
           }
         } catch (error) {}
@@ -76,9 +78,9 @@ export default class ApiSharingDetailList extends React.Component {
 
   head = [
     { content: '#', width: 2 },
-    { content: i18n.head.apiName },
-    { content: i18n.head.dateCreated },
-    { content: i18n.head.dateEdited },
+    { content: i18n().head.apiName },
+    { content: i18n().head.dateCreated },
+    { content: i18n().head.dateEdited },
   ]
 
   getRows = () => {
@@ -103,13 +105,13 @@ export default class ApiSharingDetailList extends React.Component {
           <span>
             {protectRole(ROLE.SHARE_API.EDIT)(
               <Link to={`${location.pathname}/edit/${item._id}`}>
-                {i18n.button.edit}
+                {i18n().button.edit}
               </Link>
             )}
             <Divider type="vertical" />
             {protectRole(ROLE.SHARE_API.DELETE)(
               <a onClick={() => this.handleDeleteItem(item._id)}>
-                {i18n.button.delete}
+                {i18n().button.delete}
               </a>
             )}
           </span>
@@ -142,7 +144,7 @@ export default class ApiSharingDetailList extends React.Component {
         right={protectRole(ROLE.SHARE_API.CREATE)(
           <Button onClick={this.redirectCreateApi} type="primary">
             <Icon type="plus" />
-            {i18n.button.create}
+            {i18n().button.create}
           </Button>
         )}
       >
@@ -150,7 +152,7 @@ export default class ApiSharingDetailList extends React.Component {
           items={[
             {
               id: '1',
-              name: i18n.titleMenu[pathname],
+              name: i18n().titleMenu[pathname],
             },
           ]}
         />
@@ -166,7 +168,7 @@ export default class ApiSharingDetailList extends React.Component {
         ) : (
           <Empty
             style={{ margin: '0 auto', padding: '8px 16px' }}
-            description={i18n.button.nodata}
+            description={i18n().button.nodata}
           />
         )}
       </PageContainer>

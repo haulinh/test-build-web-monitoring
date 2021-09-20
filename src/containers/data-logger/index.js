@@ -20,15 +20,17 @@ import HeaderSearchWrapper from 'components/elements/header-search-wrapper'
 
 const { Text } = Typography
 const DataLoggerWrapper = styled.div``
-const i18n = {
-  emptyView: translate('dataLogger.list.emptyView'),
-  colNo: translate('dataLogger.list.colNo'),
-  colUser: translate('dataLogger.list.colUser'),
-  colTime: translate('dataLogger.list.colTime'),
-  colAction: translate('dataLogger.list.colAction'),
-  colDevice: translate('dataLogger.list.colDevice'),
-  colDetail: translate('dataLogger.list.colDetail'),
-  jsonFile: translate('dataLogger.list.jsonFile'),
+function i18n() {
+  return {
+    emptyView: translate('dataLogger.list.emptyView'),
+    colNo: translate('dataLogger.list.colNo'),
+    colUser: translate('dataLogger.list.colUser'),
+    colTime: translate('dataLogger.list.colTime'),
+    colAction: translate('dataLogger.list.colAction'),
+    colDevice: translate('dataLogger.list.colDevice'),
+    colDetail: translate('dataLogger.list.colDetail'),
+    jsonFile: translate('dataLogger.list.jsonFile'),
+  }
 }
 
 @protectRole(ROLE.XEM_NHAT_KY.VIEW)
@@ -76,7 +78,7 @@ class DataLoggerPage extends React.Component {
         //     href="#"
         //       // onClick={() => this.onRestoreItem(row._id, this.props.fetchData)}
         //     >
-        //       {i18n.colDetail}
+        //       {i18n().colDetail}
         //     </a>
         //   )
         // }
@@ -85,12 +87,12 @@ class DataLoggerPage extends React.Component {
   }
   getHead = () => {
     return [
-      { content: i18n.colNo, width: 2 },
-      { content: i18n.colUser },
-      { content: i18n.colTime },
-      { content: i18n.colAction },
-      { content: i18n.colDevice },
-      { content: i18n.jsonFile },
+      { content: i18n().colNo, width: 2 },
+      { content: i18n().colUser },
+      { content: i18n().colTime },
+      { content: i18n().colAction },
+      { content: i18n().colDevice },
+      { content: i18n().jsonFile },
     ]
   }
 
@@ -98,7 +100,7 @@ class DataLoggerPage extends React.Component {
     return (
       <div>
         <Clearfix heigth={16} />
-        <Text disabled>{i18n.emptyView}</Text>
+        <Text disabled>{i18n().emptyView}</Text>
       </div>
     )
   }

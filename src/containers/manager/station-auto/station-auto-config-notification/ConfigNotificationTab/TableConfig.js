@@ -8,18 +8,20 @@ import OrganizationApi from 'api/OrganizationApi'
 import swal from 'sweetalert2'
 import styled from 'styled-components'
 
-const i18n = {
-  submit: translate('addon.save'),
-  titleTable: {
-    status: translate('configNotify.titleTable.status'),
-    notification: translate('configNotify.titleTable.notification'),
-    frequency: translate('configNotify.titleTable.frequency'),
-  },
-  headerConfirm: translate('configNotify.headerConfirm'),
-  contentConfirm: translate('configNotify.contentConfirm'),
-  okBtnText: translate('configNotify.okBtnText'),
-  cancelBtnText: translate('configNotify.cancelBtnText'),
-  updateSuccess: translate('addon.onSave.update.success'),
+function i18n() {
+  return {
+    submit: translate('addon.save'),
+    titleTable: {
+      status: translate('configNotify.titleTable.status'),
+      notification: translate('configNotify.titleTable.notification'),
+      frequency: translate('configNotify.titleTable.frequency'),
+    },
+    headerConfirm: translate('configNotify.headerConfirm'),
+    contentConfirm: translate('configNotify.contentConfirm'),
+    okBtnText: translate('configNotify.okBtnText'),
+    cancelBtnText: translate('configNotify.cancelBtnText'),
+    updateSuccess: translate('addon.onSave.update.success'),
+  }
 }
 
 const showSuccess = msg => {
@@ -128,12 +130,12 @@ export default class TableConfig extends React.Component {
     const res = await OrganizationApi.updateConfigNotify(_id, data)
 
     if (res) {
-      showSuccess(i18n.updateSuccess)
+      showSuccess(i18n().updateSuccess)
       this.setState({ isLoadingSubmit: false })
     } else {
       console.log(res.message)
       swal({
-        title: i18n.updateError,
+        title: i18n().updateError,
         type: 'error',
       })
     }
@@ -142,7 +144,7 @@ export default class TableConfig extends React.Component {
   getColumnsTabConfig = () => {
     return [
       {
-        title: i18n.titleTable.status,
+        title: i18n().titleTable.status,
         dataIndex: 'status',
         key: 'status',
         render: value => {
@@ -151,7 +153,7 @@ export default class TableConfig extends React.Component {
         },
       },
       {
-        title: i18n.titleTable.notification,
+        title: i18n().titleTable.notification,
         key: 'notification',
         render: configDetail => {
           const handleOnChange = e => {
@@ -172,7 +174,7 @@ export default class TableConfig extends React.Component {
         },
       },
       {
-        title: i18n.titleTable.frequency,
+        title: i18n().titleTable.frequency,
         key: 'frequency',
         render: configDetail => {
           return (
@@ -223,19 +225,19 @@ export default class TableConfig extends React.Component {
             onClick={() => this.setState({ isModelVisible: true })}
             loading={this.state.isLoadingSubmit}
           >
-            {i18n.submit}
+            {i18n().submit}
           </Button>
         </Flex>
         <Modal
-          title={i18n.headerConfirm}
+          title={i18n().headerConfirm}
           visible={this.state.isModelVisible}
           onOk={this.handleOkModel}
-          okText={i18n.okBtnText}
-          cancelText={i18n.cancelBtnText}
+          okText={i18n().okBtnText}
+          cancelText={i18n().cancelBtnText}
           confirmLoading={this.state.confirmLoading}
           onCancel={() => this.setState({ isModelVisible: false })}
         >
-          <p>{i18n.contentConfirm}</p>
+          <p>{i18n().contentConfirm}</p>
         </Modal>
       </div>
     )

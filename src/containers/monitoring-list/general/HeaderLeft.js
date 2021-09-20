@@ -48,10 +48,10 @@ export default function HeaderLeft({ stationStatus, i18n }) {
   return (
     <HeaderLeftWrapper>
       <Label>{stationStatus}</Label>
-      <SpanTitle>{i18n.statusSensor}</SpanTitle>
-      <Item color={colorLevels.ERROR}>{i18n.sensorError}</Item>
-      <Item color={colorLevels.MAINTAIN}>{i18n.sensorMaintain}</Item>
-      <Item color={colorLevels.GOOD}>{i18n.sensorGood}</Item>
+      <SpanTitle>{i18n().statusSensor}</SpanTitle>
+      <Item color={colorLevels.ERROR}>{i18n().sensorError}</Item>
+      <Item color={colorLevels.MAINTAIN}>{i18n().sensorMaintain}</Item>
+      <Item color={colorLevels.GOOD}>{i18n().sensorGood}</Item>
     </HeaderLeftWrapper>
   )
 }

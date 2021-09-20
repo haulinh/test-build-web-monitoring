@@ -19,29 +19,32 @@ import ROLE from 'constants/role'
 import { getLanguage } from 'utils/lang'
 
 const { Title, Text } = Typography
-const i18n = {
-  title: translate('menuApp.report.status_data_obj.title'),
-  station: translate('menuApp.report.table.header.station'),
-  parameter: translate('menuApp.report.table.header.parameter'),
-  dischargeThreshold: translate(
-    'menuApp.report.table.header.dischargeThreshold'
-  ),
-  unit: translate('menuApp.report.table.header.unit'),
-  minValue: translate('menuApp.report.table.header.minValue'),
-  maxValue: translate('menuApp.report.table.header.maxValue'),
-  value: translate('menuApp.report.table.header.value'),
-  time: translate('menuApp.report.table.header.time'),
-  averageValue: translate('menuApp.report.table.header.averageValue'),
-  metricReceived: translate('menuApp.report.table.header.metricReceived'),
-  totalValue: translate('menuApp.report.table.header.totalValue'),
-  percentData: translate('menuApp.report.table.header.percentData'),
-  dataExceedsStandard: translate(
-    'menuApp.report.table.header.dataExceedsStandard'
-  ),
-  timeUsuallyExceeds: translate(
-    'menuApp.report.table.header.timeUsuallyExceeds'
-  ),
-  note: translate('menuApp.report.table.header.note'),
+
+function i18n() {
+  return {
+    title: translate('menuApp.report.status_data_obj.title'),
+    station: translate('menuApp.report.table.header.station'),
+    parameter: translate('menuApp.report.table.header.parameter'),
+    dischargeThreshold: translate(
+      'menuApp.report.table.header.dischargeThreshold'
+    ),
+    unit: translate('menuApp.report.table.header.unit'),
+    minValue: translate('menuApp.report.table.header.minValue'),
+    maxValue: translate('menuApp.report.table.header.maxValue'),
+    value: translate('menuApp.report.table.header.value'),
+    time: translate('menuApp.report.table.header.time'),
+    averageValue: translate('menuApp.report.table.header.averageValue'),
+    metricReceived: translate('menuApp.report.table.header.metricReceived'),
+    totalValue: translate('menuApp.report.table.header.totalValue'),
+    percentData: translate('menuApp.report.table.header.percentData'),
+    dataExceedsStandard: translate(
+      'menuApp.report.table.header.dataExceedsStandard'
+    ),
+    timeUsuallyExceeds: translate(
+      'menuApp.report.table.header.timeUsuallyExceeds'
+    ),
+    note: translate('menuApp.report.table.header.note'),
+  }
 }
 @protectRole(ROLE.TINH_TRANG_DU_LIEU.VIEW)
 @connect(state => ({
@@ -105,7 +108,7 @@ export default class StatusDataReport extends React.Component {
   getColumns = () => {
     return [
       {
-        title: i18n.station,
+        title: i18n().station,
         dataIndex: 'name',
         align: 'center',
         width: 100,
@@ -118,7 +121,7 @@ export default class StatusDataReport extends React.Component {
         },
       },
       {
-        title: i18n.parameter,
+        title: i18n().parameter,
         align: 'center',
         dataIndex: 'analyze',
         width: 80,
@@ -142,7 +145,7 @@ export default class StatusDataReport extends React.Component {
         },
       },
       {
-        title: i18n.dischargeThreshold,
+        title: i18n().dischargeThreshold,
         dataIndex: 'measuringList',
         align: 'center',
         width: 80,
@@ -166,7 +169,7 @@ export default class StatusDataReport extends React.Component {
         },
       },
       {
-        title: i18n.unit,
+        title: i18n().unit,
         dataIndex: 'analyze',
         align: 'center',
         key: '4',
@@ -187,11 +190,11 @@ export default class StatusDataReport extends React.Component {
         },
       },
       {
-        title: i18n.minValue,
+        title: i18n().minValue,
         key: '5',
         children: [
           {
-            title: i18n.value,
+            title: i18n().value,
             dataIndex: 'analyze',
             align: 'center',
             width: 100,
@@ -218,7 +221,7 @@ export default class StatusDataReport extends React.Component {
             },
           },
           {
-            title: i18n.time,
+            title: i18n().time,
             dataIndex: 'analyze',
             align: 'center',
             key: '7',
@@ -252,11 +255,11 @@ export default class StatusDataReport extends React.Component {
         ],
       },
       {
-        title: i18n.maxValue,
+        title: i18n().maxValue,
         key: '8',
         children: [
           {
-            title: i18n.value,
+            title: i18n().value,
             dataIndex: 'analyze',
             align: 'center',
             key: 'maxValue',
@@ -283,7 +286,7 @@ export default class StatusDataReport extends React.Component {
             },
           },
           {
-            title: i18n.time,
+            title: i18n().time,
             dataIndex: 'analyze',
             align: 'center',
             key: 'minTime',
@@ -317,7 +320,7 @@ export default class StatusDataReport extends React.Component {
         ],
       },
       {
-        title: i18n.averageValue,
+        title: i18n().averageValue,
         dataIndex: 'analyze',
         align: 'center',
         width: 100,
@@ -344,11 +347,11 @@ export default class StatusDataReport extends React.Component {
         },
       },
       {
-        title: i18n.metricReceived,
+        title: i18n().metricReceived,
         key: '12',
         children: [
           {
-            title: i18n.totalValue,
+            title: i18n().totalValue,
             dataIndex: 'totalFact',
             align: 'center',
             width: 100,
@@ -370,7 +373,7 @@ export default class StatusDataReport extends React.Component {
             },
           },
           {
-            title: i18n.percentData,
+            title: i18n().percentData,
             dataIndex: 'percentage',
             align: 'center',
             width: 80,
@@ -396,11 +399,11 @@ export default class StatusDataReport extends React.Component {
         ],
       },
       {
-        title: i18n.dataExceedsStandard,
+        title: i18n().dataExceedsStandard,
         key: '15',
         children: [
           {
-            title: i18n.totalValue,
+            title: i18n().totalValue,
             dataIndex: 'analyze',
             align: 'center',
             width: 100,
@@ -425,7 +428,7 @@ export default class StatusDataReport extends React.Component {
             },
           },
           {
-            title: i18n.percentData,
+            title: i18n().percentData,
             dataIndex: 'analyze',
             align: 'center',
             width: 100,
@@ -450,12 +453,12 @@ export default class StatusDataReport extends React.Component {
         ],
       },
       {
-        title: i18n.timeUsuallyExceeds,
+        title: i18n().timeUsuallyExceeds,
         align: 'center',
         width: 100,
       },
       {
-        title: i18n.note,
+        title: i18n().note,
         align: 'center',
         width: 100,
       },
@@ -473,7 +476,7 @@ export default class StatusDataReport extends React.Component {
         />
         <Clearfix height={16} />
         <div style={{ position: 'relative', textAlign: 'center' }}>
-          <Title level={4}>{i18n.title}</Title>
+          <Title level={4}>{i18n().title}</Title>
 
           {this.state.isHaveData && (
             <React.Fragment>

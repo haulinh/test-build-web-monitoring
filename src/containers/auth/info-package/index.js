@@ -34,17 +34,19 @@ const InfoLicenseWrapper = styled.div`
   }
 `
 
-const i18n = {
-  title1: translate('infoLicense.title1'),
-  title2: translate('infoLicense.title2'),
-  title3: translate('infoLicense.title3'),
-  text1: translate('infoLicense.text1'),
-  text2: translate('infoLicense.text2'),
-  text4: translate('infoLicense.text4'),
-  text5: translate('infoLicense.text5'),
-  text6: translate('infoLicense.text6'),
-  text7: translate('infoLicense.text7'),
-  dateUnlimited: translate('infoLicense.dateUnlimited'),
+function i18n() {
+  return {
+    title1: translate('infoLicense.title1'),
+    title2: translate('infoLicense.title2'),
+    title3: translate('infoLicense.title3'),
+    text1: translate('infoLicense.text1'),
+    text2: translate('infoLicense.text2'),
+    text4: translate('infoLicense.text4'),
+    text5: translate('infoLicense.text5'),
+    text6: translate('infoLicense.text6'),
+    text7: translate('infoLicense.text7'),
+    dateUnlimited: translate('infoLicense.dateUnlimited'),
+  }
 }
 
 @connect(state => ({
@@ -132,14 +134,14 @@ export class InfoLicenseForm extends PureComponent {
               <Col span={12}>
                 <div className="info--package__col">
                   <div className="info--package__col__title">
-                    <Title level={4}>{i18n.title1}</Title>
+                    <Title level={4}>{i18n().title1}</Title>
                   </div>
                   <div className="info--package__col__content">
                     <Text
                       strong
                       className="info--package__col__content--padding"
                     >
-                      {i18n.text1}
+                      {i18n().text1}
                     </Text>
                     <Text disabled>{dateCreate}</Text>
                     <br />
@@ -147,10 +149,10 @@ export class InfoLicenseForm extends PureComponent {
                       strong
                       className="info--package__col__content--padding"
                     >
-                      {i18n.text2}
+                      {i18n().text2}
                     </Text>
                     <Text disabled>
-                      {isOnPremises ? i18n.dateUnlimited : dateExp}
+                      {isOnPremises ? i18n().dateUnlimited : dateExp}
                     </Text>
                     <br />
                     {!isOnPremises && totalDays > 0 && (
@@ -169,14 +171,14 @@ export class InfoLicenseForm extends PureComponent {
               <Col span={12}>
                 <div className="info--package__col">
                   <div className="info--package__col__title">
-                    <Title level={4}> {i18n.title2}</Title>
+                    <Title level={4}> {i18n().title2}</Title>
                   </div>
                   <div className="info--package__col__content">
                     <Text
                       strong
                       className="info--package__col__content--padding"
                     >
-                      {i18n.text4}
+                      {i18n().text4}
                     </Text>
                     <Text
                       disabled
@@ -186,7 +188,7 @@ export class InfoLicenseForm extends PureComponent {
                       strong
                       className="info--package__col__content--padding"
                     >
-                      {i18n.text5}
+                      {i18n().text5}
                     </Text>
                     <Text disabled>{`${currentUser.data}/${totalUser}`}</Text>
                     <Clearfix height={8} />
@@ -199,14 +201,14 @@ export class InfoLicenseForm extends PureComponent {
               <Col span={12}>
                 <div className="info--package__col">
                   <div className="info--package__col__title">
-                    <Title level={4}>{i18n.title3}</Title>
+                    <Title level={4}>{i18n().title3}</Title>
                   </div>
                   <div className="info--package__col__content">
                     <Text
                       strong
                       className="info--package__col__content--padding"
                     >
-                      {i18n.text6}
+                      {i18n().text6}
                     </Text>
                     <Text
                       style={{
@@ -220,7 +222,7 @@ export class InfoLicenseForm extends PureComponent {
                       strong
                       className="info--package__col__content--padding"
                     >
-                      {i18n.text7}
+                      {i18n().text7}
                     </Text>
                     <Text
                       style={{

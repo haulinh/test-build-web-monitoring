@@ -12,19 +12,21 @@ import { MM_YYYY } from 'constants/format-date'
 
 const { MonthPicker } = DatePicker
 
-const i18n = {
-  error: {
-    stationType: translate('avgSearchFrom.form.stationType.error'),
-    fromMonth: translate('avgSearchFrom.form.fromMonth.error'),
-    toMonth: translate('avgSearchFrom.form.toMonth.error'),
-    toMonth_1: translate('avgSearchFrom.form.toMonth.error1'),
-    toMonth_2: translate('avgSearchFrom.form.toMonth.error2'),
-  },
-  label: {
-    stationType: translate('avgSearchFrom.form.stationType.label'),
-    fromMonth: translate('avgSearchFrom.form.fromMonth.label'),
-    toMonth: translate('avgSearchFrom.form.toMonth.label'),
-  },
+function i18n() {
+  return {
+    error: {
+      stationType: translate('avgSearchFrom.form.stationType.error'),
+      fromMonth: translate('avgSearchFrom.form.fromMonth.error'),
+      toMonth: translate('avgSearchFrom.form.toMonth.error'),
+      toMonth_1: translate('avgSearchFrom.form.toMonth.error1'),
+      toMonth_2: translate('avgSearchFrom.form.toMonth.error2'),
+    },
+    label: {
+      stationType: translate('avgSearchFrom.form.stationType.label'),
+      fromMonth: translate('avgSearchFrom.form.fromMonth.label'),
+      toMonth: translate('avgSearchFrom.form.toMonth.label'),
+    },
+  }
 }
 
 const Item = props => (
@@ -82,10 +84,10 @@ export default class SearchForm extends React.Component {
     const { form } = this.props
     console.log()
     if (value && value < form.getFieldValue('fromMonth')) {
-      callback(i18n.error.toMonth_1)
+      callback(i18n().error.toMonth_1)
     }
     if (value && value.isAfter(moment(), 'month')) {
-      callback(i18n.error.toMonth_2)
+      callback(i18n().error.toMonth_2)
     } else {
       callback()
     }
@@ -122,39 +124,39 @@ export default class SearchForm extends React.Component {
         <div style={{ padding: '8px 16px' }}>
           <Row gutter={16}>
             <Col span={8}>
-              <Item label={i18n.label.stationType}>
+              <Item label={i18n().label.stationType}>
                 {getFieldDecorator('stationType', {
                   initialValue: '',
                 })(<SelectStationType isShowAll />)}
               </Item>
             </Col>
             <Col span={8}>
-              <Item label={i18n.label.fromMonth}>
+              <Item label={i18n().label.fromMonth}>
                 {getFieldDecorator('fromMonth', {
                   initialValue: moment(),
                   rules: [
                     {
                       required: true,
-                      message: i18n.error.fromMonth,
+                      message: i18n().error.fromMonth,
                     },
                   ],
-                })(<MonthPicker style={{ width: '100%' }} format={MM_YYYY}/>)}
+                })(<MonthPicker style={{ width: '100%' }} format={MM_YYYY} />)}
               </Item>
             </Col>
             <Col span={8}>
-              <Item label={i18n.label.toMonth}>
+              <Item label={i18n().label.toMonth}>
                 {getFieldDecorator('toMonth', {
                   initialValue: moment(),
                   rules: [
                     {
                       required: true,
-                      message: i18n.error.toMonth,
+                      message: i18n().error.toMonth,
                     },
                     {
                       validator: this.compareTofromDate,
                     },
                   ],
-                })(<MonthPicker style={{ width: '100%' }} format={MM_YYYY}/>)}
+                })(<MonthPicker style={{ width: '100%' }} format={MM_YYYY} />)}
               </Item>
             </Col>
           </Row>

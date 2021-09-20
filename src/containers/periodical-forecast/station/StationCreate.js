@@ -11,9 +11,11 @@ import React from 'react'
 import Breadcrumb from '../breadcrumb'
 import StationForm from './StationForm'
 
-const i18n = {
-  success: translate('periodicalForecast.message.createSuccess'),
-  error: translate('addon.onSave.add.error'),
+function i18n() {
+  return {
+    success: translate('periodicalForecast.message.createSuccess'),
+    error: translate('addon.onSave.add.error'),
+  }
 }
 @protectRole(ROLE.PERIODICAL_STATION.CREATE)
 @createLanguageHoc
@@ -31,14 +33,14 @@ export default class StationCreate extends React.Component {
       .then(values => {
         this.setState({ isLoading: false })
         if (values) {
-          message.success(i18n.success)
+          message.success(i18n().success)
           this.props.history.push(slug.periodicalForecast.station)
         }
         return values
       })
       .catch(error => {
         this.setState({ isUpdating: false })
-        message.error(i18n.error)
+        message.error(i18n().error)
         return {
           ...error,
         }

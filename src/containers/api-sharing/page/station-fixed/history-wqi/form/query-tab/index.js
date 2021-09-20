@@ -128,7 +128,11 @@ export default class QueryTab extends Component {
         fieldName: field.fieldName,
         value: field.value,
       }))
-      .filter(field => field.value && !['rangeTime', 'stationNames'].includes(field.fieldName))
+      .filter(
+        field =>
+          field.value &&
+          !['rangeTime', 'stationNames'].includes(field.fieldName)
+      )
 
     const urlParams = fieldsParams
       .map(field => `${field.fieldName}=${field.value}`)
@@ -232,10 +236,16 @@ export default class QueryTab extends Component {
             <div className="content">
               <Method>GET</Method>
               <Endpoint>
-                <div style={{ width: "95%" }}>
+                <div style={{ width: '95%' }}>
                   <Text>{this.getUrl()}</Text>
                 </div>
-                <PermissionPopover roles={[ROLE.SHARE_API.CREATE, ROLE.SHARE_API.EDIT, ROLE.SHARE_API.DELETE]}>
+                <PermissionPopover
+                  roles={[
+                    ROLE.SHARE_API.CREATE,
+                    ROLE.SHARE_API.EDIT,
+                    ROLE.SHARE_API.DELETE,
+                  ]}
+                >
                   <Icon type="copy" onClick={this.copyUrl} />
                 </PermissionPopover>
               </Endpoint>
@@ -247,14 +257,14 @@ export default class QueryTab extends Component {
 
         <Clearfix height={32} />
         <Tabs>
-          <Tabs.TabPane tab={i18n.tab.list} key="List">
+          <Tabs.TabPane tab={i18n().tab.list} key="List">
             <DataTable
               measuringList={measuringList}
               dataSource={dataTable}
               loading={loadingSearch}
             />
           </Tabs.TabPane>
-          <Tabs.TabPane tab={i18n.tab.example} key="Example">
+          <Tabs.TabPane tab={i18n().tab.example} key="Example">
             <Example data={dataExample} />
           </Tabs.TabPane>
         </Tabs>

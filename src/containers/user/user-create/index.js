@@ -25,10 +25,12 @@ import {
   Content,
 } from './style'
 
-const i18n = {
-  title: translate('userManager.modal.title'),
-  callAction: translate('userManager.modal.callAction'),
-  back: translate('userManager.modal.back'),
+function i18n() {
+  return {
+    title: translate('userManager.modal.title'),
+    callAction: translate('userManager.modal.callAction'),
+    back: translate('userManager.modal.back'),
+  }
 }
 
 @protectRole(ROLE.USER.CREATE)
@@ -94,8 +96,8 @@ export default class UserCreate extends React.PureComponent {
       Modal.warning({
         icon: null,
         width: '50%',
-        title: <Title>{i18n.title}</Title>,
-        okText: i18n.okText,
+        title: <Title>{i18n().title}</Title>,
+        okText: i18n().okText,
         content: (
           <Container>
             <Desc
@@ -106,7 +108,7 @@ export default class UserCreate extends React.PureComponent {
               }}
             />
             <ContentWrapper>
-              <Heading>{i18n.callAction}</Heading>
+              <Heading>{i18n().callAction}</Heading>
               <Wrapper>
                 <Flex>
                   <Label>{translate('contact.phone')}</Label>

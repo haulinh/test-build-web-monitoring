@@ -18,8 +18,10 @@ import * as _ from 'lodash'
 import { getTotalCount_by_province } from 'api/StationAuto'
 import { translate } from 'hoc/create-lang'
 
-const i18n = {
-  errorDeleteProvince: translate('provinceManager.form.errorDeleteProvince'),
+function i18n() {
+  return {
+    errorDeleteProvince: translate('provinceManager.form.errorDeleteProvince'),
+  }
 }
 
 @protectRole(ROLE.PROVINCE.VIEW)
@@ -106,11 +108,7 @@ export default class ProvinceList extends React.Component {
 
             <Divider type="vertical" />
             {protectRole(ROLE.PROVINCE.DELETE)(
-              <a
-                onClick={() =>
-                  this.handleDeleteItem(row._id)
-                }
-              >
+              <a onClick={() => this.handleDeleteItem(row._id)}>
                 {t('province.delete.label')}
               </a>
             )}
@@ -124,7 +122,7 @@ export default class ProvinceList extends React.Component {
     const countStation = await getTotalCount_by_province(provinceId)
     if (countStation.success) {
       if (countStation.count > 0) {
-        message.error(i18n.errorDeleteProvince)
+        message.error(i18n().errorDeleteProvince)
       } else {
         this.props.onDeleteItem(provinceId, this.props.fetchData)
       }

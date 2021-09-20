@@ -21,12 +21,14 @@ const ButtonGroup = Button.Group
 
 const Wrapper = styled.div``
 
-const i18n = {
-  tabMucDo: translate('wqiConfigCalculation.tab1'), //"Ngưỡng mức độ",
-  tabGiaTri: translate('wqiConfigCalculation.tab2'),
-  tabThongSo: translate('wqiConfigCalculation.tab3'),
-  tabTrongSo: translate('wqiConfigCalculation.tab4'),
-  pageName: translate('wqiConfigCalculation.pageName'),
+function i18n() {
+  return {
+    tabMucDo: translate('wqiConfigCalculation.tab1'), //"Ngưỡng mức độ",
+    tabGiaTri: translate('wqiConfigCalculation.tab2'),
+    tabThongSo: translate('wqiConfigCalculation.tab3'),
+    tabTrongSo: translate('wqiConfigCalculation.tab4'),
+    pageName: translate('wqiConfigCalculation.pageName'),
+  }
 }
 
 const TAB_KEY = {
@@ -36,10 +38,10 @@ const TAB_KEY = {
   TRONG_SO: 'TRONG_SO',
 }
 const TAB_NAME = {
-  MUC_DO: i18n.tabMucDo,
-  GIA_TRI: i18n.tabGiaTri,
-  THONG_SO: i18n.tabThongSo,
-  TRONG_SO: i18n.tabTrongSo,
+  MUC_DO: i18n().tabMucDo,
+  GIA_TRI: i18n().tabGiaTri,
+  THONG_SO: i18n().tabThongSo,
+  TRONG_SO: i18n().tabTrongSo,
 }
 @withRouter
 @autobind
@@ -85,7 +87,7 @@ export default class ConfigCalculationWQI extends PureComponent {
           items={[
             {
               id: '1',
-              name: i18n.pageName,
+              name: i18n().pageName,
               href: slug.advance.configWqi,
             },
             {

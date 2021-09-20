@@ -7,10 +7,12 @@ import { BoldTextWrap } from './_helperComponent'
 import styled from 'styled-components'
 import _ from 'lodash'
 
-const i18n = {
-  station: translate('common.station'),
-  measurings: translate('common.measure2'),
-  dataExceededPrepare: translate('common.deviceStatus.dataExceededPrepare'),
+function i18n() {
+  return {
+    station: translate('common.station'),
+    measurings: translate('common.measure2'),
+    dataExceededPrepare: translate('common.deviceStatus.dataExceededPrepare'),
+  }
 }
 
 const TitleWrapper = styled.div`
@@ -26,9 +28,9 @@ export default function DataExceededPreparedCell(props) {
     <React.Fragment>
       <TitleWrapper>
         <BoldTextWrap>
-          {i18n.station} {cellContent.station}
+          {i18n().station} {cellContent.station}
         </BoldTextWrap>
-        <span>&nbsp; {i18n.dataExceededPrepare}</span>
+        <span>&nbsp; {i18n().dataExceededPrepare}</span>
       </TitleWrapper>
 
       <ul>

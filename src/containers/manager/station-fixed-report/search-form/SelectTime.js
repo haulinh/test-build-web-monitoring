@@ -69,7 +69,7 @@ const OptionSelectTimeRange = ({ onSelect, foreceRerender, ...otherProps }) => {
         </Select.Option>
       ))}
       <Select.Option key="range" value={FIELDS.RANGE_PICKER}>
-        {i18n.inRangeField}
+        {i18n().inRangeField}
       </Select.Option>
     </Select>
   )

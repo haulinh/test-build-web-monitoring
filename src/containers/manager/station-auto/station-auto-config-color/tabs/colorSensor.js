@@ -8,15 +8,17 @@ import { updateWarningLevelColorSensor } from 'redux/actions/config'
 
 const { Text } = Typography
 
-const i18n = {
-  columnType: translate('page.config.color.table.column.type'),
-  columnTypeAlt: translate('page.config.color.table.column.alternative'),
-  columnColor: translate('page.config.color.table.column.color'),
-  columnBackgroundColor: translate(
-    'page.config.color.table.column.backgroundColor'
-  ),
-  columnDesc: translate('page.config.color.table.column.desc'),
-  save: translate('addon.save'),
+function i18n() {
+  return {
+    columnType: translate('page.config.color.table.column.type'),
+    columnTypeAlt: translate('page.config.color.table.column.alternative'),
+    columnColor: translate('page.config.color.table.column.color'),
+    columnBackgroundColor: translate(
+      'page.config.color.table.column.backgroundColor'
+    ),
+    columnDesc: translate('page.config.color.table.column.desc'),
+    save: translate('addon.save'),
+  }
 }
 
 @connectAutoDispatch(
@@ -59,7 +61,7 @@ export default class WarningLevelColorOfSensor extends React.Component {
           type="primary"
           style={{ marginTop: 16 }}
         >
-          {i18n.save}
+          {i18n().save}
         </Button>
       </React.Fragment>
     )
@@ -70,7 +72,7 @@ export default class WarningLevelColorOfSensor extends React.Component {
 
     return [
       {
-        title: i18n.columnType,
+        title: i18n().columnType,
         dataIndex: 'name',
         key: 'name',
         render(text, record, index) {
@@ -85,7 +87,7 @@ export default class WarningLevelColorOfSensor extends React.Component {
         },
       },
       {
-        title: i18n.columnTypeAlt,
+        title: i18n().columnTypeAlt,
         dataIndex: 'altName',
         key: 'altName',
         render(text, record, index) {
@@ -95,7 +97,7 @@ export default class WarningLevelColorOfSensor extends React.Component {
         },
       },
       {
-        title: i18n.columnColor,
+        title: i18n().columnColor,
         dataIndex: 'color',
         key: 'color',
         align: 'center',
@@ -106,7 +108,7 @@ export default class WarningLevelColorOfSensor extends React.Component {
         },
       },
       {
-        title: i18n.columnBackgroundColor,
+        title: i18n().columnBackgroundColor,
         dataIndex: 'backgroundColor',
         key: 'backgroundColor',
         align: 'center',
@@ -117,7 +119,7 @@ export default class WarningLevelColorOfSensor extends React.Component {
         },
       },
       {
-        title: i18n.columnDesc,
+        title: i18n().columnDesc,
         dataIndex: 'description',
         key: 'description',
         render(text, record, index) {

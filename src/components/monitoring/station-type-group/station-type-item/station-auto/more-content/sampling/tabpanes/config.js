@@ -9,31 +9,33 @@ import SqlConfig from './SqlConfig'
 import ModBusConfig from './ModBusConfig'
 import ExceededConfig from './ExceededConfig'
 
-const i18n = {
-  errorDuplicateTagName: t(
-    'monitoring.moreContent.sampling.error.duplicateTagName'
-  ),
-  methodSampling: t('monitoring.moreContent.sampling.content.methodSampling'),
-  totalBottles: t(
-    'monitoring.moreContent.sampling.content.config.totalBottles'
-  ),
-  controlTagName: t(
-    'monitoring.moreContent.sampling.content.config.controlTagName'
-  ),
-  timeToTakeOneBottle: t(
-    'monitoring.moreContent.sampling.content.config.timeToTakeOneBottle'
-  ),
-  save: t('monitoring.moreContent.sampling.content.config.save'),
-  alertNull: t('error.nullValue'),
-  alertSuccess: t('success.text'),
-  alertError: t('error.text'),
-  alertSaveConfigError: t('error.monitoring.saveSampingConfig'),
-  generalConfig: t(
-    'monitoring.moreContent.sampling.content.config.generalConfig'
-  ),
-  exceededConfig: t(
-    'monitoring.moreContent.sampling.content.config.exceededConfig'
-  ),
+function i18n() {
+  return {
+    errorDuplicateTagName: t(
+      'monitoring.moreContent.sampling.error.duplicateTagName'
+    ),
+    methodSampling: t('monitoring.moreContent.sampling.content.methodSampling'),
+    totalBottles: t(
+      'monitoring.moreContent.sampling.content.config.totalBottles'
+    ),
+    controlTagName: t(
+      'monitoring.moreContent.sampling.content.config.controlTagName'
+    ),
+    timeToTakeOneBottle: t(
+      'monitoring.moreContent.sampling.content.config.timeToTakeOneBottle'
+    ),
+    save: t('monitoring.moreContent.sampling.content.config.save'),
+    alertNull: t('error.nullValue'),
+    alertSuccess: t('success.text'),
+    alertError: t('error.text'),
+    alertSaveConfigError: t('error.monitoring.saveSampingConfig'),
+    generalConfig: t(
+      'monitoring.moreContent.sampling.content.config.generalConfig'
+    ),
+    exceededConfig: t(
+      'monitoring.moreContent.sampling.content.config.exceededConfig'
+    ),
+  }
 }
 
 const { Panel } = Collapse
@@ -80,7 +82,7 @@ class SamplingConfig extends Component {
         configExceeded: configExceeded.config,
       })
     } catch (error) {
-      message.error(i18n.errorDuplicateTagName)
+      message.error(i18n().errorDuplicateTagName)
     }
     this.setState({ isSaving: false })
   }
@@ -97,7 +99,7 @@ class SamplingConfig extends Component {
   renderGeneralConfig = () => (
     <div style={{ padding: '2em' }}>
       <Row style={{ marginBottom: '2em' }}>
-        <span style={{ marginRight: '2em' }}>{i18n.methodSampling}</span>
+        <span style={{ marginRight: '2em' }}>{i18n().methodSampling}</span>
         <Radio.Group
           disabled
           onChange={this.handleChangeProtocol}
@@ -137,10 +139,10 @@ class SamplingConfig extends Component {
     return (
       <Wrapper>
         <Collapse defaultActiveKey="general-config">
-          <Panel key="general-config" header={i18n.generalConfig}>
+          <Panel key="general-config" header={i18n().generalConfig}>
             {this.renderGeneralConfig()}
           </Panel>
-          <Panel key="exceeded-config" header={i18n.exceededConfig}>
+          <Panel key="exceeded-config" header={i18n().exceededConfig}>
             <ExceededConfig
               defaultValue={configExceeded}
               measuringList={measuringList}
@@ -154,7 +156,7 @@ class SamplingConfig extends Component {
           loading={isSaving}
           onClick={this.handleSubmit}
         >
-          {i18n.save}
+          {i18n().save}
         </Button>
       </Wrapper>
     )

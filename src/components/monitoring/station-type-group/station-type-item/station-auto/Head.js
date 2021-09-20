@@ -22,20 +22,22 @@ import queryFormDataBrowser from 'hoc/query-formdata-browser'
 
 // import objectPath from 'object-path'
 
-const i18n = {
-  notInUse: translate('monitoring.notInUse'),
-  sampling: translate('monitoring.actions.sampling'),
-  camera: translate('monitoring.actions.camera'),
-  chart: translate('monitoring.actions.chart'),
-  map: translate('monitoring.actions.map'),
-  images: translate('monitoring.actions.images'),
-  stationInfo: translate('monitoring.actions.stationInfo'),
-  reviewStation: translate('monitoring.actions.reviewStation'),
-  more: translate('monitoring.actions.more.label'),
-  historyData: translate('monitoring.actions.more.historyData'),
-  averageData: translate('monitoring.actions.more.averageData'),
-  checkData: translate('monitoring.actions.more.checkData'),
-  config: translate('monitoring.actions.more.config'),
+function i18n() {
+  return {
+    notInUse: translate('monitoring.notInUse'),
+    sampling: translate('monitoring.actions.sampling'),
+    camera: translate('monitoring.actions.camera'),
+    chart: translate('monitoring.actions.chart'),
+    map: translate('monitoring.actions.map'),
+    images: translate('monitoring.actions.images'),
+    stationInfo: translate('monitoring.actions.stationInfo'),
+    reviewStation: translate('monitoring.actions.reviewStation'),
+    more: translate('monitoring.actions.more.label'),
+    historyData: translate('monitoring.actions.more.historyData'),
+    averageData: translate('monitoring.actions.more.averageData'),
+    checkData: translate('monitoring.actions.more.checkData'),
+    config: translate('monitoring.actions.more.config'),
+  }
 }
 
 const StationHeadItemWrapper = styled.div`
@@ -257,7 +259,7 @@ export default class StationAutoHead extends React.PureComponent {
           ) : (
             <StationName>
               {removeAccents(language, name)}{' '}
-              {status === STATUS_STATION.NOT_USE && ' - ' + i18n.notInUse}
+              {status === STATUS_STATION.NOT_USE && ' - ' + i18n().notInUse}
             </StationName>
           )}
           <Clearfix width={8} />
@@ -278,7 +280,7 @@ export default class StationAutoHead extends React.PureComponent {
               type={currentAction === 'sampling' ? 'primary' : 'default'}
               onClick={this.handleActionOnClick('sampling')}
             >
-              {i18n.sampling}
+              {i18n().sampling}
             </Button>
           )}
 
@@ -292,7 +294,7 @@ export default class StationAutoHead extends React.PureComponent {
               type={currentAction === 'camera' ? 'primary' : 'default'}
               onClick={this.handleActionOnClick('camera')}
             >
-              {i18n.camera}
+              {i18n().camera}
             </Button>
           )}
 
@@ -304,7 +306,7 @@ export default class StationAutoHead extends React.PureComponent {
               !checkRolePriority(this.props.userInfo, ROLE.MONITORING.CHART)
             }
           >
-            {i18n.chart}
+            {i18n().chart}
           </Button>
           <Button
             className="actionItem"
@@ -314,7 +316,7 @@ export default class StationAutoHead extends React.PureComponent {
               !checkRolePriority(this.props.userInfo, ROLE.MONITORING.MAP)
             }
           >
-            {i18n.map}
+            {i18n().map}
           </Button>
           {/* <Button
             className="actionItem"
@@ -324,7 +326,7 @@ export default class StationAutoHead extends React.PureComponent {
               !checkRolePriority(this.props.userInfo, ROLE.MONITORING.IMAGES)
             }
           >
-            {i18n.images}
+            {i18n().images}
           </Button>
           <Button
             className="actionItem"
@@ -337,7 +339,7 @@ export default class StationAutoHead extends React.PureComponent {
               )
             }
           >
-            {i18n.stationInfo}
+            {i18n().stationInfo}
           </Button>
           <Button
             className="actionItem"
@@ -350,7 +352,7 @@ export default class StationAutoHead extends React.PureComponent {
               )
             }
           >
-            {i18n.reviewStation}
+            {i18n().reviewStation}
           </Button> */}
 
           <Dropdown
@@ -366,7 +368,7 @@ export default class StationAutoHead extends React.PureComponent {
                   }
                   onClick={this.handleActionOnClick('more', 'historyData')}
                 >
-                  {i18n.historyData}
+                  {i18n().historyData}
                 </Menu.Item>
                 <Divider style={{ margin: 0 }} />
                 <Menu.Item
@@ -379,7 +381,7 @@ export default class StationAutoHead extends React.PureComponent {
                   }
                   onClick={this.handleActionOnClick('more', 'avgData')}
                 >
-                  {i18n.averageData}
+                  {i18n().averageData}
                 </Menu.Item>
                 {/* <Divider style={{ margin: 0 }} /> */}
                 {/* <Menu.Item
@@ -392,7 +394,7 @@ export default class StationAutoHead extends React.PureComponent {
                   disabled={true}
                   key="3"
                 >
-                  {i18n.checkData}
+                  {i18n().checkData}
                 </Menu.Item> */}
                 {/* <Divider style={{ margin: 0 }} />
                 <Menu.Item
@@ -405,13 +407,13 @@ export default class StationAutoHead extends React.PureComponent {
                   disabled={true}
                   key="4"
                 >
-                  {i18n.config}
+                  {i18n().config}
                 </Menu.Item> */}
               </Menu>
             }
           >
             <Button className="actionItem">
-              {i18n.more} <Icon type="down" />
+              {i18n().more} <Icon type="down" />
             </Button>
           </Dropdown>
 
@@ -428,7 +430,7 @@ export default class StationAutoHead extends React.PureComponent {
                   }
                   onClick={() => this.handleActionOnClick('chart')}
                 >
-                  {i18n.chart}
+                  {i18n().chart}
                 </Menu.Item>
                 <Divider style={{ margin: 0 }} />
                 <Menu.Item
@@ -438,7 +440,7 @@ export default class StationAutoHead extends React.PureComponent {
                   }
                   onClick={() => this.handleActionOnClick('map')}
                 >
-                  {i18n.map}
+                  {i18n().map}
                 </Menu.Item>
                 <Divider style={{ margin: 0 }} /> */}
                 <Menu.Item
@@ -452,7 +454,7 @@ export default class StationAutoHead extends React.PureComponent {
                   // onClick={this.handleActionOnClick('image')}
                   onClick={this.showDrawer('image')}
                 >
-                  {i18n.images}
+                  {i18n().images}
                 </Menu.Item>
                 <Divider style={{ margin: 0 }} />
                 <Menu.Item
@@ -466,7 +468,7 @@ export default class StationAutoHead extends React.PureComponent {
                   // onClick={() => this.handleActionOnClick('station')}
                   onClick={this.showDrawer('info')}
                 >
-                  {i18n.stationInfo}
+                  {i18n().stationInfo}
                 </Menu.Item>
                 <Divider style={{ margin: 0 }} />
                 <Menu.Item
@@ -479,7 +481,7 @@ export default class StationAutoHead extends React.PureComponent {
                   }
                   onClick={this.showDrawer('comment')}
                 >
-                  {i18n.reviewStation}
+                  {i18n().reviewStation}
                 </Menu.Item>
               </Menu>
             }

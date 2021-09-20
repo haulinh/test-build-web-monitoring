@@ -5,21 +5,23 @@ import React from 'react'
 
 const FormItem = Form.Item
 
-const i18n = {
-  totalBottles: translate(
-    'monitoring.moreContent.sampling.content.config.totalBottles'
-  ),
-  controlTagName: translate(
-    'monitoring.moreContent.sampling.content.config.controlTagName'
-  ),
-  timeToTakeOneBottle: translate(
-    'monitoring.moreContent.sampling.content.config.timeToTakeOneBottle'
-  ),
-  save: translate('monitoring.moreContent.sampling.content.config.save'),
-  alertNull: translate('error.nullValue'),
-  alertSuccess: translate('success.text'),
-  alertError: translate('error.text'),
-  alertSaveConfigError: translate('error.monitoring.saveSampingConfig'),
+function i18n() {
+  return {
+    totalBottles: translate(
+      'monitoring.moreContent.sampling.content.config.totalBottles'
+    ),
+    controlTagName: translate(
+      'monitoring.moreContent.sampling.content.config.controlTagName'
+    ),
+    timeToTakeOneBottle: translate(
+      'monitoring.moreContent.sampling.content.config.timeToTakeOneBottle'
+    ),
+    save: translate('monitoring.moreContent.sampling.content.config.save'),
+    alertNull: translate('error.nullValue'),
+    alertSuccess: translate('success.text'),
+    alertError: translate('error.text'),
+    alertSaveConfigError: translate('error.monitoring.saveSampingConfig'),
+  }
 }
 
 export default class SqlConfig extends React.Component {
@@ -57,14 +59,14 @@ export default class SqlConfig extends React.Component {
         <Row>
           <Col>
             <Row>
-              <FormItem label={i18n.totalBottles}>
+              <FormItem label={i18n().totalBottles}>
                 {getFieldDecorator('totalBottles', {
                   rules: [
                     {
                       required: true,
                       min: 1,
                       type: 'integer',
-                      message: i18n.alertNull,
+                      message: i18n().alertNull,
                     },
                   ],
                   initialValue: totalBottles,
@@ -77,9 +79,9 @@ export default class SqlConfig extends React.Component {
               </FormItem>
             </Row>
             <Row>
-              <FormItem label={i18n.controlTagName}>
+              <FormItem label={i18n().controlTagName}>
                 {getFieldDecorator('controlTagName', {
-                  rules: [{ required: true, message: i18n.alertNull }],
+                  rules: [{ required: true, message: i18n().alertNull }],
                   initialValue: controlTagName,
                 })(
                   <Input
@@ -90,14 +92,14 @@ export default class SqlConfig extends React.Component {
               </FormItem>
             </Row>
             <Row>
-              <FormItem label={i18n.timeToTakeOneBottle}>
+              <FormItem label={i18n().timeToTakeOneBottle}>
                 {getFieldDecorator('timeToTakeOneBottle', {
                   rules: [
                     {
                       required: true,
                       min: 1,
                       type: 'integer',
-                      message: i18n.alertNull,
+                      message: i18n().alertNull,
                     },
                   ],
                   initialValue: timeToTakeOneBottle,
