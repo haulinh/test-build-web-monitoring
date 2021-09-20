@@ -1,7 +1,7 @@
 import { Button, Col, DatePicker, Form, Input, InputNumber, Row } from 'antd'
 import SelectMeasureParameter from 'components/elements/select-measure-parameter'
 import { BoxShadow, Clearfix, FormItem } from 'components/layouts/styles'
-import { DD_MM_YYYY, DD_MM_YYYY_HH_MM_SS } from 'constants/format-date'
+import { DD_MM_YYYY } from 'constants/format-date'
 import { PATTERN_KEY } from 'constants/format-string'
 import createLanguageHoc, { translate } from 'hoc/create-lang'
 import _ from 'lodash'
