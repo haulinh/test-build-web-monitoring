@@ -1,4 +1,4 @@
-import { Button, Form } from 'antd'
+import { Button, Form, Icon } from 'antd'
 import styled from 'styled-components'
 import React from 'react'
 import { translate as t } from 'hoc/create-lang'
@@ -61,6 +61,7 @@ export const Search = ({ loading, onSearch, children }) => {
           onClick={onSearch}
           loading={loading}
         >
+          <Icon type="search" />
           {t('apiSharingNew.button.search')}
         </Button>
       </HeaderSearch>
