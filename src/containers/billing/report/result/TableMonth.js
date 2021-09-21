@@ -13,6 +13,7 @@ const i18n = () => ({
   price: t('billing.table.month.price'),
   sumPrice: t('billing.table.month.sumPrice'),
   flow: t('billing.table.month.flow'),
+  sum: t('billing.table.month.sum'),
 })
 
 export default function TableMonth({ resultReport = {} }) {
@@ -66,12 +67,39 @@ export default function TableMonth({ resultReport = {} }) {
       render: value => <div>{value.fee}</div>,
     },
   ]
+
+  const BodyWrapper = props => {
+    const renderFooter = () => {
+      return (
+        <React.Fragment>
+          <tr className="ant-table-row">
+            <td colSpan="2" style={{ textAlign: 'center' }}>
+              {i18n().sum}
+            </td>
+            <td style={{ textAlign: 'center' }}>
+              {_.get(resultReport, ['total', 'fee'], 0)}
+            </td>
+            <td></td>
+          </tr>
+        </React.Fragment>
+      )
+    }
+
+    return (
+      <tbody {...props}>
+        <React.Fragment>{props.children}</React.Fragment>
+        {renderFooter()}
+      </tbody>
+    )
+  }
+
   return (
     <Table
       bordered
       dataSource={resultReport.data}
       columns={columns}
       pagination={false}
+      components={{ body: { wrapper: BodyWrapper } }}
     />
   )
 }

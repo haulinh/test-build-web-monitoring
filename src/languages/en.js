@@ -3658,6 +3658,7 @@ export default {
         price: 'Cost',
         sumPrice: 'Total Cost (dong)',
         flow: 'Flow (M³/ngày)',
+        sum: 'Sum',
       },
       quarter: {
         typeFee: 'Fee',

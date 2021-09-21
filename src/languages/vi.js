@@ -3665,6 +3665,7 @@ export default {
         price: 'Thành tiền',
         sumPrice: 'Tổng tiền (đồng)',
         flow: 'Lưu lượng (M³/ngày)',
+        sum: 'Tổng',
       },
       quarter: {
         typeFee: 'Loại phí',
