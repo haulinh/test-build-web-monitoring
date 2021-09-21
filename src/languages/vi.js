@@ -3661,6 +3661,7 @@ export default {
       stationName: 'Vui lòng chọn tên trạm',
       billingConfig: 'Vui lòng chọn bộ công thức',
       time: 'Vui lòng chọn thời gian',
+      sameQuarter: 'Vui lòng chọn khoảng thời gian trong 1 quí',
     },
     table: {
       month: {
