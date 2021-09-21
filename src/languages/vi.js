@@ -2264,6 +2264,12 @@ export default {
       mobile_dashboard: {
         name: 'Trang chủ Mobile',
       },
+      billingConfig: {
+        name: 'Cấu hình tính phí',
+      },
+      billingReport: {
+        name: 'Báo cáo phí',
+      },
       /////
       actions: {
         role: 'Ủy quyền',

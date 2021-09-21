@@ -43,7 +43,7 @@ export default class BillingList extends React.Component {
     const {
       lang: { t },
     } = this.props
-    return protectRole(ROLE.PERIODICAL_STATION.CREATE)(
+    return protectRole(ROLE.BILLING_CONFIG.CREATE)(
       <Link to={slug.billing.configCreate}>
         <Button type="primary">
           <Icon type="plus" />
