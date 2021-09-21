@@ -2278,6 +2278,12 @@ export default {
       mobile_dashboard: {
         name: 'Dashboard Mobile',
       },
+      billingConfig: {
+        name: 'Billing Config',
+      },
+      billingReport: {
+        name: 'Billing Report',
+      },
       actions: {
         role: 'Role Assignment',
         enableAccount: 'Enable/Disable Account',
