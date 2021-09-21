@@ -82,6 +82,9 @@ export default class BillingReport extends Component {
       if (quarter1 !== quarter2) {
         form.setFields({
           time: {
+            value: {
+              type: 'quarter',
+            },
             errors: [new Error(i18n.time.sameQuarter)],
           },
         })
