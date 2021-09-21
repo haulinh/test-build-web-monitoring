@@ -21,7 +21,8 @@ export default function TableQuarter({ resultReport = {}, form }) {
     ...(resultReport.data || []),
     {
       extra: true,
-      month: 'Tổng quí',
+      month: `Tổng quý ${moment(resultReport.data[0].month).format('Q')}`,
+      fee: _.get(resultReport, 'summary.totalQuaterFee'),
       flow: _.get(resultReport, 'summary.totalQuaterFlow'),
     },
     {
