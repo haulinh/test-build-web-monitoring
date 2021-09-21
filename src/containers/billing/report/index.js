@@ -199,7 +199,6 @@ export default class BillingReport extends Component {
 
     if (values.reportType === 'quarter') {
       time = `quý ${moment(values.time.value, 'YYYY-Q').format('Q')}`
-      console.log({ from })
 
       const startTitle = t('billing.title.detail', { time, from, to })
       return startTitle
