@@ -4,6 +4,7 @@ import _ from 'lodash'
 import moment from 'moment'
 import React from 'react'
 
+
 const i18n = () => ({
   typeFee: t('billing.table.quarter.typeFee'),
   month: t('billing.table.quarter.month'),
@@ -12,6 +13,7 @@ const i18n = () => ({
   totalFee: t('billing.table.quarter.totalFee'),
   debt: t('billing.table.quarter.debt'),
 })
+
 
 export default function TableQuarter({ resultReport = {}, form }) {
   const fixedFee = _.get(resultReport, 'summary.fixedFee')
@@ -72,13 +74,13 @@ export default function TableQuarter({ resultReport = {}, form }) {
       align: 'center',
     },
     {
-      title: i18n().amountOfWastewater,
+      title: `${i18n().amountOfWastewater} ${`(M³)`}`,
       dataIndex: 'flow',
       render: value => <div>{value}</div>,
       align: 'center',
     },
     {
-      title: i18n().price,
+      title: `${i18n().price} ${`(VNĐ)`}`,
       dataIndex: 'fee',
       align: 'center',
       render: value => <div>{value}</div>,
@@ -97,9 +99,9 @@ export default function TableQuarter({ resultReport = {}, form }) {
             <td colSpan="2" style={{ textAlign: 'center' }}>
               {i18n().debt}
             </td>
-            <td>
+            <td style={{ textAlign: 'center' }}>
               {form.getFieldDecorator('debt', { trigger: 'onBlur' })(
-                <InputNumber style={{ width: '100%' }} />
+                <InputNumber />
               )}
             </td>
             <td></td>
