@@ -86,6 +86,7 @@ export default class StationAutoForm extends React.PureComponent {
       options: {},
       phones: [],
       emails: [],
+      linkedStation: '',
       standardsVNObject: get(props, 'initialValues.standardsVN', null),
       previewVisible: false,
       previewImage: '',
@@ -174,6 +175,7 @@ export default class StationAutoForm extends React.PureComponent {
       emails: initialValues.emails,
       phones: initialValues.phones,
       measuringList: initialValues.measuringList,
+      linkedStation: initialValues.linkedStation,
       stationType: initialValues.stationType,
       stationTypeObject: initialValues.stationTypeObject,
       options: initialValues.options ? initialValues.options : {},
@@ -241,6 +243,7 @@ export default class StationAutoForm extends React.PureComponent {
   handleSubmit(e) {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
+      console.log({ values })
       if (err) {
         this.setState({
           tabKey: ['1'],
@@ -271,6 +274,10 @@ export default class StationAutoForm extends React.PureComponent {
             }
           }
         })
+      }
+
+      if (!values.linkedStation) {
+        values.linkedStation = ""
       }
 
       const data = {
@@ -434,6 +441,11 @@ export default class StationAutoForm extends React.PureComponent {
   handleEmailsChange(value) {
     this.setState({
       emails: value,
+    })
+  }
+  handleLinkedStationChange(value) {
+    this.setState({
+      linkedStation: value
     })
   }
   handlePhonesChange(value) {
@@ -934,6 +946,7 @@ export default class StationAutoForm extends React.PureComponent {
                   {getFieldDecorator('linkedStation')(
                     <SelectStationFix
                       fieldValue="key"
+                      onChangeObject={this.handleLinkedStationChange()}
                     >
                     </SelectStationFix>
                   )}
