@@ -3648,6 +3648,7 @@ export default {
       stationName: 'Please Type Station Name',
       billingConfig: 'Please Choose Set Of Recipes',
       time: 'Please Choose Time',
+      sameQuarter: 'Please select a time period within 1 quarter',
     },
     table: {
       month: {
