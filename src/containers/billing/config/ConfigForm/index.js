@@ -187,14 +187,7 @@ export default class ConfigForm extends React.Component {
                       message: i18n().fixedFee.required,
                     },
                   ],
-                })(
-                  <InputNumber
-                    min="1"
-                    step="1"
-                    style={{ width: '100%' }}
-                    formatter={value => value && formatCurrency(value)}
-                  />
-                )}
+                })(<InputNumber style={{ width: '100%' }} />)}
               </FormItem>
             </Col>
           </Row>
