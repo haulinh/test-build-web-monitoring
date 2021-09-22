@@ -571,7 +571,7 @@ export default {
       'Loại bỏ một số dữ liệu không hợp lệ trước khi tính toán (áp dụng xử lý dữ liệu)',
     queryType: 'Loại dữ liệu',
     filterDataBy: 'Lọc dữ liệu theo',
-    processData: 'Xử lý dữ liệu',
+    processData: 'Kiểm duyệt dữ liệu',
     titleText: 'Tra cứu dữ liệu gốc',
     options: {
       byHours: '{{=it.value}} Giờ',
