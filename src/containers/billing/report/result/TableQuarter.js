@@ -4,7 +4,6 @@ import _ from 'lodash'
 import moment from 'moment'
 import React from 'react'
 
-
 const i18n = () => ({
   typeFee: t('billing.table.quarter.typeFee'),
   month: t('billing.table.quarter.month'),
@@ -13,7 +12,6 @@ const i18n = () => ({
   totalFee: t('billing.table.quarter.totalFee'),
   debt: t('billing.table.quarter.debt'),
 })
-
 
 export default function TableQuarter({ resultReport = {}, form }) {
   const fixedFee = _.get(resultReport, 'summary.fixedFee')
@@ -33,13 +31,13 @@ export default function TableQuarter({ resultReport = {}, form }) {
     {
       extra: true,
       month: 'Tổng phí biến đổi trong quý',
-      flow: _.get(resultReport, 'summary.totalQuaterFee'),
+      fee: _.get(resultReport, 'summary.totalQuaterFee'),
     },
     {
       extra: true,
       title: 'Phí cố định',
       month: `f/4=${fixedFee}/4 (E)`,
-      flow: Math.round(fixedFee / 4),
+      fee: Math.round(fixedFee / 4),
     },
   ]
   const columns = [
@@ -102,19 +100,21 @@ export default function TableQuarter({ resultReport = {}, form }) {
             <td colSpan="2" style={{ textAlign: 'center' }}>
               {i18n().debt}
             </td>
-            <td style={{ textAlign: 'center' }}>
-              {form.getFieldDecorator('debt', { trigger: 'onBlur' })(
-                <InputNumber />
-              )}
+            <td colSpan="2">
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                {form.getFieldDecorator('debt', { trigger: 'onBlur' })(
+                  <InputNumber />
+                )}
+              </div>
             </td>
-            <td></td>
           </tr>
           <tr className="ant-table-row">
             <td colSpan="2" style={{ textAlign: 'center' }}>
               {i18n().totalFee}
             </td>
-            <td style={{ textAlign: 'center' }}>{totalFee}</td>
-            <td></td>
+            <td colSpan="2" style={{ textAlign: 'center' }}>
+              {totalFee}
+            </td>
           </tr>
         </React.Fragment>
       )
