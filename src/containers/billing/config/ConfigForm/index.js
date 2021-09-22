@@ -8,6 +8,7 @@ import _ from 'lodash'
 import moment from 'moment'
 import React from 'react'
 import { getTimeUTC } from 'utils/datetime'
+import { formatCurrency } from 'utils/string'
 import MeasuringList from './MeasuringList'
 
 const i18n = () => ({
@@ -186,7 +187,14 @@ export default class ConfigForm extends React.Component {
                       message: i18n().fixedFee.required,
                     },
                   ],
-                })(<InputNumber style={{ width: '100%' }} />)}
+                })(
+                  <InputNumber
+                    min="1"
+                    step="1"
+                    style={{ width: '100%' }}
+                    formatter={value => value && formatCurrency(value)}
+                  />
+                )}
               </FormItem>
             </Col>
           </Row>

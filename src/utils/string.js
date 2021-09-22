@@ -60,6 +60,10 @@ export function removeSpecialCharacterUploadFile(fileName) {
 }
 
 export function isContainSpecialCharacter(str) {
-  const format = /[`!@#$%^&*+\=\[\]{};':"\\|,<>\/?~]/;
+  const format = /[`!@#$%^&*+\=\[\]{};':"\\|,<>\/?~]/
   return format.test(str)
+}
+
+export function formatCurrency(currency) {
+  return new Intl.NumberFormat('vi-VN').format(currency)
 }

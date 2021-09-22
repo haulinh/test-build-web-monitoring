@@ -3667,7 +3667,7 @@ export default {
       stationName: 'Vui lòng chọn tên trạm',
       billingConfig: 'Vui lòng chọn bộ công thức',
       time: 'Vui lòng chọn thời gian',
-      sameQuarter: 'Vui lòng chọn khoảng thời gian trong 1 quí',
+      sameQuarter: 'Vui lòng chọn khoảng thời gian trong 1 quý',
     },
     table: {
       month: {
@@ -3684,7 +3684,7 @@ export default {
         month: 'Tháng',
         amountOfWastewater: 'Lượng nước thải',
         price: 'Thành tiền',
-        totalFee: 'Tổng số tiền phải nộp trong quí',
+        totalFee: 'Tổng số tiền phải nộp trong quý',
         debt: 'Số phí từ quý trước chưa nộp hoặc nộp thiếu',
       },
     },

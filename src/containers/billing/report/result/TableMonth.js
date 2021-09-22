@@ -4,6 +4,7 @@ import _ from 'lodash'
 import moment from 'moment'
 import React from 'react'
 import { translate as t } from 'hoc/create-lang'
+import { formatCurrency } from 'utils/string'
 
 const i18n = () => ({
   stt: t('billing.table.month.stt'),
@@ -34,7 +35,9 @@ export default function TableMonth({ resultReport = {} }) {
     {
       title: i18n().flow,
       dataIndex: 'total',
-      render: value => <div>{value.flow}</div>,
+      render: value => (
+        <div>{value && formatCurrency(Number(value.flow.toFixed(3)))}</div>
+      ),
       align: 'center',
     },
     {
@@ -45,7 +48,12 @@ export default function TableMonth({ resultReport = {} }) {
         dataIndex: 'measure',
         align: 'center',
         render: value => {
-          return <div>{_.get(value, `${measure.key}.value`, '-')}</div>
+          const valueMeasure = _.get(value, `${measure.key}.value`)
+          return (
+            <div>
+              {valueMeasure && formatCurrency(Number(valueMeasure.toFixed(3)))}
+            </div>
+          )
         },
       })),
     },
@@ -56,7 +64,8 @@ export default function TableMonth({ resultReport = {} }) {
         dataIndex: 'measure',
         align: 'center',
         render: value => {
-          return <div>{_.get(value, `${measure.key}.fee`, '-')}</div>
+          const valueMeasure = _.get(value, `${measure.key}.fee`)
+          return <div>{valueMeasure && formatCurrency(valueMeasure)}</div>
         },
       })),
     },
@@ -64,11 +73,12 @@ export default function TableMonth({ resultReport = {} }) {
       title: i18n().sumPrice,
       dataIndex: 'total',
       align: 'center',
-      render: value => <div>{value.fee}</div>,
+      render: value => <div>{value && formatCurrency(value.fee)}</div>,
     },
   ]
 
   const BodyWrapper = props => {
+    const totalFlow = _.get(resultReport, ['total', 'flow'], 0)
     const renderFooter = () => {
       return (
         <React.Fragment>
@@ -77,9 +87,14 @@ export default function TableMonth({ resultReport = {} }) {
               <b>{i18n().sum}</b>
             </td>
             <td style={{ textAlign: 'center' }}>
-              <b>{_.get(resultReport, ['total', 'fee'], 0)}</b>
+              <b>{totalFlow && formatCurrency(Number(totalFlow.toFixed(3)))}</b>
             </td>
-            <td></td>
+            {[...Array(8).keys()].map(() => (
+              <td></td>
+            ))}
+            <td style={{ textAlign: 'center' }}>
+              <b>{formatCurrency(_.get(resultReport, ['total', 'fee'], 0))}</b>
+            </td>
           </tr>
         </React.Fragment>
       )

@@ -3,6 +3,7 @@ import { translate as t } from 'hoc/create-lang'
 import _ from 'lodash'
 import moment from 'moment'
 import React from 'react'
+import { formatCurrency } from 'utils/string'
 
 const i18n = () => ({
   typeFee: t('billing.table.quarter.typeFee'),
@@ -20,8 +21,8 @@ export default function TableQuarter({ resultReport = {}, form }) {
     {
       extra: true,
       month: `Tổng quý ${moment(resultReport.data[0].month).format('Q')}`,
-      fee: _.get(resultReport, 'summary.totalQuaterFee'),
-      flow: _.get(resultReport, 'summary.totalQuaterFlow'),
+      fee: _.get(resultReport, 'summary.totalQuaterFee', 0),
+      flow: _.get(resultReport, 'summary.totalQuaterFlow', 0),
     },
     {
       extra: true,
@@ -75,14 +76,16 @@ export default function TableQuarter({ resultReport = {}, form }) {
     {
       title: `${i18n().amountOfWastewater} ${`(M³)`}`,
       dataIndex: 'flow',
-      render: value => <div>{value}</div>,
+      render: value => {
+        return <div>{value && formatCurrency(Number(value.toFixed(3)))}</div>
+      },
       align: 'center',
     },
     {
       title: `${i18n().price} ${`(VNĐ)`}`,
       dataIndex: 'fee',
       align: 'center',
-      render: value => <div>{value}</div>,
+      render: value => <div>{value && formatCurrency(value)}</div>,
     },
   ]
 
@@ -103,7 +106,11 @@ export default function TableQuarter({ resultReport = {}, form }) {
             <td colSpan="2">
               <div style={{ display: 'flex', justifyContent: 'center' }}>
                 {form.getFieldDecorator('debt', { trigger: 'onBlur' })(
-                  <InputNumber />
+                  <InputNumber
+                    min="1"
+                    step="1"
+                    formatter={value => value && formatCurrency(value)}
+                  />
                 )}
               </div>
             </td>
@@ -113,7 +120,7 @@ export default function TableQuarter({ resultReport = {}, form }) {
               {i18n().totalFee}
             </td>
             <td colSpan="2" style={{ textAlign: 'center' }}>
-              {totalFee}
+              {formatCurrency(totalFee)}
             </td>
           </tr>
         </React.Fragment>
