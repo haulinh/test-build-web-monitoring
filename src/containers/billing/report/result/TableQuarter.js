@@ -25,7 +25,7 @@ export default function TableQuarter({ resultReport = {}, form }) {
     {
       extra: true,
       month: 'Trung bình mỗi ngày',
-      flow: _.get(resultReport, 'summary.avgFeePerDate'),
+      flow: _.get(resultReport, 'summary.avgFlowPerDate'),
     },
     {
       extra: true,
@@ -87,7 +87,9 @@ export default function TableQuarter({ resultReport = {}, form }) {
 
   const debt = form.getFieldValue('debt')
   const totalFee =
-    _.get(resultReport, 'summary.totalFee', 0) + (Number(debt) || 0)
+    _.get(resultReport, 'summary.totalQuaterFee', 0) +
+    fixedFee / 4 +
+    (Number(debt) || 0)
 
   const BodyWrapper = props => {
     const renderFooter = () => {

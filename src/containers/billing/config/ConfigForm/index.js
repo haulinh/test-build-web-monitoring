@@ -98,7 +98,6 @@ export default class ConfigForm extends React.Component {
     const { initialValues } = this.props
     if (initialValues) {
       const { setFieldsValue } = this.props.form
-      console.log({ initialValues })
 
       setFieldsValue(
         _.pick(initialValues, [
