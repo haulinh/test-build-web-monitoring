@@ -70,6 +70,7 @@ export default class BillingReport extends Component {
     ) {
       form.setFields({
         time: {
+          value: _.get(values, 'time'),
           errors: [new Error(i18n.time.required)],
         },
       })
@@ -273,7 +274,7 @@ export default class BillingReport extends Component {
           )}
         </Row>
         <Clearfix height={16} />
-        {_.isEmpty(resultReport) ? (
+        {_.isEmpty(resultReport.data) ? (
           <Empty
             style={{ margin: '0 auto', padding: '8px 16px' }}
             description={t('apiSharingNew.button.nodata')}

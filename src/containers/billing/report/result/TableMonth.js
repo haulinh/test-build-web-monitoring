@@ -74,10 +74,10 @@ export default function TableMonth({ resultReport = {} }) {
         <React.Fragment>
           <tr className="ant-table-row">
             <td colSpan="2" style={{ textAlign: 'center' }}>
-              {i18n().sum}
+              <b>{i18n().sum}</b>
             </td>
             <td style={{ textAlign: 'center' }}>
-              {_.get(resultReport, ['total', 'fee'], 0)}
+              <b>{_.get(resultReport, ['total', 'fee'], 0)}</b>
             </td>
             <td></td>
           </tr>
@@ -100,6 +100,7 @@ export default function TableMonth({ resultReport = {} }) {
       columns={columns}
       pagination={false}
       components={{ body: { wrapper: BodyWrapper } }}
+      rowKey={record => record.datetime}
     />
   )
 }
