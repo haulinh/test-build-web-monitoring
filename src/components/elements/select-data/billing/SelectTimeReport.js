@@ -69,10 +69,11 @@ class QuarterPicker extends React.Component {
 
   render() {
     const { open, currentYear, quarterChose } = this.state
+    const { value } = this.props
     return (
       <React.Fragment>
         <Input
-          value={this.getValue()}
+          value={value && this.getValue()}
           className="quarter"
           onClick={() => this.setState({ open: true })}
         />

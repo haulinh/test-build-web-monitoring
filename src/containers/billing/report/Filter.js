@@ -12,6 +12,10 @@ import { Fields, i18n } from './index'
 export default function Filter({ form, setResultReport }) {
   const { stationType, reportType } = form.getFieldsValue() || {}
 
+  const handleOnChangeReportType = () => {
+    setResultReport({})
+  }
+
   return (
     <React.Fragment>
       <Row gutter={12}>
@@ -19,7 +23,7 @@ export default function Filter({ form, setResultReport }) {
           <FormItem label={i18n.reportType.label}>
             {form.getFieldDecorator(Fields.reportType, {
               initialValue: 'month',
-              onChange: () => setResultReport({}),
+              onChange: handleOnChangeReportType,
             })(<SelectReportType form={form} />)}
           </FormItem>
         </Col>
