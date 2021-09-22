@@ -89,7 +89,7 @@ export default function TableMonth({ resultReport = {} }) {
             <td style={{ textAlign: 'center' }}>
               <b>{totalFlow && formatCurrency(Number(totalFlow.toFixed(3)))}</b>
             </td>
-            {[...Array(8).keys()].map(() => (
+            {[...Array(measuringList.length * 2).keys()].map(() => (
               <td></td>
             ))}
             <td style={{ textAlign: 'center' }}>

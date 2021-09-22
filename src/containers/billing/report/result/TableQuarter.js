@@ -106,11 +106,7 @@ export default function TableQuarter({ resultReport = {}, form }) {
             <td colSpan="2">
               <div style={{ display: 'flex', justifyContent: 'center' }}>
                 {form.getFieldDecorator('debt', { trigger: 'onBlur' })(
-                  <InputNumber
-                    min="1"
-                    step="1"
-                    formatter={value => value && formatCurrency(value)}
-                  />
+                  <InputNumber />
                 )}
               </div>
             </td>
