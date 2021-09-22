@@ -305,7 +305,7 @@ class FilterForm extends Component {
           <Row type="flex" justify="end" align="middle">
             <ToolTip />
             <Form.Item
-              style={{ marginBottom: '0' }}
+              style={{ marginBottom: '0', width: '180px' }}
               label={i18n.isProcessData}
               colon={false}
               labelCol={{ span: 16 }}

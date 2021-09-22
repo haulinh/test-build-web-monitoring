@@ -575,7 +575,7 @@ export default {
       'Filter invalid data with standard from Data processing configuration',
     queryType: 'Type of data',
     filterDataBy: 'Filter data by',
-    processData: 'Enable filter',
+    processData: 'Data processing',
     titleText: 'Data Search',
     options: {
       byHours: '{{=it.value}} Hours',
