@@ -2951,6 +2951,7 @@ export default {
       status_data: 'Status Data',
     },
     billing: 'Billing',
+    ticket: 'Incident',
   },
   tooltipMenuApp: {
     notification: 'Notifications',
@@ -3036,6 +3037,11 @@ export default {
       role: 'Add new Roles groups to manage in the system',
       user: 'Add new and Assign Roles accounts in the system',
       dataLogger: 'The user history of operations in the system',
+    },
+    billing: {
+      dataLookup: 'Tra cứu dữ liệu',
+      incident: 'Quản lý sự cố',
+      configProperties: 'Cấu hình thuộc tính',
     },
     hideMenu: 'Hide menu',
     showMenu: 'Show menu',
