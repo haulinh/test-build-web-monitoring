@@ -2952,6 +2952,7 @@ export default {
       status_data: 'Tình trạng dữ liệu', // Qui them cho dong bo voi file EN
     },
     billing: 'Phí môi trường',
+    ticket: 'Sự cố',
   },
   tooltipMenuApp: {
     notification: 'Thông báo',
@@ -3038,6 +3039,11 @@ export default {
     monitoringList: {
       base:
         'Giám sát số liệu thời gian thực theo  danh sách tất cả điểm quan trắc',
+    },
+    billing: {
+      dataLookup: 'Tra cứu dữ liệu',
+      incident: 'Quản lý sự cố',
+      configProperties: 'Cấu hình thuộc tính',
     },
     hideMenu: 'Ẩn menu',
     showMenu: 'Hiện menu',
@@ -3691,5 +3697,13 @@ export default {
     button: {
       exportReport: 'Xuất báo cáo',
     },
+  },
+  ticket: {
+    menu: {
+      dataLookup: 'Tra cứu dữ liệu',
+      incident: 'Quản lý sự cố',
+      configProperties: 'Cấu hình thuộc tính',
+    },
+    label: {},
   },
 }

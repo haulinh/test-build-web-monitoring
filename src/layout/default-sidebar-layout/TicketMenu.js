@@ -15,15 +15,12 @@ const CENTER = {
 export default {
   renderComp: props => (
     <Menu.SubMenu
-      key={MENU_GROUP.BILLING}
+      key={MENU_GROUP.TICKET}
       title={
-        <Tooltip
-          placement="right"
-          title={TOOLTIP_MENU.periodicalForecast.periodical}
-        >
+        <Tooltip placement="right" title={TOOLTIP_MENU.ticket.incident}>
           <div style={CENTER}>
             <IconAntd
-              type="dollar"
+              type="form"
               style={{
                 fontSize: '20px',
                 width: '22px',
@@ -33,46 +30,51 @@ export default {
                 marginRight: '0px',
               }}
             />
-            <span style={{ marginLeft: 12 }}>{MENU_NAME.billing}</span>
+            <span style={{ marginLeft: 12 }}>{MENU_NAME.ticket}</span>
           </div>
         </Tooltip>
       }
     >
       {protectRole(ROLE.BILLING_REPORT.VIEW)(
         <Menu.Item
-          key={slug.billing.report}
+          key={slug.ticket.incident}
           onClick={() => {
-            props.selectMenu(slug.billing.report)
+            props.selectMenu(slug.ticket.incident)
           }}
         >
-          <Tooltip
-            placement="right"
-            title={TOOLTIP_MENU.periodicalForecast.station}
-          >
-            <Link to={slug.billing.report}>
-              {t('billing.menu.billingReport')}
-            </Link>
+          <Tooltip placement="right" title={TOOLTIP_MENU.ticket.incident}>
+            <Link to={slug.ticket.incident}>{t('ticket.menu.incident')}</Link>
           </Tooltip>
         </Menu.Item>
       )}
 
       {protectRole(ROLE.BILLING_CONFIG.VIEW)(
         <Menu.Item
-          key={slug.billing.config}
+          key={slug.ticket.dataLookup}
           onClick={() => {
-            props.selectMenu(slug.periodicalForecast.importStation)
+            props.selectMenu(slug.ticket.dataLookup)
           }}
         >
-          <Tooltip
-            placement="right"
-            title={TOOLTIP_MENU.periodicalForecast.import}
-          >
-            <Link to={slug.billing.config}>
-              {t('billing.menu.billingConfig')}
+          <Tooltip placement="right" title={TOOLTIP_MENU.ticket.dataLookup}>
+            <Link to={slug.ticket.dataLookup}>
+              {t('ticket.menu.dataLookup')}
             </Link>
           </Tooltip>
         </Menu.Item>
       )}
+
+      <Menu.Item
+        key={slug.ticket.configProperties}
+        onClick={() => {
+          props.selectMenu(slug.ticket.configProperties)
+        }}
+      >
+        <Tooltip placement="right" title={TOOLTIP_MENU.ticket.configProperties}>
+          <Link to={slug.ticket.configProperties}>
+            {t('ticket.menu.configProperties')}
+          </Link>
+        </Tooltip>
+      </Menu.Item>
     </Menu.SubMenu>
   ),
 }

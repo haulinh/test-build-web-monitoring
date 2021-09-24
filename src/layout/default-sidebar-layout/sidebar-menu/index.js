@@ -28,6 +28,7 @@ import BillingMenu from '../BillingMenu'
 import { SIDEBAR_GLOBAL_WIDTH } from '../sidebar-global/style'
 import objectPath from 'object-path'
 import { isEqual } from 'lodash'
+import TicketMenu from '../TicketMenu'
 
 export const SIDEBAR_MENU_WIDTH = 275
 export const SIDEBAR_MENU_MINIMAL_WIDTH = 8
@@ -251,6 +252,11 @@ export default class MenuApp extends React.PureComponent {
               ROLE.BILLING_CONFIG.VIEW,
               ROLE.BILLING_REPORT.VIEW,
             ]) && BillingMenu.renderComp(this.props)}
+
+            {this.checkRoleForGroup([
+              ROLE.BILLING_CONFIG.VIEW,
+              ROLE.BILLING_REPORT.VIEW,
+            ]) && TicketMenu.renderComp(this.props)}
 
             {/* TODO  Chưa có role nên dùng tạm của STATION_AUTO, xem lại */}
             {this.checkRoleForGroup([
