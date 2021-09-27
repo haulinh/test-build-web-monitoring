@@ -1,26 +1,20 @@
-import { Button, Drawer, Form, Input, Select } from 'antd'
+import { Button, Drawer, Form, Input, List, Select } from 'antd'
 import { FormItem } from 'components/layouts/styles'
 import React, { Component } from 'react'
-import { FIELDS } from './index'
+import { FIELDS, optionSelectType } from './index'
 import { translate as t } from 'hoc/create-lang'
+import CalculateApi from 'api/CalculateApi'
 
 const i18n = () => ({
     drawer: {
         title: t('ticket.config.drawer.title')
     },
     form: {
-        name: t('ticket.config.form.name'),
-        type: t('ticket.config.form.type'),
-        button: t('ticket.config.form.button')
+        name: t('ticket.label.configProperties.name'),
+        type: t('ticket.label.configProperties.type'),
+        button: t('ticket.label.configProperties.button')
     }
 })
-
-const optionSelectType = [
-    { key: 'text', label: 'Text' },
-    { key: 'category', label: 'Category' },
-    { key: 'number', label: 'Number' },
-    { key: 'datetime', label: 'Date time' },
-]
 
 @Form.create()
 export default class ConfigCreate extends Component {
@@ -29,9 +23,10 @@ export default class ConfigCreate extends Component {
         e.preventDefault()
         const { form } = this.props;
         const values = await form.validateFields();
-        console.log(values)
+        const result = await CalculateApi.createConfig(values)
+        console.log({ result })
     }
-    
+
     render() {
         const { onClose, visible, form } = this.props
         return (
@@ -63,6 +58,11 @@ export default class ConfigCreate extends Component {
                                 ))}
                             </Select>
                         )}
+                    </FormItem>
+                    <FormItem>
+                        <List>
+
+                        </List>
                     </FormItem>
                     <Button type="primary" htmlType="submit">
                         {i18n().form.button}

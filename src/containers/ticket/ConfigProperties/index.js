@@ -5,6 +5,14 @@ import { translate as t } from 'hoc/create-lang'
 import ConfigCreate from './ConfigCreate'
 import ConfigList from './ConfigList'
 import { Clearfix } from 'components/elements'
+import CalculateApi from 'api/CalculateApi'
+
+export const optionSelectType = [
+  { key: 'text', label: 'Text' },
+  { key: 'category', label: 'Category' },
+  { key: 'number', label: 'Number' },
+  { key: 'datetime', label: 'Date time' },
+]
 
 export const FIELDS = {
   name: 'name',
@@ -13,31 +21,16 @@ export const FIELDS = {
   hidden: 'hidden'
 }
 
-const initData = [
-  {
-    "name": "abc",
-    "type": "Text",
-    "hidden": true
-  },
-  {
-    "name": "ABC",
-    "type": "Date Time",
-    "hidden": true
-  },
-  {
-    "name": "CDF",
-    "type": "Number",
-    "hidden": true
-  },
-  {
-    "name": "xyz",
-    "type": "Category",
-    "hidden": false
-  }
-]
-
 export default class ConfigProperties extends Component {
-  state = { visible: false }
+  state = {
+    visible: false,
+    configs: []
+  }
+
+  async componentDidMount() {
+    const configs = await CalculateApi.getConfig()
+    this.setState({ configs })
+  }
 
   showDrawer = () => {
     this.setState({
@@ -60,12 +53,12 @@ export default class ConfigProperties extends Component {
   }
 
   render() {
-    const { visible } = this.state
+    const { visible, configs } = this.state
     return (
       <PageContainer title={t('ticket.menu.configProperties')} right={this.ButtonAdd()}>
-        <ConfigCreate visible={visible} onClose={this.onClose}/>
+        <ConfigCreate visible={visible} onClose={this.onClose} />
         <Clearfix height={16}></Clearfix>
-        <ConfigList form={initData}></ConfigList>
+        <ConfigList form={configs}></ConfigList>
       </PageContainer>
     )
   }

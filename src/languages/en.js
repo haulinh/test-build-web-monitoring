@@ -3698,17 +3698,37 @@ export default {
       configProperties: 'Cấu hình thuộc tính',
     },
     label: {
-      
-    },
-    config: {
-      drawer: {
-        title: 'Tạo mới thuộc tính'
+      dataLookup: {},
+      incident: {
+        name: 'Tên sự cố',
+        incidentType: 'Loại sự cố',
+        description: 'Mô tả',
+        stationName: 'Tên trạm',
       },
-      form: {
+      configProperties: {
         name: 'Tên thuộc tính',
         type: 'Kiểu dữ liệu',
         button: 'Tạo mới',
-      }
-    }
+      },
+    },
+    placeholder: {
+      dataLookup: {},
+      incident: {
+        name: 'Nhập vấn đề cần giải quyết',
+        incidentType: 'Sự cố khác',
+        description: 'Nhập mô tả cho sự cố',
+        stationName: 'Chọn tên trạm',
+        measure: 'Thông số',
+      },
+      configProperties: {
+      },
+    },
+    title: {
+      dataLookup: {},
+      incident: {},
+      configProperties: {
+        drawer: 'Tạo mới thuộc tính',
+      },
+    },
   },
 }

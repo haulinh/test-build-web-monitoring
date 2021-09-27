@@ -3712,7 +3712,11 @@ export default {
         description: 'Mô tả',
         stationName: 'Tên trạm',
       },
-      configProperties: {},
+      configProperties: {
+        name: 'Tên thuộc tính',
+        type: 'Kiểu dữ liệu',
+        button: 'Tạo mới',
+      },
     },
     placeholder: {
       dataLookup: {},
@@ -3724,9 +3728,6 @@ export default {
         measure: 'Thông số',
       },
       configProperties: {
-        name: 'Tên thuộc tính',
-        type: 'Kiểu dữ liệu',
-        button: 'Tạo mới',
       },
     },
     title: {

@@ -1,5 +1,5 @@
 import { getConfigApi } from 'config'
-import { getFetchDownFile, getFetch } from 'utils/fetch'
+import { getFetchDownFile, getFetch, postFetch } from 'utils/fetch'
 
 function calc(prefix = '') {
   return [getConfigApi().calculate, prefix].filter(item => item).join('/')
@@ -23,4 +23,12 @@ export default {
     const url = calc('billing/export-data')
     return getFetchDownFile(url, params)
   },
+  getConfig: () => {
+    const url = calc('/ticket-config')
+    return getFetch(url)
+  },
+  createConfig: params => {
+    const url = calc('/ticket-config')
+    return postFetch(url, params)
+  }
 }
