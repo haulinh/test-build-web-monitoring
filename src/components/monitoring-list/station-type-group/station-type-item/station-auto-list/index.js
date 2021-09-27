@@ -12,16 +12,16 @@ import stationStatus from 'constants/stationStatus'
 import './style.css'
 import moment from 'moment'
 
-// `
-
-const i18n = {
-  stationName: translate('dashboard.tableList.name'),
-  time: translate('dashboard.tableList.time'),
-  deviceStatus: {
-    good: translate('dashboard.good'),
-    dataLoss: translate('dashboard.dataLoss'),
-    notUse: translate('dashboard.notUse'),
-  },
+function i18n() {
+  return {
+    stationName: translate('dashboard.tableList.name'),
+    time: translate('dashboard.tableList.time'),
+    deviceStatus: {
+      good: translate('dashboard.good'),
+      dataLoss: translate('dashboard.dataLoss'),
+      notUse: translate('dashboard.notUse'),
+    },
+  }
 }
 
 const WrapperContainer = styled.div`
@@ -187,19 +187,19 @@ const DeviceIcon = props => {
 const STATION_ICON = {
   [stationStatus.DATA_LOSS]: {
     image: '/images/station/data-loss.png',
-    status: i18n.deviceStatus.dataLoss,
+    status: i18n().deviceStatus.dataLoss,
   },
   [stationStatus.NOT_USE]: {
     image: '/images/station/not-use.png',
-    status: i18n.deviceStatus.notUse,
+    status: i18n().deviceStatus.notUse,
   },
   [stationStatus.GOOD]: {
     image: '/images/station/good.png',
-    status: i18n.deviceStatus.good,
+    status: i18n().deviceStatus.good,
   },
   [stationStatus.DATA_CONNECTED]: {
     image: '/images/station/good.png',
-    status: i18n.deviceStatus.good,
+    status: i18n().deviceStatus.good,
   },
 }
 
@@ -254,7 +254,7 @@ class TableData extends React.Component {
         },
       },
       {
-        title: i18n.stationName,
+        title: i18n().stationName,
         dataIndex: 'name',
         key: 'name',
         width: 220,
@@ -264,7 +264,7 @@ class TableData extends React.Component {
         },
       },
       {
-        title: i18n.time,
+        title: i18n().time,
         dataIndex: 'lastLog.receivedAt',
         key: 'time',
         width: 160,

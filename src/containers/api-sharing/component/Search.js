@@ -29,14 +29,14 @@ export default function Search({ loading, onSearch, children }) {
   return (
     <React.Fragment>
       <Header>
-        <Title>{i18n.detailPage.label.chooseCondition}</Title>
+        <Title>{i18n().detailPage.label.chooseCondition}</Title>
         <Button
           size="small"
           type="primary"
           onClick={onSearch}
           loading={loading}
         >
-          {i18n.button.search}
+          {i18n().button.search}
         </Button>
       </Header>
       <FormLayout>{children}</FormLayout>

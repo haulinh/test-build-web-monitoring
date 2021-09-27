@@ -15,12 +15,14 @@ const { Meta } = Card
 
 // import ReactTelephoneInput from 'react-telephone-input/lib/withStyles'
 
-const i18n = {
-  labelUser: translate('dataLogger.searchForm.user'),
-  labelTypeLog: translate('dataLogger.searchForm.typeLog'),
-  labelFrom: translate('dataLogger.searchForm.from'),
-  labelTo: translate('dataLogger.searchForm.to'),
-  download: translate('dataLogger.searchForm.download'),
+function i18n() {
+  return {
+    labelUser: translate('dataLogger.searchForm.user'),
+    labelTypeLog: translate('dataLogger.searchForm.typeLog'),
+    labelFrom: translate('dataLogger.searchForm.from'),
+    labelTo: translate('dataLogger.searchForm.to'),
+    download: translate('dataLogger.searchForm.download'),
+  }
 }
 
 const BACKGROUND_COLORS = [
@@ -117,7 +119,7 @@ class DataLoggerSearchForm extends React.Component {
               <Select
                 showSearch
                 optionLabelProp="label"
-                placeholder={i18n.labelUser}
+                placeholder={i18n().labelUser}
               >
                 <Select.Option
                   key={'all'}
@@ -159,7 +161,7 @@ class DataLoggerSearchForm extends React.Component {
           </Col>
           {/* <Col span={6}>
             {getFieldDecorator(`typeLog`)(
-              <Input placeholder={i18n.labelTypeLog} />
+              <Input placeholder={i18n().labelTypeLog} />
             )}
           </Col> */}
 
@@ -177,7 +179,7 @@ class DataLoggerSearchForm extends React.Component {
               <DatePicker
                 style={{ width: "100%" }}
                 format={DD_MM_YYYY}
-                placeholder={i18n.labelFrom}
+                placeholder={i18n().labelFrom}
               />
             )}
           </Col>
@@ -186,7 +188,7 @@ class DataLoggerSearchForm extends React.Component {
               <DatePicker
               format={DD_MM_YYYY}
                 style={{ width: "100%" }}
-                placeholder={i18n.labelTo}
+                placeholder={i18n().labelTo}
               />
             )}
           </Col> */}
@@ -199,7 +201,7 @@ class DataLoggerSearchForm extends React.Component {
             />
             {this.props.isExcel && (
               <Button type="primary" icon="download">
-                {i18n.download}
+                {i18n().download}
               </Button>
             )}
           </Col>

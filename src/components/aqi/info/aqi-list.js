@@ -11,8 +11,10 @@ import Clearfix from 'components/elements/clearfix'
 
 const { Text } = Typography
 
-const i18n = {
-  search: translate('addon.search'),
+function i18n() {
+  return {
+    search: translate('addon.search'),
+  }
 }
 
 const WrapperView = styled.div`
@@ -147,7 +149,7 @@ export default class AQIList extends React.PureComponent {
         )}
 
         <Clearfix height={8} />
-        <Input placeholder={i18n.search} onChange={this.hanldeOnchange} />
+        <Input placeholder={i18n().search} onChange={this.hanldeOnchange} />
         {!this.state.dataSoure && <Skeleton />}
         {_.map(this.state.dataSoure, (item, index) => {
           const key = _.get(item, 'key')

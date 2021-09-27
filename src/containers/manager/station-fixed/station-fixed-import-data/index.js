@@ -74,46 +74,48 @@ const Container = styled.div`
   }
 `
 
-const i18n = {
-  headerTitle: t('importDataPoint.headerTitle'),
-  description: t('importDataPoint.description'),
-  startUpload: t('importDataPoint.startUpload'),
-  phaseLabel: t('importDataPoint.phaseLabel'),
-  measuringLabel: t('importDataPoint.measuringLabel'),
-  measuringRequired: t('importDataPoint.measuringRequired'),
-  stationTypeLabel: t('importDataPoint.stationTypeLabel'),
-  requirements: t('importDataPoint.requirements'),
-  step1: t('importDataPoint.step1'),
-  step2: t('importDataPoint.step2'),
-  downloadText: t('importDataPoint.downloadText'),
-  uploadText: t('importDataPoint.uploadText'),
-  dragAndDrop: t('importDataPoint.dragAndDrop'),
-  errorTitle: t('importDataPoint.errorTitle'),
-  errorMessage: t('importDataPoint.errorMessage'),
-  errorMessageNoData: t('importDataPoint.errorMessageNoData'),
-  successTitle: t('importDataPoint.successTitle'),
-  successMessage: count => t('importDataPoint.successMessage', { count }),
-  line: t('importDataPoint.line'),
-  duplicateParameter: t('importDataPoint.duplicateParameter'),
-  duplicateData: t('importDataPoint.duplicateData'),
-  invalidDataSheet: t('importDataPoint.invalidDataSheet'),
-  invalidDateTime: t('importDataPoint.invalidDateTime'),
-  invalidParameter: t('importDataPoint.invalidParameter'),
-  pointKeyNotExisted: t('importDataPoint.pointKeyNotExisted'),
-  parameterNotTypeNumber: t('importDataPoint.parameterNotTypeNumber'),
-  pointAndPhaseNotBelongToStationType: t(
-    'importDataPoint.pointAndPhaseNotBelongToStationType'
-  ),
-  selectPhaseError: t('importDataPoint.selectPhaseError'),
-  upload: t('global.upload'),
-  complexForm: t('importDataPoint.complexForm'),
-  simpleForm: t('importDataPoint.simpleForm'),
-  inputForm: t('importDataPoint.inputForm')
+function i18n() {
+  return {
+    headerTitle: t('importDataPoint.headerTitle'),
+    description: t('importDataPoint.description'),
+    startUpload: t('importDataPoint.startUpload'),
+    phaseLabel: t('importDataPoint.phaseLabel'),
+    measuringLabel: t('importDataPoint.measuringLabel'),
+    measuringRequired: t('importDataPoint.measuringRequired'),
+    stationTypeLabel: t('importDataPoint.stationTypeLabel'),
+    requirements: t('importDataPoint.requirements'),
+    step1: t('importDataPoint.step1'),
+    step2: t('importDataPoint.step2'),
+    downloadText: t('importDataPoint.downloadText'),
+    uploadText: t('importDataPoint.uploadText'),
+    dragAndDrop: t('importDataPoint.dragAndDrop'),
+    errorTitle: t('importDataPoint.errorTitle'),
+    errorMessage: t('importDataPoint.errorMessage'),
+    errorMessageNoData: t('importDataPoint.errorMessageNoData'),
+    successTitle: t('importDataPoint.successTitle'),
+    successMessage: count => t('importDataPoint.successMessage', { count }),
+    line: t('importDataPoint.line'),
+    duplicateParameter: t('importDataPoint.duplicateParameter'),
+    duplicateData: t('importDataPoint.duplicateData'),
+    invalidDataSheet: t('importDataPoint.invalidDataSheet'),
+    invalidDateTime: t('importDataPoint.invalidDateTime'),
+    invalidParameter: t('importDataPoint.invalidParameter'),
+    pointKeyNotExisted: t('importDataPoint.pointKeyNotExisted'),
+    parameterNotTypeNumber: t('importDataPoint.parameterNotTypeNumber'),
+    pointAndPhaseNotBelongToStationType: t(
+      'importDataPoint.pointAndPhaseNotBelongToStationType'
+    ),
+    selectPhaseError: t('importDataPoint.selectPhaseError'),
+    upload: t('global.upload'),
+    complexForm: t('importDataPoint.complexForm'),
+    simpleForm: t('importDataPoint.simpleForm'),
+    inputForm: t('importDataPoint.inputForm'),
+  }
 }
 
 const optionExportData = [
-  { key: "simple", label: i18n.simpleForm },
-  { key: "complex", label: i18n.complexForm },
+  { key: 'simple', label: i18n().simpleForm },
+  { key: 'complex', label: i18n().complexForm },
 ]
 
 const FIELDS = {
@@ -122,19 +124,19 @@ const FIELDS = {
   MEASURING: 'measuring',
   STATION_TYPE_ID: 'stationTypeId',
   PHASE_ID: 'phaseId',
-  typeExport: 'typeExport'
+  typeExport: 'typeExport',
 }
 
 const IMPORT_DATA_ERROR = {
-  DUPLICATE_PARAMETER: i18n.duplicateParameter,
-  DUPLICATE_DATA: i18n.duplicateData,
-  INVALID_DATA_SHEET: i18n.invalidDataSheet,
-  INVALID_DATE_TIME: i18n.invalidDateTime,
-  INVALID_PARAMETER: i18n.invalidParameter,
-  POINT_KEY_NOT_EXISTED: i18n.pointKeyNotExisted,
-  PARAMETER_NOT_TYPE_NUMBER: i18n.parameterNotTypeNumber,
-  POINT_KEY_NOT_BELONG_TO_STATION_TYPE:
-    i18n.pointAndPhaseNotBelongToStationType,
+  DUPLICATE_PARAMETER: i18n().duplicateParameter,
+  DUPLICATE_DATA: i18n().duplicateData,
+  INVALID_DATA_SHEET: i18n().invalidDataSheet,
+  INVALID_DATE_TIME: i18n().invalidDateTime,
+  INVALID_PARAMETER: i18n().invalidParameter,
+  POINT_KEY_NOT_EXISTED: i18n().pointKeyNotExisted,
+  PARAMETER_NOT_TYPE_NUMBER: i18n().parameterNotTypeNumber,
+  POINT_KEY_NOT_BELONG_TO_STATION_TYPE: i18n()
+    .pointAndPhaseNotBelongToStationType,
 }
 
 @protectRole(ROLE.STATION_FIXED_INPUT.VIEW)
@@ -145,7 +147,7 @@ class StationFixedImportData extends React.Component {
     isDownloadingFile: false,
     errorDetail: null,
     count: 0,
-    typeExport: ""
+    typeExport: '',
   }
 
   getErrorDetail = errors => {
@@ -168,7 +170,7 @@ class StationFixedImportData extends React.Component {
           row =>
             !isEmpty(errorDetail[row]) && (
               <div key={row}>
-                {i18n.line} {row}: {this.getErrorDetail(errorDetail[row])}
+                {i18n().line} {row}: {this.getErrorDetail(errorDetail[row])}
               </div>
             )
         )}
@@ -182,8 +184,8 @@ class StationFixedImportData extends React.Component {
   }
 
   validatePhase = (_, value, callback) => {
-    if (!value) callback(i18n.selectPhaseError)
-    else if (value && value.length !== 2) callback(i18n.selectPhaseError)
+    if (!value) callback(i18n().selectPhaseError)
+    else if (value && value.length !== 2) callback(i18n().selectPhaseError)
     callback()
   }
 
@@ -201,10 +203,10 @@ class StationFixedImportData extends React.Component {
 
     try {
       this.setState({ isLoading: true, errorDetail: null, isSuccess: false })
-      let result;
-      if (typeImport === "complex") {
+      let result
+      if (typeImport === 'complex') {
         result = await importDataStationFixed(formData)
-      }else{
+      } else {
         result = await importSimpleDataStationFixed(formData)
       }
 
@@ -229,7 +231,7 @@ class StationFixedImportData extends React.Component {
     this.setState({ isDownloadingFile: true })
     const measurings = form.getFieldValue(FIELDS.MEASURING)
     const typeForm = form.getFieldValue(FIELDS.typeExport)
-    if (typeForm === "complex") {
+    if (typeForm === 'complex') {
       const result = await exportDataTemplate(measurings)
       downFileExcel(result.data, 'data-template')
     } else {
@@ -258,7 +260,7 @@ class StationFixedImportData extends React.Component {
 
     const stationTypeId =
       form.getFieldValue(FIELDS.PHASE) &&
-        form.getFieldValue(FIELDS.PHASE).length === 2
+      form.getFieldValue(FIELDS.PHASE).length === 2
         ? form.getFieldValue(FIELDS.PHASE)[0].stationTypeId
         : null
 
@@ -270,44 +272,46 @@ class StationFixedImportData extends React.Component {
       <React.Fragment>
         <Header>
           <Text fontSize={22} color="#3B3B3B" fontWeight={600}>
-            {i18n.headerTitle}
+            {i18n().headerTitle}
           </Text>
         </Header>
         <Container>
-          <Text color="rgba(0, 0, 0, 0.65);">{i18n.description}</Text>
+          <Text color="rgba(0, 0, 0, 0.65);">{i18n().description}</Text>
           <Text color="rgba(0, 0, 0, 0.65);" block>
-            {i18n.startUpload}
+            {i18n().startUpload}
           </Text>
 
           <Form onSubmit={this.onSubmit}>
             <Row gutter={36}>
               <Col span={8}>
-                <Form.Item label={i18n.phaseLabel}>
+                <Form.Item label={i18n().phaseLabel}>
                   {form.getFieldDecorator(FIELDS.PHASE, {
                     rules: [
-                      // { required: true, message: i18n.selectPhaseError },
+                      // { required: true, message: i18n().selectPhaseError },
                       { validator: this.validatePhase, required: true },
                     ],
                   })(<SelectPhase />)}
                 </Form.Item>
               </Col>
               <Col span={8}>
-                <Form.Item label={i18n.inputForm}>
+                <Form.Item label={i18n().inputForm}>
                   {form.getFieldDecorator(FIELDS.typeExport, {
-                    initialValue: "complex"
-                  })(<Select>
-                    {optionExportData.map(item => (
-                      <Select.Option key={item.key} value={item.key}>
-                        {item.label}
-                      </Select.Option>
-                    ))}
-                  </Select>)}
+                    initialValue: 'complex',
+                  })(
+                    <Select>
+                      {optionExportData.map(item => (
+                        <Select.Option key={item.key} value={item.key}>
+                          {item.label}
+                        </Select.Option>
+                      ))}
+                    </Select>
+                  )}
                 </Form.Item>
               </Col>
             </Row>
             <Row>
               <Col span={24}>
-                <Form.Item label={i18n.measuringLabel}>
+                <Form.Item label={i18n().measuringLabel}>
                   {form.getFieldDecorator(
                     FIELDS.MEASURING,
                     {}
@@ -322,7 +326,7 @@ class StationFixedImportData extends React.Component {
                   textAlign="center"
                   color="rgba(0, 0, 0, 0.65);"
                 >
-                  {i18n.requirements}
+                  {i18n().requirements}
                 </Text>
               </Col>
             </Row>
@@ -330,8 +334,9 @@ class StationFixedImportData extends React.Component {
               <Col span={8} className="download-wrapper">
                 {isDownloadingFile && <Spin className="spin" />}
                 <div
-                  className={`ant-upload ant-upload-drag ${countMeasuring < 1 ? 'disabled-download' : ''
-                    }`}
+                  className={`ant-upload ant-upload-drag ${
+                    countMeasuring < 1 ? 'disabled-download' : ''
+                  }`}
                   onClick={this.onDownloadFile}
                 >
                   <Text
@@ -340,11 +345,11 @@ class StationFixedImportData extends React.Component {
                     color="rgba(0, 0, 0, 0.65);"
                     fontWeight="normal"
                   >
-                    {i18n.step1}
+                    {i18n().step1}
                   </Text>
                   <Icon type="download"></Icon>
                   <Text block fontSize={20} color="rgba(0, 0, 0, 0.65);">
-                    {i18n.downloadText}
+                    {i18n().downloadText}
                   </Text>
                 </div>
               </Col>
@@ -360,15 +365,15 @@ class StationFixedImportData extends React.Component {
                     color="rgba(0, 0, 0, 0.65);"
                     fontWeight="normal"
                   >
-                    {i18n.step2}
+                    {i18n().step2}
                   </Text>
                   <Icon type="upload"></Icon>
                   <div>
                     <Text block fontSize={20} color="rgba(0, 0, 0, 0.65);">
-                      {i18n.uploadText}
+                      {i18n().uploadText}
                     </Text>
                     <Text block fontWeight="normal">
-                      {file.name || i18n.dragAndDrop}
+                      {file.name || i18n().dragAndDrop}
                     </Text>
                   </div>
                 </Dragger>
@@ -379,8 +384,8 @@ class StationFixedImportData extends React.Component {
               {isSuccess && count > 0 && (
                 <Col span={16}>
                   <Alert
-                    message={i18n.successTitle}
-                    description={i18n.successMessage(count)}
+                    message={i18n().successTitle}
+                    description={i18n().successMessage(count)}
                     type="success"
                     showIcon
                   />
@@ -389,8 +394,8 @@ class StationFixedImportData extends React.Component {
               {isSuccess && count === 0 && (
                 <Col span={16}>
                   <Alert
-                    message={i18n.errorTitle}
-                    description={i18n.errorMessageNoData}
+                    message={i18n().errorTitle}
+                    description={i18n().errorMessageNoData}
                     type="error"
                     showIcon
                   />
@@ -399,8 +404,8 @@ class StationFixedImportData extends React.Component {
               {!isEmpty(errorDetail) && (
                 <Col span={16}>
                   <Alert
-                    message={i18n.errorTitle}
-                    description={i18n.errorMessage}
+                    message={i18n().errorTitle}
+                    description={i18n().errorMessage}
                     type="error"
                     showIcon
                   />
@@ -416,7 +421,7 @@ class StationFixedImportData extends React.Component {
                   htmlType="submit"
                   loading={isLoading}
                 >
-                  {i18n.upload}
+                  {i18n().upload}
                 </Button>
               </Col>
             </Row>

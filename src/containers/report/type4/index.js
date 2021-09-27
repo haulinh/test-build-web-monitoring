@@ -19,9 +19,12 @@ import protectRole from 'hoc/protect-role'
 import ROLE from 'constants/role'
 
 const { Title, Text } = Typography
-const i18n = {
-  header: translate('avgSearchFrom.table.header7'),
-  title: translate('avgSearchFrom.table.title5'),
+
+function i18n() {
+  return {
+    header: translate('avgSearchFrom.table.header7'),
+    title: translate('avgSearchFrom.table.title5'),
+  }
 }
 
 @protectRole(ROLE.TB8MAX.VIEW)
@@ -43,7 +46,7 @@ export default class ReportType1 extends React.Component {
       stationName: '',
       monthYear: '',
       measuringList: [],
-      isFilter: false
+      isFilter: false,
     }
   }
 
@@ -61,7 +64,7 @@ export default class ReportType1 extends React.Component {
     })
     return [
       {
-        title: i18n.header,
+        title: i18n().header,
         dataIndex: '_id',
         render: value => {
           return <span>{moment(value, 'YYYY-MM-DD').format(DD_MM_YYYY)}</span>
@@ -87,7 +90,7 @@ export default class ReportType1 extends React.Component {
         .map(item => encodeURIComponent(item.key))
         .join(',')
       this.setState({
-        isFilter: values.isFilter || false
+        isFilter: values.isFilter || false,
       })
       let res = await getUrlReportType4(
         values.stationAuto,
@@ -150,7 +153,7 @@ export default class ReportType1 extends React.Component {
         <SearchForm cbSubmit={this.handleSubmit} />
         <Clearfix height={16} />
         <div style={{ position: 'relative', textAlign: 'center' }}>
-          <Title level={4}>{i18n.title}</Title>
+          <Title level={4}>{i18n().title}</Title>
           <Text>
             {' '}
             {translate('avgSearchFrom.table.description5', {

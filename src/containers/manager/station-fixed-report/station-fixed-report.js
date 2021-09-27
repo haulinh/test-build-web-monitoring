@@ -107,7 +107,7 @@ export class StationFixedReport extends React.Component {
     <Flex>
       <Popover content={this.content()} placement="bottom" trigger="click">
         <Button icon="profile" style={{ marginRight: '8px' }}>
-          {i18n.addButton}
+          {i18n().addButton}
         </Button>
       </Popover>
       {protectRole(ROLE.STATION_FIXED_SEARCH.EXPORT)(
@@ -117,7 +117,7 @@ export class StationFixedReport extends React.Component {
           onClick={this.handleExportExcel}
           type="primary"
         >
-          {i18n.exportExcelButton}
+          {i18n().exportExcelButton}
         </Button>
       )}
     </Flex>
@@ -133,7 +133,7 @@ export class StationFixedReport extends React.Component {
           {optionalInfo.map(item => (
             <div key={item.key} style={{ marginBottom: '8px' }}>
               {form.getFieldDecorator(item.field)(
-                <Checkbox>{i18n.optionalInfo[item.field]}</Checkbox>
+                <Checkbox>{i18n().optionalInfo[item.field]}</Checkbox>
               )}
             </div>
           ))}
@@ -276,7 +276,7 @@ export class StationFixedReport extends React.Component {
           setStandardVNObject={this.setStandardVNObject}
         />
         <Tabs defaultActiveKey="1" tabBarExtraContent={this.operations()}>
-          <TabPane tab={i18n.dataTab} key="1" />
+          <TabPane tab={i18n().dataTab} key="1" />
         </Tabs>
         <ReportTable
           standardsVNObject={standardsVNObject}

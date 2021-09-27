@@ -27,12 +27,14 @@ const PageExpLicenseInfoWrapper = styled.div`
     }
   }
 `
-const i18n = {
-  title: translate('expLicenseInfo.title'),
-  subtitle2: translate('expLicenseInfo.subtitle2'),
-  text1: translate('expLicenseInfo.text1'),
-  text2: translate('expLicenseInfo.text2'),
-  text3: translate('expLicenseInfo.text3'),
+function i18n() {
+  return {
+    title: translate('expLicenseInfo.title'),
+    subtitle2: translate('expLicenseInfo.subtitle2'),
+    text1: translate('expLicenseInfo.text1'),
+    text2: translate('expLicenseInfo.text2'),
+    text3: translate('expLicenseInfo.text3'),
+  }
 }
 
 @connect(state => ({
@@ -56,13 +58,13 @@ export default class PageExpLicenseInfo extends PureComponent {
         <Result
           //   status="404"
           icon={<img src="/images/license/subscription-expired.png" alt="" />}
-          title={<Title level={3}>{i18n.title}</Title>}
+          title={<Title level={3}>{i18n().title}</Title>}
           subTitle={
             <div>
               {translate('expLicenseInfo.subtitle1', {
                 totalDate: limitDate,
               })}
-              <br /> {i18n.subtitle2}
+              <br /> {i18n().subtitle2}
             </div>
           }
           extra={
@@ -74,11 +76,11 @@ export default class PageExpLicenseInfo extends PureComponent {
                   fontWeight: 'bold',
                 }}
               >
-                {i18n.text2}
+                {i18n().text2}
               </Text>
               <br />
               <Text className="content--text__padding" strong>
-                {i18n.text1}
+                {i18n().text1}
               </Text>
               <Text
                 style={{
@@ -89,7 +91,7 @@ export default class PageExpLicenseInfo extends PureComponent {
               </Text>
               <br />
               <Text className="content--text__padding" strong>
-                {i18n.text3}
+                {i18n().text3}
               </Text>
               <Text
                 style={{

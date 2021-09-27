@@ -30,26 +30,28 @@ const Text = styled.div`
   margin: ${props => props.margin};
 `
 
-const i18n = {
-  disconnected: t('dashboard.status.disconnected'),
-  exceeded: t('dashboard.status.exceeded'),
-  exceededPreparing: t('dashboard.status.exceededPreparing'),
-  good: t('dashboard.status.good'),
-  newNotification: t('dashboard.newNotification'),
-  maintenance: t('monitoring.deviceStatus.maintenance'),
-  sensorError: t('monitoring.deviceStatus.sensorError'),
-  goodDevice: t('monitoring.deviceStatus.good'),
-  statusData: t('common.statusData'),
-  statusSensor: t('common.statusSensor'),
-  description: {
-    disconnected: t('dashboard.statusDescription.disconnected'),
-    good: t('dashboard.statusDescription.good'),
-    exceededPreparing: t('dashboard.statusDescription.exceededPreparing'),
-    exceeded: t('dashboard.statusDescription.exceeded'),
-    maintenance: t('dashboard.statusDescription.maintenance'),
-    sensorError: t('dashboard.statusDescription.sensorError'),
-    goodDevice: t('dashboard.statusDescription.goodDevice'),
-  },
+function i18n() {
+  return {
+    disconnected: t('dashboard.status.disconnected'),
+    exceeded: t('dashboard.status.exceeded'),
+    exceededPreparing: t('dashboard.status.exceededPreparing'),
+    good: t('dashboard.status.good'),
+    newNotification: t('dashboard.newNotification'),
+    maintenance: t('monitoring.deviceStatus.maintenance'),
+    sensorError: t('monitoring.deviceStatus.sensorError'),
+    goodDevice: t('monitoring.deviceStatus.good'),
+    statusData: t('common.statusData'),
+    statusSensor: t('common.statusSensor'),
+    description: {
+      disconnected: t('dashboard.statusDescription.disconnected'),
+      good: t('dashboard.statusDescription.good'),
+      exceededPreparing: t('dashboard.statusDescription.exceededPreparing'),
+      exceeded: t('dashboard.statusDescription.exceeded'),
+      maintenance: t('dashboard.statusDescription.maintenance'),
+      sensorError: t('dashboard.statusDescription.sensorError'),
+      goodDevice: t('dashboard.statusDescription.goodDevice'),
+    },
+  }
 }
 
 const Helper = () => {
@@ -70,48 +72,48 @@ const Helper = () => {
   return (
     <Container>
       <Text className="title" fontSize={16} fontWeight={600}>
-        {i18n.statusData}
+        {i18n().statusData}
       </Text>
       {renderMenu([
         {
           icon: <img src={iconDisconnected} alt="" />,
-          status: i18n.disconnected,
-          desc: i18n.description.disconnected,
+          status: i18n().disconnected,
+          desc: i18n().description.disconnected,
         },
         {
           icon: <img src={iconGood} alt="" />,
-          status: i18n.good,
-          desc: i18n.description.good,
+          status: i18n().good,
+          desc: i18n().description.good,
         },
         {
           icon: <img src={iconTendToExceed} alt="" />,
-          status: i18n.exceededPreparing,
-          desc: i18n.description.exceededPreparing,
+          status: i18n().exceededPreparing,
+          desc: i18n().description.exceededPreparing,
         },
         {
           icon: <img src={iconExceed} alt="" />,
-          status: i18n.exceeded,
-          desc: i18n.description.exceeded,
+          status: i18n().exceeded,
+          desc: i18n().description.exceeded,
         },
       ])}
       <Text className="title" fontSize={16} fontWeight={600}>
-        {i18n.statusSensor}
+        {i18n().statusSensor}
       </Text>
       {renderMenu([
         {
           icon: <img src={iconError} alt="" />,
-          status: i18n.maintenance,
-          desc: i18n.description.maintenance,
+          status: i18n().maintenance,
+          desc: i18n().description.maintenance,
         },
         {
           icon: <img src={iconCalibration} alt="" />,
-          status: i18n.sensorError,
-          desc: i18n.description.sensorError,
+          status: i18n().sensorError,
+          desc: i18n().description.sensorError,
         },
         {
           icon: <img src={iconDeviceGood} alt="" />,
-          status: i18n.goodDevice,
-          desc: i18n.description.goodDevice,
+          status: i18n().goodDevice,
+          desc: i18n().description.goodDevice,
         },
       ])}
     </Container>

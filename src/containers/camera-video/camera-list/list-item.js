@@ -6,8 +6,10 @@ import PropTypes from 'prop-types'
 import { STATUS_CAMERA } from 'constants/stationStatus'
 import { translate } from 'hoc/create-lang'
 
-const i18n = {
-  errorAuth: translate('empty.camera.errorAuth'),
+function i18n() {
+  return {
+    errorAuth: translate('empty.camera.errorAuth'),
+  }
 }
 
 const { Meta } = Card
@@ -57,7 +59,7 @@ export default class ListItemView extends React.Component {
       >
         <Meta
           title={`${name}${
-            status === STATUS_CAMERA.NOT_EXISTS ? ` - ${i18n.errorAuth}` : ''
+            status === STATUS_CAMERA.NOT_EXISTS ? ` - ${i18n().errorAuth}` : ''
           }`}
           description={<DescriptionView>{stationName}</DescriptionView>}
         />

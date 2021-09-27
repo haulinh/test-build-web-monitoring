@@ -23,13 +23,15 @@ const FIELDS = {
   broadcastTime: 'broadcastTime',
 }
 
-const i18n = {
-  broadcastTime: t('apiSharingNew.fields.broadcastTime'),
-  stationKeys: t('apiSharingNew.fields.stationKeys'),
-  requireBroadcastTime: t(
-    'apiSharingNew.detailPage.rules.requireBroadcastTime'
-  ),
-  requireStation: t('apiSharingNew.detailPage.rules.requireStation'),
+function i18n() {
+  return {
+    broadcastTime: t('apiSharingNew.fields.broadcastTime'),
+    stationKeys: t('apiSharingNew.fields.stationKeys'),
+    requireBroadcastTime: t(
+      'apiSharingNew.detailPage.rules.requireBroadcastTime'
+    ),
+    requireStation: t('apiSharingNew.detailPage.rules.requireStation'),
+  }
 }
 
 const FormItem = styled(Form.Item)`
@@ -142,24 +144,24 @@ export default class SearchContainer extends Component {
           <BoxShadow>
             <Row gutter={12}>
               <Col span={8}>
-                <FormItem label={i18n.broadcastTime}>
+                <FormItem label={i18n().broadcastTime}>
                   {form.getFieldDecorator(FIELDS.broadcastTime, {
                     rules: [
                       {
                         required: true,
-                        message: i18n.requireBroadcastTime,
+                        message: i18n().requireBroadcastTime,
                       },
                     ],
                   })(<DatePicker style={{ width: '100%' }} />)}
                 </FormItem>
               </Col>
               <Col span={16}>
-                <FormItem label={i18n.stationKeys}>
+                <FormItem label={i18n().stationKeys}>
                   {form.getFieldDecorator(FIELDS.stationKeys, {
                     rules: [
                       {
                         required: true,
-                        message: i18n.requireStation,
+                        message: i18n().requireStation,
                       },
                     ],
                   })(

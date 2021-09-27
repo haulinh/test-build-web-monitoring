@@ -8,68 +8,70 @@ import { isEmpty } from 'lodash-es'
 import { downFileExcel } from 'utils/downFile'
 import PeriodicForecastApi from 'api/station-fixed/PeriodicForecastApi'
 
-const i18n = {
-  headerTitle: t('importDataPoint.headerTitle'),
-  description: t('importDataPoint.description'),
-  startUpload: t('importDataPoint.startUpload'),
-  phaseLabel: t('importDataPoint.phaseLabel'),
-  measuringLabel: t('importDataPoint.measuringLabel'),
-  measuringRequired: t('importDataPoint.measuringRequired'),
-  stationTypeLabel: t('importDataPoint.stationTypeLabel'),
-  requirements: (
-    <p>
-      {t('importDataPoint.requirements1')}{' '}
-      <b>{t('importDataPoint.requirements2')}</b>
-    </p>
-  ),
-  step1: t('importDataPoint.step1'),
-  step2: t('importDataPoint.step2'),
-  downloadText: t('importDataPoint.downloadText'),
-  uploadText: t('importDataPoint.uploadText'),
-  dragAndDrop: t('importDataPoint.dragAndDrop'),
-  errorTitle: t('importDataPoint.errorTitle'),
-  errorMessage: t('importDataPoint.errorMessage'),
-  errorMessageNoData: t('importDataPoint.errorMessageNoData'),
-  successTitle: t('importDataPoint.successTitle'),
-  successMessage: count => t('importDataPoint.successMessage', { count }),
-  line: t('importDataPoint.line'),
-  duplicateParameter: t('importDataPoint.duplicateParameter'),
-  duplicateData: t('importDataPoint.duplicateData'),
-  invalidDataSheet: t('importDataPoint.invalidDataSheet'),
-  invalidDateTime: t('importDataPoint.invalidDateTime'),
-  invalidParameter: t('importDataPoint.invalidParameter'),
-  pointKeyNotExisted: t('importDataPoint.pointKeyNotExisted'),
-  parameterNotTypeNumber: t('importDataPoint.parameterNotTypeNumber'),
-  pointAndPhaseNotBelongToStationType: t(
-    'importDataPoint.pointAndPhaseNotBelongToStationType'
-  ),
-  selectPhaseError: t('importDataPoint.selectPhaseError'),
-  upload: t('global.upload'),
-  stationKeyNotExist: t('importDataForecast.stationKeyNotExist'),
-  emptyFile: t('importDataForecast.emptyFile'),
-  alarmLevelIinvalid: t('importDataForecast.alarmLevelIinvalid'),
-  alarmLevelIIinvalid: t('importDataForecast.alarmLevelIIinvalid'),
-  alarmLevelIIIinvalid: t('importDataForecast.alarmLevelIIIinvalid'),
-  dateInvalid: t('importDataForecast.dateInvalid'),
-  hourInvalid: t('importDataForecast.hourInvalid'),
-  measureValueInvalid: t('importDataForecast.measureValueInvalid'),
-  dataTypeInvalid: t('importDataForecast.dataTypeInvalid'),
-  dataSourceInvalid: t('importDataForecast.dataSourceInvalid'),
-  broadcastDateInvalid: t('importDataForecast.broadcastDateInvalid'),
-  broadcastTimeInvalid: t('importDataForecast.broadcastTimeInvalid'),
-  realDataInvalid: t('importDataForecast.realDataInvalid'),
-  invalidDayDataNumber: t('importDataForecast.invalidDayDataNumber'),
-  forecastDataInvalid: t('importDataForecast.forecastDataInvalid'),
-  titleConfirm: t('importDataForecast.titleConfirm'),
-  confirm: (
-    <p>
-      {' '}
-      {t('importDataForecast.confirm1')}{' '}
-      <b>{t('importDataForecast.confirm2')}</b>{' '}
-      {t('importDataForecast.confirm3')}
-    </p>
-  ),
-  cancel: t('global.cancel'),
+function i18n() {
+  return {
+    headerTitle: t('importDataPoint.headerTitle'),
+    description: t('importDataPoint.description'),
+    startUpload: t('importDataPoint.startUpload'),
+    phaseLabel: t('importDataPoint.phaseLabel'),
+    measuringLabel: t('importDataPoint.measuringLabel'),
+    measuringRequired: t('importDataPoint.measuringRequired'),
+    stationTypeLabel: t('importDataPoint.stationTypeLabel'),
+    requirements: (
+      <p>
+        {t('importDataPoint.requirements1')}{' '}
+        <b>{t('importDataPoint.requirements2')}</b>
+      </p>
+    ),
+    step1: t('importDataPoint.step1'),
+    step2: t('importDataPoint.step2'),
+    downloadText: t('importDataPoint.downloadText'),
+    uploadText: t('importDataPoint.uploadText'),
+    dragAndDrop: t('importDataPoint.dragAndDrop'),
+    errorTitle: t('importDataPoint.errorTitle'),
+    errorMessage: t('importDataPoint.errorMessage'),
+    errorMessageNoData: t('importDataPoint.errorMessageNoData'),
+    successTitle: t('importDataPoint.successTitle'),
+    successMessage: count => t('importDataPoint.successMessage', { count }),
+    line: t('importDataPoint.line'),
+    duplicateParameter: t('importDataPoint.duplicateParameter'),
+    duplicateData: t('importDataPoint.duplicateData'),
+    invalidDataSheet: t('importDataPoint.invalidDataSheet'),
+    invalidDateTime: t('importDataPoint.invalidDateTime'),
+    invalidParameter: t('importDataPoint.invalidParameter'),
+    pointKeyNotExisted: t('importDataPoint.pointKeyNotExisted'),
+    parameterNotTypeNumber: t('importDataPoint.parameterNotTypeNumber'),
+    pointAndPhaseNotBelongToStationType: t(
+      'importDataPoint.pointAndPhaseNotBelongToStationType'
+    ),
+    selectPhaseError: t('importDataPoint.selectPhaseError'),
+    upload: t('global.upload'),
+    stationKeyNotExist: t('importDataForecast.stationKeyNotExist'),
+    emptyFile: t('importDataForecast.emptyFile'),
+    alarmLevelIinvalid: t('importDataForecast.alarmLevelIinvalid'),
+    alarmLevelIIinvalid: t('importDataForecast.alarmLevelIIinvalid'),
+    alarmLevelIIIinvalid: t('importDataForecast.alarmLevelIIIinvalid'),
+    dateInvalid: t('importDataForecast.dateInvalid'),
+    hourInvalid: t('importDataForecast.hourInvalid'),
+    measureValueInvalid: t('importDataForecast.measureValueInvalid'),
+    dataTypeInvalid: t('importDataForecast.dataTypeInvalid'),
+    dataSourceInvalid: t('importDataForecast.dataSourceInvalid'),
+    broadcastDateInvalid: t('importDataForecast.broadcastDateInvalid'),
+    broadcastTimeInvalid: t('importDataForecast.broadcastTimeInvalid'),
+    realDataInvalid: t('importDataForecast.realDataInvalid'),
+    invalidDayDataNumber: t('importDataForecast.invalidDayDataNumber'),
+    forecastDataInvalid: t('importDataForecast.forecastDataInvalid'),
+    titleConfirm: t('importDataForecast.titleConfirm'),
+    confirm: (
+      <p>
+        {' '}
+        {t('importDataForecast.confirm1')}{' '}
+        <b>{t('importDataForecast.confirm2')}</b>{' '}
+        {t('importDataForecast.confirm3')}
+      </p>
+    ),
+    cancel: t('global.cancel'),
+  }
 }
 
 const FIELDS = {
@@ -77,37 +79,37 @@ const FIELDS = {
 }
 
 const IMPORT_DATA_ERROR = {
-  DUPLICATE_DATA: i18n.duplicateData,
-  REQUIRE_FIELD: i18n.requireField,
-  INVALID_DATA_SHEET: i18n.invalidDataSheet,
-  INVALID_NAME: i18n.invalidName,
-  INVALID_LATITUDE: i18n.invalidLatitude,
-  INVALID_LONGITUDE: i18n.invalidLongitude,
-  INVALID_ADDRESS: i18n.invalidAddress,
-  QCVN_KEY_NOT_EXIST: i18n.qcvnKeyNotExist,
-  STATION_TYPE_KEY_NOT_EXIST: i18n.stationTypeKeyNotExist,
-  MEASURE_KEY_NOT_EXIST: i18n.measureKeyNotExist,
-  NO_DATA: i18n.noData,
-  INVALID_STATION_TYPE: i18n.invalidStationType,
-  INVALID_KEY: i18n.invalidKey,
-  DUPLICATE_MEASURE: i18n.duplicateMeasure,
-  REQUIRE_ONE_MEASURE_PARAMERTER: i18n.requireOneMeasureParamerter,
+  DUPLICATE_DATA: i18n().duplicateData,
+  REQUIRE_FIELD: i18n().requireField,
+  INVALID_DATA_SHEET: i18n().invalidDataSheet,
+  INVALID_NAME: i18n().invalidName,
+  INVALID_LATITUDE: i18n().invalidLatitude,
+  INVALID_LONGITUDE: i18n().invalidLongitude,
+  INVALID_ADDRESS: i18n().invalidAddress,
+  QCVN_KEY_NOT_EXIST: i18n().qcvnKeyNotExist,
+  STATION_TYPE_KEY_NOT_EXIST: i18n().stationTypeKeyNotExist,
+  MEASURE_KEY_NOT_EXIST: i18n().measureKeyNotExist,
+  NO_DATA: i18n().noData,
+  INVALID_STATION_TYPE: i18n().invalidStationType,
+  INVALID_KEY: i18n().invalidKey,
+  DUPLICATE_MEASURE: i18n().duplicateMeasure,
+  REQUIRE_ONE_MEASURE_PARAMERTER: i18n().requireOneMeasureParamerter,
 
-  STATION_KEY_NOT_EXIST: i18n.stationKeyNotExist,
-  EMPTY_FILE: i18n.emptyFile,
-  ALARM_LEVEL_I_INVALID: i18n.alarmLevelIinvalid,
-  ALARM_LEVEL_II_INVALID: i18n.alarmLevelIIinvalid,
-  ALARM_LEVEL_III_INVALID: i18n.alarmLevelIIIinvalid,
-  DATE_INVALID: i18n.dateInvalid,
-  HOUR_INVALID: i18n.hourInvalid,
-  MEASURE_VALUE_INVALID: i18n.measureValueInvalid,
-  DATA_TYPE_INVALID: i18n.dataTypeInvalid,
-  DATA_SOURCE_INVALID: i18n.dataSourceInvalid,
-  BROADCAST_TIME_INVALID: i18n.broadcastTimeInvalid,
-  BROADCAST_DATE_INVALID: i18n.broadcastDateInvalid,
-  REAL_DATA_INVALID: i18n.realDataInvalid,
-  INVALID_DAY_DATA_NUMBER: i18n.invalidDayDataNumber,
-  FORECAST_DATA_INVALID: i18n.forecastDataInvalid,
+  STATION_KEY_NOT_EXIST: i18n().stationKeyNotExist,
+  EMPTY_FILE: i18n().emptyFile,
+  ALARM_LEVEL_I_INVALID: i18n().alarmLevelIinvalid,
+  ALARM_LEVEL_II_INVALID: i18n().alarmLevelIIinvalid,
+  ALARM_LEVEL_III_INVALID: i18n().alarmLevelIIIinvalid,
+  DATE_INVALID: i18n().dateInvalid,
+  HOUR_INVALID: i18n().hourInvalid,
+  MEASURE_VALUE_INVALID: i18n().measureValueInvalid,
+  DATA_TYPE_INVALID: i18n().dataTypeInvalid,
+  DATA_SOURCE_INVALID: i18n().dataSourceInvalid,
+  BROADCAST_TIME_INVALID: i18n().broadcastTimeInvalid,
+  BROADCAST_DATE_INVALID: i18n().broadcastDateInvalid,
+  REAL_DATA_INVALID: i18n().realDataInvalid,
+  INVALID_DAY_DATA_NUMBER: i18n().invalidDayDataNumber,
+  FORECAST_DATA_INVALID: i18n().forecastDataInvalid,
 }
 
 const Text = styled.div`
@@ -195,7 +197,7 @@ export default class ImportTab extends React.Component {
         additionalInfo = params
           .trim()
           .split(',')
-          .map(field => i18n.requiredField[field])
+          .map(field => i18n().requiredField[field])
           .join(', ')
         break
       default:
@@ -221,7 +223,7 @@ export default class ImportTab extends React.Component {
           row =>
             !isEmpty(errorDetail[row]) && (
               <div key={row}>
-                {i18n.line} {row}: {this.getErrorDetail(errorDetail[row])}
+                {i18n().line} {row}: {this.getErrorDetail(errorDetail[row])}
               </div>
             )
         )}
@@ -304,7 +306,7 @@ export default class ImportTab extends React.Component {
                 textAlign="center"
                 color="rgba(0, 0, 0, 0.65);"
               >
-                {i18n.requirements}
+                {i18n().requirements}
               </Text>
             </Col>
           </Row>
@@ -324,11 +326,11 @@ export default class ImportTab extends React.Component {
                   color="rgba(0, 0, 0, 0.65);"
                   fontWeight="normal"
                 >
-                  {i18n.step1}
+                  {i18n().step1}
                 </Text>
                 <Icon type="download"></Icon>
                 <Text block fontSize={20} color="rgba(0, 0, 0, 0.65);">
-                  {i18n.downloadText}
+                  {i18n().downloadText}
                 </Text>
               </div>
             </Col>
@@ -344,15 +346,15 @@ export default class ImportTab extends React.Component {
                   color="rgba(0, 0, 0, 0.65);"
                   fontWeight="normal"
                 >
-                  {i18n.step2}
+                  {i18n().step2}
                 </Text>
                 <Icon type="upload"></Icon>
                 <div>
                   <Text block fontSize={20} color="rgba(0, 0, 0, 0.65);">
-                    {i18n.uploadText}
+                    {i18n().uploadText}
                   </Text>
                   <Text block fontWeight="normal">
-                    {file.name || i18n.dragAndDrop}
+                    {file.name || i18n().dragAndDrop}
                   </Text>
                 </div>
               </Dragger>
@@ -365,8 +367,8 @@ export default class ImportTab extends React.Component {
             {isSuccess && (
               <Col span={16}>
                 <Alert
-                  message={i18n.successTitle}
-                  description={i18n.successMessage(count)}
+                  message={i18n().successTitle}
+                  description={i18n().successMessage(count)}
                   type="success"
                   showIcon
                 />
@@ -375,8 +377,8 @@ export default class ImportTab extends React.Component {
             {!isEmpty(errorDetail) && (
               <Col span={16}>
                 <Alert
-                  message={i18n.errorTitle}
-                  description={i18n.errorMessage}
+                  message={i18n().errorTitle}
+                  description={i18n().errorMessage}
                   type="error"
                   showIcon
                 />
@@ -393,7 +395,7 @@ export default class ImportTab extends React.Component {
                 htmlType="submit"
                 loading={isLoading}
               >
-                {i18n.upload}
+                {i18n().upload}
               </Button>
             </Col>
           </Row>
@@ -402,12 +404,12 @@ export default class ImportTab extends React.Component {
           visible={isModalVisible}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
-          cancelText={i18n.cancel}
-          okText={i18n.upload}
+          cancelText={i18n().cancel}
+          okText={i18n().upload}
         >
-          <b style={{ fontSize: '16px' }}>{i18n.titleConfirm}</b>
+          <b style={{ fontSize: '16px' }}>{i18n().titleConfirm}</b>
           <Clearfix height={12} />
-          {i18n.confirm}
+          {i18n().confirm}
         </Modal>
       </Container>
     )

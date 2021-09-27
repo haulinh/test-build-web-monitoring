@@ -20,13 +20,17 @@ import FormAddCamera from './formAddCamera'
 
 const { Panel } = Collapse
 
-const i18n = {
-  tableHeaderName: translate('stationAutoManager.list.camera.name'),
-  tableHeaderAddress: translate('stationAutoManager.list.camera.addr'),
-  tableHeaderAllowCamera: translate('stationAutoManager.list.camera.allowView'),
-  btnSave: translate('addon.save'),
-  successSubmit: translate('addon.onSave.update.success'),
-  errorSubmit: translate('addon.onSave.update.error'),
+function i18n() {
+  return {
+    tableHeaderName: translate('stationAutoManager.list.camera.name'),
+    tableHeaderAddress: translate('stationAutoManager.list.camera.addr'),
+    tableHeaderAllowCamera: translate(
+      'stationAutoManager.list.camera.allowView'
+    ),
+    btnSave: translate('addon.save'),
+    successSubmit: translate('addon.onSave.update.success'),
+    errorSubmit: translate('addon.onSave.update.error'),
+  }
 }
 
 const TableWrapper = styled(Table)`
@@ -138,7 +142,7 @@ export default class StationAutoConfigCamera extends React.Component {
   _getTableColumns() {
     return [
       {
-        title: i18n.tableHeaderName,
+        title: i18n().tableHeaderName,
         key: 'title',
         render: (text, record, index) => (
           <strong>
@@ -147,7 +151,7 @@ export default class StationAutoConfigCamera extends React.Component {
         ),
       },
       {
-        title: i18n.tableHeaderAddress,
+        title: i18n().tableHeaderAddress,
         key: 'address',
         render: (text, record, index) => <strong>{record.type.address}</strong>,
       },
@@ -161,7 +165,7 @@ export default class StationAutoConfigCamera extends React.Component {
       //         //   onClick={this._handleCheckAll}
       //         //   indeterminate={this.state.isCameraIndeterminate}
       //         // >
-      //         //   {i18n.tableHeaderAllowCamera}
+      //         //   {i18n().tableHeaderAllowCamera}
       //         // </Checkbox>
       //       )}
       //     </div>
@@ -271,10 +275,10 @@ export default class StationAutoConfigCamera extends React.Component {
 
     if (res.success) {
       return console.log('submit success')
-      // return message.success(i18n.successSubmit)
+      // return message.success(i18n().successSubmit)
     }
 
-    return message.error(i18n.errorSubmit)
+    return message.error(i18n().errorSubmit)
   }
 
   render() {
@@ -347,7 +351,7 @@ export default class StationAutoConfigCamera extends React.Component {
           type="primary"
           onClick={this._handleSubmit}
         >
-          {i18n.btnSave}
+          {i18n().btnSave}
         </Button> */}
       </PageContainer>
     )

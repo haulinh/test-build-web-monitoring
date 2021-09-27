@@ -11,17 +11,27 @@ import { langPropTypes } from '../../../../hoc/create-lang'
 
 const FormItem = Form.Item
 
-const i18n = {
-  sensorRange: translate('stationAutoManager.form.range.label'),
-  sensorRangeMin: translate('stationAutoManager.form.measuringMinRange.label'),
-  sensorRangeMax: translate('stationAutoManager.form.measuringMaxRange.label'),
-  tendToExceed: translate('stationAutoManager.form.tendToExceed.label'),
-  tendToExceedMin: translate('stationAutoManager.form.measuringMinLimit.label'),
-  tendToExceedMax: translate('stationAutoManager.form.measuringMaxLimit.label'),
-  qcvn: translate('stationAutoManager.form.qcvn.label'),
-  qcvnMin: translate('stationAutoManager.form.measuringMinLimit.label'),
-  qcvnMax: translate('stationAutoManager.form.measuringMaxLimit.label'),
-  unit: translate('stationAutoManager.form.measuringUnit.label'),
+function i18n() {
+  return {
+    sensorRange: translate('stationAutoManager.form.range.label'),
+    sensorRangeMin: translate(
+      'stationAutoManager.form.measuringMinRange.label'
+    ),
+    sensorRangeMax: translate(
+      'stationAutoManager.form.measuringMaxRange.label'
+    ),
+    tendToExceed: translate('stationAutoManager.form.tendToExceed.label'),
+    tendToExceedMin: translate(
+      'stationAutoManager.form.measuringMinLimit.label'
+    ),
+    tendToExceedMax: translate(
+      'stationAutoManager.form.measuringMaxLimit.label'
+    ),
+    qcvn: translate('stationAutoManager.form.qcvn.label'),
+    qcvnMin: translate('stationAutoManager.form.measuringMinLimit.label'),
+    qcvnMax: translate('stationAutoManager.form.measuringMaxLimit.label'),
+    unit: translate('stationAutoManager.form.measuringUnit.label'),
+  }
 }
 
 @autobind
@@ -154,12 +164,12 @@ export default class StationAutoFormTable extends React.Component {
         ),
       },
       {
-        title: i18n.qcvn,
+        title: i18n().qcvn,
         children: [
           {
             dataIndex: 'minLimit',
             align: 'center',
-            title: i18n.qcvnMin,
+            title: i18n().qcvnMin,
             width: 150,
             render: (text, record, index) =>
               this.renderItemNumberCell(text, record, index, 'minLimit'),
@@ -167,7 +177,7 @@ export default class StationAutoFormTable extends React.Component {
           {
             dataIndex: 'maxLimit',
             align: 'center',
-            title: i18n.qcvnMax,
+            title: i18n().qcvnMax,
             width: 150,
             render: (text, record, index) =>
               this.renderItemNumberCell(text, record, index, 'maxLimit'),
@@ -175,12 +185,12 @@ export default class StationAutoFormTable extends React.Component {
         ],
       },
       {
-        title: i18n.tendToExceed,
+        title: i18n().tendToExceed,
         children: [
           {
             dataIndex: 'minTend',
             align: 'center',
-            title: i18n.tendToExceedMin,
+            title: i18n().tendToExceedMin,
             width: 150,
             render: (text, record, index) =>
               this.renderItemNumberCellNoQaQc(text, record, index, 'minTend'),
@@ -188,7 +198,7 @@ export default class StationAutoFormTable extends React.Component {
           {
             dataIndex: 'maxTend',
             align: 'center',
-            title: i18n.tendToExceedMax,
+            title: i18n().tendToExceedMax,
             width: 150,
             render: (text, record, index) =>
               this.renderItemNumberCellNoQaQc(text, record, index, 'maxTend'),
@@ -196,12 +206,12 @@ export default class StationAutoFormTable extends React.Component {
         ],
       },
       {
-        title: i18n.sensorRange,
+        title: i18n().sensorRange,
         children: [
           {
             dataIndex: 'minRange',
             align: 'center',
-            title: i18n.sensorRangeMin,
+            title: i18n().sensorRangeMin,
             width: 150,
             render: (text, record, index) =>
               this.renderItemNumberCellNoQaQc(text, record, index, 'minRange'),
@@ -209,7 +219,7 @@ export default class StationAutoFormTable extends React.Component {
           {
             dataIndex: 'maxRange',
             align: 'center',
-            title: i18n.sensorRangeMax,
+            title: i18n().sensorRangeMax,
             width: 150,
             render: (text, record, index) =>
               this.renderItemNumberCellNoQaQc(text, record, index, 'maxRange'),
@@ -218,7 +228,7 @@ export default class StationAutoFormTable extends React.Component {
       },
       {
         dataIndex: 'unit',
-        title: i18n.unit,
+        title: i18n().unit,
         align: 'center',
         width: 150,
         render: (text, record, index) => (

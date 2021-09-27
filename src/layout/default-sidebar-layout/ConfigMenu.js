@@ -1,6 +1,6 @@
 import React from 'react'
 import { Menu, Tooltip } from 'antd'
-import slug, { MENU_NAME, MENU_GROUP, TOOLTIP_MENU } from 'constants/slug'
+import slug, { MENU_GROUP, listTooltipMenu, listMenuName } from 'constants/slug'
 import protectRole from 'hoc/protect-role/forMenu'
 import ROLE from 'constants/role'
 import Icon from 'themes/icon'
@@ -17,10 +17,10 @@ export default {
     <Menu.SubMenu
       key={MENU_GROUP.CONFIG}
       title={
-        <Tooltip placement="right" title={TOOLTIP_MENU.configSub}>
+        <Tooltip placement="right" title={listTooltipMenu().configSub}>
           <div style={CENTER}>
             {Icon.config}
-            <span style={{ marginLeft: 12 }}>{MENU_NAME.configSub}</span>
+            <span style={{ marginLeft: 12 }}>{listMenuName().configSub}</span>
           </div>
         </Tooltip>
       }
@@ -33,9 +33,12 @@ export default {
             props.selectMenu(slug.stationAuto.base)
           }}
         >
-          <Tooltip placement="right" title={TOOLTIP_MENU.config.stationAuto}>
+          <Tooltip
+            placement="right"
+            title={listTooltipMenu().config.stationAuto}
+          >
             <Link to={slug.stationAuto.base}>
-              {MENU_NAME.config.stationAuto}
+              {listMenuName().config.stationAuto}
             </Link>
           </Tooltip>
         </Menu.Item>
@@ -51,10 +54,10 @@ export default {
         >
           <Tooltip
             placement="right"
-            title={TOOLTIP_MENU.config.stationAutoConnection}
+            title={listTooltipMenu().config.stationAutoConnection}
           >
             <Link to={slug.stationAuto.configConnection.base}>
-              {MENU_NAME.config.stationAutoConnection}
+              {listMenuName().config.stationAutoConnection}
             </Link>
           </Tooltip>
         </Menu.Item>
@@ -66,9 +69,9 @@ export default {
           key={slug.stationAuto.configSampling.base}
           onClick={() => props.selectMenu(slug.stationAuto.configSampling.base)}
         >
-          <Tooltip placement="right" title={TOOLTIP_MENU.config.sampling}>
+          <Tooltip placement="right" title={listTooltipMenu().config.sampling}>
             <Link to={slug.stationAuto.configSampling.base}>
-              {MENU_NAME.config.sampling}
+              {listMenuName().config.sampling}
             </Link>
           </Tooltip>
         </Menu.Item>
@@ -80,9 +83,9 @@ export default {
           key={slug.stationAuto.configCamera.base}
           onClick={() => props.selectMenu(slug.stationAuto.configCamera.base)}
         >
-          <Tooltip placement="right" title={TOOLTIP_MENU.config.camera}>
+          <Tooltip placement="right" title={listTooltipMenu().config.camera}>
             <Link to={slug.stationAuto.configCamera.base}>
-              {MENU_NAME.config.camera}
+              {listMenuName().config.camera}
             </Link>
           </Tooltip>
         </Menu.Item>
@@ -98,10 +101,10 @@ export default {
         >
           <Tooltip
             placement="right"
-            title={TOOLTIP_MENU.config.sendNotification}
+            title={listTooltipMenu().config.sendNotification}
           >
             <Link to={slug.stationAuto.configSendNotification.base}>
-              {MENU_NAME.config.sendNotification}
+              {listMenuName().config.sendNotification}
             </Link>
           </Tooltip>
         </Menu.Item>
@@ -113,9 +116,9 @@ export default {
           key={slug.stationAuto.configColor.base}
           onClick={() => props.selectMenu(slug.stationAuto.configColor.base)}
         >
-          <Tooltip placement="right" title={TOOLTIP_MENU.config.color}>
+          <Tooltip placement="right" title={listTooltipMenu().config.color}>
             <Link to={slug.stationAuto.configColor.base}>
-              {MENU_NAME.config.color}
+              {listMenuName().config.color}
             </Link>
           </Tooltip>
         </Menu.Item>
@@ -129,8 +132,10 @@ export default {
             props.selectMenu(slug.measuring.base)
           }}
         >
-          <Tooltip placement="right" title={TOOLTIP_MENU.config.parameter}>
-            <Link to={slug.measuring.base}>{MENU_NAME.config.parameter}</Link>
+          <Tooltip placement="right" title={listTooltipMenu().config.parameter}>
+            <Link to={slug.measuring.base}>
+              {listMenuName().config.parameter}
+            </Link>
           </Tooltip>
         </Menu.Item>
       )}
@@ -143,9 +148,12 @@ export default {
             props.selectMenu(slug.stationType.base)
           }}
         >
-          <Tooltip placement="right" title={TOOLTIP_MENU.config.stationType}>
+          <Tooltip
+            placement="right"
+            title={listTooltipMenu().config.stationType}
+          >
             <Link to={slug.stationType.base}>
-              {MENU_NAME.config.stationType}
+              {listMenuName().config.stationType}
             </Link>
           </Tooltip>
         </Menu.Item>
@@ -159,8 +167,8 @@ export default {
             props.selectMenu(slug.province.base)
           }}
         >
-          <Tooltip placement="right" title={TOOLTIP_MENU.config.site}>
-            <Link to={slug.province.base}>{MENU_NAME.config.site}</Link>
+          <Tooltip placement="right" title={listTooltipMenu().config.site}>
+            <Link to={slug.province.base}>{listMenuName().config.site}</Link>
           </Tooltip>
         </Menu.Item>
       )}
@@ -173,8 +181,8 @@ export default {
             props.selectMenu(slug.qcvn.base)
           }}
         >
-          <Tooltip placement="right" title={TOOLTIP_MENU.config.standard}>
-            <Link to={slug.qcvn.base}>{MENU_NAME.config.standard}</Link>
+          <Tooltip placement="right" title={listTooltipMenu().config.standard}>
+            <Link to={slug.qcvn.base}>{listMenuName().config.standard}</Link>
           </Tooltip>
         </Menu.Item>
       )}
@@ -188,8 +196,10 @@ export default {
             props.selectMenu(slug.config.service)
           }}
         >
-          <Tooltip placement="right" title={TOOLTIP_MENU.config.role}>
-            <Link to={slug.config.service}>{MENU_NAME.config.service}</Link>
+          <Tooltip placement="right" title={listTooltipMenu().config.role}>
+            <Link to={slug.config.service}>
+              {listMenuName().config.service}
+            </Link>
           </Tooltip>
         </Menu.Item>
       )}
@@ -203,8 +213,8 @@ export default {
             props.selectMenu(slug.role.base)
           }}
         >
-          <Tooltip placement="right" title={TOOLTIP_MENU.config.role}>
-            <Link to={slug.role.base}>{MENU_NAME.config.role}</Link>
+          <Tooltip placement="right" title={listTooltipMenu().config.role}>
+            <Link to={slug.role.base}>{listMenuName().config.role}</Link>
           </Tooltip>
         </Menu.Item>
       )}
@@ -217,8 +227,8 @@ export default {
             props.selectMenu(slug.user.base)
           }}
         >
-          <Tooltip placement="right" title={TOOLTIP_MENU.config.user}>
-            <Link to={slug.user.base}>{MENU_NAME.config.user}</Link>
+          <Tooltip placement="right" title={listTooltipMenu().config.user}>
+            <Link to={slug.user.base}>{listMenuName().config.user}</Link>
           </Tooltip>
         </Menu.Item>
       )}
@@ -231,8 +241,13 @@ export default {
             props.selectMenu(slug.dataLogger.base)
           }}
         >
-          <Tooltip placement="right" title={TOOLTIP_MENU.config.dataLogger}>
-            <Link to={slug.dataLogger.base}>{MENU_NAME.config.dataLogger}</Link>
+          <Tooltip
+            placement="right"
+            title={listTooltipMenu().config.dataLogger}
+          >
+            <Link to={slug.dataLogger.base}>
+              {listMenuName().config.dataLogger}
+            </Link>
           </Tooltip>
         </Menu.Item>
       )}

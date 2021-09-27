@@ -24,9 +24,12 @@ import { connect } from 'react-redux'
 // import axios from 'axios'
 
 const { Title, Text } = Typography
-const i18n = {
-  header8: translate('avgSearchFrom.table.header8'),
-  title: translate('avgSearchFrom.table.title6'),
+
+function i18n() {
+  return {
+    header8: translate('avgSearchFrom.table.header8'),
+    title: translate('avgSearchFrom.table.title6'),
+  }
 }
 
 @protectRole(ROLE.TB1H.VIEW)
@@ -66,7 +69,7 @@ export default class ReportType11 extends React.Component {
 
     return [
       {
-        title: i18n.header8,
+        title: i18n().header8,
         dataIndex: 'date_utc',
         align: 'center',
         render: value => {
@@ -101,7 +104,7 @@ export default class ReportType11 extends React.Component {
       measuringListUnitStr: values.measuringListUnitStr,
       type: 60,
       key: values.stationAuto,
-      isFilter: values.isFilter || false
+      isFilter: values.isFilter || false,
     }
 
     const res = await getDataStationAutoAvg(
@@ -115,7 +118,7 @@ export default class ReportType11 extends React.Component {
       const convertedData = res.data.map(d => {
         // console.log(d, '===d===d')
         const result = {
-          date_utc: d.date_utc
+          date_utc: d.date_utc,
         }
         Object.keys(d.measuringLogs).forEach(meaKey => {
           result[meaKey] = d.measuringLogs[meaKey].value
@@ -143,7 +146,7 @@ export default class ReportType11 extends React.Component {
     let res = await downloadExcel_DataStationAutov1(this.props.token, {
       ...this.state.dataSearch,
       language: this.props.locale || 'EN',
-      name: this.state.stationName
+      name: this.state.stationName,
     })
     // console.log(url, '==url==')
     // console.log("this.state.dataSearch", url);
@@ -159,7 +162,7 @@ export default class ReportType11 extends React.Component {
         <SearchForm cbSubmit={this.handleSubmit} isDatePicker={true} />
         <Clearfix height={16} />
         <div style={{ position: 'relative', textAlign: 'center' }}>
-          <Title level={4}>{i18n.title}</Title>
+          <Title level={4}>{i18n().title}</Title>
           <Text>
             {' '}
             {translate('avgSearchFrom.table.description6', {

@@ -20,7 +20,7 @@ export default function Filter({ form, setResultReport }) {
     <React.Fragment>
       <Row gutter={12}>
         <Col span={6}>
-          <FormItem label={i18n.reportType.label}>
+          <FormItem label={i18n().reportType.label}>
             {form.getFieldDecorator(Fields.reportType, {
               initialValue: 'month',
               onChange: handleOnChangeReportType,
@@ -28,13 +28,13 @@ export default function Filter({ form, setResultReport }) {
           </FormItem>
         </Col>
         <Col span={6}>
-          <FormItem label={i18n.time.label}>
+          <FormItem label={i18n().time.label}>
             {form.getFieldDecorator(Fields.time, {
               initialValue: { type: 'month', value: moment() },
               rules: [
                 {
                   required: true,
-                  message: i18n.time.required,
+                  message: i18n().time.required,
                 },
               ],
             })(
@@ -46,24 +46,24 @@ export default function Filter({ form, setResultReport }) {
           </FormItem>
         </Col>
         <Col span={6}>
-          <FormItem label={i18n.stationType.label}>
+          <FormItem label={i18n().stationType.label}>
             {form.getFieldDecorator(Fields.stationType, {
               rules: [
                 {
                   required: true,
-                  message: i18n.stationType.required,
+                  message: i18n().stationType.required,
                 },
               ],
             })(<SelectStationType />)}
           </FormItem>
         </Col>
         <Col span={6}>
-          <FormItem label={i18n.stationName.label}>
+          <FormItem label={i18n().stationName.label}>
             {form.getFieldDecorator(Fields.stationKey, {
               rules: [
                 {
                   required: true,
-                  message: i18n.stationName.required,
+                  message: i18n().stationName.required,
                 },
               ],
             })(
@@ -77,12 +77,12 @@ export default function Filter({ form, setResultReport }) {
       </Row>
       <Row gutter={12}>
         <Col span={6}>
-          <FormItem label={i18n.billingConfig.label}>
+          <FormItem label={i18n().billingConfig.label}>
             {form.getFieldDecorator(Fields.billingConfigId, {
               rules: [
                 {
                   required: true,
-                  message: i18n.billingConfig.required,
+                  message: i18n().billingConfig.required,
                 },
               ],
             })(<SelectConfig />)}

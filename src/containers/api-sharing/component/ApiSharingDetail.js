@@ -84,12 +84,12 @@ export default class ApiSharingDetail extends Component {
         <Tabs defaultActiveKey={activeKey || 'ConfigTab'}>
           <Tabs.TabPane
             disabled={isView(rule)}
-            tab={i18n.tab.configTab}
+            tab={i18n().tab.configTab}
             key="ConfigTab"
           >
             <ConfigTab rule={rule} data={data} updateData={this.updateData} />
           </Tabs.TabPane>
-          <Tabs.TabPane tab={i18n.tab.viewDataTab} key="QueryTab">
+          <Tabs.TabPane tab={i18n().tab.viewDataTab} key="QueryTab">
             <QueryTab rule={rule} data={data} />
           </Tabs.TabPane>
         </Tabs>

@@ -1,59 +1,61 @@
 import { translate as t } from 'hoc/create-lang'
 
-const i18n = {
-  stationManagement: t('apiSharing.stationManagement'),
-  stations: t('apiSharing.stations'),
-  averageData: t('apiSharing.averageData'),
-  dataHistory: t('apiSharing.dataHistory'),
-  aqi: t('apiSharing.aqi'),
-  stationName: t('apiSharing.stationName'),
-  stationAddress: t('apiSharing.stationAddress'),
-  stationTypeKey: t('apiSharing.stationTypeKey'),
-  page: t('apiSharing.page'),
-  itemPerPage: t('apiSharing.itemPerPage'),
-  stationAutoKey: t('apiSharing.stationAutoKey'),
-  measuringList: t('apiSharing.measuringList'),
-  fromDate: t('apiSharing.fromDate'),
-  toDate: t('apiSharing.toDate'),
-  filterByExceeded: t('apiSharing.filterByExceeded'),
-  allowedAQI: t('apiSharing.allowedAQI'),
+function i18n() {
+  return {
+    stationManagement: t('apiSharing.stationManagement'),
+    stations: t('apiSharing.stations'),
+    averageData: t('apiSharing.averageData'),
+    dataHistory: t('apiSharing.dataHistory'),
+    aqi: t('apiSharing.aqi'),
+    stationName: t('apiSharing.stationName'),
+    stationAddress: t('apiSharing.stationAddress'),
+    stationTypeKey: t('apiSharing.stationTypeKey'),
+    page: t('apiSharing.page'),
+    itemPerPage: t('apiSharing.itemPerPage'),
+    stationAutoKey: t('apiSharing.stationAutoKey'),
+    measuringList: t('apiSharing.measuringList'),
+    fromDate: t('apiSharing.fromDate'),
+    toDate: t('apiSharing.toDate'),
+    filterByExceeded: t('apiSharing.filterByExceeded'),
+    allowedAQI: t('apiSharing.allowedAQI'),
+  }
 }
 
 export const PublicApis = {
   StationManagement: {
     key: 'StationManagement',
-    name: i18n.stationManagement,
+    name: i18n().stationManagement,
     endpoints: {
       stations: {
         key: 'stations',
-        name: i18n.stations,
+        name: i18n().stations,
         method: 'get',
         endpoint: '/station-auto/all',
         parameters: [
           {
             field: 'name',
             type: 'string',
-            description: i18n.stationName,
+            description: i18n().stationName,
           },
           {
             field: 'address',
             type: 'string',
-            description: i18n.stationAddress,
+            description: i18n().stationAddress,
           },
           {
             field: 'stationType',
             type: 'string',
-            description: i18n.stationTypeKey,
+            description: i18n().stationTypeKey,
           },
           {
             field: 'page',
             type: 'number',
-            description: i18n.page,
+            description: i18n().page,
           },
           {
             field: 'itemPerPage',
             type: 'number',
-            description: i18n.itemPerPage,
+            description: i18n().itemPerPage,
           },
         ],
         responseFormat: {
@@ -96,7 +98,7 @@ export const PublicApis = {
       },
       averageData: {
         key: 'averageData',
-        name: i18n.averageData,
+        name: i18n().averageData,
         method: 'get',
         endpoint: '/data-station-auto/{stationAutoKey}/avg',
         extraEndpoint:
@@ -105,32 +107,32 @@ export const PublicApis = {
           {
             field: 'stationAutoKey',
             type: 'string',
-            description: i18n.stationAutoKey,
+            description: i18n().stationAutoKey,
           },
           {
             field: 'measuringList',
             type: 'string',
-            description: i18n.measuringList,
+            description: i18n().measuringList,
           },
           {
             field: 'from',
             type: 'date ISO',
-            description: i18n.fromDate,
+            description: i18n().fromDate,
           },
           {
             field: 'to',
             type: 'date ISO',
-            description: i18n.toDate,
+            description: i18n().toDate,
           },
           {
             field: 'page',
             type: 'number',
-            description: i18n.page,
+            description: i18n().page,
           },
           {
             field: 'itemPerPage',
             type: 'number',
-            description: i18n.itemPerPage,
+            description: i18n().itemPerPage,
           },
         ],
         responseFormat: {
@@ -152,44 +154,44 @@ export const PublicApis = {
       },
       dataHistory: {
         key: 'dataHistory',
-        name: i18n.dataHistory,
+        name: i18n().dataHistory,
         method: 'get',
         endpoint: '/data-station-auto/{stationAutoKey}',
         parameters: [
           {
             field: 'stationAutoKey',
             type: 'string',
-            description: i18n.stationAutoKey,
+            description: i18n().stationAutoKey,
           },
           {
             field: 'measuringList',
             type: 'string',
-            description: i18n.measuringList,
+            description: i18n().measuringList,
           },
           {
             field: 'from',
             type: 'date ISO',
-            description: i18n.fromDate,
+            description: i18n().fromDate,
           },
           {
             field: 'to',
             type: 'date ISO',
-            description: i18n.toDate,
+            description: i18n().toDate,
           },
           {
             field: 'isExceeded',
             type: 'boolean',
-            description: i18n.filterByExceeded,
+            description: i18n().filterByExceeded,
           },
           {
             field: 'page',
             type: 'number',
-            description: i18n.page,
+            description: i18n().page,
           },
           {
             field: 'itemPerPage',
             type: 'number',
-            description: i18n.itemPerPage,
+            description: i18n().itemPerPage,
           },
         ],
         responseFormat: {
@@ -226,7 +228,7 @@ export const PublicApis = {
       },
       aqi: {
         key: 'aqi',
-        name: i18n.aqi,
+        name: i18n().aqi,
         method: 'get',
         extraEndpoint: '/aqi-v1/hour-last-logs?listKey=KK_HoanKiem&locale=vn',
         endpoint: '/aqi-v1/hour-last-logs',
@@ -234,7 +236,7 @@ export const PublicApis = {
           {
             field: 'listKey',
             type: 'string',
-            description: i18n.allowedAQI,
+            description: i18n().allowedAQI,
           },
           {
             field: 'locale',

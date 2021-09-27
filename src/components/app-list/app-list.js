@@ -24,8 +24,10 @@ const PopoverWraper = styled.div`
   }
 `
 
-const i18n = {
-  apps: t('apps.title'),
+function i18n() {
+  return {
+    apps: t('apps.title'),
+  }
 }
 
 class AppList extends Component {
@@ -33,7 +35,7 @@ class AppList extends Component {
     const { list } = this.props
     const renderOverlay = () => (
       <PopoverWraper>
-        <div className="title">{i18n.apps}</div>
+        <div className="title">{i18n().apps}</div>
         <Menu>
           {list.map(item => (
             <Menu.Item key={item.text}>

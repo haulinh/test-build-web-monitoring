@@ -22,15 +22,17 @@ import { replaceVietnameseStr } from '../../../utils/string'
 import Breadcrumb from '../breadcrumb'
 import StationAutoSearchForm from './search-form'
 
-const i18n = {
-  breadCrumb: translate('configStation.breadCrumb'),
-  stationName: translate('stationAutoManager.form.name.label'),
-  stationAddr: translate('stationAutoManager.form.address.label'),
-  recv: translate('configStation.warningStatus'),
-  cancel: 'Bõ chọn' /* MARK  @translate */,
-  submit: translate('addon.save'),
-  updateSuccess: translate('addon.onSave.update.success'),
-  updateError: translate('addon.onSave.update.error'),
+function i18n() {
+  return {
+    breadCrumb: translate('configStation.breadCrumb'),
+    stationName: translate('stationAutoManager.form.name.label'),
+    stationAddr: translate('stationAutoManager.form.address.label'),
+    recv: translate('configStation.warningStatus'),
+    cancel: translate('addon.cancel'),
+    submit: translate('addon.save'),
+    updateSuccess: translate('addon.onSave.update.success'),
+    updateError: translate('addon.onSave.update.error'),
+  }
 }
 
 const showSuccess = msg => {
@@ -123,7 +125,7 @@ export default class StationAutoConfigNotification extends React.Component {
           items={[
             {
               id: 'configStation',
-              name: i18n.breadCrumb,
+              name: i18n().breadCrumb,
             },
           ]}
         />
@@ -152,7 +154,7 @@ export default class StationAutoConfigNotification extends React.Component {
 
         <Row style={{ marginBottom: 16 }}>
           {/* NOTE  KHONG XOA, uncomment khi a @hung thay đổi yêu cầu */}
-          {/* <Button onClick={this.props.clearCache}>{i18n.cancel}</Button> */}
+          {/* <Button onClick={this.props.clearCache}>{i18n().cancel}</Button> */}
           <Button
             block
             type="primary"
@@ -160,7 +162,7 @@ export default class StationAutoConfigNotification extends React.Component {
             onClick={this.submitCache}
             disabled={_.keys(this.state.cachedData).length === 0}
           >
-            {i18n.submit}
+            {i18n().submit}
           </Button>
         </Row>
       </PageContainer>
@@ -192,8 +194,8 @@ export default class StationAutoConfigNotification extends React.Component {
       !this.state.isWarningCheckAll && !this.state.isWarningIndeterminate
     return [
       { content: '#', width: 2 },
-      { content: i18n.stationName, width: 15 },
-      { content: i18n.stationAddr, width: 20 },
+      { content: i18n().stationName, width: 15 },
+      { content: i18n().stationAddr, width: 20 },
       {
         content: (
           <div>
@@ -207,7 +209,7 @@ export default class StationAutoConfigNotification extends React.Component {
                 )
               }
             >
-              {i18n.recv}
+              {i18n().recv}
             </Checkbox>
           </div>
         ),
@@ -693,11 +695,11 @@ export default class StationAutoConfigNotification extends React.Component {
         dataSourceOriginal: _.cloneDeep(this.state.dataSource),
         cachedData: {},
       })
-      showSuccess(i18n.updateSuccess)
+      showSuccess(i18n().updateSuccess)
     } else if (res.error) {
       console.log(res.message)
       swal({
-        title: i18n.updateError,
+        title: i18n().updateError,
         type: 'error',
       })
     }

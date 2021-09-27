@@ -12,12 +12,14 @@ import RoleApi from 'api/RoleApi'
 const { Option } = Select
 const { Meta } = Card
 
-const i18n = {
-  selectUser: translate('userManager.form.placeholder.selectUser'),
-  selectRoleGroup: translate('userManager.form.placeholder.selectRoleGroup'),
-  create: translate('addon.create'),
-  error: translate('addon.error'),
-  roleAssign: translate('userManager.list.roleAssign'),
+function i18n() {
+  return {
+    selectUser: translate('userManager.form.placeholder.selectUser'),
+    selectRoleGroup: translate('userManager.form.placeholder.selectRoleGroup'),
+    create: translate('addon.create'),
+    error: translate('addon.error'),
+    roleAssign: translate('userManager.list.roleAssign'),
+  }
 }
 
 const formFields = {
@@ -63,7 +65,7 @@ export default class UserSearchForm extends React.PureComponent {
         <Col span={12}>
           {getFieldDecorator(formFields.selectUser)(
             <Select
-              placeholder={i18n.selectUser}
+              placeholder={i18n().selectUser}
               style={{ width: '100%' }}
               loading={this.state.isGettingUsers}
               optionLabelProp="label"
@@ -104,7 +106,7 @@ export default class UserSearchForm extends React.PureComponent {
         <Col span={12}>
           {getFieldDecorator(formFields.selectRole)(
             <Select
-              placeholder={i18n.selectRoleGroup}
+              placeholder={i18n().selectRoleGroup}
               style={{ width: '100%' }}
               loading={this.state.isGettingRoles}
               onSelect={this.handleSelectRole}
@@ -127,7 +129,7 @@ export default class UserSearchForm extends React.PureComponent {
 
   componentDidCatch() {
     swal({
-      title: i18n.error,
+      title: i18n().error,
       type: 'error',
     })
   }

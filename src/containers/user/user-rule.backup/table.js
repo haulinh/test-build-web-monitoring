@@ -3,18 +3,19 @@ import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
 import { Row, Table, Checkbox, Button, Icon, message } from 'antd'
 import _ from 'lodash'
-import swal from 'sweetalert2'
 
 import { translate } from 'hoc/create-lang'
 import { USER_RULE_TABLE_OPTIONS } from 'constants/labels'
 
-const i18n = {
-  submit: translate('addon.save'),
-  success: translate('addon.onSave.update.success'),
-  error: translate('addon.onSave.update.error'),
-  stationName: translate('stationAutoManager.form.name.label'),
-  stationAddr: translate('stationAutoManager.form.address.label'),
-  noData: 'Vui lòng chọn ở trên trước' /* MARK  @translate */,
+function i18n() {
+  return {
+    submit: translate('addon.save'),
+    success: translate('addon.onSave.update.success'),
+    error: translate('addon.onSave.update.error'),
+    stationName: translate('stationAutoManager.form.name.label'),
+    stationAddr: translate('stationAutoManager.form.address.label'),
+    noData: 'Vui lòng chọn ở trên trước' /* MARK  @translate */,
+  }
 }
 
 const showSuccess = msg => {
@@ -113,7 +114,7 @@ export default class UserRuleTable extends React.Component {
                   type="info-circle"
                   style={{ fontSize: 48, marginBottom: 20 }}
                 />
-                <div>{i18n.noData}</div>
+                <div>{i18n().noData}</div>
               </div>
             ),
           }}
@@ -127,7 +128,7 @@ export default class UserRuleTable extends React.Component {
           loading={this.state.isSave}
           onClick={this.submit}
         >
-          {i18n.submit}
+          {i18n().submit}
         </Button>
       </Row>
     )
@@ -168,7 +169,7 @@ export default class UserRuleTable extends React.Component {
       },
       {
         dataIndex: 'name',
-        title: `${i18n.stationName}`,
+        title: `${i18n().stationName}`,
         key: 'name',
         render(text, record, index) {
           return <div>{text}</div>
@@ -176,7 +177,7 @@ export default class UserRuleTable extends React.Component {
       },
       {
         dataIndex: 'address',
-        title: `${i18n.stationAddr}`,
+        title: `${i18n().stationAddr}`,
         key: 'address',
         render(text, record, index) {
           return <div>{text}</div>
@@ -491,6 +492,8 @@ export default class UserRuleTable extends React.Component {
           isEmailCheckAll: isCheckAll,
         })
         break
+      default:
+        break
     }
   }
 
@@ -498,7 +501,7 @@ export default class UserRuleTable extends React.Component {
     let { selectedUserID, selectedRoleID } = this.props
     let { cachedData } = this.state
     console.log(selectedUserID, selectedRoleID, cachedData)
-    showSuccess(i18n.success)
+    showSuccess(i18n().success)
     /* 
       {
         userID: "",

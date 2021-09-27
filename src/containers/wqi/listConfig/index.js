@@ -21,16 +21,18 @@ const Wrapper = styled.div`
   padding-top: 16px;
 `
 
-const i18n = {
-  pageName: translate('wqiConfigCalculation.pageName'),
-  phuongPhapTinh: translate('wqiConfigCalculation.phuongPhapTinh'),
-  cauHinh: translate('wqiConfigCalculation.cauHinh'),
-  taiLieu: translate('wqiConfigCalculation.taiLieu'),
-  config: translate('wqiConfigCalculation.config'),
-  view: translate('wqiConfigCalculation.view'),
-  save: translate('addon.save'),
-  updateSuccess: translate('addon.onSave.update.success'),
-  updateError: translate('addon.onSave.update.error'),
+function i18n() {
+  return {
+    pageName: translate('wqiConfigCalculation.pageName'),
+    phuongPhapTinh: translate('wqiConfigCalculation.phuongPhapTinh'),
+    cauHinh: translate('wqiConfigCalculation.cauHinh'),
+    taiLieu: translate('wqiConfigCalculation.taiLieu'),
+    config: translate('wqiConfigCalculation.config'),
+    view: translate('wqiConfigCalculation.view'),
+    save: translate('addon.save'),
+    updateSuccess: translate('addon.onSave.update.success'),
+    updateError: translate('addon.onSave.update.error'),
+  }
 }
 
 export default class ListAQI extends React.Component {
@@ -85,14 +87,14 @@ export default class ListAQI extends React.Component {
       .then(result => {
         console.log(result, '--result--')
         if (result.success) {
-          message.success(i18n.updateSuccess)
+          message.success(i18n().updateSuccess)
         } else {
-          message.error(i18n.updateError)
+          message.error(i18n().updateError)
         }
       })
       .catch(ex => {
         // console.log(ex, "---ex--")
-        message.error(i18n.updateError)
+        message.error(i18n().updateError)
       })
       .finally(() => {
         this.setState({
@@ -103,7 +105,7 @@ export default class ListAQI extends React.Component {
 
   getColumn = [
     {
-      title: i18n.phuongPhapTinh,
+      title: i18n().phuongPhapTinh,
       dataIndex: 'name',
       key: 'name',
       render: (text, record) => {
@@ -120,17 +122,17 @@ export default class ListAQI extends React.Component {
       },
     },
     {
-      title: i18n.cauHinh,
+      title: i18n().cauHinh,
       render: record => {
         return (
           <Link to={slug.advance.configWqi + '/' + record.key}>
-            {i18n.config}
+            {i18n().config}
           </Link>
         )
       },
     },
     {
-      title: i18n.taiLieu,
+      title: i18n().taiLieu,
       dataIndex: 'downloadUrl',
       key: 'downloadUrl',
       align: 'center',
@@ -144,7 +146,7 @@ export default class ListAQI extends React.Component {
                 window.open(file)
               }}
             >
-              {i18n.view}
+              {i18n().view}
             </a>
           )
         } else {
@@ -167,7 +169,7 @@ export default class ListAQI extends React.Component {
           items={[
             {
               id: '1',
-              name: i18n.pageName,
+              name: i18n().pageName,
             },
           ]}
         />
@@ -189,7 +191,7 @@ export default class ListAQI extends React.Component {
             disabled={!this.state.isEdit}
             onClick={this.hanldeSubmit}
           >
-            {i18n.save}
+            {i18n().save}
           </Button>
         </Wrapper>
       </PageContainer>

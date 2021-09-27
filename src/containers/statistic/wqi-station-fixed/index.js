@@ -17,12 +17,14 @@ import Chart from './chart'
 import List from './list'
 import SearchForm from './search-form'
 
-const i18n = {
-  chart: t('wqiStationFix.chart'),
-  table: t('wqiStationFix.table'),
-  exportBtn: t('wqiStationFix.exportBtn'),
-  fileName: t('wqiStationFix.fileExport'),
-  quarter: t('wqiStationFix.quarter'),
+function i18n() {
+  return {
+    chart: t('wqiStationFix.chart'),
+    table: t('wqiStationFix.table'),
+    exportBtn: t('wqiStationFix.exportBtn'),
+    fileName: t('wqiStationFix.fileExport'),
+    quarter: t('wqiStationFix.quarter'),
+  }
 }
 
 @protectRole(ROLE.WQI_PERIODIC.VIEW)
@@ -111,7 +113,7 @@ class WQIStationFixed extends React.Component {
       ...filter,
       lang: getLanguage(),
     })
-    downFileExcel(results.data, i18n.fileName)
+    downFileExcel(results.data, i18n().fileName)
   }
 
   render() {
@@ -134,15 +136,15 @@ class WQIStationFixed extends React.Component {
                 type="primary"
                 icon="download"
               >
-                {i18n.exportBtn}
+                {i18n().exportBtn}
               </Button>
             </PermissionPopover>
           }
         >
-          <Tabs.TabPane tab={i18n.table} key="table">
+          <Tabs.TabPane tab={i18n().table} key="table">
             <List dataSource={this.getDataList()} loading={loading} />
           </Tabs.TabPane>
-          <Tabs.TabPane tab={i18n.chart} key="chart">
+          <Tabs.TabPane tab={i18n().chart} key="chart">
             <Chart ref={ref => (this.chartRef = ref)} />
           </Tabs.TabPane>
         </Tabs>

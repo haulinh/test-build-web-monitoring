@@ -21,26 +21,28 @@ import {
 import { translate } from 'hoc/create-lang'
 import * as _ from 'lodash'
 
-const i18n = {
-  submit: translate('addon.save'),
-  warning: translate('addon.warning'),
-  refresh: translate('addon.refresh'),
-  yes: translate('add.yes'),
-  cancel: translate('addon.cancel'),
-  confirmMsgDelete: translate('confirm.msg.delete'),
-  updateSuccess: translate('addon.onSave.update.success'),
-  updateError: translate('addon.onSave.update.error'),
+function i18n() {
+  return {
+    submit: translate('addon.save'),
+    warning: translate('addon.warning'),
+    refresh: translate('addon.refresh'),
+    yes: translate('add.yes'),
+    cancel: translate('addon.cancel'),
+    confirmMsgDelete: translate('confirm.msg.delete'),
+    updateSuccess: translate('addon.onSave.update.success'),
+    updateError: translate('addon.onSave.update.error'),
 
-  add: translate('aqiConfigCalculation.add'),
-  required: translate('aqiConfigCalculation.required'),
-  compareToMax: translate('aqiConfigCalculation.compareToMax'),
-  compareToMin: translate('aqiConfigCalculation.compareToMin'),
-  colLevel: translate('aqiConfigCalculation.colLevel'),
-  colMin: translate('aqiConfigCalculation.colMin'),
-  colMax: translate('aqiConfigCalculation.colMax'),
-  colColor: translate('aqiConfigCalculation.colColor'),
-  colBackgroundColor: translate('aqiConfigCalculation.colBackgroundColor'),
-  colDescription: translate('aqiConfigCalculation.colDescription'),
+    add: translate('aqiConfigCalculation.add'),
+    required: translate('aqiConfigCalculation.required'),
+    compareToMax: translate('aqiConfigCalculation.compareToMax'),
+    compareToMin: translate('aqiConfigCalculation.compareToMin'),
+    colLevel: translate('aqiConfigCalculation.colLevel'),
+    colMin: translate('aqiConfigCalculation.colMin'),
+    colMax: translate('aqiConfigCalculation.colMax'),
+    colColor: translate('aqiConfigCalculation.colColor'),
+    colBackgroundColor: translate('aqiConfigCalculation.colBackgroundColor'),
+    colDescription: translate('aqiConfigCalculation.colDescription'),
+  }
 }
 
 @Form.create({})
@@ -64,7 +66,7 @@ export default class TabMucDo extends React.Component {
       form.getFieldValue(fliedName) &&
       value > form.getFieldValue(fliedName)
     ) {
-      callback(i18n.compareToMax)
+      callback(i18n().compareToMax)
     } else {
       callback()
     }
@@ -73,7 +75,7 @@ export default class TabMucDo extends React.Component {
   compareToMin = (rule, value, callback, fliedName) => {
     const { form } = this.props
     if (value && value < form.getFieldValue(fliedName)) {
-      callback(i18n.compareToMin)
+      callback(i18n().compareToMin)
     } else {
       callback()
     }
@@ -81,7 +83,7 @@ export default class TabMucDo extends React.Component {
 
   columns = [
     {
-      title: i18n.colLevel,
+      title: i18n().colLevel,
       dataIndex: 'name',
       key: 'name',
       align: 'center',
@@ -93,7 +95,7 @@ export default class TabMucDo extends React.Component {
               rules: [
                 {
                   required: true,
-                  message: i18n.required,
+                  message: i18n().required,
                 },
               ],
             })(<Input placeholder="Mức độ" />)}
@@ -102,7 +104,7 @@ export default class TabMucDo extends React.Component {
       },
     },
     {
-      title: i18n.colMin,
+      title: i18n().colMin,
       dataIndex: 'min',
       key: 'min',
       align: 'center',
@@ -114,7 +116,7 @@ export default class TabMucDo extends React.Component {
               rules: [
                 {
                   required: true,
-                  message: i18n.required,
+                  message: i18n().required,
                 },
                 {
                   validator: (rule, value, callback) =>
@@ -129,7 +131,7 @@ export default class TabMucDo extends React.Component {
             })(
               <InputNumber
                 style={{ width: '100%' }}
-                placeholder={i18n.colMin}
+                placeholder={i18n().colMin}
               />
             )}
           </Form.Item>
@@ -137,7 +139,7 @@ export default class TabMucDo extends React.Component {
       },
     },
     {
-      title: i18n.colMax,
+      title: i18n().colMax,
       dataIndex: 'max',
       key: 'max',
       align: 'center',
@@ -152,7 +154,7 @@ export default class TabMucDo extends React.Component {
                 rules: [
                   {
                     required: !this.state.isLocked,
-                    message: i18n.required,
+                    message: i18n().required,
                   },
                   {
                     validator: (rule, value, callback) =>
@@ -167,7 +169,7 @@ export default class TabMucDo extends React.Component {
               })(
                 <InputNumber
                   style={{ width: '100%' }}
-                  placeholder={i18n.colMax}
+                  placeholder={i18n().colMax}
                   disabled={isLast && this.state.isLocked}
                 />
               )}
@@ -202,7 +204,7 @@ export default class TabMucDo extends React.Component {
       },
     },
     {
-      title: i18n.colColor,
+      title: i18n().colColor,
       dataIndex: 'colColor',
       key: 'color',
       align: 'center',
@@ -215,7 +217,7 @@ export default class TabMucDo extends React.Component {
               rules: [
                 {
                   required: true,
-                  message: i18n.required,
+                  message: i18n().required,
                 },
               ],
             })(<input type="color" />)}
@@ -224,7 +226,7 @@ export default class TabMucDo extends React.Component {
       },
     },
     {
-      title: i18n.colBackgroundColor,
+      title: i18n().colBackgroundColor,
       dataIndex: 'colBackgroundColor',
       key: 'backgroundColor',
       align: 'center',
@@ -237,7 +239,7 @@ export default class TabMucDo extends React.Component {
               rules: [
                 {
                   required: true,
-                  message: i18n.required,
+                  message: i18n().required,
                 },
               ],
             })(<input type="color" />)}
@@ -246,7 +248,7 @@ export default class TabMucDo extends React.Component {
       },
     },
     {
-      title: i18n.colDescription,
+      title: i18n().colDescription,
       dataIndex: 'description',
       key: 'description',
       align: 'center',
@@ -258,10 +260,10 @@ export default class TabMucDo extends React.Component {
               rules: [
                 {
                   required: true,
-                  message: i18n.required,
+                  message: i18n().required,
                 },
               ],
-            })(<Input placeholder={i18n.colDescription} />)}
+            })(<Input placeholder={i18n().colDescription} />)}
           </Form.Item>
         )
       },
@@ -274,11 +276,11 @@ export default class TabMucDo extends React.Component {
       render: (text, record, index) => {
         return (
           <Popconfirm
-            title={i18n.confirmMsgDelete}
+            title={i18n().confirmMsgDelete}
             onConfirm={this.delete.bind(this, record.key)}
             // onCancel={cancel}
-            okText={i18n.yes}
-            cancelText={i18n.cancel}
+            okText={i18n().yes}
+            cancelText={i18n().cancel}
             placement="left"
           >
             <Icon
@@ -309,7 +311,7 @@ export default class TabMucDo extends React.Component {
             transformData
           )
           if (response.success) {
-            message.success(i18n.updateSuccess)
+            message.success(i18n().updateSuccess)
           }
         } finally {
           this.setState({ isSubmit: false })
@@ -363,7 +365,7 @@ export default class TabMucDo extends React.Component {
     return (
       <Spin spinning={!this.state.isLoaded}>
         <Button type="primary" onClick={this.add}>
-          {i18n.add}
+          {i18n().add}
         </Button>
         <Clearfix height={16} />
         <Table
@@ -380,7 +382,7 @@ export default class TabMucDo extends React.Component {
           type="primary"
           onClick={this.submit}
         >
-          {i18n.submit}
+          {i18n().submit}
         </Button>
       </Spin>
     )

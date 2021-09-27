@@ -35,21 +35,24 @@ const Container = styled.div`
 `
 
 /* TODO  @translate */
-const i18n = {
-  __ngoaidaido: translate('qaqc.dataFilter.outOfRange'),
-  __deviceError: translate('qaqc.dataFilter.deviceError'),
-  __deviceCalibration: translate('qaqc.dataFilter.deviceCalibration'),
-  __zero: translate('qaqc.dataFilter.zero'),
-  __negative: translate('qaqc.dataFilter.negative'),
+
+function i18n() {
+  return {
+    __ngoaidaido: translate('qaqc.dataFilter.outOfRange'),
+    __deviceError: translate('qaqc.dataFilter.deviceError'),
+    __deviceCalibration: translate('qaqc.dataFilter.deviceCalibration'),
+    __zero: translate('qaqc.dataFilter.zero'),
+    __negative: translate('qaqc.dataFilter.negative'),
+  }
 }
 
 /* MARK  @mockup */
 let mockDataFilterBy = [
-  { name: i18n.__ngoaidaido, value: 'outOfRange' },
-  { name: i18n.__deviceError, value: 'deviceError' },
-  { name: i18n.__deviceCalibration, value: 'deviceCalibration' },
-  { name: i18n.__zero, value: 'zero' },
-  { name: i18n.__negative, value: 'negative' },
+  { name: i18n().__ngoaidaido, value: 'outOfRange' },
+  { name: i18n().__deviceError, value: 'deviceError' },
+  { name: i18n().__deviceCalibration, value: 'deviceCalibration' },
+  { name: i18n().__zero, value: 'zero' },
+  { name: i18n().__negative, value: 'negative' },
 ]
 
 function validate(values) {

@@ -19,9 +19,12 @@ import protectRole from 'hoc/protect-role'
 import ROLE from 'constants/role'
 
 const { Title, Text } = Typography
-const i18n = {
-  header: translate('avgSearchFrom.table.header7'),
-  title: translate('avgSearchFrom.table.title3'),
+
+function i18n() {
+  return {
+    header: translate('avgSearchFrom.table.header7'),
+    title: translate('avgSearchFrom.table.title3'),
+  }
 }
 
 @protectRole(ROLE.TB1MAX.VIEW)
@@ -43,7 +46,7 @@ export default class ReportType3 extends React.Component {
       stationName: '',
       monthYear: '',
       measuringList: [],
-      isFilter: false
+      isFilter: false,
     }
   }
 
@@ -61,7 +64,7 @@ export default class ReportType3 extends React.Component {
     })
     return [
       {
-        title: i18n.header,
+        title: i18n().header,
         dataIndex: '_id',
         render: value => {
           return <span>{moment(value, 'YYYY-MM-DD').format(DD_MM_YYYY)}</span>
@@ -91,7 +94,7 @@ export default class ReportType3 extends React.Component {
     }
     // console.log(JSON.stringify(values, null, 2))
     this.setState({
-      isFilter: values.isFilter
+      isFilter: values.isFilter,
     })
     let res = await getUrlReportType3(
       values.stationAuto,
@@ -138,9 +141,9 @@ export default class ReportType3 extends React.Component {
       this.state.dataSearch.measuringListStr,
       this.state.dataSearch.measuringListUnitStr,
       language,
-      this.state.isFilter,
+      this.state.isFilter
     )
-    
+
     if (res && res.success) window.location = res.data
     else message.error('Export Error') //message.error(res.message)
   }
@@ -153,7 +156,7 @@ export default class ReportType3 extends React.Component {
         <SearchForm cbSubmit={this.handleSubmit} />
         <Clearfix height={16} />
         <div style={{ position: 'relative', textAlign: 'center' }}>
-          <Title level={4}>{i18n.title}</Title>
+          <Title level={4}>{i18n().title}</Title>
           <Text>
             {' '}
             {translate('avgSearchFrom.table.description3', {

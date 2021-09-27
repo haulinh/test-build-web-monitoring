@@ -34,11 +34,13 @@ const Wrapper = styled.div`
   }
 `
 
-const i18n = {
-  tabMucDo: translate('aqiConfigCalculation.tab1'), //"Ngưỡng mức độ",
-  tabGiaTri: translate('aqiConfigCalculation.tab2'),
-  tabThongSo: translate('aqiConfigCalculation.tab3'),
-  pageName: translate('aqiConfigCalculation.pageName'),
+function i18n() {
+  return {
+    tabMucDo: translate('aqiConfigCalculation.tab1'), //"Ngưỡng mức độ",
+    tabGiaTri: translate('aqiConfigCalculation.tab2'),
+    tabThongSo: translate('aqiConfigCalculation.tab3'),
+    pageName: translate('aqiConfigCalculation.pageName'),
+  }
 }
 
 const TAB_KEY = {
@@ -47,9 +49,9 @@ const TAB_KEY = {
   THONG_SO: 'THONG_SO',
 }
 const TAB_NAME = {
-  MUC_DO: i18n.tabMucDo,
-  GIA_TRI: i18n.tabGiaTri,
-  THONG_SO: i18n.tabThongSo,
+  MUC_DO: i18n().tabMucDo,
+  GIA_TRI: i18n().tabGiaTri,
+  THONG_SO: i18n().tabThongSo,
 }
 
 const PREFIX_CALCULATION = 'aqi-calculation-'
@@ -97,7 +99,7 @@ export default class ConfigCalculationAQI extends PureComponent {
           items={[
             {
               id: '1',
-              name: i18n.pageName,
+              name: i18n().pageName,
               href: slug.advance.configAqi,
             },
             {

@@ -12,9 +12,11 @@ import createLanguageHoc, { translate } from 'hoc/create-lang'
 import protectRole from 'hoc/protect-role'
 import ROLE from 'constants/role'
 
-const i18n = {
-  success: translate('stationTypeManager.create.success'),
-  error: translate('addon.onSave.add.error'),
+function i18n() {
+  return {
+    success: translate('stationTypeManager.create.success'),
+    error: translate('addon.onSave.add.error'),
+  }
 }
 @protectRole(ROLE.STATION_FIXED.CREATE)
 @createLanguageHoc
@@ -32,14 +34,14 @@ export default class StationFixedCreateContainer extends React.Component {
       .then(values => {
         this.setState({ isLoading: false })
         if (values) {
-          message.success(i18n.success)
+          message.success(i18n().success)
           this.props.history.push(slug.stationFixed.list)
         }
         return values
       })
       .catch(error => {
         this.setState({ isUpdating: false })
-        message.error(i18n.error)
+        message.error(i18n().error)
         return {
           ...error,
         }

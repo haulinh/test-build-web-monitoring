@@ -39,8 +39,8 @@ export default class Condition extends React.Component {
   }
 
   setStationAutoSelected = stationAutoSelected => {
-    const {form} = this.props
-    form.setFieldsValue({[FIELDS.STATION_NAME]: stationAutoSelected.name})
+    const { form } = this.props
+    form.setFieldsValue({ [FIELDS.STATION_NAME]: stationAutoSelected.name })
     this.setState({ stationAutoSelected }, () => {})
   }
 
@@ -143,11 +143,11 @@ export default class Condition extends React.Component {
 
     return (
       <BoxShadow>
-        {!isQuery && <Header>{i18n.detailPage.header.condition}</Header>}
+        {!isQuery && <Header>{i18n().detailPage.header.condition}</Header>}
         <Clearfix height={12} />
         <Row gutter={12}>
           <Col span={12}>
-            <FormItem label={i18n.detailPage.label.province}>
+            <FormItem label={i18n().detailPage.label.province}>
               {form.getFieldDecorator(`config.${FIELDS.PROVINCE}`, {
                 onChange: this.handleOnFieldChange,
               })(
@@ -160,7 +160,7 @@ export default class Condition extends React.Component {
             </FormItem>
           </Col>
           <Col span={12}>
-            <FormItem label={i18n.detailPage.label.stationType}>
+            <FormItem label={i18n().detailPage.label.stationType}>
               {form.getFieldDecorator(`config.${FIELDS.STATION_TYPE}`, {
                 onChange: this.handleOnFieldChange,
               })(
@@ -174,13 +174,13 @@ export default class Condition extends React.Component {
           </Col>
 
           <Col span={12}>
-            <FormItem label={i18n.detailPage.label.stationName}>
+            <FormItem label={i18n().detailPage.label.stationName}>
               {form.getFieldDecorator(`config.${FIELDS.STATION_AUTO}`, {
                 onChange: this.handleFieldStationAutoChange,
                 rules: [
                   {
                     required: true,
-                    message: i18n.rules.requireChoose,
+                    message: i18n().rules.requireChoose,
                   },
                 ],
               })(
@@ -191,18 +191,20 @@ export default class Condition extends React.Component {
                   stationType={stationType}
                   onChangeObject={this.setStationAutoSelected}
                   onFetchSuccess={this.onStationAutosFetchSuccess}
-                  valueNames={form.getFieldValue(`config.${FIELDS.STATION_NAME}`)}
+                  valueNames={form.getFieldValue(
+                    `config.${FIELDS.STATION_NAME}`
+                  )}
                 />
               )}
             </FormItem>
           </Col>
           <Col span={12}>
-            <FormItem label={i18n.detailPage.label.parameter}>
+            <FormItem label={i18n().detailPage.label.parameter}>
               {form.getFieldDecorator(`config.${FIELDS.MEASURING_LIST}`, {
                 rules: [
                   {
                     required: true,
-                    message: i18n.rules.requireChoose,
+                    message: i18n().rules.requireChoose,
                   },
                 ],
               })(
@@ -215,14 +217,14 @@ export default class Condition extends React.Component {
           </Col>
 
           <Col span={12}>
-            <FormItem label={i18n.detailPage.label.typeData}>
+            <FormItem label={i18n().detailPage.label.typeData}>
               {form.getFieldDecorator(`config.${FIELDS.DATA_TYPE}`)(
                 <SelectQueryType disabled={this.isDisable(FIELDS.DATA_TYPE)} />
               )}
             </FormItem>
           </Col>
           <Col span={12}>
-            <FormItem label={i18n.detailPage.label.timeLabel}>
+            <FormItem label={i18n().detailPage.label.timeLabel}>
               {form.getFieldDecorator(`config.${FIELDS.RANGE_TIME}`, {
                 initialValue: 1,
               })(
@@ -234,7 +236,7 @@ export default class Condition extends React.Component {
           </Col>
 
           <Col span={12}>
-            <FormItem label={i18n.detailPage.label.isExceeded}>
+            <FormItem label={i18n().detailPage.label.isExceeded}>
               {form.getFieldDecorator(`config.${FIELDS.IS_EXCEEDED}`, {
                 valuePropName: 'checked',
               })(<Switch disabled={this.isDisable(FIELDS.IS_EXCEEDED)} />)}

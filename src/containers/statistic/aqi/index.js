@@ -19,8 +19,11 @@ import PageAqiStatus from 'containers/aqi/aqi-list-status'
 import moment from 'moment-timezone'
 
 const { Title, Text } = Typography
-const i18n = {
-  reportName: translate('statistic.aqi.reportName'),
+
+function i18n() {
+  return {
+    reportName: translate('statistic.aqi.reportName'),
+  }
 }
 
 @protectRole(ROLE.AQI_GIO.VIEW)
@@ -179,7 +182,7 @@ export default class AQIStatistics extends React.Component {
                   />
                   <Clearfix height={16} />
                   <div style={{ textAlign: 'center' }}>
-                    <Title level={4}>{i18n.reportName.toUpperCase()}</Title>
+                    <Title level={4}>{i18n().reportName.toUpperCase()}</Title>
                     {fromDate && toDate && (
                       <Text>
                         {translate('statistic.aqi.searchName', {

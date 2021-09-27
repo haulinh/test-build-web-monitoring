@@ -19,9 +19,11 @@ import { Clearfix } from 'components/elements'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import { PermissionPopover } from 'hoc/protect-role'
 
-const i18n = {
-  standard: t('dataAnalytics.standard'),
-  export: t('dataAnalytics.exportExcel'),
+function i18n() {
+  return {
+    standard: t('dataAnalytics.standard'),
+    export: t('dataAnalytics.exportExcel'),
+  }
 }
 
 const TabPane = Tabs.TabPane
@@ -143,7 +145,7 @@ class ReportData extends Component {
                         fontWeight: 600,
                       }}
                     >
-                      {i18n.standard}
+                      {i18n().standard}
                     </Col>
                     <Col span={21}>
                       <SelectQCVN
@@ -163,7 +165,7 @@ class ReportData extends Component {
                       onClick={this.onClickExport.bind(this)}
                       disabled={!paramFilter}
                     >
-                      {i18n.export}
+                      {i18n().export}
                     </Button>
                   </Col>
                 )}

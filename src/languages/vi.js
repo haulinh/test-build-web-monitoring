@@ -584,6 +584,10 @@ export default {
       all: 'Tất cả',
       time: 'Thời gian',
       search: 'Tìm kiếm',
+      device: {
+        label: 'Thiết bị',
+        placeholder: 'Chọn thiết bị',
+      },
       stationType: {
         label: 'Loại trạm',
         placeholder: 'Chọn loại trạm',
@@ -666,7 +670,6 @@ export default {
       },
     },
   },
-
   avgSearchFrom: {
     titleText: 'Dữ liệu trung bình',
     excelMultiple: 'Đang xử lý, báo cáo sẽ được gửi qua email của bạn: ',
@@ -2600,6 +2603,7 @@ export default {
       error: 'Vô hiệu hóa thất bại',
     },
     onRestore: {
+      resetConfirmMsg: 'Bạn có muốn khôi phục lại?',
       success: 'Khôi phục thành công',
       error: 'Khôi phục thất bại',
     },
@@ -2647,6 +2651,7 @@ export default {
         </div>
         `,
       },
+      saveSampingConfig: 'Bạn vui lòng nhập đầy đủ thông tin trước khi Lưu',
     },
   },
   modal: {
@@ -2658,13 +2663,6 @@ export default {
           cancelExceededSampling:
             'Bạn có chắc muốn hủy lấy mẫu khi vượt ngưỡng?',
         },
-      },
-    },
-  },
-  alert: {
-    error: {
-      monitoring: {
-        saveSampingConfig: 'Bạn vui lòng nhập đầy đủ thông tin trước khi Lưu',
       },
     },
   },
@@ -3614,6 +3612,61 @@ export default {
       createSuccess: 'Thêm mới trạm thành công',
     },
     export: 'Dữ liệu bản tin ngày',
+  },
+  language: {
+    breadcrumb: {
+      base: 'Cấu hình ngôn ngữ',
+    },
+    content: {
+      notificationFreq: 'Tần suất gửi cảnh báo',
+      global: 'Tổng quan',
+      rules: 'Thông báo loại 1',
+      errors: 'Thông báo loại 2',
+      empty: 'Thông báo loại 3',
+      notification: 'Gửi cảnh báo',
+      contact: 'Thông tin 1',
+      unit: 'Đơn vị',
+      chart: 'Biểu đồ',
+      dashboard: 'Giám sát hệ thống',
+      monitoring: 'Giám sát trực tuyến',
+      aqi: 'AQI',
+      aqiConfigCalculation: 'Cấu hình tính toán AQI',
+      wqi: 'WQI',
+      wqiConfigCalculation: 'Cấu hình tính toán WQI',
+      qaqc: 'Kiểm duyệt dữ liệu',
+      qaqcConfig: 'Cấu hình kiểm duyệt dữ liệu',
+      controlStation: 'Điều kiển lấy mẫu',
+      map: 'Bản đồ',
+      dataSearchFixed: 'Tìm kiếm dữ liệu cố định',
+      dataSearchFrom: 'Tìm kiếm dữ liệu',
+      aqiSearchForm: 'Tìm kiếm dữ liệu AQI',
+      avgSearchFrom: 'Tìm kiếm dữ liệu trung bình',
+      dataSearchFilterForm: 'Bộ lọc tìm kiếm dữ liệu',
+      measuringManager: 'Quản lý thông số',
+      stationTypeManager: 'Quản lý loại trạm',
+      stationFixedPhase: 'Quản lý đợt quan trắc định kỳ',
+      stationFixedPoint: 'Quản lý điểm định kỳ',
+      qcvn: 'Quản lý quy chuẩn',
+      province: 'Quản lý đơn vị quản lý',
+      configWQI: 'Cấu hình WQI',
+    },
+    tabs: {
+      tab1: 'Ngôn ngữ',
+      tab2: 'Dịch thuật',
+    },
+    list: {
+      emptyView: 'Không có dữ liệu',
+      colSTT: 'STT',
+      colDevice: 'Thiết bị',
+      colKey: 'Mã',
+      colFeature: 'Tính năng',
+      colVI: 'Việt Nam',
+      colEN: 'Tiếng Anh',
+      colTW: 'Tiếng Đài Loan',
+      colLanguage: 'Ngôn ngữ',
+      jsonView: 'Xem Json',
+      colStatus: 'Trạng thái',
+    },
   },
   billing: {
     title: {

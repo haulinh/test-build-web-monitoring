@@ -42,11 +42,13 @@ const ChartWrapper = styled.div`
   .monitoring-chart--tab {
   }
 `
-const i18n = {
-  minLimit: translate('monitoring.moreContent.chart.content.minLimit'),
-  maxLimit: translate('monitoring.moreContent.chart.content.maxLimit'),
-  to: translate('monitoring.moreContent.chart.content.to'),
-  from: translate('monitoring.moreContent.chart.content.from'),
+function i18n() {
+  return {
+    minLimit: translate('monitoring.moreContent.chart.content.minLimit'),
+    maxLimit: translate('monitoring.moreContent.chart.content.maxLimit'),
+    to: translate('monitoring.moreContent.chart.content.to'),
+    from: translate('monitoring.moreContent.chart.content.from'),
+  }
 }
 
 const intHour = 24
@@ -136,7 +138,7 @@ const configChart = (dataSeries, dataXs, title, minLimit, maxLimit) => {
           color: 'red',
           width: 1,
           label: {
-            text: `${i18n.minLimit}: ${getFormatNumber(minLimit)}`,
+            text: `${i18n().minLimit}: ${getFormatNumber(minLimit)}`,
           },
           zIndex: 4,
         },
@@ -145,7 +147,7 @@ const configChart = (dataSeries, dataXs, title, minLimit, maxLimit) => {
           color: 'red',
           width: 1,
           label: {
-            text: `${i18n.maxLimit}: ${getFormatNumber(maxLimit)}`,
+            text: `${i18n().maxLimit}: ${getFormatNumber(maxLimit)}`,
             y: 12,
           },
           zIndex: 4,
@@ -432,7 +434,7 @@ export default class ChartRowToChart extends React.Component {
           <Row gutter={4}>
             <Col sm={3} className="monitoring-chart--to-from__align-right">
               <Label className="monitoring-chart--to-from__font-weight">
-                {i18n.to}
+                {i18n().to}
               </Label>
             </Col>
             <Col sm={9}>
@@ -445,7 +447,7 @@ export default class ChartRowToChart extends React.Component {
             </Col>
             <Col sm={3} className="monitoring-chart--to-from__align-right">
               <Label className="monitoring-chart--to-from__font-weight">
-                {i18n.from}
+                {i18n().from}
               </Label>
             </Col>
             <Col sm={9}>

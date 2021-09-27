@@ -121,7 +121,7 @@ export default class ConfigTab extends Component {
     const key = shareApiList.stationAuto.historyData.key
     if (isCreate(rule)) {
       const res = await shareApiApi.createApiByKey(key, queryParams)
-      message.success(i18n.message.create)
+      message.success(i18n().message.create)
       const urlUpdate = location.pathname.replace(
         'create',
         `edit/${res.data._id}`
@@ -139,7 +139,7 @@ export default class ConfigTab extends Component {
       const res = await shareApiApi.getApiDetailById(params.id)
       if (updateData && res.success) {
         updateData(res.data)
-        message.success(i18n.message.edit)
+        message.success(i18n().message.edit)
       }
     }
   }
@@ -165,7 +165,7 @@ export default class ConfigTab extends Component {
                 htmlType="submit"
                 style={{ width: '100%' }}
               >
-                {i18n.button.save}
+                {i18n().button.save}
               </Button>
             </Col>
           </Row>
