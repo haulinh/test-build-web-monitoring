@@ -3704,6 +3704,18 @@ export default {
       incident: 'Quản lý sự cố',
       configProperties: 'Cấu hình thuộc tính',
     },
-    label: {},
+    label: {
+      
+    },
+    config: {
+      drawer: {
+        title: 'Tạo mới thuộc tính'
+      },
+      form: {
+        name: 'Tên thuộc tính',
+        type: 'Kiểu dữ liệu',
+        button: 'Tạo mới',
+      }
+    }
   },
 }
