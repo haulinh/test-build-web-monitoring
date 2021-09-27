@@ -3691,4 +3691,24 @@ export default {
       exportReport: 'Export Report',
     },
   },
+  ticket: {
+    menu: {
+      dataLookup: 'Tra cứu dữ liệu',
+      incident: 'Quản lý sự cố',
+      configProperties: 'Cấu hình thuộc tính',
+    },
+    label: {
+      
+    },
+    config: {
+      drawer: {
+        title: 'Tạo mới thuộc tính'
+      },
+      form: {
+        name: 'Tên thuộc tính',
+        type: 'Kiểu dữ liệu',
+        button: 'Tạo mới',
+      }
+    }
+  },
 }

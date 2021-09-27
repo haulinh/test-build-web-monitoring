@@ -3723,7 +3723,18 @@ export default {
         stationName: 'Chọn tên trạm',
         measure: 'Thông số',
       },
-      configProperties: {},
+      configProperties: {
+        name: 'Tên thuộc tính',
+        type: 'Kiểu dữ liệu',
+        button: 'Tạo mới',
+      },
+    },
+    title: {
+      dataLookup: {},
+      incident: {},
+      configProperties: {
+        drawer: 'Tạo mới thuộc tính',
+      },
     },
   },
 }
