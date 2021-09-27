@@ -3704,6 +3704,26 @@ export default {
       incident: 'Quản lý sự cố',
       configProperties: 'Cấu hình thuộc tính',
     },
-    label: {},
+    label: {
+      dataLookup: {},
+      incident: {
+        name: 'Tên sự cố',
+        incidentType: 'Loại sự cố',
+        description: 'Mô tả',
+        stationName: 'Tên trạm',
+      },
+      configProperties: {},
+    },
+    placeholder: {
+      dataLookup: {},
+      incident: {
+        name: 'Nhập vấn đề cần giải quyết',
+        incidentType: 'Sự cố khác',
+        description: 'Nhập mô tả cho sự cố',
+        stationName: 'Chọn tên trạm',
+        measure: 'Thông số',
+      },
+      configProperties: {},
+    },
   },
 }
