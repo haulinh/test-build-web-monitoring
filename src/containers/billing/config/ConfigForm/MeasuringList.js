@@ -112,7 +112,7 @@ export default class MeasuringList extends React.Component {
 
   columns = [
     {
-      title: i18n.stt,
+      title: i18n().stt,
       align: 'center',
       render: (value, _, index) => {
         return <div>{index + 1}</div>

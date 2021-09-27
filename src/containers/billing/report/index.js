@@ -72,7 +72,7 @@ export default class BillingReport extends Component {
       form.setFields({
         time: {
           value: _.get(values, 'time'),
-          errors: [new Error(i18n.time.required)],
+          errors: [new Error(i18n().time.required)],
         },
       })
       return
@@ -87,7 +87,7 @@ export default class BillingReport extends Component {
             value: {
               type: 'quarter',
             },
-            errors: [new Error(i18n.time.sameQuarter)],
+            errors: [new Error(i18n().time.sameQuarter)],
           },
         })
         return

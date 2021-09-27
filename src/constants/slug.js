@@ -638,6 +638,8 @@ export function listMenuName() {
       dataLogger: translate('menuApp.config.dataLogger'),
       service: translate('menuApp.config.service'),
     },
+    billing: translate('menuApp.billing'),
+    ticket: translate('menuApp.ticket'),
   }
 }
 export function listTooltipMenu() {
@@ -722,6 +724,17 @@ export function listTooltipMenu() {
       station: translate('periodicalForecast.toolTipMenu.station'),
       import: translate('periodicalForecast.toolTipMenu.import'),
       search: translate('periodicalForecast.toolTipMenu.search'),
+    },
+    billing: {
+      periodical: translate('periodicalForecast.toolTipMenu.periodical'),
+      station: translate('periodicalForecast.toolTipMenu.station'),
+      import: translate('periodicalForecast.toolTipMenu.import'),
+      search: translate('periodicalForecast.toolTipMenu.search'),
+    },
+    ticket: {
+      dataLookup: translate('tooltipMenuApp.ticket.dataLookup'),
+      incident: translate('tooltipMenuApp.ticket.incident'),
+      configProperties: translate('tooltipMenuApp.ticket.configProperties'),
     },
   }
 }

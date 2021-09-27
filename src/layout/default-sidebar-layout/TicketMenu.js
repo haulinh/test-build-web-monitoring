@@ -1,6 +1,6 @@
 import { Menu, Tooltip, Icon as IconAntd } from 'antd'
 import ROLE from 'constants/role'
-import slug, { MENU_GROUP, TOOLTIP_MENU, MENU_NAME } from 'constants/slug'
+import slug, { MENU_GROUP, listTooltipMenu, listMenuName } from 'constants/slug'
 import protectRole from 'hoc/protect-role/forMenu'
 import React from 'react'
 import { Link } from 'react-router-dom'
@@ -17,7 +17,7 @@ export default {
     <Menu.SubMenu
       key={MENU_GROUP.TICKET}
       title={
-        <Tooltip placement="right" title={TOOLTIP_MENU.ticket.incident}>
+        <Tooltip placement="right" title={listTooltipMenu().ticket.incident}>
           <div style={CENTER}>
             <IconAntd
               type="form"
@@ -30,7 +30,7 @@ export default {
                 marginRight: '0px',
               }}
             />
-            <span style={{ marginLeft: 12 }}>{MENU_NAME.ticket}</span>
+            <span style={{ marginLeft: 12 }}>{listMenuName().ticket}</span>
           </div>
         </Tooltip>
       }
@@ -42,7 +42,7 @@ export default {
             props.selectMenu(slug.ticket.incident)
           }}
         >
-          <Tooltip placement="right" title={TOOLTIP_MENU.ticket.incident}>
+          <Tooltip placement="right" title={listTooltipMenu().ticket.incident}>
             <Link to={slug.ticket.incident}>{t('ticket.menu.incident')}</Link>
           </Tooltip>
         </Menu.Item>
@@ -55,7 +55,10 @@ export default {
             props.selectMenu(slug.ticket.dataLookup)
           }}
         >
-          <Tooltip placement="right" title={TOOLTIP_MENU.ticket.dataLookup}>
+          <Tooltip
+            placement="right"
+            title={listTooltipMenu().ticket.dataLookup}
+          >
             <Link to={slug.ticket.dataLookup}>
               {t('ticket.menu.dataLookup')}
             </Link>
@@ -69,7 +72,10 @@ export default {
           props.selectMenu(slug.ticket.configProperties)
         }}
       >
-        <Tooltip placement="right" title={TOOLTIP_MENU.ticket.configProperties}>
+        <Tooltip
+          placement="right"
+          title={listTooltipMenu().ticket.configProperties}
+        >
           <Link to={slug.ticket.configProperties}>
             {t('ticket.menu.configProperties')}
           </Link>
