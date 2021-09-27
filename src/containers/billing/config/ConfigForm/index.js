@@ -1,6 +1,7 @@
 import { Button, Col, DatePicker, Form, Input, InputNumber, Row } from 'antd'
 import SelectMeasureParameter from 'components/elements/select-measure-parameter'
 import { BoxShadow, Clearfix, FormItem } from 'components/layouts/styles'
+import { DD_MM_YYYY } from 'constants/format-date'
 import { PATTERN_KEY } from 'constants/format-string'
 import createLanguageHoc, { translate } from 'hoc/create-lang'
 import _ from 'lodash'
@@ -9,48 +10,51 @@ import React from 'react'
 import { getTimeUTC } from 'utils/datetime'
 import MeasuringList from './MeasuringList'
 
-function i18n() {
-  return {
-    save: translate('addon.save'),
-    keyExisted: translate('billing.create.keyExisted'),
-    key: {
-      label: translate('billing.label.key'),
-      placeholder: translate('billing.placeholder.key'),
-      required: translate('billing.required.key'),
-      pattern: translate('billing.pattern'),
-      max: translate('billing.max'),
-    },
-    name: {
-      label: translate('billing.label.name'),
-      placeholder: translate('billing.placeholder.name'),
-      required: translate('billing.required.name'),
-      max: translate('billing.max'),
-    },
-    fixedFee: {
-      label: translate('billing.label.fixedFee'),
-      placeholder: translate('billing.placeholder.fixedFee'),
-      required: translate('billing.required.fixedFee'),
-    },
-    flowKey: {
-      label: translate('billing.label.flowKey'),
-      placeholder: translate('billing.placeholder.flowKey'),
-    },
-    timeStart: {
-      label: translate('billing.label.timeStart'),
-      placeholder: translate('billing.placeholder.timeStart'),
-      required: translate('billing.required.timeStart'),
-    },
-    timeEnd: {
-      label: translate('billing.label.timeEnd'),
-      placeholder: translate('billing.placeholder.timeEnd'),
-      required: translate('billing.required.timeEnd'),
-    },
-    note: {
-      label: translate('billing.label.note'),
-      placeholder: translate('billing.placeholder.note'),
-    },
-  }
-}
+const i18n = () => ({
+  save: translate('addon.save'),
+  keyExisted: translate('billing.create.keyExisted'),
+  key: {
+    label: translate('billing.label.key'),
+    placeholder: translate('billing.placeholder.key'),
+    required: translate('billing.required.key'),
+    pattern: translate('billing.pattern'),
+    max: translate('billing.max'),
+  },
+  name: {
+    label: translate('billing.label.name'),
+    placeholder: translate('billing.placeholder.name'),
+    required: translate('billing.required.name'),
+    max: translate('billing.max'),
+  },
+  fixedFee: {
+    label: translate('billing.label.fixedFee'),
+    placeholder: translate('billing.placeholder.fixedFee'),
+    required: translate('billing.required.fixedFee'),
+  },
+  flowKey: {
+    label: translate('billing.label.flowKey'),
+    placeholder: translate('billing.placeholder.flowKey'),
+    required: translate('billing.required.flowKey'),
+  },
+  timeStart: {
+    label: translate('billing.label.timeStart'),
+    placeholder: translate('billing.placeholder.timeStart'),
+    required: translate('billing.required.timeStart'),
+  },
+  timeEnd: {
+    label: translate('billing.label.timeEnd'),
+    placeholder: translate('billing.placeholder.timeEnd'),
+    required: translate('billing.required.timeEnd'),
+  },
+  note: {
+    label: translate('billing.label.note'),
+    placeholder: translate('billing.placeholder.note'),
+    max: translate('billing.max256'),
+  },
+  measuringList: {
+    required: translate('stationFixedPoint.form.measuringList.required'),
+  },
+})
 
 const Fields = {
   name: 'name',
@@ -60,7 +64,7 @@ const Fields = {
   timeStart: 'timeStart',
   timeEnd: 'timeEnd',
   note: 'note',
-  measuringList: 'measuringList',
+  measuringList: 'measurings',
 }
 
 @Form.create({})
@@ -73,14 +77,14 @@ export default class ConfigForm extends React.Component {
     e.preventDefault()
     const { form, onSubmit } = this.props
     const values = await form.validateFields()
-    const measuringList = values.measuringList.map(measure => {
-      const { rowKey, ...newMeasure } = measure
+    const measurings = values.measurings.map(measure => {
+      const { rowKey, unit, ...newMeasure } = measure
       return newMeasure
     })
 
     const params = {
       ...values,
-      measuringList,
+      measurings,
       timeStart: values.timeStart && getTimeUTC(values.timeStart),
       timeEnd: values.timeEnd && getTimeUTC(values.timeEnd),
     }
@@ -94,7 +98,6 @@ export default class ConfigForm extends React.Component {
     const { initialValues } = this.props
     if (initialValues) {
       const { setFieldsValue } = this.props.form
-      console.log({ initialValues })
 
       setFieldsValue(
         _.pick(initialValues, [
@@ -118,6 +121,16 @@ export default class ConfigForm extends React.Component {
     this.setState({ measuringList })
   }
 
+  validateTimeEnd = (rule, value, callback) => {
+    const { form } = this.props
+    const timeStart = form.getFieldValue(Fields.timeStart)
+    if (
+      moment(value).format(DD_MM_YYYY) <= moment(timeStart).format(DD_MM_YYYY)
+    ) {
+      callback(i18n().timeEnd.required)
+    } else callback()
+  }
+
   render() {
     const { form } = this.props
     const { measuringList } = this.state
@@ -139,6 +152,10 @@ export default class ConfigForm extends React.Component {
                     {
                       pattern: PATTERN_KEY,
                       message: i18n().key.pattern,
+                    },
+                    {
+                      max: 64,
+                      message: i18n().key.max,
                     },
                   ],
                 })(<Input />)}
@@ -177,7 +194,14 @@ export default class ConfigForm extends React.Component {
           <Row gutter={32}>
             <Col span={8}>
               <FormItem label={i18n().flowKey.label}>
-                {form.getFieldDecorator(Fields.flowKey)(
+                {form.getFieldDecorator(Fields.flowKey, {
+                  rules: [
+                    {
+                      required: true,
+                      message: i18n().fixedFee.required,
+                    },
+                  ],
+                })(
                   <SelectMeasureParameter
                     mode="default"
                     measuringList={measuringList}
@@ -199,9 +223,14 @@ export default class ConfigForm extends React.Component {
             </Col>
             <Col span={8}>
               <FormItem label={i18n().timeEnd.label}>
-                {form.getFieldDecorator(Fields.timeEnd)(
-                  <DatePicker style={{ width: '100%' }} />
-                )}
+                {form.getFieldDecorator(Fields.timeEnd, {
+                  rules: [
+                    {
+                      validator: (rule, value, callback) =>
+                        this.validateTimeEnd(rule, value, callback),
+                    },
+                  ],
+                })(<DatePicker style={{ width: '100%' }} />)}
               </FormItem>
             </Col>
           </Row>
@@ -209,7 +238,14 @@ export default class ConfigForm extends React.Component {
           <Row>
             <Col span={24}>
               <FormItem label={i18n().note.label}>
-                {form.getFieldDecorator(Fields.note)(<Input />)}
+                {form.getFieldDecorator(Fields.note, {
+                  rules: [
+                    {
+                      max: 256,
+                      message: i18n().note.max,
+                    },
+                  ],
+                })(<Input />)}
               </FormItem>
             </Col>
           </Row>
@@ -218,11 +254,21 @@ export default class ConfigForm extends React.Component {
         <Clearfix height={36} />
 
         <BoxShadow>
-          {form.getFieldDecorator(Fields.measuringList)(
-            <MeasuringList
-              onFetchMeasuringListSuccess={this.onFetchMeasuringListSuccess}
-            />
-          )}
+          <FormItem>
+            {form.getFieldDecorator(Fields.measuringList, {
+              rules: [
+                {
+                  type: 'array',
+                  required: true,
+                  message: i18n().measuringList.required,
+                },
+              ],
+            })(
+              <MeasuringList
+                onFetchMeasuringListSuccess={this.onFetchMeasuringListSuccess}
+              />
+            )}
+          </FormItem>
         </BoxShadow>
 
         <Clearfix height={36} />

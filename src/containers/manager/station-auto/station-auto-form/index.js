@@ -21,6 +21,7 @@ import InputNumberCell from 'components/elements/input-number-cell'
 import InputPhoneNumber from 'components/elements/input-phone-number'
 import SelectProvice from 'components/elements/select-province'
 import SelectQCVN from 'components/elements/select-qcvn'
+import SelectStationFix from 'components/elements/select-station-fixed'
 import SelectStationType from 'components/elements/select-station-type'
 import { PATTERN_KEY, PATTERN_NAME } from 'constants/format-string'
 import { autobind } from 'core-decorators'
@@ -87,6 +88,7 @@ export default class StationAutoForm extends React.PureComponent {
       options: {},
       phones: [],
       emails: [],
+      linkedStation: '',
       standardsVNObject: get(props, 'initialValues.standardsVN', null),
       previewVisible: false,
       previewImage: '',
@@ -95,6 +97,7 @@ export default class StationAutoForm extends React.PureComponent {
       allowUpdateStandardsVN: props.isEdit,
       tabKey: ['1'],
       isStandardsVN: false,
+      stationAutoSelects: [],
     }
   }
 
@@ -174,6 +177,7 @@ export default class StationAutoForm extends React.PureComponent {
       emails: initialValues.emails,
       phones: initialValues.phones,
       measuringList: initialValues.measuringList,
+      linkedStation: initialValues.linkedStation,
       stationType: initialValues.stationType,
       stationTypeObject: initialValues.stationTypeObject,
       options: initialValues.options ? initialValues.options : {},
@@ -241,6 +245,7 @@ export default class StationAutoForm extends React.PureComponent {
   handleSubmit(e) {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
+      console.log({ values })
       if (err) {
         this.setState({
           tabKey: ['1'],
@@ -273,6 +278,10 @@ export default class StationAutoForm extends React.PureComponent {
         })
       }
 
+      if (!values.linkedStation) {
+        values.linkedStation = ""
+      }
+
       const data = {
         key: values.key,
         name: (values.name || '').trim(),
@@ -287,6 +296,7 @@ export default class StationAutoForm extends React.PureComponent {
         activatedAt: values.activatedAt,
         dataFrequency: values.dataFrequency,
         note: values.note,
+        linkedStation: values.linkedStation,
         measuringList: _.compact(measuringList), // values.measuringList,
         options: this.state.options,
         image: this.state.imgList.length > 0 ? this.state.imgList[0] : null,
@@ -433,6 +443,11 @@ export default class StationAutoForm extends React.PureComponent {
   handleEmailsChange(value) {
     this.setState({
       emails: value,
+    })
+  }
+  handleLinkedStationChange(value) {
+    this.setState({
+      linkedStation: value
     })
   }
   handlePhonesChange(value) {
@@ -917,6 +932,38 @@ export default class StationAutoForm extends React.PureComponent {
                 </FormItem>
               </Col>
             </Row>
+
+            <Row gutter={8} type="flex" justify="center">
+              <Col span={11}>
+                <FormItem
+                  {...formItemLayout}
+                  label={t('stationAutoManager.form.linkStation.label')}
+                  labelCol={{
+                    sm: { span: 12, offset: 0 },
+                  }}
+                  wrapperCol={{
+                    sm: { span: 12, offset: 0 },
+                  }}
+                >
+                  {getFieldDecorator('linkedStation')(
+                    <SelectStationFix
+                      fieldValue="key"
+                      onChangeObject={this.handleLinkedStationChange()}
+                    >
+                    </SelectStationFix>
+                  )}
+                </FormItem>
+              </Col>
+              <i
+                style={{
+                  paddingTop: '10px',
+                  marginLeft: '8px',
+                }}
+              >
+                {t('stationAutoManager.form.linkStation.description')}
+              </i>
+            </Row>
+
             <Row gutter={8}>
               <Col span={24} />
             </Row>
@@ -941,12 +988,12 @@ export default class StationAutoForm extends React.PureComponent {
                     this.state.measuringList
                       ? this.state.measuringList
                       : [
-                          {
-                            key: '',
-                            name: '',
-                            unit: '',
-                          },
-                        ]
+                        {
+                          key: '',
+                          name: '',
+                          unit: '',
+                        },
+                      ]
                   }
                   measuringListSource={this.state.measuringListSource}
                 />

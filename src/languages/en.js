@@ -575,7 +575,7 @@ export default {
       'Filter invalid data with standard from Data processing configuration',
     queryType: 'Type of data',
     filterDataBy: 'Filter data by',
-    processData: 'Enable filter',
+    processData: 'Data processing',
     titleText: 'Data Search',
     options: {
       byHours: '{{=it.value}} Hours',
@@ -1679,6 +1679,12 @@ export default {
         placeholder: 'Note',
         error: 'Please Choose Note',
       },
+      linkStation: {
+        label: 'Linking Environmental Monitoring Data',
+        placeholder: 'Enviromental Monitoring Point',
+        description:
+          'Notice: Data binding automatic and fixed to link data to perform calculations',
+      },
       long: {
         label: 'Longitude',
         placeholder: 'Input longitude',
@@ -2276,6 +2282,12 @@ export default {
       mobile_dashboard: {
         name: 'Dashboard Mobile',
       },
+      billingConfig: {
+        name: 'Billing Config',
+      },
+      billingReport: {
+        name: 'Billing Report',
+      },
       actions: {
         role: 'Role Assignment',
         enableAccount: 'Enable/Disable Account',
@@ -2759,6 +2771,7 @@ export default {
       equipmentlist: 'Equipment list',
       analyst: 'Analyst',
       placeOfAnalysis: 'Place Of Analysis',
+      createdAt: 'Data entry date',
     },
     form: {
       label: {
@@ -2936,6 +2949,7 @@ export default {
       status_data: 'Status Data',
     },
     billing: 'Billing',
+    ticket: 'Incident',
   },
   tooltipMenuApp: {
     notification: 'Notifications',
@@ -3021,6 +3035,11 @@ export default {
       role: 'Add new Roles groups to manage in the system',
       user: 'Add new and Assign Roles accounts in the system',
       dataLogger: 'The user history of operations in the system',
+    },
+    billing: {
+      dataLookup: 'Tra cứu dữ liệu',
+      incident: 'Quản lý sự cố',
+      configProperties: 'Cấu hình thuộc tính',
     },
     hideMenu: 'Hide menu',
     showMenu: 'Show menu',
@@ -3643,20 +3662,106 @@ export default {
     },
   },
   billing: {
+    title: {
+      config: 'Charge Config',
+      report: 'Charge Report',
+      name: 'BÁO CÁO PHÍ BẢO VỆ MÔI TRƯỜNG ĐỐI VỚI NƯỚC THẢI CÔNG NGHIỆP',
+      detail:
+        'Các số liệu được thống kê theo {{=it.time}} từ ngày {{=it.from}} đến {{=it.to}}',
+    },
     menu: {
-      billingReport: 'Báo cáo phí',
-      billingConfig: 'Cấu hình tính phí',
+      billingReport: 'Charge Report',
+      billingConfig: 'Charge Config',
+    },
+    option: {
+      reportQuarter: 'Report Quarter',
+      reportMonth: 'Report Month',
+      reportCustom: 'Report Custom',
+      quarter: 'Quarter',
+      month: 'Month',
     },
     label: {
-      key: 'Mã cấu hình phí',
-      name: 'Tên cấu hình phí',
-      fixFee: 'Phí cố định (đồng/đợt)',
-      flowKey: 'Thông số tính cố định',
-      timeStart: 'Thời gian bắt đầu',
-      timeEnd: 'Thời gian kết thúc',
-      note: 'Ghi chú',
-      time: 'Thời gian',
+      key: 'Charge Config Code',
+      name: 'Charge Config Name',
+      fixedFee: 'Variable Charge (vnd/year)',
+      flowKey: 'Flow',
+      timeStart: 'Time start',
+      timeEnd: 'Time end',
+      note: 'Note',
+      time: 'Time',
+      reportType: 'Report Type',
+      stationType: 'Types Of Station',
+      stationName: 'Station Name',
+      billingConfig: 'Set Of Recipes',
     },
-    now: 'Hiện tại',
+    placeholder: {
+      key: 'Charge Config Code',
+      name: 'Charge Config Name',
+      fixedFee: 'Fixed Charge (vnd/year)',
+      flowKey: 'Flow',
+      timeStart: 'Time Start',
+      timeEnd: 'Time End',
+      note: 'Note',
+      time: 'Time',
+    },
+    pattern: 'Not allowed to enter special characters',
+    max: 'No more than 64 characters',
+    max256: 'No more than 256 characters',
+    now: 'Now',
+    required: {
+      key: 'Please Type Code',
+      name: 'Please Type Name',
+      fixedFee: 'Please Type Fixed Charge',
+      flowKey: 'Please choose 1 measure',
+      timeStart: 'Please Choose Time Start',
+      timeEnd: 'Time End must large than Time Start',
+      stationType: 'Please Choose Types Of Station',
+      stationName: 'Please Type Station Name',
+      billingConfig: 'Please Choose Set Of Recipes',
+      time: 'Please Choose Time',
+      sameQuarter: 'Please select a time period within 1 quarter',
+    },
+    table: {
+      month: {
+        stt: 'STT',
+        date: 'Date',
+        avgValue: 'Average value of pollution parameter / day (24h)',
+        price: 'Cost',
+        sumPrice: 'Total Cost (dong)',
+        flow: 'Flow (M³/ngày)',
+        sum: 'Sum',
+      },
+      quarter: {
+        typeFee: 'Fee',
+        month: 'Month',
+        amountOfWastewater: 'Amount Of Wastewater',
+        price: 'Const',
+        totalFee: 'Total amount payments in Quarter',
+        debt: 'Unpaid or underpaid fees from the previous quarter',
+      },
+    },
+    button: {
+      exportReport: 'Export Report',
+    },
+  },
+  ticket: {
+    menu: {
+      dataLookup: 'Tra cứu dữ liệu',
+      incident: 'Quản lý sự cố',
+      configProperties: 'Cấu hình thuộc tính',
+    },
+    label: {
+      
+    },
+    config: {
+      drawer: {
+        title: 'Tạo mới thuộc tính'
+      },
+      form: {
+        name: 'Tên thuộc tính',
+        type: 'Kiểu dữ liệu',
+        button: 'Tạo mới',
+      }
+    }
   },
 }

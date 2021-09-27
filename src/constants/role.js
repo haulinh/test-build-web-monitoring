@@ -283,4 +283,14 @@ export default {
   },
 
   /* #endregion */
+  BILLING_REPORT: {
+    VIEW: 'menu.billingReport.actions.view',
+    EXPORT: 'menu.billingReport.actions.export',
+  },
+  BILLING_CONFIG: {
+    VIEW: 'menu.billingConfig.actions.view',
+    CREATE: 'menu.billingConfig.actions.create',
+    EDIT: 'menu.billingConfig.actions.edit',
+    DELETE: 'menu.billingConfig.actions.delete',
+  },
 }

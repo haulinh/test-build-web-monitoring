@@ -571,7 +571,7 @@ export default {
       'Loại bỏ một số dữ liệu không hợp lệ trước khi tính toán (áp dụng xử lý dữ liệu)',
     queryType: 'Loại dữ liệu',
     filterDataBy: 'Lọc dữ liệu theo',
-    processData: 'Xử lý dữ liệu',
+    processData: 'Kiểm duyệt dữ liệu',
     titleText: 'Tra cứu dữ liệu gốc',
     options: {
       byHours: '{{=it.value}} Giờ',
@@ -1163,6 +1163,7 @@ export default {
       measuringForm: {
         key: 'Mã thông số',
         name: 'Tên thông số',
+        nameMeasuring: 'Thông số ô nhiễm tính phí',
         addMeasuring: 'Thêm thông số',
         qcvn: 'Giới hạn vượt ngưỡng',
         tendToExceed: 'Chuẩn bị vượt',
@@ -1669,6 +1670,12 @@ export default {
         label: 'Ghi chú',
         placeholder: 'Ghi chú',
         error: 'Vui lòng điền ghi chú',
+      },
+      linkStation: {
+        label: 'Liên kết dữ liệu quan trắc định kì: ',
+        placeholder: 'Điểm quan trắc',
+        description:
+          'Chú ý: việc liên kết dữ liệu Tự động và Cố định nhằm liên kết dữ liệu để thực hiện tính toán',
       },
       long: {
         label: 'Kinh độ',
@@ -2266,6 +2273,12 @@ export default {
       mobile_dashboard: {
         name: 'Trang chủ Mobile',
       },
+      billingConfig: {
+        name: 'Cấu hình tính phí',
+      },
+      billingReport: {
+        name: 'Báo cáo phí',
+      },
       /////
       actions: {
         role: 'Ủy quyền',
@@ -2751,6 +2764,7 @@ export default {
       equipmentlist: 'Danh sách thiết bị lấy mẫu',
       analyst: 'Người phân tích',
       placeOfAnalysis: 'Nơi phân tích',
+      createdAt: 'Ngày nhập dữ liệu',
     },
     form: {
       label: {
@@ -2936,6 +2950,7 @@ export default {
       status_data: 'Tình trạng dữ liệu', // Qui them cho dong bo voi file EN
     },
     billing: 'Phí môi trường',
+    ticket: 'Sự cố',
   },
   tooltipMenuApp: {
     notification: 'Thông báo',
@@ -3022,6 +3037,11 @@ export default {
     monitoringList: {
       base:
         'Giám sát số liệu thời gian thực theo  danh sách tất cả điểm quan trắc',
+    },
+    billing: {
+      dataLookup: 'Tra cứu dữ liệu',
+      incident: 'Quản lý sự cố',
+      configProperties: 'Cấu hình thuộc tính',
     },
     hideMenu: 'Ẩn menu',
     showMenu: 'Hiện menu',
@@ -3585,6 +3605,8 @@ export default {
     },
     placeholder: {
       stationName: 'Tên trạm quan trắc',
+      stationKey: 'Mã trạm',
+      name: 'Tên trạm',
     },
     message: {
       createSuccess: 'Thêm mới trạm thành công',
@@ -3650,6 +3672,9 @@ export default {
     title: {
       config: 'Cấu hình tính phí',
       report: 'Báo cáo phí',
+      name: 'BÁO CÁO PHÍ BẢO VỆ MÔI TRƯỜNG ĐỐI VỚI NƯỚC THẢI CÔNG NGHIỆP',
+      detail:
+        'Các số liệu được thống kê theo {{=it.time}} từ ngày {{=it.from}} đến {{=it.to}}',
     },
     menu: {
       billingReport: 'Báo cáo phí',
@@ -3665,7 +3690,7 @@ export default {
     label: {
       key: 'Mã cấu hình phí',
       name: 'Tên cấu hình phí',
-      fixedFee: 'Phí cố định (đồng/đợt)',
+      fixedFee: 'Phí cố định (đồng/năm)',
       flowKey: 'Thông số tính cố định',
       timeStart: 'Thời gian bắt đầu',
       timeEnd: 'Thời gian kết thúc',
@@ -3688,12 +3713,20 @@ export default {
     },
     pattern: 'Không được nhập kí tự đặc biệt',
     max: 'Không quá 64 kí tự',
+    max256: 'Không quá 256 kí tự',
     now: 'Hiện tại',
     required: {
       key: 'Vui lòng nhập mã',
       name: 'Vui lòng nhập tên',
       fixedFee: 'Vui lòng nhập phí cố định ',
+      flowKey: 'Vui lòng chọn 1 thông số ',
       timeStart: 'Vui lòng nhập thời gian bắt đầu ',
+      timeEnd: 'Ngày kết thúc phải lớn hơn ngày bắt đầu',
+      stationType: 'Vui lòng chọn loại trạm',
+      stationName: 'Vui lòng chọn tên trạm',
+      billingConfig: 'Vui lòng chọn bộ công thức',
+      time: 'Vui lòng chọn thời gian',
+      sameQuarter: 'Vui lòng chọn khoảng thời gian trong 1 quý',
     },
     table: {
       month: {
@@ -3703,14 +3736,57 @@ export default {
         price: 'Thành tiền',
         sumPrice: 'Tổng tiền (đồng)',
         flow: 'Lưu lượng (M³/ngày)',
+        sum: 'Tổng',
       },
       quarter: {
         typeFee: 'Loại phí',
         month: 'Tháng',
         amountOfWastewater: 'Lượng nước thải',
         price: 'Thành tiền',
-        totalFee: 'Tổng số tiền phải nộp trong quí',
+        totalFee: 'Tổng số tiền phải nộp trong quý',
         debt: 'Số phí từ quý trước chưa nộp hoặc nộp thiếu',
+      },
+    },
+    button: {
+      exportReport: 'Xuất báo cáo',
+    },
+  },
+  ticket: {
+    menu: {
+      dataLookup: 'Tra cứu dữ liệu',
+      incident: 'Quản lý sự cố',
+      configProperties: 'Cấu hình thuộc tính',
+    },
+    label: {
+      dataLookup: {},
+      incident: {
+        name: 'Tên sự cố',
+        incidentType: 'Loại sự cố',
+        description: 'Mô tả',
+        stationName: 'Tên trạm',
+      },
+      configProperties: {},
+    },
+    placeholder: {
+      dataLookup: {},
+      incident: {
+        name: 'Nhập vấn đề cần giải quyết',
+        incidentType: 'Sự cố khác',
+        description: 'Nhập mô tả cho sự cố',
+        stationName: 'Chọn tên trạm',
+        measure: 'Thông số',
+      },
+      configProperties: {
+        name: 'Tên thuộc tính',
+        type: 'Kiểu dữ liệu',
+        button: 'Tạo mới',
+      },
+    },
+    title: {
+      dataLookup: {},
+      incident: {},
+      configProperties: {
+        drawer: 'Tạo mới thuộc tính',
       },
     },
   },

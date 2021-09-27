@@ -1,8 +1,9 @@
-import { Input, Table } from 'antd'
-import React from 'react'
+import { InputNumber, Table } from 'antd'
 import { translate as t } from 'hoc/create-lang'
-import moment from 'moment'
 import _ from 'lodash'
+import moment from 'moment'
+import React from 'react'
+import { formatCurrency } from 'utils/string'
 
 const i18n = () => ({
   typeFee: t('billing.table.quarter.typeFee'),
@@ -14,29 +15,30 @@ const i18n = () => ({
 })
 
 export default function TableQuarter({ resultReport = {}, form }) {
-  console.log({ resultReport })
+  const fixedFee = _.get(resultReport, 'summary.fixedFee')
   const dataSource = [
     ...(resultReport.data || []),
     {
       extra: true,
-      month: 'Tổng quí',
-      flow: _.get(resultReport, 'summary.totalQuaterFlow'),
+      month: `Tổng quý ${moment(resultReport.data[0].month).format('Q')}`,
+      fee: _.get(resultReport, 'summary.totalQuaterFee', 0),
+      flow: _.get(resultReport, 'summary.totalQuaterFlow', 0),
     },
     {
       extra: true,
       month: 'Trung bình mỗi ngày',
-      flow: _.get(resultReport, 'summary.avgFeePerDate'),
+      flow: _.get(resultReport, 'summary.avgFlowPerDate'),
     },
     {
       extra: true,
       month: 'Tổng phí biến đổi trong quý',
-      flow: _.get(resultReport, 'summary.totalQuaterFee'),
+      fee: _.get(resultReport, 'summary.totalQuaterFee'),
     },
     {
       extra: true,
       title: 'Phí cố định',
-      month: 'f/4',
-      flow: _.get(resultReport, 'summary.fixedFee'),
+      month: `f/4=${fixedFee}/4 (E)`,
+      fee: Math.round(fixedFee / 4),
     },
   ]
   const columns = [
@@ -72,18 +74,26 @@ export default function TableQuarter({ resultReport = {}, form }) {
       align: 'center',
     },
     {
-      title: i18n().amountOfWastewater,
+      title: `${i18n().amountOfWastewater} ${`(M³)`}`,
       dataIndex: 'flow',
-      render: value => <div>{value}</div>,
+      render: value => {
+        return <div>{value && formatCurrency(Number(value.toFixed(3)))}</div>
+      },
       align: 'center',
     },
     {
-      title: i18n().price,
+      title: `${i18n().price} ${`(VNĐ)`}`,
       dataIndex: 'fee',
       align: 'center',
-      render: value => <div>{value}</div>,
+      render: value => <div>{value && formatCurrency(value)}</div>,
     },
   ]
+
+  const debt = form.getFieldValue('debt')
+  const totalFee =
+    _.get(resultReport, 'summary.totalQuaterFee', 0) +
+    fixedFee / 4 +
+    (Number(debt) || 0)
 
   const BodyWrapper = props => {
     const renderFooter = () => {
@@ -93,17 +103,21 @@ export default function TableQuarter({ resultReport = {}, form }) {
             <td colSpan="2" style={{ textAlign: 'center' }}>
               {i18n().debt}
             </td>
-            <td>{form.getFieldDecorator('debt')(<Input />)}</td>
-            <td></td>
+            <td colSpan="2">
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                {form.getFieldDecorator('debt', { trigger: 'onBlur' })(
+                  <InputNumber />
+                )}
+              </div>
+            </td>
           </tr>
           <tr className="ant-table-row">
             <td colSpan="2" style={{ textAlign: 'center' }}>
               {i18n().totalFee}
             </td>
-            <td style={{ textAlign: 'center' }}>
-              {_.get(resultReport, 'summary.totalFee')}
+            <td colSpan="2" style={{ textAlign: 'center' }}>
+              {formatCurrency(totalFee)}
             </td>
-            <td></td>
           </tr>
         </React.Fragment>
       )
@@ -118,12 +132,15 @@ export default function TableQuarter({ resultReport = {}, form }) {
   }
 
   return (
-    <Table
-      bordered
-      dataSource={dataSource}
-      columns={columns}
-      pagination={false}
-      components={{ body: { wrapper: BodyWrapper } }}
-    />
+    <React.Fragment>
+      <Table
+        bordered
+        dataSource={dataSource}
+        columns={columns}
+        pagination={false}
+        components={{ body: { wrapper: BodyWrapper } }}
+        rowKey={record => record.month}
+      />
+    </React.Fragment>
   )
 }

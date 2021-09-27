@@ -1,6 +1,7 @@
 import React from 'react'
 import { Select } from 'antd'
 import PropTypes from 'prop-types'
+import _ from 'lodash'
 
 export default class AutoCompleteCell extends React.Component {
   static propTypes = {
@@ -23,9 +24,9 @@ export default class AutoCompleteCell extends React.Component {
             optionFilterProp="children"
             onChange={e => this.props.onChange(e)}
             filterOption={(input, option) =>
-              option.props.children
+              _.get(option, 'props.children', '')
                 .toLowerCase()
-                .indexOf(input.toLowerCase()) >= 0
+                .indexOf((input || '').toLowerCase()) >= 0
             }
             value={value}
             autoFocus={this.props.autoFocus}

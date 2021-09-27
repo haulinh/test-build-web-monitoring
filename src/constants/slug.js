@@ -279,6 +279,13 @@ export default {
     configEdit: '/billing/config/edit',
     configCreate: '/billing/config/create',
   },
+  ticket: {
+    base: '/ticket',
+    dataLookup: '/ticket/data-lookup',
+    incident: '/ticket/incident',
+    incidentEdit: '/ticket/incident/edit',
+    configProperties: '/ticket/config-properties',
+  },
 }
 
 export const MENU_GROUP = {
@@ -292,6 +299,7 @@ export const MENU_GROUP = {
   STATIONFIXED: 'stationFixed',
   PERIODICAL_FORECAST: 'periodicalForecast',
   BILLING: 'billing',
+  TICKET: 'ticket',
 }
 
 export const parentMenuFromSub = {
@@ -433,6 +441,7 @@ export const MENU_NAME = {
     service: translate('menuApp.config.service'),
   },
   billing: translate('menuApp.billing'),
+  ticket: translate('menuApp.ticket'),
 }
 
 export const TOOLTIP_MENU = {
@@ -522,6 +531,11 @@ export const TOOLTIP_MENU = {
     station: translate('periodicalForecast.toolTipMenu.station'),
     import: translate('periodicalForecast.toolTipMenu.import'),
     search: translate('periodicalForecast.toolTipMenu.search'),
+  },
+  ticket: {
+    dataLookup: translate('tooltipMenuApp.ticket.dataLookup'),
+    incident: translate('tooltipMenuApp.ticket.incident'),
+    configProperties: translate('tooltipMenuApp.ticket.configProperties'),
   },
 }
 

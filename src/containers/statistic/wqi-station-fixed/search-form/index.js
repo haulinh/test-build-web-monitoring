@@ -145,8 +145,6 @@ class SearchForm extends React.Component {
     const formatTime =
       form.getFieldValue(FIELDS.TYPE) === 'year' ? YYYY : MM_YYYY
 
-    console.log({ values: form.getFieldsValue() })
-
     return (
       <SearchFormContainer>
         <Form onSubmit={this.handleOnSubmit}>

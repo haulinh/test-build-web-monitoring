@@ -12,7 +12,7 @@ import protectRole from 'hoc/protect-role'
 import ConfigForm from './ConfigForm'
 import DataInsight from 'api/DataInsight'
 
-@protectRole(ROLE.PERIODICAL_STATION.EDIT)
+@protectRole(ROLE.BILLING_CONFIG.EDIT)
 @createManagerEdit({
   apiUpdate: DataInsight.updateConfigBilling,
   apiGetByKey: DataInsight.getConfigBillingById,

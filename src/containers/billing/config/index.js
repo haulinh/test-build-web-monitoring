@@ -16,7 +16,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import Breadcrumb from '../breadcrumb'
 
-@protectRole(ROLE.PERIODICAL_STATION.VIEW)
+@protectRole(ROLE.BILLING_CONFIG.VIEW)
 @createManagerList({
   apiList: DataInsight.getConfigBilling,
   itemPerPage: 1000,
@@ -43,7 +43,7 @@ export default class BillingList extends React.Component {
     const {
       lang: { t },
     } = this.props
-    return protectRole(ROLE.PERIODICAL_STATION.CREATE)(
+    return protectRole(ROLE.BILLING_CONFIG.CREATE)(
       <Link to={slug.billing.configCreate}>
         <Button type="primary">
           <Icon type="plus" />
@@ -96,18 +96,18 @@ export default class BillingList extends React.Component {
           content: <div style={style}>{time}</div>,
         },
         {
-          content: <div style={{ ...style, width: '450px' }}>{item.note}</div>,
+          content: <div style={{ ...style, width: '350px' }}>{item.note}</div>,
         },
         {
           content: (
             <span>
-              {protectRole(ROLE.SHARE_API.EDIT)(
+              {protectRole(ROLE.BILLING_CONFIG.EDIT)(
                 <Link to={`${location.pathname}/edit/${item._id}`}>
                   {t('global.edit')}
                 </Link>
               )}
               <Divider type="vertical" />
-              {protectRole(ROLE.SHARE_API.DELETE)(
+              {protectRole(ROLE.BILLING_CONFIG.DELETE)(
                 <a onClick={() => this.handleDeleteItem(item._id)}>
                   {t('global.delete')}
                 </a>

@@ -36,9 +36,9 @@ export default class RoleForm extends PureComponent {
   }
 
   handleSubmit = values => {
-    const params ={
+    const params = {
       ...values,
-      name: (values.name || '').trim()
+      name: (values.name || '').trim(),
     }
     const { t } = this.props.lang
     return this.props.onSubmit(params).then(res => {

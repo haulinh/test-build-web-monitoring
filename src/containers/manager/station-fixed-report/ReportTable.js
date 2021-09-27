@@ -4,6 +4,7 @@ import _ from 'lodash'
 import moment from 'moment'
 import React from 'react'
 import { i18n, PAGE_SIZE } from './station-fixed-report'
+import { DD_MM_YYYY } from 'constants/format-date.js'
 
 const COLOR = {
   EXCEEDED_PREPARING: colorLevels.EXCEEDED_PREPARING,
@@ -73,6 +74,8 @@ const ReportTable = ({
             let formatValue = value
             if (option === 'month') formatValue = moment(value).format('M')
             if (option === 'year') formatValue = moment(value).format('YYYY')
+            if (option === 'createdAt')
+              formatValue = moment(value).format(DD_MM_YYYY)
             return <div>{formatValue}</div>
           },
         }

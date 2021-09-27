@@ -5,11 +5,16 @@ import SelectTimeReport from 'components/elements/select-data/billing/SelectTime
 import SelectStationAuto from 'components/elements/select-station-auto'
 import SelectStationType from 'components/elements/select-station-type'
 import { FormItem } from 'components/layouts/styles'
+import moment from 'moment'
 import React from 'react'
 import { Fields, i18n } from './index'
 
-export default function Filter({ form }) {
+export default function Filter({ form, setResultReport }) {
   const { stationType, reportType } = form.getFieldsValue() || {}
+
+  const handleOnChangeReportType = () => {
+    setResultReport({})
+  }
 
   return (
     <React.Fragment>
@@ -18,19 +23,26 @@ export default function Filter({ form }) {
           <FormItem label={i18n().reportType.label}>
             {form.getFieldDecorator(Fields.reportType, {
               initialValue: 'month',
+              onChange: handleOnChangeReportType,
             })(<SelectReportType form={form} />)}
           </FormItem>
         </Col>
         <Col span={6}>
           <FormItem label={i18n().time.label}>
             {form.getFieldDecorator(Fields.time, {
-              initialValue: { type: 'month' },
+              initialValue: { type: 'month', value: moment() },
               rules: [
                 {
                   required: true,
+                  message: i18n.time.required,
                 },
               ],
-            })(<SelectTimeReport reportType={reportType} />)}
+            })(
+              <SelectTimeReport
+                reportType={reportType}
+                setResultReport={setResultReport}
+              />
+            )}
           </FormItem>
         </Col>
         <Col span={6}>
@@ -39,6 +51,7 @@ export default function Filter({ form }) {
               rules: [
                 {
                   required: true,
+                  message: i18n.stationType.required,
                 },
               ],
             })(<SelectStationType />)}
@@ -50,6 +63,7 @@ export default function Filter({ form }) {
               rules: [
                 {
                   required: true,
+                  message: i18n.stationName.required,
                 },
               ],
             })(
@@ -68,6 +82,7 @@ export default function Filter({ form }) {
               rules: [
                 {
                   required: true,
+                  message: i18n.billingConfig.required,
                 },
               ],
             })(<SelectConfig />)}

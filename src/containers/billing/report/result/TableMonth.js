@@ -4,6 +4,7 @@ import _ from 'lodash'
 import moment from 'moment'
 import React from 'react'
 import { translate as t } from 'hoc/create-lang'
+import { formatCurrency } from 'utils/string'
 
 const i18n = () => ({
   stt: t('billing.table.month.stt'),
@@ -13,6 +14,7 @@ const i18n = () => ({
   price: t('billing.table.month.price'),
   sumPrice: t('billing.table.month.sumPrice'),
   flow: t('billing.table.month.flow'),
+  sum: t('billing.table.month.sum'),
 })
 
 export default function TableMonth({ resultReport = {} }) {
@@ -21,7 +23,7 @@ export default function TableMonth({ resultReport = {} }) {
   const columns = [
     {
       title: i18n().stt,
-      render: (_, __, index) => <div>{index}</div>,
+      render: (_, __, index) => <div>{index + 1}</div>,
       align: 'center',
     },
     {
@@ -33,17 +35,25 @@ export default function TableMonth({ resultReport = {} }) {
     {
       title: i18n().flow,
       dataIndex: 'total',
-      render: value => <div>{value.flow}</div>,
+      render: value => (
+        <div>{value && formatCurrency(Number(value.flow.toFixed(3)))}</div>
+      ),
       align: 'center',
     },
     {
       title: i18n().avgValue,
+      align: 'center',
       children: measuringList.map(measure => ({
         title: measure.key,
         dataIndex: 'measure',
         align: 'center',
         render: value => {
-          return <div>{_.get(value, `${measure.key}.value`, '-')}</div>
+          const valueMeasure = _.get(value, `${measure.key}.value`)
+          return (
+            <div>
+              {valueMeasure && formatCurrency(Number(valueMeasure.toFixed(3)))}
+            </div>
+          )
         },
       })),
     },
@@ -54,7 +64,8 @@ export default function TableMonth({ resultReport = {} }) {
         dataIndex: 'measure',
         align: 'center',
         render: value => {
-          return <div>{_.get(value, `${measure.key}.fee`, '-')}</div>
+          const valueMeasure = _.get(value, `${measure.key}.fee`)
+          return <div>{valueMeasure && formatCurrency(valueMeasure)}</div>
         },
       })),
     },
@@ -62,8 +73,49 @@ export default function TableMonth({ resultReport = {} }) {
       title: i18n().sumPrice,
       dataIndex: 'total',
       align: 'center',
-      render: value => <div>{value.fee}</div>,
+      render: value => <div>{value && formatCurrency(value.fee)}</div>,
     },
   ]
-  return <Table bordered dataSource={resultReport.data} columns={columns} />
+
+  const BodyWrapper = props => {
+    const totalFlow = _.get(resultReport, ['total', 'flow'], 0)
+    const renderFooter = () => {
+      return (
+        <React.Fragment>
+          <tr className="ant-table-row">
+            <td colSpan="2" style={{ textAlign: 'center' }}>
+              <b>{i18n().sum}</b>
+            </td>
+            <td style={{ textAlign: 'center' }}>
+              <b>{totalFlow && formatCurrency(Number(totalFlow.toFixed(3)))}</b>
+            </td>
+            {[...Array(measuringList.length * 2).keys()].map(() => (
+              <td></td>
+            ))}
+            <td style={{ textAlign: 'center' }}>
+              <b>{formatCurrency(_.get(resultReport, ['total', 'fee'], 0))}</b>
+            </td>
+          </tr>
+        </React.Fragment>
+      )
+    }
+
+    return (
+      <tbody {...props}>
+        <React.Fragment>{props.children}</React.Fragment>
+        {renderFooter()}
+      </tbody>
+    )
+  }
+
+  return (
+    <Table
+      bordered
+      dataSource={resultReport.data}
+      columns={columns}
+      pagination={false}
+      components={{ body: { wrapper: BodyWrapper } }}
+      rowKey={record => record.datetime}
+    />
+  )
 }
