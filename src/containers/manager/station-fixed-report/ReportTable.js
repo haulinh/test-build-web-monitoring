@@ -21,7 +21,7 @@ const ReportTable = ({
 }) => {
   const getColumns = () => {
     const columnIndex = {
-      title: i18n.numberOrder,
+      title: i18n().numberOrder,
       dataIndex: 'Index',
       key: 'Index',
       render(value, record, index) {
@@ -30,7 +30,7 @@ const ReportTable = ({
     }
 
     const columnReceivedAt = {
-      title: i18n.receivedAt,
+      title: i18n().receivedAt,
       dataIndex: 'datetime',
       key: 'datetime',
       render(value) {
@@ -39,7 +39,7 @@ const ReportTable = ({
     }
 
     const columnPhase = {
-      title: i18n.phaseName,
+      title: i18n().phaseName,
       dataIndex: 'phase',
       key: 'phase',
       render(value) {
@@ -48,7 +48,7 @@ const ReportTable = ({
     }
 
     const columnPoint = {
-      title: i18n.pointName,
+      title: i18n().pointName,
       dataIndex: 'point',
       key: 'point',
       render(value) {
@@ -66,7 +66,7 @@ const ReportTable = ({
         }
 
         return {
-          title: i18n.optionalInfo[option],
+          title: i18n().optionalInfo[option],
           dataIndex: `${dataIndex}`,
           key: `${option}`,
           align: 'center',
@@ -127,7 +127,7 @@ const ReportTable = ({
               color: valueColumn && COLOR[valueColumn.warningLevel],
             }}
           >
-            <Tooltip title={isMerged ? i18n.qcvn.invalid : qcvn}>
+            <Tooltip title={isMerged ? i18n().qcvn.invalid : qcvn}>
               {textValue}
             </Tooltip>
           </div>
@@ -169,7 +169,7 @@ const ReportTable = ({
                 : ''
               let endTime = standard.expired
                 ? moment(standard.expired).format('DD/MM/YYYY')
-                : i18n.qcvn.isApplying
+                : i18n().qcvn.isApplying
 
               const renderQCVN = measure => {
                 const { minLimit, maxLimit } = measure || {}

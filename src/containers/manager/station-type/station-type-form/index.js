@@ -9,10 +9,12 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import { mapPropsToFields } from 'utils/form'
 
-const i18n = {
-  mode: translate('stationTypeManager.form.mode.label'),
-  auto: translate('stationTypeManager.type.auto'),
-  periodic: translate('stationTypeManager.type.periodic'),
+function i18n() {
+  return {
+    mode: translate('stationTypeManager.form.mode.label'),
+    auto: translate('stationTypeManager.type.auto'),
+    periodic: translate('stationTypeManager.type.periodic'),
+  }
 }
 
 const FormItem = Form.Item
@@ -194,7 +196,7 @@ export default class StationTypeForm extends React.PureComponent {
             </FormItem>
           </Col>
           <Col span={13}>
-            <FormItem {...formItemLayout} label={i18n.mode}>
+            <FormItem {...formItemLayout} label={i18n().mode}>
               {getFieldDecorator('isAuto', {
                 rules: [
                   {
@@ -207,8 +209,8 @@ export default class StationTypeForm extends React.PureComponent {
                   disabled={this.props.isEdit ? true : false}
                   style={{ width: '100%' }}
                 >
-                  <Radio value={false}>{i18n.periodic}</Radio>
-                  <Radio value={true}>{i18n.auto}</Radio>
+                  <Radio value={false}>{i18n().periodic}</Radio>
+                  <Radio value={true}>{i18n().auto}</Radio>
                 </Radio.Group>
               )}
             </FormItem>

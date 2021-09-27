@@ -24,12 +24,12 @@ export class HistoryDataStationAutoCreate extends Component {
           items={[
             {
               id: '1',
-              name: i18n.titleMenu[pathname],
+              name: i18n().titleMenu[pathname],
               href: routeList,
             },
             {
               id: '2',
-              name: i18n.titleMenu.create,
+              name: i18n().titleMenu.create,
             },
           ]}
         />

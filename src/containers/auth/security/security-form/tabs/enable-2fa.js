@@ -8,12 +8,12 @@ import { connectAutoDispatch } from 'redux/connect'
 import { set2FAStatus, set2FAType } from 'redux/actions/authAction'
 import AuthApi from 'api/AuthApi'
 
-/* MARK  @translate */
-const i18n = {
-  enable2FA: translate('security.enable2FA'),
-  disable2FA: translate('security.disable2FA'),
+function i18n() {
+  return {
+    enable2FA: translate('security.enable2FA'),
+    disable2FA: translate('security.disable2FA'),
+  }
 }
-
 @connectAutoDispatch(
   state => ({
     enable: state.auth.userInfo.twoFactorAuth.enable,
@@ -54,7 +54,7 @@ export default class SecurityFormEnable extends PureComponent {
             loading={this.state.isSwitchingStatus}
             onClick={this._handleDisable2FA}
           >
-            {i18n.disable2FA}
+            {i18n().disable2FA}
           </Button>
         </Col>
         <Col>
@@ -78,7 +78,7 @@ export default class SecurityFormEnable extends PureComponent {
       >
         <Col>
           <Button type="primary" onClick={this._handleEnable2FA}>
-            {i18n.enable2FA}
+            {i18n().enable2FA}
           </Button>
         </Col>
         <Col>

@@ -19,14 +19,17 @@ import {
 require('moment/locale/vi')
 require('moment/locale/en-sg')
 
-const i18n = {
-  viewDataAroundExceededTime: translate(
-    'stationAutoManager.list.notification.actions.viewDataAroundExceededTime'
-  ),
-  delele: translate('notification.delele'),
-  tickRead: translate('notification.tickRead'),
-  tickUnRead: translate('notification.tickUnRead'),
+function i18n() {
+  return {
+    viewDataAroundExceededTime: translate(
+      'stationAutoManager.list.notification.actions.viewDataAroundExceededTime'
+    ),
+    delele: translate('notification.delele'),
+    tickRead: translate('notification.tickRead'),
+    tickUnRead: translate('notification.tickUnRead'),
+  }
 }
+
 //View data around this time
 const MultilineText = styled(Row)`
   /* font-size: 16px;
@@ -120,10 +123,8 @@ export default class DefaultCell extends React.Component {
         onMouseLeave={() => this.setState({ isHoverOnCell: false })}
       >
         <Col span={21} onClick={() => this._handleCellOnClick(data)}>
-          <Row type="flex" gutter={10} style={{flexWrap: 'nowrap'}}>
-            <Col>
-              {icon ? <img src={icon} alt="" /> : null}
-            </Col>
+          <Row type="flex" gutter={10} style={{ flexWrap: 'nowrap' }}>
+            <Col>{icon ? <img src={icon} alt="" /> : null}</Col>
             <Col>
               <Tooltip
                 title={content}
@@ -148,7 +149,7 @@ export default class DefaultCell extends React.Component {
             {/* <Col span={8} /> */}
             <Col span={12}>
               {this.state.isHoverOnCell && (
-                <Tooltip placement="bottom" title={i18n.delele}>
+                <Tooltip placement="bottom" title={i18n().delele}>
                   <Icon
                     style={{ fontSize: '16px' }}
                     type="close-circle"
@@ -160,7 +161,7 @@ export default class DefaultCell extends React.Component {
             </Col>
             <Col span={12}>
               {!data.isRead ? (
-                <Tooltip placement="right" title={i18n.tickRead}>
+                <Tooltip placement="right" title={i18n().tickRead}>
                   <div
                     onMouseEnter={() =>
                       this.setState({ isHoverOnIconRead: true })
@@ -181,7 +182,7 @@ export default class DefaultCell extends React.Component {
                   />
                 </Tooltip>
               ) : (
-                <Tooltip placement="right" title={i18n.tickUnRead}>
+                <Tooltip placement="right" title={i18n().tickUnRead}>
                   <div
                     onMouseEnter={() =>
                       this.setState({ isHoverOnIconRead: true })
@@ -216,7 +217,7 @@ export default class DefaultCell extends React.Component {
   renderMenu = data => (
     <Menu>
       <Menu.Item onClick={() => this._navigateToDataSearch(data)}>
-        {i18n.viewDataAroundExceededTime}
+        {i18n().viewDataAroundExceededTime}
       </Menu.Item>
     </Menu>
   )

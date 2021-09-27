@@ -20,20 +20,22 @@ import { v4 as uuidV4 } from 'uuid'
 import { addCameras } from 'api/CameraApi'
 // import swal from 'sweetalert2'
 
-const i18n = {
-  addButton: translate('addon.add'),
-  saveButton: translate('addon.save'),
-  cameraName: translate('stationAutoManager.options.name.label'),
-  cameraURL: translate('stationAutoManager.options.RTSP.label'),
-  confirmDelCamera: translate('stationAutoManager.delete.require'),
-  // emptyCamera: 'Khong co camera nao!!',
-  successSubmit: translate('addon.onSave.update.success'),
-  errorSubmit: translate('addon.onSave.update.error'),
-  errorNetword: translate('empty.camera.errorNetword'),
-  errorUnavailable: translate('empty.camera.errorUnavailable'),
-  errorInvalidRtsp: translate('empty.camera.errorInvalidRtsp'),
-  timeout: translate('empty.camera.timeout'),
-  title: translate('pageInfo.header'),
+function i18n() {
+  return {
+    addButton: translate('addon.add'),
+    saveButton: translate('addon.save'),
+    cameraName: translate('stationAutoManager.options.name.label'),
+    cameraURL: translate('stationAutoManager.options.RTSP.label'),
+    confirmDelCamera: translate('stationAutoManager.delete.require'),
+    // emptyCamera: 'Khong co camera nao!!',
+    successSubmit: translate('addon.onSave.update.success'),
+    errorSubmit: translate('addon.onSave.update.error'),
+    errorNetword: translate('empty.camera.errorNetword'),
+    errorUnavailable: translate('empty.camera.errorUnavailable'),
+    errorInvalidRtsp: translate('empty.camera.errorInvalidRtsp'),
+    timeout: translate('empty.camera.timeout'),
+    title: translate('pageInfo.header'),
+  }
 }
 
 @Form.create()
@@ -75,7 +77,7 @@ export default class FormAddCamera extends React.Component {
     return [
       /* CAMERA NAME */
       {
-        title: i18n.cameraName,
+        title: i18n().cameraName,
         key: 'title',
         render: (text, record, index) => {
           return (
@@ -95,7 +97,7 @@ export default class FormAddCamera extends React.Component {
       },
       /* LINK RTSP */
       {
-        title: i18n.cameraURL,
+        title: i18n().cameraURL,
         key: 'cameraURL',
         render: (text, record, index) => {
           return (
@@ -120,7 +122,7 @@ export default class FormAddCamera extends React.Component {
         key: 'conform',
         render: (text, record, index) => (
           <Popconfirm
-            title={i18n.confirmDelCamera}
+            title={i18n().confirmDelCamera}
             onConfirm={() => this._removeCamera(index)}
           >
             <Icon type="delete" style={{ marginLeft: '5px', color: 'red' }} />
@@ -198,10 +200,10 @@ export default class FormAddCamera extends React.Component {
         this.props.onSubmit(res.data[0])
         const quantityCamera = Object.keys(fieldsValue).length
         this.setNumOfCameras(quantityCamera)
-        return message.success(i18n.successSubmit)
+        return message.success(i18n().successSubmit)
       }
 
-      message.error(i18n.errorSubmit)
+      message.error(i18n().errorSubmit)
     } catch (error) {
       console.log('======error in FormAddCamera => _submitCameras=======start')
       console.log(error)
@@ -216,28 +218,28 @@ export default class FormAddCamera extends React.Component {
       let errMess = ''
       switch (errCode) {
         case 'NETWORK_ERROR': {
-          errMess = i18n.errorNetword
+          errMess = i18n().errorNetword
           break
         }
         case 'SERVICE_UNAVAILABLE': {
-          errMess = i18n.errorUnavailable
+          errMess = i18n().errorUnavailable
           break
         }
         case 'INVALID_RTS': {
-          errMess = i18n.errorInvalidRtsp
+          errMess = i18n().errorInvalidRtsp
           break
         }
         case 'TIMEOUT_ERROR': {
-          errMess = i18n.timeout
+          errMess = i18n().timeout
           break
         }
         default: {
-          errMess = i18n.errorUnavailable
+          errMess = i18n().errorUnavailable
           break
         }
       }
       Modal.warn({
-        title: i18n.title,
+        title: i18n().title,
         content: errMess,
       })
       // swal(errCode, errMess, 'error')
@@ -252,7 +254,7 @@ export default class FormAddCamera extends React.Component {
         {/* ADD BUTTON */}
         <Row style={{ marginBottom: 16 }}>
           <Button type="primary" onClick={this._addCamera}>
-            {i18n.addButton}
+            {i18n().addButton}
           </Button>
         </Row>
         {/* TABLE && SAVE_BUTTON */}
@@ -269,7 +271,7 @@ export default class FormAddCamera extends React.Component {
             loading={submittingCameraLinks}
             onClick={this._submitCameras}
           >
-            {i18n.saveButton}
+            {i18n().saveButton}
           </Button>
         </Row>
       </Row>

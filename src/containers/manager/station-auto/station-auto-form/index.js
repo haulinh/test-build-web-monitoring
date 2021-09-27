@@ -49,17 +49,19 @@ const FormItem = styled(Form.Item)`
   }
 `
 
-const i18n = {
-  key: {
-    required: translate('stationAutoManager.form.key.required'),
-    pattern: translate('stationAutoManager.form.key.pattern'),
-    max: translate('stationAutoManager.form.key.max'),
-  },
-  name: {
-    required: translate('stationAutoManager.form.name.required'),
-    pattern: translate('stationAutoManager.form.name.pattern'),
-    max: translate('stationAutoManager.form.name.max'),
-  },
+function i18n() {
+  return {
+    key: {
+      required: translate('stationAutoManager.form.key.required'),
+      pattern: translate('stationAutoManager.form.key.pattern'),
+      max: translate('stationAutoManager.form.key.max'),
+    },
+    name: {
+      required: translate('stationAutoManager.form.name.required'),
+      pattern: translate('stationAutoManager.form.name.pattern'),
+      max: translate('stationAutoManager.form.name.max'),
+    },
+  }
 }
 
 @Form.create({})
@@ -110,7 +112,7 @@ export default class StationAutoForm extends React.PureComponent {
       initialValues = {
         ...initialValues,
         lat: initialValues.mapLocation.lat,
-        long: initialValues.mapLocation.long
+        long: initialValues.mapLocation.long,
       }
     }
     if (initialValues.mapLocationVN2000) {
@@ -517,15 +519,15 @@ export default class StationAutoForm extends React.PureComponent {
                     rules: [
                       {
                         required: true,
-                        message: i18n.key.required,
+                        message: i18n().key.required,
                       },
                       {
                         pattern: PATTERN_KEY,
-                        message: i18n.key.pattern,
+                        message: i18n().key.pattern,
                       },
                       {
                         max: 64,
-                        message: i18n.key.max,
+                        message: i18n().key.max,
                       },
                     ],
                   })(
@@ -546,15 +548,15 @@ export default class StationAutoForm extends React.PureComponent {
                       {
                         required: true,
                         whitespace: true,
-                        message: i18n.name.required,
+                        message: i18n().name.required,
                       },
                       {
                         pattern: PATTERN_NAME,
-                        message: i18n.name.pattern,
+                        message: i18n().name.pattern,
                       },
                       {
                         max: 64,
-                        message: i18n.name.max,
+                        message: i18n().name.max,
                       },
                     ],
                   })(

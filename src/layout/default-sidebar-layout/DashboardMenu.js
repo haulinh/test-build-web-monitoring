@@ -1,6 +1,6 @@
 import React from 'react'
 import { Menu, Tooltip } from 'antd'
-import slug, { MENU_NAME, MENU_GROUP, TOOLTIP_MENU } from 'constants/slug'
+import slug, { MENU_GROUP, listTooltipMenu, listMenuName } from 'constants/slug'
 import protectRole from 'hoc/protect-role/forMenu'
 import ROLE from 'constants/role'
 import Icon from 'themes/icon'
@@ -17,10 +17,12 @@ export default {
     <Menu.SubMenu
       key={MENU_GROUP.DASHBOARD}
       title={
-        <Tooltip placement="right" title={TOOLTIP_MENU.dashboard.base}>
+        <Tooltip placement="right" title={listTooltipMenu().dashboard.base}>
           <div style={CENTER}>
             {Icon.dashboard}
-            <span style={{ marginLeft: 12 }}>{MENU_NAME.dashboard.base}</span>
+            <span style={{ marginLeft: 12 }}>
+              {listMenuName().dashboard.base}
+            </span>
           </div>
         </Tooltip>
       }
@@ -32,9 +34,12 @@ export default {
             props.selectMenu(slug.dashboard.healthCheck)
           }}
         >
-          <Tooltip placement="right" title={MENU_NAME.dashboard.healthCheck}>
+          <Tooltip
+            placement="right"
+            title={listMenuName().dashboard.healthCheck}
+          >
             <Link to={slug.dashboard.healthCheck}>
-              {MENU_NAME.dashboard.healthCheck}
+              {listMenuName().dashboard.healthCheck}
             </Link>
           </Tooltip>
         </Menu.Item>
@@ -47,9 +52,9 @@ export default {
             props.selectMenu(slug.dashboard.overview)
           }}
         >
-          <Tooltip placement="right" title={MENU_NAME.dashboard.overview}>
+          <Tooltip placement="right" title={listMenuName().dashboard.overview}>
             <Link to={slug.dashboard.overview}>
-              {MENU_NAME.dashboard.overview}
+              {listMenuName().dashboard.overview}
             </Link>
           </Tooltip>
         </Menu.Item>

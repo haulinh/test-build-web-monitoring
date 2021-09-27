@@ -55,10 +55,12 @@ const ResponseFormat = styled.pre`
   border-radius: 8px;
 `
 
-const i18n = {
-  parameter: t('global.parameter'),
-  example: t('global.example'),
-  copySuccess: t('global.copySuccess'),
+function i18n() {
+  return {
+    parameter: t('global.parameter'),
+    example: t('global.example'),
+    copySuccess: t('global.copySuccess'),
+  }
 }
 
 const DEFAULT_HASH = '#StationManagement/stations'
@@ -97,7 +99,7 @@ class APISharing extends Component {
     const { apiDetail } = this.state
     const url = generateGetUrl(apiDetail)
     const success = copyTextToClipboard(url)
-    if (success) message.success(i18n.copySuccess)
+    if (success) message.success(i18n().copySuccess)
   }
 
   render() {
@@ -134,7 +136,7 @@ class APISharing extends Component {
                 margin="10px 0"
                 color="rgba(0, 0, 0, 0.85)"
               >
-                {i18n.parameter}
+                {i18n().parameter}
               </Text>
               <ParameterList parameters={apiDetail.parameters || []} />
               <Text
@@ -143,7 +145,7 @@ class APISharing extends Component {
                 margin="10px 0"
                 color="rgba(0, 0, 0, 0.85)"
               >
-                {i18n.example}
+                {i18n().example}
               </Text>
               <ResponseFormat>
                 {JSON.stringify(apiDetail.responseFormat, null, 4)}

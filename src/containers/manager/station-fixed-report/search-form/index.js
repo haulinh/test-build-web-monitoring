@@ -20,18 +20,20 @@ import SelectTime from './SelectTime'
 
 const { RangePicker } = DatePicker
 
-export const i18n = {
-  provinceLabel: t('dataPointReport.form.label.province'),
-  stationTypeLabel: t('dataPointReport.form.label.stationType'),
-  phaseLabel: t('dataPointReport.form.label.phase'),
-  pointLabel: t('dataPointReport.form.label.point'),
-  timeLabel: t('dataPointReport.form.label.time'),
-  exceededLabel: t('dataPointReport.form.label.exceeded'),
-  inRangeField: t('dataPointReport.form.dataPicker.inRange'),
-  stationTypeRequired: t('dataPointReport.form.required.stationType'),
-  phaseRequired: t('dataPointReport.form.required.phase'),
-  pointRequired: t('dataPointReport.form.required.point'),
-  numberOrder: t('dataPointReport.title.numberOder'),
+export function i18n() {
+  return {
+    provinceLabel: t('dataPointReport.form.label.province'),
+    stationTypeLabel: t('dataPointReport.form.label.stationType'),
+    phaseLabel: t('dataPointReport.form.label.phase'),
+    pointLabel: t('dataPointReport.form.label.point'),
+    timeLabel: t('dataPointReport.form.label.time'),
+    exceededLabel: t('dataPointReport.form.label.exceeded'),
+    inRangeField: t('dataPointReport.form.dataPicker.inRange'),
+    stationTypeRequired: t('dataPointReport.form.required.stationType'),
+    phaseRequired: t('dataPointReport.form.required.phase'),
+    pointRequired: t('dataPointReport.form.required.point'),
+    numberOrder: t('dataPointReport.title.numberOder'),
+  }
 }
 
 const SearchFormContainer = styled(BoxShadowStyle)``
@@ -224,15 +226,15 @@ export class SearchForm extends React.Component {
             <Row gutter={24}>
               <Col span={12}>
                 <SelectProvinceForm
-                  label={i18n.provinceLabel}
+                  label={i18n().provinceLabel}
                   fetchPoints={this.fetchPoints}
                   form={form}
                 />
               </Col>
               <Col span={12}>
                 <SelectStationTypes
-                  label={i18n.stationTypeLabel}
-                  getConfig={() => this.getConfig(i18n.stationTypeRequired)}
+                  label={i18n().stationTypeLabel}
+                  getConfig={() => this.getConfig(i18n().stationTypeRequired)}
                   handleOnSelectStationType={this.handleOnSelectStationType}
                   stationTypes={stationTypes}
                   form={form}
@@ -244,16 +246,16 @@ export class SearchForm extends React.Component {
                 <SelectPhase
                   form={form}
                   phases={phases}
-                  label={i18n.phaseLabel}
-                  getConfig={() => this.getConfig(i18n.phaseRequired)}
+                  label={i18n().phaseLabel}
+                  getConfig={() => this.getConfig(i18n().phaseRequired)}
                 />
               </Col>
             </Row>
             <Row>
               <Col span={24}>
                 <SelectPoint
-                  label={i18n.pointLabel}
-                  getConfig={() => this.getConfig(i18n.pointRequired)}
+                  label={i18n().pointLabel}
+                  getConfig={() => this.getConfig(i18n().pointRequired)}
                   form={form}
                   points={points}
                 />
@@ -263,13 +265,13 @@ export class SearchForm extends React.Component {
               <Col span={8}>
                 <SelectTime
                   form={form}
-                  label={i18n.timeLabel}
+                  label={i18n().timeLabel}
                   getConfig={() => this.getConfig(t(''))}
                   handleOnSelectTime={this.handleOnSelectTime}
                 />
               </Col>
               <Col span={8}>
-                <FormItemStyled label={i18n.exceededLabel}>
+                <FormItemStyled label={i18n().exceededLabel}>
                   {form.getFieldDecorator(FIELDS.IS_EXCEEDED, {
                     initialValue: false,
                   })(<Switch size="large" />)}

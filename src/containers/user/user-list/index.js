@@ -28,11 +28,13 @@ import createLanguageHoc, { langPropTypes } from '../../../hoc/create-lang'
 import Breadcrumb from '../breadcrumb'
 import UserSearchForm from '../user-search-form'
 
-const i18n = {
-  cancelText: translate('addon.cancel'),
-  okText: translate('addon.ok'),
-  restoreConfirmMsg: translate('confirm.msg.restore'),
-  deleteConfirmMsg: translate('confirm.msg.delete'),
+function i18n() {
+  return {
+    cancelText: translate('addon.cancel'),
+    okText: translate('addon.ok'),
+    restoreConfirmMsg: translate('confirm.msg.restore'),
+    deleteConfirmMsg: translate('confirm.msg.delete'),
+  }
 }
 
 const AccountWrapper = styled.div`
@@ -300,7 +302,7 @@ export default class UserList extends React.Component {
       {
         content: (
           <div>
-            {row.email  && (
+            {row.email && (
               <AccountWrapper>
                 <AvatarCharacter
                   size={32}
@@ -391,9 +393,9 @@ export default class UserList extends React.Component {
       message.warning(t('addon.onDelete.warning'))
     } else {
       Modal.confirm({
-        title: i18n.deleteConfirmMsg,
-        okText: i18n.okText,
-        cancelText: i18n.cancelText,
+        title: i18n().deleteConfirmMsg,
+        okText: i18n().okText,
+        cancelText: i18n().cancelText,
         onOk() {
           return new Promise(async (resolve, reject) => {
             const res = await UserApi.deleteOne(_id)
@@ -414,9 +416,9 @@ export default class UserList extends React.Component {
       lang: { t },
     } = this.props
     Modal.confirm({
-      title: i18n.restoreConfirmMsg,
-      okText: i18n.okText,
-      cancelText: i18n.cancelText,
+      title: i18n().restoreConfirmMsg,
+      okText: i18n().okText,
+      cancelText: i18n().cancelText,
       onOk() {
         return new Promise(async (resolve, reject) => {
           const res = await UserApi.restoreOne(_id)

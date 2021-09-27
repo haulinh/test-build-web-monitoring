@@ -55,16 +55,16 @@ export default class Condition extends React.Component {
     const { form, isQuery } = this.props
     return (
       <BoxShadow>
-        {!isQuery && <Header>{i18n.detailPage.header.condition}</Header>}
+        {!isQuery && <Header>{i18n().detailPage.header.condition}</Header>}
         <Clearfix height={12} />
         <Row gutter={12}>
           <Col span={16}>
-            <FormItem label={i18n.detailPage.label.stationName}>
+            <FormItem label={i18n().detailPage.label.stationName}>
               {form.getFieldDecorator(`config.${FIELDS.stationKeys}`, {
                 rules: [
                   {
                     required: true,
-                    message: i18n.rules.requireStation,
+                    message: i18n().rules.requireStation,
                   },
                 ],
               })(
@@ -75,17 +75,15 @@ export default class Condition extends React.Component {
             </FormItem>
           </Col>
           <Col span={12}>
-            <FormItem label={i18n.detailPage.label.broadcastTime}>
-              {form.getFieldDecorator(`config.${FIELDS.broadcastTime}`,{
+            <FormItem label={i18n().detailPage.label.broadcastTime}>
+              {form.getFieldDecorator(`config.${FIELDS.broadcastTime}`, {
                 rules: [
                   {
                     required: true,
-                    message: i18n.rules.requireBroadcastTime,
+                    message: i18n().rules.requireBroadcastTime,
                   },
-                ]
-              })(
-                <DatePicker style={{ width: '100%' }} />
-              )}
+                ],
+              })(<DatePicker style={{ width: '100%' }} />)}
             </FormItem>
           </Col>
         </Row>

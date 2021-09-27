@@ -28,23 +28,25 @@ const Item = props => (
   />
 )
 
-const i18n = {
-  label: {
-    buttonSearch: translate('addon.search'),
-    headerSearch: translate('addon.searchSelect'),
-    province: translate('qaqc.province.label'),
-    stationType: translate('dataSearchFrom.form.stationType.label'),
-    stationAuto: translate('dataSearchFrom.form.stationAuto.label'),
-    fromMonth: translate('avgSearchFrom.form.fromMonth.label'),
-    toMonth: translate('avgSearchFrom.form.toMonth.label'),
-  },
-  error: {
-    stationAuto: translate('avgSearchFrom.form.stationAuto.error'),
-    fromMonth: translate('avgSearchFrom.form.fromMonth.error'),
-    toMonth: translate('avgSearchFrom.form.toMonth.error'),
-    toMonth_1: translate('avgSearchFrom.form.toMonth.error1'),
-    stationType: translate('avgSearchFrom.form.stationType.error'),
-  },
+function i18n() {
+  return {
+    label: {
+      buttonSearch: translate('addon.search'),
+      headerSearch: translate('addon.searchSelect'),
+      province: translate('qaqc.province.label'),
+      stationType: translate('dataSearchFrom.form.stationType.label'),
+      stationAuto: translate('dataSearchFrom.form.stationAuto.label'),
+      fromMonth: translate('avgSearchFrom.form.fromMonth.label'),
+      toMonth: translate('avgSearchFrom.form.toMonth.label'),
+    },
+    error: {
+      stationAuto: translate('avgSearchFrom.form.stationAuto.error'),
+      fromMonth: translate('avgSearchFrom.form.fromMonth.error'),
+      toMonth: translate('avgSearchFrom.form.toMonth.error'),
+      toMonth_1: translate('avgSearchFrom.form.toMonth.error1'),
+      stationType: translate('avgSearchFrom.form.stationType.error'),
+    },
+  }
 }
 
 @Form.create()
@@ -68,10 +70,10 @@ export default class SearchForm extends React.Component {
     // let me = this;
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log(
-          'Received values of form: ',
-          values.toMonth.format('MMM DD h:mm A')
-        )
+        // console.log(
+        //   'Received values of form: ',
+        //   values.toMonth.format('MMM DD h:mm A')
+        // )
         if (this.props.cbSubmit) {
           const measuringListStr = this.state.measuringList.map(item =>
             encodeURIComponent(item.key)
@@ -103,21 +105,26 @@ export default class SearchForm extends React.Component {
   }
 
   setDefaultStationType = stationTypes => {
-    const {form} = this.props
-    form.setFieldsValue({stationType: get(stationTypes, '0.key')})
+    const { form } = this.props
+    form.setFieldsValue({ stationType: get(stationTypes, '0.key') })
   }
-  
+
   setDefaultStationAuto = stationAutos => {
-    const {form} = this.props
+    const { form } = this.props
     const stationType = form.getFieldValue('stationType')
-    const results = stationAutos.filter(station => station.stationType.key === stationType)
-    form.setFieldsValue({stationAuto: get(results, '0.key')})
-    this.setState({
-      measuringList: get(results, '0.measuringList'),
-      stationName: get(results, '0.name'),
-    }, () => {
-      this.submit()
-    })
+    const results = stationAutos.filter(
+      station => station.stationType.key === stationType
+    )
+    form.setFieldsValue({ stationAuto: get(results, '0.key') })
+    this.setState(
+      {
+        measuringList: get(results, '0.measuringList'),
+        stationName: get(results, '0.name'),
+      },
+      () => {
+        this.submit()
+      }
+    )
   }
 
   render() {
@@ -134,7 +141,7 @@ export default class SearchForm extends React.Component {
               onClick={this.submit}
               size="small"
             >
-              {i18n.label.buttonSearch}
+              {i18n().label.buttonSearch}
             </Button>
           }
           textColor="#ffffff"
@@ -142,12 +149,12 @@ export default class SearchForm extends React.Component {
           fontSize={14}
           style={{ padding: '8px 16px' }}
         >
-          {i18n.label.headerSearch}
+          {i18n().label.headerSearch}
         </Heading>
         <div style={{ padding: '8px 16px' }}>
           <Row gutter={16}>
             <Col span={12}>
-              <Item label={i18n.label.province}>
+              <Item label={i18n().label.province}>
                 {getFieldDecorator('province', {
                   onChange: val => {
                     setFieldsValue({ stationAuto: null })
@@ -156,29 +163,34 @@ export default class SearchForm extends React.Component {
               </Item>
             </Col>
             <Col span={12}>
-              <Item label={i18n.label.stationType}>
+              <Item label={i18n().label.stationType}>
                 {getFieldDecorator('stationType', {
                   rules: [
                     {
                       required: true,
-                      message: i18n.error.stationType,
+                      message: i18n().error.stationType,
                     },
                   ],
                   onChange: val => {
                     setFieldsValue({ stationAuto: null })
                   },
-                })(<SelectStationType size="large" onFetchSuccess={this.setDefaultStationType} />)}
+                })(
+                  <SelectStationType
+                    size="large"
+                    onFetchSuccess={this.setDefaultStationType}
+                  />
+                )}
               </Item>
             </Col>
           </Row>
           <Row gutter={16}>
             <Col span={12}>
-              <Item label={i18n.label.stationAuto}>
+              <Item label={i18n().label.stationAuto}>
                 {getFieldDecorator('stationAuto', {
                   rules: [
                     {
                       required: true,
-                      message: i18n.error.stationAuto,
+                      message: i18n().error.stationAuto,
                     },
                   ],
                 })(
@@ -201,26 +213,26 @@ export default class SearchForm extends React.Component {
               </Item>
             </Col>
             <Col span={6}>
-              <Item label={i18n.label.fromMonth}>
+              <Item label={i18n().label.fromMonth}>
                 {getFieldDecorator('fromMonth', {
                   initialValue: moment(),
                   rules: [
                     {
                       required: true,
-                      message: i18n.error.fromMonth,
+                      message: i18n().error.fromMonth,
                     },
                   ],
                 })(<MonthPicker style={{ width: '100%' }} format={MM_YYYY} />)}
               </Item>
             </Col>
             <Col span={6}>
-              <Item label={i18n.label.toMonth}>
+              <Item label={i18n().label.toMonth}>
                 {getFieldDecorator('toMonth', {
                   initialValue: moment(),
                   rules: [
                     {
                       required: true,
-                      message: i18n.error.toMonth,
+                      message: i18n().error.toMonth,
                     },
                     {
                       validator: this.compareTofromDate,
@@ -239,7 +251,7 @@ export default class SearchForm extends React.Component {
   compareTofromDate = (rule, value, callback) => {
     const { form } = this.props
     if (value && value < form.getFieldValue('fromMonth')) {
-      callback(i18n.error.toMonth_1)
+      callback(i18n().error.toMonth_1)
     } else {
       callback()
     }

@@ -36,13 +36,15 @@ const { RangePicker } = DatePicker
 const CheckboxGroup = Checkbox.Group
 const TabPane = Tabs.TabPane
 
-const i18n = {
-  tranferBonus: translate('ftpTranfer.tranferBonus'),
-  address: translate('ftpTranfer.address'),
-  tranfer: translate('ftpTranfer.tranfer'),
-  status: translate('ftpTranfer.status.title'),
-  success2: translate('ftpTranfer.status.success2'),
-  failed2: translate('ftpTranfer.status.failed2'),
+function i18n() {
+  return {
+    tranferBonus: translate('ftpTranfer.tranferBonus'),
+    address: translate('ftpTranfer.address'),
+    tranfer: translate('ftpTranfer.tranfer'),
+    status: translate('ftpTranfer.status.title'),
+    success2: translate('ftpTranfer.status.success2'),
+    failed2: translate('ftpTranfer.status.failed2'),
+  }
 }
 @protectRole(ROLE.FTPTRANSFER.VIEW)
 export default class ConfigPublishContainer extends React.Component {
@@ -188,7 +190,7 @@ export default class ConfigPublishContainer extends React.Component {
           align: 'left',
         },
         {
-          title: i18n.address,
+          title: i18n().address,
           dataIndex: 'address',
           key: 'address',
           // width: 100,
@@ -217,7 +219,7 @@ export default class ConfigPublishContainer extends React.Component {
           },
         },
         {
-          title: i18n.status,
+          title: i18n().status,
           dataIndex: 'reponse',
           key: 'reponse',
           // width: 100,
@@ -239,7 +241,7 @@ export default class ConfigPublishContainer extends React.Component {
             // console.log(isSuccess,  "---isSuccess--")
             if (!isSuccess) {
               return (
-                <Tooltip placement="top" title={i18n.failed2}>
+                <Tooltip placement="top" title={i18n().failed2}>
                   <Icon
                     style={{
                       fontSize: '1.5rem',
@@ -252,7 +254,7 @@ export default class ConfigPublishContainer extends React.Component {
               )
             } else {
               return (
-                <Tooltip placement="top" title={i18n.success2}>
+                <Tooltip placement="top" title={i18n().success2}>
                   <Icon
                     style={{
                       fontSize: '1.5rem',
@@ -587,7 +589,7 @@ export default class ConfigPublishContainer extends React.Component {
             tab={
               <span>
                 <Icon type="plus-square" />
-                {i18n.tranferBonus}
+                {i18n().tranferBonus}
               </span>
             }
             key="3"
@@ -612,7 +614,7 @@ export default class ConfigPublishContainer extends React.Component {
                       type="primary"
                       onClick={this.handleTranferFile}
                     >
-                      {i18n.tranfer}
+                      {i18n().tranfer}
                     </Button>
                   </Col>
                 </Row>

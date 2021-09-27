@@ -11,8 +11,10 @@ import { translate } from 'hoc/create-lang'
 
 const { Text } = Typography
 
-const i18n = {
-  search: translate('addon.search'),
+function i18n() {
+  return {
+    search: translate('addon.search'),
+  }
 }
 
 const WrapperView = styled.div`
@@ -124,7 +126,7 @@ export default class WQIList extends React.PureComponent {
       <React.Fragment>
         <Input
           style={{ marginTop: 8 }}
-          placeholder={i18n.search}
+          placeholder={i18n().search}
           onChange={this.hanldeOnchange}
         />
         <WrapperView>

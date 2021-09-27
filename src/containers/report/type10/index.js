@@ -19,14 +19,16 @@ import { getFormatNumber, ROUND_DIGIT } from 'constants/format-number'
 
 const { Title, Text } = Typography
 
-const i18n = {
-  header1: translate('avgSearchFrom.table.header1'),
-  header2: translate('avgSearchFrom.table.header2'),
-  header3: translate('avgSearchFrom.table.header3'),
-  header4: translate('avgSearchFrom.table.header4'),
-  header5: translate('avgSearchFrom.table.header5'),
-  header6: translate('avgSearchFrom.table.header6'),
-  title: translate('avgSearchFrom.table.title'),
+function i18n() {
+  return {
+    header1: translate('avgSearchFrom.table.header1'),
+    header2: translate('avgSearchFrom.table.header2'),
+    header3: translate('avgSearchFrom.table.header3'),
+    header4: translate('avgSearchFrom.table.header4'),
+    header5: translate('avgSearchFrom.table.header5'),
+    header6: translate('avgSearchFrom.table.header6'),
+    title: translate('avgSearchFrom.table.title'),
+  }
 }
 
 @protectRole(ROLE.TILE_DULIEU_THUDUOC.VIEW)
@@ -43,7 +45,7 @@ export default class ReportType10 extends React.Component {
       isLoadingExcel: false,
       dataSource: [],
       dataSearch: null,
-      fromMonth: '',      
+      fromMonth: '',
       toMonth: '',
     }
   }
@@ -55,7 +57,7 @@ export default class ReportType10 extends React.Component {
   getColumns = () => {
     return [
       {
-        title: i18n.header1,
+        title: i18n().header1,
         dataIndex: 'name',
         align: 'center',
         render: value => {
@@ -63,7 +65,7 @@ export default class ReportType10 extends React.Component {
         },
       },
       {
-        title: i18n.header6,
+        title: i18n().header6,
         dataIndex: 'activatedAt',
         align: 'center',
         render: value => {
@@ -80,7 +82,7 @@ export default class ReportType10 extends React.Component {
         },
       },
       {
-        title: i18n.header2,
+        title: i18n().header2,
         dataIndex: 'dataFrequency',
         align: 'center',
         render: value => {
@@ -92,7 +94,7 @@ export default class ReportType10 extends React.Component {
         },
       },
       {
-        title: i18n.header3,
+        title: i18n().header3,
         dataIndex: 'totalDesign',
         align: 'center',
         render: value => {
@@ -104,7 +106,7 @@ export default class ReportType10 extends React.Component {
         },
       },
       {
-        title: i18n.header4,
+        title: i18n().header4,
         dataIndex: 'totalFact',
         align: 'center',
         render: value => {
@@ -116,7 +118,7 @@ export default class ReportType10 extends React.Component {
         },
       },
       {
-        title: i18n.header5,
+        title: i18n().header5,
         dataIndex: 'percentageReceived',
         align: 'center',
         render: value => {
@@ -187,7 +189,6 @@ export default class ReportType10 extends React.Component {
   }
 
   render() {
-    
     return (
       <PageContainer>
         <Breadcrumb items={['type10']} />
@@ -195,7 +196,7 @@ export default class ReportType10 extends React.Component {
         <SearchForm cbSubmit={this.handleSubmit} />
         <Clearfix height={16} />
         <div style={{ position: 'relative', textAlign: 'center' }}>
-          <Title level={4}>{i18n.title}</Title>
+          <Title level={4}>{i18n().title}</Title>
           <Text>
             {' '}
             {translate('avgSearchFrom.table.description', {

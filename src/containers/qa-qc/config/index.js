@@ -23,16 +23,18 @@ import Disconnection from 'components/elements/disconnection'
 
 const { TabPane } = Tabs
 
-const i18n = {
-  beyondMeasuringRange: translate('qaqcConfig.beyondMeasuringRange'),
-  deviceError: translate('qaqcConfig.deviceError'),
-  deviceCalibration: translate('qaqcConfig.deviceCalibration'),
+function i18n() {
+  return {
+    beyondMeasuringRange: translate('qaqcConfig.beyondMeasuringRange'),
+    deviceError: translate('qaqcConfig.deviceError'),
+    deviceCalibration: translate('qaqcConfig.deviceCalibration'),
 
-  btnEdit: translate('addon.save'),
-  btnSave: translate('addon.create'),
-  disconnectionMessage: translate('network.qaqc.lostConnection'),
+    btnEdit: translate('addon.save'),
+    btnSave: translate('addon.create'),
+    disconnectionMessage: translate('network.qaqc.lostConnection'),
 
-  updateSuccess: translate('addon.onSave.update.success'),
+    updateSuccess: translate('addon.onSave.update.success'),
+  }
 }
 
 @connect(state => ({
@@ -66,7 +68,7 @@ export default class QAQC_Config extends React.Component {
 
   _renderDisconnection = () => (
     <Row type="flex" justify="center" align="middle">
-      <Disconnection messages={i18n.disconnectionMessage} />
+      <Disconnection messages={i18n().disconnectionMessage} />
     </Row>
   )
 
@@ -97,7 +99,7 @@ export default class QAQC_Config extends React.Component {
       }
 
       if (response.success) {
-        message.success(i18n.updateSuccess)
+        message.success(i18n().updateSuccess)
         if (!this.state.configId) {
           this.setState({
             configId: _.get(response, 'data._id', null),
@@ -275,17 +277,17 @@ export default class QAQC_Config extends React.Component {
                 <Form.Item style={{ marginBottom: 8 }}>
                   {getFieldDecorator('beyondMeasuringRange', {
                     valuePropName: 'checked',
-                  })(<Checkbox>{i18n.beyondMeasuringRange}</Checkbox>)}
+                  })(<Checkbox>{i18n().beyondMeasuringRange}</Checkbox>)}
                 </Form.Item>
                 <Form.Item style={{ marginBottom: 8 }}>
                   {getFieldDecorator('deviceError', {
                     valuePropName: 'checked',
-                  })(<Checkbox>{i18n.deviceError}</Checkbox>)}
+                  })(<Checkbox>{i18n().deviceError}</Checkbox>)}
                 </Form.Item>
                 <Form.Item style={{ marginBottom: 8 }}>
                   {getFieldDecorator('deviceCalibration', {
                     valuePropName: 'checked',
-                  })(<Checkbox>{i18n.deviceCalibration}</Checkbox>)}
+                  })(<Checkbox>{i18n().deviceCalibration}</Checkbox>)}
                 </Form.Item>
               </div>
             )}
@@ -333,8 +335,8 @@ export default class QAQC_Config extends React.Component {
                   this.setState({ isLoading: true }, this.handleSubmit)
                 }}
               >
-                {this.state.configId && i18n.btnEdit}
-                {!this.state.configId && i18n.btnSave}
+                {this.state.configId && i18n().btnEdit}
+                {!this.state.configId && i18n().btnSave}
               </Button>
             )}
           </Form>

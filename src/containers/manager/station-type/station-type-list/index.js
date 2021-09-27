@@ -19,10 +19,14 @@ import createLanguageHoc, { langPropTypes } from '../../../../hoc/create-lang'
 import Breadcrumb from '../breadcrumb'
 import StationTypeSearchForm from '../station-type-search-form'
 
-const i18n = {
-  errorDeleteStationType: translate('stationTypeManager.form.errorDeleteStationType'),
-  auto: translate('stationTypeManager.type.auto'),
-  periodic: translate('stationTypeManager.type.periodic'),
+function i18n() {
+  return {
+    errorDeleteStationType: translate(
+      'stationTypeManager.form.errorDeleteStationType'
+    ),
+    auto: translate('stationTypeManager.type.auto'),
+    periodic: translate('stationTypeManager.type.periodic'),
+  }
 }
 
 const AvatarWrapper = styled.div`
@@ -139,7 +143,7 @@ export default class StationTypeList extends React.Component {
         ),
       },
       {
-        content: row.isAuto ? i18n.auto : i18n.periodic,
+        content: row.isAuto ? i18n().auto : i18n().periodic,
       },
       {
         content: (
@@ -170,9 +174,9 @@ export default class StationTypeList extends React.Component {
       if (countStation.count > 0) {
         // Modal.error({
         //   title: 'Error',
-        //   content: i18n.errorStationExist,
+        //   content: i18n().errorStationExist,
         // })
-        message.error(i18n.errorDeleteStationType)
+        message.error(i18n().errorDeleteStationType)
       } else {
         this.props.onDeleteItem(_id, this.props.fetchData)
       }

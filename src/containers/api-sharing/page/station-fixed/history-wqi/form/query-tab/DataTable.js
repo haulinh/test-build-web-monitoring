@@ -1,40 +1,41 @@
-
-import { Table } from 'antd';
-import React from 'react';
-import { translate as t } from 'hoc/create-lang';
+import { Table } from 'antd'
+import React from 'react'
+import { translate as t } from 'hoc/create-lang'
 import styled from 'styled-components'
-import { get } from 'lodash-es';
+import { get } from 'lodash-es'
 
-const i18n = {
-  order: t('wqiStationFix.order'),
-  pointName: t('wqiStationFix.pointName'),
-  avgTime: t('wqiStationFix.avgTime'),
-  wqiValue: t('wqiStationFix.wqiValue'),
-  wqiLevel: t('wqiStationFix.wqiLevel'),
-  lat: t('wqiStationFix.lat'),
-  lng: t('wqiStationFix.lng'),
+function i18n() {
+  return {
+    order: t('wqiStationFix.order'),
+    pointName: t('wqiStationFix.pointName'),
+    avgTime: t('wqiStationFix.avgTime'),
+    wqiValue: t('wqiStationFix.wqiValue'),
+    wqiLevel: t('wqiStationFix.wqiLevel'),
+    lat: t('wqiStationFix.lat'),
+    lng: t('wqiStationFix.lng'),
+  }
 }
 
 const TableCustom = styled(Table)`
-  tr > td{
+  tr > td {
     background: #ffffff !important;
   }
-  padding-bottom: 30px
+  padding-bottom: 30px;
 `
 
 const Value = styled.span`
-  color: ${props => props.color}
+  color: ${props => props.color};
 `
 
 class WQIList extends React.Component {
   columns = [
     {
-      title: i18n.order,
+      title: i18n().order,
       key: 'order',
-      render: (_, __, idx) => idx + 1
+      render: (_, __, idx) => idx + 1,
     },
     {
-      title: i18n.pointName,
+      title: i18n().pointName,
       width: 270,
       key: 'name',
       render: (_, record) => {
@@ -43,13 +44,13 @@ class WQIList extends React.Component {
           props: {
             rowSpan: record.size ? record.size : 1,
             colSpan: record.size ? 1 : 0,
-          }
+          },
         }
         return obj
-      }
+      },
     },
     {
-      title: i18n.lat,
+      title: i18n().lat,
       width: 105,
       key: 'lat',
       render: (_, record) => {
@@ -58,13 +59,13 @@ class WQIList extends React.Component {
           props: {
             rowSpan: record.size ? record.size : 1,
             colSpan: record.size ? 1 : 0,
-          }
+          },
         }
         return obj
-      }
+      },
     },
     {
-      title: i18n.lng,
+      title: i18n().lng,
       width: 105,
       key: 'lng',
       render: (_, record) => {
@@ -73,64 +74,72 @@ class WQIList extends React.Component {
           props: {
             rowSpan: record.size ? record.size : 1,
             colSpan: record.size ? 1 : 0,
-          }
+          },
         }
         return obj
-      }
+      },
     },
     {
-      title: i18n.avgTime,
+      title: i18n().avgTime,
       width: 95,
       key: 'time',
       dataIndex: 'datetime',
     },
     {
-      title: i18n.wqiValue,
+      title: i18n().wqiValue,
       width: 80,
       key: 'wqi',
       dataIndex: 'wqiResult.wqi',
-      render: (value, record) => value
-        ? <Value color={get(record, 'wqiResult.level.backgroundColor')}>{Math.round(value)}</Value>
-        : '-'
+      render: (value, record) =>
+        value ? (
+          <Value color={get(record, 'wqiResult.level.backgroundColor')}>
+            {Math.round(value)}
+          </Value>
+        ) : (
+          '-'
+        ),
     },
     {
-      title: i18n.wqiLevel,
+      title: i18n().wqiLevel,
       width: 105,
       key: 'status',
       dataIndex: 'wqiResult.level.name',
-      render: value => value ? value : '-'
-    }
+      render: value => (value ? value : '-'),
+    },
   ]
 
   getMeasureColumns = () => {
     const { dataSource } = this.props
 
-    const measures = new Set();
+    const measures = new Set()
     dataSource.forEach(item => {
-      Object.keys(get(item, 'wqiResult.detail', {}))
-        .forEach(measure => measures.add(measure))
-    });
+      Object.keys(get(item, 'wqiResult.detail', {})).forEach(measure =>
+        measures.add(measure)
+      )
+    })
 
     return Array.from(measures).map(measure => ({
       title: `WQI(${measure})`,
       key: measure,
-      render: value => get(value, `wqiResult.detail[${measure}]`) ? get(value, `wqiResult.detail[${measure}]`) : '-'
+      render: value =>
+        get(value, `wqiResult.detail[${measure}]`)
+          ? get(value, `wqiResult.detail[${measure}]`)
+          : '-',
     }))
   }
 
   render() {
-    const { loading, dataSource } = this.props;
+    const { loading, dataSource } = this.props
 
     const measureColumns = this.getMeasureColumns()
-    const columns = [...this.columns];
+    const columns = [...this.columns]
     columns.splice(5, 0, ...measureColumns)
-
 
     return (
       <TableCustom
         loading={loading}
         bordered
-        rowKey={(record) => `${record.point.key}_${record.datetime}`}
+        rowKey={record => `${record.point.key}_${record.datetime}`}
         dataSource={dataSource}
         columns={columns}
         pagination={false}

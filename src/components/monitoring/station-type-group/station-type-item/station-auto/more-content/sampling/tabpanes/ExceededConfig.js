@@ -7,22 +7,24 @@ import { Checkbox, Form } from 'antd'
 import Text from 'components/elements/text'
 import { get, isEmpty, isNumber } from 'lodash'
 
-const i18n = {
-  table: {
-    parameter: t('monitoring.exceeded.table.parameter'),
-    active: t('monitoring.exceeded.table.active'),
-    operator: t('monitoring.exceeded.table.operator'),
-    value: t('monitoring.exceeded.table.value'),
-    standrandValue: t('monitoring.exceeded.table.standrandValue'),
-    greaterThan: t('monitoring.exceeded.table.greaterThan'),
-    lessThan: t('monitoring.exceeded.table.lessThan'),
-    notSetup: t('monitoring.exceeded.table.notSetup'),
-    invalidValue: t('monitoring.exceeded.table.invalidValue'),
-    requiredInput: t('monitoring.exceeded.table.requiredInput'),
-    alertNull: t('error.nullValue'),
-  },
-  numRecord: t('monitoring.exceeded.numRecord'),
-  numRecordExceed: t('monitoring.exceeded.numRecordExceed'),
+function i18n() {
+  return {
+    table: {
+      parameter: t('monitoring.exceeded.table.parameter'),
+      active: t('monitoring.exceeded.table.active'),
+      operator: t('monitoring.exceeded.table.operator'),
+      value: t('monitoring.exceeded.table.value'),
+      standrandValue: t('monitoring.exceeded.table.standrandValue'),
+      greaterThan: t('monitoring.exceeded.table.greaterThan'),
+      lessThan: t('monitoring.exceeded.table.lessThan'),
+      notSetup: t('monitoring.exceeded.table.notSetup'),
+      invalidValue: t('monitoring.exceeded.table.invalidValue'),
+      requiredInput: t('monitoring.exceeded.table.requiredInput'),
+      alertNull: t('error.nullValue'),
+    },
+    numRecord: t('monitoring.exceeded.numRecord'),
+    numRecordExceed: t('monitoring.exceeded.numRecordExceed'),
+  }
 }
 
 const TableCustom = styled(Table)`
@@ -101,24 +103,24 @@ class ExceededConfig extends Component {
       const config = form.getFieldsValue().config[item.key]
 
       if (valueCheckBox && !config[type].value && config[type].value !== 0) {
-        callback(i18n.table.requiredInput)
+        callback(i18n().table.requiredInput)
       }
 
       if (value && !isNumber(value)) {
-        callback(i18n.table.invalidValue)
+        callback(i18n().table.invalidValue)
         return
       }
 
       const min = type === 'min' ? value : config['min'].value
       const max = type === 'max' ? value : config['max'].value
       if (isNumber(min) && isNumber(max) && min >= max) {
-        callback(i18n.table.invalidValue)
+        callback(i18n().table.invalidValue)
         return
       }
 
       // if ([min, max].includes(0)) {
       //   console.log(min, max, "--includes--")
-      //   if (min >= max) callback(i18n.table.invalidValue)
+      //   if (min >= max) callback(i18n().table.invalidValue)
       // }
       callback()
     }
@@ -160,13 +162,13 @@ class ExceededConfig extends Component {
     return [
       {
         key: 'key',
-        title: i18n.table.parameter,
+        title: i18n().table.parameter,
         dataIndex: 'name',
         render: name => <Text margin="0 10px">{name}</Text>,
       },
       {
         key: 'active',
-        title: i18n.table.active,
+        title: i18n().table.active,
         render: item => (
           <TDDivider>
             {this.renderCheckbox(item, 'min')}
@@ -176,17 +178,17 @@ class ExceededConfig extends Component {
       },
       {
         key: 'operator',
-        title: i18n.table.operator,
+        title: i18n().table.operator,
         render: () => (
           <TDDivider>
-            <div>{i18n.table.lessThan}</div>
-            <div>{i18n.table.greaterThan}</div>
+            <div>{i18n().table.lessThan}</div>
+            <div>{i18n().table.greaterThan}</div>
           </TDDivider>
         ),
       },
       {
         key: 'value',
-        title: i18n.table.value,
+        title: i18n().table.value,
         width: 200,
         render: (_, item) => (
           <TDDivider>
@@ -197,18 +199,18 @@ class ExceededConfig extends Component {
       },
       {
         key: 'standrandValue',
-        title: i18n.table.standrandValue,
+        title: i18n().table.standrandValue,
         render: item => (
           <TDDivider>
             <div>
               {item.minLimit || item.minLimit === 0
                 ? item.minLimit
-                : i18n.table.notSetup}
+                : i18n().table.notSetup}
             </div>
             <div>
               {item.maxLimit || item.maxLimit === 0
                 ? item.maxLimit
-                : i18n.table.notSetup}
+                : i18n().table.notSetup}
             </div>
           </TDDivider>
         ),
@@ -221,7 +223,7 @@ class ExceededConfig extends Component {
     return (
       <div>
         <Form.Item
-          label={i18n.numRecordExceed}
+          label={i18n().numRecordExceed}
           labelCol={{ span: 9 }}
           labelAlign="left"
           wrapperCol={{ span: 10 }}
@@ -232,7 +234,7 @@ class ExceededConfig extends Component {
                 required: true,
                 min: 1,
                 type: 'integer',
-                message: i18n.table.invalidValue,
+                message: i18n().table.invalidValue,
               },
             ],
             initialValue: defaultValue.numConsecutiveRecordExceed || 3,

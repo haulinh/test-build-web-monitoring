@@ -24,17 +24,19 @@ import ConfigNotificationTab from './ConfigNotificationTab'
 
 const { TabPane } = Tabs
 
-const i18n = {
-  breadCrumb: translate('configStation.breadCrumb'),
-  stationName: translate('stationAutoManager.form.name.label'),
-  stationAddr: translate('stationAutoManager.form.address.label'),
-  allowSendWarning: translate(
-    'stationAutoManager.options.allowSendWarning.label'
-  ),
-  cancel: 'Bõ chọn' /* MARK  @translate */,
-  submit: translate('addon.save'),
-  updateSuccess: translate('addon.onSave.update.success'),
-  updateError: translate('addon.onSave.update.error'),
+function i18n() {
+  return {
+    breadCrumb: translate('configStation.breadCrumb'),
+    stationName: translate('stationAutoManager.form.name.label'),
+    stationAddr: translate('stationAutoManager.form.address.label'),
+    allowSendWarning: translate(
+      'stationAutoManager.options.allowSendWarning.label'
+    ),
+    cancel: 'Bõ chọn' /* MARK  @translate */,
+    submit: translate('addon.save'),
+    updateSuccess: translate('addon.onSave.update.success'),
+    updateError: translate('addon.onSave.update.error'),
+  }
 }
 
 const showSuccess = msg => {
@@ -136,7 +138,7 @@ export default class StationAutoConfigNotification extends React.Component {
 
       <Row style={{ marginBottom: 16 }}>
         {/* NOTE  KHONG XOA, uncomment khi a @hung thay đổi yêu cầu */}
-        {/* <Button onClick={this.props.clearCache}>{i18n.cancel}</Button> */}
+        {/* <Button onClick={this.props.clearCache}>{i18n().cancel}</Button> */}
         <Button
           block
           type="primary"
@@ -144,7 +146,7 @@ export default class StationAutoConfigNotification extends React.Component {
           onClick={this.submitCache}
           disabled={_.keys(this.state.cachedData).length === 0}
         >
-          {i18n.submit}
+          {i18n().submit}
         </Button>
       </Row>
     </React.Fragment>
@@ -155,8 +157,8 @@ export default class StationAutoConfigNotification extends React.Component {
       !this.state.isWarningCheckAll && !this.state.isWarningIndeterminate
     return [
       { content: '#', width: 2 },
-      { content: i18n.stationName, width: 15 },
-      { content: i18n.stationAddr, width: 20 },
+      { content: i18n().stationName, width: 15 },
+      { content: i18n().stationAddr, width: 20 },
       {
         content: (
           <div>
@@ -170,7 +172,7 @@ export default class StationAutoConfigNotification extends React.Component {
                 )
               }
             >
-              {i18n.allowSendWarning}
+              {i18n().allowSendWarning}
             </Checkbox>
           </div>
         ),
@@ -260,12 +262,15 @@ export default class StationAutoConfigNotification extends React.Component {
     ]
   }
 
-  isCheckPrimary = (row) => {
+  isCheckPrimary = row => {
+    const warningOptions = _.omit(STATION_AUTO_OPTIONS, [
+      'RECEIVE_NOTIFY',
+      'PRIMARY',
+    ])
 
-    const warningOptions = _.omit(STATION_AUTO_OPTIONS, ['RECEIVE_NOTIFY', 'PRIMARY'])
-
-    const isAllWarningOff = Object.values(warningOptions)
-      .every(optionKey => !_.get(row, ['options', optionKey, 'allowed'], true))
+    const isAllWarningOff = Object.values(warningOptions).every(
+      optionKey => !_.get(row, ['options', optionKey, 'allowed'], true)
+    )
 
     const isPrimaryAllowed = _.get(
       row,
@@ -678,10 +683,10 @@ export default class StationAutoConfigNotification extends React.Component {
         dataSourceOriginal: _.cloneDeep(this.state.dataSource),
         cachedData: {},
       })
-      showSuccess(i18n.updateSuccess)
+      showSuccess(i18n().updateSuccess)
     } else if (res.error) {
       swal({
-        title: i18n.updateError,
+        title: i18n().updateError,
         type: 'error',
       })
     }

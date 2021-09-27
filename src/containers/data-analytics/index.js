@@ -12,9 +12,11 @@ import { AnalyzeDataProvider } from './context'
 import { CHART_TYPE } from './report-data/chart-type'
 import { OPERATOR } from './filter/select-operator'
 
-const i18n = {
-  title: t('menuApp.monitoring.dataAnalytics'),
-  measuredValue: t('dataAnalytics.measuredValue'),
+function i18n() {
+  return {
+    title: t('menuApp.monitoring.dataAnalytics'),
+    measuredValue: t('dataAnalytics.measuredValue'),
+  }
 }
 
 const Title = styled.div`
@@ -111,7 +113,7 @@ class DataAnalytics extends Component {
         id: 'mainChart',
         data: series,
         type: chartType,
-        name: i18n.measuredValue,
+        name: i18n().measuredValue,
         enableMouseTracking: dataType !== OPERATOR.AVG,
       },
       true
@@ -243,7 +245,7 @@ class DataAnalytics extends Component {
           chart: this.chart,
         }}
       >
-        <Title>{i18n.title}</Title>
+        <Title>{i18n().title}</Title>
         <Container>
           <FilterForm
             standardsVN={qcvns.map(qc => qc.key)}

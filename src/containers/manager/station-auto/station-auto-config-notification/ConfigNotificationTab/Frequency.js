@@ -3,48 +3,50 @@ import { Switch, Select } from 'antd'
 import { translate } from 'hoc/create-lang'
 const { Option } = Select
 
-const i18n = {
-  only1: translate('notificationFreq.only1'),
-  _5Min: translate('notificationFreq._5Min'),
-  _15Min: translate('notificationFreq._15Min'),
-  _30Min: translate('notificationFreq._30Min'),
-  _every1Hour: translate('notificationFreq._every1Hour'),
-  _every2Hour: translate('notificationFreq._every2Hour'),
-  _every1Day: translate('notificationFreq._every1Day'),
-  _every2Day: translate('notificationFreq._every2Day'),
+function i18n() {
+  return {
+    only1: translate('notificationFreq.only1'),
+    _5Min: translate('notificationFreq._5Min'),
+    _15Min: translate('notificationFreq._15Min'),
+    _30Min: translate('notificationFreq._30Min'),
+    _every1Hour: translate('notificationFreq._every1Hour'),
+    _every2Hour: translate('notificationFreq._every2Hour'),
+    _every1Day: translate('notificationFreq._every1Day'),
+    _every2Day: translate('notificationFreq._every2Day'),
+  }
 }
 
 const optionSelects = [
   {
-    title: i18n.only1,
+    title: i18n().only1,
     value: 0,
   },
   {
-    title: i18n._5Min,
+    title: i18n()._5Min,
     value: 5,
   },
   {
-    title: i18n._15Min,
+    title: i18n()._15Min,
     value: 15,
   },
   {
-    title: i18n._30Min,
+    title: i18n()._30Min,
     value: 30,
   },
   {
-    title: i18n._every1Hour,
+    title: i18n()._every1Hour,
     value: 60,
   },
   {
-    title: i18n._every2Hour,
+    title: i18n()._every2Hour,
     value: 120,
   },
   {
-    title: i18n._every1Day,
+    title: i18n()._every1Day,
     value: 1440,
   },
   {
-    title: i18n._every2Day,
+    title: i18n()._every2Day,
     value: 2880,
   },
 ]

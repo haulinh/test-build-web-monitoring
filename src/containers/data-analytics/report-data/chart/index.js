@@ -8,8 +8,10 @@ import ROLES from 'constants/role'
 import { checkRole } from 'hoc/protect-role'
 import { connect } from 'react-redux'
 
-const i18n = {
-  loading: `${t('global.loading')}...`,
+function i18n() {
+  return {
+    loading: `${t('global.loading')}...`,
+  }
 }
 class Chart extends Component {
   static contextType = AnalyzeDataContext
@@ -53,7 +55,7 @@ class Chart extends Component {
         if (!this.point.description || this.point.description === 'qcvn')
           return null
 
-        if (isEmpty(this.point.description)) return i18n.loading
+        if (isEmpty(this.point.description)) return i18n().loading
 
         return `
           <div>

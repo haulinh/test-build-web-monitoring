@@ -25,9 +25,12 @@ import { getLanguage } from 'utils/lang'
 // import axios from 'axios'
 
 const { Title, Text } = Typography
-const i18n = {
-  header1: translate('avgSearchFrom.table.header9'),
-  title: translate('avgSearchFrom.table.title4'),
+
+function i18n() {
+  return {
+    header1: translate('avgSearchFrom.table.header9'),
+    title: translate('avgSearchFrom.table.title4'),
+  }
 }
 
 @protectRole(ROLE.TILE_DULIE_VUOTNGUONG.VIEW)
@@ -69,7 +72,7 @@ export default class ReportType12 extends React.Component {
 
     return [
       {
-        title: i18n.header1,
+        title: i18n().header1,
         dataIndex: 'day',
         align: 'center',
         render: value => {
@@ -144,7 +147,7 @@ export default class ReportType12 extends React.Component {
         <SearchForm cbSubmit={this.handleSubmit} isDatePicker={true} />
         <Clearfix height={16} />
         <div style={{ position: 'relative', textAlign: 'center' }}>
-          <Title level={4}>{i18n.title}</Title>
+          <Title level={4}>{i18n().title}</Title>
           <Text>
             {' '}
             {translate('avgSearchFrom.table.description4', {

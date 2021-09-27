@@ -1,7 +1,7 @@
 // import PropTypes from 'prop-types'
 import React from 'react'
 import { Menu, Tooltip } from 'antd'
-import slug, { MENU_NAME, MENU_GROUP, TOOLTIP_MENU } from 'constants/slug'
+import slug, { MENU_GROUP, listTooltipMenu, listMenuName } from 'constants/slug'
 import protectRole from 'hoc/protect-role/forMenu'
 import ROLE from 'constants/role'
 import Icon from 'themes/icon'
@@ -18,10 +18,12 @@ export default {
     <Menu.SubMenu
       key={MENU_GROUP.MONITORING}
       title={
-        <Tooltip placement="right" title={TOOLTIP_MENU.monitoringSub}>
+        <Tooltip placement="right" title={listTooltipMenu().monitoringSub}>
           <div style={CENTER}>
             {Icon.screen}
-            <span style={{ marginLeft: 12 }}>{MENU_NAME.monitoringSub}</span>
+            <span style={{ marginLeft: 12 }}>
+              {listMenuName().monitoringSub}
+            </span>
           </div>
         </Tooltip>
       }
@@ -33,8 +35,10 @@ export default {
             props.selectMenu(slug.monitoring.base)
           }}
         >
-          <Tooltip placement="right" title={TOOLTIP_MENU.monitoring.base}>
-            <Link to={slug.monitoring.base}>{MENU_NAME.monitoring.base}</Link>
+          <Tooltip placement="right" title={listTooltipMenu().monitoring.base}>
+            <Link to={slug.monitoring.base}>
+              {listMenuName().monitoring.base}
+            </Link>
           </Tooltip>
         </Menu.Item>
       )}
@@ -46,9 +50,12 @@ export default {
             props.selectMenu(slug.monitoringList.base)
           }}
         >
-          <Tooltip placement="right" title={TOOLTIP_MENU.monitoringList.base}>
+          <Tooltip
+            placement="right"
+            title={listTooltipMenu().monitoringList.base}
+          >
             <Link to={slug.monitoringList.base}>
-              {MENU_NAME.monitoringList.base}
+              {listMenuName().monitoringList.base}
             </Link>
           </Tooltip>
         </Menu.Item>
@@ -61,8 +68,8 @@ export default {
             props.selectMenu(slug.map.base)
           }}
         >
-          <Tooltip placement="right" title={TOOLTIP_MENU.monitoring.map}>
-            <Link to={slug.map.base}>{MENU_NAME.monitoring.map}</Link>
+          <Tooltip placement="right" title={listTooltipMenu().monitoring.map}>
+            <Link to={slug.map.base}>{listMenuName().monitoring.map}</Link>
           </Tooltip>
         </Menu.Item>
       )}
@@ -74,9 +81,12 @@ export default {
             props.selectMenu(slug.cameraControl.base)
           }}
         >
-          <Tooltip placement="right" title={TOOLTIP_MENU.monitoring.camera}>
+          <Tooltip
+            placement="right"
+            title={listTooltipMenu().monitoring.camera}
+          >
             <Link to={slug.cameraControl.base}>
-              {MENU_NAME.monitoring.camera}
+              {listMenuName().monitoring.camera}
             </Link>
           </Tooltip>
         </Menu.Item>
@@ -90,9 +100,12 @@ export default {
             props.selectMenu(slug.dataAnalytics.base)
           }}
         >
-          <Tooltip placement="right" title={TOOLTIP_MENU.monitoring.dataAnalytics}>
+          <Tooltip
+            placement="right"
+            title={listTooltipMenu().monitoring.dataAnalytics}
+          >
             <Link to={slug.dataAnalytics.base}>
-              {MENU_NAME.monitoring.dataAnalytics}
+              {listMenuName().monitoring.dataAnalytics}
             </Link>
           </Tooltip>
         </Menu.Item>
@@ -107,10 +120,10 @@ export default {
         >
           <Tooltip
             placement="right"
-            title={TOOLTIP_MENU.monitoring.historyData}
+            title={listTooltipMenu().monitoring.historyData}
           >
             <Link to={slug.dataSearch.base}>
-              {MENU_NAME.monitoring.historyData}
+              {listMenuName().monitoring.historyData}
             </Link>
           </Tooltip>
         </Menu.Item>
@@ -123,8 +136,8 @@ export default {
             props.selectMenu(slug.avgSearch.base)
           }}
         >
-          <Tooltip placement="right" title={TOOLTIP_MENU.monitoring.avgData}>
-            <Link to={slug.avgSearch.base}>{MENU_NAME.monitoring.avgData}</Link>
+          <Tooltip placement="right" title={listTooltipMenu().monitoring.avgData}>
+            <Link to={slug.avgSearch.base}>{listMenuName().monitoring.avgData}</Link>
           </Tooltip>
         </Menu.Item>
       )} */}
@@ -136,9 +149,12 @@ export default {
             props.selectMenu(slug.avgSearchAdvanced.base)
           }}
         >
-          <Tooltip placement="right" title={TOOLTIP_MENU.monitoring.avgData}>
+          <Tooltip
+            placement="right"
+            title={listTooltipMenu().monitoring.avgData}
+          >
             <Link to={slug.avgSearchAdvanced.base}>
-              {MENU_NAME.monitoring.avgData}
+              {listMenuName().monitoring.avgData}
             </Link>
           </Tooltip>
         </Menu.Item>

@@ -1,7 +1,7 @@
 // import PropTypes from 'prop-types'
 import React from 'react'
 import { Menu, Tooltip } from 'antd'
-import slug, { MENU_NAME, MENU_GROUP, TOOLTIP_MENU } from 'constants/slug'
+import slug, { MENU_GROUP, listTooltipMenu, listMenuName } from 'constants/slug'
 import protectRole from 'hoc/protect-role/forMenu'
 import ROLE from 'constants/role'
 import Icon from 'themes/icon'
@@ -18,10 +18,10 @@ export default {
     <Menu.SubMenu
       key={MENU_GROUP.ADVANCE}
       title={
-        <Tooltip placement="right" title={TOOLTIP_MENU.advanceSub}>
+        <Tooltip placement="right" title={listTooltipMenu().advanceSub}>
           <div style={CENTER}>
             {Icon.advance}
-            <span style={{ marginLeft: 12 }}>{MENU_NAME.advanceSub}</span>
+            <span style={{ marginLeft: 12 }}>{listMenuName().advanceSub}</span>
           </div>
         </Tooltip>
       }
@@ -34,8 +34,13 @@ export default {
             props.selectMenu(slug.advance.mapAqi)
           }}
         >
-          <Tooltip placement="right" title={TOOLTIP_MENU.monitoring.mapAQI}>
-            <Link to={slug.advance.mapAqi}>{MENU_NAME.monitoring.mapAQI}</Link>
+          <Tooltip
+            placement="right"
+            title={listTooltipMenu().monitoring.mapAQI}
+          >
+            <Link to={slug.advance.mapAqi}>
+              {listMenuName().monitoring.mapAQI}
+            </Link>
           </Tooltip>
         </Menu.Item>
       )}
@@ -46,8 +51,10 @@ export default {
             props.selectMenu(slug.advance.aqi_hour)
           }}
         >
-          <Tooltip placement="right" title={TOOLTIP_MENU.report.aqi_hour}>
-            <Link to={slug.advance.aqi_hour}>{MENU_NAME.report.aqi_hour}</Link>
+          <Tooltip placement="right" title={listTooltipMenu().report.aqi_hour}>
+            <Link to={slug.advance.aqi_hour}>
+              {listMenuName().report.aqi_hour}
+            </Link>
           </Tooltip>
         </Menu.Item>
       )}
@@ -59,8 +66,10 @@ export default {
             props.selectMenu(slug.advance.aqi_day)
           }}
         >
-          <Tooltip placement="right" title={TOOLTIP_MENU.report.aqi_day}>
-            <Link to={slug.advance.aqi_day}>{MENU_NAME.report.aqi_day}</Link>
+          <Tooltip placement="right" title={listTooltipMenu().report.aqi_day}>
+            <Link to={slug.advance.aqi_day}>
+              {listMenuName().report.aqi_day}
+            </Link>
           </Tooltip>
         </Menu.Item>
       )}
@@ -73,8 +82,10 @@ export default {
             props.selectMenu(slug.advance.mapWqi)
           }}
         >
-          <Tooltip placement="right" title={TOOLTIP_MENU.advance.wqiMap}>
-            <Link to={slug.advance.mapWqi}>{MENU_NAME.advance.wqiMap}</Link>
+          <Tooltip placement="right" title={listTooltipMenu().advance.wqiMap}>
+            <Link to={slug.advance.mapWqi}>
+              {listMenuName().advance.wqiMap}
+            </Link>
           </Tooltip>
         </Menu.Item>
       )}
@@ -85,8 +96,10 @@ export default {
             props.selectMenu(slug.advance.wqi_hour)
           }}
         >
-          <Tooltip placement="right" title={TOOLTIP_MENU.advance.wqiHour}>
-            <Link to={slug.advance.wqi_hour}>{MENU_NAME.advance.wqiHour}</Link>
+          <Tooltip placement="right" title={listTooltipMenu().advance.wqiHour}>
+            <Link to={slug.advance.wqi_hour}>
+              {listMenuName().advance.wqiHour}
+            </Link>
           </Tooltip>
         </Menu.Item>
       )}
@@ -97,8 +110,10 @@ export default {
             props.selectMenu(slug.advance.wqi_day)
           }}
         >
-          <Tooltip placement="right" title={TOOLTIP_MENU.advance.wqiDay}>
-            <Link to={slug.advance.wqi_day}>{MENU_NAME.advance.wqiDay}</Link>
+          <Tooltip placement="right" title={listTooltipMenu().advance.wqiDay}>
+            <Link to={slug.advance.wqi_day}>
+              {listMenuName().advance.wqiDay}
+            </Link>
           </Tooltip>
         </Menu.Item>
       )}
@@ -110,8 +125,13 @@ export default {
             props.selectMenu(slug.advance.wqi_periodic)
           }}
         >
-          <Tooltip placement="right" title={TOOLTIP_MENU.advance.wqiPeriodic}>
-            <Link to={slug.advance.wqi_periodic}>{MENU_NAME.advance.wqiPeriodic}</Link>
+          <Tooltip
+            placement="right"
+            title={listTooltipMenu().advance.wqiPeriodic}
+          >
+            <Link to={slug.advance.wqi_periodic}>
+              {listMenuName().advance.wqiPeriodic}
+            </Link>
           </Tooltip>
         </Menu.Item>
       )}
@@ -123,9 +143,9 @@ export default {
             props.selectMenu(slug.advance.enableAqiWqi)
           }}
         >
-          <Tooltip placement="right" title={TOOLTIP_MENU.advance.config}>
+          <Tooltip placement="right" title={listTooltipMenu().advance.config}>
             <Link to={slug.advance.enableAqiWqi}>
-              {MENU_NAME.advance.config}
+              {listMenuName().advance.config}
             </Link>
           </Tooltip>
         </Menu.Item>
@@ -136,9 +156,9 @@ export default {
           key={slug.advance.configAqi}
           onClick={() => props.selectMenu(slug.advance.configAqi)}
         >
-          <Tooltip placement="right" title={TOOLTIP_MENU.config.configAQI}>
+          <Tooltip placement="right" title={listTooltipMenu().config.configAQI}>
             <Link to={slug.advance.configAqi}>
-              {MENU_NAME.config.configAQI}
+              {listMenuName().config.configAQI}
             </Link>
           </Tooltip>
         </Menu.Item>
@@ -150,9 +170,9 @@ export default {
           key={slug.advance.configWqi}
           onClick={() => props.selectMenu(slug.advance.configWqi)}
         >
-          <Tooltip placement="right" title={TOOLTIP_MENU.config.configWQI}>
+          <Tooltip placement="right" title={listTooltipMenu().config.configWQI}>
             <Link to={slug.advance.configWqi}>
-              {MENU_NAME.config.configWQI}
+              {listMenuName().config.configWQI}
             </Link>
           </Tooltip>
         </Menu.Item>

@@ -27,86 +27,92 @@ import swal from 'sweetalert2'
 const { Option } = Select
 const { Step } = Steps
 
-const i18n = {
-  /*  */
-  reset: translate('monitoring.moreContent.sampling.content.reset'),
-  totalBottles: translate(
-    'monitoring.moreContent.sampling.content.totalBottles'
-  ),
-  sampledBottles: translate(
-    'monitoring.moreContent.sampling.content.sampledBottles'
-  ),
-  /* sampling mode */
-  methodSampling: translate(
-    'monitoring.moreContent.sampling.content.methodSampling'
-  ),
-  // 'Giao thức lấy mẫu',
-  typeOfSampling: translate(
-    'monitoring.moreContent.sampling.content.typeOfSampling'
-  ),
-  immediatelySampling: translate(
-    'monitoring.moreContent.sampling.content.immediatelySampling'
-  ),
-  scheduleSampling: translate(
-    'monitoring.moreContent.sampling.content.scheduleSampling'
-  ),
-  bottlesNeedToTake: translate(
-    'monitoring.moreContent.sampling.content.bottlesNeedToTake'
-  ),
-  timeStartSampling: translate(
-    'monitoring.moreContent.sampling.content.timeStartSampling'
-  ),
-  frequency: translate('monitoring.moreContent.sampling.content.frequency'),
-  dateStartSampling: translate(
-    'monitoring.moreContent.sampling.content.dateStartSampling'
-  ),
-  /* button lay mau thu cong */
-  takeSample: translate('monitoring.moreContent.sampling.content.takeSample'),
-  commandSent: translate('monitoring.moreContent.sampling.content.commandSent'),
-  takingSample: translate(
-    'monitoring.moreContent.sampling.content.takingSample'
-  ),
-  /*button sampling exceeded */
-  takeSampleExceeded: translate(
-    'monitoring.moreContent.sampling.content.takeSampleExceeded'
-  ),
-  cancelTakeSampleExceeded: translate(
-    'monitoring.moreContent.sampling.content.cancelTakeSampleExceeded'
-  ),
-  /* button lay mau tu dong */
-  active: translate('monitoring.moreContent.sampling.content.active'),
-  actived: translate('monitoring.moreContent.sampling.content.actived'),
-  /* button lay mau vuot nguong */
-  activeOverRange: translate(
-    'monitoring.moreContent.sampling.content.activeOverRange'
-  ),
-  activedOverRange: translate(
-    'monitoring.moreContent.sampling.content.activedOverRange'
-  ),
-  /* alerts */
-  alertNull: translate('error.nullValue'),
-  alertSuccess: translate('success.text'),
-  alertError: translate('error.text'),
-  alertWarning: translate('error.warningText'),
-  alertModalResetTitle: translate('error.monitoring.sampling.resetTitle'),
-  alertModalResetSubtitle: translate('error.monitoring.sampling.resetSubtitle'),
-  alertErrorUpdateScheduleSubtitle: translate(
-    'error.monitoring.sampling.updateScheduleSubtitle'
-  ),
-  alertErrorTakeSampling: translate('error.monitoring.sampling.takeSampling'),
-  /*  */
-  modalConfirm: translate('modal.confirm.title'),
-  cancelConfigSchedule: translate(
-    'modal.confirm.monitoring.sampling.cancelSchedule'
-  ),
-  cancelExceededSampling: translate(
-    'modal.confirm.monitoring.sampling.cancelExceededSampling'
-  ),
-  step1: translate('controlStation.listStep.step1'),
-  step2: translate('controlStation.listStep.step2'),
-  step3: translate('controlStation.listStep.step3'),
-  step4: translate('controlStation.listStep.step4'),
-  cancel: translate('addon.cancel'),
+function i18n() {
+  return {
+    /*  */
+    reset: translate('monitoring.moreContent.sampling.content.reset'),
+    totalBottles: translate(
+      'monitoring.moreContent.sampling.content.totalBottles'
+    ),
+    sampledBottles: translate(
+      'monitoring.moreContent.sampling.content.sampledBottles'
+    ),
+    /* sampling mode */
+    methodSampling: translate(
+      'monitoring.moreContent.sampling.content.methodSampling'
+    ),
+    // 'Giao thức lấy mẫu',
+    typeOfSampling: translate(
+      'monitoring.moreContent.sampling.content.typeOfSampling'
+    ),
+    immediatelySampling: translate(
+      'monitoring.moreContent.sampling.content.immediatelySampling'
+    ),
+    scheduleSampling: translate(
+      'monitoring.moreContent.sampling.content.scheduleSampling'
+    ),
+    bottlesNeedToTake: translate(
+      'monitoring.moreContent.sampling.content.bottlesNeedToTake'
+    ),
+    timeStartSampling: translate(
+      'monitoring.moreContent.sampling.content.timeStartSampling'
+    ),
+    frequency: translate('monitoring.moreContent.sampling.content.frequency'),
+    dateStartSampling: translate(
+      'monitoring.moreContent.sampling.content.dateStartSampling'
+    ),
+    /* button lay mau thu cong */
+    takeSample: translate('monitoring.moreContent.sampling.content.takeSample'),
+    commandSent: translate(
+      'monitoring.moreContent.sampling.content.commandSent'
+    ),
+    takingSample: translate(
+      'monitoring.moreContent.sampling.content.takingSample'
+    ),
+    /*button sampling exceeded */
+    takeSampleExceeded: translate(
+      'monitoring.moreContent.sampling.content.takeSampleExceeded'
+    ),
+    cancelTakeSampleExceeded: translate(
+      'monitoring.moreContent.sampling.content.cancelTakeSampleExceeded'
+    ),
+    /* button lay mau tu dong */
+    active: translate('monitoring.moreContent.sampling.content.active'),
+    actived: translate('monitoring.moreContent.sampling.content.actived'),
+    /* button lay mau vuot nguong */
+    activeOverRange: translate(
+      'monitoring.moreContent.sampling.content.activeOverRange'
+    ),
+    activedOverRange: translate(
+      'monitoring.moreContent.sampling.content.activedOverRange'
+    ),
+    /* alerts */
+    alertNull: translate('error.nullValue'),
+    alertSuccess: translate('success.text'),
+    alertError: translate('error.text'),
+    alertWarning: translate('error.warningText'),
+    alertModalResetTitle: translate('error.monitoring.sampling.resetTitle'),
+    alertModalResetSubtitle: translate(
+      'error.monitoring.sampling.resetSubtitle'
+    ),
+    alertErrorUpdateScheduleSubtitle: translate(
+      'error.monitoring.sampling.updateScheduleSubtitle'
+    ),
+    alertErrorTakeSampling: translate('error.monitoring.sampling.takeSampling'),
+    /*  */
+    modalConfirm: translate('modal.confirm.title'),
+    cancelConfigSchedule: translate(
+      'modal.confirm.monitoring.sampling.cancelSchedule'
+    ),
+    cancelExceededSampling: translate(
+      'modal.confirm.monitoring.sampling.cancelExceededSampling'
+    ),
+    step1: translate('controlStation.listStep.step1'),
+    step2: translate('controlStation.listStep.step2'),
+    step3: translate('controlStation.listStep.step3'),
+    step4: translate('controlStation.listStep.step4'),
+    cancel: translate('addon.cancel'),
+  }
 }
 
 const RadioButton = Radio.Button
@@ -244,10 +250,10 @@ export default class SamplingTab extends React.Component {
     return (
       <StepWrapper>
         <Steps current={getCurrentStepIndex()} progressDot={customDot}>
-          <Step title={i18n.step1} />
-          <Step title={i18n.step2} />
-          <Step title={i18n.step3} />
-          <Step title={i18n.step4} />
+          <Step title={i18n().step1} />
+          <Step title={i18n().step2} />
+          <Step title={i18n().step3} />
+          <Step title={i18n().step4} />
         </Steps>
       </StepWrapper>
     )
@@ -292,8 +298,8 @@ export default class SamplingTab extends React.Component {
     // e.preventDefault()
     let me = this
     Modal.confirm({
-      title: i18n.alertModalResetTitle,
-      content: i18n.alertModalResetSubtitle,
+      title: i18n().alertModalResetTitle,
+      content: i18n().alertModalResetSubtitle,
       async onOk() {
         return await me.resetSampledBottle(e)
       },
@@ -353,10 +359,10 @@ export default class SamplingTab extends React.Component {
         }
       }
     } catch (err) {
-      console.log(err, "--err--")
+      // console.log(err, '--err--')
       swal({
-        title: i18n.alertWarning,
-        html: i18n.alertErrorTakeSampling,
+        title: i18n().alertWarning,
+        html: i18n().alertErrorTakeSampling,
         width: 600,
         type: 'warning',
       })
@@ -373,9 +379,9 @@ export default class SamplingTab extends React.Component {
     const { stationID } = this.props
     let me = this
     Modal.confirm({
-      title: i18n.modalConfirm,
-      content: i18n.cancelConfigSchedule,
-      cancelText: i18n.cancel,
+      title: i18n().modalConfirm,
+      content: i18n().cancelConfigSchedule,
+      cancelText: i18n().cancel,
       async onOk() {
         const res = await SamplingAPI.cancelConfigSchedule(stationID)
         if (res.data.configSamplingSchedule === null) {
@@ -422,8 +428,8 @@ export default class SamplingTab extends React.Component {
       } catch (e) {
         /* MARK  -- @Thao: tra ve code phia server de frontend translate */
         swal({
-          title: i18n.alertWarning,
-          text: i18n.alertErrorUpdateScheduleSubtitle,
+          title: i18n().alertWarning,
+          text: i18n().alertErrorUpdateScheduleSubtitle,
           type: 'warning',
         })
         // swal({title: `${e.response.data.error.message}`, type: 'error'})
@@ -461,9 +467,9 @@ export default class SamplingTab extends React.Component {
   handleClickCancelSamplingExceeded = async () => {
     const { stationID } = this.props
     Modal.confirm({
-      title: i18n.modalConfirm,
-      content: i18n.cancelExceededSampling,
-      cancelText: i18n.cancel,
+      title: i18n().modalConfirm,
+      content: i18n().cancelExceededSampling,
+      cancelText: i18n().cancel,
       onOk: async () => {
         try {
           const data = await SamplingAPI.updateSamplingType(
@@ -512,11 +518,11 @@ export default class SamplingTab extends React.Component {
     switch (true) {
       case status === STATUS_SAMPLING.READY ||
         samplingTypeActive === SAMPLING_TYPE.EXCEEDED:
-        return i18n.takeSample
+        return i18n().takeSample
       case status === STATUS_SAMPLING.COMMANDED:
-        return i18n.commandSent
+        return i18n().commandSent
       case status === STATUS_SAMPLING.SAMPLING:
-        return i18n.takingSample
+        return i18n().takingSample
       default:
         break
     }
@@ -561,7 +567,7 @@ export default class SamplingTab extends React.Component {
                   style={{ marginBottom: '4px' }}
                   className="ant-form-item-required"
                 >
-                  {i18n.methodSampling}
+                  {i18n().methodSampling}
                 </span>
                 <Select
                   style={{ width: 160 }}
@@ -575,7 +581,7 @@ export default class SamplingTab extends React.Component {
               </div>
 
               <div>
-                <Row style={{ marginBottom: 5 }}>{i18n.typeOfSampling}</Row>
+                <Row style={{ marginBottom: 5 }}>{i18n().typeOfSampling}</Row>
                 <RadioGroup
                   defaultValue={samplingType}
                   onChange={this.handleSamplingTypeChange}
@@ -588,7 +594,7 @@ export default class SamplingTab extends React.Component {
                       samplingTypeActive === SAMPLING_TYPE.EXCEEDED
                     }
                   >
-                    {i18n.immediatelySampling}
+                    {i18n().immediatelySampling}
                   </RadioButton>
                   <RadioButton
                     value={SAMPLING_TYPE.AUTO}
@@ -597,7 +603,7 @@ export default class SamplingTab extends React.Component {
                       samplingTypeActive === SAMPLING_TYPE.EXCEEDED
                     }
                   >
-                    {i18n.scheduleSampling}
+                    {i18n().scheduleSampling}
                   </RadioButton>
                 </RadioGroup>
               </div>
@@ -615,7 +621,7 @@ export default class SamplingTab extends React.Component {
           >
             <Row gutter={16}>
               <Col span={10}>
-                <FormItem style={{ width: '100%' }} label={i18n.totalBottles}>
+                <FormItem style={{ width: '100%' }} label={i18n().totalBottles}>
                   <InputNumber
                     disabled
                     value={totalBottles}
@@ -624,7 +630,10 @@ export default class SamplingTab extends React.Component {
                 </FormItem>
               </Col>
               <Col span={10}>
-                <FormItem style={{ width: '100%' }} label={i18n.sampledBottles}>
+                <FormItem
+                  style={{ width: '100%' }}
+                  label={i18n().sampledBottles}
+                >
                   <InputNumber
                     value={this.state.sampledBottles}
                     disabled
@@ -644,7 +653,7 @@ export default class SamplingTab extends React.Component {
                       samplingTypeActive === SAMPLING_TYPE.EXCEEDED
                     }
                   >
-                    {i18n.reset}
+                    {i18n().reset}
                   </Button>
                 </FormItem>
               </Col>
@@ -662,7 +671,7 @@ export default class SamplingTab extends React.Component {
               <Col span={11}>
                 <FormItem
                   style={{ width: '100%' }}
-                  label={i18n.bottlesNeedToTake}
+                  label={i18n().bottlesNeedToTake}
                 >
                   {getFieldDecorator('bottlesNeedToTake', {
                     rules: [
@@ -671,7 +680,7 @@ export default class SamplingTab extends React.Component {
                         min: 1,
                         max: totalBottles - this.state.sampledBottles,
                         type: 'integer',
-                        message: i18n.alertNull,
+                        message: i18n().alertNull,
                       },
                     ],
                     initialValue: numberBottles,
@@ -684,13 +693,13 @@ export default class SamplingTab extends React.Component {
                 </FormItem>
                 <FormItem
                   style={{ width: '100%' }}
-                  label={i18n.timeStartSampling}
+                  label={i18n().timeStartSampling}
                 >
                   {getFieldDecorator('timeStartSampling', {
                     rules: [
                       {
                         required: true,
-                        message: i18n.alertNull,
+                        message: i18n().alertNull,
                       },
                     ],
                     initialValue: moment(dateTimeStart),
@@ -704,14 +713,14 @@ export default class SamplingTab extends React.Component {
                 </FormItem>
               </Col>
               <Col span={11}>
-                <FormItem style={{ width: '100%' }} label={i18n.frequency}>
+                <FormItem style={{ width: '100%' }} label={i18n().frequency}>
                   {getFieldDecorator('frequency', {
                     rules: [
                       {
                         required: true,
                         min: 1,
                         type: 'integer',
-                        message: i18n.alertNull,
+                        message: i18n().alertNull,
                       },
                     ],
                     initialValue: frequency,
@@ -724,13 +733,13 @@ export default class SamplingTab extends React.Component {
                 </FormItem>
                 <FormItem
                   style={{ width: '100%' }}
-                  label={i18n.dateStartSampling}
+                  label={i18n().dateStartSampling}
                 >
                   {getFieldDecorator('dateStartSampling', {
                     rules: [
                       {
                         required: true,
-                        message: i18n.alertNull,
+                        message: i18n().alertNull,
                       },
                     ],
                     initialValue: moment(dateTimeStart),
@@ -785,7 +794,7 @@ export default class SamplingTab extends React.Component {
               onClick={this.handleClickActive}
               loading={isScheduleUpdating}
             >
-              {isScheduled ? i18n.actived : i18n.active}
+              {isScheduled ? i18n().actived : i18n().active}
             </Button>
           )}
           {/* actived button đã lập lích lấy mấy, show button huỷ lịch*/}
@@ -800,7 +809,7 @@ export default class SamplingTab extends React.Component {
               onClick={this.cancelConfigSchedule}
               loading={isScheduleUpdating}
             >
-              {isScheduled ? i18n.actived : i18n.active}
+              {isScheduled ? i18n().actived : i18n().active}
             </Button>
           )}
           {/* NOTE  nút này chưa cần xử lý*/}
@@ -812,7 +821,7 @@ export default class SamplingTab extends React.Component {
               this.setState({ isActivedOverRange: !isActivedOverRange })
             }
           >
-            {isActivedOverRange ? i18n.activedOverRange : i18n.activeOverRange}
+            {isActivedOverRange ? i18n().activedOverRange : i18n().activeOverRange}
           </Button> */}
         </Row>
 
@@ -825,7 +834,7 @@ export default class SamplingTab extends React.Component {
             style={{ marginBottom: 8 }}
             onClick={this.handleClickSamplingExceeded}
           >
-            {i18n.takeSampleExceeded}
+            {i18n().takeSampleExceeded}
           </Button>
         )}
 
@@ -841,7 +850,7 @@ export default class SamplingTab extends React.Component {
             }}
             onClick={this.handleClickCancelSamplingExceeded}
           >
-            {i18n.cancelTakeSampleExceeded}
+            {i18n().cancelTakeSampleExceeded}
           </Button>
         )}
 

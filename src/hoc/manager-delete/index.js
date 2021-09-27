@@ -4,10 +4,12 @@ import { Modal, message } from 'antd'
 import { translate } from 'hoc/create-lang'
 import _ from 'lodash'
 
-const i18n = {
-  cancelText: translate('addon.cancel'),
-  okText: translate('addon.ok'),
-  deleteConfirmMsg: translate('confirm.msg.delete'),
+function i18n() {
+  return {
+    cancelText: translate('addon.cancel'),
+    okText: translate('addon.ok'),
+    deleteConfirmMsg: translate('confirm.msg.delete'),
+  }
 }
 /**
  * Manager list data
@@ -19,9 +21,9 @@ const createManagerDelete = ({ apiDelete }) => Component => {
   class ManagerDeleteHoc extends React.Component {
     confirmDelete(apiDelete, key, callbackSuccess = () => {}) {
       Modal.confirm({
-        title: i18n.deleteConfirmMsg,
-        okText: i18n.okText,
-        cancelText: i18n.cancelText,
+        title: i18n().deleteConfirmMsg,
+        okText: i18n().okText,
+        cancelText: i18n().cancelText,
         onOk() {
           return new Promise(async (resolve, reject) => {
             try {

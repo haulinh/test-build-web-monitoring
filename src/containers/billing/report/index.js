@@ -27,29 +27,30 @@ export const Fields = {
   time: 'time',
 }
 
-export const i18n = {
-  reportType: {
-    label: t('billing.label.reportType'),
-  },
-  time: {
-    label: t('billing.label.time'),
-    required: t('billing.required.time'),
-    sameQuarter: t('billing.required.sameQuarter'),
-  },
-  stationType: {
-    label: t('billing.label.stationType'),
-    required: t('billing.required.stationType'),
-  },
-  stationName: {
-    label: t('billing.label.stationName'),
-    required: t('billing.required.stationName'),
-  },
-  billingConfig: {
-    label: t('billing.label.billingConfig'),
-    required: t('billing.required.billingConfig'),
-  },
+export function i18n() {
+  return {
+    reportType: {
+      label: t('billing.label.reportType'),
+    },
+    time: {
+      label: t('billing.label.time'),
+      required: t('billing.required.time'),
+      sameQuarter: t('billing.required.sameQuarter'),
+    },
+    stationType: {
+      label: t('billing.label.stationType'),
+      required: t('billing.required.stationType'),
+    },
+    stationName: {
+      label: t('billing.label.stationName'),
+      required: t('billing.required.stationName'),
+    },
+    billingConfig: {
+      label: t('billing.label.billingConfig'),
+      required: t('billing.required.billingConfig'),
+    },
+  }
 }
-
 @createProtectRole(ROLE.BILLING_REPORT.VIEW)
 @Form.create()
 export default class BillingReport extends Component {
@@ -71,7 +72,7 @@ export default class BillingReport extends Component {
       form.setFields({
         time: {
           value: _.get(values, 'time'),
-          errors: [new Error(i18n.time.required)],
+          errors: [new Error(i18n().time.required)],
         },
       })
       return
@@ -86,7 +87,7 @@ export default class BillingReport extends Component {
             value: {
               type: 'quarter',
             },
-            errors: [new Error(i18n.time.sameQuarter)],
+            errors: [new Error(i18n().time.sameQuarter)],
           },
         })
         return

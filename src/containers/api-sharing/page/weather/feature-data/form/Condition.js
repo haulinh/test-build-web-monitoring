@@ -2,10 +2,10 @@ import { Col, Row, Select } from 'antd'
 import { Clearfix } from 'components/elements'
 import SelectCity from 'components/elements/select-data/weather/SelectCity'
 import SelectDayWeather, {
-  optionsDay
+  optionsDay,
 } from 'components/elements/select-data/weather/SelectDay'
 import SelectParamenterWeather, {
-  optionsWeather
+  optionsWeather,
 } from 'components/elements/select-data/weather/SelectParamenter'
 import FormItem from 'containers/api-sharing/component/FormItem'
 import { i18n } from 'containers/api-sharing/constants'
@@ -52,21 +52,21 @@ export default class Condition extends React.Component {
     const { form, isQuery } = this.props
     return (
       <BoxShadow>
-        {!isQuery && <Header>{i18n.detailPage.header.condition}</Header>}
+        {!isQuery && <Header>{i18n().detailPage.header.condition}</Header>}
         <Clearfix height={12} />
         <Row gutter={12}>
           <Col span={12}>
-            <FormItem label={i18n.detailPage.label.country}>
+            <FormItem label={i18n().detailPage.label.country}>
               <Select
                 style={{ width: '100%' }}
-                value={i18n.init.country}
+                value={i18n().init.country}
                 disabled={true}
               ></Select>
             </FormItem>
           </Col>
 
           <Col span={12}>
-            <FormItem label={i18n.detailPage.label.city}>
+            <FormItem label={i18n().detailPage.label.city}>
               {form.getFieldDecorator(
                 `config.${FIELDS.CITY_ID}`,
                 {}
@@ -80,12 +80,12 @@ export default class Condition extends React.Component {
           </Col>
 
           <Col span={12}>
-            <FormItem label={i18n.detailPage.label.paramenter} required>
+            <FormItem label={i18n().detailPage.label.paramenter} required>
               {form.getFieldDecorator(`config.${FIELDS.PARAMETER}`, {
                 rules: [
                   {
                     required: true,
-                    message: i18n.rules.requireChoose,
+                    message: i18n().rules.requireChoose,
                   },
                 ],
               })(
@@ -97,7 +97,7 @@ export default class Condition extends React.Component {
           </Col>
 
           <Col span={12}>
-            <FormItem label={i18n.detailPage.label.days} required>
+            <FormItem label={i18n().detailPage.label.days} required>
               {form.getFieldDecorator(
                 `config.${FIELDS.DAYS}`,
                 {}

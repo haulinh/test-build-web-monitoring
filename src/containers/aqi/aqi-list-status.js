@@ -10,16 +10,18 @@ const WrapperView = styled.div`
   flex: 1;
 `
 
-const i18n = {
-  title: translate('pageInfo.body3'),
-  next: translate('actions.next'),
+function i18n() {
+  return {
+    title: translate('pageInfo.body3'),
+    next: translate('actions.next'),
+  }
 }
 export default function AqiListStatus(props) {
   return (
     <WrapperView>
       <Result
         icon={<img alt="" src={'/images/list.svg'} width="auto" />}
-        title={i18n.title}
+        title={i18n().title}
         extra={
           <Button
             onClick={() => {
@@ -27,7 +29,7 @@ export default function AqiListStatus(props) {
             }}
             type="primary"
           >
-            {i18n.next}
+            {i18n().next}
           </Button>
         }
       />

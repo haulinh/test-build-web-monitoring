@@ -5,22 +5,25 @@ import styled from 'styled-components'
 import { translate } from 'hoc/create-lang'
 import { getStationAuto } from 'api/StationAuto'
 
-const i18n = {
-  title: translate('stationAutoManager.infoStation.title'),
-  edit: translate('stationAutoManager.infoStation.edit'),
-  career: translate('stationAutoManager.infoStation.career'),
-  empty: translate('stationAutoManager.infoStation.emptyText'),
-  yearOperate: translate('stationAutoManager.infoStation.yearOperate'),
-  capacity: translate('stationAutoManager.infoStation.capacity'),
-  processProduction: translate(
-    'stationAutoManager.infoStation.processProduction'
-  ),
-  userResponsible: translate('stationAutoManager.infoStation.userResponsible'),
-  userSupervisor: translate('stationAutoManager.infoStation.userSupervisor'),
-  material: translate('stationAutoManager.infoStation.material'),
-  website: translate('stationAutoManager.infoStation.website'),
+function i18n() {
+  return {
+    title: translate('stationAutoManager.infoStation.title'),
+    edit: translate('stationAutoManager.infoStation.edit'),
+    career: translate('stationAutoManager.infoStation.career'),
+    empty: translate('stationAutoManager.infoStation.emptyText'),
+    yearOperate: translate('stationAutoManager.infoStation.yearOperate'),
+    capacity: translate('stationAutoManager.infoStation.capacity'),
+    processProduction: translate(
+      'stationAutoManager.infoStation.processProduction'
+    ),
+    userResponsible: translate(
+      'stationAutoManager.infoStation.userResponsible'
+    ),
+    userSupervisor: translate('stationAutoManager.infoStation.userSupervisor'),
+    material: translate('stationAutoManager.infoStation.material'),
+    website: translate('stationAutoManager.infoStation.website'),
+  }
 }
-
 const TextColor = styled.p`
   font-size: 20px;
   color: #1890ff;
@@ -76,7 +79,7 @@ const InfoItem = ({ iconType, label, desc, title }) => (
       </Flex>
     </WrapperItem>
     <WrapperItem span={!title ? 23 : 8}>
-      {!label && !desc && <Text>{i18n.empty}</Text>}
+      {!label && !desc && <Text>{i18n().empty}</Text>}
       {label && <Text>{label}</Text>}
       {desc && <TextColor>{desc}</TextColor>}
     </WrapperItem>
@@ -104,8 +107,8 @@ export default class DrawerInfoStation extends React.Component {
     }
   }
 
-  getStrPhone=(phone)=>{
-    if(phone && typeof phone === 'object'){
+  getStrPhone = phone => {
+    if (phone && typeof phone === 'object') {
       return phone.phoneNumber
     }
     return phone
@@ -130,7 +133,7 @@ export default class DrawerInfoStation extends React.Component {
       <React.Fragment>
         <Wrapper>
           <WrapperItem span={8}>
-            <Title>{i18n.title}</Title>
+            <Title>{i18n().title}</Title>
           </WrapperItem>
           <WrapperItem span={8} offset={8}>
             <Col span={4} offset={12}>
@@ -143,7 +146,7 @@ export default class DrawerInfoStation extends React.Component {
                   type="edit"
                   theme="outlined"
                 />
-                {i18n.edit}
+                {i18n().edit}
               </Button>
             </Col>
           </WrapperItem>
@@ -154,24 +157,24 @@ export default class DrawerInfoStation extends React.Component {
         <InfoItem
           iconType="team"
           label={userResponsible}
-          desc={ this.getStrPhone(phoneResponsible)}
-          title={i18n.userResponsible}
+          desc={this.getStrPhone(phoneResponsible)}
+          title={i18n().userResponsible}
         />
         <Divider style={{ margin: 0 }} />
         <InfoItem
           iconType="user"
           label={userSupervisor}
-          desc={ this.getStrPhone(phoneSupervisor)}
-          title={i18n.userSupervisor}
+          desc={this.getStrPhone(phoneSupervisor)}
+          title={i18n().userSupervisor}
         />
         <Divider style={{ margin: 0 }} />
-        <InfoItem iconType="global" label={website} title={i18n.website} />
+        <InfoItem iconType="global" label={website} title={i18n().website} />
         <Divider style={{ margin: 0 }} />
-        <InfoItem title={i18n.career} label={career} />
-        <InfoItem title={i18n.yearOperate} label={yearOperate} />
-        <InfoItem title={i18n.capacity} label={capacity} />
-        <InfoItem title={i18n.processProduction} label={processProduction} />
-        <InfoItem title={i18n.material} label={material} />
+        <InfoItem title={i18n().career} label={career} />
+        <InfoItem title={i18n().yearOperate} label={yearOperate} />
+        <InfoItem title={i18n().capacity} label={capacity} />
+        <InfoItem title={i18n().processProduction} label={processProduction} />
+        <InfoItem title={i18n().material} label={material} />
       </React.Fragment>
     )
   }

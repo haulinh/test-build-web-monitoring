@@ -6,11 +6,10 @@ import { connectAutoDispatch } from 'redux/connect'
 import { changeLanguage } from 'redux/actions/languageAction'
 import { autobind } from 'core-decorators'
 import dot from 'dot'
-import languages from 'languages'
+import languages, { getData } from 'languages'
 import { getLanguage } from 'utils/localStorage'
 
-window.currentLanguage = languages[getLanguage()]
-
+// window.currentLanguage = languages()[getLanguage()]
 // eslint-disable-next-line
 export const langPropTypes = PropTypes.shape({
   t: PropTypes.func,
@@ -52,6 +51,7 @@ export function translate(key, params = {}, isParse = true) {
     typeof window !== 'undefined'
       ? window.currentLanguage
       : global.currentLanguage
+
   let translated = objectPath.get(languageData, key)
   if (translated && isParse) {
     const tempFn = dot.template(translated)
@@ -62,7 +62,7 @@ export function translate(key, params = {}, isParse = true) {
 const createLanguageHoc = Component => {
   @connectAutoDispatch(
     state => ({
-      languageData: state.language.data[state.language.locale],
+      languageData: state.language.dataInitial[state.language.locale],
       languageLocale: state.language.locale,
     }),
     { changeLanguage }
