@@ -13,24 +13,6 @@ import createLang from 'hoc/create-lang'
 import { putProfile } from 'api/AuthApi'
 import { get } from 'lodash'
 
-const languages = [
-  {
-    flag: 'US',
-    locale: 'en',
-    name: 'English',
-  },
-  {
-    flag: 'VN',
-    locale: 'vi',
-    name: 'Vietnamese',
-  },
-  {
-    flag: 'TW',
-    locale: 'tw',
-    name: 'Taiwan',
-  },
-]
-
 const FlagWrapper = styled.div`
   width: 30px;
   height: 30px;
@@ -52,6 +34,7 @@ const LabelWrapper = styled.div`
 @autobind
 @connect(state => ({
   userId: get(state, 'auth.userInfo._id'),
+  listLanguage: get(state, 'language.listLanguage'),
 }))
 export default class ChangeLanguage extends React.Component {
   async selectLanguage(e, item) {
@@ -63,7 +46,7 @@ export default class ChangeLanguage extends React.Component {
   }
 
   getFlag() {
-    const language = languages.find(
+    const language = this.props.listLanguage.find(
       lang => lang.locale === this.props.lang.locale
     )
     if (!language) return
@@ -84,20 +67,22 @@ export default class ChangeLanguage extends React.Component {
         }
       >
         <DropdownItemGroup title={`change language`}>
-          {languages.map((item, index) => {
-            return (
-              <DropdownItem
-                key={index}
-                onClick={e => this.selectLanguage(e, item)}
-              >
-                <DropdownItemWrapper>
-                  <FlagIcon code={item.flag} size={25} />
-                  <LabelWrapper>
-                    <span>{item.name}</span>{' '}
-                  </LabelWrapper>
-                </DropdownItemWrapper>
-              </DropdownItem>
-            )
+          {this.props.listLanguage.map((item, index) => {
+            if (item.enable) {
+              return (
+                <DropdownItem
+                  key={index}
+                  onClick={e => this.selectLanguage(e, item)}
+                >
+                  <DropdownItemWrapper>
+                    <FlagIcon code={item.flag} size={25} />
+                    <LabelWrapper>
+                      <span>{item.name}</span>{' '}
+                    </LabelWrapper>
+                  </DropdownItemWrapper>
+                </DropdownItem>
+              )
+            } else return null
           })}
         </DropdownItemGroup>
       </AkDropdownMenu>

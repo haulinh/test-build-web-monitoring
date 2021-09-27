@@ -97,7 +97,7 @@ export default class JsonViewCustom extends Component {
           {i18n().jsonView}
         </Button>
         <Modal
-          width={720}
+          width={'80%'}
           title={this.props.title}
           visible={this.state.visible}
           onOk={this.handleOk}
@@ -109,6 +109,17 @@ export default class JsonViewCustom extends Component {
             onEdit={this.props.isEdit ? this.handleEditJson : false}
             src={this.getContent()}
           />
+          {/* <Row>
+            <Col span={12}>
+              <ReactJson
+                onEdit={this.props.isEdit ? this.handleEditJson : false}
+                src={this.getContent()}
+              />
+            </Col>
+            <Col span={12}>
+              <ReactJson onEdit={false} src={this.getContent()} />
+            </Col>
+          </Row> */}
         </Modal>
       </React.Fragment>
     )

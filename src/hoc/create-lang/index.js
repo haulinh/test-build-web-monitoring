@@ -10,7 +10,6 @@ import languages, { getData } from 'languages'
 import { getLanguage } from 'utils/localStorage'
 
 // window.currentLanguage = languages()[getLanguage()]
-console.log('after')
 // eslint-disable-next-line
 export const langPropTypes = PropTypes.shape({
   t: PropTypes.func,

@@ -670,7 +670,6 @@ export default {
       },
     },
   },
-
   avgSearchFrom: {
     titleText: 'Dữ liệu trung bình',
     excelMultiple: 'Đang xử lý, báo cáo sẽ được gửi qua email của bạn: ',
@@ -2591,6 +2590,7 @@ export default {
       error: 'Vô hiệu hóa thất bại',
     },
     onRestore: {
+      resetConfirmMsg: 'Bạn có muốn khôi phục lại?',
       success: 'Khôi phục thành công',
       error: 'Khôi phục thất bại',
     },
@@ -3628,9 +3628,9 @@ export default {
       province: 'Quản lý đơn vị quản lý',
       configWQI: 'Cấu hình WQI',
     },
-    edit: {
-      success: 'Cập nhật thành công!',
-      error: 'Cập nhật thất bại!',
+    tabs: {
+      tab1: 'Ngôn ngữ',
+      tab2: 'Dịch thuật',
     },
     list: {
       emptyView: 'Không có dữ liệu',
@@ -3641,7 +3641,9 @@ export default {
       colVI: 'Việt Nam',
       colEN: 'Tiếng Anh',
       colTW: 'Tiếng Đài Loan',
+      colLanguage: 'Ngôn ngữ',
       jsonView: 'Xem Json',
+      colStatus: 'Trạng thái',
     },
   },
   billing: {
