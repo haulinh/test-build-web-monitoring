@@ -14,24 +14,26 @@ import MeasuringList from './measuring-list'
 
 const FormItem = Form.Item
 
-const i18n = {
-  key: {
-    required: translate('qcvn.form.key.required'),
-    pattern: translate('qcvn.form.key.pattern'),
-    max: translate('qcvn.form.key.max'),
-  },
-  name: {
-    required: translate('qcvn.form.name.required'),
-    pattern: translate('qcvn.form.name.pattern'),
-    max: translate('qcvn.form.name.max'),
-  },
-  measuringList: {
-    required: translate('qcvn.form.measuringList.required'),
-    validate1: translate('qcvn.form.measuringList.validate1'),
-    validate2: translate('qcvn.form.measuringList.validate2'),
-    validate3: translate('qcvn.form.measuringList.validate3'),
-    validate4: translate('qcvn.form.measuringList.validate4'),
-  },
+function i18n() {
+  return {
+    key: {
+      required: translate('qcvn.form.key.required'),
+      pattern: translate('qcvn.form.key.pattern'),
+      max: translate('qcvn.form.key.max'),
+    },
+    name: {
+      required: translate('qcvn.form.name.required'),
+      pattern: translate('qcvn.form.name.pattern'),
+      max: translate('qcvn.form.name.max'),
+    },
+    measuringList: {
+      required: translate('qcvn.form.measuringList.required'),
+      validate1: translate('qcvn.form.measuringList.validate1'),
+      validate2: translate('qcvn.form.measuringList.validate2'),
+      validate3: translate('qcvn.form.measuringList.validate3'),
+      validate4: translate('qcvn.form.measuringList.validate4'),
+    },
+  }
 }
 
 @Form.create({
@@ -158,7 +160,7 @@ export default class QCVNForm extends React.PureComponent {
       : [
           {
             pattern: PATTERN_KEY,
-            message: i18n.key.pattern,
+            message: i18n().key.pattern,
           },
         ]
 
@@ -171,11 +173,11 @@ export default class QCVNForm extends React.PureComponent {
                 rules: [
                   {
                     required: true,
-                    message: i18n.key.required,
+                    message: i18n().key.required,
                   },
                   {
                     max: 64,
-                    message: i18n.key.max,
+                    message: i18n().key.max,
                   },
                   ...roleKey,
                 ],
@@ -195,15 +197,15 @@ export default class QCVNForm extends React.PureComponent {
                   {
                     required: true,
                     whitespace: true,
-                    message: i18n.name.required,
+                    message: i18n().name.required,
                   },
                   {
                     pattern: PATTERN_NAME,
-                    message: i18n.name.pattern,
+                    message: i18n().name.pattern,
                   },
                   {
                     max: 64,
-                    message: i18n.name.max,
+                    message: i18n().name.max,
                   },
                 ],
               })(
@@ -284,7 +286,7 @@ export default class QCVNForm extends React.PureComponent {
                   {
                     type: 'array',
                     required: true,
-                    message: i18n.measuringList.required,
+                    message: i18n().measuringList.required,
                   },
                   {
                     validator: (rule, value, callback) =>
@@ -319,7 +321,7 @@ export default class QCVNForm extends React.PureComponent {
           _.isNumber(item.maxLimit) &&
           item.minLimit > item.maxLimit
         ) {
-          strItem = _.concat(strItem, ` -- ${i18n.measuringList.validate1}`)
+          strItem = _.concat(strItem, ` -- ${i18n().measuringList.validate1}`)
           isBound = true
         }
 

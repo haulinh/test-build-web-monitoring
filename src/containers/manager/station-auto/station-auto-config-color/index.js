@@ -13,9 +13,11 @@ import Breadcrumb from '../breadcrumb'
 
 const { TabPane } = Tabs
 
-const i18n = {
-  tabColorData: translate('page.config.color.button.selectTabData'),
-  tabColorSensor: translate('page.config.color.button.selectTabSensor'),
+function i18n() {
+  return {
+    tabColorData: translate('page.config.color.button.selectTabData'),
+    tabColorSensor: translate('page.config.color.button.selectTabSensor'),
+  }
 }
 
 @Form.create({})
@@ -47,13 +49,13 @@ export default class StationAutoConfigColor extends React.Component {
             value={keyData}
             style={{ width: '50%', textAlign: 'center' }}
           >
-            {i18n.tabColorData}
+            {i18n().tabColorData}
           </Radio.Button>
           <Radio.Button
             value={keySensor}
             style={{ width: '50%', textAlign: 'center' }}
           >
-            {i18n.tabColorSensor}
+            {i18n().tabColorSensor}
           </Radio.Button>
         </Radio.Group>
 

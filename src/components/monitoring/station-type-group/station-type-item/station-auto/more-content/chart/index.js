@@ -30,9 +30,11 @@ const BieuDoMonitoringWrapper = styled.div`
 
 const defaultChartType = 'hours'
 
-const i18n = {
-  avgHour: translate('monitoring.moreContent.chart.tab.avgHour'),
-  avgDay: translate('monitoring.moreContent.chart.tab.avgDay'),
+function i18n() {
+  return {
+    avgHour: translate('monitoring.moreContent.chart.tab.avgHour'),
+    avgDay: translate('monitoring.moreContent.chart.tab.avgDay'),
+  }
 }
 
 @withRouter
@@ -89,8 +91,8 @@ export default class ChartMoreInfo extends React.Component {
                 onChange={this.handleChartTypeOnChange}
                 // buttonStyle="solid"
               >
-                <RadioButton value="hours">{i18n.avgHour}</RadioButton>
-                <RadioButton value="days">{i18n.avgDay}</RadioButton>
+                <RadioButton value="hours">{i18n().avgHour}</RadioButton>
+                <RadioButton value="days">{i18n().avgDay}</RadioButton>
               </RadioGroup>
             </Col>
           </Row>

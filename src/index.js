@@ -43,7 +43,7 @@ const store = configureStore(getStoreDefault(), {
 })
 
 getFetch('/app.json').then(dataConfig => {
-  // console.log('dataConfig',dataConfig)
+  // console.log('dataConfig', getLanguage())
   window.config = dataConfig
 
   // console.log('dataConfig',dataConfig)

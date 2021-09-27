@@ -23,23 +23,25 @@ import swal from 'sweetalert2'
 
 import DynamicTable from 'components/elements/dynamic-table'
 
-const i18n = {
-  // cancel: 'Bõ chọn', /* MARK  @translate */
-  submit: translate('addon.save'),
-  warning: translate('addon.warning'),
-  refresh: translate('addon.refresh'),
-  cancel: translate('addon.cancel'),
-  updateSuccess: translate('addon.onSave.update.success'),
-  updateError: translate('addon.onSave.update.error'),
-  stationName: translate('stationAutoManager.form.name.label'),
-  stationAddr: translate('stationAutoManager.form.address.label'),
-  manager: translate('stationAutoManager.options.userRole.stationManager'),
-  sendNotification: translate(
-    'stationAutoManager.options.userRole.sendNotification'
-  ),
-  sms: translate('stationAutoManager.options.userRole.sms'),
-  email: translate('stationAutoManager.options.userRole.email'),
-  VersionError: translate('serverResponse.error.VersionError'),
+function i18n() {
+  return {
+    // cancel: 'Bõ chọn', /* MARK  @translate */
+    submit: translate('addon.save'),
+    warning: translate('addon.warning'),
+    refresh: translate('addon.refresh'),
+    cancel: translate('addon.cancel'),
+    updateSuccess: translate('addon.onSave.update.success'),
+    updateError: translate('addon.onSave.update.error'),
+    stationName: translate('stationAutoManager.form.name.label'),
+    stationAddr: translate('stationAutoManager.form.address.label'),
+    manager: translate('stationAutoManager.options.userRole.stationManager'),
+    sendNotification: translate(
+      'stationAutoManager.options.userRole.sendNotification'
+    ),
+    sms: translate('stationAutoManager.options.userRole.sms'),
+    email: translate('stationAutoManager.options.userRole.email'),
+    VersionError: translate('serverResponse.error.VersionError'),
+  }
 }
 
 const showSuccess = msg => {
@@ -155,7 +157,7 @@ export default class StationAutoConfigNotification extends React.Component {
 
         <Row style={{ marginBottom: 16 }}>
           {/* NOTE  KHONG XOA, uncomment khi a @hung thay đổi yêu cầu */}
-          {/* <Button onClick={this.props.clearCache}>{i18n.cancel}</Button> */}
+          {/* <Button onClick={this.props.clearCache}>{i18n().cancel}</Button> */}
           <Button
             block
             type="primary"
@@ -163,7 +165,7 @@ export default class StationAutoConfigNotification extends React.Component {
             onClick={this.submitCache}
             disabled={isAllowSubmit}
           >
-            {i18n.submit}
+            {i18n().submit}
           </Button>
         </Row>
       </PageContainer>
@@ -185,8 +187,8 @@ export default class StationAutoConfigNotification extends React.Component {
     // const isDisabledCheckAll = !this.state.isManagerCheckAll && !this.state.isManagerIndeterminate
     return [
       { content: '#', width: 2 },
-      { content: i18n.stationName, width: 15 },
-      { content: i18n.stationAddr, width: 20 },
+      { content: i18n().stationName, width: 15 },
+      { content: i18n().stationAddr, width: 20 },
       {
         content: (
           <div>
@@ -195,21 +197,21 @@ export default class StationAutoConfigNotification extends React.Component {
               checked={this.state.isManagerCheckAll}
               onChange={e => this.onChagedOptionOfHeader(e.target.checked)}
             />
-            &nbsp;&nbsp;{i18n.manager}
+            &nbsp;&nbsp;{i18n().manager}
           </div>
         ),
         width: 15,
       },
       // {
-      //   content: <div>{i18n.sendNotification}</div>,
+      //   content: <div>{i18n().sendNotification}</div>,
       //   width: 15,
       // },
       // {
-      //   content: <div>{i18n.sms}</div>,
+      //   content: <div>{i18n().sms}</div>,
       //   width: 10,
       // },
       // {
-      //   content: <div>{i18n.email}</div>,
+      //   content: <div>{i18n().email}</div>,
       //   width: 10,
       // },
     ]
@@ -536,18 +538,18 @@ export default class StationAutoConfigNotification extends React.Component {
         cachedData: {},
       })
       this.refSearchForm.updateUserVersion(selectedUser._id)
-      showSuccess(i18n.updateSuccess)
+      showSuccess(i18n().updateSuccess)
       this.refSearchForm.getUsers()
     } else if (res.error) {
       if (res.code === 'VersionError') {
         swal({
           type: 'warning',
-          title: i18n.warning,
-          text: i18n.VersionError,
+          title: i18n().warning,
+          text: i18n().VersionError,
           showCancelButton: true,
-          cancelButtonText: i18n.cancel,
+          cancelButtonText: i18n().cancel,
           focusConfirm: true,
-          confirmButtonText: i18n.refresh,
+          confirmButtonText: i18n().refresh,
           showLoaderOnConfirm: true,
           allowOutsideClick: () => !swal.isLoading(),
           preConfirm: async () => {
@@ -555,17 +557,17 @@ export default class StationAutoConfigNotification extends React.Component {
           },
         })
           .then(() => {
-            showSuccess(i18n.updateSuccess)
+            showSuccess(i18n().updateSuccess)
           })
           .catch(() => {
             swal({
-              title: i18n.updateError,
+              title: i18n().updateError,
               type: 'error',
             })
           })
       } else {
         swal({
-          title: i18n.updateError,
+          title: i18n().updateError,
           type: 'error',
         })
       }

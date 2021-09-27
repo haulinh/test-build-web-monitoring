@@ -10,11 +10,13 @@ import { connectAutoDispatch } from 'redux/connect'
 const FormItem = Form.Item
 
 /* MARK  @translate */
-const i18n = {
-  enterYourPwd: translate('security.enterPassword'),
-  confirmPwd: translate('security.confirm'),
-  confirmPwdLabel: translate('security.confirmPasswordLabel'),
-  confirmPwdError: translate('security.confirmPasswordError'),
+function i18n() {
+  return {
+    enterYourPwd: translate('security.enterPassword'),
+    confirmPwd: translate('security.confirm'),
+    confirmPwdLabel: translate('security.confirmPasswordLabel'),
+    confirmPwdError: translate('security.confirmPasswordError'),
+  }
 }
 
 @connectAutoDispatch(
@@ -53,13 +55,13 @@ export default class SecurityFormConfirm extends PureComponent {
             </Button>
           </Col>
           <Col span={24} style={{ marginTop: 30 }}>
-            <FormItem label={i18n.confirmPwdLabel} {...confirmPasswordInfo}>
+            <FormItem label={i18n().confirmPwdLabel} {...confirmPasswordInfo}>
               {getFieldDecorator('password', {
                 initialValue: '',
               })(
                 <Input.Password
                   size="large"
-                  placeholder={i18n.enterYourPwd}
+                  placeholder={i18n().enterYourPwd}
                   autoComplete="off"
                 />
               )}
@@ -73,7 +75,7 @@ export default class SecurityFormConfirm extends PureComponent {
               disabled={!getFieldValue('password')}
               htmlType="submit"
             >
-              {i18n.confirmPwd}
+              {i18n().confirmPwd}
             </Button>
           </Col>
         </Row>
@@ -98,7 +100,7 @@ export default class SecurityFormConfirm extends PureComponent {
           confirmPasswordInfo: {
             ...this.state.confirmPasswordInfo,
             validateStatus: 'error',
-            help: i18n.confirmPwdError,
+            help: i18n().confirmPwdError,
           },
         })
       }

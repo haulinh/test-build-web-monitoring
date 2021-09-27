@@ -42,19 +42,23 @@ const HeaderDesc = styled.div`
   justify-content: space-between;
 `
 
-const i18n = {
-  sensorGood: translate('common.deviceStatus.sensorGoodMonitoring'),
-  sensorError: translate('common.deviceStatus.sensorErrorMonitoring'),
-  sensorMaintain: translate('common.deviceStatus.sensorMaintainMonitoring'),
-  overview: translate('common.overview'),
-  list: translate('common.list'),
-  statusSensor: translate('common.statusSensor'),
-  statusData: translate('common.statusData'),
+function i18n() {
+  return {
+    sensorGood: translate('common.deviceStatus.sensorGoodMonitoring'),
+    sensorError: translate('common.deviceStatus.sensorErrorMonitoring'),
+    sensorMaintain: translate('common.deviceStatus.sensorMaintainMonitoring'),
+    overview: translate('common.overview'),
+    list: translate('common.list'),
+    statusSensor: translate('common.statusSensor'),
+    statusData: translate('common.statusData'),
 
-  dataLoss: translate('common.deviceStatus.dataLossMonitoring'),
-  dataExceeded: translate('common.deviceStatus.dataExceededMonitoring'),
-  dataExceededPrepare: translate('common.deviceStatus.dataExceededPrepareMonitoring'),
-  dataGood: translate('common.deviceStatus.dataGoodMonitoring'),
+    dataLoss: translate('common.deviceStatus.dataLossMonitoring'),
+    dataExceeded: translate('common.deviceStatus.dataExceededMonitoring'),
+    dataExceededPrepare: translate(
+      'common.deviceStatus.dataExceededPrepareMonitoring'
+    ),
+    dataGood: translate('common.deviceStatus.dataGoodMonitoring'),
+  }
 }
 
 const ListLoader = createContentLoader({
@@ -271,7 +275,8 @@ export default class MonitoringGeneral extends React.Component {
                 ))
             if (hasStation) {
               total = total + 1
-              countGood = countGood + (_.isEqual(status, 'DATA_CONNECTED') ? 1 : 0)
+              countGood =
+                countGood + (_.isEqual(status, 'DATA_CONNECTED') ? 1 : 0)
             }
 
             return hasStation

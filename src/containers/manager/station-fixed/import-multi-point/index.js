@@ -70,77 +70,85 @@ const Container = styled.div`
   }
 `
 
-const i18n = {
-  stationFixedTitle: t('stationFixedPoint.list.title'),
-  importPoint: t('stationFixedPoint.importPoint.title'),
-  description: t('importDataPoint.description'),
-  startUpload: t('importDataPoint.startUpload'),
-  phaseLabel: t('importDataPoint.phaseLabel'),
-  stationTypeLabel: t('importDataPoint.stationTypeLabel'),
-  requirements: t('importDataPoint.requirements'),
-  step1: t('importDataPoint.step1'),
-  step2: t('importDataPoint.step2'),
-  downloadText: t('importDataPoint.downloadText'),
-  uploadText: t('importDataPoint.uploadText'),
-  dragAndDrop: t('importDataPoint.dragAndDrop'),
-  errorTitle: t('importDataPoint.errorTitle'),
-  errorMessage: t('importDataPoint.errorMessage'),
-  successTitle: t('importDataPoint.successTitle'),
-  successMessage: count => t('importDataPoint.successMessage', { count }),
-  line: t('importDataPoint.line'),
-  upload: t('global.upload'),
-  duplicateData: t('stationFixedPoint.importPoint.errors.duplicateData'),
-  requireField: t('stationFixedPoint.importPoint.errors.requireField'),
-  invalidDataSheet: t('stationFixedPoint.importPoint.errors.invalidDataSheet'),
-  invalidName: t('stationFixedPoint.importPoint.errors.invalidName'),
-  invalidLatitude: t('stationFixedPoint.importPoint.errors.invalidLatitude'),
-  invalidLongitude: t('stationFixedPoint.importPoint.errors.invalidLongitude'),
-  invalidAddress: t('stationFixedPoint.importPoint.errors.invalidAddress'),
-  qcvnKeyNotExist: t('stationFixedPoint.importPoint.errors.qcvnKeyNotExist'),
-  stationTypeKeyNotExist: t(
-    'stationFixedPoint.importPoint.errors.stationTypeKeyNotExist'
-  ),
-  measureKeyNotExist: t(
-    'stationFixedPoint.importPoint.errors.measureKeyNotExist'
-  ),
-  noData: t('stationFixedPoint.importPoint.errors.noData'),
-  invalidStationType: t(
-    'stationFixedPoint.importPoint.errors.invalidStationType'
-  ),
-  invalidKey: t('stationFixedPoint.importPoint.errors.invalidKey'),
-  duplicateMeasure: t('stationFixedPoint.importPoint.errors.duplicateMeasure'),
-  requireOneMeasureParamerter: t(
-    'stationFixedPoint.importPoint.errors.requireOneMeasureParamerter'
-  ),
-  requiredField: {
-    key: t('stationFixedPoint.importPoint.requiredField.key'),
-    name: t('stationFixedPoint.importPoint.requiredField.name'),
-    stationTypeKey: t(
-      'stationFixedPoint.importPoint.requiredField.stationType'
+function i18n() {
+  return {
+    stationFixedTitle: t('stationFixedPoint.list.title'),
+    importPoint: t('stationFixedPoint.importPoint.title'),
+    description: t('importDataPoint.description'),
+    startUpload: t('importDataPoint.startUpload'),
+    phaseLabel: t('importDataPoint.phaseLabel'),
+    stationTypeLabel: t('importDataPoint.stationTypeLabel'),
+    requirements: t('importDataPoint.requirements'),
+    step1: t('importDataPoint.step1'),
+    step2: t('importDataPoint.step2'),
+    downloadText: t('importDataPoint.downloadText'),
+    uploadText: t('importDataPoint.uploadText'),
+    dragAndDrop: t('importDataPoint.dragAndDrop'),
+    errorTitle: t('importDataPoint.errorTitle'),
+    errorMessage: t('importDataPoint.errorMessage'),
+    successTitle: t('importDataPoint.successTitle'),
+    successMessage: count => t('importDataPoint.successMessage', { count }),
+    line: t('importDataPoint.line'),
+    upload: t('global.upload'),
+    duplicateData: t('stationFixedPoint.importPoint.errors.duplicateData'),
+    requireField: t('stationFixedPoint.importPoint.errors.requireField'),
+    invalidDataSheet: t(
+      'stationFixedPoint.importPoint.errors.invalidDataSheet'
     ),
-    lat: t('stationFixedPoint.importPoint.requiredField.lat'),
-    lng: t('stationFixedPoint.importPoint.requiredField.lng'),
-  },
+    invalidName: t('stationFixedPoint.importPoint.errors.invalidName'),
+    invalidLatitude: t('stationFixedPoint.importPoint.errors.invalidLatitude'),
+    invalidLongitude: t(
+      'stationFixedPoint.importPoint.errors.invalidLongitude'
+    ),
+    invalidAddress: t('stationFixedPoint.importPoint.errors.invalidAddress'),
+    qcvnKeyNotExist: t('stationFixedPoint.importPoint.errors.qcvnKeyNotExist'),
+    stationTypeKeyNotExist: t(
+      'stationFixedPoint.importPoint.errors.stationTypeKeyNotExist'
+    ),
+    measureKeyNotExist: t(
+      'stationFixedPoint.importPoint.errors.measureKeyNotExist'
+    ),
+    noData: t('stationFixedPoint.importPoint.errors.noData'),
+    invalidStationType: t(
+      'stationFixedPoint.importPoint.errors.invalidStationType'
+    ),
+    invalidKey: t('stationFixedPoint.importPoint.errors.invalidKey'),
+    duplicateMeasure: t(
+      'stationFixedPoint.importPoint.errors.duplicateMeasure'
+    ),
+    requireOneMeasureParamerter: t(
+      'stationFixedPoint.importPoint.errors.requireOneMeasureParamerter'
+    ),
+    requiredField: {
+      key: t('stationFixedPoint.importPoint.requiredField.key'),
+      name: t('stationFixedPoint.importPoint.requiredField.name'),
+      stationTypeKey: t(
+        'stationFixedPoint.importPoint.requiredField.stationType'
+      ),
+      lat: t('stationFixedPoint.importPoint.requiredField.lat'),
+      lng: t('stationFixedPoint.importPoint.requiredField.lng'),
+    },
+  }
 }
 
 const FIELDS = { FILE: 'file' }
 
 const IMPORT_DATA_ERROR = {
-  DUPLICATE_DATA: i18n.duplicateData,
-  REQUIRE_FIELD: i18n.requireField,
-  INVALID_DATA_SHEET: i18n.invalidDataSheet,
-  INVALID_NAME: i18n.invalidName,
-  INVALID_LATITUDE: i18n.invalidLatitude,
-  INVALID_LONGITUDE: i18n.invalidLongitude,
-  INVALID_ADDRESS: i18n.invalidAddress,
-  QCVN_KEY_NOT_EXIST: i18n.qcvnKeyNotExist,
-  STATION_TYPE_KEY_NOT_EXIST: i18n.stationTypeKeyNotExist,
-  MEASURE_KEY_NOT_EXIST: i18n.measureKeyNotExist,
-  NO_DATA: i18n.noData,
-  INVALID_STATION_TYPE: i18n.invalidStationType,
-  INVALID_KEY: i18n.invalidKey,
-  DUPLICATE_MEASURE: i18n.duplicateMeasure,
-  REQUIRE_ONE_MEASURE_PARAMERTER: i18n.requireOneMeasureParamerter,
+  DUPLICATE_DATA: i18n().duplicateData,
+  REQUIRE_FIELD: i18n().requireField,
+  INVALID_DATA_SHEET: i18n().invalidDataSheet,
+  INVALID_NAME: i18n().invalidName,
+  INVALID_LATITUDE: i18n().invalidLatitude,
+  INVALID_LONGITUDE: i18n().invalidLongitude,
+  INVALID_ADDRESS: i18n().invalidAddress,
+  QCVN_KEY_NOT_EXIST: i18n().qcvnKeyNotExist,
+  STATION_TYPE_KEY_NOT_EXIST: i18n().stationTypeKeyNotExist,
+  MEASURE_KEY_NOT_EXIST: i18n().measureKeyNotExist,
+  NO_DATA: i18n().noData,
+  INVALID_STATION_TYPE: i18n().invalidStationType,
+  INVALID_KEY: i18n().invalidKey,
+  DUPLICATE_MEASURE: i18n().duplicateMeasure,
+  REQUIRE_ONE_MEASURE_PARAMERTER: i18n().requireOneMeasureParamerter,
 }
 
 class StationFixedImportData extends React.Component {
@@ -163,7 +171,7 @@ class StationFixedImportData extends React.Component {
         additionalInfo = params
           .trim()
           .split(',')
-          .map(field => i18n.requiredField[field])
+          .map(field => i18n().requiredField[field])
           .join(', ')
         break
       default:
@@ -185,7 +193,7 @@ class StationFixedImportData extends React.Component {
           row =>
             !isEmpty(errorDetail[row]) && (
               <div key={row}>
-                {i18n.line} {row}: {this.getErrorDetail(errorDetail[row])}
+                {i18n().line} {row}: {this.getErrorDetail(errorDetail[row])}
               </div>
             )
         )}
@@ -254,9 +262,9 @@ class StationFixedImportData extends React.Component {
         <Header>
           <Breadcrumb separator=">">
             <Breadcrumb.Item href={slug.stationFixed.base}>
-              {i18n.stationFixedTitle}
+              {i18n().stationFixedTitle}
             </Breadcrumb.Item>
-            <Breadcrumb.Item>{i18n.importPoint}</Breadcrumb.Item>
+            <Breadcrumb.Item>{i18n().importPoint}</Breadcrumb.Item>
           </Breadcrumb>
         </Header>
         <Container>
@@ -268,7 +276,7 @@ class StationFixedImportData extends React.Component {
                   textAlign="center"
                   color="rgba(0, 0, 0, 0.65);"
                 >
-                  {i18n.requirements}
+                  {i18n().requirements}
                 </Text>
               </Col>
             </Row>
@@ -285,11 +293,11 @@ class StationFixedImportData extends React.Component {
                     color="rgba(0, 0, 0, 0.65);"
                     fontWeight="normal"
                   >
-                    {i18n.step1}
+                    {i18n().step1}
                   </Text>
                   <Icon type="download"></Icon>
                   <Text block fontSize={20} color="rgba(0, 0, 0, 0.65);">
-                    {i18n.downloadText}
+                    {i18n().downloadText}
                   </Text>
                 </div>
               </Col>
@@ -305,15 +313,15 @@ class StationFixedImportData extends React.Component {
                     color="rgba(0, 0, 0, 0.65);"
                     fontWeight="normal"
                   >
-                    {i18n.step2}
+                    {i18n().step2}
                   </Text>
                   <Icon type="upload"></Icon>
                   <div>
                     <Text block fontSize={20} color="rgba(0, 0, 0, 0.65);">
-                      {i18n.uploadText}
+                      {i18n().uploadText}
                     </Text>
                     <Text block fontWeight="normal">
-                      {file.name || i18n.dragAndDrop}
+                      {file.name || i18n().dragAndDrop}
                     </Text>
                   </div>
                 </Dragger>
@@ -323,8 +331,8 @@ class StationFixedImportData extends React.Component {
               {isSuccess && (
                 <Col span={16}>
                   <Alert
-                    message={i18n.successTitle}
-                    description={i18n.successMessage(count)}
+                    message={i18n().successTitle}
+                    description={i18n().successMessage(count)}
                     type="success"
                     showIcon
                   />
@@ -333,8 +341,8 @@ class StationFixedImportData extends React.Component {
               {!isEmpty(errorDetail) && (
                 <Col span={16}>
                   <Alert
-                    message={i18n.errorTitle}
-                    description={i18n.errorMessage}
+                    message={i18n().errorTitle}
+                    description={i18n().errorMessage}
                     type="error"
                     showIcon
                   />
@@ -351,7 +359,7 @@ class StationFixedImportData extends React.Component {
                   disabled={isEmpty(file)}
                   loading={isLoading}
                 >
-                  {i18n.upload}
+                  {i18n().upload}
                 </Button>
               </Col>
             </Row>

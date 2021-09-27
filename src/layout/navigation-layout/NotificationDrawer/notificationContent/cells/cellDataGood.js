@@ -7,11 +7,14 @@ import { BoldTextWrap } from './_helperComponent'
 import styled from 'styled-components'
 import _ from 'lodash'
 
-const i18n = {
-  station: translate('common.station'),
-  measures: translate('common.measures'),
-  dataGood: translate('common.deviceStatus.dataGood2'),
+function i18n() {
+  return {
+    station: translate('common.station'),
+    measures: translate('common.measures'),
+    dataGood: translate('common.deviceStatus.dataGood2'),
+  }
 }
+
 const TitleWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -25,9 +28,9 @@ export default function DataGoodCell(props) {
     <React.Fragment>
       <TitleWrapper>
         <BoldTextWrap>
-          {i18n.station} {cellContent.station}
+          {i18n().station} {cellContent.station}
         </BoldTextWrap>
-        <span>&nbsp; {i18n.dataGood}</span>
+        <span>&nbsp; {i18n().dataGood}</span>
       </TitleWrapper>
 
       <ul>

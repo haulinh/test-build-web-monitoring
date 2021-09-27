@@ -11,26 +11,28 @@ export const CHART_TYPE = {
   TABLE: 'table',
 }
 
-const i18n = {
-  column: t('dataAnalytics.chartType.column'),
-  line: t('dataAnalytics.chartType.line'),
-  table: t('dataAnalytics.chartType.table'),
+function i18n() {
+  return {
+    column: t('dataAnalytics.chartType.column'),
+    line: t('dataAnalytics.chartType.line'),
+    table: t('dataAnalytics.chartType.table'),
+  }
 }
 
 const groupButton = [
   {
     iconType: 'bar-chart',
-    title: i18n.column,
+    title: i18n().column,
     key: 'column',
   },
   {
     iconType: 'line-chart',
-    title: i18n.line,
+    title: i18n().line,
     key: 'line',
   },
   {
     iconType: 'table',
-    title: i18n.table,
+    title: i18n().table,
     key: 'table',
   },
 ]

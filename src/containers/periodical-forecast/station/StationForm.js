@@ -19,129 +19,138 @@ const FormItem = styled(Form.Item)`
   }
 `
 
-const i18n = {
-  save: translate('addon.save'),
-  keyExisted: translate('stationFixedPoint.create.keyExisted'),
-  key: {
-    label: translate('periodicalForecast.label.stationKey'),
-    placeholder: translate('periodicalForecast.placeholder.stationKey'),
-    required: translate('stationFixedPoint.form.key.required'),
-    pattern: translate('stationFixedPoint.form.key.pattern'),
-    max: translate('stationFixedPoint.form.key.max'),
-  },
-  name: {
-    label: translate('periodicalForecast.label.stationNam'),
-    placeholder: translate('periodicalForecast.placeholder.name'),
-    required: translate('stationFixedPoint.form.name.required'),
-    pattern: translate('stationFixedPoint.form.name.pattern'),
-    max: translate('stationFixedPoint.form.name.max'),
-  },
-  stationType: {
-    label: translate('stationFixedPoint.form.stationType.label'),
-    placeholder: translate('stationFixedPoint.form.stationType.placeholder'),
-    required: translate('stationFixedPoint.form.stationType.required'),
-  },
-  qcvn: {
-    label: translate('stationFixedPoint.form.qcvn.label'),
-    placeholder: translate('stationFixedPoint.form.qcvn.placeholder'),
-  },
-  lat: {
-    label: translate('stationFixedPoint.form.lat.label'),
-    placeholder: translate('stationFixedPoint.form.lat.placeholder'),
-    required: translate('stationFixedPoint.form.lat.required'),
-    format: translate('stationFixedPoint.form.lat.format'),
-  },
-  lng: {
-    label: translate('stationFixedPoint.form.long.label'),
-    placeholder: translate('stationFixedPoint.form.long.placeholder'),
-    required: translate('stationFixedPoint.form.long.required'),
-    format: translate('stationFixedPoint.form.long.format'),
-  },
-  latVn2000: {
-    label: translate('stationFixedPoint.form.latVn2000.label'),
-    placeholder: translate('stationFixedPoint.form.latVn2000.placeholder'),
-    format: translate('stationFixedPoint.form.latVn2000.format'),
-  },
-  lngVn2000: {
-    label: translate('stationFixedPoint.form.longVn2000.label'),
-    placeholder: translate('stationFixedPoint.form.longVn2000.placeholder'),
-    format: translate('stationFixedPoint.form.longVn2000.format'),
-  },
-  provinceId: {
-    label: translate('stationFixedPoint.form.provinceId.label'),
-    placeholder: translate('stationFixedPoint.form.provinceId.placeholder'),
-  },
-  position: {
-    label: translate('stationFixedPoint.form.position.label'),
-    placeholder: translate('stationFixedPoint.form.position.placeholder'),
-    max: translate('stationFixedPoint.form.position.max'),
-  },
-  address: {
-    label: translate('stationFixedPoint.form.address.label'),
-    placeholder: translate('stationFixedPoint.form.address.placeholder'),
-    max: translate('stationFixedPoint.form.address.max'),
-  },
-  note: {
-    label: translate('stationFixedPoint.form.note.label'),
-    placeholder: translate('stationFixedPoint.form.note.placeholder'),
-  },
-  measuringList: {
-    required: translate('stationFixedPoint.form.measuringList.required'),
-    validate1: translate('stationFixedPoint.form.measuringList.validate1'),
-    validate2: translate('stationFixedPoint.form.measuringList.validate2'),
-    validate3: translate('stationFixedPoint.form.measuringList.validate3'),
-    validate4: translate('stationFixedPoint.form.measuringList.validate4'),
-  },
+function i18n() {
+  return {
+    save: translate('addon.save'),
+    keyExisted: translate('stationFixedPoint.create.keyExisted'),
+    key: {
+      label: translate('periodicalForecast.label.stationKey'),
+      placeholder: translate('periodicalForecast.placeholder.stationKey'),
+      required: translate('stationFixedPoint.form.key.required'),
+      pattern: translate('stationFixedPoint.form.key.pattern'),
+      max: translate('stationFixedPoint.form.key.max'),
+    },
+    name: {
+      label: translate('periodicalForecast.label.stationNam'),
+      placeholder: translate('periodicalForecast.placeholder.name'),
+      required: translate('stationFixedPoint.form.name.required'),
+      pattern: translate('stationFixedPoint.form.name.pattern'),
+      max: translate('stationFixedPoint.form.name.max'),
+    },
+    stationType: {
+      label: translate('stationFixedPoint.form.stationType.label'),
+      placeholder: translate('stationFixedPoint.form.stationType.placeholder'),
+      required: translate('stationFixedPoint.form.stationType.required'),
+    },
+    qcvn: {
+      label: translate('stationFixedPoint.form.qcvn.label'),
+      placeholder: translate('stationFixedPoint.form.qcvn.placeholder'),
+    },
+    lat: {
+      label: translate('stationFixedPoint.form.lat.label'),
+      placeholder: translate('stationFixedPoint.form.lat.placeholder'),
+      required: translate('stationFixedPoint.form.lat.required'),
+      format: translate('stationFixedPoint.form.lat.format'),
+    },
+    lng: {
+      label: translate('stationFixedPoint.form.long.label'),
+      placeholder: translate('stationFixedPoint.form.long.placeholder'),
+      required: translate('stationFixedPoint.form.long.required'),
+      format: translate('stationFixedPoint.form.long.format'),
+    },
+    latVn2000: {
+      label: translate('stationFixedPoint.form.latVn2000.label'),
+      placeholder: translate('stationFixedPoint.form.latVn2000.placeholder'),
+      format: translate('stationFixedPoint.form.latVn2000.format'),
+    },
+    lngVn2000: {
+      label: translate('stationFixedPoint.form.longVn2000.label'),
+      placeholder: translate('stationFixedPoint.form.longVn2000.placeholder'),
+      format: translate('stationFixedPoint.form.longVn2000.format'),
+    },
+    provinceId: {
+      label: translate('stationFixedPoint.form.provinceId.label'),
+      placeholder: translate('stationFixedPoint.form.provinceId.placeholder'),
+    },
+    position: {
+      label: translate('stationFixedPoint.form.position.label'),
+      placeholder: translate('stationFixedPoint.form.position.placeholder'),
+      max: translate('stationFixedPoint.form.position.max'),
+    },
+    address: {
+      label: translate('stationFixedPoint.form.address.label'),
+      placeholder: translate('stationFixedPoint.form.address.placeholder'),
+      max: translate('stationFixedPoint.form.address.max'),
+    },
+    note: {
+      label: translate('stationFixedPoint.form.note.label'),
+      placeholder: translate('stationFixedPoint.form.note.placeholder'),
+    },
+    measuringList: {
+      required: translate('stationFixedPoint.form.measuringList.required'),
+      validate1: translate('stationFixedPoint.form.measuringList.validate1'),
+      validate2: translate('stationFixedPoint.form.measuringList.validate2'),
+      validate3: translate('stationFixedPoint.form.measuringList.validate3'),
+      validate4: translate('stationFixedPoint.form.measuringList.validate4'),
+    },
 
-  panel1: translate('periodicalForecast.label.stationInfo'),
-  panel2: translate('stationAutoManager.form.panel2'),
-  website: {
-    label: translate('stationFixedPoint.form.website.label'),
-    placeholder: translate('stationFixedPoint.form.website.placeholder'),
-  },
-  yearOperate: {
-    label: translate('stationFixedPoint.form.yearOperate.label'),
-    placeholder: translate('stationFixedPoint.form.yearOperate.placeholder'),
-  },
-  userResponsible: {
-    label: translate('stationFixedPoint.form.userResponsible.label'),
-    placeholder: translate(
-      'stationFixedPoint.form.userResponsible.placeholder'
-    ),
-  },
-  userSupervisor: {
-    label: translate('stationFixedPoint.form.userSupervisor.label'),
-    placeholder: translate('stationFixedPoint.form.userSupervisor.placeholder'),
-  },
-  phoneResponsible: {
-    label: translate('stationFixedPoint.form.phoneResponsible.label'),
-    placeholder: translate(
-      'stationFixedPoint.form.phoneResponsible.placeholder'
-    ),
-  },
-  phoneSupervisor: {
-    label: translate('stationFixedPoint.form.phoneSupervisor.label'),
-    placeholder: translate(
-      'stationFixedPoint.form.phoneSupervisor.placeholder'
-    ),
-  },
-  irrigationArea: {
-    label: translate('stationFixedPoint.form.irrigationArea.label'),
-    placeholder: translate('stationFixedPoint.form.irrigationArea.placeholder'),
-  },
-  purposeUsed: {
-    label: translate('stationFixedPoint.form.purposeUsed.label'),
-    placeholder: translate('stationFixedPoint.form.purposeUsed.placeholder'),
-  },
-  lakeCapacity: {
-    label: translate('stationFixedPoint.form.lakeCapacity.label'),
-    placeholder: translate('stationFixedPoint.form.lakeCapacity.placeholder'),
-  },
-  catchmentArea: {
-    label: translate('stationFixedPoint.form.catchmentArea.label'),
-    placeholder: translate('stationFixedPoint.form.catchmentArea.placeholder'),
-  },
+    panel1: translate('periodicalForecast.label.stationInfo'),
+    panel2: translate('stationAutoManager.form.panel2'),
+    website: {
+      label: translate('stationFixedPoint.form.website.label'),
+      placeholder: translate('stationFixedPoint.form.website.placeholder'),
+    },
+    yearOperate: {
+      label: translate('stationFixedPoint.form.yearOperate.label'),
+      placeholder: translate('stationFixedPoint.form.yearOperate.placeholder'),
+    },
+    userResponsible: {
+      label: translate('stationFixedPoint.form.userResponsible.label'),
+      placeholder: translate(
+        'stationFixedPoint.form.userResponsible.placeholder'
+      ),
+    },
+    userSupervisor: {
+      label: translate('stationFixedPoint.form.userSupervisor.label'),
+      placeholder: translate(
+        'stationFixedPoint.form.userSupervisor.placeholder'
+      ),
+    },
+    phoneResponsible: {
+      label: translate('stationFixedPoint.form.phoneResponsible.label'),
+      placeholder: translate(
+        'stationFixedPoint.form.phoneResponsible.placeholder'
+      ),
+    },
+    phoneSupervisor: {
+      label: translate('stationFixedPoint.form.phoneSupervisor.label'),
+      placeholder: translate(
+        'stationFixedPoint.form.phoneSupervisor.placeholder'
+      ),
+    },
+    irrigationArea: {
+      label: translate('stationFixedPoint.form.irrigationArea.label'),
+      placeholder: translate(
+        'stationFixedPoint.form.irrigationArea.placeholder'
+      ),
+    },
+    purposeUsed: {
+      label: translate('stationFixedPoint.form.purposeUsed.label'),
+      placeholder: translate('stationFixedPoint.form.purposeUsed.placeholder'),
+    },
+    lakeCapacity: {
+      label: translate('stationFixedPoint.form.lakeCapacity.label'),
+      placeholder: translate('stationFixedPoint.form.lakeCapacity.placeholder'),
+    },
+    catchmentArea: {
+      label: translate('stationFixedPoint.form.catchmentArea.label'),
+      placeholder: translate(
+        'stationFixedPoint.form.catchmentArea.placeholder'
+      ),
+    },
+  }
 }
+
 const Fields = {
   key: 'key',
   name: 'name',
@@ -198,7 +207,7 @@ export default class StationForm extends React.Component {
           this.props.form.setFields({
             key: {
               value: values.key,
-              errors: [new Error(i18n.keyExisted)],
+              errors: [new Error(i18n().keyExisted)],
             },
           })
         }
@@ -215,7 +224,7 @@ export default class StationForm extends React.Component {
           _.isNumber(item.maxLimit) &&
           item.minLimit > item.maxLimit
         ) {
-          strItem = _.concat(strItem, ` -- ${i18n.measuringList.validate1}`)
+          strItem = _.concat(strItem, ` -- ${i18n().measuringList.validate1}`)
           isBound = true
         }
         if (
@@ -223,7 +232,7 @@ export default class StationForm extends React.Component {
           _.isNumber(item.maxTend) &&
           item.minTend > item.maxTend
         ) {
-          strItem = _.concat(strItem, ` -- ${i18n.measuringList.validate2}`)
+          strItem = _.concat(strItem, ` -- ${i18n().measuringList.validate2}`)
           isBound = true
         }
         if (
@@ -231,7 +240,7 @@ export default class StationForm extends React.Component {
           _.isNumber(item.minTend) &&
           item.minLimit > item.minTend
         ) {
-          strItem = _.concat(strItem, ` -- ${i18n.measuringList.validate3}`)
+          strItem = _.concat(strItem, ` -- ${i18n().measuringList.validate3}`)
           isBound = true
         }
         if (
@@ -239,7 +248,7 @@ export default class StationForm extends React.Component {
           _.isNumber(item.maxTend) &&
           item.maxLimit < item.maxTend
         ) {
-          strItem = _.concat(strItem, ` -- ${i18n.measuringList.validate4}`)
+          strItem = _.concat(strItem, ` -- ${i18n().measuringList.validate4}`)
           isBound = true
         }
         if (isBound) return <div>{strItem}</div>
@@ -287,54 +296,54 @@ export default class StationForm extends React.Component {
           // activeKey={this.state.tabKey}
           defaultActiveKey={['1', '2']}
         >
-          <Panel header={i18n.panel1} key="1">
+          <Panel header={i18n().panel1} key="1">
             <Row gutter={12}>
               <Col span={12}>
-                <FormItem {...formItemLayout} label={i18n.key.label}>
+                <FormItem {...formItemLayout} label={i18n().key.label}>
                   {getFieldDecorator(Fields.key, {
                     rules: [
                       {
                         required: true,
                         whitespace: true,
-                        message: i18n.key.required,
+                        message: i18n().key.required,
                       },
                       {
                         pattern: PATTERN_KEY,
-                        message: i18n.key.pattern,
+                        message: i18n().key.pattern,
                       },
                       {
                         max: 64,
-                        message: i18n.key.max,
+                        message: i18n().key.max,
                       },
                     ],
                   })(
                     <Input
                       disabled={this.props.isEdit ? true : false}
-                      placeholder={i18n.key.placeholder}
+                      placeholder={i18n().key.placeholder}
                     />
                   )}
                 </FormItem>
               </Col>
 
               <Col span={12}>
-                <FormItem {...formItemLayout} label={i18n.name.label}>
+                <FormItem {...formItemLayout} label={i18n().name.label}>
                   {getFieldDecorator(Fields.name, {
                     rules: [
                       {
                         required: true,
                         whitespace: true,
-                        message: i18n.name.required,
+                        message: i18n().name.required,
                       },
                       {
                         pattern: PATTERN_NAME,
-                        message: i18n.name.pattern,
+                        message: i18n().name.pattern,
                       },
                       {
                         max: 64,
-                        message: i18n.name.max,
+                        message: i18n().name.max,
                       },
                     ],
-                  })(<Input placeholder={i18n.name.placeholder} />)}
+                  })(<Input placeholder={i18n().name.placeholder} />)}
                 </FormItem>
               </Col>
             </Row>
@@ -348,19 +357,19 @@ export default class StationForm extends React.Component {
                   wrapperCol={{
                     sm: { span: 21, offset: 0 },
                   }}
-                  label={i18n.address.label}
+                  label={i18n().address.label}
                 >
                   {getFieldDecorator(Fields.address, {
                     rules: [
                       {
                         max: 256,
-                        message: i18n.address.max,
+                        message: i18n().address.max,
                       },
                     ],
                   })(
                     <Input
                       style={{ flex: 1, width: '100%' }}
-                      placeholder={i18n.lat.address}
+                      placeholder={i18n().lat.address}
                     />
                   )}
                 </FormItem>
@@ -375,12 +384,12 @@ export default class StationForm extends React.Component {
                   wrapperCol={{
                     sm: { span: 21, offset: 0 },
                   }}
-                  label={i18n.note.label}
+                  label={i18n().note.label}
                 >
                   {getFieldDecorator('note')(
                     <TextArea
                       style={{ flex: 1, width: '100%' }}
-                      placeholder={i18n.note.placeholder}
+                      placeholder={i18n().note.placeholder}
                     />
                   )}
                 </FormItem>
@@ -394,7 +403,7 @@ export default class StationForm extends React.Component {
                       {
                         type: 'array',
                         required: true,
-                        message: i18n.measuringList.required,
+                        message: i18n().measuringList.required,
                       },
                       {
                         validator: (rule, value, callback) =>
@@ -407,7 +416,7 @@ export default class StationForm extends React.Component {
             </Row>
           </Panel>
 
-          <Panel header={i18n.panel2} key="2">
+          <Panel header={i18n().panel2} key="2">
             <Row gutter={8}>
               <Col span={12}>
                 <FormItem
@@ -472,7 +481,7 @@ export default class StationForm extends React.Component {
                     {}
                   )(
                     <InputNumber
-                      placeholder={i18n.yearOperate.placeholder}
+                      placeholder={i18n().yearOperate.placeholder}
                       editable={true}
                       type="number"
                       style={{ width: '100%' }}
@@ -552,7 +561,7 @@ export default class StationForm extends React.Component {
             htmlType="submit"
             size="large"
           >
-            {i18n.save}
+            {i18n().save}
           </Button>
         </FormItem>
       </Form>

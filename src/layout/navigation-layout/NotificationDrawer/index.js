@@ -1,4 +1,3 @@
-
 import { Drawer, Switch } from 'antd'
 import { translate } from 'hoc/create-lang'
 import _ from 'lodash'
@@ -29,28 +28,6 @@ const SideBarNotificationWrapper = styled(Drawer)`
     align-items: flex-end */
   }
 `
-// const DeleteMarkWrapper = styled.div`
-//   margin-right: 8px;
-// `
-
-// const TitleWrapper = styled.div`
-//   display: flex;
-//   align-items: center;
-//   justify-content: space-between;
-//   .titleIconWrapper {
-//     display: flex;
-//     align-items: center;
-//     h4 {
-//       margin-bottom: 0px;
-//       font-size: 22px;
-//       margin-left: 8px;
-//     }
-//   }
-//   .close {
-//     color: #333 !important;
-//   }
-// `
-
 
 const DivBenTrai = styled.div`
   display: flex;
@@ -69,12 +46,14 @@ const Flex = styled.div`
   justify-content: space-between;
 `
 
-const i18n = {
-  label: translate('notification.label'),
-  removeAll: translate('notification.removeAll'),
-  markAll: translate('notification.markAll'),
-  toolTipEnable: translate('notification.toolTipEnable'),
-  pushNotification: translate('notification.pushNotification'),
+function i18n() {
+  return {
+    label: translate('notification.label'),
+    removeAll: translate('notification.removeAll'),
+    markAll: translate('notification.markAll'),
+    toolTipEnable: translate('notification.toolTipEnable'),
+    pushNotification: translate('notification.pushNotification'),
+  }
 }
 
 @connectAutoDispatch(
@@ -169,9 +148,9 @@ export default class NotificationDrawer extends React.Component {
           <div>
             <Flex>
               <DivBenTrai>
-                <div>{i18n.label}</div>
+                <div>{i18n().label}</div>
                 <div style={{ fontSize: '12px', color: 'rgba(0, 0, 0, 0.45)' }}>
-                  {i18n.toolTipEnable}
+                  {i18n().toolTipEnable}
                 </div>
               </DivBenTrai>
               <div>
@@ -187,10 +166,10 @@ export default class NotificationDrawer extends React.Component {
                       fontSize: '12px',
                       position: 'absolute',
                       right: '5em',
-                      fontWeight: 600
+                      fontWeight: 600,
                     }}
                   >
-                    {i18n.pushNotification}
+                    {i18n().pushNotification}
                   </div>
                   <Switch
                     size="small"
@@ -215,7 +194,7 @@ export default class NotificationDrawer extends React.Component {
                         fontSize: '14px',
                       }}
                     >
-                      {i18n.removeAll}
+                      {i18n().removeAll}
                     </a>
                   )}
                 {this.props.dataSource &&
@@ -228,7 +207,7 @@ export default class NotificationDrawer extends React.Component {
                         fontSize: '14px',
                       }}
                     >
-                      {i18n.markAll}
+                      {i18n().markAll}
                     </a>
                   )}
               </div>

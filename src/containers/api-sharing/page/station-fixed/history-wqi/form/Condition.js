@@ -31,33 +31,33 @@ export default class Condition extends React.Component {
   }
 
   onFetchPointsSuccess = points => {
-    this.setState({points}, () => {
+    this.setState({ points }, () => {
       this.setFormInit()
     })
   }
 
   onFetchStationTypesSuccess = stationTypes => {
-    this.setState({stationTypes}, () => {
+    this.setState({ stationTypes }, () => {
       this.setFormInit()
     })
   }
 
   onFetchPhaseSuccess = phases => {
-    this.setState({phases}, () => {
+    this.setState({ phases }, () => {
       this.setFormInit()
     })
   }
 
   setFormInit = () => {
-    const {form, rule} = this.props
-    const {stationTypes} = this.state
+    const { form, rule } = this.props
+    const { stationTypes } = this.state
     if (!isCreate(rule)) return
     if (stationTypes.length === 0) return
 
     const stationTypeInit = stationTypes[0]._id
 
-    const stationAutos = this.getPoints({stationType: stationTypeInit})
-    const phases = this.getPhases({stationType: stationTypeInit})
+    const stationAutos = this.getPoints({ stationType: stationTypeInit })
+    const phases = this.getPhases({ stationType: stationTypeInit })
     const phasesInit = phases.map(phase => phase._id)
 
     const stationKeys = stationAutos.map(stationAuto => stationAuto.key)
@@ -73,43 +73,46 @@ export default class Condition extends React.Component {
   }
 
   handleOnFieldChange = () => {
-    const {form} = this.props
+    const { form } = this.props
     form.setFieldsValue({
       'config.stationKeys': undefined,
       'config.phaseIds': undefined,
     })
   }
 
-  getPoints = ({stationType}) => {
-    let {points} = this.state
-    if (stationType) points = points.filter(point => point.stationTypeId === stationType)
+  getPoints = ({ stationType }) => {
+    let { points } = this.state
+    if (stationType)
+      points = points.filter(point => point.stationTypeId === stationType)
     return points
   }
 
-  getPhases = ({stationType}) => {
-    let {phases} = this.state
-    if (stationType) phases = phases.filter(phase => phase.stationTypeId === stationType)
+  getPhases = ({ stationType }) => {
+    let { phases } = this.state
+    if (stationType)
+      phases = phases.filter(phase => phase.stationTypeId === stationType)
     return phases
   }
 
   isDisable = fieldName => {
-    const {rule, fieldsDefault = {}} = this.props
+    const { rule, fieldsDefault = {} } = this.props
     return isView(rule) && fieldsDefault[fieldName]
   }
 
   render() {
-    const {form} = this.props
-    const {config: {province, stationType} = {}} = form.getFieldsValue()
-    const formatTime = form.getFieldValue(`config.${FIELDS.VIEW_BY}`) === 'year' ? YYYY : MM_YYYY
+    const { form } = this.props
+    const { config: { province, stationType } = {} } = form.getFieldsValue()
+    const formatTime =
+      form.getFieldValue(`config.${FIELDS.VIEW_BY}`) === 'year' ? YYYY : MM_YYYY
 
     form.getFieldDecorator(`config.${FIELDS.POINT_NAME}`)
     return (
       <BoxShadow>
-        <Header>{i18n.detailPage.header.condition}</Header>
+        <Header>{i18n().detailPage.header.condition}</Header>
         <Clearfix height={12} />
         <Row gutter={12}>
           <Col span={12}>
-            <FormItem label={i18n.detailPage.label.province}>
+            <FormItem label={i18n().detailPage.label.province}>
               {form.getFieldDecorator(`config.${FIELDS.PROVINCE}`, {
                 onChange: this.handleOnFieldChange,
               })(
@@ -122,7 +125,7 @@ export default class Condition extends React.Component {
             </FormItem>
           </Col>
           <Col span={12}>
-            <FormItem label={i18n.detailPage.label.stationType}>
+            <FormItem label={i18n().detailPage.label.stationType}>
               {form.getFieldDecorator(`config.${FIELDS.STATION_TYPE}`, {
                 onChange: this.handleOnFieldChange,
               })(
@@ -138,12 +141,12 @@ export default class Condition extends React.Component {
           </Col>
 
           <Col span={12}>
-            <FormItem label={i18n.detailPage.label.phase}>
+            <FormItem label={i18n().detailPage.label.phase}>
               {form.getFieldDecorator(`config.${FIELDS.PHASE}`, {
                 rules: [
                   {
                     required: true,
-                    message: i18n.rules.requireChoose,
+                    message: i18n().rules.requireChoose,
                   },
                 ],
               })(
@@ -158,12 +161,12 @@ export default class Condition extends React.Component {
             </FormItem>
           </Col>
           <Col span={12}>
-            <FormItem label={i18n.detailPage.label.point}>
+            <FormItem label={i18n().detailPage.label.point}>
               {form.getFieldDecorator(`config.${FIELDS.POINT}`, {
                 rules: [
                   {
                     required: true,
-                    message: i18n.rules.requireChoose,
+                    message: i18n().rules.requireChoose,
                   },
                 ],
               })(
@@ -171,13 +174,15 @@ export default class Condition extends React.Component {
                   disabled={this.isDisable(FIELDS.POINT)}
                   mode="multiple"
                   stationTypeId={stationType}
-                  condition={{calculateType: 'WQI'}}
+                  condition={{ calculateType: 'WQI' }}
                   provinceId={province}
                   onFetchSuccess={this.onFetchPointsSuccess}
                   pointNames={form.getFieldValue(`config.${FIELDS.POINT_NAME}`)}
-                  onChangeName={pointNames => form.setFieldsValue({
-                    [`config.${FIELDS.POINT_NAME}`]: pointNames
-                  })}
+                  onChangeName={pointNames =>
+                    form.setFieldsValue({
+                      [`config.${FIELDS.POINT_NAME}`]: pointNames,
+                    })
+                  }
                 />
               )}
             </FormItem>
@@ -185,27 +190,32 @@ export default class Condition extends React.Component {
         </Row>
         <Row gutter={24}>
           <Col xs={12}>
-            <FormItem label={i18n.wqi.viewBy}>
-              {form.getFieldDecorator(`config.${FIELDS.VIEW_BY}`, {initialValue: 'month'})(
-                <Radio.Group disabled={this.isDisable(FIELDS.VIEW_BY)} >
-                  <Radio value={'month'}>{i18n.month}</Radio>
-                  <Radio value={'quarter'}>{i18n.quarter}</Radio>
-                  <Radio value={'year'}>{i18n.year}</Radio>
+            <FormItem label={i18n().wqi.viewBy}>
+              {form.getFieldDecorator(`config.${FIELDS.VIEW_BY}`, {
+                initialValue: 'month',
+              })(
+                <Radio.Group disabled={this.isDisable(FIELDS.VIEW_BY)}>
+                  <Radio value={'month'}>{i18n().month}</Radio>
+                  <Radio value={'quarter'}>{i18n().quarter}</Radio>
+                  <Radio value={'year'}>{i18n().year}</Radio>
                 </Radio.Group>
               )}
             </FormItem>
           </Col>
           <Col xs={12}>
-            <FormItem label={i18n.wqi.time}>
+            <FormItem label={i18n().wqi.time}>
               {form.getFieldDecorator(`config.${FIELDS.RANGE_TIME}`, {
                 rules: [
                   {
                     required: true,
-                    message: i18n.wqi.requireTime,
+                    message: i18n().wqi.requireTime,
                   },
                 ],
               })(
-                <DatePicker.RangePicker format={formatTime} disabled={this.isDisable(FIELDS.RANGE_TIME)} />
+                <DatePicker.RangePicker
+                  format={formatTime}
+                  disabled={this.isDisable(FIELDS.RANGE_TIME)}
+                />
               )}
             </FormItem>
           </Col>

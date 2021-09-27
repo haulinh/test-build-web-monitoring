@@ -85,16 +85,18 @@ const Card = styled.div`
   }
 `
 
-const i18n = {
-  headerTitle: t('configService.title'),
-  save: t('global.save'),
-  testConfiguration: t('configService.testConfiguration'),
-  sms: {
-    title: t('configService.smsService'),
-  },
-  mailgun: {
-    title: t('configService.mailGunService'),
-  },
+function i18n() {
+  return {
+    headerTitle: t('configService.title'),
+    save: t('global.save'),
+    testConfiguration: t('configService.testConfiguration'),
+    sms: {
+      title: t('configService.smsService'),
+    },
+    mailgun: {
+      title: t('configService.mailGunService'),
+    },
+  }
 }
 
 @protectRole(ROLE.SERVICE_CONFIG.VIEW)
@@ -227,7 +229,7 @@ export default class ConfigService extends Component {
             <Col>
               <PermissionPopover roles={ROLE.SERVICE_CONFIG.SETUP}>
                 <Button loading={isLoading} type="primary" htmlType="submit">
-                  {i18n.save}
+                  {i18n().save}
                 </Button>
               </PermissionPopover>
             </Col>
@@ -236,7 +238,7 @@ export default class ConfigService extends Component {
                 className="test-configuration"
                 onClick={() => this.setShowModal(type)}
               >
-                {i18n.testConfiguration}
+                {i18n().testConfiguration}
               </Text>
             </Col>
           </Row>
@@ -335,7 +337,7 @@ export default class ConfigService extends Component {
 
     const esmsForm = {
       type: 'esms',
-      title: i18n.sms.title,
+      title: i18n().sms.title,
       isLoading: isSubmitSmsForm,
       onSubmit: this.handleUpdateFormEsms,
       formFields: getEsmsFormFields(esmsDefaultConfigs),
@@ -343,7 +345,7 @@ export default class ConfigService extends Component {
 
     const twilioForm = {
       type: 'esms',
-      title: i18n.sms.title,
+      title: i18n().sms.title,
       isLoading: isSubmitSmsForm,
       onSubmit: this.handleUpdateFormTwilio,
       formFields: getTwilioFormFields(twilioDefaultConfigs),
@@ -357,7 +359,7 @@ export default class ConfigService extends Component {
     const mailGunForm = {
       type: 'mailGun',
       isLoading: isSubmitMailGunForm,
-      title: i18n.mailgun.title,
+      title: i18n().mailgun.title,
       onSubmit: this.handleUpdateFormEmailGun,
       formFields: getMailgunFormFields(mailgunDefaultConfigs),
     }
@@ -366,7 +368,7 @@ export default class ConfigService extends Component {
       <Wrapper id="config-service">
         <Header>
           <Text fontSize={22} color="#3B3B3B" fontWeight={600}>
-            {i18n.headerTitle}
+            {i18n().headerTitle}
           </Text>
         </Header>
 

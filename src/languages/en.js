@@ -588,6 +588,10 @@ export default {
       all: 'All',
       time: 'Time',
       search: 'Search',
+      device: {
+        label: 'Device',
+        placeholder: 'Select Device',
+      },
       stationType: {
         label: 'Types Of Station',
         placeholder: 'Select Types Of Station',
@@ -2655,6 +2659,7 @@ export default {
           </div>
         `,
       },
+      saveSampingConfig: 'Please enter all information before Saving',
     },
   },
   modal: {
@@ -2667,13 +2672,6 @@ export default {
           cancelExceededSampling:
             'Are you sure you want to Cancel exceeded sampling?',
         },
-      },
-    },
-  },
-  alert: {
-    error: {
-      monitoring: {
-        saveSampingConfig: 'Please enter all information before Saving',
       },
     },
   },
@@ -3607,6 +3605,61 @@ export default {
       createSuccess: 'Add New Station Successfully',
     },
     export: 'Broadcast data of',
+  },
+  language: {
+    breadcrumb: {
+      base: 'Cấu hình ngôn ngữ',
+    },
+    content: {
+      notificationFreq: 'Tần suất gửi cảnh báo',
+      global: 'Tổng quan',
+      rules: 'Thông báo loại 1',
+      errors: 'Thông báo loại 2',
+      empty: 'Thông báo loại 3',
+      notification: 'Gửi cảnh báo',
+      contact: 'Thông tin 1',
+      unit: 'Đơn vị',
+      chart: 'Biểu đồ',
+      dashboard: 'Giám sát hệ thống',
+      monitoring: 'Giám sát trực tuyến',
+      aqi: 'AQI',
+      aqiConfigCalculation: 'Cấu hình tính toán AQI',
+      wqi: 'WQI',
+      wqiConfigCalculation: 'Cấu hình tính toán WQI',
+      qaqc: 'Kiểm duyệt dữ liệu',
+      qaqcConfig: 'Cấu hình kiểm duyệt dữ liệu',
+      controlStation: 'Điều kiển lấy mẫu',
+      map: 'Bản đồ',
+      dataSearchFixed: 'Tìm kiếm dữ liệu cố định',
+      dataSearchFrom: 'Tìm kiếm dữ liệu',
+      aqiSearchForm: 'Tìm kiếm dữ liệu AQI',
+      avgSearchFrom: 'Tìm kiếm dữ liệu trung bình',
+      dataSearchFilterForm: 'Bộ lọc tìm kiếm dữ liệu',
+      measuringManager: 'Quản lý thông số',
+      stationTypeManager: 'Quản lý loại trạm',
+      stationFixedPhase: 'Quản lý đợt quan trắc định kỳ',
+      stationFixedPoint: 'Quản lý điểm định kỳ',
+      qcvn: 'Quản lý quy chuẩn',
+      province: 'Quản lý đơn vị quản lý',
+      configWQI: 'Cấu hình WQI',
+    },
+    tabs: {
+      tab1: 'Languages',
+      tab2: 'Translation',
+    },
+    list: {
+      emptyView: 'There Are No Records To Display',
+      colSTT: 'No.',
+      colDevice: 'Device',
+      colKey: 'Key',
+      colFeature: 'Feature',
+      colVI: 'Vietnamese',
+      colEN: 'English',
+      colTW: 'Taiwan',
+      colLanguage: 'Language',
+      jsonView: 'View Json',
+      colStatus: 'Status',
+    },
   },
   billing: {
     title: {

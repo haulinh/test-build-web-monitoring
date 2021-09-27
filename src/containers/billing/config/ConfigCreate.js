@@ -11,10 +11,12 @@ import React from 'react'
 import Breadcrumb from '../breadcrumb'
 import ConfigForm from './ConfigForm'
 
-const i18n = {
-  success: translate('periodicalForecast.message.createSuccess'),
-  error: translate('addon.onSave.add.error'),
-  exist: translate('addon.onSave.add.keyExited_error'),
+function i18n() {
+  return {
+    success: translate('periodicalForecast.message.createSuccess'),
+    error: translate('addon.onSave.add.error'),
+    exist: translate('addon.onSave.add.keyExited_error'),
+  }
 }
 @protectRole(ROLE.BILLING_CONFIG.CREATE)
 @createLanguageHoc
@@ -32,17 +34,17 @@ export default class ConfigCreate extends React.Component {
       .then(values => {
         this.setState({ isLoading: false })
         if (values) {
-          message.success(i18n.success)
+          message.success(i18n().success)
           this.props.history.push(slug.billing.config)
         }
         return values
       })
       .catch(error => {
         if (error.status === 422) {
-          message.error(i18n.exist)
+          message.error(i18n().exist)
           return
         }
-        message.error(i18n.error)
+        message.error(i18n().error)
         this.setState({ isUpdating: false })
         return {
           ...error,

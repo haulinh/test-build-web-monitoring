@@ -25,13 +25,15 @@ import {
   Label,
 } from './style'
 
-const i18n = {
-  okText: translate('addon.ok'),
-  addButton: translate('stationAutoManager.create.label'),
-  stationType: translate('stationAutoManager.form.stationType.placeholder'),
-  stationName: translate('stationAutoManager.form.name.placeholder'),
-  title: translate('stationAutoManager.limit.station.title'),
-  callAction: translate('stationAutoManager.limit.station.callAction'),
+function i18n() {
+  return {
+    okText: translate('addon.ok'),
+    addButton: translate('stationAutoManager.create.label'),
+    stationType: translate('stationAutoManager.form.stationType.placeholder'),
+    stationName: translate('stationAutoManager.form.name.placeholder'),
+    title: translate('stationAutoManager.limit.station.title'),
+    callAction: translate('stationAutoManager.limit.station.callAction'),
+  }
 }
 
 @protectRole(ROLE.STATION_AUTO.CREATE)
@@ -97,8 +99,8 @@ export default class StationAutoCreate extends React.PureComponent {
       Modal.warning({
         icon: null,
         width: '50%',
-        title: <Title>{i18n.title}</Title>,
-        okText: i18n.okText,
+        title: <Title>{i18n().title}</Title>,
+        okText: i18n().okText,
         content: (
           <Container>
             <Desc>
@@ -107,7 +109,7 @@ export default class StationAutoCreate extends React.PureComponent {
               })}
             </Desc>
             <ContentWrapper>
-              <Heading>{i18n.callAction}</Heading>
+              <Heading>{i18n().callAction}</Heading>
               <Wrapper>
                 <Flex>
                   <Label>{translate('contact.phone')}</Label>

@@ -36,7 +36,7 @@ class TableStation extends React.Component {
       },
     },
     {
-      title: i18n.table.date,
+      title: i18n().table.date,
       dataIndex: 'datetime',
       defaultSortOrder: 'ascend',
       sorter: (a, b) => new Date(a.datetime) - new Date(b.datetime),
@@ -45,7 +45,7 @@ class TableStation extends React.Component {
       },
     },
     {
-      title: i18n.table.dataType,
+      title: i18n().table.dataType,
       width: 120,
       align: 'center',
       dataIndex: 'dataType',
@@ -63,7 +63,7 @@ class TableStation extends React.Component {
       },
     },
     {
-      title: i18n.table.alarmLevelI,
+      title: i18n().table.alarmLevelI,
       align: 'center',
       width: 130,
       dataIndex: 'alarmLevelI',
@@ -72,7 +72,7 @@ class TableStation extends React.Component {
       },
     },
     {
-      title: i18n.table.alarmLevelII,
+      title: i18n().table.alarmLevelII,
       align: 'center',
       width: 135,
       dataIndex: 'alarmLevelII',
@@ -81,7 +81,7 @@ class TableStation extends React.Component {
       },
     },
     {
-      title: i18n.table.alarmLevelIII,
+      title: i18n().table.alarmLevelIII,
       align: 'center',
       width: 140,
       dataIndex: 'alarmLevelIII',
@@ -90,7 +90,7 @@ class TableStation extends React.Component {
       },
     },
     {
-      title: i18n.table.dataSource,
+      title: i18n().table.dataSource,
       width: 125,
       align: 'center',
       dataIndex: 'dataSource',
@@ -128,7 +128,7 @@ export default function TabResult({ data, loading }) {
     return (
       <Empty
         style={{ margin: '0 auto', padding: '8px 16px' }}
-        description={i18n.button.nodata}
+        description={i18n().button.nodata}
       />
     )
   }

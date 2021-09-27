@@ -17,6 +17,7 @@ import FtpTransferRoute from 'containers/manager/config-ftp-transfer'
 import MeasuringRoute from 'containers/manager/measuring'
 import ProvinceRoute from 'containers/manager/province'
 import QCVNRoute from 'containers/manager/qcvn'
+import ConfigLanguagePage from 'containers/manager/config-language'
 import StationAutoRoute from 'containers/manager/station-auto'
 import StationFixedRoute from 'containers/manager/station-fixed'
 import StationFixedPhaseRoute from 'containers/manager/station-fixed-phase'
@@ -206,6 +207,10 @@ export default class RouteDefault extends React.Component {
             <LayoutRoute
               path={slug.dataLogger.base}
               component={DataLoggerPage}
+            />
+            <LayoutRoute
+              path={slug.language.base}
+              component={ConfigLanguagePage}
             />
 
             <LayoutRoute path={slug.config.service} component={ConfigService} />

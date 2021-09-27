@@ -14,20 +14,22 @@ import NhomV from './nhomV'
 
 const { Panel } = Collapse
 
-const i18n = {
-  submit: translate('addon.save'),
-  warning: translate('addon.warning'),
-  refresh: translate('addon.refresh'),
-  cancel: translate('addon.cancel'),
-  updateSuccess: translate('addon.onSave.update.success'),
-  updateError: translate('addon.onSave.update.error'),
+function i18n() {
+  return {
+    submit: translate('addon.save'),
+    warning: translate('addon.warning'),
+    refresh: translate('addon.refresh'),
+    cancel: translate('addon.cancel'),
+    updateSuccess: translate('addon.onSave.update.success'),
+    updateError: translate('addon.onSave.update.error'),
 
-  colGroupI: translate('wqiConfigCalculation.colGroupI'),
-  colGroupII: translate('wqiConfigCalculation.colGroupII'),
-  colGroupIII: translate('wqiConfigCalculation.colGroupIII'),
-  colGroupIV: translate('wqiConfigCalculation.colGroupIV'),
-  colGroupV: translate('wqiConfigCalculation.colGroupV'),
-  add: translate('wqiConfigCalculation.add'),
+    colGroupI: translate('wqiConfigCalculation.colGroupI'),
+    colGroupII: translate('wqiConfigCalculation.colGroupII'),
+    colGroupIII: translate('wqiConfigCalculation.colGroupIII'),
+    colGroupIV: translate('wqiConfigCalculation.colGroupIV'),
+    colGroupV: translate('wqiConfigCalculation.colGroupV'),
+    add: translate('wqiConfigCalculation.add'),
+  }
 }
 
 @Form.create({})
@@ -53,7 +55,7 @@ export default class TabGiaTri extends React.Component {
             transformData
           )
           if (response.success) {
-            message.success(i18n.updateSuccess)
+            message.success(i18n().updateSuccess)
           }
         } finally {
           this.setState({ isSubmit: false })
@@ -92,19 +94,19 @@ export default class TabGiaTri extends React.Component {
         <Clearfix height={16} />
         <div>
           <Collapse defaultActiveKey={['I']}>
-            <Panel header={i18n.colGroupI} key="I">
+            <Panel header={i18n().colGroupI} key="I">
               <NhomI configMeasure={this.state.configGroupI} />
             </Panel>
-            <Panel header={i18n.colGroupII} key="II">
+            <Panel header={i18n().colGroupII} key="II">
               <NhomII configMeasure={this.state.configGroupII} />
             </Panel>
-            <Panel header={i18n.colGroupIII} key="III">
+            <Panel header={i18n().colGroupIII} key="III">
               <NhomIII configMeasure={this.state.configGroupIII} />
             </Panel>
-            <Panel header={i18n.colGroupIV} key="IV">
+            <Panel header={i18n().colGroupIV} key="IV">
               <NhomIV configMeasure={this.state.configGroupIV} />
             </Panel>
-            <Panel header={i18n.colGroupV} key="V">
+            <Panel header={i18n().colGroupV} key="V">
               <NhomV configMeasure={this.state.configGroupV} />
             </Panel>
           </Collapse>

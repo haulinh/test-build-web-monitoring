@@ -17,10 +17,12 @@ import SearchForm from './search-form'
 import Breadcrumb from '../breadcrumb'
 import UserRuleTable from './table'
 
-const i18n = {
-  error: translate('addon.onSave.update.error'),
-  submit: translate('addon.save'),
-  success: translate('addon.onSave.update.success'),
+function i18n() {
+  return {
+    error: translate('addon.onSave.update.error'),
+    submit: translate('addon.save'),
+    success: translate('addon.onSave.update.success'),
+  }
 }
 
 @protectRole(ROLE.USER.ROLE)
@@ -101,7 +103,7 @@ export default class UserRole extends React.Component {
 
   componentDidCatch() {
     swal({
-      title: i18n.error,
+      title: i18n().error,
       type: 'error',
     })
   }

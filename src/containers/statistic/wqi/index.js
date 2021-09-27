@@ -22,9 +22,11 @@ import { connect } from 'react-redux'
 
 const { Title, Text } = Typography
 
-const i18n = {
-  header: translate('wqi.wqi_hour.header'),
-  title: translate('wqi.wqi_hour.title'),
+function i18n() {
+  return {
+    header: translate('wqi.wqi_hour.header'),
+    title: translate('wqi.wqi_hour.title'),
+  }
 }
 @protectRole(ROLE.WQI_GIO.VIEW)
 @queryFormDataBrowser(['submit'])
@@ -177,7 +179,7 @@ export default class WQIStatistics extends React.Component {
             />
             <Clearfix height={16} />
             <div style={{ textAlign: 'center' }}>
-              <Title level={4}>{i18n.header}</Title>
+              <Title level={4}>{i18n().header}</Title>
               {fromDate && toDate && (
                 <Text>
                   {translate('wqi.wqi_hour.title', {

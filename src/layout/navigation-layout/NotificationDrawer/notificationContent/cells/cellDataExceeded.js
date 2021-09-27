@@ -7,10 +7,12 @@ import { BoldTextWrap } from './_helperComponent'
 import styled from 'styled-components'
 import _ from 'lodash'
 
-const i18n = {
-  station: translate('common.station'),
-  measurings: translate('common.measures'),
-  dataExeeded: translate('common.deviceStatus.dataExceeded'),
+function i18n() {
+  return {
+    station: translate('common.station'),
+    measurings: translate('common.measures'),
+    dataExeeded: translate('common.deviceStatus.dataExceeded'),
+  }
 }
 
 const TitleWrapper = styled.div`
@@ -26,9 +28,9 @@ export default function DataExceededCell(props) {
     <React.Fragment>
       <TitleWrapper>
         <BoldTextWrap>
-          {i18n.station} {cellContent.station}
+          {i18n().station} {cellContent.station}
         </BoldTextWrap>
-        <span>&nbsp; {i18n.dataExeeded}</span>
+        <span>&nbsp; {i18n().dataExeeded}</span>
       </TitleWrapper>
 
       <ul>

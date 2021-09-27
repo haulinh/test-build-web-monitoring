@@ -9,16 +9,16 @@ import SelectStationType from 'components/elements/select-station-type-v2'
 import { translate } from 'hoc/create-lang'
 import createLanguageHoc, { langPropTypes } from 'hoc/create-lang'
 
-
-const i18n = {
-  okText: translate('addon.ok'),
-  addButton: translate('stationAutoManager.create.label'),
-  stationType: translate('stationFixedPoint.form.stationType.placeholder'),
-  stationName: translate('stationFixedPoint.form.name.placeholder'),
-  title: translate('stationAutoManager.limit.station.title'),
-  callAction: translate('stationAutoManager.limit.station.callAction'),
+function i18n() {
+  return {
+    okText: translate('addon.ok'),
+    addButton: translate('stationAutoManager.create.label'),
+    stationType: translate('stationFixedPoint.form.stationType.placeholder'),
+    stationName: translate('stationFixedPoint.form.name.placeholder'),
+    title: translate('stationAutoManager.limit.station.title'),
+    callAction: translate('stationAutoManager.limit.station.callAction'),
+  }
 }
-
 
 @Form.create({
   mapPropsToFields: mapPropsToFields,
@@ -72,7 +72,7 @@ export default class StationFixedSearchForm extends React.PureComponent {
                     getFieldDecorator={getFieldDecorator}
                     isShowAll
                     isAuto={false}
-                    placeholder={i18n.stationType}
+                    placeholder={i18n().stationType}
                   />
                 )}
               </Col>
@@ -80,7 +80,7 @@ export default class StationFixedSearchForm extends React.PureComponent {
               {/* NHẬP TÊN TRẠM */}
               <Col span={9}>
                 {getFieldDecorator(`name`)(
-                  <Input placeholder={i18n.stationName} />
+                  <Input placeholder={i18n().stationName} />
                 )}
               </Col>
 

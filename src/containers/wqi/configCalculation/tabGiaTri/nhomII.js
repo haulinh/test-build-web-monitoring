@@ -22,23 +22,25 @@ import * as _ from 'lodash'
 
 const { Option } = Select
 
-const i18n = {
-  submit: translate('addon.save'),
-  warning: translate('addon.warning'),
-  refresh: translate('addon.refresh'),
-  yes: translate('add.yes'),
-  cancel: translate('addon.cancel'),
-  confirmMsgDelete: translate('confirm.msg.delete'),
-  updateSuccess: translate('addon.onSave.update.success'),
-  updateError: translate('addon.onSave.update.error'),
-  required: translate('wqiConfigCalculation.required'),
+function i18n() {
+  return {
+    submit: translate('addon.save'),
+    warning: translate('addon.warning'),
+    refresh: translate('addon.refresh'),
+    yes: translate('add.yes'),
+    cancel: translate('addon.cancel'),
+    confirmMsgDelete: translate('confirm.msg.delete'),
+    updateSuccess: translate('addon.onSave.update.success'),
+    updateError: translate('addon.onSave.update.error'),
+    required: translate('wqiConfigCalculation.required'),
 
-  add: translate('wqiConfigCalculation.add'),
-  collevel: translate('wqiConfigCalculation.collevel'),
-  colMin2: translate('wqiConfigCalculation.colMin2'),
-  colMax2: translate('wqiConfigCalculation.colMax2'),
-  colValue: translate('wqiConfigCalculation.colValue'),
-  colOperate: translate('wqiConfigCalculation.colOperate'),
+    add: translate('wqiConfigCalculation.add'),
+    collevel: translate('wqiConfigCalculation.collevel'),
+    colMin2: translate('wqiConfigCalculation.colMin2'),
+    colMax2: translate('wqiConfigCalculation.colMax2'),
+    colValue: translate('wqiConfigCalculation.colValue'),
+    colOperate: translate('wqiConfigCalculation.colOperate'),
+  }
 }
 
 const CODE = 'vi'
@@ -61,7 +63,7 @@ export default class TabGiaTri_NhomII extends React.Component {
     const columnDynamic = []
     props.configMeasure.forEach(item => {
       columnDynamic.push({
-        title: i18n.colValue + ' ' + item.keyMeasure,
+        title: i18n().colValue + ' ' + item.keyMeasure,
         dataIndex: 'i_' + item.keyMeasure,
         key: 'i_' + item.keyMeasure,
         align: 'center',
@@ -82,14 +84,14 @@ export default class TabGiaTri_NhomII extends React.Component {
                     rules: [
                       {
                         required: true,
-                        message: i18n.required,
+                        message: i18n().required,
                       },
                     ],
                   }
                 )(
                   <InputNumber
                     style={{ ...styleWidth }}
-                    placeholder={i18n.colMin2}
+                    placeholder={i18n().colMin2}
                   />
                 )}
               </div>
@@ -100,7 +102,7 @@ export default class TabGiaTri_NhomII extends React.Component {
     })
     this.columns = [
       {
-        title: i18n.colValue + ' qi',
+        title: i18n().colValue + ' qi',
         dataIndex: 'qi',
         key: 'qi',
         align: 'center',
@@ -113,7 +115,7 @@ export default class TabGiaTri_NhomII extends React.Component {
                 rules: [
                   {
                     required: true,
-                    message: i18n.required,
+                    message: i18n().required,
                   },
                 ],
               })(<InputNumber style={{ ...styleWidth }} />)}
@@ -122,7 +124,7 @@ export default class TabGiaTri_NhomII extends React.Component {
         },
       },
       {
-        title: i18n.colOperate,
+        title: i18n().colOperate,
         dataIndex: 'operate',
         key: 'operate',
         align: 'center',
@@ -135,7 +137,7 @@ export default class TabGiaTri_NhomII extends React.Component {
                 rules: [
                   {
                     required: true,
-                    message: i18n.required,
+                    message: i18n().required,
                   },
                 ],
               })(
@@ -161,9 +163,9 @@ export default class TabGiaTri_NhomII extends React.Component {
           return (
             <Popconfirm
               onConfirm={this.delete.bind(this, record.key)}
-              title={i18n.confirmMsgDelete}
-              okText={i18n.yes}
-              cancelText={i18n.cancel}
+              title={i18n().confirmMsgDelete}
+              okText={i18n().yes}
+              cancelText={i18n().cancel}
               placement="left"
             >
               <Icon
@@ -251,7 +253,7 @@ export default class TabGiaTri_NhomII extends React.Component {
             groupII: transformData,
           })
           if (response.success) {
-            message.success(i18n.updateSuccess)
+            message.success(i18n().updateSuccess)
           }
         } finally {
           this.setState({ isSubmit: false })
@@ -274,7 +276,7 @@ export default class TabGiaTri_NhomII extends React.Component {
         <Row gutter={12}>
           <Col xs={12}>
             <Button block type="primary" onClick={this.add}>
-              {i18n.add}
+              {i18n().add}
             </Button>
           </Col>
           <Col xs={12}>
@@ -284,7 +286,7 @@ export default class TabGiaTri_NhomII extends React.Component {
               type="primary"
               onClick={this.submit}
             >
-              {i18n.submit}
+              {i18n().submit}
             </Button>
           </Col>
         </Row>

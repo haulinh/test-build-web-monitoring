@@ -14,13 +14,15 @@ import createLanguageHoc, { langPropTypes } from 'hoc/create-lang'
 import ROLE from 'constants/role'
 // import { EMAIL, PHONE } from 'constants/info-contact.js'
 
-const i18n = {
-  okText: translate('addon.ok'),
-  addButton: translate('stationAutoManager.create.label'),
-  stationType: translate('stationAutoManager.form.stationType.placeholder'),
-  stationName: translate('stationAutoManager.form.name.placeholder'),
-  title: translate('stationAutoManager.limit.station.title'),
-  callAction: translate('stationAutoManager.limit.station.callAction'),
+function i18n() {
+  return {
+    okText: translate('addon.ok'),
+    addButton: translate('stationAutoManager.create.label'),
+    stationType: translate('stationAutoManager.form.stationType.placeholder'),
+    stationName: translate('stationAutoManager.form.name.placeholder'),
+    title: translate('stationAutoManager.limit.station.title'),
+    callAction: translate('stationAutoManager.limit.station.callAction'),
+  }
 }
 
 const Container = styled.div`
@@ -83,7 +85,7 @@ const Content = styled.span`
 const BtnAdd = props => (
   <Button onClick={props.onClick} type="primary">
     <Icon type="plus" />
-    {i18n.addButton}
+    {i18n().addButton}
   </Button>
 )
 
@@ -130,8 +132,8 @@ export default class StationAutoSearchForm extends React.PureComponent {
       Modal.warning({
         icon: null,
         width: '50%',
-        title: <Title>{i18n.title}</Title>,
-        okText: i18n.okText,
+        title: <Title>{i18n().title}</Title>,
+        okText: i18n().okText,
         content: (
           <Container>
             <Desc>
@@ -140,7 +142,7 @@ export default class StationAutoSearchForm extends React.PureComponent {
               })}
             </Desc>
             <ContentWrapper>
-              <Heading>{i18n.callAction}</Heading>
+              <Heading>{i18n().callAction}</Heading>
               <Wrapper>
                 <Flex>
                   <Label>{translate('contact.phone')}</Label>
@@ -184,7 +186,7 @@ export default class StationAutoSearchForm extends React.PureComponent {
                     getFieldDecorator={getFieldDecorator}
                     isShowAll
                     // onChangeStationType={this.changeStationType}
-                    placeholder={i18n.stationType}
+                    placeholder={i18n().stationType}
                   />
                 )}
               </Col>
@@ -192,7 +194,7 @@ export default class StationAutoSearchForm extends React.PureComponent {
               {/* NHẬP TÊN TRẠM */}
               <Col span={9}>
                 {getFieldDecorator(`name`)(
-                  <Input placeholder={i18n.stationName} />
+                  <Input placeholder={i18n().stationName} />
                 )}
               </Col>
 

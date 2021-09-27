@@ -1,6 +1,6 @@
 import { Menu, Tooltip, Icon as IconAntd } from 'antd'
 import ROLE from 'constants/role'
-import slug, { MENU_GROUP, TOOLTIP_MENU, MENU_NAME } from 'constants/slug'
+import slug, { MENU_GROUP, listTooltipMenu, listMenuName } from 'constants/slug'
 import protectRole from 'hoc/protect-role/forMenu'
 import React from 'react'
 import { Link } from 'react-router-dom'
@@ -19,7 +19,7 @@ export default {
       title={
         <Tooltip
           placement="right"
-          title={TOOLTIP_MENU.periodicalForecast.periodical}
+          title={listTooltipMenu().periodicalForecast.periodical}
         >
           <div style={CENTER}>
             <IconAntd
@@ -33,7 +33,7 @@ export default {
                 marginRight: '0px',
               }}
             />
-            <span style={{ marginLeft: 12 }}>{MENU_NAME.billing}</span>
+            <span style={{ marginLeft: 12 }}>{listMenuName().billing}</span>
           </div>
         </Tooltip>
       }
@@ -47,7 +47,7 @@ export default {
         >
           <Tooltip
             placement="right"
-            title={TOOLTIP_MENU.periodicalForecast.station}
+            title={listTooltipMenu().periodicalForecast.station}
           >
             <Link to={slug.billing.report}>
               {t('billing.menu.billingReport')}
@@ -65,7 +65,7 @@ export default {
         >
           <Tooltip
             placement="right"
-            title={TOOLTIP_MENU.periodicalForecast.import}
+            title={listTooltipMenu().periodicalForecast.import}
           >
             <Link to={slug.billing.config}>
               {t('billing.menu.billingConfig')}

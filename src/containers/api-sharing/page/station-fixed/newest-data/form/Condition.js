@@ -10,7 +10,7 @@ import { BoxShadow, Header } from 'containers/api-sharing/layout/styles'
 import {
   getMeasuringListFromStationAutos,
   isCreate,
-  isView
+  isView,
 } from 'containers/api-sharing/util'
 import { withApiSharingDetailContext } from 'containers/api-sharing/withShareApiContext'
 import React from 'react'
@@ -151,11 +151,11 @@ export default class Condition extends React.Component {
     form.getFieldDecorator(`config.${FIELDS.POINT_NAME}`)
     return (
       <BoxShadow>
-        <Header>{i18n.detailPage.header.condition}</Header>
+        <Header>{i18n().detailPage.header.condition}</Header>
         <Clearfix height={12} />
         <Row gutter={12}>
           <Col span={12}>
-            <FormItem label={i18n.detailPage.label.province}>
+            <FormItem label={i18n().detailPage.label.province}>
               {form.getFieldDecorator(`config.${FIELDS.PROVINCE}`, {
                 onChange: this.handleOnFieldChange,
               })(
@@ -169,13 +169,13 @@ export default class Condition extends React.Component {
           </Col>
 
           <Col span={12}>
-            <FormItem label={i18n.detailPage.label.stationType}>
+            <FormItem label={i18n().detailPage.label.stationType}>
               {form.getFieldDecorator(`config.${FIELDS.STATION_TYPE}`, {
                 onChange: this.handleOnFieldChange,
                 rules: [
                   {
                     required: true,
-                    message: i18n.rules.requireChoose,
+                    message: i18n().rules.requireChoose,
                   },
                 ],
               })(
@@ -190,12 +190,12 @@ export default class Condition extends React.Component {
           </Col>
 
           <Col span={12}>
-            <FormItem label={i18n.detailPage.label.point}>
+            <FormItem label={i18n().detailPage.label.point}>
               {form.getFieldDecorator(`config.${FIELDS.POINT}`, {
                 rules: [
                   {
                     required: true,
-                    message: i18n.rules.requireChoose,
+                    message: i18n().rules.requireChoose,
                   },
                 ],
               })(
@@ -206,21 +206,23 @@ export default class Condition extends React.Component {
                   provinceId={province}
                   onFetchSuccess={this.onFetchPointsSuccess}
                   pointNames={form.getFieldValue(`config.${FIELDS.POINT_NAME}`)}
-                  onChangeName={pointNames => form.setFieldsValue({
-                    [`config.${FIELDS.POINT_NAME}`]: pointNames
-                  })}
+                  onChangeName={pointNames =>
+                    form.setFieldsValue({
+                      [`config.${FIELDS.POINT_NAME}`]: pointNames,
+                    })
+                  }
                 />
               )}
             </FormItem>
           </Col>
 
           <Col span={12}>
-            <FormItem label={i18n.detailPage.label.parameter}>
+            <FormItem label={i18n().detailPage.label.parameter}>
               {form.getFieldDecorator(`config.${FIELDS.MEASURING_LIST}`, {
                 rules: [
                   {
                     required: true,
-                    message: i18n.rules.requireChoose,
+                    message: i18n().rules.requireChoose,
                   },
                 ],
               })(
@@ -233,7 +235,7 @@ export default class Condition extends React.Component {
           </Col>
 
           <Col span={12}>
-            <FormItem label={i18n.detailPage.label.isExceeded}>
+            <FormItem label={i18n().detailPage.label.isExceeded}>
               {form.getFieldDecorator(`config.${FIELDS.IS_EXCEEDED}`, {
                 valuePropName: 'checked',
               })(<Switch disabled={this.isDisable(FIELDS.IS_EXCEEDED)} />)}

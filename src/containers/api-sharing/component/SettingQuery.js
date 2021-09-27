@@ -23,8 +23,8 @@ class TransferForm extends Component {
     return (
       <Transfer
         titles={[
-          i18n.detailPage.label.defaultParameter,
-          i18n.detailPage.label.optionParamter,
+          i18n().detailPage.label.defaultParameter,
+          i18n().detailPage.label.optionParamter,
         ]}
         listStyle={{
           width: 300,
@@ -44,9 +44,9 @@ const SettingQuery = withRouter(({ location, form, excludeFields = [] }) => {
   const data = Object.keys(fieldsValue.config)
     .filter(key => !excludeFields.includes(key))
     .map(item => {
-      let title = i18n.fields[item] || item
+      let title = i18n().fields[item] || item
       if (location.pathname.includes('station-fixed') && item === 'stationKeys')
-        title = i18n.fields.stationFixed[item]
+        title = i18n().fields.stationFixed[item]
 
       return {
         key: item,
@@ -56,7 +56,7 @@ const SettingQuery = withRouter(({ location, form, excludeFields = [] }) => {
 
   return (
     <BoxShadow>
-      <Header>{i18n.detailPage.header.querySetting}</Header>
+      <Header>{i18n().detailPage.header.querySetting}</Header>
       <Clearfix height={16} />
       <Form.Item>
         {form.getFieldDecorator('optionParams')(<TransferForm data={data} />)}

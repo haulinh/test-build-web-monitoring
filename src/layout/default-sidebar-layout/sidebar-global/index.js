@@ -15,13 +15,14 @@ import { fetchApps } from 'api/AdminApi'
 
 export { SIDEBAR_GLOBAL_WIDTH }
 
-const i18n = {
-  apps: {
-    ilotusland: translate('apps.ilotusland'),
-    databaseManagement: translate('apps.databaseManagement'),
-    billing: translate('apps.billing'),
-
-  },
+function i18n() {
+  return {
+    apps: {
+      ilotusland: translate('apps.ilotusland'),
+      databaseManagement: translate('apps.databaseManagement'),
+      billing: translate('apps.billing'),
+    },
+  }
 }
 class SidebarGlobalLayout extends React.PureComponent {
   state = { domains: {}, isShowApp: false }
@@ -35,17 +36,17 @@ class SidebarGlobalLayout extends React.PureComponent {
     const { domains, isShowApp } = this.state
     const appList = [
       {
-        text: i18n.apps.ilotusland,
+        text: i18n().apps.ilotusland,
         href: domains.ilotusland,
         icon: <img src={icon} alt="" />,
       },
       {
-        text: i18n.apps.databaseManagement,
+        text: i18n().apps.databaseManagement,
         href: domains.qlnt,
         icon: <img src={icon} alt="" />,
       },
       {
-        text: i18n.apps.billing,
+        text: i18n().apps.billing,
         href: domains.billing,
         icon: <img src={icon} alt="" />,
       },

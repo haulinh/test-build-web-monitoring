@@ -13,27 +13,29 @@ const Marginbottom = styled.div`
   margin-bottom: 20px;
 `
 
-const i18n = {
-  title: t('configService.testConfiguration'),
-  phoneNumberLabel: t('configService.phoneNumberReceiveMessage'),
-  emailLabel: t('configService.emailAddress'),
-  esmsDescription: t('configService.esmsDescription'),
-  mailGunDescription: t('configService.mailGunDescription'),
-  send: t('global.send'),
-  unknownError: t('global.unknownError'),
-  sendMessageSuccessfully: t('configService.sendMessageSuccessfully'),
-  esmsError: {
-    100: t('errors.esms.100'),
-    99: t('errors.esms.99'),
-    101: t('errors.esms.101'),
-    102: t('errors.esms.102'),
-    103: t('errors.esms.103'),
-    104: t('errors.esms.104'),
-  },
-  mailGunError: {
-    401: t('errors.mailGun.401'),
-    404: t('errors.mailGun.404'),
-  },
+function i18n() {
+  return {
+    title: t('configService.testConfiguration'),
+    phoneNumberLabel: t('configService.phoneNumberReceiveMessage'),
+    emailLabel: t('configService.emailAddress'),
+    esmsDescription: t('configService.esmsDescription'),
+    mailGunDescription: t('configService.mailGunDescription'),
+    send: t('global.send'),
+    unknownError: t('global.unknownError'),
+    sendMessageSuccessfully: t('configService.sendMessageSuccessfully'),
+    esmsError: {
+      100: t('errors.esms.100'),
+      99: t('errors.esms.99'),
+      101: t('errors.esms.101'),
+      102: t('errors.esms.102'),
+      103: t('errors.esms.103'),
+      104: t('errors.esms.104'),
+    },
+    mailGunError: {
+      401: t('errors.mailGun.401'),
+      404: t('errors.mailGun.404'),
+    },
+  }
 }
 
 @Form.create()
@@ -87,22 +89,22 @@ export default class TestConfigurationModal extends Component {
       }
 
       this.setState({ isLoading: false })
-      const { error, errorCode, } = result
+      const { error, errorCode } = result
       if (error) {
-        notification.error({ 
-          message: 
-            i18n.esmsError[errorCode] || 
-            i18n.mailGunError[errorCode] || 
+        notification.error({
+          message:
+            i18n().esmsError[errorCode] ||
+            i18n().mailGunError[errorCode] ||
             result.message ||
-            i18n.unknownError 
+            i18n().unknownError,
         })
         return
       }
       this.setState({ isVisible: false })
-      notification.success({ message: i18n.sendMessageSuccessfully })
+      notification.success({ message: i18n().sendMessageSuccessfully })
     } catch (error) {
       this.setState({ isLoading: false }, () => {
-        notification.error({ message: i18n.unknownError })
+        notification.error({ message: i18n().unknownError })
       })
     }
   }
@@ -114,7 +116,7 @@ export default class TestConfigurationModal extends Component {
     return (
       <Modal
         visible={isVisible}
-        title={i18n.title}
+        title={i18n().title}
         footer={null}
         onCancel={this.hideModal}
         getContainer={this.modalGetContainer}
@@ -122,8 +124,8 @@ export default class TestConfigurationModal extends Component {
         <Form onSubmit={this.onSubmit}>
           {modalType === 'esms' && (
             <Fragment>
-              <div>{i18n.esmsDescription}</div>
-              <Form.Item colon={false} label={i18n.phoneNumberLabel}>
+              <div>{i18n().esmsDescription}</div>
+              <Form.Item colon={false} label={i18n().phoneNumberLabel}>
                 {form.getFieldDecorator(MODAL_FIELDS.PHONE_NUMBER, {
                   rules: [{ validator: validatePhone }],
                 })(<InputPhoneNumber />)}
@@ -132,8 +134,8 @@ export default class TestConfigurationModal extends Component {
           )}
           {modalType === 'mailGun' && (
             <Fragment>
-              <div>{i18n.mailGunDescription}</div>
-              <Form.Item colon={false} label={i18n.emailLabel}>
+              <div>{i18n().mailGunDescription}</div>
+              <Form.Item colon={false} label={i18n().emailLabel}>
                 {form.getFieldDecorator(MODAL_FIELDS.EMAIL, {
                   rules: [{ validator: validateEmail }],
                 })(<Input size="large" />)}
@@ -147,7 +149,7 @@ export default class TestConfigurationModal extends Component {
             htmlType="submit"
             loading={isLoading}
           >
-            {i18n.send}
+            {i18n().send}
           </Button>
         </Form>
       </Modal>

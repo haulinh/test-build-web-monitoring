@@ -18,35 +18,36 @@ import { getMeasurings, getConfigAqiQC, postConfigAqiQC } from 'api/CategoryApi'
 import { translate } from 'hoc/create-lang'
 import * as _ from 'lodash'
 
+function i18n() {
+  return {
+    submit: translate('addon.save'),
+    warning: translate('addon.warning'),
+    refresh: translate('addon.refresh'),
+    yes: translate('add.yes'),
+    cancel: translate('addon.cancel'),
+    confirmMsgDelete: translate('confirm.msg.delete'),
+    updateSuccess: translate('addon.onSave.update.success'),
+    updateError: translate('addon.onSave.update.error'),
 
-const i18n = {
-  submit: translate('addon.save'),
-  warning: translate('addon.warning'),
-  refresh: translate('addon.refresh'),
-  yes: translate('add.yes'),
-  cancel: translate('addon.cancel'),
-  confirmMsgDelete: translate('confirm.msg.delete'),
-  updateSuccess: translate('addon.onSave.update.success'),
-  updateError: translate('addon.onSave.update.error'),
+    add: translate('aqiConfigCalculation.add'),
+    required1D_1H: translate('aqiConfigCalculation.required1D_1H'),
+    required: translate('aqiConfigCalculation.required'),
+    compareToMax: translate('aqiConfigCalculation.compareToMax'),
+    compareToMin: translate('aqiConfigCalculation.compareToMin'),
+    collevel: translate('aqiConfigCalculation.collevel'),
+    colValue: translate('aqiConfigCalculation.colValue'),
+    colLevel: translate('aqiConfigCalculation.colLevel'),
+    colMin: translate('aqiConfigCalculation.colMin'),
+    colMax: translate('aqiConfigCalculation.colMax'),
+    colColor: translate('aqiConfigCalculation.colColor'),
+    colDescription: translate('aqiConfigCalculation.colDescription'),
 
-  add: translate('aqiConfigCalculation.add'),
-  required1D_1H: translate('aqiConfigCalculation.required1D_1H'),
-  required: translate('aqiConfigCalculation.required'),
-  compareToMax: translate('aqiConfigCalculation.compareToMax'),
-  compareToMin: translate('aqiConfigCalculation.compareToMin'),
-  collevel: translate('aqiConfigCalculation.collevel'),
-  colValue: translate('aqiConfigCalculation.colValue'),
-  colLevel: translate('aqiConfigCalculation.colLevel'),
-  colMin: translate('aqiConfigCalculation.colMin'),
-  colMax: translate('aqiConfigCalculation.colMax'),
-  colColor: translate('aqiConfigCalculation.colColor'),
-  colDescription: translate('aqiConfigCalculation.colDescription'),
-
-  colMeasureKey: translate('aqiConfigCalculation.colMeasureKey'),
-  colMeasure: translate('aqiConfigCalculation.colMeasure'),
-  colAvg1H: translate('aqiConfigCalculation.colAvg1H'),
-  colAvg1D: translate('aqiConfigCalculation.colAvg1D'),
-  colUnit: translate('aqiConfigCalculation.colUnit'),
+    colMeasureKey: translate('aqiConfigCalculation.colMeasureKey'),
+    colMeasure: translate('aqiConfigCalculation.colMeasure'),
+    colAvg1H: translate('aqiConfigCalculation.colAvg1H'),
+    colAvg1D: translate('aqiConfigCalculation.colAvg1D'),
+    colUnit: translate('aqiConfigCalculation.colUnit'),
+  }
 }
 
 @Form.create({})
@@ -68,7 +69,7 @@ export default class TabMucDo extends React.Component {
     const { form } = this.props
     const valueMax = form.getFieldValue(fliedName)
     if (_.isNumber(value) && _.isNumber(valueMax) && value > valueMax) {
-      callback(i18n.compareToMax)
+      callback(i18n().compareToMax)
     } else {
       callback()
     }
@@ -78,7 +79,7 @@ export default class TabMucDo extends React.Component {
     const { form } = this.props
     const valueMin = form.getFieldValue(fliedName)
     if (_.isNumber(value) && _.isNumber(valueMin) && value < valueMin) {
-      callback(i18n.compareToMin)
+      callback(i18n().compareToMin)
     } else {
       callback()
     }
@@ -87,11 +88,11 @@ export default class TabMucDo extends React.Component {
   createColumn = (keyMeasure, type) => {
     return {
       key: `${keyMeasure}_${type}`,
-      title: `${i18n.colValue} ${keyMeasure} ${type}`,
+      title: `${i18n().colValue} ${keyMeasure} ${type}`,
       align: 'center',
       children: [
         {
-          title: i18n.colMin,
+          title: i18n().colMin,
           align: 'center',
           key: `${keyMeasure}_${type}_min`,
           render: (text, record, index) => {
@@ -113,7 +114,7 @@ export default class TabMucDo extends React.Component {
                   rules: [
                     {
                       required: !getFieldValue(fliedName),
-                      message: i18n.required,
+                      message: i18n().required,
                     },
                     {
                       validator: (rule, value, callback) =>
@@ -131,7 +132,7 @@ export default class TabMucDo extends React.Component {
           },
         },
         {
-          title: i18n.colMax,
+          title: i18n().colMax,
           align: 'center',
           key: `${keyMeasure}_${type}_max`,
           render: (text, record, index) => {
@@ -154,7 +155,7 @@ export default class TabMucDo extends React.Component {
                   rules: [
                     {
                       required: !getFieldValue(fliedName),
-                      message: i18n.required,
+                      message: i18n().required,
                     },
                     {
                       validator: (rule, value, callback) =>
@@ -205,7 +206,7 @@ export default class TabMucDo extends React.Component {
 
     return [
       {
-        title: i18n.collevel,
+        title: i18n().collevel,
         dataIndex: 'name',
         key: 'name',
         width: 100,
@@ -228,7 +229,7 @@ export default class TabMucDo extends React.Component {
                 rules: [
                   {
                     required: !getFieldValue(`aqiQCLevel[${record.key}].name`),
-                    message: i18n.required1D_1H,
+                    message: i18n().required1D_1H,
                   },
                 ],
               })(<Input style={{ width: '100%' }} />)}
@@ -237,11 +238,11 @@ export default class TabMucDo extends React.Component {
         },
       },
       {
-        title: `${i18n.colValue} i`,
+        title: `${i18n().colValue} i`,
         align: 'center',
         children: [
           {
-            title: i18n.colMin,
+            title: i18n().colMin,
             dataIndex: 'min',
             key: 'min',
             align: 'center',
@@ -265,7 +266,7 @@ export default class TabMucDo extends React.Component {
                         required: !getFieldValue(
                           `aqiQCLevel[${record.key}].min`
                         ),
-                        message: i18n.required,
+                        message: i18n().required,
                       },
                       {
                         validator: (rule, value, callback) =>
@@ -283,7 +284,7 @@ export default class TabMucDo extends React.Component {
             },
           },
           {
-            title: i18n.colMax,
+            title: i18n().colMax,
             dataIndex: 'max',
             key: 'max',
             align: 'center',
@@ -307,7 +308,7 @@ export default class TabMucDo extends React.Component {
                         required: !getFieldValue(
                           `aqiQCLevel[${record.key}].max`
                         ),
-                        message: i18n.required,
+                        message: i18n().required,
                       },
                       {
                         validator: (rule, value, callback) =>
@@ -336,9 +337,9 @@ export default class TabMucDo extends React.Component {
           return (
             <Popconfirm
               onConfirm={this.delete.bind(this, record.key)}
-              title={i18n.confirmMsgDelete}
-              okText={i18n.yes}
-              cancelText={i18n.cancel}
+              title={i18n().confirmMsgDelete}
+              okText={i18n().yes}
+              cancelText={i18n().cancel}
               placement="left"
             >
               <Icon
@@ -368,7 +369,7 @@ export default class TabMucDo extends React.Component {
             transformData
           )
           if (response.success) {
-            message.success(i18n.updateSuccess)
+            message.success(i18n().updateSuccess)
           }
         } finally {
           this.setState({ isSubmit: false })
@@ -439,7 +440,7 @@ export default class TabMucDo extends React.Component {
     return (
       <Spin spinning={!this.state.isLoaded}>
         <Button type="primary" onClick={this.add}>
-          {i18n.add}
+          {i18n().add}
         </Button>
         <Clearfix height={16} />
         <Table
@@ -456,7 +457,7 @@ export default class TabMucDo extends React.Component {
           type="primary"
           onClick={this.submit}
         >
-          {i18n.submit}
+          {i18n().submit}
         </Button>
       </Spin>
     )

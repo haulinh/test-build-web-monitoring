@@ -15,15 +15,21 @@ const WrapperComponent = styled.div`
   }
 `
 
-const i18n = {
-  key: translate('stationFixedPoint.form.measuringForm.key'),
-  name: translate('stationFixedPoint.form.measuringForm.nameMeasuring'),
-  addMeasuring: translate('stationFixedPoint.form.measuringForm.addMeasuring'),
-  tendToExceed: translate('stationFixedPoint.form.measuringForm.tendToExceed'),
-  qcvn: translate('stationFixedPoint.form.measuringForm.qcvn'),
-  qcvnMax: translate('aqiConfigCalculation.colValue'),
-  delete: translate('stationFixedPoint.delete.require'),
-  stt: translate('dataPointReport.title.numberOrder'),
+function i18n() {
+  return {
+    key: translate('stationFixedPoint.form.measuringForm.key'),
+    name: translate('stationFixedPoint.form.measuringForm.nameMeasuring'),
+    addMeasuring: translate(
+      'stationFixedPoint.form.measuringForm.addMeasuring'
+    ),
+    tendToExceed: translate(
+      'stationFixedPoint.form.measuringForm.tendToExceed'
+    ),
+    qcvn: translate('stationFixedPoint.form.measuringForm.qcvn'),
+    qcvnMax: translate('aqiConfigCalculation.colValue'),
+    delete: translate('stationFixedPoint.delete.require'),
+    stt: translate('dataPointReport.title.numberOrder'),
+  }
 }
 
 export default class MeasuringList extends React.Component {
@@ -106,7 +112,7 @@ export default class MeasuringList extends React.Component {
 
   columns = [
     {
-      title: i18n.stt,
+      title: i18n().stt,
       align: 'center',
       render: (value, _, index) => {
         return <div>{index + 1}</div>
@@ -116,13 +122,13 @@ export default class MeasuringList extends React.Component {
     {
       dataIndex: 'key',
       align: 'center',
-      title: i18n.key,
+      title: i18n().key,
       width: 130,
     },
     {
       dataIndex: 'name',
       align: 'center',
-      title: i18n.name,
+      title: i18n().name,
       render: (text, record, index) => {
         if (record.rowKey === this.state.editRowKey) {
           const value = this.state.measuringList[index].key
@@ -150,7 +156,7 @@ export default class MeasuringList extends React.Component {
     {
       dataIndex: 'fee',
       align: 'center',
-      title: i18n.qcvnMax,
+      title: i18n().qcvnMax,
       width: 150,
       render: (text, record, index) => {
         if (record.rowKey === this.state.editRowKey) {
@@ -177,7 +183,7 @@ export default class MeasuringList extends React.Component {
           >
             <span>
               <Popconfirm
-                title={i18n.delete}
+                title={i18n().delete}
                 onConfirm={() => this.handleRemoveRow(index)}
               >
                 <a>
@@ -231,7 +237,7 @@ export default class MeasuringList extends React.Component {
           size="large"
           onClick={this.handleAddRow}
         >
-          {i18n.addMeasuring}
+          {i18n().addMeasuring}
         </Button>
         {this.state.isLoaded && (
           <Table
