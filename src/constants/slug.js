@@ -640,6 +640,7 @@ export function listMenuName() {
     },
     billing: translate('menuApp.billing'),
     ticket: translate('menuApp.ticket'),
+    language: translate('menuApp.language'),
   }
 }
 export function listTooltipMenu() {
@@ -736,5 +737,6 @@ export function listTooltipMenu() {
       incident: translate('tooltipMenuApp.ticket.incident'),
       configProperties: translate('tooltipMenuApp.ticket.configProperties'),
     },
+    language: translate('tooltipMenuApp.language'),
   }
 }

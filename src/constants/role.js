@@ -281,8 +281,6 @@ export default {
   MAP_STATION_FIXED: {
     VIEW: 'menu.stationFixMap.actions.view',
   },
-
-  /* #endregion */
   BILLING_REPORT: {
     VIEW: 'menu.billingReport.actions.view',
     EXPORT: 'menu.billingReport.actions.export',
@@ -292,5 +290,8 @@ export default {
     CREATE: 'menu.billingConfig.actions.create',
     EDIT: 'menu.billingConfig.actions.edit',
     DELETE: 'menu.billingConfig.actions.delete',
+  },
+  LANGUAGES: {
+    VIEW: 'menu.language.actions.view',
   },
 }

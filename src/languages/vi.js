@@ -2268,6 +2268,9 @@ export default {
       config_color_noti: {
         name: 'Cấu hình màu cảnh báo',
       },
+      language: {
+        name: 'Cấu hình ngôn ngữ',
+      },
       xem_Nhat_ky: {
         name: 'Xem nhật ký',
       },
@@ -2952,6 +2955,7 @@ export default {
     },
     billing: 'Phí môi trường',
     ticket: 'Sự cố',
+    language: 'Ngôn ngữ',
   },
   tooltipMenuApp: {
     notification: 'Thông báo',
@@ -3044,6 +3048,7 @@ export default {
       incident: 'Quản lý sự cố',
       configProperties: 'Cấu hình thuộc tính',
     },
+    language: 'Cấu hình ngôn ngữ',
     hideMenu: 'Ẩn menu',
     showMenu: 'Hiện menu',
   },

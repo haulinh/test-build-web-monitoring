@@ -298,6 +298,7 @@ export default class MenuApp extends React.PureComponent {
               ROLE.ROLE.VIEW,
               ROLE.USER.VIEW,
               ROLE.XEM_NHAT_KY.VIEW,
+              ROLE.LANGUAGES.VIEW,
             ]) && ConfigMenu.renderComp(this.props)}
           </Menu>
         </SimpleBarReact>

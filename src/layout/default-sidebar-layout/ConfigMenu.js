@@ -233,6 +233,19 @@ export default {
         </Menu.Item>
       )}
 
+      {protectRole(ROLE.LANGUAGES.VIEW)(
+        <Menu.Item
+          key={slug.language.base}
+          onClick={() => {
+            props.selectMenu(slug.language.base)
+          }}
+        >
+          <Tooltip placement="right" title={listTooltipMenu().language}>
+            <Link to={slug.language.base}>{listMenuName().language}</Link>
+          </Tooltip>
+        </Menu.Item>
+      )}
+
       {/* NOTE  NHẬT KÝ */}
       {protectRole(ROLE.XEM_NHAT_KY.VIEW)(
         <Menu.Item

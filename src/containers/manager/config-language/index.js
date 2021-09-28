@@ -285,7 +285,7 @@ class ConfigLanguagePage extends React.Component {
             )}
           </HeaderSearchWrapper>
         }
-        isLoading={this.state.isLoading}
+        isLoading={false}
         componentLoading={<Skeleton paragraph={{ rows: 10 }} active />}
       >
         <Breadcrumb items={['list']} />
