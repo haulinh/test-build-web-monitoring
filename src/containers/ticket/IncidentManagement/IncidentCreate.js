@@ -7,7 +7,6 @@ import SelectMeasureParameter from 'components/elements/select-measure-parameter
 import { FormItem } from 'components/layouts/styles'
 import { getMeasuringListFromStationAutos } from 'containers/api-sharing/util'
 import React, { Component } from 'react'
-import { getParamArray } from 'utils/params'
 import { FixedBottom, ILLDrawer } from '../Component'
 import { Fields, i18n } from './index'
 
@@ -50,8 +49,8 @@ export default class IncidentCreate extends Component {
       [Fields.name]: values[Fields.name],
       [Fields.type]: values[Fields.type],
       [Fields.description]: values[Fields.description],
-      [Fields.measures]: getParamArray(values[Fields.measures]),
-      [Fields.stationIds]: getParamArray(values[Fields.stationIds]),
+      [Fields.measures]: values[Fields.measures],
+      [Fields.stationIds]: values[Fields.stationIds],
     }
 
     return params
