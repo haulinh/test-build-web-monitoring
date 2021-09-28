@@ -10,7 +10,6 @@ function i18n() {
 
 export default createBreadcrumb({
   list: {
-    name: i18n().base,
     getName: () => {
       return i18n().base
     },

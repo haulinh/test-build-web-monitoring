@@ -8,12 +8,12 @@ export default createBreadcrumb({
     id: 'base',
     icon: '',
     href: slug.camera.base,
-    name: translate('cameraManager.breadcrumb.camera'),
+    getName: () => translate('cameraManager.breadcrumb.camera'),
   },
   edit: {
     id: 'base',
     icon: '',
     href: slug.camera.base,
-    name: translate('cameraManager.breadcrumb.camera'),
+    getName: () => translate('cameraManager.breadcrumb.camera'),
   },
 })

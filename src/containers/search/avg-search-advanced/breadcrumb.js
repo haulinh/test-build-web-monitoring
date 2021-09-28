@@ -5,7 +5,7 @@ import createBreadcrumb from 'shared/breadcrumb/hoc'
 
 export default createBreadcrumb({
   list: {
-    name: translate('avgSearchFrom.titleText'),
+    getName: () => translate('avgSearchFrom.titleText'),
     id: 'base',
     icon: '',
     href: slug.avgSearchAdvanced.base,

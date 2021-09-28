@@ -5,7 +5,7 @@ import createBreadcrumb from 'shared/breadcrumb/hoc'
 
 export default createBreadcrumb({
   list: {
-    name: translate('dataSearchFrom.titleText'),
+    getName: () => translate('dataSearchFrom.titleText'),
     id: 'base',
     icon: '',
     href: slug.dataSearch.base,

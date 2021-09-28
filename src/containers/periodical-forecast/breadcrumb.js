@@ -7,26 +7,26 @@ export default createBreadcrumb({
   list: {
     id: 'list',
     href: slug.periodicalForecast.station,
-    name: t('periodicalForecast.title.station'),
+    getName: () => t('periodicalForecast.title.station'),
   },
   create: {
     id: 'create',
     href: slug.periodicalForecast.stationCreate,
-    name: t('stationFixedPoint.create.label'),
+    getName: () => t('stationFixedPoint.create.label'),
   },
   edit: {
     id: 'edit',
     href: slug.periodicalForecast.stationEdit,
-    name: t('stationFixedPoint.edit.label'),
+    getName: () => t('stationFixedPoint.edit.label'),
   },
   import: {
     id: 'import',
     href: slug.periodicalForecast.importStation,
-    name: t('periodicalForecast.title.importData'),
+    getName: () => t('periodicalForecast.title.importData'),
   },
   search: {
     id: 'search',
     href: slug.periodicalForecast.search,
-    name: t('periodicalForecast.title.search'),
+    getName: () => t('periodicalForecast.title.search'),
   },
 })
