@@ -1,4 +1,4 @@
-import { Button, Drawer, Form, Input, Select } from 'antd'
+import { Button, Col, Drawer, Form, Input, Row, Select } from 'antd'
 import { FormItem } from 'components/layouts/styles'
 import React, { Component } from 'react'
 import { FIELDS, optionSelectType } from './index'
@@ -62,9 +62,13 @@ export default class ConfigCreate extends Component {
                         )}
                     </FormItem>
                     <Categories />
-                    <Button type="primary" htmlType="submit">
-                        {i18n().form.button}
-                    </Button>
+                    <Row justify="end">
+                        <Col>
+                            <Button type="primary" htmlType="submit">
+                                {i18n().form.button}
+                            </Button>
+                        </Col>
+                    </Row>
                 </Form>
             </Drawer>
         )

@@ -1,54 +1,56 @@
+import { Col, Icon, Input, Row } from 'antd';
 import React, { Component } from 'react'
 
+
 class Categories extends Component {
-    state = {
-      list: []
-    }
+  state = {
+    list: []
+  }
 
-    onCreate = () => {
-      const newKey = Math.random()
-      const {list}= this.state;
+  onCreate = () => {
+    const newKey = Math.random()
+    const { list } = this.state;
 
-      this.setState({list: [...list, newKey]})
-    }
+    this.setState({ list: [...list, newKey] })
+  }
 
-    onDrop = (ev, idx) => {
-      ev.preventDefault();
-      var newIdx = ev.dataTransfer.getData("index");
-      console.log('onDrop ',idx, newIdx)
-    }
+  onDelSubCategory = (idx) => {
+    const { list } = this.state;
+    const newList = list.filter((_, i) => i !== idx)
 
-    onDragStart = (ev, idx) => {
-      console.log('==========================')
-      console.log('onDragStart ', idx)
-      ev.dataTransfer.setData("index", idx);
-    }
+    this.setState({ list: newList })
+  }
 
-    render() {
-        const {list} = this.state
-        
-        return (
-          <div>
-            <div>
-              Danh muc
-              <button onClick={this.onCreate}>Create</button> 
+  render() {
+    const { list } = this.state
+
+    return (
+      <div>
+        <div>
+          Danh muc
+          <button onClick={this.onCreate}>Create</button>
+        </div>
+        {list.map((item, idx) => {
+          return (
+            <div key={item}>
+              <Row gutter={10} style={{ marginTop: 5 }}>
+                <Col span={1} style={{ paddingTop: 6, paddingRight: 25 }}>
+                  <Icon type="menu" style={{ color: "#BFBFBF", fontSize: "16px" }}></Icon>
+                </Col>
+                <Col span={22}>
+                  <Input
+                    suffix={
+                      <Icon onClick={() => this.onDelSubCategory(idx)} type="close" style={{ color: "#BFBFBF", fontSize: "12px" }} />
+                    }>
+                  </Input>
+                </Col>
+              </Row>
             </div>
-            {list.map((item, idx) => {
-              return (
-                <div key={item}>
-                  <span 
-                    draggable="true"
-                    onDragOver={e => e.preventDefault()}
-                    onDrop={(ev) => this.onDrop(ev, idx)}
-                    onDragStart={(ev) => this.onDragStart(ev, idx)}
-                  >drag {item}</span>
-                  <input />
-                </div>
-              )
-            })}
-          </div>
-        )
-    }
+          )
+        })}
+      </div>
+    )
+  }
 }
 
 export default Categories
