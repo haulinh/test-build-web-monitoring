@@ -5,15 +5,15 @@ import { translate as t } from 'hoc/create-lang'
 const options = [
   {
     key: 'month',
-    name: t('billing.option.reportMonth'),
+    name: () => t('billing.option.reportMonth'),
   },
   {
     key: 'quarter',
-    name: t('billing.option.reportQuarter'),
+    name: () => t('billing.option.reportQuarter'),
   },
   {
     key: 'custom',
-    name: t('billing.option.reportCustom'),
+    name: () => t('billing.option.reportCustom'),
   },
 ]
 
@@ -28,7 +28,7 @@ const SelectReportType = ({ value, onChange, form } = {}) => {
     <Select style={{ width: '100%' }} value={value} onChange={handleOnChange}>
       {options.map(option => (
         <Select.Option key={option.key} value={option.key}>
-          {option.name}
+          {option.name()}
         </Select.Option>
       ))}
     </Select>
