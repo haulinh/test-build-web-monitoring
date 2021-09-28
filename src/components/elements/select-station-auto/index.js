@@ -85,17 +85,19 @@ export default class SelectStationAuto extends React.PureComponent {
     this.setState({ searchString: '' })
 
     const { stationAutoSelects } = this.state
-    const { mode, onChange, onChangeObject } = this.props
-    let stationType = stationAutoSelects.find(s => s.key === list)
+    const { mode, onChange, onChangeObject, fieldValue } = this.props
+    let stationType = stationAutoSelects.find(
+      s => s[fieldValue || 'key'] === list
+    )
     let stationKeys = list
 
     if (mode === 'multiple') {
       const stationAutoMaps = new Map(
-        stationAutoSelects.map(item => [item.key, item.name])
+        stationAutoSelects.map(item => [item[fieldValue || 'key'], item.name])
       )
       stationKeys = list.filter(key => stationAutoMaps.has(key))
       stationType = stationAutoSelects.filter(item => {
-        return stationKeys.includes(item.key)
+        return stationKeys.includes(item[fieldValue || 'key'])
       })
     }
 
@@ -122,8 +124,11 @@ export default class SelectStationAuto extends React.PureComponent {
         )
       : stationAutoMaps.get(selectValue) || valueNames
 
+    const { fieldValue } = this.props
+
     return (
       <Select
+        maxTagCount={3}
         {...this.props}
         style={{ width: '100%' }}
         allowClear
@@ -134,7 +139,7 @@ export default class SelectStationAuto extends React.PureComponent {
         filterOption={false}
       >
         {stationAutos.map(item => (
-          <Select.Option key={item.key} value={item.key}>
+          <Select.Option key={item.key} value={item[fieldValue || 'key']}>
             {removeAccents(language, item.name)}
           </Select.Option>
         ))}

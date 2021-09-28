@@ -33,6 +33,7 @@ export default {
     loading: 'Đang tải',
     edit: 'Sửa',
     delete: 'Xoá',
+    create: 'Tạo mới',
   },
   rules: {
     required: 'Bắt buộc',
@@ -3764,6 +3765,8 @@ export default {
         incidentType: 'Loại sự cố',
         description: 'Mô tả',
         stationName: 'Tên trạm',
+        measure: 'Thông số',
+        time: 'Thời gian sự cố',
       },
       configProperties: {},
     },
