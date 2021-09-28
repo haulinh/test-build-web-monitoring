@@ -2,6 +2,9 @@
   "name": "auth-dashboard",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "10.x"
+  },
   "dependencies": {
     "@atlaskit/breadcrumbs": "^3.1.10",
     "@atlaskit/button": "^5.4.14",
