@@ -162,11 +162,11 @@ class QuarterPickerCustom extends React.Component {
 const options = [
   {
     key: 'month',
-    name: t('billing.option.month'),
+    name: () => t('billing.option.month'),
   },
   {
     key: 'quarter',
-    name: t('billing.option.quarter'),
+    name: () => t('billing.option.quarter'),
   },
 ]
 
@@ -275,7 +275,7 @@ const SelectTimeReport = ({
         >
           {options.map(option => (
             <Select.Option key={option.key} value={option.key}>
-              {option.name}
+              {option.name()}
             </Select.Option>
           ))}
         </Select>
