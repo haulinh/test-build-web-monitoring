@@ -1,9 +1,11 @@
-import { Button, Drawer, Form, Input, List, Select } from 'antd'
+import { Button, Drawer, Form, Input, Select } from 'antd'
 import { FormItem } from 'components/layouts/styles'
 import React, { Component } from 'react'
 import { FIELDS, optionSelectType } from './index'
 import { translate as t } from 'hoc/create-lang'
 import CalculateApi from 'api/CalculateApi'
+import Categories from './Categories'
+
 
 const i18n = () => ({
     drawer: {
@@ -59,11 +61,7 @@ export default class ConfigCreate extends Component {
                             </Select>
                         )}
                     </FormItem>
-                    <FormItem>
-                        <List>
-
-                        </List>
-                    </FormItem>
+                    <Categories />
                     <Button type="primary" htmlType="submit">
                         {i18n().form.button}
                     </Button>

@@ -23,7 +23,7 @@ export default function ConfigList({ form }) {
 
     return (
         <React.Fragment>
-            <Table columns={columns} dataSource={form} pagination={false} />
+            <Table rowKey="_id" columns={columns} dataSource={form} pagination={false} />
         </React.Fragment>
     )
 }
