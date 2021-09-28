@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import StationAutoApi from 'api/StationAuto'
 import { get } from 'lodash-es'
 import { TreeSelect } from 'antd'
+import _ from 'lodash'
 
 const { SHOW_PARENT } = TreeSelect
 
@@ -40,8 +41,28 @@ export default class TreeSelectStation extends Component {
     key: stationType.key,
   }))
 
+  getStationAutos = () => {
+    const { province, fieldValue } = this.props
+    let stationAutos = this.state.stationAutos
+
+    if (province) {
+      stationAutos = stationAutos.filter(stationAuto => {
+        const provinceValue = _.get(
+          stationAuto,
+          ['province', fieldValue || 'key'],
+          ''
+        )
+        return provinceValue === province
+      })
+    }
+
+    return stationAutos
+  }
+
   getTreeData = () => {
-    const { stationTypes, stationAutos } = this.state
+    const { stationTypes } = this.state
+    const { fieldValue } = this.props
+    const stationAutos = this.getStationAutos()
     const treeData = stationTypes.map(stationType => {
       const stationAutosOfStationType = stationAutos.filter(
         stationAuto => stationAuto.stationType._id === stationType._id
@@ -52,7 +73,7 @@ export default class TreeSelectStation extends Component {
         key: stationType._id,
         children: stationAutosOfStationType.map(station => ({
           title: station.name,
-          value: station._id,
+          value: station[fieldValue || 'key'],
           key: station._id,
         })),
       }
@@ -61,8 +82,10 @@ export default class TreeSelectStation extends Component {
   }
 
   handleOnChange = value => {
-    const { stationTypes, stationAutos } = this.state
-    const { onChange } = this.props
+    const { stationTypes } = this.state
+    const { onChange, fieldValue } = this.props
+
+    const stationAutos = this.getStationAutos()
 
     const stationTypeIds = stationTypes.map(stationType => stationType._id)
 
@@ -70,7 +93,7 @@ export default class TreeSelectStation extends Component {
       if (stationTypeIds.includes(current)) {
         const stationAutosOfStationType = stationAutos
           .filter(stationAuto => stationAuto.stationType._id === current)
-          .map(stationAuto => stationAuto._id)
+          .map(stationAuto => stationAuto[fieldValue || 'key'])
 
         return [...baseStationAutoIds, ...stationAutosOfStationType]
       }

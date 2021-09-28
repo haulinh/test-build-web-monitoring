@@ -1,45 +1,106 @@
-import { Table } from 'antd'
+import { Table, Tooltip } from 'antd'
 import React from 'react'
-import { i18n, incidentType } from './index'
+import { i18n, incidentType, PAGE_SIZE } from './index'
 import { translate as t } from 'hoc/create-lang'
+import { get, omit } from 'lodash-es'
+import moment from 'moment'
+import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 
-export const TableData = ({ data }) => {
+export const TableData = ({
+  result = {},
+  setPage = () => {},
+  onSearch = () => {},
+  page,
+  loading,
+}) => {
   const columns = [
     {
       title: '#',
-      render: (_, __, index) => <div>{index}</div>,
+      render: (_, __, index) => <div>{(page - 1) * PAGE_SIZE + index}</div>,
     },
     {
       dataIndex: 'name',
+      align: 'center',
       title: i18n().name,
       render: value => <div>{value}</div>,
     },
     {
       dataIndex: 'type',
+      align: 'center',
       title: i18n().incidentType,
       render: value => <div>{incidentType()[value]}</div>,
     },
     {
-      title: i18n().stationName,
-      render: () => <div></div>,
+      dataIndex: 'stations',
+      align: 'center',
+      title: t('apiSharingNew.fields.stationKeys'),
+      render: value => {
+        const stationNames = value.map(item => item.name).join(',')
+        return (
+          <Tooltip title={stationNames}>
+            <div
+              style={{
+                maxWidth: 300,
+                fontSize: 14,
+                color: '#262626',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'pre',
+                overflow: 'hidden',
+              }}
+            >
+              {stationNames}
+            </div>
+          </Tooltip>
+        )
+      },
     },
     {
-      title: t('menuApp.config.stationAuto'),
-      render: () => <div></div>,
+      dataIndex: 'status',
+      align: 'center',
+      title: i18n().status,
+      render: value => (
+        <div
+          style={{
+            ...omit(value, ['_id, name']),
+            textAlign: 'center',
+            border: `1px solid ${value.color}`,
+            borderRadius: '4px',
+          }}
+        >
+          {value.name}
+        </div>
+      ),
     },
     {
-      title: t('userManager.list.status'),
-      render: () => <div></div>,
-    },
-    {
+      dataIndex: 'timeStart',
+      align: 'center',
       title: t('avgSearchFrom.selectTimeRange.startTime'),
-      render: () => <div></div>,
+      render: value => <div>{moment(value).format(DD_MM_YYYY_HH_MM)}</div>,
     },
     {
+      dataIndex: 'timeEnd',
+      align: 'center',
       title: t('avgSearchFrom.selectTimeRange.endTime'),
-      render: () => <div></div>,
+      render: value => (
+        <div>{value && moment(value).format(DD_MM_YYYY_HH_MM)}</div>
+      ),
     },
   ]
 
-  return <Table columns={columns} dataSource={data} />
+  const handleOnChangePagination = (page, pageSize) => {
+    setPage(page)
+    onSearch()
+  }
+
+  return (
+    <Table
+      columns={columns}
+      dataSource={get(result, 'data', [])}
+      pagination={{
+        onChange: handleOnChangePagination,
+        total: get(result, 'pagination.total'),
+      }}
+      loading={loading}
+    />
+  )
 }
