@@ -19,6 +19,12 @@ export const Fields = {
   time: 'time',
 }
 
+export const incidentType = () => ({
+  default: t('ticket.incidentType.default'),
+  station: t('ticket.incidentType.station'),
+  station_with_measure: t('ticket.incidentType.measure'),
+})
+
 export const i18n = () => ({
   name: t('ticket.label.incident.name'),
   incidentType: t('ticket.label.incident.incidentType'),
@@ -30,7 +36,7 @@ export const i18n = () => ({
 
 @Form.create()
 export default class IncidentManagement extends Component {
-  state = { visible: false }
+  state = { visible: false, data: [], loading: false }
 
   showDrawer = () => {
     this.setState({
@@ -60,7 +66,7 @@ export default class IncidentManagement extends Component {
     const params = {
       [Fields.stationIds]: getParamArray(values[Fields.stationIds]),
       from: values[Fields.time][0].startOf('d').toDate(),
-      to: values[Fields.time][1].startOf('d').toDate(),
+      to: values[Fields.time][1].endOf('d').toDate(),
       offset: 1,
       limit: 10,
     }
@@ -69,18 +75,21 @@ export default class IncidentManagement extends Component {
   }
 
   handleOnSearch = async () => {
-    const res = await CalculateApi.getTickets()
-    console.log({ res })
-
     const params = await this.getParams()
-    const result = await CalculateApi.getTickets(params)
-    console.log({ result })
+    this.setState({ loading: true })
+    try {
+      const data = await CalculateApi.getTickets(params)
+      this.setState({ data, loading: false })
+    } catch (error) {
+      console.log(error)
+      this.setState({ loading: false })
+    }
   }
 
   handleExport = () => {}
 
   render() {
-    const { visible } = this.state
+    const { visible, data } = this.state
     const { form } = this.props
 
     return (
@@ -100,7 +109,9 @@ export default class IncidentManagement extends Component {
           </Col>
         </Row>
 
-        <TableData />
+        <Clearfix height={32} />
+
+        <TableData data={data} />
 
         <IncidentCreate visible={visible} onClose={this.onClose} />
       </PageContainer>

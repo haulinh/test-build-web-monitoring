@@ -3758,6 +3758,11 @@ export default {
       incident: 'Quản lý sự cố',
       configProperties: 'Cấu hình thuộc tính',
     },
+    incidentType: {
+      default: 'Sự cố loại khác',
+      station: 'Sự cố trạm quan trắc',
+      measure: 'Sự cố thông số quan trắc',
+    },
     label: {
       dataLookup: {},
       incident: {
