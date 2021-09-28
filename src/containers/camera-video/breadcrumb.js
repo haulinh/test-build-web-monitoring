@@ -7,10 +7,10 @@ export default createBreadcrumb({
   list: {
     id: 'list',
     href: slug.cameraControl.base,
-    name: translate('cameraManager.breadcrumb.camera'),
+    getName: () => translate('cameraManager.breadcrumb.camera'),
   },
   detail: {
     href: slug.cameraControl.detail,
-    name: translate('cameraManager.breadcrumb.camera'),
+    getName: () => translate('cameraManager.breadcrumb.camera'),
   },
 })

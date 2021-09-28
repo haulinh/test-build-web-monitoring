@@ -7,21 +7,21 @@ export default createBreadcrumb({
   list: {
     id: 'list',
     href: slug.billing.config,
-    name: t('billing.title.config'),
+    getName: () => t('billing.title.config'),
   },
   create: {
     id: 'create',
     href: slug.billing.configCreate,
-    name: t('stationFixedPoint.create.label'),
+    getName: () => t('stationFixedPoint.create.label'),
   },
   edit: {
     id: 'edit',
     href: slug.billing.configEdit,
-    name: t('stationFixedPoint.edit.label'),
+    getName: () => t('stationFixedPoint.edit.label'),
   },
   report: {
     id: 'search',
     href: slug.billing.report,
-    name: t('billing.title.report'),
+    getName: () => t('billing.title.report'),
   },
 })
