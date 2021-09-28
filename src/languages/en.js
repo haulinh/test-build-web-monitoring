@@ -2276,6 +2276,9 @@ export default {
       config_color_noti: {
         name: 'Configure warning color',
       },
+      language: {
+        name: 'Configure language',
+      },
       xem_Nhat_ky: {
         name: 'System Logs',
       },
@@ -3750,18 +3753,16 @@ export default {
       incident: 'Quản lý sự cố',
       configProperties: 'Cấu hình thuộc tính',
     },
-    label: {
-      
-    },
+    label: {},
     config: {
       drawer: {
-        title: 'Tạo mới thuộc tính'
+        title: 'Tạo mới thuộc tính',
       },
       form: {
         name: 'Tên thuộc tính',
         type: 'Kiểu dữ liệu',
         button: 'Tạo mới',
-      }
-    }
+      },
+    },
   },
 }
