@@ -2954,6 +2954,7 @@ export default {
     },
     billing: 'Billing',
     ticket: 'Incident',
+    language: 'Languages',
   },
   tooltipMenuApp: {
     notification: 'Notifications',
@@ -3045,6 +3046,7 @@ export default {
       incident: 'Quản lý sự cố',
       configProperties: 'Cấu hình thuộc tính',
     },
+    language: 'Configure Languages',
     hideMenu: 'Hide menu',
     showMenu: 'Show menu',
   },
