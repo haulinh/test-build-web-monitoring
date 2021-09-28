@@ -33,6 +33,7 @@ export default {
     loading: 'Loading',
     edit: 'Edit',
     delete: 'Delete',
+    create: 'Create',
   },
   rules: {
     required: 'Required',

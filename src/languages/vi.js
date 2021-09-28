@@ -33,6 +33,7 @@ export default {
     loading: 'Đang tải',
     edit: 'Sửa',
     delete: 'Xoá',
+    create: 'Tạo mới',
   },
   rules: {
     required: 'Bắt buộc',
@@ -3760,6 +3761,11 @@ export default {
       incident: 'Quản lý sự cố',
       configProperties: 'Cấu hình thuộc tính',
     },
+    incidentType: {
+      default: 'Sự cố loại khác',
+      station: 'Sự cố trạm quan trắc',
+      measure: 'Sự cố thông số quan trắc',
+    },
     label: {
       dataLookup: {},
       incident: {
@@ -3767,6 +3773,8 @@ export default {
         incidentType: 'Loại sự cố',
         description: 'Mô tả',
         stationName: 'Tên trạm',
+        measure: 'Thông số',
+        time: 'Thời gian sự cố',
       },
       configProperties: {},
     },
