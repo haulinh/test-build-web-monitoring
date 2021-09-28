@@ -3797,5 +3797,10 @@ export default {
         drawer: 'Tạo mới thuộc tính',
       },
     },
+    message: {
+      incident: {
+        createSuccess: 'Tạo mới thuộc tính thành công',
+      },
+    },
   },
 }

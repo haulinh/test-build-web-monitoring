@@ -32,11 +32,21 @@ export const i18n = () => ({
   stationName: t('ticket.label.incident.stationName'),
   measure: t('ticket.label.incident.measure'),
   create: t('addon.create'),
+  status: t('map.marker.status'),
+  createSuccess: t('ticket.message.incident.createSuccess'),
 })
+
+export const PAGE_SIZE = 10
 
 @Form.create()
 export default class IncidentManagement extends Component {
-  state = { visible: false, data: [], loading: false }
+  state = {
+    visible: false,
+    result: {},
+    loading: false,
+    page: 1,
+    total: null,
+  }
 
   showDrawer = () => {
     this.setState({
@@ -63,12 +73,14 @@ export default class IncidentManagement extends Component {
     const values = await form.validateFields()
     if (!values) return
 
+    const { page } = this.state
+
     const params = {
       [Fields.stationIds]: getParamArray(values[Fields.stationIds]),
       from: values[Fields.time][0].startOf('d').toDate(),
       to: values[Fields.time][1].endOf('d').toDate(),
-      offset: 1,
-      limit: 10,
+      offset: page - 1,
+      limit: PAGE_SIZE,
     }
 
     return params
@@ -78,8 +90,8 @@ export default class IncidentManagement extends Component {
     const params = await this.getParams()
     this.setState({ loading: true })
     try {
-      const data = await CalculateApi.getTickets(params)
-      this.setState({ data, loading: false })
+      const result = await CalculateApi.getTickets(params)
+      this.setState({ result, loading: false })
     } catch (error) {
       console.log(error)
       this.setState({ loading: false })
@@ -88,13 +100,19 @@ export default class IncidentManagement extends Component {
 
   handleExport = () => {}
 
+  setPage = page => {
+    this.setState({ page })
+  }
+
   render() {
-    const { visible, data } = this.state
+    const { visible, result, page, loading } = this.state
     const { form } = this.props
 
     return (
       <PageContainer right={this.ButtonAdd()}>
-        <Search onSearch={this.handleOnSearch}>
+        <Clearfix height={32} />
+
+        <Search onSearch={this.handleOnSearch} loading={loading}>
           <BoxShadow>
             <Filter form={form} />
           </BoxShadow>
@@ -111,7 +129,13 @@ export default class IncidentManagement extends Component {
 
         <Clearfix height={32} />
 
-        <TableData data={data} />
+        <TableData
+          result={result}
+          setPage={this.setPage}
+          onSearch={this.handleOnSearch}
+          page={page}
+          loading={loading}
+        />
 
         <IncidentCreate visible={visible} onClose={this.onClose} />
       </PageContainer>

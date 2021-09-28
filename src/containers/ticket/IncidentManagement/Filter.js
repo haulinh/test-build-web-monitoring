@@ -5,6 +5,7 @@ import { FormItem } from 'components/layouts/styles'
 import React, { Component } from 'react'
 import { Fields } from './index'
 import { translate as t } from 'hoc/create-lang'
+import TreeSelectStation from 'components/elements/select-data/TreeSelectStation'
 
 const { RangePicker } = DatePicker
 
@@ -28,13 +29,7 @@ export default class Filter extends Component {
             <FormItem label={t('menuApp.config.stationAuto')}>
               {form.getFieldDecorator(Fields.stationIds, {
                 rules: [{ required: true }],
-              })(
-                <SelectStationAuto
-                  mode="multiple"
-                  fieldValue="_id"
-                  province={province}
-                />
-              )}
+              })(<TreeSelectStation province={province} fieldValue="_id" />)}
             </FormItem>
           </Col>
           <Col span={8}>

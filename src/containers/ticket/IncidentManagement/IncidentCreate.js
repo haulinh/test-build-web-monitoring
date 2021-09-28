@@ -1,4 +1,4 @@
-import { Button, Form, Input } from 'antd'
+import { Button, Form, Input, message, Modal } from 'antd'
 import TextArea from 'antd/lib/input/TextArea'
 import CalculateApi from 'api/CalculateApi'
 import SelectIncidentType from 'components/elements/select-data/ticket/SelectIncidentType'
@@ -14,6 +14,8 @@ import { Fields, i18n } from './index'
 export default class IncidentCreate extends Component {
   state = {
     stationAutos: [],
+    isSubmitted: false,
+    isModalVisible: false,
   }
 
   isHaveSelectStation = () => {
@@ -61,73 +63,105 @@ export default class IncidentCreate extends Component {
     const params = await this.getParams()
     try {
       const res = await CalculateApi.createTicket(params)
-      if (res) this.props.onClose()
+      if (res) {
+        message.success(i18n().createSuccess)
+        this.setState({ isSubmitted: true })
+        this.props.onClose()
+      }
     } catch (error) {
       console.log(error)
     }
   }
 
+  handleOnClose = async () => {
+    const { onClose, form } = this.props
+    const { isSubmitted } = this.state
+
+    if (isSubmitted) {
+      onClose()
+      return
+    }
+
+    if (!isSubmitted) {
+      this.setState({ isModalVisible: true })
+    }
+  }
+
+  handleOk = () => {
+    this.setState({ isModalVisible: false })
+    this.props.onClose()
+  }
+
   render() {
     const { onClose, visible, form } = this.props
+    const { isModalVisible } = this.state
 
     return (
-      <ILLDrawer
-        title="Basic Drawer"
-        closable={false}
-        onClose={onClose}
-        visible={visible}
-        width={400}
-      >
-        <Form
-          style={{ height: '100%', position: 'relative' }}
-          onSubmit={this.handleOnSubmit}
+      <React.Fragment>
+        <ILLDrawer
+          title="Basic Drawer"
+          closable={false}
+          onClose={this.handleOnClose}
+          visible={visible}
+          width={400}
         >
-          <FormItem label={i18n().name}>
-            {form.getFieldDecorator(Fields.name, {
-              rules: [{ required: true }],
-            })(<Input />)}
-          </FormItem>
-
-          <FormItem label={i18n().incidentType}>
-            {form.getFieldDecorator(Fields.type, {
-              rules: [{ required: true }],
-              initialValue: 'default',
-            })(<SelectIncidentType />)}
-          </FormItem>
-
-          {this.isHaveSelectStation() && (
-            <FormItem label={i18n().stationName}>
-              {form.getFieldDecorator(Fields.stationIds)(
-                <TreeSelectStation
-                  onStationAutosFetchSuccess={this.onStationAutosFetchSuccess}
-                />
-              )}
+          <Form
+            style={{ height: '100%', position: 'relative' }}
+            onSubmit={this.handleOnSubmit}
+          >
+            <FormItem label={i18n().name}>
+              {form.getFieldDecorator(Fields.name, {
+                rules: [{ required: true }],
+              })(<Input />)}
             </FormItem>
-          )}
 
-          {this.isHaveSelectMeasureParameter() && (
-            <FormItem label={i18n().measure}>
-              {form.getFieldDecorator(Fields.measures)(
-                <SelectMeasureParameter
-                  measuringList={this.getMeasuringList()}
-                />
-              )}
+            <FormItem label={i18n().incidentType}>
+              {form.getFieldDecorator(Fields.type, {
+                rules: [{ required: true }],
+                initialValue: 'default',
+              })(<SelectIncidentType />)}
             </FormItem>
-          )}
 
-          <FormItem label={i18n().description}>
-            {form.getFieldDecorator(Fields.description)(
-              <TextArea style={{ height: '150px' }} />
+            {this.isHaveSelectStation() && (
+              <FormItem label={i18n().stationName}>
+                {form.getFieldDecorator(Fields.stationIds)(
+                  <TreeSelectStation
+                    fieldValue="_id"
+                    onStationAutosFetchSuccess={this.onStationAutosFetchSuccess}
+                  />
+                )}
+              </FormItem>
             )}
-          </FormItem>
 
-          <FixedBottom>
-            <Button type="primary" htmlType="submit">
-              {i18n().create}
-            </Button>
-          </FixedBottom>
-        </Form>
-      </ILLDrawer>
+            {this.isHaveSelectMeasureParameter() && (
+              <FormItem label={i18n().measure}>
+                {form.getFieldDecorator(Fields.measures)(
+                  <SelectMeasureParameter
+                    measuringList={this.getMeasuringList()}
+                  />
+                )}
+              </FormItem>
+            )}
+
+            <FormItem label={i18n().description}>
+              {form.getFieldDecorator(Fields.description)(
+                <TextArea style={{ height: '150px' }} />
+              )}
+            </FormItem>
+
+            <FixedBottom>
+              <Button type="primary" htmlType="submit">
+                {i18n().create}
+              </Button>
+            </FixedBottom>
+          </Form>
+        </ILLDrawer>
+        <Modal visible={isModalVisible} onOk={this.handleOk}>
+          <p>Some contents...</p>
+          <p>Some contents...</p>
+          <p>Some contents...</p>
+        </Modal>
+      </React.Fragment>
     )
   }
 }
