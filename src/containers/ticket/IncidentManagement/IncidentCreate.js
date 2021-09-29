@@ -49,7 +49,7 @@ export default class IncidentCreate extends Component {
     const { form } = this.props
     const values = await form.getFieldsValue()
     const params = {
-      [Fields.name]: values[Fields.name],
+      [Fields.name]: values[Fields.name].trim(),
       [Fields.type]: values[Fields.type],
       [Fields.description]: values[Fields.description],
       [Fields.measures]: values[Fields.measures],
@@ -117,7 +117,7 @@ export default class IncidentCreate extends Component {
     return (
       <React.Fragment>
         <ILLDrawer
-          title="Basic Drawer"
+          title={i18n().title}
           closable={false}
           onClose={this.handleOnClose}
           visible={visible}
