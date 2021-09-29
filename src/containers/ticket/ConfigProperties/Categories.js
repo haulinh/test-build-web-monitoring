@@ -14,9 +14,9 @@ class Categories extends Component {
     this.setState({ list: [...list, newKey] })
   }
 
-  onDelSubCategory = (idx) => {
+  onDelSubCategory = (idxDelete) => {
     const { list } = this.state;
-    const newList = list.filter((_, i) => i !== idx)
+    const newList = list.filter((_, idx) => idx !== idxDelete)
 
     this.setState({ list: newList })
   }

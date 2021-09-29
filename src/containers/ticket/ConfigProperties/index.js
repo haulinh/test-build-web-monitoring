@@ -21,6 +21,13 @@ export const FIELDS = {
   hidden: 'hidden'
 }
 
+const obj = {
+  text: "Text",
+  category: "Category",
+  number: "Number",
+  datetime: "Date time"
+}
+
 export default class ConfigProperties extends Component {
   state = {
     visible: false,
@@ -29,7 +36,8 @@ export default class ConfigProperties extends Component {
 
   async componentDidMount() {
     const configs = await CalculateApi.getConfig()
-    this.setState({ configs })
+    const newConfigs = configs.map(item => ({ ...item, type: obj[item.type] }))
+    this.setState({ configs: newConfigs })
   }
 
   showDrawer = () => {

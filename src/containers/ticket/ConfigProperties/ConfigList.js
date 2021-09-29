@@ -17,7 +17,7 @@ export default function ConfigList({ form }) {
         {
             dataIndex: 'hidden',
             title: "",
-            render: value => <Switch>{value}</Switch>,
+            render: value => <Switch checked={value} />,
         },
     ]
 

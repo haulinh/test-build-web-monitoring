@@ -27,6 +27,10 @@ export default class TreeSelectStation extends Component {
       item => !get(item, 'removeStatus.allowed')
     )
 
+    if (this.props.onStationAutosFetchSuccess) {
+      this.props.onStationAutosFetchSuccess(stationAutos)
+    }
+
     this.setState({ stationTypes: resStationTypes.data, stationAutos })
   }
 

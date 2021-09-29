@@ -4,15 +4,15 @@ import React from 'react'
 const options = [
   {
     name: 'Sự cố khác',
-    key: 'other',
+    key: 'default',
   },
   {
     name: 'Sự cố trạm quan trắc',
-    key: 'incidentStation',
+    key: 'station',
   },
   {
     name: 'Sự cố thông sô quan trắc',
-    key: 'incidentMeasure',
+    key: 'station_with_measure',
   },
 ]
 

@@ -2,6 +2,9 @@
   "name": "auth-dashboard",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "10.x"
+  },
   "dependencies": {
     "@atlaskit/breadcrumbs": "^3.1.10",
     "@atlaskit/button": "^5.4.14",
@@ -114,7 +117,7 @@
     "react-highlight-words": "^0.16.0",
     "react-hot-loader": "^3.1.3",
     "react-image": "^4.0.0",
-    "react-image-gallery": "^1.0.7",
+    "react-image-gallery": "1.0.8",
     "react-infinite-scroller": "^1.2.4",
     "react-input-colorpicker": "^1.0.13",
     "react-json-view": "^1.19.1",

@@ -33,6 +33,7 @@ export default {
     loading: 'Loading',
     edit: 'Edit',
     delete: 'Delete',
+    create: 'Create',
   },
   rules: {
     required: 'Required',
@@ -3759,9 +3760,14 @@ export default {
         stationName: 'Tên trạm',
       },
       configProperties: {
-        name: 'Tên thuộc tính',
-        type: 'Kiểu dữ liệu',
-        button: 'Tạo mới',
+        drawer: {
+          title: 'Tạo mới thuộc tính',
+        },
+        form: {
+          name: 'Tên thuộc tính',
+          type: 'Kiểu dữ liệu',
+          button: 'Tạo mới',
+        }
       },
     },
     placeholder: {
@@ -3783,5 +3789,5 @@ export default {
         drawer: 'Tạo mới thuộc tính',
       },
     },
-  },
+  }
 }

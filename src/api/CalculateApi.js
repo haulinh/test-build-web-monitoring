@@ -30,5 +30,16 @@ export default {
   createConfig: params => {
     const url = calc('/ticket-config')
     return postFetch(url, params)
-  }
+  },
+
+  //#region ticket
+  createTicket: params => {
+    const url = calc('ticket')
+    return postFetch(url, params)
+  },
+  getTickets: params => {
+    const url = calc('ticket')
+    return getFetch(url, params)
+  },
+  //#endregion
 }
