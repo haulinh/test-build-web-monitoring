@@ -9,6 +9,7 @@ import { getMeasuringListFromStationAutos } from 'containers/api-sharing/util'
 import React, { Component } from 'react'
 import { FixedBottom, ILLDrawer } from '../Component'
 import { Fields, i18n } from './index'
+import { translate as t } from 'hoc/create-lang'
 
 @Form.create()
 export default class IncidentCreate extends Component {
@@ -58,14 +59,25 @@ export default class IncidentCreate extends Component {
     return params
   }
 
+  clearFields = () => {
+    const { form } = this.props
+    form.resetFields()
+  }
+
   handleOnSubmit = async e => {
     e.preventDefault()
+
+    const { form } = this.props
+    const values = await form.validateFields()
+    if (!values) return
+
     const params = await this.getParams()
     try {
       const res = await CalculateApi.createTicket(params)
       if (res) {
         message.success(i18n().createSuccess)
         this.setState({ isSubmitted: true })
+        this.clearFields()
         this.props.onClose()
       }
     } catch (error) {
@@ -74,11 +86,12 @@ export default class IncidentCreate extends Component {
   }
 
   handleOnClose = async () => {
-    const { onClose, form } = this.props
+    const { onClose } = this.props
     const { isSubmitted } = this.state
 
     if (isSubmitted) {
       onClose()
+      this.clearFields()
       return
     }
 
@@ -89,11 +102,16 @@ export default class IncidentCreate extends Component {
 
   handleOk = () => {
     this.setState({ isModalVisible: false })
+    this.clearFields()
     this.props.onClose()
   }
 
+  handleCancel = () => {
+    this.setState({ isModalVisible: false })
+  }
+
   render() {
-    const { onClose, visible, form } = this.props
+    const { visible, form } = this.props
     const { isModalVisible } = this.state
 
     return (
@@ -111,20 +129,38 @@ export default class IncidentCreate extends Component {
           >
             <FormItem label={i18n().name}>
               {form.getFieldDecorator(Fields.name, {
-                rules: [{ required: true }],
+                rules: [
+                  {
+                    required: true,
+                    message: t('ticket.required.incident.name'),
+                  },
+                  { max: 64, message: t('rules.max64') },
+                ],
               })(<Input />)}
             </FormItem>
 
             <FormItem label={i18n().incidentType}>
               {form.getFieldDecorator(Fields.type, {
-                rules: [{ required: true }],
+                rules: [
+                  {
+                    required: true,
+                    message: t('ticket.required.incident.incidentType'),
+                  },
+                ],
                 initialValue: 'default',
               })(<SelectIncidentType />)}
             </FormItem>
 
             {this.isHaveSelectStation() && (
               <FormItem label={i18n().stationName}>
-                {form.getFieldDecorator(Fields.stationIds)(
+                {form.getFieldDecorator(Fields.stationIds, {
+                  rules: [
+                    {
+                      required: true,
+                      message: t('ticket.required.incident.stationName'),
+                    },
+                  ],
+                })(
                   <TreeSelectStation
                     fieldValue="_id"
                     onStationAutosFetchSuccess={this.onStationAutosFetchSuccess}
@@ -135,7 +171,14 @@ export default class IncidentCreate extends Component {
 
             {this.isHaveSelectMeasureParameter() && (
               <FormItem label={i18n().measure}>
-                {form.getFieldDecorator(Fields.measures)(
+                {form.getFieldDecorator(Fields.measures, {
+                  rules: [
+                    {
+                      required: true,
+                      message: t('ticket.required.incident.measure'),
+                    },
+                  ],
+                })(
                   <SelectMeasureParameter
                     measuringList={this.getMeasuringList()}
                   />
@@ -144,9 +187,9 @@ export default class IncidentCreate extends Component {
             )}
 
             <FormItem label={i18n().description}>
-              {form.getFieldDecorator(Fields.description)(
-                <TextArea style={{ height: '150px' }} />
-              )}
+              {form.getFieldDecorator(Fields.description, {
+                rules: [{ max: 512, message: t('rules.max512') }],
+              })(<TextArea style={{ height: '150px' }} />)}
             </FormItem>
 
             <FixedBottom>
@@ -156,10 +199,15 @@ export default class IncidentCreate extends Component {
             </FixedBottom>
           </Form>
         </ILLDrawer>
-        <Modal visible={isModalVisible} onOk={this.handleOk}>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
+        <Modal
+          visible={isModalVisible}
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+          okText={t('global.leave')}
+          cancelText={t('global.cancel')}
+          title={t('global.leaveConfirm.title')}
+        >
+          {t('global.leaveConfirm.content')}
         </Modal>
       </React.Fragment>
     )

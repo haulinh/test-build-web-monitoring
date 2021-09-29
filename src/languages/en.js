@@ -43,6 +43,9 @@ export default {
     requiredPhone: 'Phone number is required',
     requiredField: '{{=it.field}} is required',
     inValidField: '{{=it.field}} is invalid',
+    max64: 'No more than 64 characters',
+    max256: 'No more than 256 characters',
+    max512: 'No more 512 characters',
   },
   errors: {
     forbidden: 'Forbidden',
