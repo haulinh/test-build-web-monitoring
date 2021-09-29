@@ -3806,7 +3806,9 @@ export default {
     },
     title: {
       dataLookup: {},
-      incident: {},
+      incident: {
+        drawer: 'Tạo mới sự cố',
+      },
       configProperties: {
         drawer: 'Tạo mới thuộc tính',
       },

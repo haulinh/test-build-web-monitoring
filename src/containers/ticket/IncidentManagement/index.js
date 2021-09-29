@@ -34,6 +34,7 @@ export const i18n = () => ({
   create: t('addon.create'),
   status: t('map.marker.status'),
   createSuccess: t('ticket.message.incident.createSuccess'),
+  title: t('ticket.title.incident.drawer'),
 })
 
 export const PAGE_SIZE = 10
