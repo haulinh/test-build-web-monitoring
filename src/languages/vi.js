@@ -3813,6 +3813,9 @@ export default {
     },
     message: {
       incident: {
+        createSuccess: 'Tạo mới sự cố thành công',
+      },
+      configProperties: {
         createSuccess: 'Tạo mới thuộc tính thành công',
       },
     },
