@@ -34,6 +34,12 @@ export default {
     edit: 'Sửa',
     delete: 'Xoá',
     create: 'Tạo mới',
+    leave: 'Rời khỏi',
+    leaveConfirm: {
+      title: 'Rời khỏi trang',
+      content:
+        'Bạn chưa lưu thông tin mới này. Bạn có chắc chắn muốn rời khỏi khi chưa lưu không?',
+    },
   },
   rules: {
     required: 'Bắt buộc',
@@ -43,6 +49,9 @@ export default {
     requiredPhone: 'Vui lòng nhập số điện thoại',
     requiredField: 'Vui lòng nhập {{=it.field}}',
     inValidField: '{{=it.field}} sai định dạng',
+    max64: 'Không quá 64 kí tự',
+    max256: 'Không quá 256 kí tự',
+    max512: 'Không quá 512 kí tự',
   },
   errors: {
     forbidden: 'Có lỗi xảy ra',
@@ -3805,6 +3814,15 @@ export default {
     message: {
       incident: {
         createSuccess: 'Tạo mới thuộc tính thành công',
+      },
+    },
+    required: {
+      incident: {
+        name: 'Vui lòng nhập tên sự cố',
+        incidentType: 'Vui lòng chọn loại sự cố',
+        description: 'Vui nhập mô tả cho sự cố',
+        stationName: 'Vui lòng chọn trạm quan trắc',
+        measure: 'Vui lòng chọn thông số',
       },
     },
   },

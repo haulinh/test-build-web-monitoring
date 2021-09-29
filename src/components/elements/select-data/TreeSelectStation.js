@@ -110,8 +110,7 @@ export default class TreeSelectStation extends Component {
       treeData: this.getTreeData(),
       treeCheckable: true,
       onChange: this.handleOnChange,
-      showCheckedStrategy: SHOW_PARENT,
-      placeholder: 'Please select',
+      // showCheckedStrategy: SHOW_PARENT,
       style: {
         width: '100%',
       },

@@ -1,17 +1,18 @@
 import { Select } from 'antd'
 import React from 'react'
+import { translate as t } from 'hoc/create-lang'
 
 const options = [
   {
-    name: 'Sự cố khác',
+    name: () => t('ticket.incidentType.default'),
     key: 'default',
   },
   {
-    name: 'Sự cố trạm quan trắc',
+    name: () => t('ticket.incidentType.station'),
     key: 'station',
   },
   {
-    name: 'Sự cố thông sô quan trắc',
+    name: () => t('ticket.incidentType.measure'),
     key: 'station_with_measure',
   },
 ]
@@ -21,7 +22,7 @@ export default function SelectIncidentType(props) {
     <Select style={{ width: '100%' }} {...props}>
       {options.map(option => (
         <Select.Option key={option.key} value={option.key}>
-          {option.name}
+          {option.name()}
         </Select.Option>
       ))}
     </Select>
