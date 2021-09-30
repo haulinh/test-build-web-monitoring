@@ -19,7 +19,7 @@ export const FIELDS = {
   type: 'type',
   order: 'order',
   categories: 'categories',
-  hidden: 'hidden'
+  hidden: 'hidden',
 }
 
 const obj = {
@@ -33,7 +33,7 @@ export default class ConfigProperties extends Component {
   state = {
     visible: false,
     configs: [],
-    dataTable: {}
+    currentActive: {}
   }
 
   async componentDidMount() {
@@ -45,6 +45,7 @@ export default class ConfigProperties extends Component {
   showDrawer = () => {
     this.setState({
       visible: true,
+      currentActive: {}
     })
   }
 
@@ -54,7 +55,7 @@ export default class ConfigProperties extends Component {
     })
   }
 
-  ButtonAdd = () => {
+  renderButtonAdd = () => {
     return (
       <Button onClick={this.showDrawer} type="primary">
         {t('addon.create')}
@@ -67,17 +68,27 @@ export default class ConfigProperties extends Component {
     this.setState({ configs: newConfigs })
   }
 
-  setEdit = (dataTable) => {
-    this.setState({
-      dataTable: dataTable
-    })
+  updateConfig = (config) => {
+    // const newConfigs = [...this.state.configs, { ...config, type: obj[config.type] }]
+    // this.setState({ configs: newConfigs })
+  }
+
+  setEdit = (record) => {
+    this.setState({ visible: true, currentActive: record })
   }
 
   render() {
-    const { visible, configs, dataTable } = this.state
+    const { visible, configs, currentActive } = this.state
     return (
-      <PageContainer title={t('ticket.menu.configProperties')} right={this.ButtonAdd()}>
-        <ConfigForm visible={visible} onClose={this.onClose} addConfig={this.addConfig} dataTable={dataTable} showDrawer={this.showDrawer} />
+      <PageContainer title={t('ticket.menu.configProperties')} right={this.renderButtonAdd()}>
+        <ConfigForm 
+          visible={visible} 
+          onClose={this.onClose} 
+          addConfig={this.addConfig} 
+          updateConfig={this.updateConfig} 
+          currentActive={currentActive} 
+          showDrawer={this.showDrawer} 
+        />
         <Clearfix height={16}></Clearfix>
         <ConfigList configs={configs} setEdit={this.setEdit}></ConfigList>
       </PageContainer>
