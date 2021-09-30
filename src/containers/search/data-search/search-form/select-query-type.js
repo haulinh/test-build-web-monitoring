@@ -4,14 +4,15 @@ import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
 import { translate } from 'hoc/create-lang'
 
-
 import createValidateComponent from 'components/elements/redux-form-validate'
 
 const options = [
-  { key: 'RAW', label: translate('qaqc.originalData') },
-  { key: 'QCVN', label: translate('qaqc.validData') },
-  { key: 'ANTI_QCVN', label: translate('qaqc.inValidData') },
-
+  {
+    key: 'RAW',
+    label: () => translate('qaqc.originalData'),
+  },
+  { key: 'QCVN', label: () => translate('qaqc.validData') },
+  { key: 'ANTI_QCVN', label: () => translate('qaqc.inValidData') },
 ]
 @autobind
 class SelectQueryType extends PureComponent {
@@ -34,16 +35,15 @@ class SelectQueryType extends PureComponent {
   }
 
   render() {
-
-    return <Select value={this.state.value} onChange={this.onChange}>
-      {
-        options.map(item => (
-          <Select.Option key={item.key} value={item.key}>{item.label}</Select.Option>
-        ))
-      }
-
-    </Select>
-
+    return (
+      <Select value={this.state.value} onChange={this.onChange}>
+        {options.map(item => (
+          <Select.Option key={item.key} value={item.key}>
+            {item.label()}
+          </Select.Option>
+        ))}
+      </Select>
+    )
   }
 }
 

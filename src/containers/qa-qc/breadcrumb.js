@@ -5,25 +5,25 @@ import createBreadcrumb from 'shared/breadcrumb/hoc'
 
 export default createBreadcrumb({
   list: {
-    name: translate('qaqc.approveData'),
+    getName: () => translate('qaqc.approveData'),
     id: 'base',
     icon: '',
     href: slug.qaqc.base,
   },
   config: {
-    name: translate('qaqc.configPublish.title'),
+    getName: () => translate('qaqc.configPublish.title'),
     id: 'config',
     icon: '',
     href: slug.qaqc.config,
   },
   transfer: {
-    name: translate('qaqc.configPublish.title'),
+    getName: () => translate('qaqc.configPublish.title'),
     id: 'transfer',
     icon: '',
     href: slug.stationAuto.ftpTransfer,
   },
   configNew: {
-    name: translate('qaqcConfig.title'),
+    getName: () => translate('qaqcConfig.title'),
     id: 'configNew',
     icon: '',
     href: slug.qaqc.configNew,

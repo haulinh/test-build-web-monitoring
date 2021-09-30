@@ -43,6 +43,9 @@ export default {
     requiredPhone: 'Phone number is required',
     requiredField: '{{=it.field}} is required',
     inValidField: '{{=it.field}} is invalid',
+    max64: 'No more than 64 characters',
+    max256: 'No more than 256 characters',
+    max512: 'No more 512 characters',
   },
   errors: {
     forbidden: 'Forbidden',
@@ -2277,6 +2280,9 @@ export default {
       config_color_noti: {
         name: 'Configure warning color',
       },
+      language: {
+        name: 'Configure language',
+      },
       xem_Nhat_ky: {
         name: 'System Logs',
       },
@@ -2951,6 +2957,7 @@ export default {
     },
     billing: 'Billing',
     ticket: 'Incident',
+    language: 'Languages',
   },
   tooltipMenuApp: {
     notification: 'Notifications',
@@ -3042,6 +3049,7 @@ export default {
       incident: 'Quản lý sự cố',
       configProperties: 'Cấu hình thuộc tính',
     },
+    language: 'Configure Languages',
     hideMenu: 'Hide menu',
     showMenu: 'Show menu',
   },

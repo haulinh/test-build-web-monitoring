@@ -11,8 +11,8 @@ import Breadcrumb from './breadcrumb'
 import Clearfix from 'components/elements/clearfix'
 import HeaderSearchWrapper from 'components/elements/header-search-wrapper'
 import { translate } from 'hoc/create-lang'
-// import ROLE from 'constants/role'
-// import protectRole from 'hoc/protect-role'
+import ROLE from 'constants/role'
+import protectRole from 'hoc/protect-role'
 import JsonViewCustom from './json-view-custom'
 import ListLanguage from './list-language'
 
@@ -43,6 +43,7 @@ const TW = 'tw'
 const WEB = 'WEB'
 const TABS = ['list', 'detail']
 
+@protectRole(ROLE.LANGUAGES.VIEW)
 @connectAutoDispatch(state => ({
   language: _.get(state, 'language.locale'),
   dataInitial: _.get(state, 'language.dataInitial'),
@@ -285,7 +286,7 @@ class ConfigLanguagePage extends React.Component {
             )}
           </HeaderSearchWrapper>
         }
-        isLoading={this.state.isLoading}
+        isLoading={false}
         componentLoading={<Skeleton paragraph={{ rows: 10 }} active />}
       >
         <Breadcrumb items={['list']} />

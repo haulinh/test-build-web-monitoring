@@ -34,6 +34,12 @@ export default {
     edit: 'Sửa',
     delete: 'Xoá',
     create: 'Tạo mới',
+    leave: 'Rời khỏi',
+    leaveConfirm: {
+      title: 'Rời khỏi trang',
+      content:
+        'Bạn chưa lưu thông tin mới này. Bạn có chắc chắn muốn rời khỏi khi chưa lưu không?',
+    },
   },
   rules: {
     required: 'Bắt buộc',
@@ -43,6 +49,9 @@ export default {
     requiredPhone: 'Vui lòng nhập số điện thoại',
     requiredField: 'Vui lòng nhập {{=it.field}}',
     inValidField: '{{=it.field}} sai định dạng',
+    max64: 'Không được nhập quá 64 ký tự',
+    max256: 'Không được nhập quá 256 kí tự',
+    max512: 'Không được nhập quá 512 ký tự',
   },
   errors: {
     forbidden: 'Có lỗi xảy ra',
@@ -2268,6 +2277,9 @@ export default {
       config_color_noti: {
         name: 'Cấu hình màu cảnh báo',
       },
+      language: {
+        name: 'Cấu hình ngôn ngữ',
+      },
       xem_Nhat_ky: {
         name: 'Xem nhật ký',
       },
@@ -2952,6 +2964,7 @@ export default {
     },
     billing: 'Phí môi trường',
     ticket: 'Sự cố',
+    language: 'Ngôn ngữ',
   },
   tooltipMenuApp: {
     notification: 'Thông báo',
@@ -3044,6 +3057,7 @@ export default {
       incident: 'Quản lý sự cố',
       configProperties: 'Cấu hình thuộc tính',
     },
+    language: 'Cấu hình ngôn ngữ',
     hideMenu: 'Ẩn menu',
     showMenu: 'Hiện menu',
   },
@@ -3795,22 +3809,35 @@ export default {
     },
     title: {
       dataLookup: {},
-      incident: {},
+      incident: {
+        drawer: 'Tạo mới sự cố',
+        report: 'BÁO CÁO SỰ CỐ',
+      },
       configProperties: {
         drawer: 'Tạo mới thuộc tính',
       },
     },
-    error: {
+    message: {
+      incident: {
+        createSuccess: 'Tạo mới sự cố thành công',
+      },
+      configProperties: {
+        success: 'Tạo mới thành công',
+        error: 'Đã xảy ra lỗi'
+      },
+    },
+    required: {
+      incident: {
+        name: 'Vui lòng nhập tên sự cố',
+        incidentType: 'Vui lòng chọn loại sự cố',
+        description: 'Vui nhập mô tả cho sự cố',
+        stationName: 'Vui lòng chọn trạm quan trắc',
+        measure: 'Vui lòng chọn thông số',
+      },
       configProperties: {
         required: 'Vui lòng nhập dữ liệu',
         isNumber: 'Vui lòng nhập chữ số'
       },
     },
-    message: {
-      configProperties: {
-        success: 'Tạo mới thành công',
-        error: 'Đã xảy ra lỗi'
-      },
-    }
   },
 }

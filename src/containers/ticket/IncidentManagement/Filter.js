@@ -1,10 +1,10 @@
 import { Col, Form, Row, DatePicker } from 'antd'
-import SelectProvince from 'components/elements/select-province'
-import SelectStationAuto from 'components/elements/select-station-auto'
 import { FormItem } from 'components/layouts/styles'
 import React, { Component } from 'react'
-import { Fields } from './index'
+import { Fields, i18n } from './index'
 import { translate as t } from 'hoc/create-lang'
+import TreeSelectStation from 'components/elements/select-data/TreeSelectStation'
+import SelectIncidentType from 'components/elements/select-data/ticket/SelectIncidentType'
 
 const { RangePicker } = DatePicker
 
@@ -18,23 +18,22 @@ export default class Filter extends Component {
       <Form>
         <Row gutter={16}>
           <Col span={8}>
-            <FormItem label={t('menuApp.config.site')}>
-              {form.getFieldDecorator(Fields.province, {
+            <FormItem label={i18n().incidentType}>
+              {form.getFieldDecorator(Fields.type, {
+                rules: [
+                  {
+                    message: t('ticket.required.incident.incidentType'),
+                  },
+                ],
                 initialValue: '',
-              })(<SelectProvince fieldValue="_id" isShowAll />)}
+              })(<SelectIncidentType isShowAll />)}
             </FormItem>
           </Col>
           <Col span={8}>
             <FormItem label={t('menuApp.config.stationAuto')}>
               {form.getFieldDecorator(Fields.stationIds, {
                 rules: [{ required: true }],
-              })(
-                <SelectStationAuto
-                  mode="multiple"
-                  fieldValue="_id"
-                  province={province}
-                />
-              )}
+              })(<TreeSelectStation province={province} fieldValue="_id" />)}
             </FormItem>
           </Col>
           <Col span={8}>

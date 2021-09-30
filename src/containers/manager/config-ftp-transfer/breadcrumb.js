@@ -8,11 +8,11 @@ export default createBreadcrumb({
     id: 'list',
     //icon: Icon.car,
     href: slug.ftpTransfer.list,
-    name: translate('ftpTranfer.breadCrumb'),
+    getName: () => translate('ftpTranfer.breadCrumb'),
   },
   history: {
     id: 'history',
     href: slug.ftpTransfer.history,
-    name: 'History',
+    getName: () => 'History',
   },
 })

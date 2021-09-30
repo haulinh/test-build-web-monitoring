@@ -19,8 +19,8 @@ const i18n = () => ({
         button: t('ticket.label.configProperties.button')
     },
     error: {
-        required: t('ticket.error.configProperties.required'),
-        isNumber: t('ticket.error.configProperties.isNumber')
+        required: t('ticket.required.configProperties.required'),
+        isNumber: t('ticket.required.configProperties.isNumber')
     },
     message: {
         success: t('ticket.message.configProperties.success'),

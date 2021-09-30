@@ -4,7 +4,7 @@ import createBreadcrumb from 'shared/breadcrumb/hoc'
 
 export default createBreadcrumb({
   list: {
-    name: translate('statistic.perRecDataFrom.breadCrumb'),
+    getName: () => translate('statistic.perRecDataFrom.breadCrumb'),
     id: 'perRecData',
     icon: '',
     href: slug.statistic.perRecData,

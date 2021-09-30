@@ -5,7 +5,7 @@ import createBreadcrumb from 'shared/breadcrumb/hoc'
 
 export default createBreadcrumb({
   list: {
-    name: translate('menuApp.reportBreadcrum.aqiDay'),
+    getName: () => translate('menuApp.reportBreadcrum.aqiDay'),
     id: 'aqi',
     icon: '',
     href: slug.statistic.aqi,

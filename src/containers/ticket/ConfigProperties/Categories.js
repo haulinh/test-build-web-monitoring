@@ -10,7 +10,7 @@ class Categories extends Component {
 
   i18n = () => ({
     button: t('ticket.label.configProperties.category'),
-    error: t('ticket.error.configProperties.required')
+    error: t('ticket.required.configProperties.required')
   })
 
   onCreate = () => {
