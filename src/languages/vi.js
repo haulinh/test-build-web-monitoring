@@ -3787,7 +3787,13 @@ export default {
         measure: 'Thông số',
         time: 'Thời gian sự cố',
       },
-      configProperties: {},
+      configProperties: {
+        name: 'Tên thuộc tính',
+        type: 'Kiểu dữ liệu',
+        button: 'Tạo mới',
+        order: 'Thứ tự hiển thị',
+        category: "Thêm danh mục"
+      },
     },
     placeholder: {
       dataLookup: {},
@@ -3799,9 +3805,6 @@ export default {
         measure: 'Thông số',
       },
       configProperties: {
-        name: 'Tên thuộc tính',
-        type: 'Kiểu dữ liệu',
-        button: 'Tạo mới',
       },
     },
     title: {
@@ -3819,7 +3822,8 @@ export default {
         createSuccess: 'Tạo mới sự cố thành công',
       },
       configProperties: {
-        createSuccess: 'Tạo mới thuộc tính thành công',
+        success: 'Tạo mới thành công',
+        error: 'Đã xảy ra lỗi'
       },
     },
     required: {
@@ -3829,6 +3833,10 @@ export default {
         description: 'Vui nhập mô tả cho sự cố',
         stationName: 'Vui lòng chọn trạm quan trắc',
         measure: 'Vui lòng chọn thông số',
+      },
+      configProperties: {
+        required: 'Vui lòng nhập dữ liệu',
+        isNumber: 'Vui lòng nhập chữ số'
       },
     },
   },

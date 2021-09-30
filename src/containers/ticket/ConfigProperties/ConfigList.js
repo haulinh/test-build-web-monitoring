@@ -1,29 +1,30 @@
 import { Switch, Table } from 'antd'
 import React from 'react'
+import { translate as t } from 'hoc/create-lang'
 
 export default function ConfigList({ form }) {
 
     const columns = [
         {
             dataIndex: 'name',
-            title: "Tên thuộc tính",
+            title: t('ticket.label.configProperties.name'),
             render: value => <div>{value}</div>,
         },
         {
             dataIndex: 'type',
-            title: "Kiểu dữ liệu",
+            title: t('ticket.label.configProperties.type'),
             render: value => <div>{value}</div>,
         },
         {
             dataIndex: 'hidden',
             title: "",
-            render: value => <Switch>{value}</Switch>,
+            render: value => <Switch checked={value} />,
         },
     ]
 
     return (
         <React.Fragment>
-            <Table columns={columns} dataSource={form} pagination={false} />
+            <Table rowKey="_id" columns={columns} dataSource={form} pagination={false} />
         </React.Fragment>
     )
 }

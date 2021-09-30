@@ -5,39 +5,41 @@ import { translate as t } from 'hoc/create-lang'
 import ConfigCreate from './ConfigCreate'
 import ConfigList from './ConfigList'
 import { Clearfix } from 'components/elements'
+import CalculateApi from 'api/CalculateApi'
+
+export const optionSelectType = [
+  { key: 'text', label: 'Text' },
+  { key: 'category', label: 'Category' },
+  { key: 'number', label: 'Number' },
+  { key: 'datetime', label: 'Date time' },
+]
 
 export const FIELDS = {
   name: 'name',
   type: 'type',
+  order: 'order',
   categories: 'categories',
   hidden: 'hidden'
 }
 
-const initData = [
-  {
-    "name": "abc",
-    "type": "Text",
-    "hidden": true
-  },
-  {
-    "name": "ABC",
-    "type": "Date Time",
-    "hidden": true
-  },
-  {
-    "name": "CDF",
-    "type": "Number",
-    "hidden": true
-  },
-  {
-    "name": "xyz",
-    "type": "Category",
-    "hidden": false
-  }
-]
+const obj = {
+  text: "Text",
+  category: "Category",
+  number: "Number",
+  datetime: "Date time"
+}
 
 export default class ConfigProperties extends Component {
-  state = { visible: false }
+  state = {
+    visible: false,
+    configs: []
+  }
+
+  async componentDidMount() {
+    const configs = await CalculateApi.getConfig()
+    const newConfigs = configs.map(item => ({ ...item, type: obj[item.type] }))
+    this.setState({ configs: newConfigs })
+  }
 
   showDrawer = () => {
     this.setState({
@@ -59,13 +61,18 @@ export default class ConfigProperties extends Component {
     )
   }
 
+  addConfig = (config) => {
+    const newConfigs = [...this.state.configs, { ...config, type: obj[config.type] }]
+    this.setState({ configs: newConfigs })
+  }
+
   render() {
-    const { visible } = this.state
+    const { visible, configs } = this.state
     return (
       <PageContainer title={t('ticket.menu.configProperties')} right={this.ButtonAdd()}>
-        <ConfigCreate visible={visible} onClose={this.onClose}/>
+        <ConfigCreate visible={visible} onClose={this.onClose} addConfig={this.addConfig} />
         <Clearfix height={16}></Clearfix>
-        <ConfigList form={initData}></ConfigList>
+        <ConfigList form={configs}></ConfigList>
       </PageContainer>
     )
   }
