@@ -114,8 +114,8 @@ function i18n() {
 }
 
 const optionExportData = [
-  { key: 'simple', label: i18n().simpleForm },
-  { key: 'complex', label: i18n().complexForm },
+  { key: 'simple', label: () => i18n().simpleForm },
+  { key: 'complex', label: () => i18n().complexForm },
 ]
 
 const FIELDS = {
@@ -260,7 +260,7 @@ class StationFixedImportData extends React.Component {
 
     const stationTypeId =
       form.getFieldValue(FIELDS.PHASE) &&
-      form.getFieldValue(FIELDS.PHASE).length === 2
+        form.getFieldValue(FIELDS.PHASE).length === 2
         ? form.getFieldValue(FIELDS.PHASE)[0].stationTypeId
         : null
 
@@ -301,7 +301,7 @@ class StationFixedImportData extends React.Component {
                     <Select>
                       {optionExportData.map(item => (
                         <Select.Option key={item.key} value={item.key}>
-                          {item.label}
+                          {item.label()}
                         </Select.Option>
                       ))}
                     </Select>
@@ -334,9 +334,8 @@ class StationFixedImportData extends React.Component {
               <Col span={8} className="download-wrapper">
                 {isDownloadingFile && <Spin className="spin" />}
                 <div
-                  className={`ant-upload ant-upload-drag ${
-                    countMeasuring < 1 ? 'disabled-download' : ''
-                  }`}
+                  className={`ant-upload ant-upload-drag ${countMeasuring < 1 ? 'disabled-download' : ''
+                    }`}
                   onClick={this.onDownloadFile}
                 >
                   <Text

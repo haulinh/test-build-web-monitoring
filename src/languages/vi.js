@@ -3777,6 +3777,8 @@ export default {
         name: 'Tên thuộc tính',
         type: 'Kiểu dữ liệu',
         button: 'Tạo mới',
+        order: 'Thứ tự hiển thị',
+        category: "Thêm danh mục"
       },
     },
     placeholder: {
@@ -3798,5 +3800,17 @@ export default {
         drawer: 'Tạo mới thuộc tính',
       },
     },
+    error: {
+      configProperties: {
+        required: 'Vui lòng nhập dữ liệu',
+        isNumber: 'Vui lòng nhập chữ số'
+      },
+    },
+    message: {
+      configProperties: {
+        success: 'Tạo mới thành công',
+        error: 'Đã xảy ra lỗi'
+      },
+    }
   },
 }

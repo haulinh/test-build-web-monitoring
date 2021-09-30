@@ -17,6 +17,7 @@ export const optionSelectType = [
 export const FIELDS = {
   name: 'name',
   type: 'type',
+  order: 'order',
   categories: 'categories',
   hidden: 'hidden'
 }
@@ -60,11 +61,16 @@ export default class ConfigProperties extends Component {
     )
   }
 
+  addConfig = (config) => {
+    const newConfigs = [...this.state.configs, { ...config, type: obj[config.type] }]
+    this.setState({ configs: newConfigs })
+  }
+
   render() {
     const { visible, configs } = this.state
     return (
       <PageContainer title={t('ticket.menu.configProperties')} right={this.ButtonAdd()}>
-        <ConfigCreate visible={visible} onClose={this.onClose} />
+        <ConfigCreate visible={visible} onClose={this.onClose} addConfig={this.addConfig} />
         <Clearfix height={16}></Clearfix>
         <ConfigList form={configs}></ConfigList>
       </PageContainer>
