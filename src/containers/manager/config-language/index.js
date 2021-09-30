@@ -39,7 +39,7 @@ function i18n() {
 const VI = 'vi'
 const EN = 'en'
 const TW = 'tw'
-// const MOBILE = 'MOBILE'
+const MOBILE = 'MOBILE'
 const WEB = 'WEB'
 const TABS = ['list', 'detail']
 
@@ -163,77 +163,77 @@ class ConfigLanguagePage extends React.Component {
     }
 
     //get data language Mobile
-    // if (this.state.isMobile) {
-    //   const dataInitialMobile = _.get(this.state.dataSource, [MOBILE, VI])
-    //   dataMobile = _.map(_.keys(dataInitialMobile), key => {
-    //     let dataEN = null
-    //     let dataVI = null
-    //     let dataTW = null
-    //     const title = _.get(
-    //       this.props.dataInitial,
-    //       `${this.props.language}.language.content.${key}`,
-    //       key
-    //     )
-    //     dataVI = this.getContent(dataInitialMobile, VI, key, MOBILE)
-    //     dataEN = this.getContent(dataInitialMobile, EN, key, MOBILE)
-    //     dataTW = this.getContent(dataInitialMobile, TW, key, MOBILE)
+    if (this.state.isMobile) {
+      const dataInitialMobile = _.get(this.state.dataSource, [MOBILE, VI])
+      dataMobile = _.map(_.keys(dataInitialMobile), key => {
+        let dataEN = null
+        let dataVI = null
+        let dataTW = null
+        const title = _.get(
+          this.props.dataInitial,
+          `${this.props.language}.language.content.${key}`,
+          key
+        )
+        dataVI = this.getContent(dataInitialMobile, VI, key, MOBILE)
+        dataEN = this.getContent(dataInitialMobile, EN, key, MOBILE)
+        dataTW = this.getContent(dataInitialMobile, TW, key, MOBILE)
 
-    //     index++
-    //     return [
-    //       {
-    //         content: <strong>{index}</strong>,
-    //       },
-    //       {
-    //         content: (
-    //           <div style={{ display: 'flex', justifyContent: 'center' }}>
-    //             <Icon style={{ fontSize: '1rem' }} type="mobile" />
-    //           </div>
-    //         ),
-    //       },
-    //       {
-    //         content: key.toLocaleUpperCase(),
-    //       },
-    //       {
-    //         content: title,
-    //       },
-    //       {
-    //         content: (
-    //           <JsonViewCustom
-    //             onChange={data => {
-    //               this.handleOnChangeLanguage(data, VI, key, true)
-    //             }}
-    //             isEdit={true}
-    //             dataStructure={dataVI}
-    //             title={title}
-    //             content={dataVI}
-    //           />
-    //         ),
-    //       },
-    //       {
-    //         content: (
-    //           <JsonViewCustom
-    //             title={title}
-    //             dataStructure={dataVI}
-    //             content={dataEN}
-    //           />
-    //         ),
-    //       },
-    //       {
-    //         content: (
-    //           <JsonViewCustom
-    //             onChange={data => {
-    //               this.handleOnChangeLanguage(data, TW, key, true)
-    //             }}
-    //             isEdit={true}
-    //             dataStructure={dataVI}
-    //             title={title}
-    //             content={dataTW}
-    //           />
-    //         ),
-    //       },
-    //     ]
-    //   })
-    // }
+        index++
+        return [
+          {
+            content: <strong>{index}</strong>,
+          },
+          {
+            content: (
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <Icon style={{ fontSize: '1rem' }} type="mobile" />
+              </div>
+            ),
+          },
+          {
+            content: key.toLocaleUpperCase(),
+          },
+          {
+            content: title,
+          },
+          {
+            content: (
+              <JsonViewCustom
+                onChange={data => {
+                  this.handleOnChangeLanguage(data, VI, key, MOBILE)
+                }}
+                isEdit={true}
+                dataStructure={dataVI}
+                title={title}
+                content={dataVI}
+              />
+            ),
+          },
+          {
+            content: (
+              <JsonViewCustom
+                title={title}
+                dataStructure={dataVI}
+                content={dataEN}
+              />
+            ),
+          },
+          {
+            content: (
+              <JsonViewCustom
+                onChange={data => {
+                  this.handleOnChangeLanguage(data, TW, key, MOBILE)
+                }}
+                isEdit={true}
+                dataStructure={dataVI}
+                title={title}
+                content={dataTW}
+              />
+            ),
+          },
+        ]
+      })
+    }
 
     return [...dataWeb, ...dataMobile]
   }
