@@ -49,9 +49,9 @@ export default {
     requiredPhone: 'Vui lòng nhập số điện thoại',
     requiredField: 'Vui lòng nhập {{=it.field}}',
     inValidField: '{{=it.field}} sai định dạng',
-    max64: 'Không quá 64 kí tự',
-    max256: 'Không quá 256 kí tự',
-    max512: 'Không quá 512 kí tự',
+    max64: 'Không được nhập quá 64 ký tự',
+    max256: 'Không được nhập quá 256 kí tự',
+    max512: 'Không được nhập quá 512 ký tự',
   },
   errors: {
     forbidden: 'Có lỗi xảy ra',
@@ -3808,6 +3808,7 @@ export default {
       dataLookup: {},
       incident: {
         drawer: 'Tạo mới sự cố',
+        report: 'BÁO CÁO SỰ CỐ',
       },
       configProperties: {
         drawer: 'Tạo mới thuộc tính',
