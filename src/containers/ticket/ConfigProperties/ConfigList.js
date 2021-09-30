@@ -2,7 +2,7 @@ import { Switch, Table } from 'antd'
 import React from 'react'
 import { translate as t } from 'hoc/create-lang'
 
-export default function ConfigList({ form }) {
+export default function ConfigList({ configs, setEdit }) {
 
     const columns = [
         {
@@ -24,7 +24,15 @@ export default function ConfigList({ form }) {
 
     return (
         <React.Fragment>
-            <Table rowKey="_id" columns={columns} dataSource={form} pagination={false} />
+            <Table rowKey="_id" columns={columns} dataSource={configs} pagination={false}
+                onRow={(record, rowIndex) => {
+                    return {
+                        onClick: event => {
+                            setEdit(record)
+                        },
+                    }
+                }}
+            />
         </React.Fragment>
     )
 }

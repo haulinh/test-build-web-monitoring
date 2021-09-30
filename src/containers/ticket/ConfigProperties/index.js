@@ -2,7 +2,7 @@ import { Button } from 'antd'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import React, { Component } from 'react'
 import { translate as t } from 'hoc/create-lang'
-import ConfigCreate from './ConfigCreate'
+import ConfigForm from './ConfigForm'
 import ConfigList from './ConfigList'
 import { Clearfix } from 'components/elements'
 import CalculateApi from 'api/CalculateApi'
@@ -32,11 +32,12 @@ const obj = {
 export default class ConfigProperties extends Component {
   state = {
     visible: false,
-    configs: []
+    configs: [],
+    dataTable: {}
   }
 
   async componentDidMount() {
-    const configs = await CalculateApi.getConfig()
+    const configs = await CalculateApi.getConfigs()
     const newConfigs = configs.map(item => ({ ...item, type: obj[item.type] }))
     this.setState({ configs: newConfigs })
   }
@@ -66,13 +67,19 @@ export default class ConfigProperties extends Component {
     this.setState({ configs: newConfigs })
   }
 
+  setEdit = (dataTable) => {
+    this.setState({
+      dataTable: dataTable
+    })
+  }
+
   render() {
-    const { visible, configs } = this.state
+    const { visible, configs, dataTable } = this.state
     return (
       <PageContainer title={t('ticket.menu.configProperties')} right={this.ButtonAdd()}>
-        <ConfigCreate visible={visible} onClose={this.onClose} addConfig={this.addConfig} />
+        <ConfigForm visible={visible} onClose={this.onClose} addConfig={this.addConfig} dataTable={dataTable} showDrawer={this.showDrawer} />
         <Clearfix height={16}></Clearfix>
-        <ConfigList form={configs}></ConfigList>
+        <ConfigList configs={configs} setEdit={this.setEdit}></ConfigList>
       </PageContainer>
     )
   }

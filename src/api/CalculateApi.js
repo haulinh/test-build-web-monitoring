@@ -23,8 +23,12 @@ export default {
     const url = calc('billing/export-data')
     return getFetchDownFile(url, params)
   },
-  getConfig: () => {
+  getConfigs: () => {
     const url = calc('/ticket-config')
+    return getFetch(url)
+  },
+  getConfigById: id => {
+    const url = calc(`/ticket-config/${id}`)
     return getFetch(url)
   },
   createConfig: params => {

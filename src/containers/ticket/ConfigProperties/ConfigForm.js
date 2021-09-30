@@ -29,7 +29,7 @@ const i18n = () => ({
 })
 
 @Form.create()
-export default class ConfigCreate extends Component {
+export default class ConfigForm extends Component {
     state = {
         optionType: "",
     }
@@ -66,9 +66,27 @@ export default class ConfigCreate extends Component {
         this.setState({ optionType: value })
     }
 
+    setFormInit = async (dataTable) => {
+        const { form } = this.props
+
+        form.setFieldsValue({
+            [FIELDS.name]: dataTable.name,
+            [FIELDS.type]: dataTable.type,
+            [FIELDS.order]: dataTable.order,
+            [FIELDS.categories]: dataTable.categories,
+        })
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.dataTable !== this.props.dataTable) {
+            this.setFormInit(nextProps.dataTable)
+        }
+    }
+
     render() {
         const { optionType } = this.state
         const { onClose, visible, form } = this.props
+
         return (
             <ILLDrawer
                 title={i18n().drawer.title}
