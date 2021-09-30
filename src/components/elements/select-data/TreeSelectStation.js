@@ -5,8 +5,6 @@ import { get } from 'lodash-es'
 import { TreeSelect } from 'antd'
 import _ from 'lodash'
 
-const { SHOW_PARENT } = TreeSelect
-
 export default class TreeSelectStation extends Component {
   state = {
     stationTypes: [],
@@ -111,6 +109,7 @@ export default class TreeSelectStation extends Component {
       treeCheckable: true,
       onChange: this.handleOnChange,
       // showCheckedStrategy: SHOW_PARENT,
+      maxTagCount: 5,
       style: {
         width: '100%',
       },

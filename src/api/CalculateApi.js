@@ -33,5 +33,13 @@ export default {
     const url = calc('ticket')
     return getFetch(url, params)
   },
+  getTicket: id => {
+    const url = calc(`ticket/${id}`)
+    return getFetch(url)
+  },
+  exportTicket: params => {
+    const url = calc('ticket/export')
+    return getFetchDownFile(url, params)
+  },
   //#endregion
 }

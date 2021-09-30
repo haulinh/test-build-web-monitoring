@@ -20,6 +20,9 @@ const options = [
 export default function SelectIncidentType(props) {
   return (
     <Select style={{ width: '100%' }} {...props}>
+      {props.isShowAll && (
+        <Select.Option value="">{t('global.all')}</Select.Option>
+      )}
       {options.map(option => (
         <Select.Option key={option.key} value={option.key}>
           {option.name()}

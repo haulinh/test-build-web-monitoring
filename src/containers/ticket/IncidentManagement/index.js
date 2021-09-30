@@ -8,6 +8,9 @@ import { Search, BoxShadow, Clearfix } from 'components/layouts/styles'
 import Filter from './Filter'
 import { getParamArray } from 'utils/params'
 import { TableData } from './TableData'
+import { getLanguage } from 'utils/localStorage'
+import { downFileExcel } from 'utils/downFile'
+import { DD_MM_YYYY } from 'constants/format-date'
 
 export const Fields = {
   name: 'name',
@@ -78,6 +81,7 @@ export default class IncidentManagement extends Component {
 
     const params = {
       [Fields.stationIds]: getParamArray(values[Fields.stationIds]),
+      [Fields.type]: values[Fields.type],
       from: values[Fields.time][0].startOf('d').toDate(),
       to: values[Fields.time][1].endOf('d').toDate(),
       offset: page - 1,
@@ -99,7 +103,26 @@ export default class IncidentManagement extends Component {
     }
   }
 
-  handleExport = () => {}
+  getTimes = () => {
+    const { form } = this.props
+    const values = form.getFieldsValue()
+    const from = values[Fields.time][0].format(DD_MM_YYYY)
+    const to = values[Fields.time][1].format(DD_MM_YYYY)
+    return { from, to }
+  }
+
+  handleExport = async () => {
+    const params = await this.getParams()
+    const result = await CalculateApi.exportTicket({
+      ...params,
+      lang: getLanguage(),
+    })
+    const { from, to } = this.getTimes()
+    downFileExcel(
+      result.data,
+      `${t('ticket.title.incident.report')} ${from} - ${to}`
+    )
+  }
 
   setPage = page => {
     this.setState({ page })
@@ -108,6 +131,8 @@ export default class IncidentManagement extends Component {
   render() {
     const { visible, result, page, loading } = this.state
     const { form } = this.props
+
+    console.log({ values: form.getFieldsValue() })
 
     return (
       <PageContainer right={this.ButtonAdd()}>
