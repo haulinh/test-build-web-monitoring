@@ -34,18 +34,29 @@ const i18n = () => ({
 @Form.create()
 export default class ConfigForm extends Component {
   state = {
-    optionType: "",
     listCategory: [],
   }
 
   componentWillReceiveProps(nextProps) {
     const { form, currentActive } = this.props
     if (currentActive !== nextProps.currentActive) {
+      const type = get(nextProps, 'currentActive.type', '');
       form.setFieldsValue({
+        [FIELDS.TYPE]: type,
         [FIELDS.NAME]: get(nextProps, 'currentActive.name', ''),
-        [FIELDS.TYPE]: get(nextProps, 'currentActive.type', ''),
         [FIELDS.ORDER]: get(nextProps, 'currentActive.order', ''),
       })
+
+      this.setState(
+        { listCategory: get(nextProps, 'currentActive.categories', [])
+            .map(item => item.key)},
+        () => {
+          get(nextProps, 'currentActive.categories', []).map(item => {
+            form.setFieldsValue({
+              [`categories[${item.key}]`]: item.name
+            })
+          })
+        })
     }
   }
 
@@ -117,10 +128,6 @@ export default class ConfigForm extends Component {
     }
   }
 
-  onHandleChange = (value) => {
-    this.setState({ optionType: value })
-  }
-
   onDelConfig = async (id) => {
     try {
       await CalculateApi.delConfig(id)
@@ -132,9 +139,10 @@ export default class ConfigForm extends Component {
   }
 
   render() {
-    const { optionType, listCategory } = this.state
+    const { listCategory } = this.state
     const { onClose, visible, form, currentActive } = this.props
     const isEdit = !isEmpty(currentActive)
+    const type = form.getFieldValue(FIELDS.TYPE);
 
     return (
       <ILLDrawer
@@ -145,7 +153,6 @@ export default class ConfigForm extends Component {
         width={400}
       >
         <Form
-          form={form}
           layout="vertical"
           onSubmit={this.onSubmit}
           style={{ height: '100%', position: 'relative' }}
@@ -199,7 +206,7 @@ export default class ConfigForm extends Component {
               />
             )}
           </FormItem>
-          {optionType === 'category' && (
+          {type === 'category' && (
             <Categories
               form={form}
               listCategory={listCategory}
