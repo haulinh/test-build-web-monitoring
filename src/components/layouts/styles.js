@@ -51,6 +51,8 @@ const HeaderSearch = styled.div`
 `
 
 export const Flex = styled.div`
+  width: ${props => props.width};
+  height: ${props => props.height};
   display: flex;
   flex-direction: ${props => props.flexDirection};
   justify-content: ${props => props.justifyContent};

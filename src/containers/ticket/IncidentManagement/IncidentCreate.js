@@ -4,7 +4,7 @@ import CalculateApi from 'api/CalculateApi'
 import SelectIncidentType from 'components/elements/select-data/ticket/SelectIncidentType'
 import TreeSelectStation from 'components/elements/select-data/TreeSelectStation'
 import SelectMeasureParameter from 'components/elements/select-measure-parameter'
-import { FormItem } from 'components/layouts/styles'
+import { Flex, FormItem } from 'components/layouts/styles'
 import { getMeasuringListFromStationAutos } from 'containers/api-sharing/util'
 import React, { Component } from 'react'
 import { FixedBottom, ILLDrawer } from '../Component'
@@ -130,90 +130,99 @@ export default class IncidentCreate extends Component {
           visible={visible}
           width={400}
         >
-          <Form
-            style={{ height: '100%', position: 'relative' }}
-            onSubmit={this.handleOnSubmit}
-          >
-            <FormItem label={i18n().name}>
-              {form.getFieldDecorator(Fields.name, {
-                rules: [
-                  {
-                    required: true,
-                    message: t('ticket.required.incident.name'),
-                  },
-                  { max: 64, message: t('rules.max64') },
-                ],
-              })(<Input />)}
-            </FormItem>
+          <Form style={{ height: '100%' }} onSubmit={this.handleOnSubmit}>
+            <Flex
+              flexDirection="column"
+              justifyContent="space-between"
+              height="100%"
+            >
+              <div>
+                <FormItem label={i18n().name}>
+                  {form.getFieldDecorator(Fields.name, {
+                    rules: [
+                      {
+                        required: true,
+                        message: t('ticket.required.incident.name'),
+                      },
+                      { max: 64, message: t('rules.max64') },
+                    ],
+                  })(<Input />)}
+                </FormItem>
 
-            <FormItem label={i18n().incidentType}>
-              {form.getFieldDecorator(Fields.type, {
-                rules: [
-                  {
-                    required: true,
-                    message: t('ticket.required.incident.incidentType'),
-                  },
-                ],
-                initialValue: 'default',
-              })(<SelectIncidentType />)}
-            </FormItem>
+                <FormItem label={i18n().incidentType}>
+                  {form.getFieldDecorator(Fields.type, {
+                    rules: [
+                      {
+                        required: true,
+                        message: t('ticket.required.incident.incidentType'),
+                      },
+                    ],
+                    initialValue: 'default',
+                  })(<SelectIncidentType />)}
+                </FormItem>
 
-            {this.isHaveSelectStation() && (
-              <FormItem label={i18n().stationName}>
-                {form.getFieldDecorator(Fields.stationIds, {
-                  rules: [
-                    {
-                      required: true,
-                      message: t('ticket.required.incident.stationName'),
-                    },
-                  ],
-                })(
-                  <TreeSelectStation
-                    fieldValue="_id"
-                    onStationAutosFetchSuccess={this.onStationAutosFetchSuccess}
-                  />
+                {this.isHaveSelectStation() && (
+                  <FormItem label={i18n().stationName}>
+                    {form.getFieldDecorator(Fields.stationIds, {
+                      rules: [
+                        {
+                          required: true,
+                          message: t('ticket.required.incident.stationName'),
+                        },
+                      ],
+                    })(
+                      <TreeSelectStation
+                        fieldValue="_id"
+                        onStationAutosFetchSuccess={
+                          this.onStationAutosFetchSuccess
+                        }
+                      />
+                    )}
+                  </FormItem>
                 )}
-              </FormItem>
-            )}
 
-            {this.isHaveSelectMeasureParameter() && (
-              <FormItem label={i18n().measure}>
-                {form.getFieldDecorator(Fields.measures, {
-                  rules: [
-                    {
-                      required: true,
-                      message: t('ticket.required.incident.measure'),
-                    },
-                  ],
-                })(
-                  <SelectMeasureParameter
-                    measuringList={this.getMeasuringList()}
-                  />
+                {this.isHaveSelectMeasureParameter() && (
+                  <FormItem label={i18n().measure}>
+                    {form.getFieldDecorator(Fields.measures, {
+                      rules: [
+                        {
+                          required: true,
+                          message: t('ticket.required.incident.measure'),
+                        },
+                      ],
+                    })(
+                      <SelectMeasureParameter
+                        measuringList={this.getMeasuringList()}
+                      />
+                    )}
+                  </FormItem>
                 )}
-              </FormItem>
-            )}
 
-            <FormItem label={i18n().description}>
-              {form.getFieldDecorator(Fields.description, {
-                rules: [{ max: 512, message: t('rules.max512') }],
-              })(
-                <TextAreaCustom
-                  style={{
-                    height: '150px',
-                    resize: 'none',
-                  }}
-                  maxLength={512}
-                  allowClear
-                  autoSize
-                />
-              )}
-            </FormItem>
+                <FormItem label={i18n().description}>
+                  {form.getFieldDecorator(Fields.description, {
+                    rules: [{ max: 512, message: t('rules.max512') }],
+                  })(
+                    <TextAreaCustom
+                      style={{
+                        height: '150px',
+                        resize: 'none',
+                      }}
+                      maxLength={512}
+                      allowClear
+                      autoSize
+                    />
+                  )}
+                </FormItem>
+              </div>
 
-            <FixedBottom>
-              <Button type="primary" htmlType="submit">
+              <Button
+                style={{ alignSelf: 'end', height: 32, minHeight: 32 }}
+                type="primary"
+                htmlType="submit"
+              >
                 {i18n().create}
               </Button>
-            </FixedBottom>
+            </Flex>
           </Form>
         </ILLDrawer>
         <Modal

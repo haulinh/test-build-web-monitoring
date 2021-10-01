@@ -1,5 +1,5 @@
 import { getConfigApi } from 'config'
-import { getFetchDownFile, getFetch, postFetch } from 'utils/fetch'
+import { getFetchDownFile, getFetch, postFetch, pathFetch } from 'utils/fetch'
 
 function calc(prefix = '') {
   return [getConfigApi().calculate, prefix].filter(item => item).join('/')
@@ -55,6 +55,10 @@ export default {
   exportTicket: params => {
     const url = calc('ticket/export')
     return getFetchDownFile(url, params)
+  },
+  updateCategoryTicket: idTicket => {
+    const url = calc(`ticket/${idTicket}/category`)
+    return pathFetch(url)
   },
   //#endregion
 }
