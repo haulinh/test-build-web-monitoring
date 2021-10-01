@@ -10,6 +10,13 @@ import React, { Component } from 'react'
 import { FixedBottom, ILLDrawer } from '../Component'
 import { Fields, i18n } from './index'
 import { translate as t } from 'hoc/create-lang'
+import styled from 'styled-components'
+
+const TextAreaCustom = styled(TextArea)`
+  > textarea {
+    resize: none;
+  }
+`
 
 @Form.create()
 export default class IncidentCreate extends Component {
@@ -189,7 +196,17 @@ export default class IncidentCreate extends Component {
             <FormItem label={i18n().description}>
               {form.getFieldDecorator(Fields.description, {
                 rules: [{ max: 512, message: t('rules.max512') }],
-              })(<TextArea style={{ height: '150px' }} />)}
+              })(
+                <TextAreaCustom
+                  style={{
+                    height: '150px',
+                    resize: 'none',
+                  }}
+                  maxLength={512}
+                  allowClear
+                  autoSize
+                />
+              )}
             </FormItem>
 
             <FixedBottom>
