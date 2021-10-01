@@ -3792,7 +3792,7 @@ export default {
         type: 'Kiểu dữ liệu',
         button: 'Tạo mới',
         order: 'Thứ tự hiển thị',
-        category: "Thêm danh mục"
+        category: 'Thêm danh mục',
       },
     },
     placeholder: {
@@ -3804,8 +3804,7 @@ export default {
         stationName: 'Chọn tên trạm',
         measure: 'Thông số',
       },
-      configProperties: {
-      },
+      configProperties: {},
     },
     title: {
       dataLookup: {},
@@ -3823,7 +3822,7 @@ export default {
       },
       configProperties: {
         success: 'Tạo mới thành công',
-        error: 'Đã xảy ra lỗi'
+        error: 'Đã xảy ra lỗi',
       },
     },
     required: {
@@ -3833,10 +3832,16 @@ export default {
         description: 'Vui nhập mô tả cho sự cố',
         stationName: 'Vui lòng chọn trạm quan trắc',
         measure: 'Vui lòng chọn thông số',
+        time: 'Vui lòng chọn thời gian',
       },
       configProperties: {
         required: 'Vui lòng nhập dữ liệu',
-        isNumber: 'Vui lòng nhập chữ số'
+        isNumber: 'Vui lòng nhập chữ số',
+      },
+    },
+    button: {
+      incident: {
+        create: '+ Tạo mới sự cố',
       },
     },
   },

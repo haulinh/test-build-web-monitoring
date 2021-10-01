@@ -50,6 +50,13 @@ const HeaderSearch = styled.div`
   padding: 16px;
 `
 
+export const Flex = styled.div`
+  display: flex;
+  flex-direction: ${props => props.flexDirection};
+  justify-content: ${props => props.justifyContent};
+  align-items: ${props => props.alignItems};
+`
+
 export const Search = ({ loading, onSearch, children }) => {
   return (
     <React.Fragment>
