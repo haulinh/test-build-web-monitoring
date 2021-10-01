@@ -36,10 +36,18 @@ export default class IncidentDetail extends Component {
       form,
     } = this.props
 
-    const configs = await CalculateApi.getConfig()
+    const [configs, data] = await Promise.all([
+      CalculateApi.getConfig(),
+      CalculateApi.getTicket(id),
+    ])
+
+    // const configs = await CalculateApi.getConfig()
+    // const category = await CalculateApi.getCategoryTicket(id)
+
+    // console.log({ category })
     console.log({ configs })
 
-    const data = await CalculateApi.getTicket(id)
+    // const data = await CalculateApi.getTicket(id)
     this.setState({ record: data })
     const initialValues = _.pick(data, [Fields.name, Fields.description])
     form.setFieldsValue({ ...initialValues, [Fields.status]: data.status._id })
