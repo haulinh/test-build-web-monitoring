@@ -7,6 +7,34 @@ import moment from 'moment'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import { withRouter } from 'react-router'
 import slug from 'constants/slug'
+import styled from 'styled-components'
+
+const TableStyled = styled(Table)`
+  .ant-table-row {
+    :hover {
+      cursor: pointer;
+    }
+  }
+`
+
+const TooltipCustom = ({ name }) => {
+  return (
+    <Tooltip title={name}>
+      <div
+        style={{
+          maxWidth: 300,
+          fontSize: 14,
+          color: '#262626',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'pre',
+          overflow: 'hidden',
+        }}
+      >
+        {name}
+      </div>
+    </Tooltip>
+  )
+}
 
 export const TableData = withRouter(
   ({
@@ -20,13 +48,16 @@ export const TableData = withRouter(
     const columns = [
       {
         title: '#',
-        render: (_, __, index) => <div>{(page - 1) * PAGE_SIZE + index}</div>,
+        render: (_, __, index) => (
+          <div>{(page - 1) * PAGE_SIZE + (index + 1)}</div>
+        ),
       },
       {
         dataIndex: 'name',
+        width: 200,
         align: 'center',
         title: i18n().name,
-        render: value => <div>{value}</div>,
+        render: value => <TooltipCustom name={value} />,
       },
       {
         dataIndex: 'type',
@@ -40,22 +71,7 @@ export const TableData = withRouter(
         title: t('apiSharingNew.fields.stationKeys'),
         render: value => {
           const stationNames = value.map(item => item.name).join(',')
-          return (
-            <Tooltip title={stationNames}>
-              <div
-                style={{
-                  maxWidth: 300,
-                  fontSize: 14,
-                  color: '#262626',
-                  textOverflow: 'ellipsis',
-                  whiteSpace: 'pre',
-                  overflow: 'hidden',
-                }}
-              >
-                {stationNames}
-              </div>
-            </Tooltip>
-          )
+          return <TooltipCustom name={stationNames} />
         },
       },
       {
@@ -97,12 +113,11 @@ export const TableData = withRouter(
     }
 
     return (
-      <Table
+      <TableStyled
         columns={columns}
         onRow={(record, rowIndex) => {
           return {
             onClick: event => {
-              console.log({ record })
               otherProps.history.push(
                 `${slug.ticket.incidentEdit}/${record._id}`
               )

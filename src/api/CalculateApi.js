@@ -23,6 +23,8 @@ export default {
     const url = calc('billing/export-data')
     return getFetchDownFile(url, params)
   },
+
+  //#region ticket config
   getConfig: () => {
     const url = calc('/ticket-config')
     return getFetch(url)
@@ -31,6 +33,11 @@ export default {
     const url = calc('/ticket-config')
     return postFetch(url, params)
   },
+  getStatusTicket: () => {
+    const url = calc('/ticket-config/status')
+    return getFetch(url)
+  },
+  //#endregion
 
   //#region ticket
   createTicket: params => {
