@@ -1,5 +1,5 @@
 import { getConfigApi } from 'config'
-import { getFetchDownFile, getFetch, postFetch } from 'utils/fetch'
+import { getFetchDownFile, getFetch, postFetch, pathFetch, deleteFetch } from 'utils/fetch'
 
 function calc(prefix = '') {
   return [getConfigApi().calculate, prefix].filter(item => item).join('/')
@@ -23,19 +23,29 @@ export default {
     const url = calc('billing/export-data')
     return getFetchDownFile(url, params)
   },
+
+  //ticket-config
   getConfigs: () => {
-    const url = calc('/ticket-config')
+    const url = calc('ticket-config')
     return getFetch(url)
   },
-  getConfigById: id => {
-    const url = calc(`/ticket-config/${id}`)
-    return getFetch(url)
+  updateConfigById: (id, params) => {
+    const url = calc(`ticket-config/${id}`)
+    return pathFetch(url, params)
   },
   createConfig: params => {
-    const url = calc('/ticket-config')
+    const url = calc('ticket-config')
     return postFetch(url, params)
   },
-
+  updateToggel: (id, toggle) => {
+    const url = calc(`ticket-config/${id}/${toggle}`)
+    return pathFetch(url)
+  },
+  delConfig: (id) => {
+    const url = calc(`ticket-config/${id}`)
+    return deleteFetch(url)
+  },
+  
   //#region ticket
   createTicket: params => {
     const url = calc('ticket')

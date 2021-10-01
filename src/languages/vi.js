@@ -3814,7 +3814,10 @@ export default {
         report: 'BÁO CÁO SỰ CỐ',
       },
       configProperties: {
-        drawer: 'Tạo mới thuộc tính',
+        drawer: {
+          add: 'Tạo mới thuộc tính',
+          edit: 'Chỉnh sửa thuộc tính'
+        },
       },
     },
     message: {

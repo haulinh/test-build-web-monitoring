@@ -1,17 +1,19 @@
-import {Button, Form, Input, Select, InputNumber, message} from 'antd'
-import {FormItem} from 'components/layouts/styles'
-import React, {Component} from 'react'
-import {FIELDS, optionSelectType} from './index'
-import {translate as t} from 'hoc/create-lang'
+import { Button, Form, Input, Select, InputNumber, message } from 'antd'
+import { FormItem } from 'components/layouts/styles'
+import React, { Component } from 'react'
+import { FIELDS, optionSelectType } from './index'
+import { translate as t } from 'hoc/create-lang'
 import CalculateApi from 'api/CalculateApi'
 import Categories from './Categories'
-import {FixedBottom, ILLDrawer} from '../Component'
-import {get, isEmpty} from 'lodash-es'
-
+import { FixedBottom, ILLDrawer } from '../Component'
+import { get, isEmpty } from 'lodash-es'
 
 const i18n = () => ({
   drawer: {
-    title: t('ticket.title.configProperties.drawer')
+    title: {
+      add: t('ticket.title.configProperties.drawer.add'),
+      edit: t('ticket.title.configProperties.drawer.edit')
+    }
   },
   form: {
     name: t('ticket.label.configProperties.name'),
@@ -33,22 +35,41 @@ const i18n = () => ({
 export default class ConfigForm extends Component {
   state = {
     optionType: "",
+    listCategory: [],
   }
 
   componentWillReceiveProps(nextProps) {
-    const {form, currentActive} = this.props
+    const { form, currentActive } = this.props
     if (currentActive !== nextProps.currentActive) {
       form.setFieldsValue({
-        [FIELDS.name]: get(nextProps, 'currentActive.name', ''),
-        [FIELDS.type]: get(nextProps, 'currentActive.type', ''),
-        [FIELDS.order]: get(nextProps, 'currentActive.order', ''),
+        [FIELDS.NAME]: get(nextProps, 'currentActive.name', ''),
+        [FIELDS.TYPE]: get(nextProps, 'currentActive.type', ''),
+        [FIELDS.ORDER]: get(nextProps, 'currentActive.order', ''),
       })
     }
   }
 
+  onCreateCategory = () => {
+    const { listCategory } = this.state;
+    let newKey = 0;
+
+    if (listCategory.length) {
+      newKey = listCategory.push()
+    }
+
+    this.setState({ listCategory: [...listCategory, newKey] })
+  }
+
+  onDelSubCategory = (idxDelete) => {
+    const { listCategory } = this.state;
+    const newList = listCategory.filter((_, idx) => idx !== idxDelete)
+
+    this.setState({ listCategory: newList })
+  }
+
   onSubmit = async (e) => {
     e.preventDefault()
-    const {form, onClose, currentActive} = this.props;
+    const { form, onClose, currentActive } = this.props;
     const values = await form.validateFields();
 
     const params = {
@@ -62,52 +83,62 @@ export default class ConfigForm extends Component {
         })) : []
     }
 
-    try {
-      const isEdit = !isEmpty(currentActive)
-      if (isEdit) await this.handleEdit(params)
-      if (!isEdit) await this.handleCreate(params)
+    const isEdit = !isEmpty(currentActive)
 
-      form.resetFields()
-      onClose()
-    } catch (e) {
-      console.log(e)
-    }
+    if (isEdit) await this.handleEdit(params)
+    if (!isEdit) await this.handleCreate(params)
+
+    form.resetFields()
+    onClose()
   }
 
   handleCreate = async (params) => {
-    const {addConfig} = this.props;
+    const { form, addConfig } = this.props;
     const result = await CalculateApi.createConfig(params)
     if (!result) {
       message.error(i18n().message.error)
       return;
     }
     message.info(i18n().message.success)
+    form.resetFields()
     addConfig(result)
   }
 
   handleEdit = async (params) => {
-    const {updateConfig} = this.props;
-    const result = await CalculateApi.createConfig(params)
-    if (!result) {
+    const { updateConfig, currentActive } = this.props;
+    try {
+      await CalculateApi.updateConfigById(currentActive._id, params)
+      message.info(i18n().message.success)
+      const newConfig = { ...currentActive, ...params }
+      updateConfig(currentActive._id, newConfig)
+    } catch (e) {
       message.error(i18n().message.error)
-      return;
+      console.log(e)
     }
-    message.info(i18n().message.success)
-    updateConfig(result)
   }
 
   onHandleChange = (value) => {
-    this.setState({optionType: value})
+    this.setState({ optionType: value })
+  }
+
+  onDelConfig = async (id) => {
+    try {
+      await CalculateApi.delConfig(id)
+      message.info(i18n().message.success)
+    } catch (e) {
+      message.error(i18n().message.error)
+      console.log(e)
+    }
   }
 
   render() {
-    const {optionType} = this.state
-    const {onClose, visible, form, currentActive} = this.props
+    const { optionType, listCategory } = this.state
+    const { onClose, visible, form, currentActive } = this.props
     const isEdit = !isEmpty(currentActive)
 
     return (
       <ILLDrawer
-        title={isEdit ? 'EDIT TITLE' : i18n().drawer.title}
+        title={isEdit ? i18n().drawer.title.edit : i18n().drawer.title.add}
         closable={false}
         onClose={onClose}
         visible={visible}
@@ -117,10 +148,10 @@ export default class ConfigForm extends Component {
           form={form}
           layout="vertical"
           onSubmit={this.onSubmit}
-          style={{height: '100%', position: 'relative'}}
+          style={{ height: '100%', position: 'relative' }}
         >
           <FormItem label={i18n().form.name}>
-            {form.getFieldDecorator(FIELDS.name, {
+            {form.getFieldDecorator(FIELDS.NAME, {
               rules: [
                 {
                   required: true,
@@ -132,7 +163,7 @@ export default class ConfigForm extends Component {
             )}
           </FormItem>
           <FormItem label={i18n().form.type}>
-            {form.getFieldDecorator(FIELDS.type, {
+            {form.getFieldDecorator(FIELDS.TYPE, {
               rules: [
                 {
                   required: true,
@@ -141,7 +172,7 @@ export default class ConfigForm extends Component {
               ]
             })(
               <Select
-                style={{width: '100%'}}
+                style={{ width: '100%' }}
                 onChange={this.onHandleChange}
                 disabled={isEdit}
               >
@@ -154,7 +185,7 @@ export default class ConfigForm extends Component {
             )}
           </FormItem>
           <FormItem label={i18n().form.order}>
-            {form.getFieldDecorator(FIELDS.order, {
+            {form.getFieldDecorator(FIELDS.ORDER, {
               rules: [
                 {
                   pattern: RegExp('^[0-9]*$'),
@@ -164,15 +195,17 @@ export default class ConfigForm extends Component {
             })(
               <InputNumber
                 type="number"
-                style={{width: '100%'}}
+                style={{ width: '100%' }}
               />
             )}
           </FormItem>
-          <FormItem>
-            {optionType === 'category' && (
-              <Categories form={form} />
-            )}
-          </FormItem>
+          {optionType === 'category' && (
+            <Categories
+              form={form}
+              listCategory={listCategory}
+              onCreateCategory={this.onCreateCategory}
+              onDelSubCategory={this.onDelSubCategory} />
+          )}
           <FixedBottom>
             <Button type="primary" htmlType="submit">
               {i18n().form.button}

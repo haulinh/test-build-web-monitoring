@@ -1,4 +1,4 @@
-import { Button } from 'antd'
+import { Button, message } from 'antd'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import React, { Component } from 'react'
 import { translate as t } from 'hoc/create-lang'
@@ -15,37 +15,37 @@ export const optionSelectType = [
 ]
 
 export const FIELDS = {
-  name: 'name',
-  type: 'type',
-  order: 'order',
-  categories: 'categories',
-  hidden: 'hidden',
+  NAME: 'name',
+  TYPE: 'type',
+  ORDER: 'order',
+  CATEGORIES: 'categories',
+  HIDDEN: 'hidden',
 }
 
-const obj = {
-  text: "Text",
-  category: "Category",
-  number: "Number",
-  datetime: "Date time"
-}
+const i18n = () => ({
+  menu: t('ticket.menu.configProperties'),
+  message: {
+    success: t('ticket.message.configProperties.success'),
+    error: t('ticket.message.configProperties.error')
+  }
+})
 
 export default class ConfigProperties extends Component {
   state = {
     visible: false,
     configs: [],
-    currentActive: {}
+    currentActive: {},
   }
 
   async componentDidMount() {
     const configs = await CalculateApi.getConfigs()
-    const newConfigs = configs.map(item => ({ ...item, type: obj[item.type] }))
-    this.setState({ configs: newConfigs })
+    this.setState({ configs })
   }
 
   showDrawer = () => {
     this.setState({
       visible: true,
-      currentActive: {}
+      currentActive: {},
     })
   }
 
@@ -64,33 +64,50 @@ export default class ConfigProperties extends Component {
   }
 
   addConfig = (config) => {
-    const newConfigs = [...this.state.configs, { ...config, type: obj[config.type] }]
+    const newConfigs = [...this.state.configs, config]
     this.setState({ configs: newConfigs })
   }
 
-  updateConfig = (config) => {
-    // const newConfigs = [...this.state.configs, { ...config, type: obj[config.type] }]
-    // this.setState({ configs: newConfigs })
+  updateConfig = (id, config) => {
+    const { configs } = this.state
+    const newConfigs = [...configs]
+    const indexUpdate = configs.findIndex((item) => (
+      item._id === id
+    ))
+    newConfigs[indexUpdate] = config
+    this.setState({ configs: newConfigs })
   }
 
   setEdit = (record) => {
     this.setState({ visible: true, currentActive: record })
   }
 
+  handleChangeToggle = async (id, toggle) => {
+    try {
+      message.success(i18n().message.success)
+      await CalculateApi.updateToggel(id, toggle)
+    } catch (e) {
+      message.error(i18n().message.error)
+      console.log(e)
+    }
+  }
+  
   render() {
     const { visible, configs, currentActive } = this.state
     return (
-      <PageContainer title={t('ticket.menu.configProperties')} right={this.renderButtonAdd()}>
-        <ConfigForm 
-          visible={visible} 
-          onClose={this.onClose} 
-          addConfig={this.addConfig} 
-          updateConfig={this.updateConfig} 
-          currentActive={currentActive} 
-          showDrawer={this.showDrawer} 
-        />
-        <Clearfix height={16}></Clearfix>
-        <ConfigList configs={configs} setEdit={this.setEdit}></ConfigList>
+      <PageContainer title={i18n().menu} right={this.renderButtonAdd()}>
+        <ConfigForm
+          visible={visible}
+          onClose={this.onClose}
+          addConfig={this.addConfig}
+          updateConfig={this.updateConfig}
+          currentActive={currentActive}
+          showDrawer={this.showDrawer} />
+        <Clearfix height={16} />
+        <ConfigList
+          configs={configs}
+          setEdit={this.setEdit}
+          handleChangeToggle={this.handleChangeToggle} />
       </PageContainer>
     )
   }
