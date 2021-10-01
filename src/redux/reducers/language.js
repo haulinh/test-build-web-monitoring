@@ -61,7 +61,6 @@ export function changeLanguage(state, { locale }) {
 }
 
 function getListDictionaryLanguageWeb(state, { payload }) {
-  console.log('getListDictionaryLanguageWeb')
   let data = {}
   data = getLanguageChoice(state.dataInitial, payload, state.locale)
 

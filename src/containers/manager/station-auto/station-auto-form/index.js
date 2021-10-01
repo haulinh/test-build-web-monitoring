@@ -245,7 +245,6 @@ export default class StationAutoForm extends React.PureComponent {
   handleSubmit(e) {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
-      console.log({ values })
       if (err) {
         this.setState({
           tabKey: ['1'],
@@ -279,7 +278,7 @@ export default class StationAutoForm extends React.PureComponent {
       }
 
       if (!values.linkedStation) {
-        values.linkedStation = ""
+        values.linkedStation = ''
       }
 
       const data = {
@@ -447,7 +446,7 @@ export default class StationAutoForm extends React.PureComponent {
   }
   handleLinkedStationChange(value) {
     this.setState({
-      linkedStation: value
+      linkedStation: value,
     })
   }
   handlePhonesChange(value) {
@@ -949,8 +948,7 @@ export default class StationAutoForm extends React.PureComponent {
                     <SelectStationFix
                       fieldValue="key"
                       onChangeObject={this.handleLinkedStationChange()}
-                    >
-                    </SelectStationFix>
+                    ></SelectStationFix>
                   )}
                 </FormItem>
               </Col>
@@ -988,12 +986,12 @@ export default class StationAutoForm extends React.PureComponent {
                     this.state.measuringList
                       ? this.state.measuringList
                       : [
-                        {
-                          key: '',
-                          name: '',
-                          unit: '',
-                        },
-                      ]
+                          {
+                            key: '',
+                            name: '',
+                            unit: '',
+                          },
+                        ]
                   }
                   measuringListSource={this.state.measuringListSource}
                 />

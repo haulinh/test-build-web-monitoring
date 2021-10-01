@@ -24,7 +24,7 @@ export default {
     return getFetchDownFile(url, params)
   },
 
-  //ticket-config
+  //#region ticket config
   getConfigs: () => {
     const url = calc('ticket-config')
     return getFetch(url)
@@ -45,7 +45,12 @@ export default {
     const url = calc(`ticket-config/${id}`)
     return deleteFetch(url)
   },
-  
+  getStatusTicket: () => {
+    const url = calc('/ticket-config/status')
+    return getFetch(url)
+  },
+  //#endregion
+
   //#region ticket
   createTicket: params => {
     const url = calc('ticket')
@@ -62,6 +67,10 @@ export default {
   exportTicket: params => {
     const url = calc('ticket/export')
     return getFetchDownFile(url, params)
+  },
+  updateCategoryTicket: idTicket => {
+    const url = calc(`ticket/${idTicket}/category`)
+    return pathFetch(url)
   },
   //#endregion
 }

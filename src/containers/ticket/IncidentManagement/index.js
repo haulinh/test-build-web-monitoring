@@ -67,7 +67,7 @@ export default class IncidentManagement extends Component {
   ButtonAdd = () => {
     return (
       <Button onClick={this.showDrawer} type="primary">
-        {t('addon.create')}
+        {t('ticket.button.incident.create')}
       </Button>
     )
   }
@@ -132,15 +132,13 @@ export default class IncidentManagement extends Component {
     const { visible, result, page, loading } = this.state
     const { form } = this.props
 
-    console.log({ values: form.getFieldsValue() })
-
     return (
       <PageContainer right={this.ButtonAdd()}>
         <Clearfix height={32} />
 
         <Search onSearch={this.handleOnSearch} loading={loading}>
           <BoxShadow>
-            <Filter form={form} />
+            <Filter form={form} onSearch={this.handleOnSearch} />
           </BoxShadow>
         </Search>
         <Clearfix height={32} />

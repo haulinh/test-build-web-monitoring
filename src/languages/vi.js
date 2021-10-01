@@ -3812,8 +3812,7 @@ export default {
         stationName: 'Chọn tên trạm',
         measure: 'Thông số',
       },
-      configProperties: {
-      },
+      configProperties: {},
     },
     title: {
       dataLookup: {},
@@ -3844,10 +3843,16 @@ export default {
         description: 'Vui nhập mô tả cho sự cố',
         stationName: 'Vui lòng chọn trạm quan trắc',
         measure: 'Vui lòng chọn thông số',
+        time: 'Vui lòng chọn thời gian',
       },
       configProperties: {
         required: 'Vui lòng nhập dữ liệu',
-        isNumber: 'Vui lòng nhập chữ số'
+        isNumber: 'Vui lòng nhập chữ số',
+      },
+    },
+    button: {
+      incident: {
+        create: '+ Tạo mới sự cố',
       },
     },
   },
