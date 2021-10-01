@@ -18,8 +18,8 @@ const SelectMeasureParameter = ({
       {...props}
       value={value}
       showSearch
-      maxTagCount={20}
-      maxTagTextLength={15}
+      maxTagCount={5}
+      maxTagTextLength={5}
       style={{ width: '100%' }}
       onChange={handleChange}
       optionFilterProp="children"

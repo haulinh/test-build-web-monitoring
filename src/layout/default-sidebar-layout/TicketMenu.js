@@ -48,24 +48,6 @@ export default {
         </Menu.Item>
       )}
 
-      {protectRole(ROLE.BILLING_CONFIG.VIEW)(
-        <Menu.Item
-          key={slug.ticket.dataLookup}
-          onClick={() => {
-            props.selectMenu(slug.ticket.dataLookup)
-          }}
-        >
-          <Tooltip
-            placement="right"
-            title={listTooltipMenu().ticket.dataLookup}
-          >
-            <Link to={slug.ticket.dataLookup}>
-              {t('ticket.menu.dataLookup')}
-            </Link>
-          </Tooltip>
-        </Menu.Item>
-      )}
-
       <Menu.Item
         key={slug.ticket.configProperties}
         onClick={() => {
