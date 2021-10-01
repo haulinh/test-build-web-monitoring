@@ -3790,9 +3790,17 @@ export default {
       configProperties: {
         name: 'Tên thuộc tính',
         type: 'Kiểu dữ liệu',
-        button: 'Tạo mới',
         order: 'Thứ tự hiển thị',
-        category: "Thêm danh mục"
+        category: "Thêm danh mục",
+        button: {
+          add: 'Tạo mới',
+          edit: 'Lưu',
+          del: 'Xóa'
+        },
+        switch: {
+          hide: 'Ẩn',
+          show: 'Hiện'
+        }
       },
     },
     placeholder: {
@@ -3825,7 +3833,7 @@ export default {
         createSuccess: 'Tạo mới sự cố thành công',
       },
       configProperties: {
-        success: 'Tạo mới thành công',
+        success: 'thành công',
         error: 'Đã xảy ra lỗi'
       },
     },

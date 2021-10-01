@@ -1,4 +1,4 @@
-import { Button, Form, Input, Select, InputNumber, message } from 'antd'
+import { Button, Form, Input, Select, InputNumber, message, Row, Col, Icon, Divider } from 'antd'
 import { FormItem } from 'components/layouts/styles'
 import React, { Component } from 'react'
 import { FIELDS, optionSelectType } from './index'
@@ -7,6 +7,8 @@ import CalculateApi from 'api/CalculateApi'
 import Categories from './Categories'
 import { FixedBottom, ILLDrawer } from '../Component'
 import { get, isEmpty } from 'lodash-es'
+import styled from 'styled-components'
+
 
 const i18n = () => ({
   drawer: {
@@ -19,17 +21,28 @@ const i18n = () => ({
     name: t('ticket.label.configProperties.name'),
     type: t('ticket.label.configProperties.type'),
     order: t('ticket.label.configProperties.order'),
-    button: t('ticket.label.configProperties.button')
+  },
+  button: {
+    add: t('ticket.label.configProperties.button.add'),
+    edit: t('ticket.label.configProperties.button.edit'),
+    del: t('ticket.label.configProperties.button.del')
   },
   error: {
     required: t('ticket.required.configProperties.required'),
     isNumber: t('ticket.required.configProperties.isNumber')
   },
   message: {
-    success: t('ticket.message.configProperties.success'),
+    success: (text) => text + ' ' + t('ticket.message.configProperties.success'),
     error: t('ticket.message.configProperties.error')
   }
 })
+
+const DrawerCustom = styled(ILLDrawer)`
+  .ant-drawer-body{
+    padding-left: 0;
+    padding-right: 0;
+  }
+`
 
 @Form.create()
 export default class ConfigForm extends Component {
@@ -41,22 +54,28 @@ export default class ConfigForm extends Component {
     const { form, currentActive } = this.props
     if (currentActive !== nextProps.currentActive) {
       const type = get(nextProps, 'currentActive.type', '');
+      const categories = get(nextProps, 'currentActive.categories', []);
+
       form.setFieldsValue({
-        [FIELDS.TYPE]: type,
         [FIELDS.NAME]: get(nextProps, 'currentActive.name', ''),
+        [FIELDS.TYPE]: type,
         [FIELDS.ORDER]: get(nextProps, 'currentActive.order', ''),
       })
 
       this.setState(
-        { listCategory: get(nextProps, 'currentActive.categories', [])
-            .map(item => item.key)},
+        {
+          listCategory: categories
+            .map(item => item.key)
+        },
         () => {
-          get(nextProps, 'currentActive.categories', []).map(item => {
+          categories.map(item => {
             form.setFieldsValue({
               [`categories[${item.key}]`]: item.name
             })
+            return []
           })
-        })
+        }
+      )
     }
   }
 
@@ -110,7 +129,7 @@ export default class ConfigForm extends Component {
       message.error(i18n().message.error)
       return;
     }
-    message.info(i18n().message.success)
+    message.info(i18n().message.success(i18n().button.add))
     form.resetFields()
     addConfig(result)
   }
@@ -119,7 +138,7 @@ export default class ConfigForm extends Component {
     const { updateConfig, currentActive } = this.props;
     try {
       await CalculateApi.updateConfigById(currentActive._id, params)
-      message.info(i18n().message.success)
+      message.info(i18n().message.success(i18n().button.edit))
       const newConfig = { ...currentActive, ...params }
       updateConfig(currentActive._id, newConfig)
     } catch (e) {
@@ -128,10 +147,13 @@ export default class ConfigForm extends Component {
     }
   }
 
-  onDelConfig = async (id) => {
+  handleDel = async (param) => {
+    const { delConfig, onClose } = this.props;
     try {
-      await CalculateApi.delConfig(id)
-      message.info(i18n().message.success)
+      await CalculateApi.delConfig(param._id)
+      message.info(i18n().message.success(i18n().button.del))
+      delConfig(param)
+      onClose()
     } catch (e) {
       message.error(i18n().message.error)
       console.log(e)
@@ -145,17 +167,28 @@ export default class ConfigForm extends Component {
     const type = form.getFieldValue(FIELDS.TYPE);
 
     return (
-      <ILLDrawer
-        title={isEdit ? i18n().drawer.title.edit : i18n().drawer.title.add}
+      <DrawerCustom
         closable={false}
         onClose={onClose}
         visible={visible}
         width={400}
       >
+        <Row type="flex" justify="space-between" style={{ paddingRight: 24, paddingLeft: 24 }}>
+          <Col><b> {!isEdit ? i18n().drawer.title.add : i18n().drawer.title.edit} </b></Col>
+          <Col>
+            {isEdit && (
+              <Icon
+                onClick={() => this.handleDel(currentActive)}
+                type="delete"
+                style={{ fontSize: "16px", color: "#F5222D" }} />
+            )}
+          </Col>
+        </Row>
+        <Divider style={{ width: "100%" }}></Divider>
         <Form
           layout="vertical"
           onSubmit={this.onSubmit}
-          style={{ height: '100%', position: 'relative' }}
+          style={{ height: '100%', position: 'relative', paddingLeft: 24, paddingRight: 24 }}
         >
           <FormItem label={i18n().form.name}>
             {form.getFieldDecorator(FIELDS.NAME, {
@@ -214,12 +247,12 @@ export default class ConfigForm extends Component {
               onDelSubCategory={this.onDelSubCategory} />
           )}
           <FixedBottom>
-            <Button type="primary" htmlType="submit">
-              {i18n().form.button}
+            <Button type="primary" htmlType="submit" style={{ marginRight: 24 }}>
+              {!isEdit ? i18n().button.add : i18n().button.edit}
             </Button>
           </FixedBottom>
         </Form>
-      </ILLDrawer>
+      </DrawerCustom>
     )
   }
 }

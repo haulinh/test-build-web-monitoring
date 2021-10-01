@@ -24,8 +24,12 @@ export const FIELDS = {
 
 const i18n = () => ({
   menu: t('ticket.menu.configProperties'),
+  switch: {
+    hide: t('ticket.label.configProperties.switch.hide'),
+    show: t('ticket.label.configProperties.switch.show')
+  },
   message: {
-    success: t('ticket.message.configProperties.success'),
+    success: (text) => text + ' ' + t('ticket.message.configProperties.success'),
     error: t('ticket.message.configProperties.error')
   }
 })
@@ -64,7 +68,8 @@ export default class ConfigProperties extends Component {
   }
 
   addConfig = (config) => {
-    const newConfigs = [...this.state.configs, config]
+    const { configs } = this.state
+    const newConfigs = [...configs, config]
     this.setState({ configs: newConfigs })
   }
 
@@ -78,20 +83,30 @@ export default class ConfigProperties extends Component {
     this.setState({ configs: newConfigs })
   }
 
+  delConfig = (config) => {
+    const { configs } = this.state
+    const newConfigs = configs.filter(item => item._id !== config._id)
+    this.setState({ configs: newConfigs })
+  }
+
   setEdit = (record) => {
     this.setState({ visible: true, currentActive: record })
   }
 
   handleChangeToggle = async (id, toggle) => {
     try {
-      message.success(i18n().message.success)
       await CalculateApi.updateToggel(id, toggle)
+      if (toggle) {
+        message.success(i18n().message.success(i18n().switch.show))
+        return
+      }
+      message.success(i18n().message.success(i18n().switch.hide))
     } catch (e) {
       message.error(i18n().message.error)
       console.log(e)
     }
   }
-  
+
   render() {
     const { visible, configs, currentActive } = this.state
     return (
@@ -101,6 +116,7 @@ export default class ConfigProperties extends Component {
           onClose={this.onClose}
           addConfig={this.addConfig}
           updateConfig={this.updateConfig}
+          delConfig={this.delConfig}
           currentActive={currentActive}
           showDrawer={this.showDrawer} />
         <Clearfix height={16} />

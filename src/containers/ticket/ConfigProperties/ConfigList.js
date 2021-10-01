@@ -27,7 +27,7 @@ export default function ConfigList({ configs, setEdit, handleChangeToggle }) {
             render: (value, record) =>
                 <Switch
                     defaultChecked={value}
-                    onChange={(value) => handleChangeToggle(record._id, value)}
+                    onChange={(value) => handleChangeToggle(record._id, !value)}
                 />,
         },
     ]
