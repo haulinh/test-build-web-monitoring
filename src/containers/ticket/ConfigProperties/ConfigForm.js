@@ -18,9 +18,16 @@ const i18n = () => ({
     }
   },
   form: {
-    name: t('ticket.label.configProperties.name'),
-    type: t('ticket.label.configProperties.type'),
-    order: t('ticket.label.configProperties.order'),
+    label: {
+      name: t('ticket.label.configProperties.name'),
+      type: t('ticket.label.configProperties.type'),
+      order: t('ticket.label.configProperties.order'),
+    },
+    placeholder: {
+      name: t('ticket.placeholder.configProperties.name'),
+      type: t('ticket.placeholder.configProperties.type'),
+      order: t('ticket.placeholder.configProperties.order'),
+    }
   },
   button: {
     add: t('ticket.button.configProperties.add'),
@@ -48,6 +55,7 @@ const DrawerCustom = styled(ILLDrawer)`
 export default class ConfigForm extends Component {
   state = {
     listCategory: [],
+    listCategoryDefault: [],
     isModalVisible: false,
   }
 
@@ -66,6 +74,8 @@ export default class ConfigForm extends Component {
       this.setState(
         {
           listCategory: categories
+            .map(item => item.order),
+          listCategoryDefault: categories
             .map(item => item.order)
         },
         () => {
@@ -131,7 +141,6 @@ export default class ConfigForm extends Component {
     onClose()
   }
 
-
   handleCreate = async (params) => {
     const { addConfig } = this.props;
     const result = await CalculateApi.createConfig(params)
@@ -194,7 +203,7 @@ export default class ConfigForm extends Component {
   }
 
   render() {
-    const { listCategory, isModalVisible } = this.state
+    const { listCategory, isModalVisible, listCategoryDefault } = this.state
     const { visible, form, currentActive } = this.props
     const isEdit = !isEmpty(currentActive)
     const type = form.getFieldValue(FIELDS.TYPE);
@@ -230,7 +239,7 @@ export default class ConfigForm extends Component {
             onSubmit={this.onSubmit}
             style={{ height: '100%', position: 'relative', paddingLeft: 24, paddingRight: 24 }}
           >
-            <FormItem label={i18n().form.name}>
+            <FormItem label={i18n().form.label.name}>
               {form.getFieldDecorator(FIELDS.NAME, {
                 rules: [
                   {
@@ -243,10 +252,10 @@ export default class ConfigForm extends Component {
                   }
                 ]
               })(
-                <Input />
+                <Input placeholder={i18n().form.placeholder.name} />
               )}
             </FormItem>
-            <FormItem label={i18n().form.type}>
+            <FormItem label={i18n().form.label.type}>
               {form.getFieldDecorator(FIELDS.TYPE, {
                 rules: [
                   {
@@ -256,7 +265,6 @@ export default class ConfigForm extends Component {
                 ]
               })(
                 <Select
-                  style={{ width: '100%' }}
                   onChange={this.onHandleChange}
                   disabled={isEdit}
                 >
@@ -268,7 +276,7 @@ export default class ConfigForm extends Component {
                 </Select>
               )}
             </FormItem>
-            <FormItem label={i18n().form.order}>
+            <FormItem label={i18n().form.label.order}>
               {form.getFieldDecorator(FIELDS.ORDER, {
                 rules: [
                   {
@@ -278,6 +286,7 @@ export default class ConfigForm extends Component {
                 ]
               })(
                 <InputNumber
+                  placeholder={i18n().form.placeholder.order}
                   type="number"
                   style={{ width: '100%' }}
                 />
@@ -287,6 +296,7 @@ export default class ConfigForm extends Component {
               <Categories
                 form={form}
                 listCategory={listCategory}
+                listCategoryDefault={listCategoryDefault}
                 onCreateCategory={this.onCreateCategory}
                 onDelSubCategory={this.onDelSubCategory} />
             )}
