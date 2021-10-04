@@ -7,7 +7,7 @@ import SelectMeasureParameter from 'components/elements/select-measure-parameter
 import { Flex, FormItem } from 'components/layouts/styles'
 import { getMeasuringListFromStationAutos } from 'containers/api-sharing/util'
 import React, { Component } from 'react'
-import { FixedBottom, ILLDrawer } from '../Component'
+import { ILLDrawer } from '../Component'
 import { Fields, i18n } from './index'
 import { translate as t } from 'hoc/create-lang'
 import styled from 'styled-components'
