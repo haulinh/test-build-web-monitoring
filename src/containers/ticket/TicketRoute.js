@@ -8,6 +8,7 @@ import IncidentDetail from './IncidentManagement/IncidentDetail'
 export default function TicketRoute() {
   return (
     <Switch>
+      <Route exact path={slug.ticket.base} component={IncidentManagement} />
       <Route exact path={slug.ticket.incident} component={IncidentManagement} />
       <Route
         exact

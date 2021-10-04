@@ -1,8 +1,9 @@
-import { Button, Col, Form, Row } from 'antd'
+import { Button, Col, Form, notification, Row } from 'antd'
 import CalculateApi from 'api/CalculateApi'
 import { Clearfix } from 'components/layouts/styles'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import _ from 'lodash'
+import moment from 'moment'
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
 import { LeftContent } from './LeftContent'
@@ -13,7 +14,7 @@ export const Fields = {
   description: 'description',
   timeStart: 'timeStart',
   timeEnd: 'timeEnd',
-  status: 'status',
+  status: 'statusId',
 }
 
 @withRouter
@@ -41,36 +42,68 @@ export default class IncidentDetail extends Component {
       CalculateApi.getTicket(id),
     ])
 
-    // const configs = await CalculateApi.getConfig()
-    // const category = await CalculateApi.getCategoryTicket(id)
+    const categoriesShow = configs.filter(config => !config.hidden)
 
-    // console.log({ category })
-    console.log({ configs })
-
-    // const data = await CalculateApi.getTicket(id)
-    this.setState({ record: data })
+    this.setState({ record: data, categories: categoriesShow })
     const initialValues = _.pick(data, [Fields.name, Fields.description])
-    form.setFieldsValue({ ...initialValues, [Fields.status]: data.status._id })
+    form.setFieldsValue({
+      ...initialValues,
+      [Fields.status]: data.statusId,
+      [Fields.timeStart]: moment(data.timeStart),
+      [Fields.timeEnd]: data.timeEnd && moment(data.timeEnd),
+    })
   }
 
-  render() {
+  updateCategoryTicket = async param => {
     const {
       match: {
         params: { id },
       },
-      form,
     } = this.props
-    const { record } = this.state
+    try {
+      await CalculateApi.updateCategoryTicket(id, param)
+      notification.success({ message: 'update thanh cong' })
+    } catch (error) {
+      notification.error('loi')
+    }
+  }
+
+  updateTicket = async param => {
+    const {
+      match: {
+        params: { id },
+      },
+    } = this.props
+    try {
+      await CalculateApi.updateTicket(id, param)
+      notification.success({ message: 'update thanh cong' })
+    } catch (error) {
+      notification.error('loi')
+    }
+  }
+
+  render() {
+    const { form } = this.props
+    const { record, categories } = this.state
 
     return (
       <PageContainer right={this.ButtonDelete()}>
         <Clearfix height={32} />
         <Row gutter={32}>
           <Col span={18}>
-            <LeftContent form={form} record={record} />
+            <LeftContent
+              form={form}
+              record={record}
+              updateTicket={this.updateTicket}
+            />
           </Col>
           <Col span={6}>
-            <RightContent form={form} record={record} />
+            <RightContent
+              updateTicket={this.updateTicket}
+              form={form}
+              record={record}
+              categories={categories}
+            />
           </Col>
         </Row>
       </PageContainer>
