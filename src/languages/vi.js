@@ -3791,7 +3791,7 @@ export default {
       configProperties: {
         name: 'Tên thuộc tính',
         type: 'Kiểu dữ liệu',
-        order: 'Thứ tự hiển thị',
+        order: 'Thứ tự trong file Excel',
         hidden: 'Hiển thị',
         category: "Thêm danh mục",
         switch: {
@@ -3809,7 +3809,11 @@ export default {
         stationName: 'Chọn tên trạm',
         measure: 'Thông số',
       },
-      configProperties: {},
+      configProperties: {
+        name: 'Nhập vấn đề cần giải quyết',
+        type: 'Category',
+        order: '1'
+      },
     },
     title: {
       dataLookup: {},
