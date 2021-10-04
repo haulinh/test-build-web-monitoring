@@ -94,6 +94,8 @@ export const TableData = withRouter(
       {
         dataIndex: 'timeStart',
         align: 'center',
+        defaultSortOrder: 'descend',
+        sorter: (a, b) => new Date(a.timeStart) - new Date(b.timeStart),
         title: t('avgSearchFrom.selectTimeRange.startTime'),
         render: value => <div>{moment(value).format(DD_MM_YYYY_HH_MM)}</div>,
       },

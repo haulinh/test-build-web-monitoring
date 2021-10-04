@@ -23,6 +23,11 @@ export default class Filter extends Component {
     onSearch && onSearch()
   }
 
+  isDisableStation = () => {
+    const { form } = this.props
+    return form.getFieldValue(Fields.type) === 'default'
+  }
+
   render() {
     const { form } = this.props
     const { province } = form.getFieldsValue()
@@ -33,8 +38,8 @@ export default class Filter extends Component {
           <Col span={8}>
             <FormItem label={i18n().incidentType}>
               {form.getFieldDecorator(Fields.type, {
-                initialValue: '',
-              })(<SelectIncidentType isShowAll />)}
+                initialValue: 'station',
+              })(<SelectIncidentType />)}
             </FormItem>
           </Col>
           <Col span={8}>
@@ -48,6 +53,7 @@ export default class Filter extends Component {
                 ],
               })(
                 <TreeSelectStation
+                  disabled={this.isDisableStation()}
                   province={province}
                   fieldValue="_id"
                   onStationAutosFetchSuccess={this.onStationAutosFetchSuccess}

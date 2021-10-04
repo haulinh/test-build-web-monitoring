@@ -4,11 +4,17 @@ import React from 'react'
 import { Fields } from './index'
 import { Icon } from 'antd'
 
-export const LeftContent = ({ form, record }) => {
+export const LeftContent = ({ form, record, updateTicket }) => {
+  const handleUpdateField = fieldName => {
+    const value = form.getFieldValue(fieldName)
+    updateTicket({ [fieldName]: value })
+  }
+
   return (
     <React.Fragment>
       {form.getFieldDecorator(Fields.name)(
         <EditWrapper
+          update={() => handleUpdateField(Fields.name)}
           type="input"
           style={{ color: '#262626', fontWeight: 600, fontSize: 20 }}
           prevValue={record[Fields.name]}
@@ -18,6 +24,7 @@ export const LeftContent = ({ form, record }) => {
       <Clearfix height={12} />
       {form.getFieldDecorator(Fields.description)(
         <EditWrapper
+          update={() => handleUpdateField(Fields.description)}
           type="textArea"
           title="Mô tả"
           prevValue={record[Fields.description]}

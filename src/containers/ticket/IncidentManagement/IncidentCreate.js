@@ -7,7 +7,7 @@ import SelectMeasureParameter from 'components/elements/select-measure-parameter
 import { Flex, FormItem } from 'components/layouts/styles'
 import { getMeasuringListFromStationAutos } from 'containers/api-sharing/util'
 import React, { Component } from 'react'
-import { FixedBottom, ILLDrawer } from '../Component'
+import { ILLDrawer } from '../Component'
 import { Fields, i18n } from './index'
 import { translate as t } from 'hoc/create-lang'
 import styled from 'styled-components'
@@ -54,7 +54,7 @@ export default class IncidentCreate extends Component {
 
   getParams = async () => {
     const { form } = this.props
-    const values = await form.getFieldsValue()
+    const values = await form.validateFields()
     const params = {
       [Fields.name]: values[Fields.name].trim(),
       [Fields.type]: values[Fields.type],
@@ -74,18 +74,18 @@ export default class IncidentCreate extends Component {
   handleOnSubmit = async e => {
     e.preventDefault()
 
-    const { form } = this.props
-    const values = await form.validateFields()
-    if (!values) return
+    const { onClose, onSearch } = this.props
 
     const params = await this.getParams()
+    if (!params) return
     try {
       const res = await CalculateApi.createTicket(params)
       if (res) {
         message.success(i18n().createSuccess)
         this.setState({ isSubmitted: true })
         this.clearFields()
-        this.props.onClose()
+        onClose && onClose()
+        onSearch && onSearch()
       }
     } catch (error) {
       console.log(error)

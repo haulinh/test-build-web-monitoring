@@ -11,6 +11,7 @@ import { TableData } from './TableData'
 import { getLanguage } from 'utils/localStorage'
 import { downFileExcel } from 'utils/downFile'
 import { DD_MM_YYYY } from 'constants/format-date'
+import _ from 'lodash'
 
 export const Fields = {
   name: 'name',
@@ -79,7 +80,7 @@ export default class IncidentManagement extends Component {
 
     const { page } = this.state
 
-    const params = {
+    let params = {
       [Fields.stationIds]: getParamArray(values[Fields.stationIds]),
       [Fields.type]: values[Fields.type],
       from: values[Fields.time][0].startOf('d').toDate(),
@@ -88,11 +89,16 @@ export default class IncidentManagement extends Component {
       limit: PAGE_SIZE,
     }
 
+    if (values[Fields.type] === 'default') {
+      params = _.omit(params, Fields.stationIds)
+    }
+
     return params
   }
 
   handleOnSearch = async () => {
     const params = await this.getParams()
+    if (!params) return
     this.setState({ loading: true })
     try {
       const result = await CalculateApi.getTickets(params)
@@ -161,7 +167,11 @@ export default class IncidentManagement extends Component {
           loading={loading}
         />
 
-        <IncidentCreate visible={visible} onClose={this.onClose} />
+        <IncidentCreate
+          visible={visible}
+          onClose={this.onClose}
+          onSearch={this.handleOnSearch}
+        />
       </PageContainer>
     )
   }

@@ -32,6 +32,11 @@ export default class SelectStatus extends Component {
     return options.find(item => item._id === value) || {}
   }
 
+  handleOnChange = value => {
+    const { onChange } = this.props
+    onChange(value)
+  }
+
   render() {
     const { options } = this.state
     const status = this.getStatus()
@@ -41,6 +46,7 @@ export default class SelectStatus extends Component {
         {...this.props}
         style={{ width: 120 }}
         background={status.background}
+        onChange={this.handleOnChange}
         color={status.color}
       >
         {options.map(option => (
