@@ -48,6 +48,7 @@ const DrawerCustom = styled(ILLDrawer)`
 export default class ConfigForm extends Component {
   state = {
     listCategory: [],
+    listCategoryDefault: [],
     isModalVisible: false,
   }
 
@@ -66,6 +67,8 @@ export default class ConfigForm extends Component {
       this.setState(
         {
           listCategory: categories
+            .map(item => item.order),
+          listCategoryDefault: categories
             .map(item => item.order)
         },
         () => {
@@ -194,7 +197,7 @@ export default class ConfigForm extends Component {
   }
 
   render() {
-    const { listCategory, isModalVisible } = this.state
+    const { listCategory, isModalVisible, listCategoryDefault } = this.state
     const { visible, form, currentActive } = this.props
     const isEdit = !isEmpty(currentActive)
     const type = form.getFieldValue(FIELDS.TYPE);
@@ -287,6 +290,7 @@ export default class ConfigForm extends Component {
               <Categories
                 form={form}
                 listCategory={listCategory}
+                listCategoryDefault={listCategoryDefault}
                 onCreateCategory={this.onCreateCategory}
                 onDelSubCategory={this.onDelSubCategory} />
             )}

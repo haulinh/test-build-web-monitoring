@@ -13,8 +13,7 @@ class Categories extends Component {
   })
 
   render() {
-    const { form, onCreateCategory, onDelSubCategory, listCategory = [] } = this.props
-
+    const { form, onCreateCategory, onDelSubCategory, listCategory = [], listCategoryDefault } = this.props
     return (
       <div>
         <Row type="flex" justify="space-between">
@@ -36,6 +35,7 @@ class Categories extends Component {
         </Row>
         {
           listCategory.map((item, idx) => {
+            const isExist = listCategoryDefault.some(category => category === item)
             return (
               <div key={item.order}>
                 <Row>
@@ -57,6 +57,7 @@ class Categories extends Component {
                         ]
                       })(
                         <Input
+                          disabled={isExist}
                           suffix={
                             <Icon
                               onClick={() => onDelSubCategory(idx)}
