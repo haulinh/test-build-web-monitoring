@@ -22,6 +22,7 @@ const DivHover = styled.div`
     background-color: rgb(240, 240, 240);
   }
 `
+
 export class EditWrapper extends React.Component {
   state = {
     isClicked: false,
@@ -32,6 +33,8 @@ export class EditWrapper extends React.Component {
   }
 
   handleOnOk = () => {
+    const { update } = this.props
+    update && update()
     this.toggleEdit()
   }
 

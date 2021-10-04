@@ -68,9 +68,13 @@ export default {
     const url = calc('ticket/export')
     return getFetchDownFile(url, params)
   },
-  updateCategoryTicket: idTicket => {
+  updateTicket: (id, params) => {
+    const url = calc(`ticket/${id}`)
+    return pathFetch(url, params)
+  },
+  updateCategoryTicket: (idTicket, params) => {
     const url = calc(`ticket/${idTicket}/category`)
-    return pathFetch(url)
+    return pathFetch(url, params)
   },
   //#endregion
 }
