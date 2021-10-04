@@ -1,12 +1,18 @@
 import { Col, Row } from 'antd'
+import _ from 'lodash'
 import React from 'react'
-import { Title } from '../RightContent'
+import { Title } from '..'
 import { DynamicComponent } from './DynamicComponent'
 
-export const DynamicContainer = ({ form, categories }) => {
+export const DynamicContainer = ({
+  form,
+  categories,
+  updateDynamicField,
+  record,
+}) => {
   return (
     <React.Fragment>
-      <Row gutter={[0, 12]}>
+      <Row gutter={[0, 16]}>
         {categories.map(property => (
           <React.Fragment key={property._id}>
             <Col span={12}>
@@ -14,10 +20,12 @@ export const DynamicContainer = ({ form, categories }) => {
             </Col>
             <Col span={12}>
               <DynamicComponent
+                prevValue={_.get(record, ['categories', property._id])}
                 type={property.type}
                 form={form}
                 name={property._id}
                 categories={property.categories}
+                updateDynamicField={updateDynamicField}
               />
             </Col>
           </React.Fragment>

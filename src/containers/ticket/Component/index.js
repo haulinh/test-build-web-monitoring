@@ -1,5 +1,4 @@
-import { Drawer, Icon, Input } from 'antd'
-import TextArea from 'antd/lib/input/TextArea'
+import { Drawer, Icon } from 'antd'
 import { Clearfix, Flex } from 'components/layouts/styles'
 import React from 'react'
 import styled from 'styled-components'
@@ -32,21 +31,25 @@ export class EditWrapper extends React.Component {
     this.setState(prevState => ({ isClicked: !prevState.isClicked }))
   }
 
-  handleOnOk = () => {
+  handleOnOk = async () => {
     const { update } = this.props
-    update && update()
+
+    const result = await update()
+    console.log({ result })
+    if (!result) return
+
     this.toggleEdit()
   }
 
   handleCancel = () => {
-    const { onChange, prevValue } = this.props
+    const { name, prevValue, revertValue } = this.props
     this.toggleEdit()
-    onChange(prevValue)
+    revertValue({ [name]: prevValue })
   }
 
   render() {
     const { isClicked } = this.state
-    const { type, value, onChange, style, title } = this.props
+    const { type, value, style, title, children } = this.props
     if (!isClicked)
       return (
         <React.Fragment>
@@ -64,21 +67,10 @@ export class EditWrapper extends React.Component {
       color: '#008EFA',
     }
 
-    const props = {
-      value,
-      onChange,
-    }
-
-    const Component = {
-      input: <Input {...props} />,
-      textArea: <TextArea {...props} />,
-    }
-
     return (
       <div>
         <b>{title}</b>
-        {Component[type]}
-        <Clearfix height={12} />
+        {children}
         <Flex justifyContent="end">
           <Icon
             type="check"

@@ -42,25 +42,28 @@ export default class Filter extends Component {
               })(<SelectIncidentType />)}
             </FormItem>
           </Col>
-          <Col span={8}>
-            <FormItem label={t('menuApp.config.stationAuto')}>
-              {form.getFieldDecorator(Fields.stationIds, {
-                rules: [
-                  {
-                    required: true,
-                    message: t('ticket.required.incident.stationName'),
-                  },
-                ],
-              })(
-                <TreeSelectStation
-                  disabled={this.isDisableStation()}
-                  province={province}
-                  fieldValue="_id"
-                  onStationAutosFetchSuccess={this.onStationAutosFetchSuccess}
-                />
-              )}
-            </FormItem>
-          </Col>
+
+          {!this.isDisableStation() && (
+            <Col span={8}>
+              <FormItem label={t('menuApp.config.stationAuto')}>
+                {form.getFieldDecorator(Fields.stationIds, {
+                  rules: [
+                    {
+                      required: true,
+                      message: t('ticket.required.incident.stationName'),
+                    },
+                  ],
+                })(
+                  <TreeSelectStation
+                    province={province}
+                    fieldValue="_id"
+                    onStationAutosFetchSuccess={this.onStationAutosFetchSuccess}
+                  />
+                )}
+              </FormItem>
+            </Col>
+          )}
+
           <Col span={8}>
             <FormItem label={t('ticket.label.incident.time')}>
               {form.getFieldDecorator(Fields.time, {
