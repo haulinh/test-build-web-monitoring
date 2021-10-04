@@ -17,7 +17,6 @@ import { isContainSpecialCharacter } from 'utils/string'
 import { v4 as uuidV4 } from 'uuid'
 import { isLimitSize } from 'utils'
 
-
 const Wrapper = styled(Row)`
   /* min-height: 500px; */
   transition: transform 0.25s ease;
@@ -184,18 +183,22 @@ export default class ImageMoreInfo extends React.Component {
     this.fetchData()
   }
 
-  beforeUpload = (file) => {
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+  beforeUpload = file => {
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
     if (!isJpgOrPng) {
-      message.error(translate('stationAutoManager.uploadFile.errorType'));
+      message.error(translate('stationAutoManager.uploadFile.errorType'))
     }
     if (!isLimitSize(file.size)) {
-      message.error(translate('stationAutoManager.uploadFile.errorSize'));
+      message.error(translate('stationAutoManager.uploadFile.errorSize'))
     }
     if (isContainSpecialCharacter(file.name)) {
-      message.error(translate('stationAutoManager.uploadFile.errorSpecial'));
+      message.error(translate('stationAutoManager.uploadFile.errorSpecial'))
     }
-    return isJpgOrPng && isLimitSize(file.size) && !isContainSpecialCharacter(file.name);
+    return (
+      isJpgOrPng &&
+      isLimitSize(file.size) &&
+      !isContainSpecialCharacter(file.name)
+    )
   }
 
   customRequest = ({
@@ -218,6 +221,7 @@ export default class ImageMoreInfo extends React.Component {
     )
 
     const generatePutUrl = MediaApi.generatePutUrl(databaseName)
+    console.log({ generatePutUrl })
 
     // const fileNameWithoutSpecialCharacter = removeSpecialCharacterUploadFile(file.name)
 
