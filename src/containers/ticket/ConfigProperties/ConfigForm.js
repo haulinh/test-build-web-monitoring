@@ -1,4 +1,4 @@
-import { Button, Form, Input, Select, InputNumber, message, Row, Col, Icon, Divider } from 'antd'
+import { Button, Form, Input, Select, InputNumber, message, Row, Col, Icon, Divider, Modal } from 'antd'
 import { FormItem } from 'components/layouts/styles'
 import React, { Component } from 'react'
 import { FIELDS, optionSelectType } from './index'
@@ -8,7 +8,7 @@ import Categories from './Categories'
 import { FixedBottom, ILLDrawer } from '../Component'
 import { get, isEmpty } from 'lodash-es'
 import styled from 'styled-components'
-
+import { rgb } from 'color'
 
 const i18n = () => ({
   drawer: {
@@ -23,13 +23,14 @@ const i18n = () => ({
     order: t('ticket.label.configProperties.order'),
   },
   button: {
-    add: t('ticket.label.configProperties.button.add'),
-    edit: t('ticket.label.configProperties.button.edit'),
-    del: t('ticket.label.configProperties.button.del')
+    add: t('ticket.button.configProperties.add'),
+    edit: t('ticket.button.configProperties.edit'),
+    del: t('ticket.button.configProperties.del')
   },
   error: {
     required: t('ticket.required.configProperties.required'),
-    isNumber: t('ticket.required.configProperties.isNumber')
+    isNumber: t('ticket.required.configProperties.isNumber'),
+    max32: t('rules.max32')
   },
   message: {
     success: (text) => text + ' ' + t('ticket.message.configProperties.success'),
@@ -43,11 +44,11 @@ const DrawerCustom = styled(ILLDrawer)`
     padding-right: 0;
   }
 `
-
 @Form.create()
 export default class ConfigForm extends Component {
   state = {
     listCategory: [],
+    isModalVisible: false,
   }
 
   componentWillReceiveProps(nextProps) {
@@ -65,12 +66,12 @@ export default class ConfigForm extends Component {
       this.setState(
         {
           listCategory: categories
-            .map(item => item.key)
+            .map(item => item.order)
         },
         () => {
           categories.map(item => {
             form.setFieldsValue({
-              [`categories[${item.key}]`]: item.name
+              [`categories[${item.order}]`]: item.name
             })
             return []
           })
@@ -79,21 +80,24 @@ export default class ConfigForm extends Component {
     }
   }
 
+  clearFields = () => {
+    const { form } = this.props
+    form.resetFields()
+  }
+
   onCreateCategory = () => {
     const { listCategory } = this.state;
     let newKey = 0;
 
     if (listCategory.length) {
-      newKey = listCategory.push()
+      newKey = Number(listCategory.length)
     }
-
     this.setState({ listCategory: [...listCategory, newKey] })
   }
 
   onDelSubCategory = (idxDelete) => {
     const { listCategory } = this.state;
     const newList = listCategory.filter((_, idx) => idx !== idxDelete)
-
     this.setState({ listCategory: newList })
   }
 
@@ -101,16 +105,21 @@ export default class ConfigForm extends Component {
     e.preventDefault()
     const { form, onClose, currentActive } = this.props;
     const values = await form.validateFields();
+    const { categories, name, order, type } = values
 
     const params = {
-      order: values.order ? values.order : undefined,
-      name: values.name,
-      type: values.type,
-      categories: Array.isArray(values.categories) ?
-        values.categories.map((item, idx) => ({
-          name: item,
+      order: order ? order : undefined,
+      name: name.trim(),
+      type,
+      categories: Array.isArray(categories)
+        ? categories.map((item, idx) => ({
+          name: item.trim(),
           order: idx
-        })) : []
+        }))
+        : Object.values(categories).map((item, idx) => ({
+          name: item.trim(),
+          order: idx
+        }))
     }
 
     const isEdit = !isEmpty(currentActive)
@@ -122,15 +131,17 @@ export default class ConfigForm extends Component {
     onClose()
   }
 
+
   handleCreate = async (params) => {
-    const { form, addConfig } = this.props;
+    const { addConfig } = this.props;
     const result = await CalculateApi.createConfig(params)
     if (!result) {
       message.error(i18n().message.error)
       return;
     }
     message.info(i18n().message.success(i18n().button.add))
-    form.resetFields()
+
+    this.clearFields()
     addConfig(result)
   }
 
@@ -160,99 +171,143 @@ export default class ConfigForm extends Component {
     }
   }
 
+  handleOnClose = async () => {
+    const { isSubmitted } = this.state
+    if (isSubmitted) {
+      this.props.onClose()
+      this.clearFields()
+      return
+    }
+    if (!isSubmitted) {
+      this.setState({ isModalVisible: true })
+    }
+  }
+
+  handleOk = () => {
+    this.setState({ isModalVisible: false })
+    this.clearFields()
+    this.props.onClose()
+  }
+
+  handleCancel = () => {
+    this.setState({ isModalVisible: false })
+  }
+
   render() {
-    const { listCategory } = this.state
-    const { onClose, visible, form, currentActive } = this.props
+    const { listCategory, isModalVisible } = this.state
+    const { visible, form, currentActive } = this.props
     const isEdit = !isEmpty(currentActive)
     const type = form.getFieldValue(FIELDS.TYPE);
 
     return (
-      <DrawerCustom
-        closable={false}
-        onClose={onClose}
-        visible={visible}
-        width={400}
-      >
-        <Row type="flex" justify="space-between" style={{ paddingRight: 24, paddingLeft: 24 }}>
-          <Col><b> {!isEdit ? i18n().drawer.title.add : i18n().drawer.title.edit} </b></Col>
-          <Col>
-            {isEdit && (
-              <Icon
-                onClick={() => this.handleDel(currentActive)}
-                type="delete"
-                style={{ fontSize: "16px", color: "#F5222D" }} />
-            )}
-          </Col>
-        </Row>
-        <Divider style={{ width: "100%" }}></Divider>
-        <Form
-          layout="vertical"
-          onSubmit={this.onSubmit}
-          style={{ height: '100%', position: 'relative', paddingLeft: 24, paddingRight: 24 }}
+      <React.Fragment>
+        <DrawerCustom
+          closable={false}
+          onClose={this.handleOnClose}
+          visible={visible}
+          width={400}
         >
-          <FormItem label={i18n().form.name}>
-            {form.getFieldDecorator(FIELDS.NAME, {
-              rules: [
-                {
-                  required: true,
-                  message: i18n().error.required
-                }
-              ]
-            })(
-              <Input />
+          <Row type="flex" justify="space-between" style={{ paddingRight: 24, paddingLeft: 24 }}>
+            <Col><b style={{
+              fontWeight: "500",
+              fontSize: "16px",
+              color: rgb(0, 0, 0, 0.85)
+            }}>
+              {!isEdit ? i18n().drawer.title.add : i18n().drawer.title.edit} </b>
+            </Col>
+            <Col>
+              {isEdit && (
+                <Icon
+                  onClick={() => this.handleDel(currentActive)}
+                  type="delete"
+                  style={{ fontSize: "16px", color: "#F5222D" }} />
+              )}
+            </Col>
+          </Row>
+          <Divider style={{ width: "100%" }}></Divider>
+          <Form
+            layout="vertical"
+            onSubmit={this.onSubmit}
+            style={{ height: '100%', position: 'relative', paddingLeft: 24, paddingRight: 24 }}
+          >
+            <FormItem label={i18n().form.name}>
+              {form.getFieldDecorator(FIELDS.NAME, {
+                rules: [
+                  {
+                    required: true,
+                    message: i18n().error.required
+                  },
+                  {
+                    max: 32,
+                    message: i18n().error.max32
+                  }
+                ]
+              })(
+                <Input />
+              )}
+            </FormItem>
+            <FormItem label={i18n().form.type}>
+              {form.getFieldDecorator(FIELDS.TYPE, {
+                rules: [
+                  {
+                    required: true,
+                    message: i18n().error.required
+                  }
+                ]
+              })(
+                <Select
+                  style={{ width: '100%' }}
+                  onChange={this.onHandleChange}
+                  disabled={isEdit}
+                >
+                  {optionSelectType.map(item => (
+                    <Select.Option key={item.key} value={item.key}>
+                      {item.label}
+                    </Select.Option>
+                  ))}
+                </Select>
+              )}
+            </FormItem>
+            <FormItem label={i18n().form.order}>
+              {form.getFieldDecorator(FIELDS.ORDER, {
+                rules: [
+                  {
+                    pattern: RegExp('^[0-9]*$'),
+                    message: i18n().error.isNumber
+                  }
+                ]
+              })(
+                <InputNumber
+                  type="number"
+                  style={{ width: '100%' }}
+                />
+              )}
+            </FormItem>
+            {type === 'category' && (
+              <Categories
+                form={form}
+                listCategory={listCategory}
+                onCreateCategory={this.onCreateCategory}
+                onDelSubCategory={this.onDelSubCategory} />
             )}
-          </FormItem>
-          <FormItem label={i18n().form.type}>
-            {form.getFieldDecorator(FIELDS.TYPE, {
-              rules: [
-                {
-                  required: true,
-                  message: i18n().error.required
-                }
-              ]
-            })(
-              <Select
-                style={{ width: '100%' }}
-                onChange={this.onHandleChange}
-                disabled={isEdit}
-              >
-                {optionSelectType.map(item => (
-                  <Select.Option key={item.key} value={item.key}>
-                    {item.label}
-                  </Select.Option>
-                ))}
-              </Select>
-            )}
-          </FormItem>
-          <FormItem label={i18n().form.order}>
-            {form.getFieldDecorator(FIELDS.ORDER, {
-              rules: [
-                {
-                  pattern: RegExp('^[0-9]*$'),
-                  message: i18n().error.isNumber
-                }
-              ]
-            })(
-              <InputNumber
-                type="number"
-                style={{ width: '100%' }}
-              />
-            )}
-          </FormItem>
-          {type === 'category' && (
-            <Categories
-              form={form}
-              listCategory={listCategory}
-              onCreateCategory={this.onCreateCategory}
-              onDelSubCategory={this.onDelSubCategory} />
-          )}
-          <FixedBottom>
-            <Button type="primary" htmlType="submit" style={{ marginRight: 24 }}>
-              {!isEdit ? i18n().button.add : i18n().button.edit}
-            </Button>
-          </FixedBottom>
-        </Form>
-      </DrawerCustom>
+            <FixedBottom>
+              <Button type="primary" htmlType="submit" style={{ marginRight: 24 }}>
+                {!isEdit ? i18n().button.add : i18n().button.edit}
+              </Button>
+            </FixedBottom>
+          </Form>
+        </DrawerCustom>
+        <Modal
+          visible={isModalVisible}
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+          okText={t('global.leave')}
+          cancelText={t('global.cancel')}
+          title={t('global.leaveConfirm.title')}
+        >
+          {t('global.leaveConfirm.content')}
+        </Modal>
+      </React.Fragment >
     )
   }
 }

@@ -49,6 +49,7 @@ export default {
     requiredPhone: 'Vui lòng nhập số điện thoại',
     requiredField: 'Vui lòng nhập {{=it.field}}',
     inValidField: '{{=it.field}} sai định dạng',
+    max32: 'Không được nhập quá 32 ký tự',
     max64: 'Không được nhập quá 64 ký tự',
     max256: 'Không được nhập quá 256 kí tự',
     max512: 'Không được nhập quá 512 ký tự',
@@ -3791,12 +3792,8 @@ export default {
         name: 'Tên thuộc tính',
         type: 'Kiểu dữ liệu',
         order: 'Thứ tự hiển thị',
+        hidden: 'Hiển thị',
         category: "Thêm danh mục",
-        button: {
-          add: 'Tạo mới',
-          edit: 'Lưu',
-          del: 'Xóa'
-        },
         switch: {
           hide: 'Ẩn',
           show: 'Hiện'
@@ -3854,6 +3851,11 @@ export default {
       incident: {
         create: '+ Tạo mới sự cố',
       },
+      configProperties: {
+        add: 'Tạo mới',
+        edit: 'Lưu',
+        del: 'Xóa'
+      }
     },
   },
 }

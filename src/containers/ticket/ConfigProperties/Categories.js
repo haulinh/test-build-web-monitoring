@@ -6,7 +6,10 @@ import { FormItem } from 'components/layouts/styles'
 class Categories extends Component {
   i18n = () => ({
     button: t('ticket.label.configProperties.category'),
-    error: t('ticket.required.configProperties.required')
+    error: {
+      required: t('ticket.required.configProperties.required'),
+      max64: t('rules.max64')
+    },
   })
 
   render() {
@@ -34,7 +37,7 @@ class Categories extends Component {
         {
           listCategory.map((item, idx) => {
             return (
-              <div key={item}>
+              <div key={item.order}>
                 <Row>
                   <Col span={1} style={{ paddingTop: 6, paddingRight: 25 }}>
                     <Icon type="menu" style={{ color: "#BFBFBF", fontSize: "16px" }}></Icon>
@@ -45,7 +48,11 @@ class Categories extends Component {
                         rules: [
                           {
                             required: true,
-                            message: this.i18n().error
+                            message: this.i18n().error.required
+                          },
+                          {
+                            max: 64,
+                            message: this.i18n().error.max64
                           }
                         ]
                       })(
