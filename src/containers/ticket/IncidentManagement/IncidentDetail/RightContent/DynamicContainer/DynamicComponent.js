@@ -1,6 +1,5 @@
-import { DatePicker, Input, InputNumber, Select } from 'antd'
-import { FormItem } from 'components/layouts/styles'
-import { EditWrapper } from 'containers/ticket/Component'
+import { DatePicker, Select } from 'antd'
+import { EditWrapper2 } from 'containers/ticket/Component'
 import React from 'react'
 
 export const DynamicComponent = ({
@@ -17,16 +16,19 @@ export const DynamicComponent = ({
 
   if (type === 'text')
     return (
-      <EditWrapper
-        update={() => updateDynamicField(name)}
-        style={{ color: '#262626', fontWeight: 600, fontSize: 20 }}
-        prevValue={prevValue}
-        revertValue={revertValue}
-        name={name}
-        value={values[name]}
-      >
-        <FormItem>{form.getFieldDecorator(name)(<Input />)}</FormItem>
-      </EditWrapper>
+      <React.Fragment>
+        {form.getFieldDecorator(name)(
+          <EditWrapper2
+            update={() => updateDynamicField(name)}
+            style={{ color: '#262626', fontWeight: 600, fontSize: 20 }}
+            prevValue={prevValue}
+            revertValue={revertValue}
+            name={name}
+            type="input"
+            value={values[name]}
+          ></EditWrapper2>
+        )}
+      </React.Fragment>
     )
 
   if (type === 'datetime')
@@ -43,20 +45,18 @@ export const DynamicComponent = ({
 
   if (type === 'number')
     return (
-      <EditWrapper
-        update={() => updateDynamicField(name)}
-        type="number"
-        prevValue={prevValue}
-        revertValue={revertValue}
-        name={name}
-        value={values[name]}
-      >
-        <FormItem>
-          {form.getFieldDecorator(name)(
-            <InputNumber style={{ width: '100%' }} />
-          )}
-        </FormItem>
-      </EditWrapper>
+      <React.Fragment>
+        {form.getFieldDecorator(name)(
+          <EditWrapper2
+            update={() => updateDynamicField(name)}
+            type="number"
+            prevValue={prevValue}
+            revertValue={revertValue}
+            name={name}
+            value={values[name]}
+          ></EditWrapper2>
+        )}
+      </React.Fragment>
     )
 
   if (type === 'category')
