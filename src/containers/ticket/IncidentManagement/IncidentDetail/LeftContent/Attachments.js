@@ -53,6 +53,19 @@ const Extension = styled.div`
   font-weight: 400;
   color: black;
 `
+const Name = styled.div`
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+`
+
+const Blur = styled.div`
+  background: linear-gradient(
+    180deg,
+    rgba(38, 38, 38, 0) 0%,
+    rgba(38, 38, 38, 0.7) 50.34%
+  );
+`
 
 const getDatabaseName = organizationName => organizationName.replace(/_/g, '')
 
@@ -233,6 +246,19 @@ export default class Attachments extends Component {
                       </Popconfirm>
                     </Flex>
                   </div>
+                  <Name>
+                    <Blur>
+                      <div
+                        style={{
+                          maxWidth: '100px',
+                          fontSize: 14,
+                          textOverflow: 'ellipsis',
+                          whiteSpace: 'pre',
+                          overflow: 'hidden',
+                        }}
+                      >{`${attachment.name}.${attachment.extension}`}</div>
+                    </Blur>
+                  </Name>
                 </PhotoItem>
               </Col>
             ))}

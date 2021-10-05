@@ -3784,6 +3784,8 @@ export default {
         incidentType: 'Loại sự cố',
         description: 'Mô tả',
         stationName: 'Tên trạm',
+        provinceName: 'Đơn vị quản lý',
+        measure2: 'Thông số liên quan',
         measure: 'Thông số',
         time: 'Thời gian sự cố',
         attachment: 'Đính kèm tệp',
