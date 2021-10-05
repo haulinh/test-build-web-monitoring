@@ -1,11 +1,11 @@
 import { Button, Form, Input, Select, InputNumber, message, Row, Col, Icon, Divider, Modal } from 'antd'
-import { FormItem } from 'components/layouts/styles'
+import { FormItem, Flex } from 'components/layouts/styles'
 import React, { Component } from 'react'
 import { FIELDS, optionSelectType } from './index'
 import { translate as t } from 'hoc/create-lang'
 import CalculateApi from 'api/CalculateApi'
 import Categories from './Categories'
-import { FixedBottom, ILLDrawer } from '../Component'
+import { ILLDrawer } from '../Component'
 import { get, isEmpty } from 'lodash-es'
 import styled from 'styled-components'
 import { rgb } from 'color'
@@ -115,7 +115,7 @@ export default class ConfigForm extends Component {
     e.preventDefault()
     const { form, onClose, currentActive } = this.props;
     const values = await form.validateFields();
-    const { categories, name, order, type } = values
+    const { name, order, type, categories = [] } = values
 
     const params = {
       order: order ? order : undefined,
@@ -239,72 +239,81 @@ export default class ConfigForm extends Component {
             onSubmit={this.onSubmit}
             style={{ height: '100%', position: 'relative', paddingLeft: 24, paddingRight: 24 }}
           >
-            <FormItem label={i18n().form.label.name}>
-              {form.getFieldDecorator(FIELDS.NAME, {
-                rules: [
-                  {
-                    required: true,
-                    message: i18n().error.required
-                  },
-                  {
-                    max: 32,
-                    message: i18n().error.max32
-                  }
-                ]
-              })(
-                <Input placeholder={i18n().form.placeholder.name} />
-              )}
-            </FormItem>
-            <FormItem label={i18n().form.label.type}>
-              {form.getFieldDecorator(FIELDS.TYPE, {
-                rules: [
-                  {
-                    required: true,
-                    message: i18n().error.required
-                  }
-                ]
-              })(
-                <Select
-                  onChange={this.onHandleChange}
-                  disabled={isEdit}
-                >
-                  {optionSelectType.map(item => (
-                    <Select.Option key={item.key} value={item.key}>
-                      {item.label}
-                    </Select.Option>
-                  ))}
-                </Select>
-              )}
-            </FormItem>
-            <FormItem label={i18n().form.label.order}>
-              {form.getFieldDecorator(FIELDS.ORDER, {
-                rules: [
-                  {
-                    pattern: RegExp('^[0-9]*$'),
-                    message: i18n().error.isNumber
-                  }
-                ]
-              })(
-                <InputNumber
-                  placeholder={i18n().form.placeholder.order}
-                  type="number"
-                  style={{ width: '100%' }}
-                />
-              )}
-            </FormItem>
-            {type === 'category' && (
-              <Categories
-                form={form}
-                listCategory={listCategory}
-                listCategoryDefault={listCategoryDefault}
-                onCreateCategory={this.onCreateCategory}
-                onDelSubCategory={this.onDelSubCategory} />
-            )}
-            <FixedBottom>
-              <Button type="primary" htmlType="submit" style={{ marginRight: 24 }}>
+            <Flex
+              flexDirection="column"
+              justifyContent="space-between"
+              height="100%"
+            >
+              <div>
+                <FormItem label={i18n().form.label.name}>
+                  {form.getFieldDecorator(FIELDS.NAME, {
+                    rules: [
+                      {
+                        required: true,
+                        message: i18n().error.required
+                      },
+                      {
+                        max: 32,
+                        message: i18n().error.max32
+                      }
+                    ]
+                  })(
+                    <Input placeholder={i18n().form.placeholder.name} />
+                  )}
+                </FormItem>
+                <FormItem label={i18n().form.label.type}>
+                  {form.getFieldDecorator(FIELDS.TYPE, {
+                    rules: [
+                      {
+                        required: true,
+                        message: i18n().error.required
+                      }
+                    ]
+                  })(
+                    <Select
+                      onChange={this.onHandleChange}
+                      disabled={isEdit}
+                    >
+                      {optionSelectType.map(item => (
+                        <Select.Option key={item.key} value={item.key}>
+                          {item.label}
+                        </Select.Option>
+                      ))}
+                    </Select>
+                  )}
+                </FormItem>
+                <FormItem label={i18n().form.label.order}>
+                  {form.getFieldDecorator(FIELDS.ORDER, {
+                    rules: [
+                      {
+                        pattern: RegExp('^[0-9]*$'),
+                        message: i18n().error.isNumber
+                      }
+                    ]
+                  })(
+                    <InputNumber
+                      placeholder={i18n().form.placeholder.order}
+                      type="number"
+                      style={{ width: '100%' }}
+                    />
+                  )}
+                </FormItem>
+                {type === 'category' && (
+                  <Categories
+                    form={form}
+                    listCategory={listCategory}
+                    listCategoryDefault={listCategoryDefault}
+                    onCreateCategory={this.onCreateCategory}
+                    onDelSubCategory={this.onDelSubCategory} />
+                )}
+              </div>
+              <Button type="primary" htmlType="submit"
+                style={{
+                  marginRight: 24, alignSelf: 'end', height: 32, minHeight: 32
+                }}>
                 {!isEdit ? i18n().button.add : i18n().button.edit}
               </Button>
-            </FixedBottom>
+            </Flex>
           </Form>
         </DrawerCustom>
         <Modal

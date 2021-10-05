@@ -1,6 +1,7 @@
 import { Switch, Table } from 'antd'
 import React from 'react'
 import { translate as t } from 'hoc/create-lang'
+import styled from 'styled-components'
 
 const obj = {
     text: "Text",
@@ -9,6 +10,13 @@ const obj = {
     datetime: "Date time"
 }
 
+const TableStyled = styled(Table)`
+    .ant-table-row {
+        :hover {
+            cursor: pointer;
+        }
+    }
+`
 export default function ConfigList({ configs, setEdit, handleChangeToggle }) {
     const columns = [
         {
@@ -34,7 +42,12 @@ export default function ConfigList({ configs, setEdit, handleChangeToggle }) {
 
     return (
         <React.Fragment>
-            <Table rowKey="_id" columns={columns} dataSource={configs} pagination={false} />
+            <TableStyled
+                rowKey="_id"
+                columns={columns}
+                dataSource={configs}
+                pagination={false}
+            />
         </React.Fragment>
     )
 }
