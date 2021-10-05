@@ -3757,7 +3757,12 @@ export default {
     menu: {
       dataLookup: 'Tra cứu dữ liệu',
       incident: 'Quản lý sự cố',
-      configProperties: 'Cấu hình thuộc tính',
+      configProperties: 'Config Properties',
+    },
+    incidentType: {
+      default: 'Sự cố loại khác',
+      station: 'Sự cố trạm quan trắc',
+      measure: 'Sự cố thông số quan trắc',
     },
     label: {
       dataLookup: {},
@@ -3766,15 +3771,18 @@ export default {
         incidentType: 'Loại sự cố',
         description: 'Mô tả',
         stationName: 'Tên trạm',
+        measure: 'Thông số',
+        time: 'Thời gian sự cố',
       },
       configProperties: {
-        drawer: {
-          title: 'Tạo mới thuộc tính',
-        },
-        form: {
-          name: 'Tên thuộc tính',
-          type: 'Kiểu dữ liệu',
-          button: 'Tạo mới',
+        name: 'Name',
+        type: 'Type',
+        order: 'Order in export Excel',
+        hidden: 'Show',
+        category: "Add Category",
+        switch: {
+          hide: 'Hide',
+          show: 'Show'
         }
       },
     },
@@ -3788,14 +3796,56 @@ export default {
         measure: 'Thông số',
       },
       configProperties: {
+        name: 'Enter name problem',
+        type: 'Category',
+        order: '1'
       },
     },
     title: {
       dataLookup: {},
-      incident: {},
+      incident: {
+        drawer: 'Tạo mới sự cố',
+        report: 'BÁO CÁO SỰ CỐ',
+      },
       configProperties: {
-        drawer: 'Tạo mới thuộc tính',
+        drawer: {
+          add: 'Create Config',
+          edit: 'Edit Config'
+        },
       },
     },
-  }
+    message: {
+      incident: {
+        createSuccess: 'Create Success',
+      },
+      configProperties: {
+        success: 'success',
+        error: 'Error'
+      },
+    },
+    required: {
+      incident: {
+        name: 'Vui lòng nhập tên sự cố',
+        incidentType: 'Vui lòng chọn loại sự cố',
+        description: 'Vui nhập mô tả cho sự cố',
+        stationName: 'Vui lòng chọn trạm quan trắc',
+        measure: 'Vui lòng chọn thông số',
+        time: 'Vui lòng chọn thời gian',
+      },
+      configProperties: {
+        required: 'Please input value',
+        isNumber: 'Please input number',
+      },
+    },
+    button: {
+      incident: {
+        create: 'Tạo mới sự cố',
+      },
+      configProperties: {
+        add: 'Create',
+        edit: 'Save',
+        del: 'Delete'
+      }
+    },
+  },
 }

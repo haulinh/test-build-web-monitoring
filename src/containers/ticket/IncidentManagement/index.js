@@ -1,4 +1,4 @@
-import { Button, Col, Form, Row } from 'antd'
+import { Button, Col, Form, Icon, Row } from 'antd'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import React, { Component } from 'react'
 import { translate as t } from 'hoc/create-lang'
@@ -12,6 +12,9 @@ import { getLanguage } from 'utils/localStorage'
 import { downFileExcel } from 'utils/downFile'
 import { DD_MM_YYYY } from 'constants/format-date'
 import _ from 'lodash'
+import createBreadcrumb from 'shared/breadcrumb/hoc'
+
+const Breadcrumb = createBreadcrumb()
 
 export const Fields = {
   name: 'name',
@@ -39,6 +42,7 @@ export const i18n = () => ({
   status: t('map.marker.status'),
   createSuccess: t('ticket.message.incident.createSuccess'),
   title: t('ticket.title.incident.drawer'),
+  menu: t('ticket.menu.incident')
 })
 
 export const PAGE_SIZE = 10
@@ -68,6 +72,7 @@ export default class IncidentManagement extends Component {
   ButtonAdd = () => {
     return (
       <Button onClick={this.showDrawer} type="primary">
+        <Icon type="plus" />
         {t('ticket.button.incident.create')}
       </Button>
     )
@@ -140,6 +145,14 @@ export default class IncidentManagement extends Component {
 
     return (
       <PageContainer right={this.ButtonAdd()}>
+        <Breadcrumb
+          items={[
+            {
+              id: '1',
+              name: i18n().menu,
+            },
+          ]}
+        />
         <Clearfix height={32} />
 
         <Search onSearch={this.handleOnSearch} loading={loading}>
