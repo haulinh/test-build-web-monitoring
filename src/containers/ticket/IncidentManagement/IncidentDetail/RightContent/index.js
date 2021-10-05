@@ -1,13 +1,14 @@
 import { Col, DatePicker, Row, Tooltip } from 'antd'
 import SelectStatus from 'components/elements/select-data/ticket/SelectStatus'
 import { Clearfix, FormItem } from 'components/layouts/styles'
+import { translate } from 'hoc/create-lang'
 import { get, isEmpty } from 'lodash-es'
 import moment from 'moment'
 import React from 'react'
 import styled from 'styled-components'
-import { incidentType } from '../../index'
-import { DynamicContainer } from './DynamicContainer'
+import { i18n, incidentType } from '../../index'
 import { Fields } from '../index'
+import { DynamicContainer } from './DynamicContainer'
 
 export const Title = styled.div`
   color: #8c8c8c;
@@ -78,7 +79,7 @@ const RightContent = ({
           <Clearfix height={16} />
           <Row gutter={[0, 12]}>
             <Col span={12}>
-              <Title>Tên trạm</Title>
+              <Title>{i18n().stationName}</Title>
             </Col>
             <Col span={12}>
               <Tooltip title={stationNames}>
@@ -94,9 +95,9 @@ const RightContent = ({
           <Clearfix height={16} />
           <Row>
             <Col span={12}>
-              <Title>Thông số liên quan</Title>
+              <Title>{i18n().measure}</Title>
             </Col>
-            <Col span={12}>----------------</Col>
+            <Col span={12}>{measures.join(',')}</Col>
           </Row>
         </React.Fragment>
       )}
@@ -104,7 +105,7 @@ const RightContent = ({
       <Clearfix height={16} />
       <Row>
         <Col span={12}>
-          <Title>Loại sự cố</Title>
+          <Title>{i18n().incidentType}</Title>
         </Col>
         <Col span={12}>{incidentType()[get(record, 'type')]}</Col>
       </Row>
@@ -112,7 +113,7 @@ const RightContent = ({
       <Clearfix height={16} />
       <Row>
         <Col span={12}>
-          <Title>Thời gian bắt đầu</Title>
+          <Title>{translate('avgSearchFrom.selectTimeRange.startTime')}</Title>
         </Col>
         <Col span={12}>
           <FormItem>
@@ -129,7 +130,7 @@ const RightContent = ({
 
       <Row>
         <Col span={12}>
-          <Title>Thời gian kết thúc</Title>
+          <Title>{translate('avgSearchFrom.selectTimeRange.endTime')}</Title>
         </Col>
         <Col span={12}>
           {form.getFieldDecorator(Fields.timeEnd)(

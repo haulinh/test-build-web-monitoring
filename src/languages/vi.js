@@ -3779,7 +3779,6 @@ export default {
       measure: 'Sự cố thông số quan trắc',
     },
     label: {
-      dataLookup: {},
       incident: {
         name: 'Tên sự cố',
         incidentType: 'Loại sự cố',
@@ -3787,17 +3786,18 @@ export default {
         stationName: 'Tên trạm',
         measure: 'Thông số',
         time: 'Thời gian sự cố',
+        attachment: 'Tệp đính kèm',
       },
       configProperties: {
         name: 'Tên thuộc tính',
         type: 'Kiểu dữ liệu',
         order: 'Thứ tự trong file Excel',
         hidden: 'Hiển thị',
-        category: "Thêm danh mục",
+        category: 'Thêm danh mục',
         switch: {
           hide: 'Ẩn',
-          show: 'Hiện'
-        }
+          show: 'Hiện',
+        },
       },
     },
     placeholder: {
@@ -3812,7 +3812,7 @@ export default {
       configProperties: {
         name: 'Nhập vấn đề cần giải quyết',
         type: 'Category',
-        order: '1'
+        order: '1',
       },
     },
     title: {
@@ -3824,7 +3824,7 @@ export default {
       configProperties: {
         drawer: {
           add: 'Tạo mới thuộc tính',
-          edit: 'Chỉnh sửa thuộc tính'
+          edit: 'Chỉnh sửa thuộc tính',
         },
       },
     },
@@ -3834,7 +3834,7 @@ export default {
       },
       configProperties: {
         success: 'thành công',
-        error: 'Đã xảy ra lỗi'
+        error: 'Đã xảy ra lỗi',
       },
     },
     required: {
@@ -3858,8 +3858,8 @@ export default {
       configProperties: {
         add: 'Tạo mới',
         edit: 'Lưu',
-        del: 'Xóa'
-      }
+        del: 'Xóa',
+      },
     },
   },
 }

@@ -11,6 +11,12 @@ const { RangePicker } = DatePicker
 
 @Form.create()
 export default class Filter extends Component {
+  componentDidMount() {
+    const { onSearch } = this.props
+
+    onSearch && onSearch()
+  }
+
   onStationAutosFetchSuccess = stationAutos => {
     const { form, onSearch } = this.props
 
@@ -38,7 +44,7 @@ export default class Filter extends Component {
           <Col span={8}>
             <FormItem label={i18n().incidentType}>
               {form.getFieldDecorator(Fields.type, {
-                initialValue: 'station',
+                initialValue: 'default',
               })(<SelectIncidentType />)}
             </FormItem>
           </Col>
@@ -67,6 +73,7 @@ export default class Filter extends Component {
           <Col span={8}>
             <FormItem label={t('ticket.label.incident.time')}>
               {form.getFieldDecorator(Fields.time, {
+                initialValue: [moment().startOf('M'), moment().endOf('M')],
                 rules: [
                   {
                     required: true,
