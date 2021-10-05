@@ -2,6 +2,7 @@ import { Col, DatePicker, Row, Tooltip, Divider } from 'antd'
 import SelectStatus from 'components/elements/select-data/ticket/SelectStatus'
 import { Clearfix, FormItem } from 'components/layouts/styles'
 import { translate } from 'hoc/create-lang'
+import _ from 'lodash'
 import { get, isEmpty } from 'lodash-es'
 import moment from 'moment'
 import React from 'react'
@@ -45,6 +46,7 @@ const RightContent = ({
   categories,
   updateTicket,
   updateCategoryTicket,
+  updatedAt,
 }) => {
   const stationNames = get(record, 'stations', [])
     .map(item => item.name)
@@ -170,14 +172,33 @@ const RightContent = ({
         </Col>
       </Row>
 
+      {!_.isEmpty(categories) && (
+        <React.Fragment>
+          <Divider />
+          <Clearfix height={16} />
+          <DynamicContainer
+            record={record}
+            form={form}
+            categories={categories}
+            updateDynamicField={handleUpdateDynamicField}
+          />
+        </React.Fragment>
+      )}
+
       <Divider />
       <Clearfix height={16} />
-      <DynamicContainer
-        record={record}
-        form={form}
-        categories={categories}
-        updateDynamicField={handleUpdateDynamicField}
-      />
+      <div>
+        {translate('ticket.label.incident.createdAt', {
+          time: moment(record.createdAt).format('hh:mm'),
+          date: moment(record.createdAt).format('DD/MM/YYYY'),
+        })}
+      </div>
+      <div>
+        {translate('ticket.label.incident.updatedAt', {
+          time: moment(updatedAt).format('hh:mm'),
+          date: moment(updatedAt).format('DD/MM/YYYY'),
+        })}
+      </div>
     </React.Fragment>
   )
 }
