@@ -1,13 +1,14 @@
 import { Col, Icon, Popconfirm, Row, Upload } from 'antd'
 import MediaApi from 'api/MediaApi'
+import axios from 'axios'
 import { Clearfix, Flex } from 'components/layouts/styles'
+import { translate } from 'hoc/create-lang'
 import _ from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import axios from 'axios'
 import { withRouter } from 'react-router'
 import styled from 'styled-components'
-import { translate } from 'hoc/create-lang'
+import { downloadAttachment } from 'utils/downFile'
 
 const uploadProps = {
   onError(err) {
@@ -39,8 +40,18 @@ const PhotoItem = styled.div`
     display: none;
     position: absolute;
     top: 50px;
-    left: 35px
+    left: 35px;
+    z-index: 9;
   }
+`
+
+const Extension = styled.div`
+  position: absolute;
+  top: 50px;
+  left: 50px;
+  font-size: 22px;
+  font-weight: 400;
+  color: black;
 `
 
 const getDatabaseName = organizationName => organizationName.replace(/_/g, '')
@@ -132,18 +143,26 @@ export default class Attachments extends Component {
     this.fetchData()
   }
 
+  handleDownFile = async (url, name) => {
+    const result = await axios.get(url)
+    console.log({ result })
+    downloadAttachment({
+      data: result.data,
+      name: name,
+      type: result.headers['content-type'],
+    })
+  }
+
   render() {
     const { attachments } = this.state
     return (
       <div>
         <Flex justifyContent="space-between">
-          <b>Đính kèm tệp</b>
+          <b>{translate('ticket.label.incident.attachment')}</b>
           <Upload
             multiple
             showUploadList={false}
-            // accept=".jpg, .png"
             {...uploadProps}
-            // beforeUpload={this.beforeUpload}
             customRequest={this.customRequest}
           >
             <Icon
@@ -168,9 +187,15 @@ export default class Attachments extends Component {
           {attachments.map(attachment => (
             <Col span={3}>
               <PhotoItem image={attachment.preview}>
+                {!['png', 'jpg'].includes(attachment.extension) && (
+                  <Extension>{attachment.extension}</Extension>
+                )}
                 <div className="group-btn">
                   <div>
                     <i
+                      onClick={() =>
+                        this.handleDownFile(attachment.preview, attachment.name)
+                      }
                       style={{
                         fontSize: 18,
                         background: '#E6F7FF',
@@ -181,6 +206,7 @@ export default class Attachments extends Component {
                       class="fa fa-download"
                       aria-hidden="true"
                     ></i>
+
                     <Popconfirm
                       title={translate('addon.popConfirm.image.title')}
                       onConfirm={this.handleDeleteImage(attachment.name)}
