@@ -3817,6 +3817,8 @@ export default {
     message: {
       incident: {
         createSuccess: 'Create Success',
+        notificationSuccess: 'Update Incident Success',
+        notificationError: 'Error'
       },
       configProperties: {
         success: 'success',

@@ -22,7 +22,6 @@ export const Fields = {
   timeEnd: 'timeEnd',
   status: 'statusId',
 }
-
 @withRouter
 @Form.create()
 export default class IncidentDetail extends Component {
@@ -118,10 +117,10 @@ export default class IncidentDetail extends Component {
 
     try {
       await CalculateApi.updateCategoryTicket(id, param)
-      notification.success({ message: 'update thanh cong category' })
+      notification.success({ message: i18n().notificationSuccess })
       return true
     } catch (error) {
-      notification.error('loi')
+      notification.error({ message: i18n().notificationError })
     }
     return false
   }
@@ -139,10 +138,10 @@ export default class IncidentDetail extends Component {
 
     try {
       await CalculateApi.updateTicket(id, param)
-      notification.success({ message: 'update thanh cong ticket' })
+      notification.success({ message: i18n().notificationSuccess })
       return true
     } catch (error) {
-      notification.error('loi')
+      notification.error({ message: i18n().notificationError })
     }
     return false
   }

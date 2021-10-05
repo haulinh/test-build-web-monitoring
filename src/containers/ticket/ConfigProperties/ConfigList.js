@@ -34,8 +34,8 @@ export default function ConfigList({ configs, setEdit, handleChangeToggle }) {
             title: t('ticket.label.configProperties.hidden'),
             render: (value, record) =>
                 <Switch
-                    defaultChecked={value}
-                    onChange={(value) => handleChangeToggle(record._id, value)}
+                    defaultChecked={!value}
+                    onChange={value => handleChangeToggle(record._id, value)}
                 />,
         },
     ]
