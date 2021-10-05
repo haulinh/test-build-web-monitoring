@@ -3,6 +3,7 @@ import TextArea from 'antd/lib/input/TextArea'
 import { FormItem } from 'components/layouts/styles'
 import { EditWrapper } from 'containers/ticket/Component'
 import React from 'react'
+import { i18n } from '../../index'
 import { Fields } from '../index'
 import Attachments from './Attachments'
 
@@ -37,7 +38,7 @@ const LeftContent = ({ form, record, updateTicket }) => {
         value={values[Fields.description]}
         update={() => handleUpdateField(Fields.description)}
         type="textArea"
-        title="Mô tả"
+        title={i18n().description}
         name={Fields.description}
         revertValue={revertValue}
         prevValue={record[Fields.description]}
