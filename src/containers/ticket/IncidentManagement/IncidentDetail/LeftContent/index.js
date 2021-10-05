@@ -1,4 +1,4 @@
-import { Input } from 'antd'
+import { Input, Divider } from 'antd'
 import TextArea from 'antd/lib/input/TextArea'
 import { FormItem } from 'components/layouts/styles'
 import { EditWrapper } from 'containers/ticket/Component'
@@ -48,6 +48,7 @@ const LeftContent = ({ form, record, updateTicket }) => {
         </FormItem>
       </EditWrapper>
 
+      <Divider />
       <Attachments />
     </React.Fragment>
   )

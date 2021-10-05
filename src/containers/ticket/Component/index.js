@@ -55,7 +55,9 @@ export class EditWrapper extends React.Component {
         <React.Fragment>
           <b>{title}</b>
           <DivHover type={type} onClick={this.toggleEdit}>
-            <span style={style}>{value}</span>
+            <span style={style || { fontSize: 14, color: '#262626' }}>
+              {value}
+            </span>
           </DivHover>
         </React.Fragment>
       )
