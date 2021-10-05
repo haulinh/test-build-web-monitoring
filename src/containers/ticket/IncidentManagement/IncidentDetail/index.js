@@ -1,4 +1,4 @@
-import { Button, Col, Form, notification, Row, Divider } from 'antd'
+import { Button, Col, Form, notification, Row, Divider, Popconfirm } from 'antd'
 import CalculateApi from 'api/CalculateApi'
 import { Clearfix } from 'components/layouts/styles'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
@@ -32,11 +32,33 @@ export default class IncidentDetail extends Component {
     name: '',
   }
 
+  handleDelete = async () => {
+    const {
+      match: {
+        params: { id },
+      },
+      history,
+    } = this.props
+    try {
+      await CalculateApi.deleteTicket(id)
+      history.push(slug.ticket.incident)
+    } catch (error) {
+      console.log({ error })
+    }
+  }
+
   ButtonDelete = () => {
     return (
-      <Button type="danger" danger>
-        {translate('ticket.button.incident.delete')}
-      </Button>
+      <Popconfirm
+        onConfirm={this.handleDelete}
+        title={translate('ticket.label.incident.confirmDelete')}
+        okText={translate('global.verify')}
+        cancelText={translate('global.cancel')}
+      >
+        <Button type="danger" danger>
+          {translate('ticket.button.incident.delete')}
+        </Button>
+      </Popconfirm>
     )
   }
 

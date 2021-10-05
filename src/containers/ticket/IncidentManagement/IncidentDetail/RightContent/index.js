@@ -100,7 +100,9 @@ const RightContent = ({
             <Col span={12}>
               <Title>{i18n().measure}</Title>
             </Col>
-            <Col span={12}>{measures.join(',')}</Col>
+            <Col span={12}>
+              <div style={styledText}>{measures.join(',')}</div>
+            </Col>
           </Row>
         </React.Fragment>
       )}

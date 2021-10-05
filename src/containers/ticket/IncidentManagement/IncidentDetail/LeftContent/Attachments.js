@@ -1,4 +1,4 @@
-import { Col, Icon, Popconfirm, Row, Upload } from 'antd'
+import { Col, Icon, Popconfirm, Row, Spin, Upload } from 'antd'
 import MediaApi from 'api/MediaApi'
 import axios from 'axios'
 import { Clearfix, Flex } from 'components/layouts/styles'
@@ -64,6 +64,7 @@ const getDatabaseName = organizationName => organizationName.replace(/_/g, '')
 export default class Attachments extends Component {
   state = {
     attachments: [],
+    loading: false,
   }
 
   componentDidMount() {
@@ -120,8 +121,9 @@ export default class Attachments extends Component {
     const databaseName = getDatabaseName(
       userInfo.organization.databaseInfo.name
     )
-
+    this.setState({ loading: true })
     const result = await MediaApi.getAttachment(databaseName, id)
+    this.setState({ loading: false })
     const resultSorted = result.sort(
       (a, b) => new Date(b.lastModified) - new Date(a.lastModified)
     )
@@ -153,13 +155,14 @@ export default class Attachments extends Component {
   }
 
   render() {
-    const { attachments } = this.state
+    const { attachments, loading } = this.state
     return (
       <div>
         <Flex justifyContent="space-between">
           <b>{translate('ticket.label.incident.attachment')}</b>
           <Upload
             multiple
+            accept=".jpg, .png, .svg, jpeg, .excel, .pdf"
             showUploadList={false}
             {...uploadProps}
             customRequest={this.customRequest}
@@ -183,52 +186,57 @@ export default class Attachments extends Component {
 
         <Clearfix height={12} />
         <Row gutter={[12, 12]}>
-          {attachments.map(attachment => (
-            <Col span={3}>
-              <PhotoItem image={attachment.preview}>
-                {!['png', 'jpg'].includes(attachment.extension) && (
-                  <Extension>{attachment.extension}</Extension>
-                )}
-                <div className="group-btn">
-                  <Flex>
-                    <i
-                      onClick={() =>
-                        this.handleDownFile(attachment.preview, attachment.name)
-                      }
-                      style={{
-                        fontSize: 18,
-                        background: '#E6F7FF',
-                        padding: 4,
-                        color: '#008EFA',
-                        marginRight: 12,
-                      }}
-                      class="fa fa-download"
-                      aria-hidden="true"
-                    ></i>
-
-                    <Popconfirm
-                      title={translate('addon.popConfirm.image.title')}
-                      onConfirm={this.handleDeleteImage(attachment.name)}
-                      okText={translate('addon.yes')}
-                      cancelText={translate('addon.no')}
-                      className="delete"
-                    >
+          <Spin spinning={loading}>
+            {attachments.map(attachment => (
+              <Col span={3}>
+                <PhotoItem image={attachment.preview}>
+                  {!['png', 'jpg', 'svg', 'jpeg'].includes(
+                    attachment.extension
+                  ) && <Extension>{attachment.extension}</Extension>}
+                  <div className="group-btn">
+                    <Flex>
                       <i
+                        onClick={() =>
+                          this.handleDownFile(
+                            attachment.preview,
+                            attachment.name
+                          )
+                        }
                         style={{
-                          marginRight: 12,
                           fontSize: 18,
-                          background: '#FFF1F0',
+                          background: '#E6F7FF',
                           padding: 4,
-                          color: '#F5222D',
+                          color: '#008EFA',
+                          marginRight: 12,
                         }}
-                        className="fa fa-trash"
-                      />
-                    </Popconfirm>
-                  </Flex>
-                </div>
-              </PhotoItem>
-            </Col>
-          ))}
+                        class="fa fa-download"
+                        aria-hidden="true"
+                      ></i>
+
+                      <Popconfirm
+                        title={translate('addon.popConfirm.image.title')}
+                        onConfirm={this.handleDeleteImage(attachment.name)}
+                        okText={translate('addon.yes')}
+                        cancelText={translate('addon.no')}
+                        className="delete"
+                      >
+                        <i
+                          style={{
+                            marginRight: 12,
+                            fontSize: 18,
+                            background: '#FFF1F0',
+                            padding: 4,
+                            color: '#F5222D',
+                          }}
+                          className="fa fa-trash"
+                        />
+                      </Popconfirm>
+                    </Flex>
+                  </div>
+                </PhotoItem>
+              </Col>
+            ))}
+          </Spin>
         </Row>
       </div>
     )
