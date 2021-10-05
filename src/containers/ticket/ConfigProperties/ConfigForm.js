@@ -100,7 +100,7 @@ export default class ConfigForm extends Component {
     let newKey = 0;
 
     if (listCategory.length) {
-      newKey = Number(listCategory.length)
+      newKey = listCategory.push()
     }
     this.setState({ listCategory: [...listCategory, newKey] })
   }

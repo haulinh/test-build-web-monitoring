@@ -98,7 +98,7 @@ export default class ConfigProperties extends Component {
 
   handleChangeToggle = async (id, toggle) => {
     try {
-      await CalculateApi.updateToggel(id, toggle)
+      await CalculateApi.updateToggel(id, !toggle)
       if (toggle) {
         message.success(i18n().message.success(i18n().switch.show))
         return
