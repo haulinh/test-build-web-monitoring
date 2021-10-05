@@ -60,7 +60,9 @@ class Categories extends Component {
                           disabled={isExist}
                           suffix={
                             <Icon
-                              onClick={() => onDelSubCategory(idx)}
+                              tabIndex={2}
+                              // onClick={() => onDelSubCategory(idx)}
+                              onClick={() => console.log("abc")}
                               type="close"
                               style={{ color: "#BFBFBF", fontSize: "12px" }} />
                           }

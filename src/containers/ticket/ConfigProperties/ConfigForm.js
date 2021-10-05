@@ -301,7 +301,10 @@ export default class ConfigForm extends Component {
                 onDelSubCategory={this.onDelSubCategory} />
             )}
             <FixedBottom>
-              <Button type="primary" htmlType="submit" style={{ marginRight: 24 }}>
+              <Button type="primary" htmlType="submit"
+                style={{
+                  marginRight: 24, alignSelf: 'end', height: 32, minHeight: 32
+                }}>
                 {!isEdit ? i18n().button.add : i18n().button.edit}
               </Button>
             </FixedBottom>
