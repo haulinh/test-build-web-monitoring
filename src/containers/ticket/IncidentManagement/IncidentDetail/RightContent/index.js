@@ -50,6 +50,11 @@ const RightContent = ({
     .map(item => item.name)
     .join(',')
 
+  const provinceNames = get(record, 'stations', [])
+    .map(item => get(item.province, 'name'))
+    .filter(item => item)
+    .join(',')
+
   const measures = get(record, 'measures', [])
 
   const handleUpdateField = async (fieldName, value) => {
@@ -93,6 +98,22 @@ const RightContent = ({
         </React.Fragment>
       )}
 
+      {provinceNames && (
+        <React.Fragment>
+          <Clearfix height={16} />
+          <Row gutter={[0, 12]}>
+            <Col span={12}>
+              <Title>{i18n().provinceName}</Title>
+            </Col>
+            <Col span={12}>
+              <Tooltip title={provinceNames}>
+                <div style={styledText}>{provinceNames}</div>
+              </Tooltip>
+            </Col>
+          </Row>
+        </React.Fragment>
+      )}
+
       {!isEmpty(measures) && (
         <React.Fragment>
           <Clearfix height={16} />
@@ -108,7 +129,7 @@ const RightContent = ({
       )}
 
       <Clearfix height={16} />
-      <Row>
+      <Row type="flex" align="middle">
         <Col span={12}>
           <Title>{i18n().incidentType}</Title>
         </Col>
@@ -118,12 +139,12 @@ const RightContent = ({
       </Row>
 
       <Clearfix height={16} />
-      <Row>
+      <Row type="flex" align="middle">
         <Col span={12}>
           <Title>{translate('avgSearchFrom.selectTimeRange.startTime')}</Title>
         </Col>
         <Col span={12}>
-          <FormItem>
+          <FormItem marginBottom="0px">
             {form.getFieldDecorator(Fields.timeStart, {
               rules: [{ required: true }],
             })(
@@ -135,7 +156,8 @@ const RightContent = ({
         </Col>
       </Row>
 
-      <Row>
+      <Clearfix height={16} />
+      <Row type="flex" align="middle">
         <Col span={12}>
           <Title>{translate('avgSearchFrom.selectTimeRange.endTime')}</Title>
         </Col>

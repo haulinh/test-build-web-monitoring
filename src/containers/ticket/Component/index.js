@@ -123,7 +123,18 @@ export class EditWrapper2 extends React.Component {
         <React.Fragment>
           <b>{title}</b>
           <DivHover type={type} onClick={this.toggleEdit}>
-            <span style={style}>{value}</span>
+            <div
+              style={{
+                ...style,
+                maxWidth: '100%',
+                fontSize: 14,
+                textOverflow: 'ellipsis',
+                whiteSpace: 'pre',
+                overflow: 'hidden',
+              }}
+            >
+              {value}
+            </div>
           </DivHover>
         </React.Fragment>
       )
@@ -145,7 +156,7 @@ export class EditWrapper2 extends React.Component {
 
     const Component = {
       input: <Input {...props} />,
-      textArea: <TextArea {...props} />,
+      textArea: <TextArea {...props} maxLength={520} />,
       number: <InputNumber {...props} />,
     }
 
