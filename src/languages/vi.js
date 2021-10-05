@@ -3831,6 +3831,8 @@ export default {
     message: {
       incident: {
         createSuccess: 'Tạo mới sự cố thành công',
+        notificationSuccess: 'Cập nhật sự cố thành công',
+        notificationError: 'Error'
       },
       configProperties: {
         success: 'thành công',

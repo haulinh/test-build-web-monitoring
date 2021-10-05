@@ -61,7 +61,6 @@ class Categories extends Component {
                           suffix={
                             !isExist && (
                               <Icon
-                                tabIndex={2}
                                 onClick={() => onDelSubCategory(item)}
                                 type="close"
                                 style={{ color: "#BFBFBF", fontSize: "12px" }} />
