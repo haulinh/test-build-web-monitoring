@@ -221,7 +221,6 @@ export default class ImageMoreInfo extends React.Component {
     )
 
     const generatePutUrl = MediaApi.generatePutUrl(databaseName)
-    console.log({ generatePutUrl })
 
     // const fileNameWithoutSpecialCharacter = removeSpecialCharacterUploadFile(file.name)
 

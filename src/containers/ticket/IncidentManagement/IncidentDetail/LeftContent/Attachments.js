@@ -145,7 +145,6 @@ export default class Attachments extends Component {
 
   handleDownFile = async (url, name) => {
     const result = await axios.get(url)
-    console.log({ result })
     downloadAttachment({
       data: result.data,
       name: name,

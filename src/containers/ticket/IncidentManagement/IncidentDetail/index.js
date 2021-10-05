@@ -125,6 +125,10 @@ export default class IncidentDetail extends Component {
     return false
   }
 
+  setName = name => {
+    this.setState({ name })
+  }
+
   render() {
     const { form } = this.props
     const { record, categories, name } = this.state
@@ -151,6 +155,7 @@ export default class IncidentDetail extends Component {
               form={form}
               record={record}
               updateTicket={this.updateTicket}
+              setName={this.setName}
             />
           </Col>
 
