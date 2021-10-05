@@ -7,7 +7,7 @@ import { i18n } from '../../index'
 import { Fields } from '../index'
 import Attachments from './Attachments'
 
-const LeftContent = ({ form, record, updateTicket, setName }) => {
+const LeftContent = ({ form, record, updateTicket, setName, setUpdatedAt }) => {
   const handleUpdateField = fieldName => {
     const value = form.getFieldValue(fieldName)
     return updateTicket({ [fieldName]: value })
@@ -59,7 +59,7 @@ const LeftContent = ({ form, record, updateTicket, setName }) => {
         ></EditWrapper2>
       )}
       <Divider />
-      <Attachments />
+      <Attachments setUpdatedAt={setUpdatedAt} />
     </React.Fragment>
   )
 }

@@ -3790,6 +3790,8 @@ export default {
         time: 'Thời gian sự cố',
         attachment: 'Đính kèm tệp',
         confirmDelete: 'Bạn có muốn xoá sự cố này',
+        createdAt: 'Tạo lúc {{=it.time}} ngày {{=it.date}} ',
+        updatedAt: 'Cập nhập gần nhất {{=it.time}} ngày {{=it.date}} ',
       },
       configProperties: {
         name: 'Tên thuộc tính',
@@ -3835,7 +3837,7 @@ export default {
       incident: {
         createSuccess: 'Tạo mới sự cố thành công',
         notificationSuccess: 'Cập nhật sự cố thành công',
-        notificationError: 'Error'
+        notificationError: 'Error',
       },
       configProperties: {
         success: 'thành công',
