@@ -107,7 +107,7 @@ export default class ConfigForm extends Component {
 
   onDelSubCategory = (idxDelete) => {
     const { listCategory } = this.state;
-    const newList = listCategory.filter((_, idx) => idx !== idxDelete)
+    const newList = listCategory.filter(item => item !== idxDelete)
     this.setState({ listCategory: newList })
   }
 
@@ -117,16 +117,17 @@ export default class ConfigForm extends Component {
     const values = await form.validateFields();
     const { name, order, type, categories = [] } = values
 
+    const newCategories = Array.isArray(categories)
+      ? categories
+      : Object.values(categories)
+
     const params = {
       order: order ? order : undefined,
       name: name.trim(),
       type,
-      categories: Array.isArray(categories)
-        ? categories.map((item, idx) => ({
-          name: item.trim(),
-          order: idx
-        }))
-        : Object.values(categories).map((item, idx) => ({
+      categories: newCategories
+        .filter(Boolean)
+        .map((item, idx) => ({
           name: item.trim(),
           order: idx
         }))

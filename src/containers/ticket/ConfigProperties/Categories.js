@@ -34,7 +34,7 @@ class Categories extends Component {
           </Col>
         </Row>
         {
-          listCategory.map((item, idx) => {
+          listCategory.map(item => {
             const isExist = listCategoryDefault.some(category => category === item)
             return (
               <div key={item.order}>
@@ -61,7 +61,7 @@ class Categories extends Component {
                           suffix={
                             <Icon
                               tabIndex={2}
-                              onClick={() => onDelSubCategory(idx)}
+                              onClick={() => onDelSubCategory(item)}
                               type="close"
                               style={{ color: "#BFBFBF", fontSize: "12px" }} />
                           }
