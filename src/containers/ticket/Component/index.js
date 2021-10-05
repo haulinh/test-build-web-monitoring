@@ -128,9 +128,7 @@ export class EditWrapper2 extends React.Component {
                 ...style,
                 maxWidth: '100%',
                 fontSize: 14,
-                textOverflow: 'ellipsis',
-                whiteSpace: 'pre',
-                overflow: 'hidden',
+                wordBreak: 'break-all',
               }}
             >
               {value}
