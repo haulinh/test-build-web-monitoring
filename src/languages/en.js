@@ -3839,7 +3839,7 @@ export default {
     },
     button: {
       incident: {
-        create: '+ Tạo mới sự cố',
+        create: 'Tạo mới sự cố',
       },
       configProperties: {
         add: 'Create',

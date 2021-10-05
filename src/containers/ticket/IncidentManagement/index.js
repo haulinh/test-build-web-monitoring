@@ -1,4 +1,4 @@
-import { Button, Col, Form, Row } from 'antd'
+import { Button, Col, Form, Icon, Row } from 'antd'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import React, { Component } from 'react'
 import { translate as t } from 'hoc/create-lang'
@@ -72,6 +72,7 @@ export default class IncidentManagement extends Component {
   ButtonAdd = () => {
     return (
       <Button onClick={this.showDrawer} type="primary">
+        <Icon type="plus" />
         {t('ticket.button.incident.create')}
       </Button>
     )
