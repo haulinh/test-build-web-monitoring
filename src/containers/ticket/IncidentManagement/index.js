@@ -42,7 +42,7 @@ export const i18n = () => ({
   status: t('map.marker.status'),
   createSuccess: t('ticket.message.incident.createSuccess'),
   title: t('ticket.title.incident.drawer'),
-  menu: t('ticket.menu.incident')
+  menu: t('ticket.menu.incident'),
 })
 
 export const PAGE_SIZE = 10

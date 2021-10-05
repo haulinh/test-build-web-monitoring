@@ -1,4 +1,4 @@
-import { Button, Col, Form, notification, Row } from 'antd'
+import { Button, Col, Form, notification, Row, Divider } from 'antd'
 import CalculateApi from 'api/CalculateApi'
 import { Clearfix } from 'components/layouts/styles'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
@@ -8,6 +8,12 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router'
 import LeftContent from './LeftContent'
 import RightContent from './RightContent'
+import createBreadcrumb from 'shared/breadcrumb/hoc'
+import { i18n } from '../index'
+import slug from 'constants/slug'
+import { translate } from 'hoc/create-lang'
+
+const Breadcrumb = createBreadcrumb()
 
 export const Fields = {
   name: 'name',
@@ -23,10 +29,15 @@ export default class IncidentDetail extends Component {
   state = {
     record: {},
     categories: [],
+    name: '',
   }
 
   ButtonDelete = () => {
-    return <Button>Xoá sự cố</Button>
+    return (
+      <Button type="danger" danger>
+        {translate('ticket.button.incident.delete')}
+      </Button>
+    )
   }
 
   async componentDidMount() {
@@ -44,7 +55,11 @@ export default class IncidentDetail extends Component {
 
     const categoriesShow = configs.filter(config => !config.hidden)
 
-    this.setState({ record: data, categories: categoriesShow })
+    this.setState({
+      record: data,
+      categories: categoriesShow,
+      name: data.name,
+    })
     const initialValues = _.pick(data, [Fields.name, Fields.description])
 
     const dynamicFields =
@@ -112,20 +127,38 @@ export default class IncidentDetail extends Component {
 
   render() {
     const { form } = this.props
-    const { record, categories } = this.state
+    const { record, categories, name } = this.state
 
     return (
       <PageContainer right={this.ButtonDelete()}>
+        <Breadcrumb
+          items={[
+            {
+              id: '1',
+              name: i18n().menu,
+              href: slug.ticket.incident,
+            },
+            {
+              id: '2',
+              name: name,
+            },
+          ]}
+        />
         <Clearfix height={32} />
-        <Row gutter={32}>
-          <Col span={18}>
+        <Row type="flex" gutter={32}>
+          <Col span={15}>
             <LeftContent
               form={form}
               record={record}
               updateTicket={this.updateTicket}
             />
           </Col>
-          <Col span={6}>
+
+          <Col span={1}>
+            <Divider type="vertical" style={{ height: '100%' }} />
+          </Col>
+
+          <Col span={7}>
             <RightContent
               updateTicket={this.updateTicket}
               form={form}

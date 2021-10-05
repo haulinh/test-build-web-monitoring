@@ -3854,6 +3854,7 @@ export default {
     button: {
       incident: {
         create: 'Tạo mới sự cố',
+        delete: 'Xoá sự cố',
       },
       configProperties: {
         add: 'Tạo mới',

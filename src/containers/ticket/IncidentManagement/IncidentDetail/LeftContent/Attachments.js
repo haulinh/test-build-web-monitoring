@@ -39,16 +39,16 @@ const PhotoItem = styled.div`
   .group-btn {
     display: none;
     position: absolute;
-    top: 50px;
-    left: 35px;
+    top: 40px;
+    left: 25px;
     z-index: 9;
   }
 `
 
 const Extension = styled.div`
   position: absolute;
-  top: 50px;
-  left: 50px;
+  top: 35px;
+  left: 35px;
   font-size: 22px;
   font-weight: 400;
   color: black;
@@ -191,7 +191,7 @@ export default class Attachments extends Component {
                   <Extension>{attachment.extension}</Extension>
                 )}
                 <div className="group-btn">
-                  <div>
+                  <Flex>
                     <i
                       onClick={() =>
                         this.handleDownFile(attachment.preview, attachment.name)
@@ -225,7 +225,7 @@ export default class Attachments extends Component {
                         className="fa fa-trash"
                       />
                     </Popconfirm>
-                  </div>
+                  </Flex>
                 </div>
               </PhotoItem>
             </Col>
