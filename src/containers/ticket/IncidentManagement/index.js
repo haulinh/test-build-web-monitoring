@@ -12,6 +12,9 @@ import { getLanguage } from 'utils/localStorage'
 import { downFileExcel } from 'utils/downFile'
 import { DD_MM_YYYY } from 'constants/format-date'
 import _ from 'lodash'
+import createBreadcrumb from 'shared/breadcrumb/hoc'
+
+const Breadcrumb = createBreadcrumb()
 
 export const Fields = {
   name: 'name',
@@ -39,6 +42,7 @@ export const i18n = () => ({
   status: t('map.marker.status'),
   createSuccess: t('ticket.message.incident.createSuccess'),
   title: t('ticket.title.incident.drawer'),
+  menu: t('ticket.menu.incident')
 })
 
 export const PAGE_SIZE = 10
@@ -140,6 +144,14 @@ export default class IncidentManagement extends Component {
 
     return (
       <PageContainer right={this.ButtonAdd()}>
+        <Breadcrumb
+          items={[
+            {
+              id: '1',
+              name: i18n().menu,
+            },
+          ]}
+        />
         <Clearfix height={32} />
 
         <Search onSearch={this.handleOnSearch} loading={loading}>

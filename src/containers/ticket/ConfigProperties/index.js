@@ -6,6 +6,9 @@ import ConfigForm from './ConfigForm'
 import ConfigList from './ConfigList'
 import { Clearfix } from 'components/elements'
 import CalculateApi from 'api/CalculateApi'
+import createBreadcrumb from 'shared/breadcrumb/hoc'
+
+const Breadcrumb = createBreadcrumb()
 
 export const optionSelectType = [
   { key: 'text', label: 'Text' },
@@ -110,7 +113,15 @@ export default class ConfigProperties extends Component {
   render() {
     const { visible, configs, currentActive } = this.state
     return (
-      <PageContainer title={i18n().menu} right={this.renderButtonAdd()}>
+      <PageContainer right={this.renderButtonAdd()}>
+        <Breadcrumb
+          items={[
+            {
+              id: '1',
+              name: i18n().menu,
+            },
+          ]}
+        />
         <ConfigForm
           visible={visible}
           onClose={this.onClose}
