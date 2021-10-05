@@ -1,4 +1,4 @@
-import { Col, DatePicker, Row, Tooltip } from 'antd'
+import { Col, DatePicker, Row, Tooltip, Divider } from 'antd'
 import SelectStatus from 'components/elements/select-data/ticket/SelectStatus'
 import { Clearfix, FormItem } from 'components/layouts/styles'
 import { translate } from 'hoc/create-lang'
@@ -33,6 +33,7 @@ const withUpdate = (Component, update) => {
     const newProps = {
       ...props,
       onChange,
+      style: { width: '100%' },
     }
     return <Component {...newProps} />
   }
@@ -74,6 +75,8 @@ const RightContent = ({
         )()
       )}
 
+      <Divider />
+
       {stationNames && (
         <React.Fragment>
           <Clearfix height={16} />
@@ -97,7 +100,9 @@ const RightContent = ({
             <Col span={12}>
               <Title>{i18n().measure}</Title>
             </Col>
-            <Col span={12}>{measures.join(',')}</Col>
+            <Col span={12}>
+              <div style={styledText}>{measures.join(',')}</div>
+            </Col>
           </Row>
         </React.Fragment>
       )}
@@ -107,7 +112,9 @@ const RightContent = ({
         <Col span={12}>
           <Title>{i18n().incidentType}</Title>
         </Col>
-        <Col span={12}>{incidentType()[get(record, 'type')]}</Col>
+        <Col span={12}>
+          <div style={styledText}>{incidentType()[get(record, 'type')]}</div>
+        </Col>
       </Row>
 
       <Clearfix height={16} />
@@ -141,6 +148,7 @@ const RightContent = ({
         </Col>
       </Row>
 
+      <Divider />
       <Clearfix height={16} />
       <DynamicContainer
         record={record}

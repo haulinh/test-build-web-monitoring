@@ -1,5 +1,11 @@
 import { getConfigApi } from 'config'
-import { getFetchDownFile, getFetch, postFetch, pathFetch, deleteFetch } from 'utils/fetch'
+import {
+  getFetchDownFile,
+  getFetch,
+  postFetch,
+  pathFetch,
+  deleteFetch,
+} from 'utils/fetch'
 
 function calc(prefix = '') {
   return [getConfigApi().calculate, prefix].filter(item => item).join('/')
@@ -41,7 +47,7 @@ export default {
     const url = calc(`ticket-config/${id}/${toggle}`)
     return pathFetch(url)
   },
-  delConfig: (id) => {
+  delConfig: id => {
     const url = calc(`ticket-config/${id}`)
     return deleteFetch(url)
   },
@@ -75,6 +81,10 @@ export default {
   updateCategoryTicket: (idTicket, params) => {
     const url = calc(`ticket/${idTicket}/category`)
     return pathFetch(url, params)
+  },
+  deleteTicket: id => {
+    const url = calc(`ticket/${id}`)
+    return deleteFetch(url)
   },
   //#endregion
 }

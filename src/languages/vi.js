@@ -3786,7 +3786,8 @@ export default {
         stationName: 'Tên trạm',
         measure: 'Thông số',
         time: 'Thời gian sự cố',
-        attachment: 'Tệp đính kèm',
+        attachment: 'Đính kèm tệp',
+        confirmDelete: 'Bạn có muốn xoá sự cố này',
       },
       configProperties: {
         name: 'Tên thuộc tính',
@@ -3856,6 +3857,7 @@ export default {
     button: {
       incident: {
         create: 'Tạo mới sự cố',
+        delete: 'Xoá sự cố',
       },
       configProperties: {
         add: 'Tạo mới',
