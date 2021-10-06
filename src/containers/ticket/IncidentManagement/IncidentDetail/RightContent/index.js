@@ -1,9 +1,10 @@
 import { Col, DatePicker, Row, Tooltip, Divider } from 'antd'
 import SelectStatus from 'components/elements/select-data/ticket/SelectStatus'
 import { Clearfix, FormItem } from 'components/layouts/styles'
+import { ControlledDatePicker } from 'containers/ticket/Component'
 import { translate } from 'hoc/create-lang'
 import _ from 'lodash'
-import { get, isEmpty, uniq } from 'lodash-es'
+import { get, uniq } from 'lodash-es'
 import moment from 'moment'
 import React from 'react'
 import styled from 'styled-components'
@@ -28,7 +29,6 @@ const withUpdate = (Component, update) => {
   return props => {
     const onChange = value => {
       let valueUpdate = value
-      if (moment.isMoment(value)) valueUpdate = value.toDate()
       update(valueUpdate)
     }
     const newProps = {
@@ -151,11 +151,18 @@ const RightContent = ({
         <Col span={12}>
           <FormItem marginBottom="0px">
             {form.getFieldDecorator(Fields.timeStart, {
-              rules: [{ required: true }],
+              rules: [
+                {
+                  required: true,
+                  message: translate('billing.required.timeStart'),
+                },
+              ],
             })(
-              withUpdate(DatePicker, value =>
-                handleUpdateField(Fields.timeStart, value)
-              )()
+              <ControlledDatePicker
+                allowClear={false}
+                update={handleUpdateField}
+                fieldName={Fields.timeStart}
+              />
             )}
           </FormItem>
         </Col>
@@ -168,9 +175,10 @@ const RightContent = ({
         </Col>
         <Col span={12}>
           {form.getFieldDecorator(Fields.timeEnd)(
-            withUpdate(DatePicker, value =>
-              handleUpdateField(Fields.timeEnd, value)
-            )()
+            <ControlledDatePicker
+              update={handleUpdateField}
+              fieldName={Fields.timeEnd}
+            />
           )}
         </Col>
       </Row>
@@ -202,6 +210,8 @@ const RightContent = ({
           date: moment(updatedAt).format('DD/MM/YYYY'),
         })}
       </div>
+
+      <Clearfix height={16} />
     </React.Fragment>
   )
 }

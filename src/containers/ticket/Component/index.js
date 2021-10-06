@@ -1,4 +1,4 @@
-import { Drawer, Icon, Input, InputNumber } from 'antd'
+import { DatePicker, Drawer, Icon, Input, InputNumber } from 'antd'
 import TextArea from 'antd/lib/input/TextArea'
 import { Clearfix, Flex } from 'components/layouts/styles'
 import React from 'react'
@@ -16,83 +16,11 @@ export const FixedBottom = styled.div`
 `
 
 const DivHover = styled.div`
-  height: ${props => (props.type === 'textArea' ? '200px' : '40px')};
   padding: 4px 0px;
   :hover {
     background-color: rgb(240, 240, 240);
   }
 `
-
-export class EditWrapper extends React.Component {
-  state = {
-    isClicked: false,
-  }
-
-  toggleEdit = () => {
-    this.setState(prevState => ({ isClicked: !prevState.isClicked }))
-  }
-
-  handleOnOk = async () => {
-    const { update } = this.props
-
-    const result = await update()
-    if (!result) return
-
-    this.toggleEdit()
-  }
-
-  handleCancel = () => {
-    const { prevValue, revertValue, name } = this.props
-    revertValue({ [name]: prevValue })
-    this.toggleEdit()
-  }
-
-  render() {
-    const { isClicked } = this.state
-    const { type, value, style, title, children } = this.props
-    if (!isClicked)
-      return (
-        <React.Fragment>
-          <b>{title}</b>
-          <DivHover type={type} onClick={this.toggleEdit}>
-            <span style={style || { fontSize: 14, color: '#262626' }}>
-              {value}
-            </span>
-          </DivHover>
-        </React.Fragment>
-      )
-    const styleIcon = {
-      fontSize: 18,
-      background: '#E6F7FF',
-      borderRadius: 4,
-      padding: 4,
-      color: '#008EFA',
-    }
-
-    return (
-      <div>
-        <b>{title}</b>
-        {children}
-        <Flex justifyContent="end">
-          <Icon
-            type="check"
-            theme="outlined"
-            style={styleIcon}
-            onClick={this.handleOnOk}
-          />
-          <Clearfix width={12} />
-          <Icon
-            onClick={this.handleCancel}
-            type="close"
-            theme="outlined"
-            style={styleIcon}
-          />
-        </Flex>
-      </div>
-    )
-  }
-}
-
 export class EditWrapper2 extends React.Component {
   state = {
     isClicked: false,
@@ -117,7 +45,15 @@ export class EditWrapper2 extends React.Component {
 
   render() {
     const { isClicked } = this.state
-    const { type, value, onChange, style, title } = this.props
+    const {
+      type,
+      value,
+      onChange,
+      style,
+      title,
+      height,
+      maxLength,
+    } = this.props
     if (!isClicked)
       return (
         <React.Fragment>
@@ -133,6 +69,7 @@ export class EditWrapper2 extends React.Component {
                 justifyContent: 'center',
                 paddingLeft: '11px',
                 paddingRight: '11px',
+                minHeight: 30,
                 ...style,
               }}
             >
@@ -158,9 +95,21 @@ export class EditWrapper2 extends React.Component {
     }
 
     const Component = {
-      input: <Input {...props} />,
-      textArea: <TextArea {...props} maxLength={520} />,
-      number: <InputNumber {...props} />,
+      input: (
+        <Input
+          {...props}
+          style={{ width: '100%', height }}
+          maxLength={maxLength}
+        />
+      ),
+      textArea: (
+        <TextArea
+          {...props}
+          style={{ width: '100%', height: 400 }}
+          maxLength={520}
+        />
+      ),
+      number: <InputNumber {...props} style={{ width: '100%', height }} />,
     }
 
     return (
@@ -184,6 +133,38 @@ export class EditWrapper2 extends React.Component {
           />
         </Flex>
       </div>
+    )
+  }
+}
+
+export class ControlledDatePicker extends React.Component {
+  state = { mode: 'time', value: null }
+
+  handleOpenChange = open => {
+    if (open) {
+      this.setState({ mode: 'time' })
+    }
+  }
+
+  handlePanelChange = (value, mode) => {
+    this.setState({ mode })
+  }
+
+  handleOnOk = () => {
+    const { update, fieldName } = this.props
+    update(fieldName)
+  }
+
+  render() {
+    return (
+      <DatePicker
+        {...this.props}
+        mode={this.state.mode}
+        showTime
+        onOk={this.handleOnOk}
+        onOpenChange={this.handleOpenChange}
+        onPanelChange={this.handlePanelChange}
+      />
     )
   }
 }

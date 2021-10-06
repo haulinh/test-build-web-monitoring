@@ -1,4 +1,13 @@
-import { Col, Icon, notification, Popconfirm, Row, Spin, Upload } from 'antd'
+import {
+  Col,
+  Icon,
+  message,
+  notification,
+  Popconfirm,
+  Row,
+  Spin,
+  Upload,
+} from 'antd'
 import MediaApi from 'api/MediaApi'
 import axios from 'axios'
 import { Clearfix, Flex } from 'components/layouts/styles'
@@ -98,6 +107,8 @@ export const Extension = styled.div`
   color: #262626;
 `
 
+const FILE_SIZE_LIMIT = 10 * 1024 * 1024
+
 const getDatabaseName = organizationName => organizationName.replace(/_/g, '')
 
 const Attachment = props => {
@@ -154,6 +165,11 @@ export default class Attachments extends Component {
       setUpdatedAt,
     } = this.props
 
+    if (file.size > FILE_SIZE_LIMIT) {
+      message.error(translate('ticket.message.incident.fileSizeLimit'))
+      return Upload.LIST_IGNORE
+    }
+
     const databaseName = getDatabaseName(
       userInfo.organization.databaseInfo.name
     )
@@ -182,6 +198,7 @@ export default class Attachments extends Component {
       this.fetchData()
       notification.success({ message: i18n().notificationSuccess })
     } catch (error) {
+      this.setState({ loading: false })
       onError()
       console.log('err', error)
     }
@@ -246,8 +263,9 @@ export default class Attachments extends Component {
           <b>{translate('ticket.label.incident.attachment')}</b>
           <Upload
             multiple
-            accept=".jpg, .png, .svg, jpeg, .excel, .pdf"
+            accept=".jpg, .png, .svg, jpeg, .excel, .pdf, .doc, .docx, .xlsx, .xls"
             showUploadList={false}
+            beforeUpload={this.beforeUpload}
             {...uploadProps}
             customRequest={this.customRequest}
           >

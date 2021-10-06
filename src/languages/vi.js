@@ -3842,6 +3842,7 @@ export default {
         createSuccess: 'Tạo mới sự cố thành công',
         notificationSuccess: 'Cập nhật sự cố thành công',
         notificationError: 'Error',
+        fileSizeLimit: 'Dung lượng file vượt quá 10MB',
       },
       configProperties: {
         success: 'thành công',

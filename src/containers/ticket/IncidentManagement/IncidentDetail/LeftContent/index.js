@@ -36,6 +36,7 @@ const LeftContent = ({ form, record, updateTicket, setName, setUpdatedAt }) => {
           ],
         })(
           <EditWrapper2
+            height={40}
             type="input"
             value={values[Fields.name]}
             update={handleUpdateName}
@@ -58,6 +59,8 @@ const LeftContent = ({ form, record, updateTicket, setName, setUpdatedAt }) => {
           prevValue={record[Fields.description]}
         ></EditWrapper2>
       )}
+
+      <Clearfix height={12} />
       <Divider />
       <Attachments setUpdatedAt={setUpdatedAt} />
     </React.Fragment>

@@ -4,13 +4,8 @@ import React from 'react'
 
 const styleText = {
   color: '#262626',
-  maxWidth: 300,
   fontSize: 14,
-  textOverflow: 'ellipsis',
-  whiteSpace: 'pre',
-  overflow: 'hidden',
   border: '1px solid rgb(217, 217, 217)',
-  height: 30,
   borderRadius: 4,
 }
 
@@ -31,8 +26,9 @@ export const DynamicComponent = ({
       <React.Fragment>
         {form.getFieldDecorator(name)(
           <EditWrapper2
+            maxLength={64}
             update={() => updateDynamicField(name)}
-            style={styleText}
+            style={{ ...styleText, height: !values[name] && 30 }}
             prevValue={prevValue}
             name={name}
             type="input"
@@ -59,7 +55,8 @@ export const DynamicComponent = ({
       <React.Fragment>
         {form.getFieldDecorator(name)(
           <EditWrapper2
-            style={styleText}
+            height={30}
+            style={{ ...styleText, height: !values[name] && 30 }}
             update={() => updateDynamicField(name)}
             type="number"
             prevValue={prevValue}
