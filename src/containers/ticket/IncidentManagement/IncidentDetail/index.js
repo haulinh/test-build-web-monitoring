@@ -1,18 +1,17 @@
-import { Button, Col, Form, notification, Row, Divider, Popconfirm } from 'antd'
+import { Button, Col, Divider, Form, notification, Popconfirm, Row } from 'antd'
 import CalculateApi from 'api/CalculateApi'
 import { Clearfix } from 'components/layouts/styles'
+import slug from 'constants/slug'
+import { translate } from 'hoc/create-lang'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import _ from 'lodash'
 import moment from 'moment'
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
-import LeftContent from './LeftContent'
-import RightContent from './RightContent'
 import createBreadcrumb from 'shared/breadcrumb/hoc'
 import { i18n } from '../index'
-import slug from 'constants/slug'
-import { translate } from 'hoc/create-lang'
-import { T } from 'antd/lib/upload/utils'
+import LeftContent from './LeftContent'
+import RightContent from './RightContent'
 
 const Breadcrumb = createBreadcrumb()
 

@@ -125,10 +125,10 @@ export class EditWrapper2 extends React.Component {
           <DivHover type={type} onClick={this.toggleEdit}>
             <div
               style={{
-                ...style,
                 maxWidth: '100%',
                 fontSize: 14,
                 wordBreak: 'break-all',
+                ...style,
               }}
             >
               {value}

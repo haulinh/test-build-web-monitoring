@@ -2638,6 +2638,9 @@ export default {
       image: {
         title: 'Bạn có chắc xoá ảnh này?',
       },
+      attachment: {
+        title: 'Bạn có muốn xoá tệp này',
+      },
     },
   },
   success: {

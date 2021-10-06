@@ -39,7 +39,7 @@ const LeftContent = ({ form, record, updateTicket, setName, setUpdatedAt }) => {
             type="input"
             value={values[Fields.name]}
             update={handleUpdateName}
-            style={{ color: '#262626', fontWeight: 600, fontSize: 20 }}
+            style={{ color: '#262626', fontWeight: 600, fontSize: 28 }}
             prevValue={record[Fields.name]}
             name={Fields.name}
           ></EditWrapper2>

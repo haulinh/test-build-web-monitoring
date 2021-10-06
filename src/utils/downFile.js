@@ -9,5 +9,5 @@ export const downFileExcel = (data, fileName) => {
 export const downloadAttachment = params => {
   const { data, name, type } = params
   const blob = new Blob([data], { type })
-  FileSaver.saveAs(blob, name)
+  FileSaver.saveAs(blob, `${name}`)
 }

@@ -3,7 +3,7 @@ import SelectStatus from 'components/elements/select-data/ticket/SelectStatus'
 import { Clearfix, FormItem } from 'components/layouts/styles'
 import { translate } from 'hoc/create-lang'
 import _ from 'lodash'
-import { get, isEmpty } from 'lodash-es'
+import { get, isEmpty, uniq } from 'lodash-es'
 import moment from 'moment'
 import React from 'react'
 import styled from 'styled-components'
@@ -52,12 +52,13 @@ const RightContent = ({
     .map(item => item.name)
     .join(',')
 
-  const provinceNames = get(record, 'stations', [])
-    .map(item => get(item.province, 'name'))
-    .filter(item => item)
-    .join(',')
+  const provinceNames = uniq(
+    get(record, 'stations', [])
+      .map(item => get(item.province, 'name'))
+      .filter(item => item)
+  ).join(',')
 
-  const measures = get(record, 'measures', [])
+  const measuresName = get(record, 'measures', []).join(',')
 
   const handleUpdateField = async (fieldName, value) => {
     const defaultValue = form.getFieldValue(fieldName)
@@ -68,8 +69,6 @@ const RightContent = ({
 
   const handleUpdateDynamicField = async (fieldName, value) => {
     const defaultValue = form.getFieldValue(fieldName)
-
-    console.log('update')
 
     return updateCategoryTicket({ [fieldName]: value || defaultValue })
   }
@@ -83,22 +82,6 @@ const RightContent = ({
       )}
 
       <Divider />
-
-      {stationNames && (
-        <React.Fragment>
-          <Clearfix height={16} />
-          <Row gutter={[0, 12]}>
-            <Col span={12}>
-              <Title>{i18n().stationName}</Title>
-            </Col>
-            <Col span={12}>
-              <Tooltip title={stationNames}>
-                <div style={styledText}>{stationNames}</div>
-              </Tooltip>
-            </Col>
-          </Row>
-        </React.Fragment>
-      )}
 
       {provinceNames && (
         <React.Fragment>
@@ -116,15 +99,33 @@ const RightContent = ({
         </React.Fragment>
       )}
 
-      {!isEmpty(measures) && (
+      {stationNames && (
+        <React.Fragment>
+          <Clearfix height={16} />
+          <Row gutter={[0, 12]}>
+            <Col span={12}>
+              <Title>{i18n().stationName}</Title>
+            </Col>
+            <Col span={12}>
+              <Tooltip title={stationNames}>
+                <div style={styledText}>{stationNames}</div>
+              </Tooltip>
+            </Col>
+          </Row>
+        </React.Fragment>
+      )}
+
+      {measuresName && (
         <React.Fragment>
           <Clearfix height={16} />
           <Row>
             <Col span={12}>
-              <Title>{i18n().measure}</Title>
+              <Title>{i18n().measure2}</Title>
             </Col>
             <Col span={12}>
-              <div style={styledText}>{measures.join(',')}</div>
+              <Tooltip title={measuresName}>
+                <div style={styledText}>{measuresName}</div>
+              </Tooltip>
             </Col>
           </Row>
         </React.Fragment>
@@ -189,13 +190,13 @@ const RightContent = ({
       <Clearfix height={16} />
       <div>
         {translate('ticket.label.incident.createdAt', {
-          time: moment(record.createdAt).format('hh:mm'),
+          time: moment(record.createdAt).format('HH:mm'),
           date: moment(record.createdAt).format('DD/MM/YYYY'),
         })}
       </div>
       <div>
         {translate('ticket.label.incident.updatedAt', {
-          time: moment(updatedAt).format('hh:mm'),
+          time: moment(updatedAt).format('HH:mm'),
           date: moment(updatedAt).format('DD/MM/YYYY'),
         })}
       </div>

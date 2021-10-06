@@ -2,6 +2,18 @@ import { DatePicker, Select } from 'antd'
 import { EditWrapper2 } from 'containers/ticket/Component'
 import React from 'react'
 
+const styleText = {
+  color: '#262626',
+  maxWidth: 300,
+  fontSize: 14,
+  textOverflow: 'ellipsis',
+  whiteSpace: 'pre',
+  overflow: 'hidden',
+  border: '1px solid rgb(217, 217, 217)',
+  height: 30,
+  borderRadius: 4,
+}
+
 export const DynamicComponent = ({
   form,
   type,
@@ -20,7 +32,7 @@ export const DynamicComponent = ({
         {form.getFieldDecorator(name)(
           <EditWrapper2
             update={() => updateDynamicField(name)}
-            style={{ color: '#262626', fontWeight: 600, fontSize: 20 }}
+            style={styleText}
             prevValue={prevValue}
             revertValue={revertValue}
             name={name}
@@ -48,6 +60,7 @@ export const DynamicComponent = ({
       <React.Fragment>
         {form.getFieldDecorator(name)(
           <EditWrapper2
+            style={styleText}
             update={() => updateDynamicField(name)}
             type="number"
             prevValue={prevValue}
