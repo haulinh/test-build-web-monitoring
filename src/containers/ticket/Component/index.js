@@ -22,6 +22,10 @@ const DivHover = styled.div`
   }
   min-height: ${props => props.type === 'textArea' && '250px'};
 `
+
+const InputCustom = styled(Input)`
+  font-size: ${props => props.fontSize && `${props.fontSize}px`};
+`
 export class EditWrapper2 extends React.Component {
   state = {
     isClicked: false,
@@ -97,9 +101,10 @@ export class EditWrapper2 extends React.Component {
 
     const Component = {
       input: (
-        <Input
+        <InputCustom
           {...props}
           style={{ width: '100%', height }}
+          fontSize={style.fontSize}
           maxLength={maxLength}
         />
       ),
