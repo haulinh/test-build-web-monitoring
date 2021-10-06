@@ -20,6 +20,7 @@ const DivHover = styled.div`
   :hover {
     background-color: rgb(240, 240, 240);
   }
+  min-height: ${props => props.type === 'textArea' && '400px'};
 `
 export class EditWrapper2 extends React.Component {
   state = {
