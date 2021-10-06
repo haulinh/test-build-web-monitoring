@@ -16,7 +16,6 @@ export const FixedBottom = styled.div`
 `
 
 const DivHover = styled.div`
-  padding: 4px 0px;
   :hover {
     background-color: rgb(240, 240, 240);
   }
