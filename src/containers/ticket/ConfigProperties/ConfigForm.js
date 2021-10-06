@@ -132,7 +132,6 @@ export default class ConfigForm extends Component {
           order: idx,
         }))
     }
-    console.log({ params })
     const isEdit = !isEmpty(currentActive)
 
     if (isEdit) await this.handleEdit(params)
