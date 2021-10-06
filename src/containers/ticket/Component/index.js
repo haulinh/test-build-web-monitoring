@@ -103,7 +103,7 @@ export class EditWrapper2 extends React.Component {
         <InputCustom
           {...props}
           style={{ width: '100%', height }}
-          fontSize={style.fontSize}
+          fontSize={style && style.fontSize}
           maxLength={maxLength}
         />
       ),
