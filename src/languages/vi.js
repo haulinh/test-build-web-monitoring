@@ -3795,6 +3795,7 @@ export default {
         confirmDelete: 'Bạn có muốn xoá sự cố này',
         createdAt: 'Tạo lúc {{=it.time}} ngày {{=it.date}} ',
         updatedAt: 'Cập nhập gần nhất {{=it.time}} ngày {{=it.date}} ',
+        detailInfo: 'Thông tin chi tiết',
       },
       configProperties: {
         name: 'Tên thuộc tính',

@@ -83,6 +83,8 @@ const RightContent = ({
 
       <Divider />
 
+      <h6>{translate('ticket.label.incident.detailInfo')}</h6>
+
       {provinceNames && (
         <React.Fragment>
           <Clearfix height={16} />
