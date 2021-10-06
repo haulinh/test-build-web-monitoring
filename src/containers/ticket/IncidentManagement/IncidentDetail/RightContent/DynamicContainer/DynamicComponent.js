@@ -34,7 +34,6 @@ export const DynamicComponent = ({
             update={() => updateDynamicField(name)}
             style={styleText}
             prevValue={prevValue}
-            revertValue={revertValue}
             name={name}
             type="input"
             value={values[name]}

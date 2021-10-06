@@ -225,12 +225,11 @@ export default class Attachments extends Component {
     notification.success({ message: i18n().notificationSuccess })
   }
 
-  handleDownFile = async (url, name) => {
-    const result = await axios.get(url)
-    console.log({ result })
+  handleDownFile = async attachment => {
+    const result = await axios.get(attachment.preview, { responseType: 'blob' })
     downloadAttachment({
       data: result.data,
-      name: name,
+      name: attachment.name,
       type: result.headers['content-type'],
     })
   }
@@ -277,9 +276,7 @@ export default class Attachments extends Component {
                 key={attachment.name}
                 attachment={attachment}
                 onDelete={this.handleDeleteImage(attachment.name)}
-                onDownload={() =>
-                  this.handleDownFile(attachment.preview, attachment.name)
-                }
+                onDownload={() => this.handleDownFile(attachment)}
               />
             ))}
           </Row>

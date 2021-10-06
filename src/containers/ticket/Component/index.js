@@ -128,6 +128,11 @@ export class EditWrapper2 extends React.Component {
                 maxWidth: '100%',
                 fontSize: 14,
                 wordBreak: 'break-all',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                paddingLeft: '11px',
+                paddingRight: '11px',
                 ...style,
               }}
             >
