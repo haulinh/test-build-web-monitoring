@@ -16,11 +16,10 @@ export const FixedBottom = styled.div`
 `
 
 const DivHover = styled.div`
-  padding: 4px 0px;
   :hover {
     background-color: rgb(240, 240, 240);
   }
-  min-height: ${props => props.type === 'textArea' && '400px'};
+  min-height: ${props => props.type === 'textArea' && '250px'};
 `
 
 const InputCustom = styled(Input)`
@@ -104,14 +103,14 @@ export class EditWrapper2 extends React.Component {
         <InputCustom
           {...props}
           style={{ width: '100%', height }}
-          fontSize={style.fontSize}
+          fontSize={style && style.fontSize}
           maxLength={maxLength}
         />
       ),
       textArea: (
         <TextArea
           {...props}
-          style={{ width: '100%', height: 400 }}
+          style={{ width: '100%', height: 250 }}
           maxLength={520}
         />
       ),
@@ -168,6 +167,7 @@ export class ControlledDatePicker extends React.Component {
         mode={this.state.mode}
         showTime
         onOk={this.handleOnOk}
+        format="DD/MM/YYYY HH:mm"
         onOpenChange={this.handleOpenChange}
         onPanelChange={this.handlePanelChange}
       />

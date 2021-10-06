@@ -43,6 +43,7 @@ export const DynamicComponent = ({
       <React.Fragment>
         {form.getFieldDecorator(name)(
           <DatePicker
+            format="DD/MM/YYYY"
             style={{ width: '100%' }}
             onChange={date => updateDynamicField(name, date)}
           />

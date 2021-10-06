@@ -1,4 +1,4 @@
-import { Col, DatePicker, Row, Tooltip, Divider } from 'antd'
+import { Col, Row, Tooltip, Divider } from 'antd'
 import SelectStatus from 'components/elements/select-data/ticket/SelectStatus'
 import { Clearfix, FormItem } from 'components/layouts/styles'
 import { ControlledDatePicker } from 'containers/ticket/Component'
@@ -186,7 +186,6 @@ const RightContent = ({
       {!_.isEmpty(categories) && (
         <React.Fragment>
           <Divider />
-          <Clearfix height={16} />
           <DynamicContainer
             record={record}
             form={form}
@@ -197,7 +196,6 @@ const RightContent = ({
       )}
 
       <Divider />
-      <Clearfix height={16} />
       <div>
         {translate('ticket.label.incident.createdAt', {
           time: moment(record.createdAt).format('HH:mm'),
@@ -210,8 +208,8 @@ const RightContent = ({
           date: moment(updatedAt).format('DD/MM/YYYY'),
         })}
       </div>
-
       <Clearfix height={16} />
+
     </React.Fragment>
   )
 }

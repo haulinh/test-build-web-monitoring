@@ -101,12 +101,11 @@ export default class IncidentDetail extends Component {
         const dynamicField = {
           [current._id]:
             current.type === 'datetime'
-              ? moment(data.categories[current._id])
+              ? data.categories[current._id] && moment(data.categories[current._id])
               : data.categories[current._id],
         }
         return { ...pre, ...dynamicField }
       }, {})
-
     form.setFieldsValue({
       ...initialValues,
       [Fields.status]: data.statusId,
