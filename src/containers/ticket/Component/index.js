@@ -20,7 +20,7 @@ const DivHover = styled.div`
   :hover {
     background-color: rgb(240, 240, 240);
   }
-  min-height: ${props => props.type === 'textArea' && '400px'};
+  min-height: ${props => props.type === 'textArea' && '250px'};
 `
 export class EditWrapper2 extends React.Component {
   state = {
@@ -106,7 +106,7 @@ export class EditWrapper2 extends React.Component {
       textArea: (
         <TextArea
           {...props}
-          style={{ width: '100%', height: 400 }}
+          style={{ width: '100%', height: 250 }}
           maxLength={520}
         />
       ),
@@ -163,6 +163,7 @@ export class ControlledDatePicker extends React.Component {
         mode={this.state.mode}
         showTime
         onOk={this.handleOnOk}
+        format="DD/MM/YYYY HH:mm"
         onOpenChange={this.handleOpenChange}
         onPanelChange={this.handlePanelChange}
       />

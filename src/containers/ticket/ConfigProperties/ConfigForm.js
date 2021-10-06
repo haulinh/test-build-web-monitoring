@@ -125,6 +125,10 @@ export default class ConfigForm extends Component {
     onClose()
   }
 
+  handleOnChangeType = () => {
+    this.setState({ categories: [] })
+  }
+
   handleCreate = async (params) => {
     const { addConfig } = this.props;
     const result = await CalculateApi.createConfig(params)
@@ -255,6 +259,7 @@ export default class ConfigForm extends Component {
                 </FormItem>
                 <FormItem label={i18n().form.label.type}>
                   {form.getFieldDecorator(FIELDS.TYPE, {
+                    onChange: this.handleOnChangeType,
                     rules: [
                       {
                         required: true,
@@ -262,10 +267,7 @@ export default class ConfigForm extends Component {
                       }
                     ]
                   })(
-                    <Select
-                      onChange={this.onHandleChange}
-                      disabled={isEdit}
-                    >
+                    <Select disabled={isEdit}>
                       {optionSelectType.map(item => (
                         <Select.Option key={item.key} value={item.key}>
                           {item.label}
