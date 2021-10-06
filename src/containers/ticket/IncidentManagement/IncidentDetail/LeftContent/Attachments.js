@@ -1,4 +1,4 @@
-import { Col, Icon, Popconfirm, Row, Spin, Upload } from 'antd'
+import { Col, Icon, notification, Popconfirm, Row, Spin, Upload } from 'antd'
 import MediaApi from 'api/MediaApi'
 import axios from 'axios'
 import { Clearfix, Flex } from 'components/layouts/styles'
@@ -9,6 +9,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import styled from 'styled-components'
 import { downloadAttachment } from 'utils/downFile'
+import { i18n } from '../../index'
 
 const uploadProps = {
   onError(err) {
@@ -20,6 +21,7 @@ const PhotoItem = styled.div`
   width: 100%;
   height: 100%;
   background: url('${props => props.image}');
+  background: ${props => (props.isImage ? `url(${props.image})` : '#eef3ff')};
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
@@ -53,6 +55,19 @@ const Extension = styled.div`
   font-weight: 400;
   color: black;
 `
+const Name = styled.div`
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+`
+
+const Blur = styled.div`
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.8) 50.34%
+  );
+`
 
 const getDatabaseName = organizationName => organizationName.replace(/_/g, '')
 
@@ -77,6 +92,7 @@ export default class Attachments extends Component {
         params: { id },
       },
       userInfo,
+      setUpdatedAt,
     } = this.props
 
     const databaseName = getDatabaseName(
@@ -104,7 +120,9 @@ export default class Attachments extends Component {
           'Content-Type': file.type,
         },
       })
+      setUpdatedAt()
       this.fetchData()
+      notification.success({ message: i18n().notificationSuccess })
     } catch (error) {
       onError()
       console.log('err', error)
@@ -136,13 +154,16 @@ export default class Attachments extends Component {
       match: {
         params: { id },
       },
+      setUpdatedAt,
     } = this.props
 
     const databaseName = getDatabaseName(
       userInfo.organization.databaseInfo.name
     )
     await MediaApi.deleteAttachment(databaseName, id, name)
+    setUpdatedAt()
     this.fetchData()
+    notification.success({ message: i18n().notificationSuccess })
   }
 
   handleDownFile = async (url, name) => {
@@ -152,6 +173,10 @@ export default class Attachments extends Component {
       name: name,
       type: result.headers['content-type'],
     })
+  }
+
+  isImage = extension => {
+    return ['png', 'jpg', 'svg', 'jpeg'].includes(extension)
   }
 
   render() {
@@ -189,10 +214,13 @@ export default class Attachments extends Component {
           <Spin spinning={loading}>
             {attachments.map(attachment => (
               <Col span={3}>
-                <PhotoItem image={attachment.preview}>
-                  {!['png', 'jpg', 'svg', 'jpeg'].includes(
-                    attachment.extension
-                  ) && <Extension>{attachment.extension}</Extension>}
+                <PhotoItem
+                  image={attachment.preview}
+                  isImage={this.isImage(attachment.extension)}
+                >
+                  {!this.isImage(attachment.extension) && (
+                    <Extension>{attachment.extension}</Extension>
+                  )}
                   <div className="group-btn">
                     <Flex>
                       <i
@@ -233,6 +261,19 @@ export default class Attachments extends Component {
                       </Popconfirm>
                     </Flex>
                   </div>
+                  <Name>
+                    <Blur>
+                      <div
+                        style={{
+                          maxWidth: '105px',
+                          fontSize: 14,
+                          textOverflow: 'ellipsis',
+                          whiteSpace: 'pre',
+                          overflow: 'hidden',
+                        }}
+                      >{`${attachment.name}.${attachment.extension}`}</div>
+                    </Blur>
+                  </Name>
                 </PhotoItem>
               </Col>
             ))}

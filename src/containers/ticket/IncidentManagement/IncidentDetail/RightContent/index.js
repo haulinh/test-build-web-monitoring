@@ -2,6 +2,7 @@ import { Col, DatePicker, Row, Tooltip, Divider } from 'antd'
 import SelectStatus from 'components/elements/select-data/ticket/SelectStatus'
 import { Clearfix, FormItem } from 'components/layouts/styles'
 import { translate } from 'hoc/create-lang'
+import _ from 'lodash'
 import { get, isEmpty } from 'lodash-es'
 import moment from 'moment'
 import React from 'react'
@@ -45,9 +46,15 @@ const RightContent = ({
   categories,
   updateTicket,
   updateCategoryTicket,
+  updatedAt,
 }) => {
   const stationNames = get(record, 'stations', [])
     .map(item => item.name)
+    .join(',')
+
+  const provinceNames = get(record, 'stations', [])
+    .map(item => get(item.province, 'name'))
+    .filter(item => item)
     .join(',')
 
   const measures = get(record, 'measures', [])
@@ -93,6 +100,22 @@ const RightContent = ({
         </React.Fragment>
       )}
 
+      {provinceNames && (
+        <React.Fragment>
+          <Clearfix height={16} />
+          <Row gutter={[0, 12]}>
+            <Col span={12}>
+              <Title>{i18n().provinceName}</Title>
+            </Col>
+            <Col span={12}>
+              <Tooltip title={provinceNames}>
+                <div style={styledText}>{provinceNames}</div>
+              </Tooltip>
+            </Col>
+          </Row>
+        </React.Fragment>
+      )}
+
       {!isEmpty(measures) && (
         <React.Fragment>
           <Clearfix height={16} />
@@ -108,7 +131,7 @@ const RightContent = ({
       )}
 
       <Clearfix height={16} />
-      <Row>
+      <Row type="flex" align="middle">
         <Col span={12}>
           <Title>{i18n().incidentType}</Title>
         </Col>
@@ -118,12 +141,12 @@ const RightContent = ({
       </Row>
 
       <Clearfix height={16} />
-      <Row>
+      <Row type="flex" align="middle">
         <Col span={12}>
           <Title>{translate('avgSearchFrom.selectTimeRange.startTime')}</Title>
         </Col>
         <Col span={12}>
-          <FormItem>
+          <FormItem marginBottom="0px">
             {form.getFieldDecorator(Fields.timeStart, {
               rules: [{ required: true }],
             })(
@@ -135,7 +158,8 @@ const RightContent = ({
         </Col>
       </Row>
 
-      <Row>
+      <Clearfix height={16} />
+      <Row type="flex" align="middle">
         <Col span={12}>
           <Title>{translate('avgSearchFrom.selectTimeRange.endTime')}</Title>
         </Col>
@@ -148,14 +172,33 @@ const RightContent = ({
         </Col>
       </Row>
 
+      {!_.isEmpty(categories) && (
+        <React.Fragment>
+          <Divider />
+          <Clearfix height={16} />
+          <DynamicContainer
+            record={record}
+            form={form}
+            categories={categories}
+            updateDynamicField={handleUpdateDynamicField}
+          />
+        </React.Fragment>
+      )}
+
       <Divider />
       <Clearfix height={16} />
-      <DynamicContainer
-        record={record}
-        form={form}
-        categories={categories}
-        updateDynamicField={handleUpdateDynamicField}
-      />
+      <div>
+        {translate('ticket.label.incident.createdAt', {
+          time: moment(record.createdAt).format('hh:mm'),
+          date: moment(record.createdAt).format('DD/MM/YYYY'),
+        })}
+      </div>
+      <div>
+        {translate('ticket.label.incident.updatedAt', {
+          time: moment(updatedAt).format('hh:mm'),
+          date: moment(updatedAt).format('DD/MM/YYYY'),
+        })}
+      </div>
     </React.Fragment>
   )
 }

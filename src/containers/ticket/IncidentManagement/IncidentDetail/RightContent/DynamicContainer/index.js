@@ -12,7 +12,7 @@ export const DynamicContainer = ({
 }) => {
   return (
     <React.Fragment>
-      <Row gutter={[0, 16]}>
+      <Row type="flex" align="middle" gutter={[0, 16]}>
         {categories.map(property => (
           <React.Fragment key={property._id}>
             <Col span={12}>

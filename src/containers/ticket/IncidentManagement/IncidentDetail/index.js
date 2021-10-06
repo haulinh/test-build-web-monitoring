@@ -12,6 +12,7 @@ import createBreadcrumb from 'shared/breadcrumb/hoc'
 import { i18n } from '../index'
 import slug from 'constants/slug'
 import { translate } from 'hoc/create-lang'
+import { T } from 'antd/lib/upload/utils'
 
 const Breadcrumb = createBreadcrumb()
 
@@ -29,6 +30,7 @@ export default class IncidentDetail extends Component {
     record: {},
     categories: [],
     name: '',
+    updatedAt: null,
   }
 
   handleDelete = async () => {
@@ -80,6 +82,7 @@ export default class IncidentDetail extends Component {
       record: data,
       categories: categoriesShow,
       name: data.name,
+      updatedAt: data.updatedAt,
     })
     const initialValues = _.pick(data, [Fields.name, Fields.description])
 
@@ -117,6 +120,7 @@ export default class IncidentDetail extends Component {
 
     try {
       await CalculateApi.updateCategoryTicket(id, param)
+      this.setState({ updatedAt: moment() })
       notification.success({ message: i18n().notificationSuccess })
       return true
     } catch (error) {
@@ -138,6 +142,7 @@ export default class IncidentDetail extends Component {
 
     try {
       await CalculateApi.updateTicket(id, param)
+      this.setState({ updatedAt: moment() })
       notification.success({ message: i18n().notificationSuccess })
       return true
     } catch (error) {
@@ -150,9 +155,13 @@ export default class IncidentDetail extends Component {
     this.setState({ name })
   }
 
+  setUpdatedAt = () => {
+    this.setState({ updatedAt: moment() })
+  }
+
   render() {
     const { form } = this.props
-    const { record, categories, name } = this.state
+    const { record, categories, name, updatedAt } = this.state
 
     return (
       <PageContainer right={this.ButtonDelete()}>
@@ -177,6 +186,7 @@ export default class IncidentDetail extends Component {
               record={record}
               updateTicket={this.updateTicket}
               setName={this.setName}
+              setUpdatedAt={this.setUpdatedAt}
             />
           </Col>
 
@@ -191,6 +201,7 @@ export default class IncidentDetail extends Component {
               record={record}
               categories={categories}
               updateCategoryTicket={this.updateCategoryTicket}
+              updatedAt={updatedAt}
             />
           </Col>
         </Row>
