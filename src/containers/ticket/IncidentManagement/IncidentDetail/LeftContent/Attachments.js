@@ -17,59 +17,118 @@ const uploadProps = {
   },
 }
 
-const PhotoItem = styled.div`
-  width: 100%;
-  height: 100%;
-  background: url('${props => props.image}');
-  background: ${props => (props.isImage ? `url(${props.image})` : '#eef3ff')};
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
-  border: 1px solid #ccc;
+export const AttachmentItem = styled(Col)`
+  width: 100px;
+  height: 100px;
+  margin: 8px;
   position: relative;
-  &:after {
-    content: "";
-    display: block;
-    padding-bottom: 100%;
+  background: #eef3ff;
+  border-radius: 4px;
+  padding: 0 !important;
+
+  &:hover .action {
+    display: flex;
   }
-  &:hover {
-      cursor: pointer;
-      .group-btn {
-          display: block;
-      }
+
+  img {
+    width: 100%;
+    max-height: 100%;
   }
-  .group-btn {
-    display: none;
+
+  .action {
     position: absolute;
-    top: 40px;
-    left: 25px;
-    z-index: 9;
+    display: none;
+    align-items: center;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    justify-content: center;
+    .anticon {
+      padding: 6px;
+      cursor: pointer;
+      background: #fff;
+      margin-left: 4px;
+      font-size: 20px;
+    }
+    & i:first-child:hover {
+      color: #2c4bee;
+    }
+    & i:last-child:hover {
+      color: #a8071a;
+    }
+  }
+  .filename {
+    width: 100%;
+    > div {
+      max-width: 92%;
+      text-overflow: ellipsis;
+      white-space: pre;
+      overflow: hidden;
+      margin: 0 0 6px 6px;
+      color: white;
+    }
+    bottom: 0;
+    position: absolute;
+    font-size: 8px;
+    background: linear-gradient(
+      180deg,
+      rgba(38, 38, 38, 0) 0%,
+      rgba(38, 38, 38, 0.7) 50.34%
+    );
+    opacity: 0.75;
+    height: 40px;
+    display: flex;
+    align-items: flex-end;
+    color: #262626;
   }
 `
 
-const Extension = styled.div`
+export const Extension = styled.div`
   position: absolute;
-  top: 35px;
-  left: 35px;
-  font-size: 22px;
-  font-weight: 400;
-  color: black;
-`
-const Name = styled.div`
-  position: absolute;
-  bottom: 0px;
-  left: 0px;
-`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 
-const Blur = styled.div`
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.8) 50.34%
-  );
+  font-size: 24px;
+  color: #262626;
 `
 
 const getDatabaseName = organizationName => organizationName.replace(/_/g, '')
+
+const Attachment = props => {
+  const { attachment, onDelete, onDownload } = props
+
+  const isImage = ext => ['jpg', 'jpeg', 'png', 'svg'].includes(ext)
+
+  return (
+    <AttachmentItem>
+      {isImage(attachment.extension) ? (
+        <img src={attachment.preview} alt="" />
+      ) : (
+        <Extension>{attachment.extension}</Extension>
+      )}
+      <div className="action">
+        <Icon type="download" theme="outlined" onClick={onDownload} />
+        <Popconfirm
+          title={translate('addon.popConfirm.attachment.title')}
+          onConfirm={onDelete}
+          okText={translate('addon.yes')}
+          cancelText={translate('addon.no')}
+        >
+          <Icon type="delete" theme="outlined" />
+        </Popconfirm>
+      </div>
+      <div className="filename">
+        <div>{attachment.name}</div>
+      </div>
+    </AttachmentItem>
+  )
+}
 
 @withRouter
 @connect(state => ({
@@ -101,11 +160,9 @@ export default class Attachments extends Component {
 
     const generatePutUrl = MediaApi.generatePutUrl(databaseName)
 
-    const fileNameUpload = `${file.uid}-${file.name}`
-
     const options = {
       params: {
-        prefix: `ticket/${id}/${fileNameUpload}`,
+        prefix: `ticket/${id}/${file.name}`,
         ContentType: file.type,
       },
       headers: {
@@ -114,6 +171,7 @@ export default class Attachments extends Component {
     }
 
     try {
+      this.setState({ loading: true })
       const { data: putURL } = await axios.get(generatePutUrl, options)
       await axios.put(putURL, file, {
         headers: {
@@ -127,6 +185,7 @@ export default class Attachments extends Component {
       onError()
       console.log('err', error)
     }
+    this.setState({ loading: false })
   }
 
   fetchData = async () => {
@@ -168,6 +227,7 @@ export default class Attachments extends Component {
 
   handleDownFile = async (url, name) => {
     const result = await axios.get(url)
+    console.log({ result })
     downloadAttachment({
       data: result.data,
       name: name,
@@ -210,75 +270,20 @@ export default class Attachments extends Component {
         <b>PDF, Excel, Word, SVG, PNG, JPG</b>
 
         <Clearfix height={12} />
-        <Row gutter={[12, 12]}>
-          <Spin spinning={loading}>
+        <Spin spinning={loading}>
+          <Row type="flex" gutter={[12, 12]}>
             {attachments.map(attachment => (
-              <Col span={3}>
-                <PhotoItem
-                  image={attachment.preview}
-                  isImage={this.isImage(attachment.extension)}
-                >
-                  {!this.isImage(attachment.extension) && (
-                    <Extension>{attachment.extension}</Extension>
-                  )}
-                  <div className="group-btn">
-                    <Flex>
-                      <i
-                        onClick={() =>
-                          this.handleDownFile(
-                            attachment.preview,
-                            attachment.name
-                          )
-                        }
-                        style={{
-                          fontSize: 18,
-                          background: '#E6F7FF',
-                          padding: 4,
-                          color: '#008EFA',
-                          marginRight: 12,
-                        }}
-                        class="fa fa-download"
-                        aria-hidden="true"
-                      ></i>
-
-                      <Popconfirm
-                        title={translate('addon.popConfirm.image.title')}
-                        onConfirm={this.handleDeleteImage(attachment.name)}
-                        okText={translate('addon.yes')}
-                        cancelText={translate('addon.no')}
-                        className="delete"
-                      >
-                        <i
-                          style={{
-                            marginRight: 12,
-                            fontSize: 18,
-                            background: '#FFF1F0',
-                            padding: 4,
-                            color: '#F5222D',
-                          }}
-                          className="fa fa-trash"
-                        />
-                      </Popconfirm>
-                    </Flex>
-                  </div>
-                  <Name>
-                    <Blur>
-                      <div
-                        style={{
-                          maxWidth: '105px',
-                          fontSize: 14,
-                          textOverflow: 'ellipsis',
-                          whiteSpace: 'pre',
-                          overflow: 'hidden',
-                        }}
-                      >{`${attachment.name}.${attachment.extension}`}</div>
-                    </Blur>
-                  </Name>
-                </PhotoItem>
-              </Col>
+              <Attachment
+                key={attachment.name}
+                attachment={attachment}
+                onDelete={this.handleDeleteImage(attachment.name)}
+                onDownload={() =>
+                  this.handleDownFile(attachment.preview, attachment.name)
+                }
+              />
             ))}
-          </Spin>
-        </Row>
+          </Row>
+        </Spin>
       </div>
     )
   }
