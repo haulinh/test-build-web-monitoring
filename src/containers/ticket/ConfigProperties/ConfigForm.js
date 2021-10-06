@@ -55,9 +55,8 @@ const DrawerCustom = styled(ILLDrawer)`
 @Form.create()
 export default class ConfigForm extends Component {
   state = {
-    listCategory: [],
-    listCategoryDefault: [],
     isModalVisible: false,
+    categories: []
   }
 
   componentWillReceiveProps(nextProps) {
@@ -72,22 +71,7 @@ export default class ConfigForm extends Component {
         [FIELDS.ORDER]: get(nextProps, 'currentActive.order', ''),
       })
 
-      this.setState(
-        {
-          listCategory: categories
-            .map(item => item.key),
-          listCategoryDefault: categories
-            .map(item => item.key)
-        },
-        () => {
-          categories.map(item => {
-            form.setFieldsValue({
-              [`categories[${item.key}]`]: item.name
-            })
-            return []
-          })
-        }
-      )
+      this.setState({ categories })
     }
   }
 
@@ -97,17 +81,17 @@ export default class ConfigForm extends Component {
   }
 
   onCreateCategory = () => {
-    const { listCategory } = this.state;
+    const { categories } = this.state;
     let newKey = uuid();
 
-    this.setState({ listCategory: [...listCategory, newKey] })
+    this.setState({ categories: [...categories, { key: newKey }] })
   }
 
-  onDelSubCategory = (idxDelete) => {
-    const { listCategory } = this.state;
-    const newList = listCategory.filter((item) => item !== idxDelete)
+  onDelSubCategory = (key) => {
+    const { categories } = this.state;
+    const newList = categories.filter((item) => item.key !== key)
 
-    this.setState({ listCategory: newList })
+    this.setState({ categories: newList })
   }
 
   onSubmit = async (e) => {
@@ -184,7 +168,6 @@ export default class ConfigForm extends Component {
     const { isSubmitted } = this.state
     if (isSubmitted) {
       this.props.onClose()
-      this.clearFields()
       return
     }
     if (!isSubmitted) {
@@ -194,20 +177,29 @@ export default class ConfigForm extends Component {
 
   handleOk = () => {
     this.setState({ isModalVisible: false })
-    this.clearFields()
+    if (!this.isEdit()) {
+      this.clearFields()
+    }
     this.props.onClose()
   }
 
   handleCancel = () => {
-    this.setState({ isModalVisible: false })
+    if (!this.isEdit()) {
+      this.clearFields()
+    }
+    this.props.onClose()
+  }
+
+  isEdit = () => {
+    const { currentActive } = this.props
+    return !isEmpty(currentActive)
   }
 
   render() {
-    const { listCategory, isModalVisible, listCategoryDefault } = this.state
+    const { isModalVisible, categories } = this.state
     const { visible, form, currentActive } = this.props
-    const isEdit = !isEmpty(currentActive)
     const type = form.getFieldValue(FIELDS.TYPE);
-
+    const isEdit = this.isEdit();
     return (
       <React.Fragment>
         <DrawerCustom
@@ -300,9 +292,8 @@ export default class ConfigForm extends Component {
                 </FormItem>
                 {type === 'category' && (
                   <Categories
+                    categories={categories}
                     form={form}
-                    listCategory={listCategory}
-                    listCategoryDefault={listCategoryDefault}
                     onCreateCategory={this.onCreateCategory}
                     onDelSubCategory={this.onDelSubCategory} />
                 )}

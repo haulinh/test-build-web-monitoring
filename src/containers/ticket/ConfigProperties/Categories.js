@@ -12,8 +12,18 @@ class Categories extends Component {
     },
   })
 
+  componentDidMount() {
+    const { categories = [], form } = this.props
+    categories.forEach(item => {
+      form.setFieldsValue({
+        [`categories[${item.key}]`]: item.name
+      })
+    })
+  }
+
+  categoryDefault = this.props.categories
   render() {
-    const { form, onCreateCategory, onDelSubCategory, listCategory = [], listCategoryDefault } = this.props
+    const { form, onCreateCategory, onDelSubCategory, categories } = this.props
     return (
       <div>
         <Row type="flex" justify="space-between">
@@ -34,17 +44,17 @@ class Categories extends Component {
           </Col>
         </Row>
         {
-          listCategory.map(item => {
-            const isExist = listCategoryDefault.some(category => category === item)
+          categories.map(item => {
+            const isExist = this.categoryDefault.some(category => category.key === item.key)
             return (
-              <div key={item}>
+              <div key={item.key}>
                 <Row>
                   <Col span={1} style={{ paddingTop: 6, paddingRight: 25 }}>
                     <Icon type="menu" style={{ color: "#BFBFBF", fontSize: "16px" }}></Icon>
                   </Col>
                   <Col span={22}>
                     <FormItem>
-                      {form.getFieldDecorator(`categories[${item}]`, {
+                      {form.getFieldDecorator(`categories[${item.key}]`, {
                         rules: [
                           {
                             required: true,
@@ -61,7 +71,7 @@ class Categories extends Component {
                           suffix={
                             !isExist && (
                               <Icon
-                                onClick={() => onDelSubCategory(item)}
+                                onClick={() => onDelSubCategory(item.key)}
                                 type="close"
                                 style={{ color: "#BFBFBF", fontSize: "12px" }} />
                             )
