@@ -37,7 +37,7 @@ class Categories extends Component {
           listCategory.map(item => {
             const isExist = listCategoryDefault.some(category => category === item)
             return (
-              <div key={item.order}>
+              <div key={item}>
                 <Row>
                   <Col span={1} style={{ paddingTop: 6, paddingRight: 25 }}>
                     <Icon type="menu" style={{ color: "#BFBFBF", fontSize: "16px" }}></Icon>

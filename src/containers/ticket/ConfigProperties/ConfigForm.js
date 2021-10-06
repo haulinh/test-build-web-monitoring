@@ -9,6 +9,7 @@ import { ILLDrawer } from '../Component'
 import { get, isEmpty } from 'lodash-es'
 import styled from 'styled-components'
 import { rgb } from 'color'
+import uuid from 'uuid'
 
 const i18n = () => ({
   drawer: {
@@ -74,14 +75,14 @@ export default class ConfigForm extends Component {
       this.setState(
         {
           listCategory: categories
-            .map(item => item.order),
+            .map(item => item.key),
           listCategoryDefault: categories
-            .map(item => item.order)
+            .map(item => item.key)
         },
         () => {
           categories.map(item => {
             form.setFieldsValue({
-              [`categories[${item.order}]`]: item.name
+              [`categories[${item.key}]`]: item.name
             })
             return []
           })
@@ -97,17 +98,15 @@ export default class ConfigForm extends Component {
 
   onCreateCategory = () => {
     const { listCategory } = this.state;
-    let newKey = 0;
+    let newKey = uuid();
 
-    if (listCategory.length) {
-      newKey = listCategory.push()
-    }
     this.setState({ listCategory: [...listCategory, newKey] })
   }
 
   onDelSubCategory = (idxDelete) => {
     const { listCategory } = this.state;
-    const newList = listCategory.filter(item => item !== idxDelete)
+    const newList = listCategory.filter((item) => item !== idxDelete)
+
     this.setState({ listCategory: newList })
   }
 
@@ -119,7 +118,7 @@ export default class ConfigForm extends Component {
 
     const newCategories = Array.isArray(categories)
       ? categories
-      : Object.values(categories)
+      : Object.keys(categories).map(key => ({ key, name: categories[key] }))
 
     const params = {
       order: order ? order : undefined,
@@ -128,11 +127,11 @@ export default class ConfigForm extends Component {
       categories: newCategories
         .filter(Boolean)
         .map((item, idx) => ({
-          name: item.trim(),
-          order: idx
+          name: item.name,
+          key: item.key,
+          order: idx,
         }))
     }
-
     const isEdit = !isEmpty(currentActive)
 
     if (isEdit) await this.handleEdit(params)
