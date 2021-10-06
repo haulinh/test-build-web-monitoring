@@ -62,6 +62,16 @@ export default class IncidentDetail extends Component {
     )
   }
 
+  setRecord = async () => {
+    const {
+      match: {
+        params: { id },
+      },
+    } = this.props
+    const data = await CalculateApi.getTicket(id)
+    this.setState({ record: data })
+  }
+
   async componentDidMount() {
     const {
       match: {
@@ -120,6 +130,7 @@ export default class IncidentDetail extends Component {
     try {
       await CalculateApi.updateCategoryTicket(id, param)
       this.setState({ updatedAt: moment() })
+      this.setRecord()
       notification.success({ message: i18n().notificationSuccess })
       return true
     } catch (error) {
@@ -142,6 +153,7 @@ export default class IncidentDetail extends Component {
     try {
       await CalculateApi.updateTicket(id, param)
       this.setState({ updatedAt: moment() })
+      this.setRecord()
       notification.success({ message: i18n().notificationSuccess })
       return true
     } catch (error) {
