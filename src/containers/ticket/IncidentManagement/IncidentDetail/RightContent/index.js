@@ -208,7 +208,7 @@ const RightContent = ({
           date: moment(updatedAt).format('DD/MM/YYYY'),
         })}
       </div>
-      <Clearfix height={16} />
+      <Clearfix height={64} />
 
     </React.Fragment>
   )
