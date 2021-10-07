@@ -9,8 +9,8 @@ export function getListLanguageWeb() {
   return getFetch(getLanguageUrl('/web'))
 }
 
-export function getListLanguageAll(query) {
-  return getFetch(getLanguageUrl(''), query)
+export function getListLanguageAll({ locale, pattern, isMobile }) {
+  return getFetch(getLanguageUrl(''), { locale, pattern, isMobile })
 }
 
 export function updateLanguage(locale, value = {}, device) {

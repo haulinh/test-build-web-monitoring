@@ -54,7 +54,7 @@ export function getConfigApi() {
     aqiListConfig: c('config/aqi-list-config'),
     aqiConfigCalculation: c('config/aqi-calculation'),
     language: c('config/language'),
-    // language: 'http://localhost:5002/config/language',
+    language: 'http://localhost:5002/config/language',
 
     aqi: c('aqi'),
     aqi_v1: c('aqi-v1'),

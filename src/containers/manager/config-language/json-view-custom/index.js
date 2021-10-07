@@ -62,8 +62,12 @@ export default class JsonViewCustom extends Component {
       dataStructure,
       function(result, value, key) {
         if (typeof value === 'object') {
-          const temp = callback(value, callback, key)
-          _.set(result, key, temp)
+          let path = key
+          if (root) {
+            path = `${root}.${key}`
+          }
+          const temp = callback(value, callback, path)
+          _.set(result, path, temp)
         } else {
           let path = key
           if (root) {

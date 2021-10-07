@@ -329,6 +329,7 @@ export const parentMenuFromSub = {
   '/qcvn': MENU_GROUP.CONFIG,
   '/role': MENU_GROUP.CONFIG,
   '/user': MENU_GROUP.CONFIG,
+  '/language': MENU_GROUP.CONFIG,
   '/report': MENU_GROUP.REPORT,
   '/advance': MENU_GROUP.ADVANCE,
 

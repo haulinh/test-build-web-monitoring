@@ -47,6 +47,7 @@ const TABS = ['list', 'detail']
 @connectAutoDispatch(state => ({
   language: _.get(state, 'language.locale'),
   dataInitial: _.get(state, 'language.dataInitial'),
+  listLanguage: _.get(state, 'language.listLanguage'),
 }))
 class ConfigLanguagePage extends React.Component {
   state = {
@@ -282,7 +283,11 @@ class ConfigLanguagePage extends React.Component {
         center={
           <HeaderSearchWrapper>
             {this.state.tabKey === TABS[1] && (
-              <DataSearchForm onSubmit={this.handleOnSearch} />
+              <DataSearchForm
+                listLanguage={this.props.listLanguage}
+                language={this.props.language}
+                onSubmit={this.handleOnSearch}
+              />
             )}
           </HeaderSearchWrapper>
         }
