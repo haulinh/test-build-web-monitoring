@@ -144,7 +144,17 @@ class ConfigLanguagePage extends React.Component {
             ),
           },
           {
-            content: <JsonViewCustom title={title} content={dataEN} />,
+            content: (
+              <JsonViewCustom
+                onChange={data => {
+                  this.handleOnChangeLanguage(data, EN, key, WEB)
+                }}
+                isEdit={true}
+                dataStructure={dataVI}
+                title={title}
+                content={dataEN}
+              />
+            ),
           },
           {
             content: (
@@ -213,6 +223,10 @@ class ConfigLanguagePage extends React.Component {
           {
             content: (
               <JsonViewCustom
+                onChange={data => {
+                  this.handleOnChangeLanguage(data, EN, key, MOBILE)
+                }}
+                isEdit={true}
                 title={title}
                 dataStructure={dataVI}
                 content={dataEN}
