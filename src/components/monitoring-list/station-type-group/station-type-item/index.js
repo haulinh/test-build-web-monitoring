@@ -7,6 +7,7 @@ import { Collapse } from 'reactstrap'
 import styled from 'styled-components'
 import HeadStationType from './HeadStationType'
 import StationAutoList from './station-auto-list'
+import { STATUS_STATION } from 'constants/stationStatus'
 
 const { Option } = Select
 
@@ -99,7 +100,7 @@ export default class StationTypeSummary extends React.Component {
     const { dataSource } = this.state
     const goodTotal = filter(
       dataSource || [],
-      ({ status }) => status === 'GOOD'
+      ({ status }) => status ===  STATUS_STATION.DATA_CONNECTED
     ).length
     if (dataSource.length === 0) return null
 
