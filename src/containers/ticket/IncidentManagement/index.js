@@ -37,12 +37,16 @@ export const i18n = () => ({
   incidentType: t('ticket.label.incident.incidentType'),
   description: t('ticket.label.incident.description'),
   stationName: t('ticket.label.incident.stationName'),
+  provinceName: t('ticket.label.incident.provinceName'),
   measure: t('ticket.label.incident.measure'),
+  measure2: t('ticket.label.incident.measure2'),
   create: t('addon.create'),
   status: t('map.marker.status'),
   createSuccess: t('ticket.message.incident.createSuccess'),
   title: t('ticket.title.incident.drawer'),
   menu: t('ticket.menu.incident'),
+  notificationSuccess: t('ticket.message.incident.notificationSuccess'),
+  notificationError: t('ticket.message.incident.notificationError')
 })
 
 export const PAGE_SIZE = 10

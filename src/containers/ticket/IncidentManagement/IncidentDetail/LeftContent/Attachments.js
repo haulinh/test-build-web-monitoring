@@ -1,4 +1,13 @@
-import { Col, Icon, Popconfirm, Row, Upload } from 'antd'
+import {
+  Col,
+  Icon,
+  message,
+  notification,
+  Popconfirm,
+  Row,
+  Spin,
+  Upload,
+} from 'antd'
 import MediaApi from 'api/MediaApi'
 import axios from 'axios'
 import { Clearfix, Flex } from 'components/layouts/styles'
@@ -9,6 +18,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import styled from 'styled-components'
 import { downloadAttachment } from 'utils/downFile'
+import { i18n } from '../../index'
 
 const uploadProps = {
   onError(err) {
@@ -16,45 +26,120 @@ const uploadProps = {
   },
 }
 
-const PhotoItem = styled.div`
-  width: 100%;
-  height: 100%;
-  background: url('${props => props.image}');
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
-  border: 1px solid #ccc;
+export const AttachmentItem = styled(Col)`
+  width: 100px;
+  height: 100px;
+  margin: 8px;
   position: relative;
-  &:after {
-    content: "";
-    display: block;
-    padding-bottom: 100%;
+  background: #eef3ff;
+  border-radius: 4px;
+  padding: 0 !important;
+
+  &:hover .action {
+    display: flex;
   }
-  &:hover {
-      cursor: pointer;
-      .group-btn {
-          display: block;
-      }
+
+  img {
+    width: 100%;
+    max-height: 100%;
   }
-  .group-btn {
-    display: none;
+
+  .action {
     position: absolute;
-    top: 40px;
-    left: 25px;
-    z-index: 9;
+    display: none;
+    align-items: center;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    justify-content: center;
+    .anticon {
+      padding: 6px;
+      cursor: pointer;
+      background: #fff;
+      margin-left: 4px;
+      font-size: 20px;
+    }
+    & i:first-child:hover {
+      color: #2c4bee;
+    }
+    & i:last-child:hover {
+      color: #a8071a;
+    }
+  }
+  .filename {
+    width: 100%;
+    > div {
+      max-width: 92%;
+      text-overflow: ellipsis;
+      white-space: pre;
+      overflow: hidden;
+      margin: 0 0 6px 6px;
+      color: white;
+    }
+    bottom: 0;
+    position: absolute;
+    font-size: 8px;
+    background: linear-gradient(
+      180deg,
+      rgba(38, 38, 38, 0) 0%,
+      rgba(38, 38, 38, 0.7) 50.34%
+    );
+    opacity: 0.75;
+    height: 40px;
+    display: flex;
+    align-items: flex-end;
+    color: #262626;
   }
 `
 
-const Extension = styled.div`
+export const Extension = styled.div`
   position: absolute;
-  top: 35px;
-  left: 35px;
-  font-size: 22px;
-  font-weight: 400;
-  color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  font-size: 24px;
+  color: #262626;
 `
+
+const FILE_SIZE_LIMIT = 10 * 1024 * 1024
 
 const getDatabaseName = organizationName => organizationName.replace(/_/g, '')
+
+const Attachment = props => {
+  const { attachment, onDelete, onDownload } = props
+
+  const isImage = ext => ['jpg', 'jpeg', 'png', 'svg'].includes(ext)
+
+  return (
+    <AttachmentItem>
+      {isImage(attachment.extension) ? (
+        <img src={attachment.preview} alt="" />
+      ) : (
+        <Extension>{attachment.extension}</Extension>
+      )}
+      <div className="action">
+        <Icon type="download" theme="outlined" onClick={onDownload} />
+        <Popconfirm
+          title={translate('addon.popConfirm.attachment.title')}
+          onConfirm={onDelete}
+          okText={translate('addon.yes')}
+          cancelText={translate('addon.no')}
+        >
+          <Icon type="delete" theme="outlined" />
+        </Popconfirm>
+      </div>
+      <div className="filename">
+        <div>{attachment.name}</div>
+      </div>
+    </AttachmentItem>
+  )
+}
 
 @withRouter
 @connect(state => ({
@@ -64,6 +149,7 @@ const getDatabaseName = organizationName => organizationName.replace(/_/g, '')
 export default class Attachments extends Component {
   state = {
     attachments: [],
+    loading: false,
   }
 
   componentDidMount() {
@@ -76,7 +162,13 @@ export default class Attachments extends Component {
         params: { id },
       },
       userInfo,
+      setUpdatedAt,
     } = this.props
+
+    if (file.size > FILE_SIZE_LIMIT) {
+      message.error(translate('ticket.message.incident.fileSizeLimit'))
+      return Upload.LIST_IGNORE
+    }
 
     const databaseName = getDatabaseName(
       userInfo.organization.databaseInfo.name
@@ -84,11 +176,9 @@ export default class Attachments extends Component {
 
     const generatePutUrl = MediaApi.generatePutUrl(databaseName)
 
-    const fileNameUpload = `${file.uid}-${file.name}`
-
     const options = {
       params: {
-        prefix: `ticket/${id}/${fileNameUpload}`,
+        prefix: `ticket/${id}/${file.name}`,
         ContentType: file.type,
       },
       headers: {
@@ -97,17 +187,22 @@ export default class Attachments extends Component {
     }
 
     try {
+      this.setState({ loading: true })
       const { data: putURL } = await axios.get(generatePutUrl, options)
       await axios.put(putURL, file, {
         headers: {
           'Content-Type': file.type,
         },
       })
+      setUpdatedAt()
       this.fetchData()
+      notification.success({ message: i18n().notificationSuccess })
     } catch (error) {
+      this.setState({ loading: false })
       onError()
       console.log('err', error)
     }
+    this.setState({ loading: false })
   }
 
   fetchData = async () => {
@@ -120,8 +215,9 @@ export default class Attachments extends Component {
     const databaseName = getDatabaseName(
       userInfo.organization.databaseInfo.name
     )
-
+    this.setState({ loading: true })
     const result = await MediaApi.getAttachment(databaseName, id)
+    this.setState({ loading: false })
     const resultSorted = result.sort(
       (a, b) => new Date(b.lastModified) - new Date(a.lastModified)
     )
@@ -134,34 +230,42 @@ export default class Attachments extends Component {
       match: {
         params: { id },
       },
+      setUpdatedAt,
     } = this.props
 
     const databaseName = getDatabaseName(
       userInfo.organization.databaseInfo.name
     )
     await MediaApi.deleteAttachment(databaseName, id, name)
+    setUpdatedAt()
     this.fetchData()
+    notification.success({ message: i18n().notificationSuccess })
   }
 
-  handleDownFile = async (url, name) => {
-    const result = await axios.get(url)
-    console.log({ result })
+  handleDownFile = async attachment => {
+    const result = await axios.get(attachment.preview, { responseType: 'blob' })
     downloadAttachment({
       data: result.data,
-      name: name,
+      name: attachment.name,
       type: result.headers['content-type'],
     })
   }
 
+  isImage = extension => {
+    return ['png', 'jpg', 'svg', 'jpeg'].includes(extension)
+  }
+
   render() {
-    const { attachments } = this.state
+    const { attachments, loading } = this.state
     return (
       <div>
         <Flex justifyContent="space-between">
           <b>{translate('ticket.label.incident.attachment')}</b>
           <Upload
             multiple
+            accept=".jpg, .png, .svg, jpeg, .excel, .pdf, .doc, .docx, .xlsx, .xls"
             showUploadList={false}
+            beforeUpload={this.beforeUpload}
             {...uploadProps}
             customRequest={this.customRequest}
           >
@@ -183,54 +287,18 @@ export default class Attachments extends Component {
         <b>PDF, Excel, Word, SVG, PNG, JPG</b>
 
         <Clearfix height={12} />
-        <Row gutter={[12, 12]}>
-          {attachments.map(attachment => (
-            <Col span={3}>
-              <PhotoItem image={attachment.preview}>
-                {!['png', 'jpg'].includes(attachment.extension) && (
-                  <Extension>{attachment.extension}</Extension>
-                )}
-                <div className="group-btn">
-                  <Flex>
-                    <i
-                      onClick={() =>
-                        this.handleDownFile(attachment.preview, attachment.name)
-                      }
-                      style={{
-                        fontSize: 18,
-                        background: '#E6F7FF',
-                        padding: 4,
-                        color: '#008EFA',
-                        marginRight: 12,
-                      }}
-                      class="fa fa-download"
-                      aria-hidden="true"
-                    ></i>
-
-                    <Popconfirm
-                      title={translate('addon.popConfirm.image.title')}
-                      onConfirm={this.handleDeleteImage(attachment.name)}
-                      okText={translate('addon.yes')}
-                      cancelText={translate('addon.no')}
-                      className="delete"
-                    >
-                      <i
-                        style={{
-                          marginRight: 12,
-                          fontSize: 18,
-                          background: '#FFF1F0',
-                          padding: 4,
-                          color: '#F5222D',
-                        }}
-                        className="fa fa-trash"
-                      />
-                    </Popconfirm>
-                  </Flex>
-                </div>
-              </PhotoItem>
-            </Col>
-          ))}
-        </Row>
+        <Spin spinning={loading}>
+          <Row type="flex" gutter={[12, 12]}>
+            {attachments.map(attachment => (
+              <Attachment
+                key={attachment.name}
+                attachment={attachment}
+                onDelete={this.handleDeleteImage(attachment.name)}
+                onDownload={() => this.handleDownFile(attachment)}
+              />
+            ))}
+          </Row>
+        </Spin>
       </div>
     )
   }

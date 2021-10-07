@@ -1,4 +1,5 @@
-import { Drawer, Icon } from 'antd'
+import { DatePicker, Drawer, Icon, Input, InputNumber } from 'antd'
+import TextArea from 'antd/lib/input/TextArea'
 import { Clearfix, Flex } from 'components/layouts/styles'
 import React from 'react'
 import styled from 'styled-components'
@@ -15,14 +16,16 @@ export const FixedBottom = styled.div`
 `
 
 const DivHover = styled.div`
-  height: ${props => (props.type === 'textArea' ? '200px' : '40px')};
-  padding: 4px 0px;
   :hover {
     background-color: rgb(240, 240, 240);
   }
+  min-height: ${props => props.type === 'textArea' && '250px'};
 `
 
-export class EditWrapper extends React.Component {
+const InputCustom = styled(Input)`
+  font-size: ${props => props.fontSize && `${props.fontSize}px`};
+`
+export class EditWrapper2 extends React.Component {
   state = {
     isClicked: false,
   }
@@ -33,31 +36,49 @@ export class EditWrapper extends React.Component {
 
   handleOnOk = async () => {
     const { update } = this.props
-
-    const result = await update()
-    console.log({ result })
-    if (!result) return
-
+    const res = await update()
+    if (!res) return
     this.toggleEdit()
   }
 
   handleCancel = () => {
-    const { name, prevValue, revertValue } = this.props
+    const { onChange, prevValue } = this.props
     this.toggleEdit()
-    revertValue({ [name]: prevValue })
+    onChange(prevValue)
   }
 
   render() {
     const { isClicked } = this.state
-    const { type, value, style, title, children } = this.props
+    const {
+      type,
+      value,
+      onChange,
+      style,
+      title,
+      height,
+      maxLength,
+    } = this.props
     if (!isClicked)
       return (
         <React.Fragment>
           <b>{title}</b>
           <DivHover type={type} onClick={this.toggleEdit}>
-            <span style={style || { fontSize: 14, color: '#262626' }}>
+            <div
+              style={{
+                maxWidth: '100%',
+                fontSize: 14,
+                wordBreak: 'break-all',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                paddingLeft: '11px',
+                paddingRight: '11px',
+                minHeight: 30,
+                ...style,
+              }}
+            >
               {value}
-            </span>
+            </div>
           </DivHover>
         </React.Fragment>
       )
@@ -69,10 +90,38 @@ export class EditWrapper extends React.Component {
       color: '#008EFA',
     }
 
+    const props = {
+      value,
+      onChange,
+      style: {
+        width: '100%',
+      },
+    }
+
+    const Component = {
+      input: (
+        <InputCustom
+          {...props}
+          style={{ width: '100%', height }}
+          fontSize={style && style.fontSize}
+          maxLength={maxLength}
+        />
+      ),
+      textArea: (
+        <TextArea
+          {...props}
+          style={{ width: '100%', height: 250 }}
+          maxLength={520}
+        />
+      ),
+      number: <InputNumber {...props} style={{ width: '100%', height }} />,
+    }
+
     return (
       <div>
         <b>{title}</b>
-        {children}
+        {Component[type]}
+        <Clearfix height={12} />
         <Flex justifyContent="end">
           <Icon
             type="check"
@@ -89,6 +138,39 @@ export class EditWrapper extends React.Component {
           />
         </Flex>
       </div>
+    )
+  }
+}
+
+export class ControlledDatePicker extends React.Component {
+  state = { mode: 'time', value: null }
+
+  handleOpenChange = open => {
+    if (open) {
+      this.setState({ mode: 'time' })
+    }
+  }
+
+  handlePanelChange = (value, mode) => {
+    this.setState({ mode })
+  }
+
+  handleOnOk = () => {
+    const { update, fieldName } = this.props
+    update(fieldName)
+  }
+
+  render() {
+    return (
+      <DatePicker
+        {...this.props}
+        mode={this.state.mode}
+        showTime
+        onOk={this.handleOnOk}
+        format="DD/MM/YYYY HH:mm"
+        onOpenChange={this.handleOpenChange}
+        onPanelChange={this.handlePanelChange}
+      />
     )
   }
 }

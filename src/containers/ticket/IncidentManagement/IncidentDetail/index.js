@@ -1,17 +1,17 @@
-import { Button, Col, Form, notification, Row, Divider } from 'antd'
+import { Button, Col, Divider, Form, notification, Popconfirm, Row } from 'antd'
 import CalculateApi from 'api/CalculateApi'
 import { Clearfix } from 'components/layouts/styles'
+import slug from 'constants/slug'
+import { translate } from 'hoc/create-lang'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import _ from 'lodash'
 import moment from 'moment'
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
-import LeftContent from './LeftContent'
-import RightContent from './RightContent'
 import createBreadcrumb from 'shared/breadcrumb/hoc'
 import { i18n } from '../index'
-import slug from 'constants/slug'
-import { translate } from 'hoc/create-lang'
+import LeftContent from './LeftContent'
+import RightContent from './RightContent'
 
 const Breadcrumb = createBreadcrumb()
 
@@ -22,7 +22,6 @@ export const Fields = {
   timeEnd: 'timeEnd',
   status: 'statusId',
 }
-
 @withRouter
 @Form.create()
 export default class IncidentDetail extends Component {
@@ -30,14 +29,47 @@ export default class IncidentDetail extends Component {
     record: {},
     categories: [],
     name: '',
+    updatedAt: null,
+  }
+
+  handleDelete = async () => {
+    const {
+      match: {
+        params: { id },
+      },
+      history,
+    } = this.props
+    try {
+      await CalculateApi.deleteTicket(id)
+      history.push(slug.ticket.incident)
+    } catch (error) {
+      console.log({ error })
+    }
   }
 
   ButtonDelete = () => {
     return (
-      <Button type="danger" danger>
-        {translate('ticket.button.incident.delete')}
-      </Button>
+      <Popconfirm
+        onConfirm={this.handleDelete}
+        title={translate('ticket.label.incident.confirmDelete')}
+        okText={translate('global.verify')}
+        cancelText={translate('global.cancel')}
+      >
+        <Button type="danger" danger>
+          {translate('ticket.button.incident.delete')}
+        </Button>
+      </Popconfirm>
     )
+  }
+
+  setRecord = async () => {
+    const {
+      match: {
+        params: { id },
+      },
+    } = this.props
+    const data = await CalculateApi.getTicket(id)
+    this.setState({ record: data })
   }
 
   async componentDidMount() {
@@ -59,6 +91,7 @@ export default class IncidentDetail extends Component {
       record: data,
       categories: categoriesShow,
       name: data.name,
+      updatedAt: data.updatedAt,
     })
     const initialValues = _.pick(data, [Fields.name, Fields.description])
 
@@ -68,12 +101,11 @@ export default class IncidentDetail extends Component {
         const dynamicField = {
           [current._id]:
             current.type === 'datetime'
-              ? moment(data.categories[current._id])
+              ? data.categories[current._id] && moment(data.categories[current._id])
               : data.categories[current._id],
         }
         return { ...pre, ...dynamicField }
       }, {})
-
     form.setFieldsValue({
       ...initialValues,
       [Fields.status]: data.statusId,
@@ -96,10 +128,12 @@ export default class IncidentDetail extends Component {
 
     try {
       await CalculateApi.updateCategoryTicket(id, param)
-      notification.success({ message: 'update thanh cong category' })
+      this.setState({ updatedAt: moment() })
+      this.setRecord()
+      notification.success({ message: i18n().notificationSuccess })
       return true
     } catch (error) {
-      notification.error('loi')
+      notification.error({ message: i18n().notificationError })
     }
     return false
   }
@@ -117,17 +151,27 @@ export default class IncidentDetail extends Component {
 
     try {
       await CalculateApi.updateTicket(id, param)
-      notification.success({ message: 'update thanh cong ticket' })
+      this.setState({ updatedAt: moment() })
+      this.setRecord()
+      notification.success({ message: i18n().notificationSuccess })
       return true
     } catch (error) {
-      notification.error('loi')
+      notification.error({ message: i18n().notificationError })
     }
     return false
   }
 
+  setName = name => {
+    this.setState({ name })
+  }
+
+  setUpdatedAt = () => {
+    this.setState({ updatedAt: moment() })
+  }
+
   render() {
     const { form } = this.props
-    const { record, categories, name } = this.state
+    const { record, categories, name, updatedAt } = this.state
 
     return (
       <PageContainer right={this.ButtonDelete()}>
@@ -151,6 +195,8 @@ export default class IncidentDetail extends Component {
               form={form}
               record={record}
               updateTicket={this.updateTicket}
+              setName={this.setName}
+              setUpdatedAt={this.setUpdatedAt}
             />
           </Col>
 
@@ -165,6 +211,7 @@ export default class IncidentDetail extends Component {
               record={record}
               categories={categories}
               updateCategoryTicket={this.updateCategoryTicket}
+              updatedAt={updatedAt}
             />
           </Col>
         </Row>

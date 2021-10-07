@@ -1,8 +1,10 @@
-import { Col, DatePicker, Row, Tooltip, Divider } from 'antd'
+import { Col, Row, Tooltip, Divider } from 'antd'
 import SelectStatus from 'components/elements/select-data/ticket/SelectStatus'
 import { Clearfix, FormItem } from 'components/layouts/styles'
+import { ControlledDatePicker } from 'containers/ticket/Component'
 import { translate } from 'hoc/create-lang'
-import { get, isEmpty } from 'lodash-es'
+import _ from 'lodash'
+import { get, uniq } from 'lodash-es'
 import moment from 'moment'
 import React from 'react'
 import styled from 'styled-components'
@@ -27,7 +29,6 @@ const withUpdate = (Component, update) => {
   return props => {
     const onChange = value => {
       let valueUpdate = value
-      if (moment.isMoment(value)) valueUpdate = value.toDate()
       update(valueUpdate)
     }
     const newProps = {
@@ -45,12 +46,19 @@ const RightContent = ({
   categories,
   updateTicket,
   updateCategoryTicket,
+  updatedAt,
 }) => {
   const stationNames = get(record, 'stations', [])
     .map(item => item.name)
     .join(',')
 
-  const measures = get(record, 'measures', [])
+  const provinceNames = uniq(
+    get(record, 'stations', [])
+      .map(item => get(item.province, 'name'))
+      .filter(item => item)
+  ).join(',')
+
+  const measuresName = get(record, 'measures', []).join(',')
 
   const handleUpdateField = async (fieldName, value) => {
     const defaultValue = form.getFieldValue(fieldName)
@@ -61,8 +69,6 @@ const RightContent = ({
 
   const handleUpdateDynamicField = async (fieldName, value) => {
     const defaultValue = form.getFieldValue(fieldName)
-
-    console.log('update')
 
     return updateCategoryTicket({ [fieldName]: value || defaultValue })
   }
@@ -76,6 +82,24 @@ const RightContent = ({
       )}
 
       <Divider />
+
+      <h6>{translate('ticket.label.incident.detailInfo')}</h6>
+
+      {provinceNames && (
+        <React.Fragment>
+          <Clearfix height={16} />
+          <Row gutter={[0, 12]}>
+            <Col span={12}>
+              <Title>{i18n().provinceName}</Title>
+            </Col>
+            <Col span={12}>
+              <Tooltip title={provinceNames}>
+                <div style={styledText}>{provinceNames}</div>
+              </Tooltip>
+            </Col>
+          </Row>
+        </React.Fragment>
+      )}
 
       {stationNames && (
         <React.Fragment>
@@ -93,20 +117,24 @@ const RightContent = ({
         </React.Fragment>
       )}
 
-      {!isEmpty(measures) && (
+      {measuresName && (
         <React.Fragment>
           <Clearfix height={16} />
           <Row>
             <Col span={12}>
-              <Title>{i18n().measure}</Title>
+              <Title>{i18n().measure2}</Title>
             </Col>
-            <Col span={12}>{measures.join(',')}</Col>
+            <Col span={12}>
+              <Tooltip title={measuresName}>
+                <div style={styledText}>{measuresName}</div>
+              </Tooltip>
+            </Col>
           </Row>
         </React.Fragment>
       )}
 
       <Clearfix height={16} />
-      <Row>
+      <Row type="flex" align="middle">
         <Col span={12}>
           <Title>{i18n().incidentType}</Title>
         </Col>
@@ -116,44 +144,72 @@ const RightContent = ({
       </Row>
 
       <Clearfix height={16} />
-      <Row>
+      <Row type="flex" align="middle">
         <Col span={12}>
           <Title>{translate('avgSearchFrom.selectTimeRange.startTime')}</Title>
         </Col>
         <Col span={12}>
-          <FormItem>
+          <FormItem marginBottom="0px">
             {form.getFieldDecorator(Fields.timeStart, {
-              rules: [{ required: true }],
+              rules: [
+                {
+                  required: true,
+                  message: translate('billing.required.timeStart'),
+                },
+              ],
             })(
-              withUpdate(DatePicker, value =>
-                handleUpdateField(Fields.timeStart, value)
-              )()
+              <ControlledDatePicker
+                allowClear={false}
+                update={handleUpdateField}
+                fieldName={Fields.timeStart}
+              />
             )}
           </FormItem>
         </Col>
       </Row>
 
-      <Row>
+      <Clearfix height={16} />
+      <Row type="flex" align="middle">
         <Col span={12}>
           <Title>{translate('avgSearchFrom.selectTimeRange.endTime')}</Title>
         </Col>
         <Col span={12}>
           {form.getFieldDecorator(Fields.timeEnd)(
-            withUpdate(DatePicker, value =>
-              handleUpdateField(Fields.timeEnd, value)
-            )()
+            <ControlledDatePicker
+              update={handleUpdateField}
+              fieldName={Fields.timeEnd}
+            />
           )}
         </Col>
       </Row>
 
+      {!_.isEmpty(categories) && (
+        <React.Fragment>
+          <Divider />
+          <DynamicContainer
+            record={record}
+            form={form}
+            categories={categories}
+            updateDynamicField={handleUpdateDynamicField}
+          />
+        </React.Fragment>
+      )}
+
       <Divider />
-      <Clearfix height={16} />
-      <DynamicContainer
-        record={record}
-        form={form}
-        categories={categories}
-        updateDynamicField={handleUpdateDynamicField}
-      />
+      <div>
+        {translate('ticket.label.incident.createdAt', {
+          time: moment(record.createdAt).format('HH:mm'),
+          date: moment(record.createdAt).format('DD/MM/YYYY'),
+        })}
+      </div>
+      <div>
+        {translate('ticket.label.incident.updatedAt', {
+          time: moment(updatedAt).format('HH:mm'),
+          date: moment(updatedAt).format('DD/MM/YYYY'),
+        })}
+      </div>
+      <Clearfix height={64} />
+
     </React.Fragment>
   )
 }

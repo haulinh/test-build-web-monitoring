@@ -2638,6 +2638,9 @@ export default {
       image: {
         title: 'Bạn có chắc xoá ảnh này?',
       },
+      attachment: {
+        title: 'Bạn có muốn xoá tệp này',
+      },
     },
   },
   success: {
@@ -3784,9 +3787,15 @@ export default {
         incidentType: 'Loại sự cố',
         description: 'Mô tả',
         stationName: 'Tên trạm',
+        provinceName: 'Đơn vị quản lý',
+        measure2: 'Thông số liên quan',
         measure: 'Thông số',
         time: 'Thời gian sự cố',
-        attachment: 'Tệp đính kèm',
+        attachment: 'Đính kèm tệp',
+        confirmDelete: 'Bạn có muốn xoá sự cố này',
+        createdAt: 'Tạo lúc {{=it.time}} ngày {{=it.date}} ',
+        updatedAt: 'Cập nhập gần nhất {{=it.time}} ngày {{=it.date}} ',
+        detailInfo: 'Thông tin chi tiết',
       },
       configProperties: {
         name: 'Tên thuộc tính',
@@ -3831,6 +3840,9 @@ export default {
     message: {
       incident: {
         createSuccess: 'Tạo mới sự cố thành công',
+        notificationSuccess: 'Cập nhật sự cố thành công',
+        fileSizeLimit: 'Dung lượng file vượt quá 10MB',
+        notificationError: 'Đã xảy ra lỗi',
       },
       configProperties: {
         success: 'thành công',

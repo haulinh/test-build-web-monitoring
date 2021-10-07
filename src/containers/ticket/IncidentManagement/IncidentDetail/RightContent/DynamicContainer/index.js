@@ -1,4 +1,5 @@
 import { Col, Row } from 'antd'
+import { Clearfix } from 'components/layouts/styles'
 import _ from 'lodash'
 import React from 'react'
 import { Title } from '..'
@@ -12,10 +13,11 @@ export const DynamicContainer = ({
 }) => {
   return (
     <React.Fragment>
-      <Row gutter={[0, 16]}>
+      <Row type="flex" align="top" gutter={[0, 16]}>
         {categories.map(property => (
           <React.Fragment key={property._id}>
             <Col span={12}>
+              <Clearfix height={8} />
               <Title>{property.name}</Title>
             </Col>
             <Col span={12}>
