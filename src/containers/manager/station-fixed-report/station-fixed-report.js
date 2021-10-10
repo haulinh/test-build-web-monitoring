@@ -14,35 +14,37 @@ import Breadcrumb from './breadcrumb'
 import ReportTable from './ReportTable'
 import { SearchForm } from './search-form'
 
-export const i18n = {
-  receivedAt: t('dataPointReport.title.receivedAt'),
-  phaseName: t('dataPointReport.title.phaseName'),
-  pointName: t('dataPointReport.title.pointName'),
-  qcvn: {
-    isApplying: t('qcvn.form.expired.isApplying'),
-    invalid: t('qcvn.invalid'),
-  },
-  optionalInfo: {
-    year: t('dataPointReport.optionalInfo.year'),
-    month: t('dataPointReport.optionalInfo.month'),
-    symbol: t('dataPointReport.optionalInfo.symbol'),
-    weather: t('dataPointReport.optionalInfo.weather'),
-    sampler: t('dataPointReport.optionalInfo.sampler'),
-    notes: t('dataPointReport.optionalInfo.notes'),
-    monitoringPlace: t('dataPointReport.optionalInfo.monitoringPlace'),
-    requirements: t('dataPointReport.optionalInfo.requirements'),
-    method: t('dataPointReport.optionalInfo.method'),
-    chemical: t('dataPointReport.optionalInfo.chemical'),
-    conditions: t('dataPointReport.optionalInfo.conditions'),
-    equipmentlist: t('dataPointReport.optionalInfo.equipmentlist'),
-    analyst: t('dataPointReport.optionalInfo.analyst'),
-    placeOfAnalysis: t('dataPointReport.optionalInfo.placeOfAnalysis'),
-    createdAt: t('dataPointReport.optionalInfo.createdAt'),
-  },
-  addButton: t('dataPointReport.button.add'),
-  exportExcelButton: t('dataPointReport.button.exportExcel'),
-  dataTab: t('dataPointReport.tab.data'),
-  numberOrder: t('dataPointReport.title.numberOrder'),
+export function i18n() {
+  return {
+    receivedAt: t('dataPointReport.title.receivedAt'),
+    phaseName: t('dataPointReport.title.phaseName'),
+    pointName: t('dataPointReport.title.pointName'),
+    qcvn: {
+      isApplying: t('qcvn.form.expired.isApplying'),
+      invalid: t('qcvn.invalid'),
+    },
+    optionalInfo: {
+      year: t('dataPointReport.optionalInfo.year'),
+      month: t('dataPointReport.optionalInfo.month'),
+      symbol: t('dataPointReport.optionalInfo.symbol'),
+      weather: t('dataPointReport.optionalInfo.weather'),
+      sampler: t('dataPointReport.optionalInfo.sampler'),
+      notes: t('dataPointReport.optionalInfo.notes'),
+      monitoringPlace: t('dataPointReport.optionalInfo.monitoringPlace'),
+      requirements: t('dataPointReport.optionalInfo.requirements'),
+      method: t('dataPointReport.optionalInfo.method'),
+      chemical: t('dataPointReport.optionalInfo.chemical'),
+      conditions: t('dataPointReport.optionalInfo.conditions'),
+      equipmentlist: t('dataPointReport.optionalInfo.equipmentlist'),
+      analyst: t('dataPointReport.optionalInfo.analyst'),
+      placeOfAnalysis: t('dataPointReport.optionalInfo.placeOfAnalysis'),
+      createdAt: t('dataPointReport.optionalInfo.createdAt'),
+    },
+    addButton: t('dataPointReport.button.add'),
+    exportExcelButton: t('dataPointReport.button.exportExcel'),
+    dataTab: t('dataPointReport.tab.data'),
+    numberOrder: t('dataPointReport.title.numberOrder'),
+  }
 }
 
 const optionalInfo = [
