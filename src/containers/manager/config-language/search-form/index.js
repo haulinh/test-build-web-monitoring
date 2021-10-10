@@ -38,7 +38,7 @@ class DataSearchForm extends React.Component {
       e.preventDefault()
     }
     this.props.form.validateFields((err, values) => {
-      console.log('validateFields', err, values)
+      // console.log('validateFields', err, values)
       if (err) return
       if (values.isMobile === 'all') delete values.isMobile
       if (!values.pattern) delete values.locale

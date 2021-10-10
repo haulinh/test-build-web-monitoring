@@ -102,6 +102,10 @@ export default class JsonViewCustom extends Component {
         </Button>
         <Modal
           width={'80%'}
+          bodyStyle={{
+            height: '60vh',
+            overflow: 'auto',
+          }}
           title={this.props.title}
           visible={this.state.visible}
           onOk={this.handleOk}
