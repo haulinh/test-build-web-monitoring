@@ -11,6 +11,7 @@ import { ILLDrawer } from '../Component'
 import { Fields, i18n } from './index'
 import { translate as t } from 'hoc/create-lang'
 import styled from 'styled-components'
+import _ from 'lodash'
 
 const TextAreaCustom = styled(TextArea)`
   > textarea {
@@ -93,16 +94,18 @@ export default class IncidentCreate extends Component {
   }
 
   handleOnClose = async () => {
-    const { onClose } = this.props
+    const { onClose, form } = this.props
     const { isSubmitted } = this.state
+    const values = form.getFieldsValue()
+    const isValue = Object.values(_.omit(values, 'type')).some(value => value)
 
-    if (isSubmitted) {
+    if (isSubmitted || !isValue) {
       onClose()
       this.clearFields()
       return
     }
 
-    if (!isSubmitted) {
+    if (!isSubmitted && isValue) {
       this.setState({ isModalVisible: true })
     }
   }
@@ -226,6 +229,7 @@ export default class IncidentCreate extends Component {
           </Form>
         </ILLDrawer>
         <Modal
+          centered
           visible={isModalVisible}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
