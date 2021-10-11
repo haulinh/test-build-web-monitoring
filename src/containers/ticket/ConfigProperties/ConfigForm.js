@@ -169,12 +169,15 @@ export default class ConfigForm extends Component {
   }
 
   handleOnClose = async () => {
+    const { form } = this.props
+    const values = form.getFieldsValue()
+    const isValue = Object.values(values).some(value => (value))
     const { isSubmitted } = this.state
-    if (isSubmitted) {
+    if (isSubmitted || !isValue) {
       this.props.onClose()
       return
     }
-    if (!isSubmitted) {
+    if (!isSubmitted && isValue) {
       this.setState({ isModalVisible: true })
     }
   }
@@ -310,6 +313,7 @@ export default class ConfigForm extends Component {
           </Form>
         </DrawerCustom>
         <Modal
+          centered
           visible={isModalVisible}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
