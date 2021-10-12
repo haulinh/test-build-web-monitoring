@@ -1,4 +1,4 @@
-import { Button, message } from 'antd'
+import { Button, Icon, message } from 'antd'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import React, { Component } from 'react'
 import { translate as t } from 'hoc/create-lang'
@@ -65,6 +65,7 @@ export default class ConfigProperties extends Component {
   renderButtonAdd = () => {
     return (
       <Button onClick={this.showDrawer} type="primary">
+        <Icon type="plus" />
         {t('addon.create')}
       </Button>
     )
