@@ -34,11 +34,11 @@ export default {
     edit: 'Sửa',
     delete: 'Xoá',
     create: 'Tạo mới',
-    leave: 'Rời khỏi',
+    leave: 'Đồng ý',
     leaveConfirm: {
-      title: 'Rời khỏi trang',
+      title: 'Thoát phiên làm việc',
       content:
-        'Bạn chưa lưu thông tin mới này. Bạn có chắc chắn muốn rời khỏi khi chưa lưu không?',
+        'Thoát khỏi phiên làm việc này. Bạn có chắc rằng muốn thoát khỏi phiên làm việc, khi chưa thực hiện lưu thông tin?',
     },
   },
   rules: {

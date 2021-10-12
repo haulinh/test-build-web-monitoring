@@ -191,10 +191,7 @@ export default class ConfigForm extends Component {
   }
 
   handleCancel = () => {
-    if (!this.isEdit()) {
-      this.clearFields()
-    }
-    this.props.onClose()
+    this.setState({ isModalVisible: false })
   }
 
   isEdit = () => {
