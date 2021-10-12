@@ -2293,6 +2293,12 @@ export default {
       billingReport: {
         name: 'Báo cáo phí',
       },
+      incidentManagement: {
+        name: 'Quản lý sự cố',
+      },
+      incidentConfigProperties: {
+        name: 'Cấu hình thuộc tính',
+      },
       /////
       actions: {
         role: 'Ủy quyền',

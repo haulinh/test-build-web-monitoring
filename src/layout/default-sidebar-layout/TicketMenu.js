@@ -35,7 +35,7 @@ export default {
         </Tooltip>
       }
     >
-      {protectRole(ROLE.BILLING_REPORT.VIEW)(
+      {protectRole(ROLE.INCIDENT_MANAGEMENT.VIEW)(
         <Menu.Item
           key={slug.ticket.incident}
           onClick={() => {
@@ -48,21 +48,23 @@ export default {
         </Menu.Item>
       )}
 
-      <Menu.Item
-        key={slug.ticket.configProperties}
-        onClick={() => {
-          props.selectMenu(slug.ticket.configProperties)
-        }}
-      >
-        <Tooltip
-          placement="right"
-          title={listTooltipMenu().ticket.configProperties}
+      {protectRole(ROLE.INCIDENT_CONFIG_PROPERTIES.VIEW)(
+        <Menu.Item
+          key={slug.ticket.configProperties}
+          onClick={() => {
+            props.selectMenu(slug.ticket.configProperties)
+          }}
         >
-          <Link to={slug.ticket.configProperties}>
-            {t('ticket.menu.configProperties')}
-          </Link>
-        </Tooltip>
-      </Menu.Item>
+          <Tooltip
+            placement="right"
+            title={listTooltipMenu().ticket.configProperties}
+          >
+            <Link to={slug.ticket.configProperties}>
+              {t('ticket.menu.configProperties')}
+            </Link>
+          </Tooltip>
+        </Menu.Item>
+      )}
     </Menu.SubMenu>
   ),
 }

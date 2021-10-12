@@ -13,6 +13,8 @@ import { downFileExcel } from 'utils/downFile'
 import { DD_MM_YYYY } from 'constants/format-date'
 import _ from 'lodash'
 import createBreadcrumb from 'shared/breadcrumb/hoc'
+import protectRole from 'hoc/protect-role'
+import ROLE from 'constants/role'
 
 const Breadcrumb = createBreadcrumb()
 
@@ -46,11 +48,12 @@ export const i18n = () => ({
   title: t('ticket.title.incident.drawer'),
   menu: t('ticket.menu.incident'),
   notificationSuccess: t('ticket.message.incident.notificationSuccess'),
-  notificationError: t('ticket.message.incident.notificationError')
+  notificationError: t('ticket.message.incident.notificationError'),
 })
 
 export const PAGE_SIZE = 10
 
+@protectRole(ROLE.INCIDENT_MANAGEMENT.VIEW)
 @Form.create()
 export default class IncidentManagement extends Component {
   state = {
@@ -74,7 +77,7 @@ export default class IncidentManagement extends Component {
   }
 
   ButtonAdd = () => {
-    return (
+    return protectRole(ROLE.INCIDENT_MANAGEMENT.CREATE)(
       <Button onClick={this.showDrawer} type="primary">
         <Icon type="plus" />
         {t('ticket.button.incident.create')}
@@ -164,16 +167,20 @@ export default class IncidentManagement extends Component {
             <Filter form={form} onSearch={this.handleOnSearch} />
           </BoxShadow>
         </Search>
-        <Clearfix height={32} />
 
-        <Row type="flex" justify="end">
-          <Col>
-            <Button onClick={this.handleExport} type="primary">
-              {t('billing.button.exportReport')}
-            </Button>
-          </Col>
-        </Row>
+        {protectRole(ROLE.INCIDENT_MANAGEMENT.EXPORT)(
+          <React.Fragment>
+            <Clearfix height={32} />
 
+            <Row type="flex" justify="end">
+              <Col>
+                <Button onClick={this.handleExport} type="primary">
+                  {t('billing.button.exportReport')}
+                </Button>
+              </Col>
+            </Row>
+          </React.Fragment>
+        )}
         <Clearfix height={32} />
 
         <TableData

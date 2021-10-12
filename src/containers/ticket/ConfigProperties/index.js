@@ -7,6 +7,8 @@ import ConfigList from './ConfigList'
 import { Clearfix } from 'components/elements'
 import CalculateApi from 'api/CalculateApi'
 import createBreadcrumb from 'shared/breadcrumb/hoc'
+import protectRole from 'hoc/protect-role'
+import ROLE from 'constants/role'
 
 const Breadcrumb = createBreadcrumb()
 
@@ -29,14 +31,15 @@ const i18n = () => ({
   menu: t('ticket.menu.configProperties'),
   switch: {
     hide: t('ticket.label.configProperties.switch.hide'),
-    show: t('ticket.label.configProperties.switch.show')
+    show: t('ticket.label.configProperties.switch.show'),
   },
   message: {
-    success: (text) => text + ' ' + t('ticket.message.configProperties.success'),
-    error: t('ticket.message.configProperties.error')
-  }
+    success: text => text + ' ' + t('ticket.message.configProperties.success'),
+    error: t('ticket.message.configProperties.error'),
+  },
 })
 
+@protectRole(ROLE.INCIDENT_CONFIG_PROPERTIES.VIEW)
 export default class ConfigProperties extends Component {
   state = {
     visible: false,
@@ -63,14 +66,14 @@ export default class ConfigProperties extends Component {
   }
 
   renderButtonAdd = () => {
-    return (
+    return protectRole(ROLE.INCIDENT_CONFIG_PROPERTIES.CREATE)(
       <Button onClick={this.showDrawer} type="primary">
         {t('addon.create')}
       </Button>
     )
   }
 
-  addConfig = (config) => {
+  addConfig = config => {
     const { configs } = this.state
     const newConfigs = [...configs, config]
     this.setState({ configs: newConfigs })
@@ -79,20 +82,18 @@ export default class ConfigProperties extends Component {
   updateConfig = (id, config) => {
     const { configs } = this.state
     const newConfigs = [...configs]
-    const indexUpdate = configs.findIndex((item) => (
-      item._id === id
-    ))
+    const indexUpdate = configs.findIndex(item => item._id === id)
     newConfigs[indexUpdate] = config
     this.setState({ configs: newConfigs })
   }
 
-  delConfig = (config) => {
+  delConfig = config => {
     const { configs } = this.state
     const newConfigs = configs.filter(item => item._id !== config._id)
     this.setState({ configs: newConfigs })
   }
 
-  setEdit = (record) => {
+  setEdit = record => {
     this.setState({ visible: true, currentActive: record })
   }
 
@@ -122,19 +123,23 @@ export default class ConfigProperties extends Component {
             },
           ]}
         />
-        <ConfigForm
-          visible={visible}
-          onClose={this.onClose}
-          addConfig={this.addConfig}
-          updateConfig={this.updateConfig}
-          delConfig={this.delConfig}
-          currentActive={currentActive}
-          showDrawer={this.showDrawer} />
+        {protectRole(ROLE.INCIDENT_CONFIG_PROPERTIES.EDIT)(
+          <ConfigForm
+            visible={visible}
+            onClose={this.onClose}
+            addConfig={this.addConfig}
+            updateConfig={this.updateConfig}
+            delConfig={this.delConfig}
+            currentActive={currentActive}
+            showDrawer={this.showDrawer}
+          />
+        )}
         <Clearfix height={16} />
         <ConfigList
           configs={configs}
           setEdit={this.setEdit}
-          handleChangeToggle={this.handleChangeToggle} />
+          handleChangeToggle={this.handleChangeToggle}
+        />
       </PageContainer>
     )
   }

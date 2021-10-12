@@ -2295,6 +2295,12 @@ export default {
       billingReport: {
         name: 'Billing Report',
       },
+      incidentManagement: {
+        name: 'Incident Management',
+      },
+      incidentConfigProperties: {
+        name: 'Config Properties',
+      },
       actions: {
         role: 'Role Assignment',
         enableAccount: 'Enable/Disable Account',
@@ -3779,11 +3785,11 @@ export default {
         type: 'Type',
         order: 'Order in export Excel',
         hidden: 'Show',
-        category: "Add Category",
+        category: 'Add Category',
         switch: {
           hide: 'Hide',
-          show: 'Show'
-        }
+          show: 'Show',
+        },
       },
     },
     placeholder: {
@@ -3798,7 +3804,7 @@ export default {
       configProperties: {
         name: 'Enter name problem',
         type: 'Category',
-        order: '1'
+        order: '1',
       },
     },
     title: {
@@ -3810,7 +3816,7 @@ export default {
       configProperties: {
         drawer: {
           add: 'Create Config',
-          edit: 'Edit Config'
+          edit: 'Edit Config',
         },
       },
     },
@@ -3818,11 +3824,11 @@ export default {
       incident: {
         createSuccess: 'Create Success',
         notificationSuccess: 'Update Incident Success',
-        notificationError: 'Error'
+        notificationError: 'Error',
       },
       configProperties: {
         success: 'success',
-        error: 'Error'
+        error: 'Error',
       },
     },
     required: {
@@ -3846,8 +3852,8 @@ export default {
       configProperties: {
         add: 'Create',
         edit: 'Save',
-        del: 'Delete'
-      }
+        del: 'Delete',
+      },
     },
   },
 }

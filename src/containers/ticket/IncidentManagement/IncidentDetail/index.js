@@ -12,6 +12,8 @@ import createBreadcrumb from 'shared/breadcrumb/hoc'
 import { i18n } from '../index'
 import LeftContent from './LeftContent'
 import RightContent from './RightContent'
+import protectRole from 'hoc/protect-role'
+import ROLE from 'constants/role'
 
 const Breadcrumb = createBreadcrumb()
 
@@ -22,6 +24,8 @@ export const Fields = {
   timeEnd: 'timeEnd',
   status: 'statusId',
 }
+
+@protectRole(ROLE.INCIDENT_MANAGEMENT.EDIT)
 @withRouter
 @Form.create()
 export default class IncidentDetail extends Component {
@@ -48,7 +52,7 @@ export default class IncidentDetail extends Component {
   }
 
   ButtonDelete = () => {
-    return (
+    return protectRole(ROLE.INCIDENT_MANAGEMENT.DELETE)(
       <Popconfirm
         onConfirm={this.handleDelete}
         title={translate('ticket.label.incident.confirmDelete')}
@@ -101,7 +105,8 @@ export default class IncidentDetail extends Component {
         const dynamicField = {
           [current._id]:
             current.type === 'datetime'
-              ? data.categories[current._id] && moment(data.categories[current._id])
+              ? data.categories[current._id] &&
+                moment(data.categories[current._id])
               : data.categories[current._id],
         }
         return { ...pre, ...dynamicField }

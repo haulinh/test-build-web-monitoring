@@ -254,8 +254,8 @@ export default class MenuApp extends React.PureComponent {
             ]) && BillingMenu.renderComp(this.props)}
 
             {this.checkRoleForGroup([
-              ROLE.BILLING_CONFIG.VIEW,
-              ROLE.BILLING_REPORT.VIEW,
+              ROLE.INCIDENT_MANAGEMENT.VIEW,
+              ROLE.INCIDENT_CONFIG_PROPERTIES.VIEW,
             ]) && TicketMenu.renderComp(this.props)}
 
             {/* TODO  Chưa có role nên dùng tạm của STATION_AUTO, xem lại */}
