@@ -294,4 +294,17 @@ export default {
   LANGUAGES: {
     VIEW: 'menu.language.actions.view',
   },
+  INCIDENT_MANAGEMENT: {
+    VIEW: 'menu.incidentManagement.actions.view',
+    EXPORT: 'menu.incidentManagement.actions.export',
+    DELETE: 'menu.incidentManagement.actions.delete',
+    EDIT: 'menu.incidentManagement.actions.edit',
+    CREATE: 'menu.incidentManagement.actions.create',
+  },
+  INCIDENT_CONFIG_PROPERTIES: {
+    VIEW: 'menu.incidentConfigProperties.actions.view',
+    CREATE: 'menu.incidentConfigProperties.actions.create',
+    EDIT: 'menu.incidentConfigProperties.actions.edit',
+    DELETE: 'menu.incidentConfigProperties.actions.delete',
+  },
 }
