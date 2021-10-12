@@ -115,6 +115,21 @@ export default class ConfigProperties extends Component {
     }
   }
 
+  isShowConfigForm = () => {
+    const { userInfo } = this.props
+    const showEdit = checkRolePriority(
+      userInfo,
+      ROLE.INCIDENT_CONFIG_PROPERTIES.EDIT
+    )
+
+    const showCreate = checkRolePriority(
+      userInfo,
+      ROLE.INCIDENT_CONFIG_PROPERTIES.CREATE
+    )
+
+    return showEdit || showCreate
+  }
+
   render() {
     const { visible, configs, currentActive } = this.state
     return (
@@ -127,10 +142,7 @@ export default class ConfigProperties extends Component {
             },
           ]}
         />
-        {checkRolePriority(
-          this.props.userInfo,
-          ROLE.INCIDENT_CONFIG_PROPERTIES.EDIT
-        ) && (
+        {this.isShowConfigForm() && (
           <ConfigForm
             visible={visible}
             onClose={this.onClose}

@@ -25,8 +25,8 @@ export const Fields = {
   status: 'statusId',
 }
 
-@protectRole(ROLE.INCIDENT_MANAGEMENT.EDIT)
 @withRouter
+@protectRole(ROLE.INCIDENT_MANAGEMENT.EDIT)
 @Form.create()
 export default class IncidentDetail extends Component {
   state = {
