@@ -8,7 +8,8 @@ import { Clearfix } from 'components/elements'
 import CalculateApi from 'api/CalculateApi'
 import createBreadcrumb from 'shared/breadcrumb/hoc'
 import protectRole from 'hoc/protect-role'
-import ROLE from 'constants/role'
+import ROLE, { checkRolePriority } from 'constants/role'
+import { connect } from 'react-redux'
 
 const Breadcrumb = createBreadcrumb()
 
@@ -39,7 +40,9 @@ const i18n = () => ({
   },
 })
 
-@protectRole(ROLE.INCIDENT_CONFIG_PROPERTIES.VIEW)
+@connect(state => ({
+  userInfo: state.auth.userInfo,
+}))
 export default class ConfigProperties extends Component {
   state = {
     visible: false,
@@ -123,7 +126,10 @@ export default class ConfigProperties extends Component {
             },
           ]}
         />
-        {protectRole(ROLE.INCIDENT_CONFIG_PROPERTIES.EDIT)(
+        {checkRolePriority(
+          this.props.userInfo,
+          ROLE.INCIDENT_CONFIG_PROPERTIES.EDIT
+        ) && (
           <ConfigForm
             visible={visible}
             onClose={this.onClose}
@@ -134,6 +140,7 @@ export default class ConfigProperties extends Component {
             showDrawer={this.showDrawer}
           />
         )}
+
         <Clearfix height={16} />
         <ConfigList
           configs={configs}
