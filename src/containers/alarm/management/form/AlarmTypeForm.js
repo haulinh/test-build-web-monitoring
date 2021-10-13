@@ -12,9 +12,9 @@ export const AlarmTypeForm = ({ form }) => {
     return <DisconnectForm form={form} />
   }
 
-  // if (type === alarmType.exceed.value) {
-  //   return <ExceedForm form={form} />
-  // }
+  if (type === alarmType.exceed.value) {
+    return <ExceedForm form={form} />
+  }
 
   return <React.Fragment />
 }
@@ -65,17 +65,29 @@ const operator = {
 }
 
 const frequency = {
+  '15p': {
+    label: '15p',
+    value: 15,
+  },
   '30p': {
     label: '30p',
-    value: 30 * 60,
+    value: 30,
   },
   '1h': {
     label: '1h',
-    value: 60 * 60,
+    value: 60,
   },
   '2h': {
     label: '2h',
-    value: 2 * 60 * 60,
+    value: 2 * 60,
+  },
+  '4h': {
+    label: '4h',
+    value: 4 * 60,
+  },
+  '8h': {
+    label: '8h',
+    value: 8 * 60,
   },
 }
 

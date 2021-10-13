@@ -305,6 +305,7 @@ export const MENU_GROUP = {
   PERIODICAL_FORECAST: 'periodicalForecast',
   BILLING: 'billing',
   TICKET: 'ticket',
+  ALARM: 'alarm',
 }
 
 export const parentMenuFromSub = {
@@ -647,6 +648,7 @@ export function listMenuName() {
     billing: translate('menuApp.billing'),
     ticket: translate('menuApp.ticket'),
     language: translate('menuApp.language'),
+    alarm: translate('menuApp.alarm'),
   }
 }
 export function listTooltipMenu() {
@@ -744,5 +746,9 @@ export function listTooltipMenu() {
       configProperties: translate('tooltipMenuApp.ticket.configProperties'),
     },
     language: translate('tooltipMenuApp.language'),
+    alarm: {
+      management: translate('alarm.tooltipMenu.management'),
+      history: translate('alarm.tooltipMenuApp.history'),
+    },
   }
 }

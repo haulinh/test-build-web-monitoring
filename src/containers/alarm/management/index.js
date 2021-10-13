@@ -45,11 +45,7 @@ export const FIELDS = {
 }
 
 export const i18n = () => ({
-  menu: t('ticket.menu.configProperties'),
-  switch: {
-    hide: t('ticket.label.configProperties.switch.hide'),
-    show: t('ticket.label.configProperties.switch.show'),
-  },
+  menu: t('alarm.menu.management'),
   message: {
     success: text => text + ' ' + t('ticket.message.configProperties.success'),
     error: t('ticket.message.configProperties.error'),
@@ -123,7 +119,7 @@ export default class AlarmManagement extends Component {
         />
 
         <Clearfix height={16} />
-        <AlarmList data={data} loading={loading} />
+        <AlarmList data={data} loading={loading} getData={this.getData} />
       </PageContainer>
     )
   }
