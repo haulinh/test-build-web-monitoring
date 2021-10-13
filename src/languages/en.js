@@ -3859,4 +3859,14 @@ export default {
       },
     },
   },
+  alarm: {
+    menu: {
+      management: 'Management Config',
+      history: 'History Alarm',
+    },
+    tooltipMenu: {
+      management: 'Management Config',
+      history: 'History Alarm',
+    },
+  },
 }
