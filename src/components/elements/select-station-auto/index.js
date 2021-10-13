@@ -102,6 +102,7 @@ export default class SelectStationAuto extends React.PureComponent {
     }
 
     onChange(stationKeys)
+    console.log(stationKeys)
     if (onChangeObject) onChangeObject(stationType)
   }
 
@@ -110,11 +111,18 @@ export default class SelectStationAuto extends React.PureComponent {
   }
 
   render() {
+    const {
+      language,
+      setKey,
+      stationAutoKey,
+      value,
+      valueNames,
+      fieldValue,
+    } = this.props
     const stationAutos = this.getStationAutos()
     const stationAutoMaps = new Map(
-      stationAutos.map(item => [item.key, item.name])
+      stationAutos.map(item => [item[fieldValue || 'key'], item.name])
     )
-    const { language, setKey, stationAutoKey, value, valueNames } = this.props
 
     let selectValue = setKey ? stationAutoKey : value
 
@@ -123,8 +131,6 @@ export default class SelectStationAuto extends React.PureComponent {
           stationAutoMaps.has(key) ? key : get(valueNames, idx, key)
         )
       : stationAutoMaps.get(selectValue) || valueNames
-
-    const { fieldValue } = this.props
 
     return (
       <Select
