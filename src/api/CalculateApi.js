@@ -99,5 +99,9 @@ export default {
     const url = calc(prefixAlarm)
     return getFetch(url)
   },
+  updateStatusAlarm: (id, status) => {
+    const url = calc(`${prefixAlarm}/${id}/${status}`)
+    return pathFetch(url)
+  },
   //#endregion
 }

@@ -10,6 +10,8 @@ export default {
     _every2Day: 'Mỗi 2 ngày',
   },
   global: {
+    disable: 'Vô hiệu',
+    enable: 'Kích hoạt',
     cancel: 'Hủy',
     verify: 'Xác nhận',
     submit: 'Xác nhận',
@@ -2975,6 +2977,7 @@ export default {
     billing: 'Phí môi trường',
     ticket: 'Sự cố',
     language: 'Ngôn ngữ',
+    alarm: 'Cảnh báo',
   },
   tooltipMenuApp: {
     notification: 'Thông báo',
@@ -3879,6 +3882,16 @@ export default {
         edit: 'Lưu',
         del: 'Xóa',
       },
+    },
+  },
+  alarm: {
+    menu: {
+      management: 'Quản lý cấu hình',
+      history: 'Lịch sử cảnh báo',
+    },
+    tooltipMenu: {
+      management: 'Quản lý cấu hình',
+      history: 'Lịch sử cảnh báo',
     },
   },
 }

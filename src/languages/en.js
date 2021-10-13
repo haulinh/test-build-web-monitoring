@@ -10,6 +10,8 @@ export default {
     _every2Day: 'Every 2 days',
   },
   global: {
+    disable: 'Disable',
+    enable: 'Enable',
     cancel: 'Cancel',
     submit: 'Submit',
     verify: 'Verify',
@@ -2951,6 +2953,7 @@ export default {
     billing: 'Billing',
     ticket: 'Incident',
     language: 'Languages',
+    alarm: 'Alarm',
   },
   tooltipMenuApp: {
     notification: 'Notifications',

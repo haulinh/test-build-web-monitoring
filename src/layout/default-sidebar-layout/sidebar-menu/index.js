@@ -29,6 +29,7 @@ import { SIDEBAR_GLOBAL_WIDTH } from '../sidebar-global/style'
 import objectPath from 'object-path'
 import { isEqual } from 'lodash'
 import TicketMenu from '../TicketMenu'
+import AlarmMenu from '../AlarmMenu'
 
 export const SIDEBAR_MENU_WIDTH = 275
 export const SIDEBAR_MENU_MINIMAL_WIDTH = 8
@@ -257,6 +258,11 @@ export default class MenuApp extends React.PureComponent {
               ROLE.INCIDENT_MANAGEMENT.VIEW,
               ROLE.INCIDENT_CONFIG_PROPERTIES.VIEW,
             ]) && TicketMenu.renderComp(this.props)}
+
+            {this.checkRoleForGroup([
+              ROLE.INCIDENT_MANAGEMENT.VIEW,
+              ROLE.INCIDENT_CONFIG_PROPERTIES.VIEW,
+            ]) && AlarmMenu.renderComp(this.props)}
 
             {/* TODO  Chưa có role nên dùng tạm của STATION_AUTO, xem lại */}
             {this.checkRoleForGroup([
