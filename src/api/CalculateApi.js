@@ -11,6 +11,8 @@ function calc(prefix = '') {
   return [getConfigApi().calculate, prefix].filter(item => item).join('/')
 }
 
+const prefixAlarm = 'alarm-subscription'
+
 export default {
   getWQIPeriodic: params => {
     return getFetch(calc('wqi-periodic'), params)
@@ -85,6 +87,17 @@ export default {
   deleteTicket: id => {
     const url = calc(`ticket/${id}`)
     return deleteFetch(url)
+  },
+  //#endregion
+
+  //#region alarm
+  createAlarm: param => {
+    const url = calc(prefixAlarm)
+    return postFetch(url, param)
+  },
+  getAlarms: () => {
+    const url = calc(prefixAlarm)
+    return getFetch(url)
   },
   //#endregion
 }

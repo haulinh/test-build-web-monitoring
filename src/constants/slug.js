@@ -286,6 +286,11 @@ export default {
     incidentEdit: '/ticket/incident/edit',
     configProperties: '/ticket/config-properties',
   },
+  alarm: {
+    base: '/alarm',
+    management: '/alarm/management',
+    history: '/alarm/history',
+  },
 }
 
 export const MENU_GROUP = {
