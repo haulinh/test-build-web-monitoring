@@ -1143,11 +1143,6 @@ export default {
       },
     },
   },
-  stationFixedReport: {
-    base: {
-      title: 'Data station fixed',
-    },
-  },
   stationFixedPoint: {
     list: {
       title: 'Monitoring point',
