@@ -41,7 +41,7 @@ function i18n() {
     __ngoaidaido: translate('qaqc.dataFilter.outOfRange'),
     __deviceError: translate('qaqc.dataFilter.deviceError'),
     __deviceCalibration: translate('qaqc.dataFilter.deviceCalibration'),
-    __zero: translate('qaqc.dataFilter.zero'),
+    __zero: translate('qaqc.dataFilter.isZero'),
     __negative: translate('qaqc.dataFilter.negative'),
   }
 }

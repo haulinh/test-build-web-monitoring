@@ -113,9 +113,6 @@ export default {
     exceededPreparing: 'Almost Exceed',
     exceededTendency: 'Tend To Exceed',
     viewInMonitoring: 'View In Monitoring',
-    advanced: {
-      label: 'Nâng cao',
-    },
     viewInMap: 'View In Map',
     viewMore: 'View More',
     all: 'All',
@@ -328,7 +325,6 @@ export default {
     colMax: 'Max',
     colColor: 'Color',
     colBatBuoc: 'Required',
-    colBelongTemp: 'Belong Temp',
     colBackgroundColor: 'Background Color',
     colDescription: 'Description',
     colMeasureKey: 'Measure Key',
@@ -836,10 +832,6 @@ export default {
       success: 'Create new filter successfully',
       nameIsExist: 'Filter name is exist',
     },
-    name: {
-      label: 'Filter name',
-      placeholder: 'Please type filter name',
-    },
     form: {
       time: 'Time',
       stationType: {
@@ -888,7 +880,6 @@ export default {
       standardKey: {
         label: 'Standards VN',
         placeholder: 'Standards VN',
-        error: 'Please Choose Type Of Standards VN',
       },
       stationStatus: {
         label: 'Station status',
@@ -1335,9 +1326,6 @@ export default {
     delete: {
       label: 'Delete',
     },
-    add: {
-      label: 'Add',
-    },
     form: {
       measuringList: {
         required: 'Please enter parameters',
@@ -1349,8 +1337,9 @@ export default {
       key: {
         label: 'Code',
         placeholder: 'Input Standard Filter Code',
-        error: 'Please Input Standard Filter Code',
-        existError: 'Standard Filter code is exist',
+        required: 'Please Enter Code QCVN',
+        pattern: 'No Special Characters Are Allowed',
+        max: 'No ore than 64 characters',
       },
       name: {
         label: 'Name',
@@ -1625,6 +1614,9 @@ export default {
         label: 'Code',
         placeholder: 'Input Code Of Station Name',
         error: 'Please Input Code Of Station Name',
+        required: 'Please Input Code Of Station Name',
+        pattern: 'Not allowed to enter special characters',
+        max: 'No more than 64 characters',
       },
       name: {
         label: 'Name',
@@ -3010,7 +3002,6 @@ export default {
       status_data: 'Summary report on status of data at many stations',
       aqi_hour: 'Report the AQI value of each station',
       aqi_day: 'Report AQI day values ​​for multiple stations',
-      config: 'Select station to calculate AQI or WQI value',
     },
     advanceSub: 'Advanced functions of the system',
     advance: {

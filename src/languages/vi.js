@@ -438,8 +438,9 @@ export default {
       outOfRange: 'Ngoài dải đo',
       deviceError: 'Thiết bị lỗi',
       deviceCalibration: 'Thiết bị hiệu chuẩn',
-      zero: 'Giá trị 0',
+      isZero: 'Giá trị 0',
       negative: 'Giá trị Âm',
+      deviceStatus: 'Trạng thái thiết bị',
     },
     data: 'Loại dữ liệu',
     approve: 'Kiểm duyệt',
@@ -890,7 +891,6 @@ export default {
       standardKey: {
         label: 'Quy chuẩn',
         placeholder: 'Lựa chọn quy chuẩn',
-        require: 'Chọn ít nhất lựa 1 Quy chuẩn',
       },
       stationStatus: {
         label: 'Tình trạng thiết bị',
@@ -1349,7 +1349,6 @@ export default {
       key: {
         label: 'Mã QCVN',
         placeholder: 'Nhập QCVN',
-        existError: 'Mã QCVN đã tồn tại',
         required: 'Vui lòng nhập mã QCVN',
         pattern: 'Không được nhập kí tự đặc biệt',
         max: 'Không quá 64 kí tự',
@@ -1626,6 +1625,7 @@ export default {
       key: {
         label: 'Mã trạm',
         placeholder: 'Nhập mã trạm',
+        error: 'Vui lòng nhập mã trạm',
         required: 'Vui lòng nhập mã trạm',
         pattern: 'Không được nhập kí tự đặc biệt',
         max: 'Không quá 64 kí tự',
