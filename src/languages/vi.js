@@ -2641,13 +2641,13 @@ export default {
     yes: 'Có',
     popConfirm: {
       reviewStation: {
-        title: 'Bạn có chắc xoá đánh giá này?',
+        title: 'Bạn có chắc xoá đánh giá này? ',
       },
       image: {
-        title: 'Bạn có chắc xoá ảnh này?',
+        title: 'Bạn có chắc xoá ảnh này ?',
       },
       attachment: {
-        title: 'Bạn có muốn xoá tệp này',
+        title: 'Bạn có muốn xoá tệp này ?',
       },
     },
   },

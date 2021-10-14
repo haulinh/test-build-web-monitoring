@@ -36,6 +36,12 @@ export default {
     edit: 'Edit',
     delete: 'Delete',
     create: 'Create',
+    leave: 'Agree',
+    leaveConfirm: {
+      title: 'Exit session',
+      content:
+        'Exit this session. Are you sure you want to exit the session without saving information?',
+    },
   },
   rules: {
     required: 'Required',
@@ -45,6 +51,7 @@ export default {
     requiredPhone: 'Phone number is required',
     requiredField: '{{=it.field}} is required',
     inValidField: '{{=it.field}} is invalid',
+    max32: 'No more than 32 characters',
     max64: 'No more than 64 characters',
     max256: 'No more than 256 characters',
     max512: 'No more 512 characters',
@@ -433,6 +440,8 @@ export default {
       label: 'Data filter by',
       negative: 'Negative',
       outOfRange: 'Out of range',
+      deviceError: 'Sensor error',
+      deviceCalibration: 'Sensor Calibration',
       isZero: 'Is Zero',
       deviceStatus: 'Device Status',
     },
@@ -836,6 +845,10 @@ export default {
     },
     form: {
       time: 'Time',
+      name: {
+        label: 'Filter name',
+        placeholder: 'Enter the filter name',
+      },
       stationType: {
         label: 'Types Of Station',
         placeholder: 'Select Types Of Station',
@@ -1164,6 +1177,7 @@ export default {
       measuringForm: {
         key: 'Parameter code',
         name: 'Parameter name',
+        nameMeasuring: 'Charged pollution parameters',
         addMeasuring: 'Add parameters',
         qcvn: 'Limit over threshold',
         tendToExceed: 'Prepare to pass',
@@ -2614,6 +2628,7 @@ export default {
       error: 'Disable Error',
     },
     onRestore: {
+      resetConfirmMsg: 'Do you want to restore?',
       success: 'Restored Successfully',
       error: 'Restore Error',
     },
@@ -2629,10 +2644,13 @@ export default {
     yes: 'Yes',
     popConfirm: {
       reviewStation: {
-        title: 'Are you sure delete this review?',
+        title: 'Are you sure delete this review ?',
       },
       image: {
-        title: 'Are you sure delete this image?',
+        title: 'Are you sure delete this image ?',
+      },
+      attachment: {
+        title: 'Do you want to delete this file ?',
       },
     },
   },
@@ -2868,6 +2886,13 @@ export default {
       user: 'Users',
       dataLogger: 'System Logs',
       service: 'Service configuration',
+      ConfigNotify: {
+        titleTable: {
+          status: 'Status',
+          notification: 'Notification',
+          frequency: 'Frequency',
+        },
+      },
     },
 
     camera: 'Camera',
@@ -2960,6 +2985,7 @@ export default {
     dashboard: 'General monitoring of data status information of stations',
     monitoringSub:
       'Monitoring data of each station in real time and look up data',
+    stationFixedSub: 'Periodic monitoring',
     monitoring: {
       base:
         'Real-time monitoring of data for each monitoring point and sampling operations',
@@ -3285,7 +3311,8 @@ export default {
   },
   configService: {
     title: 'Service provider configuration',
-    smsService: 'Sms Service',
+    esmsService: 'ESMS Service',
+    smsService: 'SMS Service',
     mailGunService: 'MailGun Service',
     testConfiguration: 'Check Configuration',
     customerCare: 'Customer Care',
@@ -3322,14 +3349,17 @@ export default {
     twilioForm: {
       accountSid: {
         label: 'ACCOUNT SID (You could find them in your',
+        message: 'ACCOUNT SID',
         placeholder: 'Account SID',
       },
       authToken: {
         label: 'AUTH TOKEN (You could find them in your',
+        message: 'AUTH TOKEN',
         placeholder: 'Auth token',
       },
       twilioNumber: {
         label: 'TWILIO NUMBER (You can get one',
+        message: 'TWILIO NUMBER',
         placeholder: 'Twilio number',
       },
       smsType: {
@@ -3611,41 +3641,41 @@ export default {
     export: 'Broadcast data of',
   },
   language: {
-    breadcrumb: {
-      base: 'Cấu hình ngôn ngữ',
+    breadcrumbs: {
+      base: 'Configure language',
     },
     content: {
-      notificationFreq: 'Tần suất gửi cảnh báo',
-      global: 'Tổng quan',
-      rules: 'Thông báo loại 1',
-      errors: 'Thông báo loại 2',
-      empty: 'Thông báo loại 3',
-      notification: 'Gửi cảnh báo',
-      contact: 'Thông tin 1',
-      unit: 'Đơn vị',
-      chart: 'Biểu đồ',
-      dashboard: 'Giám sát hệ thống',
-      monitoring: 'Giám sát trực tuyến',
+      notificationFreq: 'How often to send alerts',
+      global: 'Overview',
+      rules: 'Type 1 message',
+      errors: 'Type 2 message',
+      empty: 'Type 3 message',
+      notification: 'Send alert',
+      contact: 'Information 1',
+      unit: 'Unit',
+      chart: 'Chart',
+      dashboard: 'System Monitor',
+      monitoring: 'Online monitoring',
       aqi: 'AQI',
-      aqiConfigCalculation: 'Cấu hình tính toán AQI',
+      aqiConfigCalculation: 'Configure AQI Calculation',
       wqi: 'WQI',
-      wqiConfigCalculation: 'Cấu hình tính toán WQI',
-      qaqc: 'Kiểm duyệt dữ liệu',
-      qaqcConfig: 'Cấu hình kiểm duyệt dữ liệu',
-      controlStation: 'Điều kiển lấy mẫu',
-      map: 'Bản đồ',
-      dataSearchFixed: 'Tìm kiếm dữ liệu cố định',
-      dataSearchFrom: 'Tìm kiếm dữ liệu',
-      aqiSearchForm: 'Tìm kiếm dữ liệu AQI',
-      avgSearchFrom: 'Tìm kiếm dữ liệu trung bình',
-      dataSearchFilterForm: 'Bộ lọc tìm kiếm dữ liệu',
-      measuringManager: 'Quản lý thông số',
-      stationTypeManager: 'Quản lý loại trạm',
-      stationFixedPhase: 'Quản lý đợt quan trắc định kỳ',
-      stationFixedPoint: 'Quản lý điểm định kỳ',
-      qcvn: 'Quản lý quy chuẩn',
-      province: 'Quản lý đơn vị quản lý',
-      configWQI: 'Cấu hình WQI',
+      wqiConfigCalculation: 'Configure WQI Calculation',
+      qaqc: 'Data Moderation',
+      qaqcConfig: 'Data moderation configuration',
+      controlStation: 'Control Sampling',
+      map: 'Map',
+      dataSearchFixed: 'Fixed data search',
+      dataSearchFrom: 'Search data',
+      aqiSearchForm: 'Search AQI data',
+      avgSearchFrom: 'Search for average data',
+      dataSearchFilterForm: 'Data Search Filter',
+      measuringManager: 'Parameter Management',
+      stationTypeManager: 'Manage station type',
+      stationFixedPhase: 'Manage periodic monitoring',
+      stationFixedPoint: 'Recurring Point Management',
+      qcvn: 'Regulation management',
+      province: 'Management of management units',
+      configWQI: 'Configure WQI',
     },
     tabs: {
       tab1: 'Languages',
@@ -3750,24 +3780,31 @@ export default {
   },
   ticket: {
     menu: {
-      dataLookup: 'Tra cứu dữ liệu',
-      incident: 'Quản lý sự cố',
+      dataLookup: 'Data Lookup',
+      incident: 'Incident Management',
       configProperties: 'Config Properties',
     },
     incidentType: {
-      default: 'Sự cố loại khác',
-      station: 'Sự cố trạm quan trắc',
-      measure: 'Sự cố thông số quan trắc',
+      default: 'Other type problem',
+      station: 'Incident of monitoring station',
+      measure: 'Observation parameter problem',
     },
     label: {
       dataLookup: {},
       incident: {
-        name: 'Tên sự cố',
-        incidentType: 'Loại sự cố',
-        description: 'Mô tả',
-        stationName: 'Tên trạm',
-        measure: 'Thông số',
-        time: 'Thời gian sự cố',
+        name: 'Instance name',
+        incidentType: 'Incident Type',
+        description: 'Description',
+        stationName: 'Station name',
+        provinceName: 'Management unit',
+        measure2: 'Relevant parameters',
+        measure: 'Parameters',
+        time: 'Fault time',
+        attachment: 'Attach file',
+        confirmDelete: 'Do you want to delete this issue',
+        createAt: 'Created at {{=it.time}} date {{=it.date}} ',
+        updatedAt: 'Last update {{=it.time}} date {{=it.date}} ',
+        detailInfo: 'Details',
       },
       configProperties: {
         name: 'Name',
@@ -3784,11 +3821,11 @@ export default {
     placeholder: {
       dataLookup: {},
       incident: {
-        name: 'Nhập vấn đề cần giải quyết',
-        incidentType: 'Sự cố khác',
-        description: 'Nhập mô tả cho sự cố',
-        stationName: 'Chọn tên trạm',
-        measure: 'Thông số',
+        name: 'Enter problem to solve',
+        incidentType: 'Other incident',
+        description: 'Enter a description for the problem',
+        stationName: 'Select station name',
+        measure: 'Parameters',
       },
       configProperties: {
         name: 'Enter name problem',
@@ -3799,8 +3836,8 @@ export default {
     title: {
       dataLookup: {},
       incident: {
-        drawer: 'Tạo mới sự cố',
-        report: 'BÁO CÁO SỰ CỐ',
+        drawer: 'Create new issue',
+        report: 'REPORT PROBLEM',
       },
       configProperties: {
         drawer: {
@@ -3813,6 +3850,7 @@ export default {
       incident: {
         createSuccess: 'Create Success',
         notificationSuccess: 'Update Incident Success',
+        fileSizeLimit: 'File size exceeds 10MB',
         notificationError: 'Error',
       },
       configProperties: {
@@ -3822,12 +3860,12 @@ export default {
     },
     required: {
       incident: {
-        name: 'Vui lòng nhập tên sự cố',
-        incidentType: 'Vui lòng chọn loại sự cố',
-        description: 'Vui nhập mô tả cho sự cố',
-        stationName: 'Vui lòng chọn trạm quan trắc',
-        measure: 'Vui lòng chọn thông số',
-        time: 'Vui lòng chọn thời gian',
+        name: 'Please enter a problem name',
+        incidentType: 'Please select incident type',
+        description: 'Please enter a description for the problem',
+        stationName: 'Please select a monitoring station',
+        measure: 'Please select a parameter',
+        time: 'Please select a time',
       },
       configProperties: {
         required: 'Please input value',
@@ -3836,7 +3874,8 @@ export default {
     },
     button: {
       incident: {
-        create: 'Tạo mới sự cố',
+        create: 'Create new problem',
+        delete: 'Delete problem',
       },
       configProperties: {
         add: 'Create',
