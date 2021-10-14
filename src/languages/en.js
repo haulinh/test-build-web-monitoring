@@ -3699,9 +3699,10 @@ export default {
     title: {
       config: 'Charge Config',
       report: 'Charge Report',
-      name: 'BÁO CÁO PHÍ BẢO VỆ MÔI TRƯỜNG ĐỐI VỚI NƯỚC THẢI CÔNG NGHIỆP',
+      name:
+        'REPORTING ENVIRONMENTAL PROTECTION CHARGES FOR INDUSTRIAL WASTE WATER',
       detail:
-        'Các số liệu được thống kê theo {{=it.time}} từ ngày {{=it.from}} đến {{=it.to}}',
+        'Statistics are according to {{=it.time}} from date {{=it.from}} to {{=it.to}}',
     },
     menu: {
       billingReport: 'Charge Report',
