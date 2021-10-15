@@ -12,10 +12,7 @@ import { ChanelForm } from './ChanelForm'
 
 export const i18n = () => ({
   drawer: {
-    title: {
-      add: t('ticket.title.configProperties.drawer.add'),
-      edit: t('ticket.title.configProperties.drawer.edit'),
-    },
+    title: t('alarm.title.createAlarm'),
   },
   form: {
     label: {
@@ -128,6 +125,7 @@ export default class AlarmForm extends Component {
         onClose={this.handleOnClose}
         visible={visible}
         width={400}
+        title={i18n().drawer.title}
       >
         <Form
           style={{ height: '100%' }}
@@ -179,7 +177,7 @@ export default class AlarmForm extends Component {
                 {form.getFieldDecorator(FIELDS.STATION_ID, {
                   rules: [
                     {
-                      // message: i18n().error.isNumber,
+                      required: true,
                     },
                   ],
                 })(<SelectStationAuto fieldValue="_id" />)}

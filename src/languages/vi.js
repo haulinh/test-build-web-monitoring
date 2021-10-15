@@ -3893,5 +3893,11 @@ export default {
       management: 'Quản lý cấu hình',
       history: 'Lịch sử cảnh báo',
     },
+    title: {
+      createAlarm: 'Tạo cảnh báo',
+    },
+    popconfirm: {
+      title: 'Bạn có muốn xoá cảnh báo này',
+    },
   },
 }

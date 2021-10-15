@@ -1,9 +1,11 @@
 import { Col, InputNumber, Row, Select, Switch } from 'antd'
-import SelectMeasure from 'components/elements/select-data/SelectMeasure'
 import { FormItem } from 'components/layouts/styles'
+import _ from 'lodash'
 import React from 'react'
 import { alarmType, FIELDS } from '../index'
 import { i18n } from './AlarmForm'
+import { connect } from 'react-redux'
+import SelectMeasureParameter from 'components/elements/select-measure-parameter'
 
 export const AlarmTypeForm = ({ form }) => {
   const type = form.getFieldValue(FIELDS.TYPE)
@@ -21,23 +23,29 @@ export const AlarmTypeForm = ({ form }) => {
 
 const DisconnectForm = ({ form }) => {
   return (
-    <Row type="flex" justify="space-between">
-      <Col span={16}>
-        <FormItem label={i18n().form.label.disconnectionTime}>
-          {form.getFieldDecorator(FIELDS.MAX_DISCONNECTION_TIME)(
-            <InputNumber style={{ width: '100%' }} />
-          )}
-        </FormItem>
-      </Col>
-      <Col span={5}>
-        <FormItem label={i18n().form.label.repeatConfig}>
-          {form.getFieldDecorator(`${FIELDS.REPEAT_CONFIG}.active`, {
-            valuePropName: 'checked',
-            initialValue: true,
-          })(<Switch />)}
-        </FormItem>
-      </Col>
-    </Row>
+    <React.Fragment>
+      <Row type="flex" justify="space-between">
+        <Col span={16}>
+          <FormItem
+            marginBottom="0px"
+            label={i18n().form.label.disconnectionTime}
+          >
+            {form.getFieldDecorator(FIELDS.MAX_DISCONNECTION_TIME)(
+              <InputNumber style={{ width: '100%' }} />
+            )}
+          </FormItem>
+          <span>Thời gian từ khi mất tín hiệu đến lúc gửi cảnh báo</span>
+        </Col>
+        <Col span={5}>
+          <FormItem marginBottom="0px" label={i18n().form.label.repeatConfig}>
+            {form.getFieldDecorator(`${FIELDS.REPEAT_CONFIG}.active`, {
+              valuePropName: 'checked',
+              initialValue: true,
+            })(<Switch />)}
+          </FormItem>
+        </Col>
+      </Row>
+    </React.Fragment>
   )
 }
 
@@ -91,14 +99,26 @@ const frequency = {
   },
 }
 
-const ExceedForm = ({ form }) => {
+const mapStateToProp = state => {
+  const stationAutoById = _.keyBy(state.stationAuto.list, '_id')
+  return { stationAutoById }
+}
+
+const ExceedForm = connect(mapStateToProp)(({ form, ...props }) => {
+  const stationIdSelected = form.getFieldValue(FIELDS.STATION_ID)
+  const measuringList = _.get(
+    props.stationAutoById,
+    `${stationIdSelected}.measuringList`,
+    []
+  )
+
   return (
     <React.Fragment>
       <Row type="flex" justify="space-between">
         <Col span={6}>
           <FormItem label={i18n().form.label.measure}>
             {form.getFieldDecorator(`${FIELDS.CONDITIONS}.measure`)(
-              <SelectMeasure style={{ width: '100%' }} />
+              <SelectMeasureParameter measuringList={measuringList} />
             )}
           </FormItem>
         </Col>
@@ -155,4 +175,4 @@ const ExceedForm = ({ form }) => {
       </Row>
     </React.Fragment>
   )
-}
+})
