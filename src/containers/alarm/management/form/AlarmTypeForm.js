@@ -6,6 +6,7 @@ import { alarmType, FIELDS } from '../index'
 import { i18n } from './AlarmForm'
 import { connect } from 'react-redux'
 import SelectMeasureParameter from 'components/elements/select-measure-parameter'
+import { translate } from 'hoc/create-lang'
 
 export const AlarmTypeForm = ({ form }) => {
   const type = form.getFieldValue(FIELDS.TYPE)
@@ -30,11 +31,16 @@ const DisconnectForm = ({ form }) => {
             marginBottom="0px"
             label={i18n().form.label.disconnectionTime}
           >
-            {form.getFieldDecorator(FIELDS.MAX_DISCONNECTION_TIME)(
-              <InputNumber style={{ width: '100%' }} />
-            )}
+            {form.getFieldDecorator(FIELDS.MAX_DISCONNECTION_TIME, {
+              rules: [
+                {
+                  required: true,
+                  message: translate('alarm.required.disconnectionTime'),
+                },
+              ],
+            })(<InputNumber style={{ width: '100%' }} />)}
           </FormItem>
-          <span>Thời gian từ khi mất tín hiệu đến lúc gửi cảnh báo</span>
+          <span>{translate('alarm.suggest.disconnectionTime')}</span>
         </Col>
         <Col span={5}>
           <FormItem marginBottom="0px" label={i18n().form.label.repeatConfig}>
@@ -117,14 +123,21 @@ const ExceedForm = connect(mapStateToProp)(({ form, ...props }) => {
       <Row type="flex" justify="space-between">
         <Col span={6}>
           <FormItem label={i18n().form.label.measure}>
-            {form.getFieldDecorator(`${FIELDS.CONDITIONS}.measure`)(
-              <SelectMeasureParameter measuringList={measuringList} />
-            )}
+            {form.getFieldDecorator(`${FIELDS.CONDITIONS}.measure`, {
+              rules: [
+                {
+                  required: true,
+                  message: translate('ticket.required.incident.measure'),
+                },
+              ],
+            })(<SelectMeasureParameter measuringList={measuringList} />)}
           </FormItem>
         </Col>
         <Col span={6}>
           <FormItem label={i18n().form.label.compare}>
-            {form.getFieldDecorator(`${FIELDS.CONDITIONS}.operator`)(
+            {form.getFieldDecorator(`${FIELDS.CONDITIONS}.operator`, {
+              initialValue: operator.eq.value,
+            })(
               <Select style={{ width: '100%' }}>
                 {Object.values(operator).map(operatorItem => (
                   <Select.Option
@@ -141,9 +154,14 @@ const ExceedForm = connect(mapStateToProp)(({ form, ...props }) => {
 
         <Col span={6}>
           <FormItem label={i18n().form.label.value}>
-            {form.getFieldDecorator(`${FIELDS.CONDITIONS}.value`)(
-              <InputNumber style={{ width: '100%' }} />
-            )}
+            {form.getFieldDecorator(`${FIELDS.CONDITIONS}.value`, {
+              rules: [
+                {
+                  required: true,
+                  message: translate('aqiConfigCalculation.required'),
+                },
+              ],
+            })(<InputNumber style={{ width: '100%' }} />)}
           </FormItem>
         </Col>
       </Row>
@@ -158,7 +176,9 @@ const ExceedForm = connect(mapStateToProp)(({ form, ...props }) => {
         </Col>
         <Col span={8}>
           <FormItem label={i18n().form.label.frequency}>
-            {form.getFieldDecorator(`${FIELDS.REPEAT_CONFIG}.frequency`)(
+            {form.getFieldDecorator(`${FIELDS.REPEAT_CONFIG}.frequency`, {
+              initialValue: frequency['15p'].value,
+            })(
               <Select style={{ width: '100%' }}>
                 {Object.values(frequency).map(frequencyItem => (
                   <Select.Option
