@@ -3895,9 +3895,14 @@ export default {
     },
     title: {
       createAlarm: 'Tạo cảnh báo',
+      chanel: 'Kênh',
     },
     popconfirm: {
       title: 'Bạn có muốn xoá cảnh báo này',
     },
+    suggest: {
+      disconnectionTime: 'Thời gian từ khi mất tín hiệu đến lúc gửi cảnh báo',
+    },
+    required: { disconnectionTime: 'Vui lòng nhập thời gian mất tín hiệu' },
   },
 }

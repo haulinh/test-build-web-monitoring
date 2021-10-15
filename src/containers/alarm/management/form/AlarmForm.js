@@ -178,6 +178,7 @@ export default class AlarmForm extends Component {
                   rules: [
                     {
                       required: true,
+                      message: t('ticket.required.incident.stationName'),
                     },
                   ],
                 })(<SelectStationAuto fieldValue="_id" />)}
