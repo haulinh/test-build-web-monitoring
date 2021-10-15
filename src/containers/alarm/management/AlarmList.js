@@ -1,4 +1,4 @@
-import { Col, Row, Table } from 'antd'
+import { Col, Popconfirm, Row, Table } from 'antd'
 import _ from 'lodash'
 import React from 'react'
 import { connect } from 'react-redux'
@@ -46,12 +46,16 @@ const AlarmList = ({ data, loading, getData, ...props }) => {
         return (
           <Row type="flex" gutter={12}>
             <Col>
-              <div
-                onClick={() => updateStatus(record._id, 'delete')}
-                style={{ color: '#E64D3D' }}
+              <Popconfirm
+                title={translate('alarm.popconfirm.title')}
+                okText={translate('global.submit')}
+                cancelText={translate('global.cancel')}
+                onConfirm={() => updateStatus(record._id, 'delete')}
               >
-                {translate('global.delete')}
-              </div>
+                <div style={{ color: '#E64D3D' }}>
+                  {translate('global.delete')}
+                </div>
+              </Popconfirm>
             </Col>
             <Col>
               {value === 'disable' ? (

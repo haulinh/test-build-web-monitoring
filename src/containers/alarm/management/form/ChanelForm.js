@@ -50,7 +50,8 @@ export const ChanelForm = ({ form }) => {
             <span>Template</span>
             <Clearfix height={4} />
             {form.getFieldDecorator(
-              `${FIELDS.CHANNELS}.${channel.type}.template`
+              `${FIELDS.CHANNELS}.${channel.type}.template`,
+              { initialValue: '' }
             )(<TextArea />)}
             {form.getFieldDecorator(`${FIELDS.CHANNELS}.${channel.type}.type`, {
               initialValue: channel.type,
