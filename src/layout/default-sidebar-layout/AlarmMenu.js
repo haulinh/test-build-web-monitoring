@@ -8,7 +8,7 @@ import { translate as t } from 'hoc/create-lang'
 
 const CENTER = {
   display: 'flex',
-  alignItems: 'center',
+  // alignItems: 'center',
   fontWeight: 600,
 }
 
@@ -20,7 +20,7 @@ export default {
         <Tooltip placement="right" title={listTooltipMenu().alarm.management}>
           <div style={CENTER}>
             <img alt="alarm" src="/images/menu-app/alarm.svg" />
-            <span style={{ marginLeft: 12 }}>{listMenuName().alarm}</span>
+            <div style={{ marginLeft: 12 }}>{listMenuName().alarm}</div>
           </div>
         </Tooltip>
       }

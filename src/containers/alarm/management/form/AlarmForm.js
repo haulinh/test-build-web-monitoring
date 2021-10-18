@@ -34,7 +34,7 @@ export const i18n = () => ({
   error: {
     required: t('ticket.required.configProperties.required'),
     isNumber: t('ticket.required.configProperties.isNumber'),
-    max32: t('rules.max32'),
+    max64: t('rules.max64'),
   },
   button: {
     add: t('alarm.title.createAlarm'),
@@ -143,8 +143,8 @@ export default class AlarmForm extends Component {
                       message: i18n().error.required,
                     },
                     {
-                      max: 32,
-                      message: i18n().error.max32,
+                      max: 64,
+                      message: i18n().error.max64,
                     },
                     {
                       whitespace: true,
