@@ -3895,7 +3895,7 @@ export default {
     },
     title: {
       createAlarm: 'Tạo cảnh báo',
-      chanel: 'Kênh',
+      chanel: 'Kênh nhận cảnh báo',
     },
     popconfirm: {
       title: 'Bạn có muốn xoá cảnh báo này',
@@ -3904,5 +3904,57 @@ export default {
       disconnectionTime: 'Thời gian từ khi mất tín hiệu đến lúc gửi cảnh báo',
     },
     required: { disconnectionTime: 'Vui lòng nhập thời gian mất tín hiệu' },
+    label: {
+      management: {
+        name: 'Tên cảnh báo',
+        type: 'Loại cảnh báo',
+        disconnectionTime: 'Thời gian mất tín hiệu (phút)',
+        repeatConfig: 'Gửi lặp lại',
+        station: 'Trạm',
+        measure: 'Thông số',
+        compare: 'So sánh',
+        value: 'Giá trị',
+        recipient: 'Người nhận',
+        frequency: 'Tần suất',
+      },
+    },
+    placeholder: {
+      management: {
+        name: 'Nhập tên cảnh báo',
+      },
+    },
+    message: {
+      management: {
+        createSuccess: 'Tạo cảnh báo thành công',
+        createError: 'Tạo cảnh thất bại',
+      },
+    },
+    alarmType: {
+      disconnect: {
+        label: 'Mất tín hiệu',
+        value: 'disconnect',
+        template: `{{station}} : Tên trạm quan trắc bị mất tín hiệu,
+    {{time}} : Thời gian mất tín hiệu của trạm quan trắc`,
+      },
+      advance: {
+        label: 'Nâng cao',
+        value: 'advance',
+        template: ``,
+      },
+      exceed: {
+        label: 'Vượt ngưỡng',
+        value: 'exceed',
+        template: `{{station}} : Tên trạm quan trắc bị vượt ngưỡng,
+{{measure}} : Thông số bị vượt ngưỡng của trạm quan trắc,
+{{value}} : Giá trị của thông số,
+{{unit}} : Đơn vị của thông số,
+{​​​​​{​​​​​config}​​​​​}​​​​​ : Giá trị cấu hình của thông số,
+{{time}} : Thời gian thông số bị vượt ngưỡng`,
+      },
+      device: {
+        label: 'Thiết bị',
+        value: 'device',
+      },
+    },
   },
 }

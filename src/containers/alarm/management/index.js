@@ -15,29 +15,24 @@ const Breadcrumb = createBreadcrumb()
 
 export const alarmType = {
   disconnect: {
-    label: 'Mất tín hiệu',
+    label: () => t('alarm.alarmType.disconnect.label'),
     value: 'disconnect',
-    template: `{{station}} : Tên trạm quan trắc bị mất tín hiệu,
-    {{time}} : Thời gian mất tín hiệu của trạm quan trắc`,
+    template: () => t('alarm.alarmType.disconnect.template', undefined, false),
   },
-  advance: {
-    label: 'Nâng cao',
-    value: 'advance',
-    template: ``,
-  },
+  // advance: {
+  //   label: 'Nâng cao',
+  //   value: 'advance',
+  //   template: ``,
+  // },
   exceed: {
-    label: 'Vượt ngưỡng',
+    label: () => t('alarm.alarmType.exceed.label'),
     value: 'exceed',
-    template: `{{station}} : Tên trạm quan trắc bị vượt ngưỡng,
-{{measure}} : Thông số bị vượt ngưỡng của trạm quan trắc,
-{{value}} : Giá trị của thông số,
-{{unit}} : Đơn vị của thông số,
-{{time}} : Thời gian thông số bị vượt ngưỡng`,
+    template: () => t('alarm.alarmType.exceed.template', undefined, false),
   },
-  device: {
-    label: 'Thiết bị',
-    value: 'device',
-  },
+  // device: {
+  //   label: 'Thiết bị',
+  //   value: 'device',
+  // },
 }
 
 export const FIELDS = {

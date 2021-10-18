@@ -40,7 +40,8 @@ export const ChanelForm = ({ form }) => {
   }
 
   const typeAlarm = form.getFieldValue(FIELDS.TYPE)
-  const titleTooltip = alarmType[typeAlarm].template
+  const titleTooltip = alarmType[typeAlarm]
+    .template()
     .split(',')
     .map(text => <div>{text}</div>)
 
@@ -62,6 +63,7 @@ export const ChanelForm = ({ form }) => {
             key={channel.type}
             header={channel.label}
             extra={genExtra(channel.type)}
+            disabled={channel.type === 'mobile'}
           >
             {channel.template && (
               <React.Fragment>
