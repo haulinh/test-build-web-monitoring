@@ -19,8 +19,12 @@ export default {
       title={
         <Tooltip placement="right" title={listTooltipMenu().alarm.management}>
           <div style={CENTER}>
-            <img alt="alarm" src="/images/menu-app/alarm.svg" />
-            <span style={{ marginLeft: 12 }}>{listMenuName().alarm}</span>
+            <img
+              style={{ height: 22, width: 22 }}
+              alt="alarm"
+              src="/images/menu-app/alarm.svg"
+            />
+            <div style={{ marginLeft: 12 }}>{listMenuName().alarm}</div>
           </div>
         </Tooltip>
       }

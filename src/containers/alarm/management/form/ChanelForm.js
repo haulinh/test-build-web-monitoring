@@ -22,7 +22,7 @@ const channels = {
   mobile: {
     type: 'mobile',
     active: false,
-    template: false,
+    template: true,
     label: 'Mobile',
   },
 }
@@ -63,31 +63,28 @@ export const ChanelForm = ({ form }) => {
             key={channel.type}
             header={channel.label}
             extra={genExtra(channel.type)}
-            disabled={channel.type === 'mobile'}
           >
-            {channel.template && (
-              <React.Fragment>
-                <Row type="flex" gutter={6}>
-                  <Col>
-                    <span>Template</span>
-                  </Col>
-                  <Col>
-                    <Tooltip title={titleTooltip}>
-                      <Icon
-                        type="question-circle"
-                        theme="outlined"
-                        style={{ color: '#2F6BFF' }}
-                      />
-                    </Tooltip>
-                  </Col>
-                </Row>
-                <Clearfix height={4} />
-                {form.getFieldDecorator(
-                  `${FIELDS.CHANNELS}.${channel.type}.template`,
-                  { initialValue: '' }
-                )(<TextArea />)}
-              </React.Fragment>
-            )}
+            <React.Fragment>
+              <Row type="flex" gutter={6}>
+                <Col>
+                  <span>Template</span>
+                </Col>
+                <Col>
+                  <Tooltip title={titleTooltip}>
+                    <Icon
+                      type="question-circle"
+                      theme="outlined"
+                      style={{ color: '#2F6BFF' }}
+                    />
+                  </Tooltip>
+                </Col>
+              </Row>
+              <Clearfix height={4} />
+              {form.getFieldDecorator(
+                `${FIELDS.CHANNELS}.${channel.type}.template`,
+                { initialValue: '' }
+              )(<TextArea />)}
+            </React.Fragment>
             {form.getFieldDecorator(`${FIELDS.CHANNELS}.${channel.type}.type`, {
               initialValue: channel.type,
             })(<div />)}
