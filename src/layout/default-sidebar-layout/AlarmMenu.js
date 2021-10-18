@@ -19,17 +19,7 @@ export default {
       title={
         <Tooltip placement="right" title={listTooltipMenu().alarm.management}>
           <div style={CENTER}>
-            <IconAntd
-              type="form"
-              style={{
-                fontSize: '20px',
-                width: '22px',
-                height: '22px',
-                fontWeight: 'bold',
-                marginLeft: '2px',
-                marginRight: '0px',
-              }}
-            />
+            <img alt="alarm" src="/images/menu-app/alarm.svg" />
             <span style={{ marginLeft: 12 }}>{listMenuName().alarm}</span>
           </div>
         </Tooltip>

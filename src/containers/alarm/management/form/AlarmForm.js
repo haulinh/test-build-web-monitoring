@@ -1,4 +1,4 @@
-import { Button, Form, Input, Select } from 'antd'
+import { Button, Form, Input, Select, Icon, message } from 'antd'
 import CalculateApi from 'api/CalculateApi'
 import CDrawer from 'components/core/drawer'
 import SelectUser from 'components/elements/select-data/SelectUser'
@@ -16,34 +16,28 @@ export const i18n = () => ({
   },
   form: {
     label: {
-      name: 'Tên cảnh báo',
-      type: 'Loại cảnh báo',
-      disconnectionTime: 'Thời gian mất tín hiệu (phút)',
-      repeatConfig: 'Gửi lặp lại',
-      station: 'Trạm',
-      measure: 'Thông số',
-      compare: 'So sánh',
-      value: 'Giá trị',
-      recipient: 'Người nhận',
-      frequency: 'Tần suất',
+      name: t('alarm.label.management.name'),
+      type: t('alarm.label.management.type'),
+      disconnectionTime: t('alarm.label.management.disconnectionTime'),
+      repeatConfig: t('alarm.label.management.repeatConfig'),
+      station: t('alarm.label.management.station'),
+      measure: t('alarm.label.management.measure'),
+      compare: t('alarm.label.management.compare'),
+      value: t('alarm.label.management.value'),
+      recipient: t('alarm.label.management.recipient'),
+      frequency: t('alarm.label.management.frequency'),
     },
     placeholder: {
-      name: 'Nhập tên cảnh báo',
+      name: t('alarm.label.management.name'),
     },
-  },
-  button: {
-    add: t('ticket.button.configProperties.add'),
-    edit: t('ticket.button.configProperties.edit'),
-    del: t('ticket.button.configProperties.del'),
   },
   error: {
     required: t('ticket.required.configProperties.required'),
     isNumber: t('ticket.required.configProperties.isNumber'),
     max32: t('rules.max32'),
   },
-  message: {
-    success: text => text + ' ' + t('ticket.message.configProperties.success'),
-    error: t('ticket.message.configProperties.error'),
+  button: {
+    add: t('alarm.title.createAlarm'),
   },
 })
 
@@ -72,7 +66,10 @@ export default class AlarmForm extends Component {
 
     try {
       await CalculateApi.createAlarm(param)
-    } catch (error) {}
+      message.success(t('alarm.message.management.createSuccess'))
+    } catch (error) {
+      message.error(t('alarm.message.management.createError'))
+    }
 
     getData()
 
@@ -118,7 +115,6 @@ export default class AlarmForm extends Component {
 
   render() {
     const { visible, form } = this.props
-    console.log({ value: form.getFieldsValue() })
     return (
       <CDrawer
         closable={false}
@@ -126,6 +122,7 @@ export default class AlarmForm extends Component {
         visible={visible}
         width={400}
         title={i18n().drawer.title}
+        right={<Icon type="close" onClick={this.handleOnClose} />}
       >
         <Form
           style={{ height: '100%' }}
@@ -149,6 +146,10 @@ export default class AlarmForm extends Component {
                       max: 32,
                       message: i18n().error.max32,
                     },
+                    {
+                      whitespace: true,
+                      message: i18n().error.required,
+                    },
                   ],
                 })(<Input placeholder={i18n().form.placeholder.name} />)}
               </FormItem>
@@ -166,7 +167,7 @@ export default class AlarmForm extends Component {
                   <Select>
                     {Object.values(alarmType).map(item => (
                       <Select.Option key={item.value} value={item.value}>
-                        {item.label}
+                        {item.label()}
                       </Select.Option>
                     ))}
                   </Select>
@@ -206,8 +207,9 @@ export default class AlarmForm extends Component {
                 minHeight: 32,
               }}
             >
-              Tao
+              {i18n().button.add}
             </Button>
+            <div style={{ height: 12, minHeight: 12 }} />
           </Flex>
         </Form>
       </CDrawer>

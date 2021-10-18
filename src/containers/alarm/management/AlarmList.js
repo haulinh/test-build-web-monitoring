@@ -37,7 +37,7 @@ const AlarmList = ({ data, loading, getData, ...props }) => {
     {
       dataIndex: 'type',
       title: i18n().form.label.type,
-      render: value => <div>{alarmType[value].label}</div>,
+      render: value => <div>{alarmType[value].label()}</div>,
     },
     {
       dataIndex: 'status',

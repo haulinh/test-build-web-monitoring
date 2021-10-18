@@ -46,9 +46,7 @@ export default class IncidentDetail extends Component {
     try {
       await CalculateApi.deleteTicket(id)
       history.push(slug.ticket.incident)
-    } catch (error) {
-      console.log({ error })
-    }
+    } catch (error) {}
   }
 
   ButtonDelete = () => {

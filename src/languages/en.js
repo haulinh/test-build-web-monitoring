@@ -3894,5 +3894,68 @@ export default {
       management: 'Management Config',
       history: 'History Alarm',
     },
+    title: {
+      createAlarm: 'Create Alarm',
+      chanel: 'Channels',
+    },
+    popconfirm: {
+      title: 'Are you want to delete this alarm',
+    },
+    suggest: {
+      disconnectionTime: 'Time from the lost signal to come to send warning',
+    },
+    required: { disconnectionTime: 'Please type disconnect time' },
+    label: {
+      management: {
+        name: 'Alarm Name',
+        type: 'Alarm Type',
+        disconnectionTime: 'Disconnection Time (minute)',
+        repeatConfig: 'Repeat Send',
+        station: 'Station',
+        measure: 'Measure',
+        compare: 'Compare',
+        value: 'Value',
+        recipient: 'Recipient',
+        frequency: 'Frequency',
+      },
+    },
+    placeholder: {
+      management: {
+        name: 'Type Alarm Name',
+      },
+    },
+    message: {
+      management: {
+        createSuccess: 'Create Alarm Success',
+        createError: 'Create Alarm Error',
+      },
+    },
+    alarmType: {
+      disconnect: {
+        label: 'Disconnect',
+        value: 'disconnect',
+        template: `{{station}} : Name of monitoring station that lost signal,
+        {{time}} : Signal loss time of monitoring station`,
+      },
+      advance: {
+        label: 'Adcance',
+        value: 'advance',
+        template: ``,
+      },
+      exceed: {
+        label: 'Exceed',
+        value: 'exceed',
+        template: `{{station}} : The name of the monitoring station exceeded the threshold,
+        {{measure}} : The parameter is exceeded the threshold of the monitoring station,
+        {{value}} : The value of the parameter,
+        {{unit}} : The unit of the parameter,
+{​​​​​{​​​​​config}​​​​​}​​​​​ : Configurable parameter value,
+        {{time}} : The time the parameter was exceeded`,
+      },
+      device: {
+        label: 'Device',
+        value: 'device',
+      },
+    },
   },
 }
