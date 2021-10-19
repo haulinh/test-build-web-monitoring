@@ -82,7 +82,7 @@ export const ChanelForm = ({ form }) => {
               <Clearfix height={4} />
               {form.getFieldDecorator(
                 `${FIELDS.CHANNELS}.${channel.type}.template`,
-                { initialValue: '' }
+                { initialValue: alarmType[typeAlarm].initialValue }
               )(<TextArea />)}
             </React.Fragment>
             {form.getFieldDecorator(`${FIELDS.CHANNELS}.${channel.type}.type`, {
