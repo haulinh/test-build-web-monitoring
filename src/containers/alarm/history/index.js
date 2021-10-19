@@ -2,9 +2,14 @@ import { Form } from 'antd'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import React, { Component } from 'react'
 import { Filter } from './Filter'
-import { HistoryList } from './HistoryList'
 import { Search, BoxShadow, Clearfix } from 'components/layouts/styles'
 import { getTimes, getTimesUTC } from 'utils/datetime'
+import CalculateApi from 'api/CalculateApi'
+import HistoryList from './HistoryList'
+import { translate as t } from 'hoc/create-lang'
+import createBreadcrumb from 'shared/breadcrumb/hoc'
+
+const Breadcrumb = createBreadcrumb()
 
 export const FIELDS = {
   TIME: 'time',
@@ -16,7 +21,7 @@ export const FIELDS = {
 export default class AlarmHistory extends Component {
   state = {
     visible: false,
-    result: {},
+    result: [],
     loading: false,
     page: 1,
     total: null,
@@ -27,8 +32,8 @@ export default class AlarmHistory extends Component {
     if (!params) return
     this.setState({ loading: true })
     try {
-      // const result = await CalculateApi.getTickets(params)
-      // this.setState({ result, loading: false })
+      const result = await CalculateApi.getAlarmsLog(params)
+      this.setState({ result, loading: false })
     } catch (error) {
       console.log(error)
       this.setState({ loading: false })
@@ -46,6 +51,7 @@ export default class AlarmHistory extends Component {
     const queryParams = {
       from,
       to,
+      stationIdsStr: values[FIELDS.STATION_IDS].join()
     }
 
     return queryParams
@@ -53,16 +59,25 @@ export default class AlarmHistory extends Component {
 
   render() {
     const { form } = this.props
-    const { loading } = this.state
+    const { loading, result } = this.state
     return (
       <PageContainer>
+        <Breadcrumb
+          items={[
+            {
+              id: '1',
+              name: t('alarm.menu.history'),
+            },
+          ]}
+        />
         <Clearfix height={32} />
         <Search onSearch={this.handleOnSearch} loading={loading}>
           <BoxShadow>
             <Filter form={form} onSearch={this.handleOnSearch} />
           </BoxShadow>
         </Search>
-        <HistoryList />
+        <Clearfix height={24} />
+        <HistoryList data={result} />
       </PageContainer>
     )
   }

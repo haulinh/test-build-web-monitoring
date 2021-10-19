@@ -12,6 +12,7 @@ function calc(prefix = '') {
 }
 
 const prefixAlarm = 'alarm-subscription'
+const prefixAlarmLog = 'alarm-log'
 
 export default {
   getWQIPeriodic: params => {
@@ -98,6 +99,10 @@ export default {
   getAlarms: () => {
     const url = calc(prefixAlarm)
     return getFetch(url)
+  },
+  getAlarmsLog: param => {
+    const url = calc(prefixAlarmLog)
+    return getFetch(url, param)
   },
   updateStatusAlarm: (id, status) => {
     const url = calc(`${prefixAlarm}/${id}/${status}`)
