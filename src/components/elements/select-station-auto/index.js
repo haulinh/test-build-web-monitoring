@@ -97,7 +97,6 @@ export default class SelectStationAuto extends React.PureComponent {
     }
 
     onChange(stationKeys)
-    console.log(stationKeys)
     if (onChangeObject) onChangeObject(stationType)
   }
 

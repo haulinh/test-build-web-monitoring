@@ -33,6 +33,11 @@ const LeftContent = ({ form, record, updateTicket, setName, setUpdatedAt }) => {
               required: true,
               message: translate('ticket.required.incident.name'),
             },
+            { max: 64, message: translate('rules.max64') },
+            {
+              whitespace: true,
+              message: translate('ticket.required.incident.name'),
+            },
           ],
         })(
           <EditWrapper2

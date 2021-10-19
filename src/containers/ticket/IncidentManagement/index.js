@@ -15,6 +15,7 @@ import _ from 'lodash'
 import createBreadcrumb from 'shared/breadcrumb/hoc'
 import protectRole from 'hoc/protect-role'
 import ROLE from 'constants/role'
+import { connect } from 'react-redux'
 
 const Breadcrumb = createBreadcrumb()
 
@@ -55,6 +56,9 @@ export const PAGE_SIZE = 10
 
 @protectRole(ROLE.INCIDENT_MANAGEMENT.VIEW)
 @Form.create()
+@connect(state => ({
+  type: state.ticket.type,
+}))
 export default class IncidentManagement extends Component {
   state = {
     visible: false,
@@ -62,6 +66,13 @@ export default class IncidentManagement extends Component {
     loading: false,
     page: 1,
     total: null,
+  }
+
+  componentDidMount() {
+    const { type, form } = this.props
+    if (type) {
+      form.setFieldsValue({ [Fields.type]: type })
+    }
   }
 
   showDrawer = () => {
@@ -150,6 +161,8 @@ export default class IncidentManagement extends Component {
     const { visible, result, page, loading } = this.state
     const { form } = this.props
 
+    const type = form.getFieldValue(Fields.type)
+
     return (
       <PageContainer right={this.ButtonAdd()}>
         <Breadcrumb
@@ -189,6 +202,7 @@ export default class IncidentManagement extends Component {
           onSearch={this.handleOnSearch}
           page={page}
           loading={loading}
+          type={type}
         />
 
         <IncidentCreate

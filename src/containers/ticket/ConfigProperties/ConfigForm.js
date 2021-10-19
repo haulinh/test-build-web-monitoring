@@ -183,7 +183,7 @@ export default class ConfigForm extends Component {
   handleOnClose = async () => {
     const { form } = this.props
     const values = form.getFieldsValue()
-    const isValue = Object.values(values).some(value => (value))
+    const isValue = Object.values(values).some(value => value)
     const { isSubmitted } = this.state
     if (isSubmitted || !isValue) {
       this.props.onClose()
@@ -278,6 +278,10 @@ export default class ConfigForm extends Component {
                       {
                         max: 32,
                         message: i18n().error.max32,
+                      },
+                      {
+                        whitespace: true,
+                        message: i18n().error.required,
                       },
                     ],
                   })(<Input placeholder={i18n().form.placeholder.name} />)}

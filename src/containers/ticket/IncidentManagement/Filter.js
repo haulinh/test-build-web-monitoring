@@ -18,7 +18,7 @@ export default class Filter extends Component {
   }
 
   onStationAutosFetchSuccess = stationAutos => {
-    const { form, onSearch } = this.props
+    const { form } = this.props
 
     const stationAutoIds = stationAutos.map(stationAuto => stationAuto._id)
 
@@ -26,7 +26,6 @@ export default class Filter extends Component {
       [Fields.stationIds]: stationAutoIds,
       [Fields.time]: [moment().startOf('M'), moment().endOf('M')],
     })
-    onSearch && onSearch()
   }
 
   isDisableStation = () => {
