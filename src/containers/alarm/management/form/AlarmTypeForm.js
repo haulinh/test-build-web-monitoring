@@ -130,7 +130,12 @@ const ExceedForm = connect(mapStateToProp)(({ form, ...props }) => {
                   message: translate('ticket.required.incident.measure'),
                 },
               ],
-            })(<SelectMeasureParameter measuringList={measuringList} />)}
+            })(
+              <SelectMeasureParameter
+                measuringList={measuringList}
+                mode="single"
+              />
+            )}
           </FormItem>
         </Col>
         <Col span={6}>
