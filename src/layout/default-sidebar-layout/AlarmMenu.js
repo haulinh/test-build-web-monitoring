@@ -1,10 +1,10 @@
-import { Menu, Tooltip, Icon as IconAntd } from 'antd'
+import { Menu, Tooltip } from 'antd'
 import ROLE from 'constants/role'
-import slug, { MENU_GROUP, listTooltipMenu, listMenuName } from 'constants/slug'
+import slug, { listMenuName, listTooltipMenu, MENU_GROUP } from 'constants/slug'
+import { translate as t } from 'hoc/create-lang'
 import protectRole from 'hoc/protect-role/forMenu'
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { translate as t } from 'hoc/create-lang'
 
 const CENTER = {
   display: 'flex',

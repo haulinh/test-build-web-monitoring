@@ -18,6 +18,7 @@ export const alarmType = {
     label: () => t('alarm.alarmType.disconnect.label'),
     value: 'disconnect',
     template: () => t('alarm.alarmType.disconnect.template', undefined, false),
+    initialValue: `Station: {{station}} disconnected at {{time}}`,
   },
   // advance: {
   //   label: 'Nâng cao',
@@ -28,6 +29,7 @@ export const alarmType = {
     label: () => t('alarm.alarmType.exceed.label'),
     value: 'exceed',
     template: () => t('alarm.alarmType.exceed.template', undefined, false),
+    initialValue: `Station: {{station}} - Data exceed the threshold {{measure}} : {{value}} {{unit}} (Threshold: {{config}} {{unit}} ) at {{time}}`,
   },
   // device: {
   //   label: 'Thiết bị',
