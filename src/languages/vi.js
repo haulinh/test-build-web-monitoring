@@ -3866,6 +3866,7 @@ export default {
         stationName: 'Vui lòng chọn trạm quan trắc',
         measure: 'Vui lòng chọn thông số',
         time: 'Vui lòng chọn thời gian',
+        recipient: 'Vui lòng chọn người nhận',
       },
       configProperties: {
         required: 'Vui lòng nhập dữ liệu',
