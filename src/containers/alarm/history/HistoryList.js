@@ -10,7 +10,7 @@ const i18n = () => ({
   happening: t('alarm.alarmType.history.happening'),
   done: t('alarm.alarmType.history.done'),
   disconnect: t('alarm.alarmType.disconnect.label'),
-  exceed: t('alarm.alarmType.exceed.label')
+  exceed: t('alarm.alarmType.exceed.label'),
 })
 
 const TableStyled = styled(Table)`
@@ -58,7 +58,7 @@ class TableAlarm extends React.Component {
     {
       dataIndex: 'status',
       title: t('alarm.label.history.status'),
-      render: (value, record) => <div>{i18n()[value]}</div>
+      render: (value, record) => <div style={{ color: i18n()[value] !== 'disconnect' ? 'red' : 'gray' }}>{i18n()[value]}</div>
     },
   ]
 
