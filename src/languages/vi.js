@@ -3904,7 +3904,10 @@ export default {
     suggest: {
       disconnectionTime: 'Thời gian từ khi mất tín hiệu đến lúc gửi cảnh báo',
     },
-    required: { disconnectionTime: 'Vui lòng nhập thời gian mất tín hiệu' },
+    required: {
+      disconnectionTime: 'Vui lòng nhập thời gian mất tín hiệu',
+      timeEnd: 'Thời gian kết thúc phải lớn hơn thời gian bắt đầu',
+    },
     label: {
       management: {
         name: 'Tên cảnh báo',

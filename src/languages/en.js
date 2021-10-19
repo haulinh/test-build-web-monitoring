@@ -3905,7 +3905,10 @@ export default {
     suggest: {
       disconnectionTime: 'Time from the lost signal to come to send warning',
     },
-    required: { disconnectionTime: 'Please type disconnect time' },
+    required: {
+      disconnectionTime: 'Please type disconnect time',
+      timeEnd: 'Time End must large than Time Start',
+    },
     label: {
       management: {
         name: 'Alarm Name',
