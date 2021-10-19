@@ -63,8 +63,8 @@ export default class SelectProvince extends PureComponent {
 
   handleOnChange = value => {
     this.setState({ value })
-    const {provinces} = this.state
-    const {onHandleChange,onChange, isUsedId, fieldValue} = this.props
+    const { provinces } = this.state
+    const { onHandleChange, onChange, isUsedId, fieldValue } = this.props
     let res = provinces.find(item => item[fieldValue || 'key'] === value)
     if (value === '' || !res) {
       res = { key: '' }
@@ -98,10 +98,10 @@ export default class SelectProvince extends PureComponent {
       typeof value === 'object' && value != null ? value.key : value
     return (
       <Select
-        {...this.props}
         style={{ width: '100%' }}
         showSearch
         allowClear
+        {...this.props}
         onChange={this.handleOnChange}
         onSearch={this.handleSearch}
         value={defaultValue || this.state.value}

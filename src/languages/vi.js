@@ -3906,6 +3906,8 @@ export default {
     },
     required: {
       disconnectionTime: 'Vui lòng nhập thời gian mất tín hiệu',
+      station: 'Vui lòng chọn ít nhất một trạm',
+      province: 'Vui lòng chọn ít nhất một đơn vị',
       timeEnd: 'Thời gian kết thúc phải lớn hơn thời gian bắt đầu',
     },
     label: {
@@ -3920,6 +3922,15 @@ export default {
         value: 'Giá trị',
         recipient: 'Người nhận',
         frequency: 'Tần suất',
+      },
+      history: {
+        name: 'Tên cảnh báo',
+        type: 'Loại cảnh báo',
+        station: 'Trạm',
+        time: 'Thời gian',
+        province: 'Đơn vị quản lý',
+        status: 'Trạng thái',
+        timeStart: 'Thời gian bắt đầu',
       },
     },
     placeholder: {
@@ -3958,6 +3969,10 @@ export default {
       device: {
         label: 'Thiết bị',
         value: 'device',
+      },
+      history: {
+        done: 'Đã kết thúc',
+        happening: 'Đang diễn ra',
       },
     },
   },
