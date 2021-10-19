@@ -118,6 +118,8 @@ const ExceedForm = connect(mapStateToProp)(({ form, ...props }) => {
     []
   )
 
+  const repeatConfig = form.getFieldValue(`${FIELDS.REPEAT_CONFIG}.active`)
+
   return (
     <React.Fragment>
       <Row type="flex" justify="space-between">
@@ -130,7 +132,12 @@ const ExceedForm = connect(mapStateToProp)(({ form, ...props }) => {
                   message: translate('ticket.required.incident.measure'),
                 },
               ],
-            })(<SelectMeasureParameter measuringList={measuringList} />)}
+            })(
+              <SelectMeasureParameter
+                measuringList={measuringList}
+                mode="single"
+              />
+            )}
           </FormItem>
         </Col>
         <Col span={6}>
@@ -166,32 +173,34 @@ const ExceedForm = connect(mapStateToProp)(({ form, ...props }) => {
         </Col>
       </Row>
 
-      <Row>
+      <Row gutter={6}>
         <Col span={6}>
           <FormItem label={i18n().form.label.repeatConfig}>
-            {form.getFieldDecorator(`${FIELDS.REPEAT_CONFIG}.active`)(
-              <Switch />
-            )}
+            {form.getFieldDecorator(`${FIELDS.REPEAT_CONFIG}.active`, {
+              valuePropName: 'checked',
+            })(<Switch />)}
           </FormItem>
         </Col>
-        <Col span={8}>
-          <FormItem label={i18n().form.label.frequency}>
-            {form.getFieldDecorator(`${FIELDS.REPEAT_CONFIG}.frequency`, {
-              initialValue: frequency['15p'].value,
-            })(
-              <Select style={{ width: '100%' }}>
-                {Object.values(frequency).map(frequencyItem => (
-                  <Select.Option
-                    value={frequencyItem.value}
-                    key={frequencyItem.value}
-                  >
-                    {frequencyItem.label}
-                  </Select.Option>
-                ))}
-              </Select>
-            )}
-          </FormItem>
-        </Col>
+        {repeatConfig && (
+          <Col span={8}>
+            <FormItem label={i18n().form.label.frequency}>
+              {form.getFieldDecorator(`${FIELDS.REPEAT_CONFIG}.frequency`, {
+                initialValue: frequency['15p'].value,
+              })(
+                <Select style={{ width: '100%' }}>
+                  {Object.values(frequency).map(frequencyItem => (
+                    <Select.Option
+                      value={frequencyItem.value}
+                      key={frequencyItem.value}
+                    >
+                      {frequencyItem.label}
+                    </Select.Option>
+                  ))}
+                </Select>
+              )}
+            </FormItem>
+          </Col>
+        )}
       </Row>
     </React.Fragment>
   )

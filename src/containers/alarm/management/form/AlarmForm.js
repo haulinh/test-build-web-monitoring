@@ -188,9 +188,14 @@ export default class AlarmForm extends Component {
               <AlarmTypeForm form={form} />
 
               <FormItem label={i18n().form.label.recipient}>
-                {form.getFieldDecorator(FIELDS.RECIPIENTS)(
-                  <SelectUser mode="multiple" />
-                )}
+                {form.getFieldDecorator(FIELDS.RECIPIENTS, {
+                  rules: [
+                    {
+                      required: true,
+                      message: t('ticket.required.incident.recipient'),
+                    },
+                  ],
+                })(<SelectUser mode="multiple" />)}
               </FormItem>
 
               <FormItem>

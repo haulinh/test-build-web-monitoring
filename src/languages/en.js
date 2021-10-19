@@ -3867,6 +3867,7 @@ export default {
         stationName: 'Please select a monitoring station',
         measure: 'Please select a parameter',
         time: 'Please select a time',
+        recipient: 'Please select a recipient',
       },
       configProperties: {
         required: 'Please input value',
