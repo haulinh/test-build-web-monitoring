@@ -74,6 +74,7 @@ export class EditWrapper2 extends React.Component {
                 paddingLeft: '11px',
                 paddingRight: '11px',
                 minHeight: 30,
+                whiteSpace: 'pre-wrap',
                 ...style,
               }}
             >

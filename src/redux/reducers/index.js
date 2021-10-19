@@ -8,6 +8,7 @@ import notification from './notification'
 import stationAuto from './stationAuto'
 import map from './map'
 import config from './config'
+import ticket from './ticket'
 
 export default {
   config,
@@ -20,4 +21,5 @@ export default {
   notification,
   stationAuto,
   map,
+  ticket,
 }

@@ -148,6 +148,10 @@ export default class IncidentCreate extends Component {
                         message: t('ticket.required.incident.name'),
                       },
                       { max: 64, message: t('rules.max64') },
+                      {
+                        whitespace: true,
+                        message: t('ticket.required.incident.name'),
+                      },
                     ],
                   })(<Input />)}
                 </FormItem>

@@ -10,6 +10,7 @@ import slug from 'constants/slug'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 import role, { checkRolePriority } from 'constants/role'
+import { setType } from 'redux/actions/ticket'
 
 const TableStyled = styled(Table)`
   .ant-table-row {
@@ -43,7 +44,16 @@ function mapStateToProps(state) {
   return { userInfo }
 }
 
-export const TableData = connect(mapStateToProps)(
+function mapDispatchToProps(dispatch) {
+  return {
+    setType: type => dispatch(setType(type)),
+  }
+}
+
+export const TableData = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(
   withRouter(
     ({
       result = {},
@@ -52,6 +62,7 @@ export const TableData = connect(mapStateToProps)(
       page,
       loading,
       userInfo,
+      type,
       ...otherProps
     }) => {
       const columns = [
@@ -135,6 +146,7 @@ export const TableData = connect(mapStateToProps)(
                   otherProps.history.push(
                     `${slug.ticket.incidentEdit}/${record._id}`
                   )
+                  otherProps.setType(type)
                 }
               }, // click row
             }
