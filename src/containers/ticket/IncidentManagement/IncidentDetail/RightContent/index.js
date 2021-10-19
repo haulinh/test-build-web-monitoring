@@ -1,4 +1,4 @@
-import { Col, Row, Tooltip, Divider } from 'antd'
+import { Col, Divider, Row, Tooltip } from 'antd'
 import SelectStatus from 'components/elements/select-data/ticket/SelectStatus'
 import { Clearfix, FormItem } from 'components/layouts/styles'
 import { ControlledDatePicker } from 'containers/ticket/Component'
@@ -71,6 +71,13 @@ const RightContent = ({
     const defaultValue = form.getFieldValue(fieldName)
 
     return updateCategoryTicket({ [fieldName]: value || defaultValue })
+  }
+
+  const validateTimeEnd = (rule, value, callback) => {
+    const timeStart = form.getFieldValue(Fields.timeStart)
+    if (moment(value) <= moment(timeStart)) {
+      callback(translate('billing.required.timeEnd'))
+    } else callback()
   }
 
   return (
@@ -174,12 +181,21 @@ const RightContent = ({
           <Title>{translate('avgSearchFrom.selectTimeRange.endTime')}</Title>
         </Col>
         <Col span={12}>
-          {form.getFieldDecorator(Fields.timeEnd)(
-            <ControlledDatePicker
-              update={handleUpdateField}
-              fieldName={Fields.timeEnd}
-            />
-          )}
+          <FormItem>
+            {form.getFieldDecorator(Fields.timeEnd, {
+              rules: [
+                {
+                  validator: (rule, value, callback) =>
+                    validateTimeEnd(rule, value, callback),
+                },
+              ],
+            })(
+              <ControlledDatePicker
+                update={handleUpdateField}
+                fieldName={Fields.timeEnd}
+              />
+            )}
+          </FormItem>
         </Col>
       </Row>
 
@@ -209,7 +225,6 @@ const RightContent = ({
         })}
       </div>
       <Clearfix height={64} />
-
     </React.Fragment>
   )
 }
