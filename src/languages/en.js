@@ -3907,7 +3907,9 @@ export default {
     },
     required: {
       disconnectionTime: 'Please type disconnect time',
-      timeEnd: 'Time End must large than Time Start',
+      station: 'Please choose at least station',
+      province: 'Please choose at least province',
+      timeEnd: 'End Time must large than Start Time',
     },
     label: {
       management: {
@@ -3921,6 +3923,15 @@ export default {
         value: 'Value',
         recipient: 'Recipient',
         frequency: 'Frequency',
+      },
+      history: {
+        name: 'Alarm Name',
+        type: 'Alarm Type',
+        station: 'Station',
+        time: 'Time',
+        province: 'Province',
+        status: 'Status',
+        timeStart: 'Time Start',
       },
     },
     placeholder: {
@@ -3959,6 +3970,10 @@ export default {
       device: {
         label: 'Device',
         value: 'device',
+      },
+      history: {
+        done: 'Done',
+        happening: 'Happening',
       },
     },
   },
