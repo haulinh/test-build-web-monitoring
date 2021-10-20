@@ -33,20 +33,21 @@ export default class Filter extends Component {
   }
 
   handleOnFieldChange = () => {
-    let { stationAutos } = this.state
-    const { form } = this.props
-    const province = form.getFieldValue(FIELDS.PROVINCE)
-    console.log({ province })
+    setTimeout(() => {
+      let { stationAutos } = this.state
+      const { form } = this.props
+      const province = form.getFieldValue(FIELDS.PROVINCE)
 
-    // if (province) {
-    //   stationAutos = stationAutos.filter(
-    //     stationAuto => _.get(stationAuto, 'province.key') === province
-    //   )
-    // }
-    // // const stationId = stationAutos.map(item => item._id)
-    // // form.setFieldsValue({
-    // //   [FIELDS.STATION_IDS]: stationId,
-    // // })
+      if (province) {
+        stationAutos = stationAutos.filter(
+          stationAuto => _.get(stationAuto, 'province._id') === province
+        )
+      }
+      const stationId = stationAutos.map(item => item._id)
+      form.setFieldsValue({
+        [FIELDS.STATION_IDS]: stationId,
+      })
+    })
   }
 
   render() {
@@ -66,7 +67,7 @@ export default class Filter extends Component {
           <FormItem label={i18n().province}>
             {form.getFieldDecorator(FIELDS.PROVINCE, {
               onChange: this.handleOnFieldChange
-            })(<SelectProvince isShowAll allowClear={false} />)}
+            })(<SelectProvince fieldValue='_id' isShowAll allowClear={false} />)}
           </FormItem>
         </Col>
         <Col span={12}>
