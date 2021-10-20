@@ -3974,6 +3974,7 @@ export default {
       history: {
         done: 'Done',
         happening: 'Happening',
+        disable: 'Disable'
       },
     },
   },
