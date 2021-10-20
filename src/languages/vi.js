@@ -3973,6 +3973,7 @@ export default {
       history: {
         done: 'Đã kết thúc',
         happening: 'Đang diễn ra',
+        disable: 'Đã vô hiệu hóa'
       },
     },
   },

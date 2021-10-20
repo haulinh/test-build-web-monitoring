@@ -9,6 +9,7 @@ import moment from 'moment'
 const i18n = () => ({
   happening: t('alarm.alarmType.history.happening'),
   done: t('alarm.alarmType.history.done'),
+  disable: t('alarm.alarmType.history.disable'),
   disconnect: t('alarm.alarmType.disconnect.label'),
   exceed: t('alarm.alarmType.exceed.label'),
 })
@@ -59,7 +60,7 @@ class TableAlarm extends React.Component {
       dataIndex: 'status',
       title: t('alarm.label.history.status'),
       render: (value, record) =>
-        <div style={{ color: value !== 'happening' ? 'gray' : 'red' }}>{i18n()[value]}</div>
+        <div style={{ color: value === 'happening' ? 'red' : 'gray' }}>{i18n()[value]}</div>
     },
   ]
 
