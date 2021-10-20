@@ -79,7 +79,6 @@ export default class Condition extends React.Component {
       config: { province, stationType } = {},
     } = this.props.form.getFieldsValue()
 
-    console.log({ province })
     if (province) {
       stationAutos = stationAutos.filter(
         stationAuto => stationAuto.province === province
