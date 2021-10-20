@@ -3904,10 +3904,11 @@ export default {
     suggest: {
       disconnectionTime: 'Thời gian từ khi mất tín hiệu đến lúc gửi cảnh báo',
     },
-    required: { 
+    required: {
       disconnectionTime: 'Vui lòng nhập thời gian mất tín hiệu',
       station: 'Vui lòng chọn ít nhất một trạm',
-      province: 'Vui lòng chọn ít nhất một đơn vị'
+      province: 'Vui lòng chọn ít nhất một đơn vị',
+      timeEnd: 'Thời gian kết thúc phải lớn hơn thời gian bắt đầu',
     },
     label: {
       management: {
@@ -3929,8 +3930,8 @@ export default {
         time: 'Thời gian',
         province: 'Đơn vị quản lý',
         status: 'Trạng thái',
-        timeStart: 'Thời gian bắt đầu'
-      }
+        timeStart: 'Thời gian bắt đầu',
+      },
     },
     placeholder: {
       management: {
@@ -3971,8 +3972,8 @@ export default {
       },
       history: {
         done: 'Đã kết thúc',
-        happening: 'Đang diễn ra'
-      }
+        happening: 'Đang diễn ra',
+      },
     },
   },
 }

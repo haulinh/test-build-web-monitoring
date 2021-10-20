@@ -62,6 +62,7 @@ const LeftContent = ({ form, record, updateTicket, setName, setUpdatedAt }) => {
           title={i18n().description}
           name={Fields.description}
           prevValue={record[Fields.description]}
+          style={{ overflow: 'scroll', overflowX: 'hidden' }}
         ></EditWrapper2>
       )}
 

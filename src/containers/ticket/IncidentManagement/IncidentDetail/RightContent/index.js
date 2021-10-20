@@ -75,8 +75,8 @@ const RightContent = ({
 
   const validateTimeEnd = (rule, value, callback) => {
     const timeStart = form.getFieldValue(Fields.timeStart)
-    if (moment(value) <= moment(timeStart)) {
-      callback(translate('billing.required.timeEnd'))
+    if (value && moment(value) <= moment(timeStart)) {
+      callback(translate('alarm.required.timeEnd'))
     } else callback()
   }
 

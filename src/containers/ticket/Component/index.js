@@ -20,6 +20,7 @@ const DivHover = styled.div`
     background-color: rgb(240, 240, 240);
   }
   min-height: ${props => props.type === 'textArea' && '250px'};
+  max-height: 250px;
 `
 
 const InputCustom = styled(Input)`
@@ -74,6 +75,7 @@ export class EditWrapper2 extends React.Component {
                 paddingLeft: '11px',
                 paddingRight: '11px',
                 minHeight: 30,
+                maxHeight: 250,
                 whiteSpace: 'pre-wrap',
                 ...style,
               }}
