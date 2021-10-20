@@ -40,7 +40,9 @@ export default class Condition extends React.Component {
 
   setStationAutoSelected = stationAutoSelected => {
     const { form } = this.props
-    form.setFieldsValue({ [FIELDS.STATION_NAME]: stationAutoSelected.name })
+    form.setFieldsValue({
+      [FIELDS.STATION_NAME]: _.get(stationAutoSelected, 'name'),
+    })
     this.setState({ stationAutoSelected }, () => {})
   }
 
