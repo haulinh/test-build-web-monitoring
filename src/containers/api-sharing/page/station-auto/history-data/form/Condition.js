@@ -41,7 +41,7 @@ export default class Condition extends React.Component {
   setStationAutoSelected = stationAutoSelected => {
     const { form } = this.props
     form.setFieldsValue({ [FIELDS.STATION_NAME]: stationAutoSelected.name })
-    this.setState({ stationAutoSelected }, () => {})
+    this.setState({ stationAutoSelected }, () => { })
   }
 
   setFormInit = () => {
@@ -77,6 +77,7 @@ export default class Condition extends React.Component {
       config: { province, stationType } = {},
     } = this.props.form.getFieldsValue()
 
+    console.log({ province })
     if (province) {
       stationAutos = stationAutos.filter(
         stationAuto => stationAuto.province === province

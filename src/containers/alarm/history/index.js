@@ -1,13 +1,13 @@
 import { Form } from 'antd'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import React, { Component } from 'react'
-import { Filter } from './Filter'
 import { Search, BoxShadow, Clearfix } from 'components/layouts/styles'
 import { getTimes, getTimesUTC } from 'utils/datetime'
 import CalculateApi from 'api/CalculateApi'
 import HistoryList from './HistoryList'
 import { translate as t } from 'hoc/create-lang'
 import createBreadcrumb from 'shared/breadcrumb/hoc'
+import Filter from './Filter'
 
 const Breadcrumb = createBreadcrumb()
 
@@ -77,7 +77,10 @@ export default class AlarmHistory extends Component {
           </BoxShadow>
         </Search>
         <Clearfix height={24} />
-        <HistoryList data={result} />
+        <HistoryList
+          data={result}
+          onSearch={this.handleOnSearch}
+        />
       </PageContainer>
     )
   }

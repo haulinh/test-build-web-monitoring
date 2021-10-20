@@ -53,12 +53,13 @@ class TableAlarm extends React.Component {
     {
       dataIndex: 'createdAt',
       title: t('alarm.label.history.timeStart'),
-      render: (value, record) => <div>{moment(value).format('YYYY/MM/DD hh:mm')}</div>
+      render: (value, record) => <div>{moment(value).format('YYYY/MM/DD HH:mm')}</div>
     },
     {
       dataIndex: 'status',
       title: t('alarm.label.history.status'),
-      render: (value, record) => <div style={{ color: i18n()[value] !== 'disconnect' ? 'red' : 'gray' }}>{i18n()[value]}</div>
+      render: (value, record) =>
+        <div style={{ color: value !== 'happening' ? 'gray' : 'red' }}>{i18n()[value]}</div>
     },
   ]
 
