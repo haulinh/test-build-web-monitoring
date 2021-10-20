@@ -40,7 +40,7 @@ export function getConfigApi() {
     // stationFixedExportDataPoint: 'http://localhost:5018/export-data-points',
     //stationFixedPoint: 'http://localhost:5018/points',
     calculate: c('calc'),
-    //  calculate: 'http://localhost:5030',
+    // calculate: 'http://localhost:5030',
 
     stationConfig: c('config/station'),
     // stationConfig: 'http://localhost:5002/config/station',
