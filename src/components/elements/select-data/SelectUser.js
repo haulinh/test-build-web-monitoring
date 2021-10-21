@@ -43,6 +43,11 @@ export default class SelectUser extends Component {
     })
   }
 
+  handleFilter(input, option) {
+    let regex = new RegExp(input, 'gi')
+    return regex.test(option.props.search)
+  }
+
   render() {
     return (
       <Select
