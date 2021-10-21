@@ -2926,7 +2926,7 @@ export default {
       type7: 'AQI ngày theo thông số',
       type9: 'Trung bình ngày',
       type10: 'Tỷ lệ dữ liệu thu được',
-      type11: 'Quan trắc trung bình 1 giờ',
+      type11: 'TB 1 giờ',
       type12: 'Tỉ lệ dữ liệu vượt ngưỡng',
       aqiHour: 'AQI - Giờ',
       aqiDay: 'AQI - Ngày',
@@ -3973,7 +3973,7 @@ export default {
       history: {
         done: 'Đã kết thúc',
         happening: 'Đang diễn ra',
-        disable: 'Đã vô hiệu hóa'
+        disable: 'Đã vô hiệu hóa',
       },
     },
   },

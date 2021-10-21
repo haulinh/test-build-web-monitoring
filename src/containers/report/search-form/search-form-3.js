@@ -70,7 +70,7 @@ export default class SearchForm extends React.Component {
     // let me = this;
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values)
+        // console.log('Received values of form: ', values)
         if (this.props.cbSubmit) {
           const measuringListStr = this.state.measuringList.map(item =>
             encodeURIComponent(item.key)

@@ -244,7 +244,7 @@ export default class TabGiaTri_NhomII extends React.Component {
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
         this.setState({ isSubmit: true })
-        console.log('Received values of form: ', values)
+        // console.log('Received values of form: ', values)
         try {
           const transformData = _.get(values, 'levelList', []).filter(i =>
             _.identity(i)
