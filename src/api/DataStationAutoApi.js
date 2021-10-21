@@ -14,9 +14,6 @@ export function getHistoricalDataUrl(prefix = '') {
   return getConfigApi().dataInsight + '/historical-data/' + prefix
 }
 export function getAvgDataUrl(prefix = '') {
-  // console.log(process.env, '=process.env.isDev')
-
-  // return 'http://localhost:5022/data-avg' + '/' + prefix
   return getConfigApi().dataInsight + '/data-avg/' + prefix
 }
 
@@ -207,25 +204,20 @@ export function getDataStationAutoExportAvg({
 
 export function exportExcelMultipleStation(data) {
   var url = getDataStationAutoUrl(`/export-avg-multiple-station?`)
-  console.log(data, '------data')
   return postFetch(url, data)
 }
 
-export function downloadExcel_DataStationAutov1(
-  token,
-  {
-    name,
-    fromDate,
-    toDate,
-    key,
-    measuringList,
-    measuringListUnitStr,
-    type,
-    language = 'EN',
-    isFilter,
-  }
-) {
-  let url = getAvgDataUrl(`${key}/export-avg?`)
+export function downloadExcel_DataStationAutov1({
+  name,
+  fromDate,
+  toDate,
+  key,
+  measuringList,
+  measuringListUnitStr,
+  language = 'EN',
+  isFilter,
+}) {
+  let url = getAvgDataUrl(`report/export-1h-avg/${key}?`)
   // console.log(url, '==url==')
   // let url = getDataStationAutoUrl(`${key}/export-avg-v1?token=${token}`)
   if (fromDate) url += `&from=${fromDate}`
@@ -234,7 +226,6 @@ export function downloadExcel_DataStationAutov1(
   if (language) url += `&language=${_upperCase(language)}`
   if (measuringListUnitStr)
     url += `&measuringListUnit=${measuringListUnitStr.join(',')}`
-  if (type) url += `&type=${type}`
   if (isFilter) url += `&isFilter=${isFilter}`
   if (name) url += `&name=${name}`
   return getFetch(url)

@@ -144,7 +144,7 @@ export default class StationForm extends React.PureComponent {
     //     station => replaceVietnameseStr(station.name).indexOf(searchString) > -1
     //   )
     // }
-    console.log(stations, this.props.stationKeys, '--KETQUA--')
+    // console.log(stations, this.props.stationKeys, '--KETQUA--')
 
     return stations.map((station, index) => {
       // const oldData = this.state.dataSource.find(sta => sta.key === station.key)
