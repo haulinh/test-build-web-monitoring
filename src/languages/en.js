@@ -3909,7 +3909,7 @@ export default {
       disconnectionTime: 'Please type disconnect time',
       station: 'Please choose at least station',
       province: 'Please choose at least province',
-      timeEnd: 'End Time must large than Start Time',
+      timeEnd: 'End Time must be larger than Start Time',
     },
     label: {
       management: {
@@ -3964,7 +3964,7 @@ export default {
         {{measure}} : The parameter is exceeded the threshold of the monitoring station,
         {{value}} : The value of the parameter,
         {{unit}} : The unit of the parameter,
-{​​​​​{​​​​​config}​​​​​}​​​​​ : Configurable parameter value,
+        {​​​​​{​​​​​config}​​​​​}​​​​​ : Configurable parameter value,
         {{time}} : The time the parameter was exceeded`,
       },
       device: {

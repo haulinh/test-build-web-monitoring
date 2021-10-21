@@ -3949,7 +3949,7 @@ export default {
         label: 'Mất tín hiệu',
         value: 'disconnect',
         template: `{{station}} : Tên trạm quan trắc bị mất tín hiệu,
-    {{time}} : Thời gian mất tín hiệu của trạm quan trắc`,
+        {{time}} : Thời gian mất tín hiệu của trạm quan trắc`,
       },
       advance: {
         label: 'Nâng cao',
@@ -3960,11 +3960,11 @@ export default {
         label: 'Vượt ngưỡng',
         value: 'exceed',
         template: `{{station}} : Tên trạm quan trắc bị vượt ngưỡng,
-{{measure}} : Thông số bị vượt ngưỡng của trạm quan trắc,
-{{value}} : Giá trị của thông số,
-{{unit}} : Đơn vị của thông số,
-{​​​​​{​​​​​config}​​​​​}​​​​​ : Giá trị cấu hình của thông số,
-{{time}} : Thời gian thông số bị vượt ngưỡng`,
+        {{measure}} : Thông số bị vượt ngưỡng của trạm quan trắc,
+        {{value}} : Giá trị của thông số,
+        {{unit}} : Đơn vị của thông số,
+        {​​​​​{​​​​​config}​​​​​}​​​​​ : Giá trị cấu hình của thông số,
+        {{time}} : Thời gian thông số bị vượt ngưỡng`,
       },
       device: {
         label: 'Thiết bị',
@@ -3973,7 +3973,7 @@ export default {
       history: {
         done: 'Đã kết thúc',
         happening: 'Đang diễn ra',
-        disable: 'Đã vô hiệu hóa'
+        disable: 'Đã vô hiệu'
       },
     },
   },
