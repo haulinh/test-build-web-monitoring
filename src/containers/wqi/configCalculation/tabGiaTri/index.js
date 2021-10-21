@@ -47,7 +47,7 @@ export default class TabGiaTri extends React.Component {
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
         this.setState({ isSubmit: true })
-        console.log('Received values of form: ', values)
+        // console.log('Received values of form: ', values)
         try {
           let transformData = values.payload
           const response = await postConfigWqiParams(

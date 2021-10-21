@@ -357,7 +357,7 @@ export default class TabMucDo extends React.Component {
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
         this.setState({ isSubmit: true })
-        console.log('Received values of form: ', values)
+        // console.log('Received values of form: ', values)
         try {
           const transformData = {
             aqiQCMeasures: this.state.dataMeasures,

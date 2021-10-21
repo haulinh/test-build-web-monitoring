@@ -143,13 +143,16 @@ export default class ReportType11 extends React.Component {
   }
 
   handleExcel = async () => {
-    let res = await downloadExcel_DataStationAutov1(this.props.token, {
+    const stationName = moment(this.state.dataSearch.fromDate).format(
+      'DD-MM-YYYY'
+    )
+    let res = await downloadExcel_DataStationAutov1({
       ...this.state.dataSearch,
       language: this.props.locale || 'EN',
-      name: this.state.stationName,
+      name: stationName,
     })
     // console.log(url, '==url==')
-    // console.log("this.state.dataSearch", url);
+    // console.log('this.state.dataSearch', res.data)
     window.location.href = res.data
     // window.open(url, '_blank')
   }
@@ -195,7 +198,7 @@ export default class ReportType11 extends React.Component {
         <Spin spinning={this.state.isLoading}>
           <Table
             size="small"
-            rowKey="_id"
+            rowKey="date_utc"
             columns={this.getColumns()}
             bordered={true}
             dataSource={this.state.dataSource}
