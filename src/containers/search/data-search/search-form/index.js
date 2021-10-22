@@ -406,9 +406,18 @@ export default class SearchFormHistoryData extends React.Component {
     //   qcvnList: qcvnOptions.join(','),
     //   isFilter: values.isFilter || false
     // })
+    const twentyFourHours = {
+      from: moment().subtract(1, 'd'),
+      to: moment(),
+    }
+
     this.props.onSubmit({
-      fromDate: this.convertDateToString(this.state.fromDate),
-      toDate: this.convertDateToString(this.state.toDate),
+      fromDate: this.state.fromDate
+        ? this.convertDateToString(this.state.fromDate)
+        : this.convertDateToString(twentyFourHours.from),
+      toDate: this.state.toDate
+        ? this.convertDateToString(this.state.toDate)
+        : this.convertDateToString(twentyFourHours.to),
       key: values.stationAuto,
       name: this.state.stationAutoName,
       measuringListUnitStr,
