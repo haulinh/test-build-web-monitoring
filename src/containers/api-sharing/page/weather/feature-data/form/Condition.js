@@ -38,7 +38,7 @@ export default class Condition extends React.Component {
 
     form.setFieldsValue({
       [`config.${FIELDS.CITY_ID}`]: cityId,
-      [`config.${FIELDS.PARAMETER}`]: optionsWeather.map(item => item.key),
+      [`config.${FIELDS.PARAMETER}`]: optionsWeather().map(item => item.key),
       [`config.${FIELDS.DAYS}`]: optionsDay[0].key,
     })
   }

@@ -37,11 +37,13 @@ const TAB_KEY = {
   THONG_SO: 'THONG_SO',
   TRONG_SO: 'TRONG_SO',
 }
-const TAB_NAME = {
-  MUC_DO: i18n().tabMucDo,
-  GIA_TRI: i18n().tabGiaTri,
-  THONG_SO: i18n().tabThongSo,
-  TRONG_SO: i18n().tabTrongSo,
+const TAB_NAME = () => {
+  return {
+    MUC_DO: i18n().tabMucDo,
+    GIA_TRI: i18n().tabGiaTri,
+    THONG_SO: i18n().tabThongSo,
+    TRONG_SO: i18n().tabTrongSo,
+  }
 }
 @withRouter
 @autobind
@@ -106,7 +108,7 @@ export default class ConfigCalculationWQI extends PureComponent {
               }
               style={{ flex: 1 }}
             >
-              {TAB_NAME.MUC_DO}
+              {TAB_NAME().MUC_DO}
             </Button>
             <Button
               onClick={this.setTabActive.bind(this, TAB_KEY.GIA_TRI)}
@@ -115,7 +117,7 @@ export default class ConfigCalculationWQI extends PureComponent {
               }
               style={{ flex: 1 }}
             >
-              {TAB_NAME.GIA_TRI}
+              {TAB_NAME().GIA_TRI}
             </Button>
             <Button
               onClick={this.setTabActive.bind(this, TAB_KEY.THONG_SO)}
@@ -124,7 +126,7 @@ export default class ConfigCalculationWQI extends PureComponent {
               }
               style={{ flex: 1 }}
             >
-              {TAB_NAME.THONG_SO}
+              {TAB_NAME().THONG_SO}
             </Button>
             <Button
               onClick={this.setTabActive.bind(this, TAB_KEY.TRONG_SO)}
@@ -133,7 +135,7 @@ export default class ConfigCalculationWQI extends PureComponent {
               }
               style={{ flex: 1 }}
             >
-              {TAB_NAME.TRONG_SO}
+              {TAB_NAME().TRONG_SO}
             </Button>
           </ButtonGroup>
           <Tabs

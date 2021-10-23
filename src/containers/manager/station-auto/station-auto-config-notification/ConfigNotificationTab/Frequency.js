@@ -16,40 +16,42 @@ function i18n() {
   }
 }
 
-const optionSelects = [
-  {
-    title: i18n().only1,
-    value: 0,
-  },
-  {
-    title: i18n()._5Min,
-    value: 5,
-  },
-  {
-    title: i18n()._15Min,
-    value: 15,
-  },
-  {
-    title: i18n()._30Min,
-    value: 30,
-  },
-  {
-    title: i18n()._every1Hour,
-    value: 60,
-  },
-  {
-    title: i18n()._every2Hour,
-    value: 120,
-  },
-  {
-    title: i18n()._every1Day,
-    value: 1440,
-  },
-  {
-    title: i18n()._every2Day,
-    value: 2880,
-  },
-]
+const optionSelects = () => {
+  return [
+    {
+      title: i18n().only1,
+      value: 0,
+    },
+    {
+      title: i18n()._5Min,
+      value: 5,
+    },
+    {
+      title: i18n()._15Min,
+      value: 15,
+    },
+    {
+      title: i18n()._30Min,
+      value: 30,
+    },
+    {
+      title: i18n()._every1Hour,
+      value: 60,
+    },
+    {
+      title: i18n()._every2Hour,
+      value: 120,
+    },
+    {
+      title: i18n()._every1Day,
+      value: 1440,
+    },
+    {
+      title: i18n()._every2Day,
+      value: 2880,
+    },
+  ]
+}
 
 const STATION_STATUS = {
   COLLECTING: 'COLLECTING',
@@ -65,7 +67,7 @@ export default class Frequency extends React.Component {
 
   getOption = () => {
     const { frequency } = this.state
-    return optionSelects.find(option => option.value === frequency).value
+    return optionSelects().find(option => option.value === frequency).value
   }
 
   handleOnChange = value => {
@@ -114,7 +116,7 @@ export default class Frequency extends React.Component {
             style={{ width: 160 }}
             onChange={this.handleOnChangeSelect}
           >
-            {optionSelects.map(option => (
+            {optionSelects().map(option => (
               <Option key={option.value} value={option.value}>
                 {option.title}
               </Option>

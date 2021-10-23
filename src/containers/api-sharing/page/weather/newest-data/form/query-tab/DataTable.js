@@ -17,7 +17,7 @@ const DataTable = ({
   if (!Array.isArray(parameterList)) parameterListArray = Array(parameterList)
 
   const columnsParameterList = parameterListArray.map(param => {
-    const titleMap = optionsWeather.find(item => item.key === param)
+    const titleMap = optionsWeather().find(item => item.key === param)
     const title = `${titleMap.label} ${titleMap.unit && `(${titleMap.unit})`}`
     return {
       dataIndex: 'parameters',

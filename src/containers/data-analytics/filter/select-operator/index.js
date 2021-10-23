@@ -11,15 +11,15 @@ export const OPERATOR = {
 
 const OPERATOR_OPTIONS = [
   {
-    text: t('dataAnalytics.filterForm.operator.avg'),
+    text: 'dataAnalytics.filterForm.operator.avg',
     value: OPERATOR.AVG,
   },
   {
-    text: t('dataAnalytics.filterForm.operator.min'),
+    text: 'dataAnalytics.filterForm.operator.min',
     value: OPERATOR.MIN,
   },
   {
-    text: t('dataAnalytics.filterForm.operator.max'),
+    text: 'dataAnalytics.filterForm.operator.max',
     value: OPERATOR.MAX,
   },
 ]
@@ -36,7 +36,7 @@ export default class SelectOperator extends React.Component {
       <Select value={value} onChange={onChange} style={{ width: '100%' }}>
         {OPERATOR_OPTIONS.map(item => (
           <Select.Option key={item.value} value={item.value}>
-            {item.text}
+            {t(item.text)}
           </Select.Option>
         ))}
       </Select>
