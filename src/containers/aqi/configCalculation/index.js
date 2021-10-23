@@ -48,10 +48,12 @@ const TAB_KEY = {
   GIA_TRI: 'GIA_TRI',
   THONG_SO: 'THONG_SO',
 }
-const TAB_NAME = {
-  MUC_DO: i18n().tabMucDo,
-  GIA_TRI: i18n().tabGiaTri,
-  THONG_SO: i18n().tabThongSo,
+const TAB_NAME = () => {
+  return {
+    MUC_DO: i18n().tabMucDo,
+    GIA_TRI: i18n().tabGiaTri,
+    THONG_SO: i18n().tabThongSo,
+  }
 }
 
 const PREFIX_CALCULATION = 'aqi-calculation-'
@@ -118,7 +120,7 @@ export default class ConfigCalculationAQI extends PureComponent {
               }
               style={{ flex: 1 }}
             >
-              {TAB_NAME.MUC_DO}
+              {TAB_NAME().MUC_DO}
             </Button>
             <Button
               onClick={this.setTabActive.bind(this, TAB_KEY.GIA_TRI)}
@@ -127,7 +129,7 @@ export default class ConfigCalculationAQI extends PureComponent {
               }
               style={{ flex: 1 }}
             >
-              {TAB_NAME.GIA_TRI}
+              {TAB_NAME().GIA_TRI}
             </Button>
             <Button
               onClick={this.setTabActive.bind(this, TAB_KEY.THONG_SO)}
@@ -136,7 +138,7 @@ export default class ConfigCalculationAQI extends PureComponent {
               }
               style={{ flex: 1 }}
             >
-              {TAB_NAME.THONG_SO}
+              {TAB_NAME().THONG_SO}
             </Button>
           </ButtonGroup>
           <Tabs
