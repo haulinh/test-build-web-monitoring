@@ -55,7 +55,7 @@ class TableAlarm extends React.Component {
       dataIndex: 'createdAt',
       title: t('alarm.label.history.timeStart'),
       defaultSortOrder: 'descend',
-      render: (value, record) => <div>{moment(value).format('YYYY/MM/DD HH:mm')}</div>
+      render: (value, record) => <div>{moment(value).format('DD/MM/YYYY HH:mm')}</div>
     },
     {
       dataIndex: 'status',

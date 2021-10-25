@@ -3942,7 +3942,7 @@ export default {
         done: 'Done',
         happening: 'Happening',
         disable: 'Disabled',
-        isHappen: 'Only Active'
+        isHappen: 'Active Only'
       },
     },
     placeholder: {
