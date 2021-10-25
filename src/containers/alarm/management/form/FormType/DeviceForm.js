@@ -1,4 +1,4 @@
-import { Col, InputNumber, Row, Select, Switch } from 'antd'
+import { Col, Row, Select, Switch } from 'antd'
 import SelectOperator from 'components/core/select/SelectOperator'
 import SelectMeasureParameter from 'components/elements/select-measure-parameter'
 import { FormItem } from 'components/layouts/styles'
@@ -66,7 +66,7 @@ export default class DeviceForm extends React.Component {
   componentDidMount() {
     const { alarmSelected, form } = this.props
 
-    if (alarmSelected) {
+    if (_.isEmpty(alarmSelected)) {
       const condition = _.get(alarmSelected, `${[FIELDS.CONDITIONS]}.0`, {})
       form.setFieldsValue({
         [FIELDS.CONDITIONS]: condition,
@@ -76,7 +76,7 @@ export default class DeviceForm extends React.Component {
 
   componentDidUpdate(prevProps) {
     const { alarmSelected, form } = this.props
-    if (alarmSelected && prevProps.alarmSelected !== alarmSelected) {
+    if (_.isEmpty(alarmSelected) && prevProps.alarmSelected !== alarmSelected) {
       const condition = _.get(alarmSelected, `${[FIELDS.CONDITIONS]}.0`, {})
       form.setFieldsValue({
         [FIELDS.CONDITIONS]: condition,
@@ -123,7 +123,7 @@ export default class DeviceForm extends React.Component {
             </FormItem>
           </Col>
 
-          <Col span={8}>
+          <Col span={10}>
             <FormItem label={i18n().form.label.status}>
               {form.getFieldDecorator(`${FIELDS.CONDITIONS}.value`, {
                 rules: [

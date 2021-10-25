@@ -3925,9 +3925,9 @@ export default {
         recipient: 'Người nhận',
         frequency: 'Tần suất',
         deviceStatus: {
-          good: 'Thiết bị tốt',
-          error: 'Lỗi thiết bị',
-          calibration: 'Hiệu chuẩn',
+          good: '00 (Thiết bị tốt)',
+          error: '01 (Lỗi thiết bị)',
+          calibration: '02 (Hiệu chuẩn)',
         },
       },
       history: {
@@ -3962,7 +3962,12 @@ export default {
       advance: {
         label: 'Nâng cao',
         value: 'advance',
-        template: ``,
+        template: `{{station}} : Tên trạm quan trắc bị vượt ngưỡng,
+{{measure}} : Thông số bị vượt ngưỡng của trạm quan trắc,
+{{value}} : Giá trị của thông số,
+{{unit}} : Đơn vị của thông số,
+{​​​​​{​​​​​config}​​​​​}​​​​​ : Giá trị cấu hình của thông số,
+{{time}} : Thời gian thông số bị vượt ngưỡng`,
       },
       exceed: {
         label: 'Vượt ngưỡng',
@@ -3977,6 +3982,9 @@ export default {
       device: {
         label: 'Thiết bị',
         value: 'device',
+        template: `{{station}} : Tên trạm quan trắc bị vượt ngưỡng,
+{{measure}} : Thông số bị vượt ngưỡng của trạm quan trắc
+        `,
       },
       history: {
         done: 'Đã kết thúc',
