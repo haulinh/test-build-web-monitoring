@@ -27,7 +27,7 @@ export default class DisconnectForm extends React.Component {
     if (alarmSelected && prevProps.alarmSelected !== alarmSelected) {
       form.setFieldsValue({
         [FIELDS.MAX_DISCONNECTION_TIME]:
-          alarmSelected[FIELDS.MAX_DISCONNECTION_TIME],
+          alarmSelected[FIELDS.MAX_DISCONNECTION_TIME] / 60,
       })
     }
   }
