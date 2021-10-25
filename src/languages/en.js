@@ -3932,6 +3932,7 @@ export default {
       management: {
         createSuccess: 'Create Alarm Success',
         createError: 'Create Alarm Error',
+        updateSuccess: 'Update Alarm Success',
       },
     },
     alarmType: {

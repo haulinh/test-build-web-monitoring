@@ -1,5 +1,0 @@
-import { DatePicker, Drawer, Icon, Input, InputNumber } from 'antd'
-import TextArea from 'antd/lib/input/TextArea'
-import { Clearfix, Flex } from 'components/layouts/styles'
-import React from 'react'
-import styled from 'styled-components'

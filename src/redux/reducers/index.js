@@ -9,6 +9,7 @@ import stationAuto from './stationAuto'
 import map from './map'
 import config from './config'
 import ticket from './ticket'
+import alarmReducer from './alarm'
 
 export default {
   config,
@@ -22,4 +23,5 @@ export default {
   stationAuto,
   map,
   ticket,
+  alarm: alarmReducer,
 }

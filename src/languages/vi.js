@@ -3942,6 +3942,7 @@ export default {
       management: {
         createSuccess: 'Tạo cảnh báo thành công',
         createError: 'Tạo cảnh thất bại',
+        updateSuccess: 'Cập nhập cảnh báo thành công',
       },
     },
     alarmType: {
