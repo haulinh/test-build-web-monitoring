@@ -43,8 +43,8 @@ export default class TableDataList extends React.PureComponent {
       dataIndex: 'key',
       key: 'key',
       render: (value, record, index) => {
-        const nameMeasure = this.state.dataMeasures.get(record.key).name
-        return <div>{nameMeasure}</div>
+        const item = this.state.dataMeasures.get(record.key)
+        return <div>{item ? item.name : ''}</div>
       },
     }
     let column = [

@@ -29,6 +29,7 @@ const AlarmList = ({
     await CalculateApi.updateStatusAlarm(id, status)
     getData()
   }
+
   const columns = [
     {
       dataIndex: 'stationId',
@@ -58,9 +59,16 @@ const AlarmList = ({
                 title={translate('alarm.popconfirm.title')}
                 okText={translate('global.submit')}
                 cancelText={translate('global.cancel')}
-                onConfirm={() => updateStatus(record._id, 'delete')}
+                onCancel={e => e.stopPropagation()}
+                onConfirm={e => {
+                  e.stopPropagation()
+                  updateStatus(record._id, 'delete')
+                }}
               >
-                <div style={{ color: '#E64D3D' }}>
+                <div
+                  onClick={e => e.stopPropagation()}
+                  style={{ color: '#E64D3D' }}
+                >
                   {translate('global.delete')}
                 </div>
               </Popconfirm>
@@ -68,14 +76,20 @@ const AlarmList = ({
             <Col>
               {value === 'disable' ? (
                 <div
-                  onClick={() => updateStatus(record._id, 'enable')}
+                  onClick={e => {
+                    e.stopPropagation()
+                    updateStatus(record._id, 'enable')
+                  }}
                   style={{ color: '#1890FF' }}
                 >
                   {translate('global.enable')}
                 </div>
               ) : (
                 <div
-                  onClick={() => updateStatus(record._id, 'disable')}
+                  onClick={e => {
+                    e.stopPropagation()
+                    updateStatus(record._id, 'disable')
+                  }}
                   style={{ color: '#E64D3D' }}
                 >
                   {translate('global.disable')}

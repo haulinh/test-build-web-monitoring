@@ -12,7 +12,7 @@ import { i18n } from '../AlarmForm'
   alarmType: state.alarm.alarmType,
   isEdit: state.alarm.isEdit,
 }))
-export default class DisconnectForm extends React.Component {
+export default class AdvanceForm extends React.Component {
   componentDidMount() {
     const { alarmSelected, form } = this.props
     if (!_.isEmpty(alarmSelected)) {
