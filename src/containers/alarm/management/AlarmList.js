@@ -1,12 +1,13 @@
 import { Col, Popconfirm, Row, Table } from 'antd'
+import CalculateApi from 'api/CalculateApi'
+import { translate } from 'hoc/create-lang'
 import _ from 'lodash'
 import React from 'react'
 import { connect } from 'react-redux'
+import { selectAlarm } from 'redux/actions/alarm'
 import styled from 'styled-components'
 import { i18n } from './form/AlarmForm'
 import { alarmType } from './index'
-import { translate } from 'hoc/create-lang'
-import CalculateApi from 'api/CalculateApi'
 
 const TableStyled = styled(Table)`
   .ant-table-row {
@@ -16,7 +17,14 @@ const TableStyled = styled(Table)`
   }
 `
 
-const AlarmList = ({ data, loading, getData, ...props }) => {
+const AlarmList = ({
+  data,
+  loading,
+  getData,
+  getAlarmItem,
+  showDrawer,
+  ...props
+}) => {
   const updateStatus = async (id, status) => {
     await CalculateApi.updateStatusAlarm(id, status)
     getData()
@@ -83,6 +91,14 @@ const AlarmList = ({ data, loading, getData, ...props }) => {
   return (
     <React.Fragment>
       <TableStyled
+        onRow={(record, rowIndex) => {
+          return {
+            onClick: event => {
+              props.selectAlarm(record, record.type)
+              showDrawer()
+            }, // click row
+          }
+        }}
         rowKey="_id"
         columns={columns}
         dataSource={data}
@@ -95,7 +111,15 @@ const AlarmList = ({ data, loading, getData, ...props }) => {
 
 const mapStateToProp = state => {
   const stationAutoById = _.keyBy(state.stationAuto.list, '_id')
-  return { stationAutoById }
+  const userInfo = state.auth.userInfo
+  return { stationAutoById, userInfo }
 }
 
-export default connect(mapStateToProp)(AlarmList)
+const mapDispatchToProps = dispatch => {
+  return {
+    selectAlarm: (alarmId, alarmType) =>
+      dispatch(selectAlarm(alarmId, alarmType)),
+  }
+}
+
+export default connect(mapStateToProp, mapDispatchToProps)(AlarmList)

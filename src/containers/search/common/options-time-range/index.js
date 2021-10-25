@@ -7,7 +7,6 @@ import { connect } from 'react-redux'
 import * as _ from 'lodash'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 
-
 @connect(state => ({
   locale: state.language.locale,
   fromDate: _.get(state, 'form.dataSearchFilterForm.values.fromDate', {}),
@@ -107,7 +106,9 @@ export default class OptionsTimeRange extends React.Component {
         value: 24,
         detailHours: `${moment(this.props.now)
           .subtract(1, 'days')
-          .format('DD/MM/YYYY HH:mm')} - ${moment(this.props.now).format('DD/MM/YYYY HH:mm')}`,
+          .format('DD/MM/YYYY HH:mm')} - ${moment(this.props.now).format(
+          'DD/MM/YYYY HH:mm'
+        )}`,
       },
       {
         key: 7,
@@ -117,9 +118,9 @@ export default class OptionsTimeRange extends React.Component {
           .subtract(7, 'days')
           .startOf('day')
           .format('DD/MM/YYYY HH:mm')} - ${moment(this.props.now)
-            .subtract(1, 'days')
-            .endOf('day')
-            .format('DD/MM/YYYY HH:mm')}`,
+          .subtract(1, 'days')
+          .endOf('day')
+          .format('DD/MM/YYYY HH:mm')}`,
       },
       {
         key: 15,
@@ -129,9 +130,9 @@ export default class OptionsTimeRange extends React.Component {
           .subtract(15, 'days')
           .startOf('day')
           .format('DD/MM/YYYY HH:mm')} - ${moment(this.props.now)
-            .subtract(1, 'days')
-            .endOf('day')
-            .format('DD/MM/YYYY HH:mm')}`,
+          .subtract(1, 'days')
+          .endOf('day')
+          .format('DD/MM/YYYY HH:mm')}`,
       },
       {
         key: 30,
@@ -141,9 +142,9 @@ export default class OptionsTimeRange extends React.Component {
           .subtract(30, 'days')
           .startOf('day')
           .format('DD/MM/YYYY HH:mm')} - ${moment(this.props.now)
-            .subtract(1, 'days')
-            .endOf('day')
-            .format('DD/MM/YYYY HH:mm')}`,
+          .subtract(1, 'days')
+          .endOf('day')
+          .format('DD/MM/YYYY HH:mm')}`,
       },
     ]
     // console.log("Time range com " + this.state.defaultValue || this.props.value)

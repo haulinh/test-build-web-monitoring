@@ -100,6 +100,14 @@ export default {
     const url = calc(prefixAlarm)
     return getFetch(url)
   },
+  getAlarmById: id => {
+    const url = calc(`${prefixAlarm}/${id}`)
+    return getFetch(url)
+  },
+  updateAlarmById: (id, param) => {
+    const url = calc(`${prefixAlarm}/${id}`)
+    return pathFetch(url, param)
+  },
   getAlarmsLog: param => {
     const url = calc(prefixAlarmLog)
     return getFetch(url, param)

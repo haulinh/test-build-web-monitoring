@@ -40,7 +40,7 @@ export default class MinutesDataSearch extends React.Component {
   }
 
   handleSubmitSearch(searchFormData) {
-    // console.log(searchFormData, 'submit searchFormData')
+    console.log({ searchFormData })
     this.setState(
       {
         measuringList: [...(searchFormData.measuringList || [])],
@@ -72,6 +72,7 @@ export default class MinutesDataSearch extends React.Component {
       },
       searchFormData
     )
+
     if (
       dataStationAuto &&
       Array.isArray(dataStationAuto.data) &&

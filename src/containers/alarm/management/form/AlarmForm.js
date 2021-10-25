@@ -5,7 +5,10 @@ import SelectUser from 'components/elements/select-data/SelectUser'
 import SelectStationAuto from 'components/elements/select-station-auto'
 import { Flex, FormItem } from 'components/layouts/styles'
 import { translate as t } from 'hoc/create-lang'
+import _ from 'lodash'
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { clearAlarmSelected } from 'redux/actions/alarm'
 import { alarmType, FIELDS } from '../index'
 import { AlarmTypeForm } from './AlarmTypeForm'
 import { ChanelForm } from './ChanelForm'
@@ -42,6 +45,16 @@ export const i18n = () => ({
 })
 
 @Form.create()
+@connect(
+  state => ({
+    alarmSelected: state.alarm.alarmSelected,
+    alarmType: state.alarm.alarmType,
+    isEdit: state.alarm.isEdit,
+  }),
+  {
+    clearAlarmSelected,
+  }
+)
 export default class AlarmForm extends Component {
   state = {
     isModalVisible: false,
@@ -53,28 +66,24 @@ export default class AlarmForm extends Component {
     form.resetFields()
   }
 
-  onSubmit = async e => {
-    e.preventDefault()
-    const { form, onClose, getData } = this.props
-    const values = await form.validateFields()
-
-    if (!values) return
-
-    const type = values[FIELDS.TYPE]
-
-    const param = this.getParam(type)
-
-    try {
-      await CalculateApi.createAlarm(param)
-      message.success(t('alarm.message.management.createSuccess'))
-    } catch (error) {
-      message.error(t('alarm.message.management.createError'))
+  componentDidUpdate(prevProps) {
+    const { alarmSelected, form } = this.props
+    if (prevProps.alarmSelected !== alarmSelected) {
+      const fieldsValue = this.getFieldsValueGeneral()
+      form.setFieldsValue(fieldsValue)
     }
+  }
 
-    getData()
-
-    form.resetFields()
-    onClose()
+  getFieldsValueGeneral = () => {
+    const { alarmSelected } = this.props
+    return _.pick(alarmSelected, [
+      FIELDS.NAME,
+      FIELDS.STATION_ID,
+      FIELDS.RECIPIENTS,
+      FIELDS.REPEAT_CONFIG,
+      FIELDS.TYPE,
+      FIELDS.CHANNELS,
+    ])
   }
 
   getParam = type => {
@@ -109,19 +118,49 @@ export default class AlarmForm extends Component {
     return param
   }
 
+  onSubmit = async e => {
+    e.preventDefault()
+    const { form, onClose, getData, alarmSelected, isEdit } = this.props
+    const values = await form.validateFields()
+
+    if (!values) return
+
+    const type = values[FIELDS.TYPE]
+    const param = this.getParam(type)
+
+    try {
+      if (isEdit) {
+        await CalculateApi.updateAlarmById(alarmSelected._id, param)
+        message.success(t('alarm.message.management.updateSuccess'))
+      } else {
+        await CalculateApi.createAlarm(param)
+      }
+    } catch (error) {
+      message.error(t('alarm.message.management.createError'))
+    }
+
+    getData()
+    form.resetFields()
+    onClose()
+  }
+
   handleOnClose = async () => {
-    this.props.onClose()
+    const { onClose, clearAlarmSelected, form } = this.props
+    form.resetFields()
+    onClose()
+    clearAlarmSelected()
   }
 
   render() {
-    const { visible, form } = this.props
+    const { visible, form, alarmSelected, isEdit } = this.props
+
     return (
       <CDrawer
         closable={false}
         onClose={this.handleOnClose}
         visible={visible}
         width={400}
-        title={i18n().drawer.title}
+        title={alarmSelected.name || i18n().drawer.title}
         right={<Icon type="close" onClick={this.handleOnClose} />}
       >
         <Form
@@ -162,9 +201,9 @@ export default class AlarmForm extends Component {
                       message: i18n().error.required,
                     },
                   ],
-                  initialValue: 'disconnect',
+                  initialValue: 'exceed',
                 })(
-                  <Select>
+                  <Select disabled={isEdit}>
                     {Object.values(alarmType).map(item => (
                       <Select.Option key={item.value} value={item.value}>
                         {item.label()}
@@ -182,7 +221,7 @@ export default class AlarmForm extends Component {
                       message: t('ticket.required.incident.stationName'),
                     },
                   ],
-                })(<SelectStationAuto fieldValue="_id" />)}
+                })(<SelectStationAuto disabled={isEdit} fieldValue="_id" />)}
               </FormItem>
 
               <AlarmTypeForm form={form} />
@@ -212,7 +251,7 @@ export default class AlarmForm extends Component {
                 minHeight: 32,
               }}
             >
-              {i18n().button.add}
+              {isEdit ? t('global.save') : i18n().button.add}
             </Button>
             <div style={{ height: 12, minHeight: 12 }} />
           </Flex>

@@ -71,6 +71,11 @@ export default class AlarmManagement extends Component {
     this.getData()
   }
 
+  getAlarmItem = async id => {
+    const result = await CalculateApi.getAlarmById(id)
+    this.setState({ alarmItem: result })
+  }
+
   getData = async () => {
     try {
       this.setState({ loading: true })
@@ -124,7 +129,12 @@ export default class AlarmManagement extends Component {
         />
 
         <Clearfix height={16} />
-        <AlarmList data={data} loading={loading} getData={this.getData} />
+        <AlarmList
+          data={data}
+          loading={loading}
+          getData={this.getData}
+          showDrawer={this.showDrawer}
+        />
       </PageContainer>
     )
   }
