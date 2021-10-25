@@ -3,6 +3,7 @@ import { alarmType, FIELDS } from '../../index'
 import DeviceForm from './DeviceForm'
 import DisconnectForm from './DisconnectForm'
 import ExceedForm from './ExceedForm'
+import AdvanceForm from './AdvanceForm'
 
 export const AlarmTypeForm = ({ form }) => {
   const type = form.getFieldValue(FIELDS.TYPE)
@@ -17,6 +18,10 @@ export const AlarmTypeForm = ({ form }) => {
 
   if (type === alarmType.device.value) {
     return <DeviceForm form={form} />
+  }
+
+  if (type === alarmType.advance.value) {
+    return <AdvanceForm form={form} />
   }
 
   return <React.Fragment />

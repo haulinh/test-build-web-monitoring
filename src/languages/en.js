@@ -3926,9 +3926,9 @@ export default {
         recipient: 'Recipient',
         frequency: 'Frequency',
         deviceStatus: {
-          good: 'Device Good',
-          error: 'Device Error',
-          calibration: 'Calibration',
+          good: '00 (Device Good)',
+          error: '01 (Device Error)',
+          calibration: '02 (Calibration)',
         },
       },
       history: {
@@ -3967,7 +3967,12 @@ export default {
       advance: {
         label: 'Adcance',
         value: 'advance',
-        template: ``,
+        template: `{{station}} : The name of the monitoring station exceeded the threshold,
+        {{measure}} : The parameter is exceeded the threshold of the monitoring station,
+        {{value}} : The value of the parameter,
+        {{unit}} : The unit of the parameter,
+{​​​​​{​​​​​config}​​​​​}​​​​​ : Configurable parameter value,
+        {{time}} : The time the parameter was exceeded`,
       },
       exceed: {
         label: 'Exceed',
@@ -3982,6 +3987,8 @@ export default {
       device: {
         label: 'Device',
         value: 'device',
+        template: `{{station}} : The name of the monitoring station exceeded the threshold,
+        {{measure}} : The parameter is exceeded the threshold of the monitoring station`,
       },
     },
   },
