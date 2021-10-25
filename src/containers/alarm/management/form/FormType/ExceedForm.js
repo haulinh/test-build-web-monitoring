@@ -123,8 +123,8 @@ export default class ExceedForm extends React.Component {
           </Col>
         </Row>
 
-        <Row gutter={6}>
-          <Col span={6}>
+        <Row gutter={8}>
+          <Col span={8}>
             <FormItem label={i18n().form.label.repeatConfig}>
               {form.getFieldDecorator(`${FIELDS.REPEAT_CONFIG}.active`, {
                 valuePropName: 'checked',
