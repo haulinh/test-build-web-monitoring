@@ -97,8 +97,8 @@ export default class TableDataList extends React.PureComponent {
         title: (
           <strong>
             {measuring.name} <br />{' '}
-            {_get(measuring, 'unit', '').trim()
-              ? `(${_get(measuring, 'unit', '')})`
+            {_get(measuring, 'unit', '')
+              ? `(${_get(measuring, 'unit', '').trim()})`
               : ''}
           </strong>
         ),
