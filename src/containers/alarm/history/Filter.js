@@ -91,8 +91,8 @@ export default class Filter extends Component {
         </Col>
         <Col span={2}>
           <FormItem label={i18n().isHappen}>
-            {form.getFieldDecorator(FIELDS.IS_HAPPEN, { initialValue: true })(
-              <Switch defaultChecked />
+            {form.getFieldDecorator(FIELDS.IS_HAPPEN, {initialValue: false})(
+              <Switch defaultChecked={false} />
             )}
           </FormItem>
         </Col>
