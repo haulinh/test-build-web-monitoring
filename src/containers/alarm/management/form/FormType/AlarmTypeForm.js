@@ -5,7 +5,7 @@ import DisconnectForm from './DisconnectForm'
 import ExceedForm from './ExceedForm'
 import AdvanceForm from './AdvanceForm'
 
-export const AlarmTypeForm = ({ form }) => {
+export const AlarmTypeForm = ({ form, getPopupContainer }) => {
   const type = form.getFieldValue(FIELDS.TYPE)
 
   if (type === alarmType.disconnect.value) {
@@ -13,11 +13,11 @@ export const AlarmTypeForm = ({ form }) => {
   }
 
   if (type === alarmType.exceed.value) {
-    return <ExceedForm form={form} />
+    return <ExceedForm form={form} getPopupContainer={getPopupContainer} />
   }
 
   if (type === alarmType.device.value) {
-    return <DeviceForm form={form} />
+    return <DeviceForm form={form} getPopupContainer={getPopupContainer} />
   }
 
   if (type === alarmType.advance.value) {

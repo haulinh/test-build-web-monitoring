@@ -70,7 +70,7 @@ export default class ExceedForm extends React.Component {
   }
 
   render() {
-    const { form, stationAutoById, isEdit } = this.props
+    const { form, stationAutoById, isEdit, getPopupContainer } = this.props
     const repeatConfig = form.getFieldValue(`${FIELDS.REPEAT_CONFIG}.active`)
     const stationIdSelected = form.getFieldValue(FIELDS.STATION_ID)
     const measuringList = _.get(
@@ -96,6 +96,7 @@ export default class ExceedForm extends React.Component {
                   disabled={isEdit}
                   measuringList={measuringList}
                   mode="single"
+                  getPopupContainer={getPopupContainer}
                 />
               )}
             </FormItem>
@@ -104,7 +105,7 @@ export default class ExceedForm extends React.Component {
             <FormItem label={i18n().form.label.compare}>
               {form.getFieldDecorator(`${FIELDS.CONDITIONS}.operator`, {
                 initialValue: 'eq',
-              })(<SelectOperator disabled={isEdit} />)}
+              })(<SelectOperator disabled={isEdit} getPopupContainer={getPopupContainer} />)}
             </FormItem>
           </Col>
 
@@ -136,7 +137,7 @@ export default class ExceedForm extends React.Component {
                 {form.getFieldDecorator(`${FIELDS.REPEAT_CONFIG}.frequency`, {
                   initialValue: frequency['15p'].value,
                 })(
-                  <Select disabled={isEdit} style={{ width: '100%' }}>
+                  <Select disabled={isEdit} style={{ width: '100%' }} getPopupContainer={getPopupContainer}>
                     {Object.values(frequency).map(frequencyItem => (
                       <Select.Option
                         value={frequencyItem.value}
