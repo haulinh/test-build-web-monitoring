@@ -10,7 +10,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { clearAlarmSelected } from 'redux/actions/alarm'
 import { alarmType, FIELDS } from '../index'
-import { AlarmTypeForm } from './AlarmTypeForm'
+import { AlarmTypeForm } from './FormType/AlarmTypeForm'
 import { ChanelForm } from './ChanelForm'
 
 export const i18n = () => ({
@@ -25,8 +25,10 @@ export const i18n = () => ({
       repeatConfig: t('alarm.label.management.repeatConfig'),
       station: t('alarm.label.management.station'),
       measure: t('alarm.label.management.measure'),
+      device: t('alarm.label.management.device'),
       compare: t('alarm.label.management.compare'),
       value: t('alarm.label.management.value'),
+      status: t('alarm.label.management.status'),
       recipient: t('alarm.label.management.recipient'),
       frequency: t('alarm.label.management.frequency'),
     },
@@ -91,7 +93,7 @@ export default class AlarmForm extends Component {
       disconnect: this.getParamDisconnect,
       advance: '',
       exceed: this.getParamExceed,
-      device: '',
+      device: this.getParamDevice,
     }
     return param[type]()
   }
@@ -118,6 +120,22 @@ export default class AlarmForm extends Component {
     return param
   }
 
+  getParamDevice = () => {
+    const { form } = this.props
+    const values = form.getFieldsValue()
+    const param = {
+      ...values,
+      [FIELDS.CONDITIONS]: [
+        {
+          ...values[FIELDS.CONDITIONS],
+          valueType: 'value',
+          field: 'statusDevice',
+        },
+      ],
+    }
+    return param
+  }
+
   onSubmit = async e => {
     e.preventDefault()
     const { form, onClose, getData, alarmSelected, isEdit } = this.props
@@ -134,6 +152,8 @@ export default class AlarmForm extends Component {
         message.success(t('alarm.message.management.updateSuccess'))
       } else {
         await CalculateApi.createAlarm(param)
+        console.log({ param })
+        message.success(t('alarm.message.management.createSuccess'))
       }
     } catch (error) {
       message.error(t('alarm.message.management.createError'))
@@ -201,7 +221,7 @@ export default class AlarmForm extends Component {
                       message: i18n().error.required,
                     },
                   ],
-                  initialValue: 'exceed',
+                  initialValue: 'disconnect',
                 })(
                   <Select disabled={isEdit}>
                     {Object.values(alarmType).map(item => (

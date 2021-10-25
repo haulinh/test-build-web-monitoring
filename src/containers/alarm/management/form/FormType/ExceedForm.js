@@ -1,0 +1,157 @@
+import { Col, InputNumber, Row, Select, Switch } from 'antd'
+import SelectOperator from 'components/core/select/SelectOperator'
+import SelectMeasureParameter from 'components/elements/select-measure-parameter'
+import { FormItem } from 'components/layouts/styles'
+import { translate } from 'hoc/create-lang'
+import _ from 'lodash'
+import React from 'react'
+import { connect } from 'react-redux'
+import { FIELDS } from '../../index'
+import { i18n } from '../AlarmForm'
+
+const frequency = {
+  '15p': {
+    label: '15p',
+    value: 15,
+  },
+  '30p': {
+    label: '30p',
+    value: 30,
+  },
+  '1h': {
+    label: '1h',
+    value: 60,
+  },
+  '2h': {
+    label: '2h',
+    value: 2 * 60,
+  },
+  '4h': {
+    label: '4h',
+    value: 4 * 60,
+  },
+  '8h': {
+    label: '8h',
+    value: 8 * 60,
+  },
+}
+
+const mapStateToProp = state => {
+  const stationAutoById = _.keyBy(state.stationAuto.list, '_id')
+  return {
+    stationAutoById,
+    alarmSelected: state.alarm.alarmSelected,
+    alarmType: state.alarm.alarmType,
+    isEdit: state.alarm.isEdit,
+  }
+}
+
+@connect(mapStateToProp)
+export default class ExceedForm extends React.Component {
+  componentDidMount() {
+    const { alarmSelected, form } = this.props
+
+    if (alarmSelected) {
+      const condition = _.get(alarmSelected, `${[FIELDS.CONDITIONS]}.0`, {})
+      form.setFieldsValue({
+        [FIELDS.CONDITIONS]: condition,
+      })
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const { alarmSelected, form } = this.props
+    if (alarmSelected && prevProps.alarmSelected !== alarmSelected) {
+      const condition = _.get(alarmSelected, `${[FIELDS.CONDITIONS]}.0`, {})
+      form.setFieldsValue({
+        [FIELDS.CONDITIONS]: condition,
+      })
+    }
+  }
+
+  render() {
+    const { form, stationAutoById, isEdit } = this.props
+    const repeatConfig = form.getFieldValue(`${FIELDS.REPEAT_CONFIG}.active`)
+    const stationIdSelected = form.getFieldValue(FIELDS.STATION_ID)
+    const measuringList = _.get(
+      stationAutoById,
+      `${stationIdSelected}.measuringList`,
+      []
+    )
+
+    return (
+      <React.Fragment>
+        <Row type="flex" justify="space-between">
+          <Col span={6}>
+            <FormItem label={i18n().form.label.measure}>
+              {form.getFieldDecorator(`${FIELDS.CONDITIONS}.measure`, {
+                rules: [
+                  {
+                    required: true,
+                    message: translate('ticket.required.incident.measure'),
+                  },
+                ],
+              })(
+                <SelectMeasureParameter
+                  disabled={isEdit}
+                  measuringList={measuringList}
+                  mode="single"
+                />
+              )}
+            </FormItem>
+          </Col>
+          <Col span={6}>
+            <FormItem label={i18n().form.label.compare}>
+              {form.getFieldDecorator(`${FIELDS.CONDITIONS}.operator`, {
+                initialValue: 'eq',
+              })(<SelectOperator disabled={isEdit} />)}
+            </FormItem>
+          </Col>
+
+          <Col span={6}>
+            <FormItem label={i18n().form.label.value}>
+              {form.getFieldDecorator(`${FIELDS.CONDITIONS}.value`, {
+                rules: [
+                  {
+                    required: true,
+                    message: translate('aqiConfigCalculation.required'),
+                  },
+                ],
+              })(<InputNumber disabled={isEdit} style={{ width: '100%' }} />)}
+            </FormItem>
+          </Col>
+        </Row>
+
+        <Row gutter={6}>
+          <Col span={6}>
+            <FormItem label={i18n().form.label.repeatConfig}>
+              {form.getFieldDecorator(`${FIELDS.REPEAT_CONFIG}.active`, {
+                valuePropName: 'checked',
+              })(<Switch disabled={isEdit} />)}
+            </FormItem>
+          </Col>
+          {repeatConfig && (
+            <Col span={8}>
+              <FormItem label={i18n().form.label.frequency}>
+                {form.getFieldDecorator(`${FIELDS.REPEAT_CONFIG}.frequency`, {
+                  initialValue: frequency['15p'].value,
+                })(
+                  <Select disabled={isEdit} style={{ width: '100%' }}>
+                    {Object.values(frequency).map(frequencyItem => (
+                      <Select.Option
+                        value={frequencyItem.value}
+                        key={frequencyItem.value}
+                      >
+                        {frequencyItem.label}
+                      </Select.Option>
+                    ))}
+                  </Select>
+                )}
+              </FormItem>
+            </Col>
+          )}
+        </Row>
+      </React.Fragment>
+    )
+  }
+}

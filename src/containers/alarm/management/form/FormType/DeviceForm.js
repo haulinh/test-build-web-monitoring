@@ -1,88 +1,13 @@
 import { Col, InputNumber, Row, Select, Switch } from 'antd'
+import SelectOperator from 'components/core/select/SelectOperator'
+import SelectMeasureParameter from 'components/elements/select-measure-parameter'
 import { FormItem } from 'components/layouts/styles'
+import { translate } from 'hoc/create-lang'
 import _ from 'lodash'
 import React from 'react'
-import { alarmType, FIELDS } from '../index'
-import { i18n } from './AlarmForm'
 import { connect } from 'react-redux'
-import SelectMeasureParameter from 'components/elements/select-measure-parameter'
-import { translate } from 'hoc/create-lang'
-import SelectOperator from 'components/core/select/SelectOperator'
-
-export const AlarmTypeForm = ({ form }) => {
-  const type = form.getFieldValue(FIELDS.TYPE)
-
-  if (type === alarmType.disconnect.value) {
-    return <DisconnectForm form={form} />
-  }
-
-  if (type === alarmType.exceed.value) {
-    return <ExceedForm form={form} />
-  }
-
-  return <React.Fragment />
-}
-
-@connect(state => ({
-  alarmSelected: state.alarm.alarmSelected,
-  alarmType: state.alarm.alarmType,
-  isEdit: state.alarm.isEdit,
-}))
-class DisconnectForm extends React.Component {
-  componentDidMount() {
-    const { alarmSelected, form } = this.props
-    if (alarmSelected) {
-      form.setFieldsValue({
-        [FIELDS.MAX_DISCONNECTION_TIME]:
-          alarmSelected[FIELDS.MAX_DISCONNECTION_TIME],
-      })
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    const { alarmSelected, form } = this.props
-    if (alarmSelected && prevProps.alarmSelected !== alarmSelected) {
-      form.setFieldsValue({
-        [FIELDS.MAX_DISCONNECTION_TIME]:
-          alarmSelected[FIELDS.MAX_DISCONNECTION_TIME],
-      })
-    }
-  }
-
-  render() {
-    const { form, isEdit } = this.props
-    return (
-      <React.Fragment>
-        <Row type="flex" justify="space-between">
-          <Col span={16}>
-            <FormItem
-              marginBottom="0px"
-              label={i18n().form.label.disconnectionTime}
-            >
-              {form.getFieldDecorator(FIELDS.MAX_DISCONNECTION_TIME, {
-                rules: [
-                  {
-                    required: true,
-                    message: translate('alarm.required.disconnectionTime'),
-                  },
-                ],
-              })(<InputNumber disabled={isEdit} style={{ width: '100%' }} />)}
-            </FormItem>
-            <span>{translate('alarm.suggest.disconnectionTime')}</span>
-          </Col>
-          <Col span={5}>
-            <FormItem marginBottom="0px" label={i18n().form.label.repeatConfig}>
-              {form.getFieldDecorator(`${FIELDS.REPEAT_CONFIG}.active`, {
-                valuePropName: 'checked',
-                initialValue: true,
-              })(<Switch disabled={isEdit} />)}
-            </FormItem>
-          </Col>
-        </Row>
-      </React.Fragment>
-    )
-  }
-}
+import { FIELDS } from '../../index'
+import { i18n } from '../AlarmForm'
 
 const frequency = {
   '15p': {
@@ -111,6 +36,21 @@ const frequency = {
   },
 }
 
+const deviceStatus = {
+  good: {
+    label: () => translate('alarm.label.management.deviceStatus.good'),
+    value: 0,
+  },
+  error: {
+    label: () => translate('alarm.label.management.deviceStatus.error'),
+    value: 2,
+  },
+  calibration: {
+    label: () => translate('alarm.label.management.deviceStatus.calibration'),
+    value: 1,
+  },
+}
+
 const mapStateToProp = state => {
   const stationAutoById = _.keyBy(state.stationAuto.list, '_id')
   return {
@@ -122,7 +62,7 @@ const mapStateToProp = state => {
 }
 
 @connect(mapStateToProp)
-class ExceedForm extends React.Component {
+export default class DeviceForm extends React.Component {
   componentDidMount() {
     const { alarmSelected, form } = this.props
 
@@ -158,7 +98,7 @@ class ExceedForm extends React.Component {
       <React.Fragment>
         <Row type="flex" justify="space-between">
           <Col span={6}>
-            <FormItem label={i18n().form.label.measure}>
+            <FormItem label={i18n().form.label.device}>
               {form.getFieldDecorator(`${FIELDS.CONDITIONS}.measure`, {
                 rules: [
                   {
@@ -175,16 +115,16 @@ class ExceedForm extends React.Component {
               )}
             </FormItem>
           </Col>
-          <Col span={6}>
+          <Col span={5}>
             <FormItem label={i18n().form.label.compare}>
               {form.getFieldDecorator(`${FIELDS.CONDITIONS}.operator`, {
                 initialValue: 'eq',
-              })(<SelectOperator disabled={isEdit} />)}
+              })(<SelectOperator disabled />)}
             </FormItem>
           </Col>
 
-          <Col span={6}>
-            <FormItem label={i18n().form.label.value}>
+          <Col span={8}>
+            <FormItem label={i18n().form.label.status}>
               {form.getFieldDecorator(`${FIELDS.CONDITIONS}.value`, {
                 rules: [
                   {
@@ -192,13 +132,24 @@ class ExceedForm extends React.Component {
                     message: translate('aqiConfigCalculation.required'),
                   },
                 ],
-              })(<InputNumber disabled={isEdit} style={{ width: '100%' }} />)}
+              })(
+                <Select disabled={isEdit} style={{ width: '100%' }}>
+                  {Object.values(deviceStatus).map(deviceStatusItem => (
+                    <Select.Option
+                      value={deviceStatusItem.value}
+                      key={deviceStatusItem.value}
+                    >
+                      {deviceStatusItem.label()}
+                    </Select.Option>
+                  ))}
+                </Select>
+              )}
             </FormItem>
           </Col>
         </Row>
 
         <Row gutter={6}>
-          <Col span={6}>
+          <Col span={8}>
             <FormItem label={i18n().form.label.repeatConfig}>
               {form.getFieldDecorator(`${FIELDS.REPEAT_CONFIG}.active`, {
                 valuePropName: 'checked',

@@ -3919,10 +3919,17 @@ export default {
         repeatConfig: 'Repeat Send',
         station: 'Station',
         measure: 'Measure',
+        device: 'Device',
         compare: 'Compare',
         value: 'Value',
+        status: 'Status',
         recipient: 'Recipient',
         frequency: 'Frequency',
+        deviceStatus: {
+          good: 'Device Good',
+          error: 'Device Error',
+          calibration: 'Calibration',
+        },
       },
       history: {
         name: 'Alarm Name',
