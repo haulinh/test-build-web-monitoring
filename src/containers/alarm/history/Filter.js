@@ -1,4 +1,4 @@
-import { Col, Row } from 'antd'
+import { Col, Row, Switch } from 'antd'
 import OptionsTimeRange from 'components/elements/options-time-range'
 import SelectProvince from 'components/elements/select-province'
 import SelectStationAuto from 'components/elements/select-station-auto'
@@ -14,6 +14,7 @@ const i18n = () => ({
   station: t('alarm.label.history.station'),
   requiredStation: t('alarm.required.station'),
   requiredProvince: t('alarm.required.province'),
+  isHappen: t('alarm.label.history.isHappen')
 })
 
 export default class Filter extends Component {
@@ -70,7 +71,7 @@ export default class Filter extends Component {
             })(<SelectProvince fieldValue='_id' isShowAll allowClear={false} />)}
           </FormItem>
         </Col>
-        <Col span={12}>
+        <Col span={9}>
           <FormItem label={i18n().station}>
             {form.getFieldDecorator(FIELDS.STATION_IDS, {
               rules: [
@@ -85,6 +86,13 @@ export default class Filter extends Component {
                 province={province}
                 mode="multiple"
                 onFetchSuccess={this.onStationAutosFetchSuccess} />
+            )}
+          </FormItem>
+        </Col>
+        <Col span={2}>
+          <FormItem label={i18n().isHappen}>
+            {form.getFieldDecorator(FIELDS.IS_HAPPEN, { initialValue: true })(
+              <Switch defaultChecked />
             )}
           </FormItem>
         </Col>

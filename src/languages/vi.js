@@ -3938,6 +3938,10 @@ export default {
         province: 'Đơn vị quản lý',
         status: 'Trạng thái',
         timeStart: 'Thời gian bắt đầu',
+        done: 'Đã kết thúc',
+        happening: 'Đang diễn ra',
+        disable: 'Đã vô hiệu',
+        isHappen: 'Đang diễn ra'
       },
     },
     placeholder: {
@@ -3977,11 +3981,6 @@ export default {
       device: {
         label: 'Thiết bị',
         value: 'device',
-      },
-      history: {
-        done: 'Đã kết thúc',
-        happening: 'Đang diễn ra',
-        disable: 'Đã vô hiệu'
       },
     },
   },
