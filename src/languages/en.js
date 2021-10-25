@@ -3932,6 +3932,10 @@ export default {
         province: 'Province',
         status: 'Status',
         timeStart: 'Time Start',
+        done: 'Done',
+        happening: 'Happening',
+        disable: 'Disabled',
+        isHappen: 'Only Active'
       },
     },
     placeholder: {
@@ -3971,11 +3975,6 @@ export default {
       device: {
         label: 'Device',
         value: 'device',
-      },
-      history: {
-        done: 'Done',
-        happening: 'Happening',
-        disable: 'Disabled'
       },
     },
   },

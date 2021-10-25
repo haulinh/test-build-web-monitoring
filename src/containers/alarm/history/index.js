@@ -15,6 +15,7 @@ export const FIELDS = {
   TIME: 'time',
   STATION_IDS: 'stationIds',
   PROVINCE: 'province',
+  IS_HAPPEN: "isHappen"
 }
 
 @Form.create()
@@ -51,7 +52,8 @@ export default class AlarmHistory extends Component {
     const queryParams = {
       from,
       to,
-      stationIdsStr: values[FIELDS.STATION_IDS].join()
+      stationIdsStr: values[FIELDS.STATION_IDS].join(),
+      isHappen: values[FIELDS.IS_HAPPEN]
     }
 
     return queryParams

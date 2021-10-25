@@ -7,9 +7,9 @@ import { connect } from 'react-redux'
 import moment from 'moment'
 
 const i18n = () => ({
-  happening: t('alarm.alarmType.history.happening'),
-  done: t('alarm.alarmType.history.done'),
-  disable: t('alarm.alarmType.history.disable'),
+  happening: t('alarm.label.history.happening'),
+  done: t('alarm.label.history.done'),
+  disable: t('alarm.label.history.disable'),
   disconnect: t('alarm.alarmType.disconnect.label'),
   exceed: t('alarm.alarmType.exceed.label'),
 })
@@ -54,6 +54,7 @@ class TableAlarm extends React.Component {
     {
       dataIndex: 'createdAt',
       title: t('alarm.label.history.timeStart'),
+      defaultSortOrder: 'descend',
       render: (value, record) => <div>{moment(value).format('YYYY/MM/DD HH:mm')}</div>
     },
     {
