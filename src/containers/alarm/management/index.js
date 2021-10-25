@@ -31,10 +31,12 @@ export const alarmType = {
     template: () => t('alarm.alarmType.exceed.template', undefined, false),
     initialValue: `Station: {{station}} - Data exceed the threshold {{measure}} : {{value}} {{unit}} (Threshold: {{config}} {{unit}} ) at {{time}}`,
   },
-  // device: {
-  //   label: 'Thiết bị',
-  //   value: 'device',
-  // },
+  device: {
+    label: () => 'Thiết bị',
+    value: 'device',
+    template: () => t('alarm.alarmType.exceed.template', undefined, false),
+    initialValue: `Station: {{station}} - Data exceed the threshold {{measure}} : {{value}} {{unit}} (Threshold: {{config}} {{unit}} ) at {{time}}`,
+  },
 }
 
 export const FIELDS = {

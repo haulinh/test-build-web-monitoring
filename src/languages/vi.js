@@ -3918,10 +3918,17 @@ export default {
         repeatConfig: 'Gửi lặp lại',
         station: 'Trạm',
         measure: 'Thông số',
+        device: 'Thiết bị',
         compare: 'So sánh',
         value: 'Giá trị',
+        status: 'Trạng thái',
         recipient: 'Người nhận',
         frequency: 'Tần suất',
+        deviceStatus: {
+          good: 'Thiết bị tốt',
+          error: 'Lỗi thiết bị',
+          calibration: 'Hiệu chuẩn',
+        },
       },
       history: {
         name: 'Tên cảnh báo',
