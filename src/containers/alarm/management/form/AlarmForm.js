@@ -58,9 +58,13 @@ export const i18n = () => ({
   }
 )
 export default class AlarmForm extends Component {
+  constructor(props) {
+    super(props)
+    this.aRef = React.createRef()
+  }
   state = {
     isModalVisible: false,
-    categories: [],
+    categories: []
   }
 
   clearFields = () => {
@@ -174,11 +178,13 @@ export default class AlarmForm extends Component {
   getPopupContainer(trigger) {
     return trigger.parentElement
   }
+
   render() {
     const { visible, form, alarmSelected, isEdit } = this.props
 
     return (
       <CDrawer
+        key={visible}
         closable={false}
         onClose={this.handleOnClose}
         visible={visible}
