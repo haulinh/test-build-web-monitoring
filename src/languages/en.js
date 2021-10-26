@@ -3927,10 +3927,14 @@ export default {
         frequency: 'Frequency',
         deviceStatus: {
           good: '00 (Device Good)',
-          error: '01 (Device Error)',
-          calibration: '02 (Calibration)',
+          error: '02 (Device Error)',
+          calibration: '01 (Calibration)',
         },
         addCondition: 'Add Condition +',
+        typeCondition: {
+          value: 'value',
+          device: 'device',
+        },
       },
       history: {
         name: 'Alarm Name',

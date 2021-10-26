@@ -3926,10 +3926,14 @@ export default {
         frequency: 'Tần suất',
         deviceStatus: {
           good: '00 (Thiết bị tốt)',
-          error: '01 (Lỗi thiết bị)',
-          calibration: '02 (Hiệu chuẩn)',
+          error: '02 (Lỗi thiết bị)',
+          calibration: '01 (Hiệu chuẩn)',
         },
         addCondition: 'Thêm điều kiện +',
+        typeCondition: {
+          value: 'value',
+          device: 'device',
+        },
       },
       history: {
         name: 'Tên cảnh báo',
