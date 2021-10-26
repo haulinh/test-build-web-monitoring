@@ -3930,6 +3930,7 @@ export default {
           error: '01 (Device Error)',
           calibration: '02 (Calibration)',
         },
+        addCondition: 'Add Condition +',
       },
       history: {
         name: 'Alarm Name',
@@ -3942,7 +3943,7 @@ export default {
         done: 'Done',
         happening: 'Happening',
         disable: 'Disabled',
-        isHappen: 'Active Only'
+        isHappen: 'Active Only',
       },
     },
     placeholder: {
