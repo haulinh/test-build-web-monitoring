@@ -66,7 +66,7 @@ export default class DeviceForm extends React.Component {
   componentDidMount() {
     const { alarmSelected, form } = this.props
 
-    if (_.isEmpty(alarmSelected)) {
+    if (!_.isEmpty(alarmSelected)) {
       const condition = _.get(alarmSelected, `${[FIELDS.CONDITIONS]}.0`, {})
       form.setFieldsValue({
         [FIELDS.CONDITIONS]: condition,
@@ -76,7 +76,10 @@ export default class DeviceForm extends React.Component {
 
   componentDidUpdate(prevProps) {
     const { alarmSelected, form } = this.props
-    if (_.isEmpty(alarmSelected) && prevProps.alarmSelected !== alarmSelected) {
+    if (
+      !_.isEmpty(alarmSelected) &&
+      prevProps.alarmSelected !== alarmSelected
+    ) {
       const condition = _.get(alarmSelected, `${[FIELDS.CONDITIONS]}.0`, {})
       form.setFieldsValue({
         [FIELDS.CONDITIONS]: condition,

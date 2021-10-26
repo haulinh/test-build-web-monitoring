@@ -3929,6 +3929,7 @@ export default {
           error: '01 (Lỗi thiết bị)',
           calibration: '02 (Hiệu chuẩn)',
         },
+        addCondition: 'Thêm điều kiện +',
       },
       history: {
         name: 'Tên cảnh báo',
@@ -3941,7 +3942,7 @@ export default {
         done: 'Đã kết thúc',
         happening: 'Đang diễn ra',
         disable: 'Đã vô hiệu',
-        isHappen: 'Đang diễn ra'
+        isHappen: 'Đang diễn ra',
       },
     },
     placeholder: {
