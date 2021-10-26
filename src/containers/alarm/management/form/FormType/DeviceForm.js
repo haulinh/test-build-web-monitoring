@@ -66,7 +66,7 @@ export default class DeviceForm extends React.Component {
   componentDidMount() {
     const { alarmSelected, form } = this.props
 
-    if (_.isEmpty(alarmSelected)) {
+    if (!_.isEmpty(alarmSelected)) {
       const condition = _.get(alarmSelected, `${[FIELDS.CONDITIONS]}.0`, {})
       form.setFieldsValue({
         [FIELDS.CONDITIONS]: condition,
@@ -76,7 +76,10 @@ export default class DeviceForm extends React.Component {
 
   componentDidUpdate(prevProps) {
     const { alarmSelected, form } = this.props
-    if (_.isEmpty(alarmSelected) && prevProps.alarmSelected !== alarmSelected) {
+    if (
+      !_.isEmpty(alarmSelected) &&
+      prevProps.alarmSelected !== alarmSelected
+    ) {
       const condition = _.get(alarmSelected, `${[FIELDS.CONDITIONS]}.0`, {})
       form.setFieldsValue({
         [FIELDS.CONDITIONS]: condition,
@@ -85,7 +88,7 @@ export default class DeviceForm extends React.Component {
   }
 
   render() {
-    const { form, stationAutoById, isEdit } = this.props
+    const { form, stationAutoById, isEdit, getPopupContainer } = this.props
     const repeatConfig = form.getFieldValue(`${FIELDS.REPEAT_CONFIG}.active`)
     const stationIdSelected = form.getFieldValue(FIELDS.STATION_ID)
     const measuringList = _.get(
@@ -111,6 +114,7 @@ export default class DeviceForm extends React.Component {
                   disabled={isEdit}
                   measuringList={measuringList}
                   mode="single"
+                  getPopupContainer={getPopupContainer}
                 />
               )}
             </FormItem>
@@ -119,7 +123,7 @@ export default class DeviceForm extends React.Component {
             <FormItem label={i18n().form.label.compare}>
               {form.getFieldDecorator(`${FIELDS.CONDITIONS}.operator`, {
                 initialValue: 'eq',
-              })(<SelectOperator disabled />)}
+              })(<SelectOperator disabled getPopupContainer={getPopupContainer} />)}
             </FormItem>
           </Col>
 
@@ -133,7 +137,7 @@ export default class DeviceForm extends React.Component {
                   },
                 ],
               })(
-                <Select disabled={isEdit} style={{ width: '100%' }}>
+                <Select disabled={isEdit} style={{ width: '100%' }} getPopupContainer={getPopupContainer}>
                   {Object.values(deviceStatus).map(deviceStatusItem => (
                     <Select.Option
                       value={deviceStatusItem.value}
@@ -162,7 +166,7 @@ export default class DeviceForm extends React.Component {
                 {form.getFieldDecorator(`${FIELDS.REPEAT_CONFIG}.frequency`, {
                   initialValue: frequency['15p'].value,
                 })(
-                  <Select disabled={isEdit} style={{ width: '100%' }}>
+                  <Select disabled={isEdit} style={{ width: '100%' }} getPopupContainer={getPopupContainer}>
                     {Object.values(frequency).map(frequencyItem => (
                       <Select.Option
                         value={frequencyItem.value}

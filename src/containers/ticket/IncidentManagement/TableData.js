@@ -11,6 +11,7 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 import role, { checkRolePriority } from 'constants/role'
 import { setType } from 'redux/actions/ticket'
+import _ from 'lodash'
 
 const TableStyled = styled(Table)`
   .ant-table-row {
@@ -90,7 +91,10 @@ export const TableData = connect(
           align: 'center',
           title: t('apiSharingNew.fields.stationKeys'),
           render: value => {
-            const stationNames = value.map(item => item.name).join(',')
+            const stationNames =
+              value.length !== 0
+                ? value.map(item => _.get(item, 'name')).join(',')
+                : ''
             return <TooltipCustom name={stationNames} />
           },
         },

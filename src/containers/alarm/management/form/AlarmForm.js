@@ -171,6 +171,9 @@ export default class AlarmForm extends Component {
     clearAlarmSelected()
   }
 
+  getPopupContainer(trigger) {
+    return trigger.parentElement
+  }
   render() {
     const { visible, form, alarmSelected, isEdit } = this.props
 
@@ -223,7 +226,7 @@ export default class AlarmForm extends Component {
                   ],
                   initialValue: 'disconnect',
                 })(
-                  <Select disabled={isEdit}>
+                  <Select disabled={isEdit} getPopupContainer={this.getPopupContainer}>
                     {Object.values(alarmType).map(item => (
                       <Select.Option key={item.value} value={item.value}>
                         {item.label()}
@@ -241,10 +244,10 @@ export default class AlarmForm extends Component {
                       message: t('ticket.required.incident.stationName'),
                     },
                   ],
-                })(<SelectStationAuto disabled={isEdit} fieldValue="_id" />)}
+                })(<SelectStationAuto disabled={isEdit} fieldValue="_id" getPopupContainer={this.getPopupContainer} />)}
               </FormItem>
 
-              <AlarmTypeForm form={form} />
+              <AlarmTypeForm form={form} getPopupContainer={this.getPopupContainer} />
 
               <FormItem label={i18n().form.label.recipient}>
                 {form.getFieldDecorator(FIELDS.RECIPIENTS, {
@@ -254,7 +257,7 @@ export default class AlarmForm extends Component {
                       message: t('ticket.required.incident.recipient'),
                     },
                   ],
-                })(<SelectUser mode="multiple" />)}
+                })(<SelectUser mode="multiple" getPopupContainer={this.getPopupContainer} />)}
               </FormItem>
 
               <FormItem>
