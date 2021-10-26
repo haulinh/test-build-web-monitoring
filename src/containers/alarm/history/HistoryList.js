@@ -12,6 +12,8 @@ const i18n = () => ({
   disable: t('alarm.label.history.disable'),
   disconnect: t('alarm.alarmType.disconnect.label'),
   exceed: t('alarm.alarmType.exceed.label'),
+  device: t('alarm.alarmType.device.label'),
+  advance: t('alarm.alarmType.advance.label'),
 })
 
 const TableStyled = styled(Table)`
