@@ -143,13 +143,10 @@ export default class ReportType11 extends React.Component {
   }
 
   handleExcel = async () => {
-    const stationName = moment(this.state.dataSearch.fromDate).format(
-      'DD-MM-YYYY'
-    )
     let res = await downloadExcel_DataStationAutov1({
       ...this.state.dataSearch,
       language: this.props.locale || 'EN',
-      name: stationName,
+      name: this.state.stationName,
     })
     // console.log(url, '==url==')
     // console.log('this.state.dataSearch', res.data)
