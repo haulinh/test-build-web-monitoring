@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "engines": {
-    "node": "10.x"
+    "node": "10.22.1"
   },
   "dependencies": {
     "@atlaskit/breadcrumbs": "^3.1.10",
@@ -40,15 +40,12 @@
     "ejs": "^2.6.1",
     "express": "^4.16.2",
     "extract-text-webpack-plugin": "3.0.0",
-    
     "feather-icons": "^4.5.0",
     "fetch": "^1.1.0",
     "file-saver": "^2.0.5",
     "firebase": "^5.11.1",
     "font-awesome": "^4.7.0",
-    "fontawesome": "^4.7.2",
     "fs-extra": "3.0.1",
-    "fuse.js": "^3.2.0",
     "highcharts": "^6.0.4",
     "hls.js": "^0.12.1",
     "html-webpack-plugin": "2.29.0",
@@ -56,7 +53,6 @@
     "is-react": "^1.1.0",
     "jquery": "^3.3.0",
     "js-base64": "^2.5.1",
-    "ky": "^0.4.1",
     "lodash": "^4.17.10",
     "marker-animate-unobtrusive": "^0.2.8",
     "moment-timezone": "^0.5.31",
@@ -73,7 +69,6 @@
     "whatwg-fetch": "^3.0.0"
   },
   "devDependencies": {
-    "style-loader": "^0.23.1",
     "autoprefixer": "7.1.2",
     "babel-core": "6.25.0",
     "babel-eslint": "7.2.3",
@@ -96,17 +91,13 @@
     "eslint-plugin-import": "2.7.0",
     "eslint-plugin-jsx-a11y": "5.1.1",
     "eslint-plugin-react": "7.1.0",
+    "faker": "^4.1.0",
     "file-loader": "0.11.2",
     "jest": "20.0.4",
     "nodemon": "^1.14.11",
     "postcss-flexbugs-fixes": "3.2.0",
     "postcss-loader": "2.0.6",
     "prettier": "^1.10.2",
-    "sw-precache-webpack-plugin": "0.11.4",
-    "webpack": "3.5.1",
-    "webpack-dev-server": "2.8.2",
-    "webpack-manifest-plugin": "1.2.1",
-    "faker": "^4.1.0",
     "promise": "8.0.1",
     "prop-types": "^15.6.0",
     "react-addons-css-transition-group": "^15.6.2",
@@ -151,7 +142,6 @@
     "react-telephone-input": "^4.3.4",
     "react-timeago": "^3.4.3",
     "react-timestamp": "^4.3.1",
-    "react-transition-group": "^2.2.1",
     "react-treebeard": "^2.1.0",
     "reactcss": "^1.2.3",
     "reactstrap": "^4.8.0",
@@ -163,7 +153,12 @@
     "round-to": "^2.0.0",
     "shortid": "^2.2.15",
     "simple-line-icons": "2.4.1",
-    "simplebar": "^5.2.0"
+    "simplebar": "^5.2.0",
+    "style-loader": "^0.23.1",
+    "sw-precache-webpack-plugin": "0.11.4",
+    "webpack": "3.5.1",
+    "webpack-dev-server": "2.8.2",
+    "webpack-manifest-plugin": "1.2.1"
   },
   "scripts": {
     "dev": "node scripts/start.js",
