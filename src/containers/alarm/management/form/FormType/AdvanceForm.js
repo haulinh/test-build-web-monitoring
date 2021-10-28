@@ -45,7 +45,15 @@ const ConditionItem = connect(mapStateToProp)(
           <React.Fragment>
             <FormItem label={i18n().form.label.value}>
               {form.getFieldDecorator(
-                `${FIELDS.CONDITIONS}.${conditionItem.id}.value`
+                `${FIELDS.CONDITIONS}.${conditionItem.id}.value`,
+                {
+                  rules: [
+                    {
+                      required: true,
+                      message: translate('aqiConfigCalculation.required'),
+                    },
+                  ],
+                }
               )(<InputNumber style={{ width: '100%' }} />)}
             </FormItem>
             {form.getFieldDecorator(
@@ -58,11 +66,19 @@ const ConditionItem = connect(mapStateToProp)(
             )(<div />)}
           </React.Fragment>
         ),
-        device: () => (
+        statusDevice: () => (
           <React.Fragment>
             <FormItem label={i18n().form.label.value}>
               {form.getFieldDecorator(
-                `${FIELDS.CONDITIONS}.${conditionItem.id}.value`
+                `${FIELDS.CONDITIONS}.${conditionItem.id}.value`,
+                {
+                  rules: [
+                    {
+                      required: true,
+                      message: translate('aqiConfigCalculation.required'),
+                    },
+                  ],
+                }
               )(<SelectStatusDevice style={{ width: '100%' }} />)}
             </FormItem>
             {form.getFieldDecorator(
@@ -102,7 +118,15 @@ const ConditionItem = connect(mapStateToProp)(
           <Col span={6}>
             <FormItem label={i18n().form.label.measure}>
               {form.getFieldDecorator(
-                `${FIELDS.CONDITIONS}.${conditionItem.id}.measure`
+                `${FIELDS.CONDITIONS}.${conditionItem.id}.measure`,
+                {
+                  rules: [
+                    {
+                      required: true,
+                      message: translate('ticket.required.incident.measure'),
+                    },
+                  ],
+                }
               )(
                 <SelectMeasureParameter
                   measuringList={measuringList}
@@ -114,12 +138,13 @@ const ConditionItem = connect(mapStateToProp)(
           <Col span={6}>
             <FormItem label={i18n().form.label.compare}>
               {form.getFieldDecorator(
-                `${FIELDS.CONDITIONS}.${conditionItem.id}.operator`
+                `${FIELDS.CONDITIONS}.${conditionItem.id}.operator`,
+                { initialValue: 'eq' }
               )(<SelectOperator />)}
             </FormItem>
           </Col>
 
-          <Col span={6}>{Col3(conditionItem.type)}</Col>
+          <Col span={6}>{Col3(conditionItem.field)}</Col>
 
           {!isFirstItem && (
             <Col span={3}>
@@ -150,37 +175,34 @@ class AdvanceForm extends React.Component {
     conditions: [
       {
         id: uuidv4(),
-        type: 'value',
+        field: 'value',
       },
     ],
   }
 
-  componentDidMount() {
+  setInitValue = () => {
     const { alarmSelected, form } = this.props
-    if (!_.isEmpty(alarmSelected)) {
-      form.setFieldsValue({
-        [FIELDS.MAX_DISCONNECTION_TIME]:
-          alarmSelected[FIELDS.MAX_DISCONNECTION_TIME] / 60,
-      })
-    }
+
+    this.setState({ conditions: alarmSelected.conditions }, () => {
+      const conditionFieldValue = alarmSelected.conditions.reduce(
+        (base, current) => ({ ...base, [current.id]: current }),
+        {}
+      )
+
+      form.setFieldsValue({ [FIELDS.CONDITIONS]: conditionFieldValue })
+    })
   }
 
-  componentDidUpdate(prevProps) {
-    const { alarmSelected, form } = this.props
-    if (
-      !_.isEmpty(alarmSelected) &&
-      prevProps.alarmSelected !== alarmSelected
-    ) {
-      form.setFieldsValue({
-        [FIELDS.MAX_DISCONNECTION_TIME]:
-          alarmSelected[FIELDS.MAX_DISCONNECTION_TIME] / 60,
-      })
+  componentDidMount() {
+    const { alarmSelected } = this.props
+    if (!_.isEmpty(alarmSelected)) {
+      this.setInitValue()
     }
   }
 
   addConditionItem = value => {
     const { conditions } = this.state
-    const newConditions = [...conditions, { id: uuidv4(), type: value }]
+    const newConditions = [...conditions, { id: uuidv4(), field: value }]
     this.setState({ conditions: newConditions })
   }
 
@@ -201,7 +223,7 @@ class AdvanceForm extends React.Component {
       <Menu.Item onClick={() => this.addConditionItem('value')}>
         {translate('alarm.label.management.typeCondition.value')}
       </Menu.Item>
-      <Menu.Item onClick={() => this.addConditionItem('device')}>
+      <Menu.Item onClick={() => this.addConditionItem('statusDevice')}>
         {translate('alarm.label.management.typeCondition.device')}
       </Menu.Item>
     </Menu>
