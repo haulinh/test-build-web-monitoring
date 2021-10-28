@@ -1,4 +1,4 @@
-import { Select } from 'antd'
+import { Select, Tooltip } from 'antd'
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
@@ -48,7 +48,7 @@ export default class SelectParamenterWeather extends PureComponent {
       >
         {optionsWeather().map(item => (
           <Select.Option key={item.key} value={item.key}>
-            {item.label}
+            <Tooltip title={item.label}>{item.label}</Tooltip>
           </Select.Option>
         ))}
       </Select>
