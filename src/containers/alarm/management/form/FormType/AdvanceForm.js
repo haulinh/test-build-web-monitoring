@@ -22,6 +22,15 @@ import { connect } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
 import { FIELDS } from '../../index'
 import { i18n } from '../AlarmForm'
+import styled from 'styled-components'
+
+const ConditionWrapper = styled.div`
+  background: #ffffff;
+  border: 1px solid #d0d8e2;
+  box-sizing: border-box;
+  border-radius: 4px;
+  padding: 16px;
+`
 
 const mapStateToProp = state => {
   const stationAutoById = _.keyBy(state.stationAuto.list, '_id')
@@ -167,8 +176,7 @@ const ConditionItem = connect(mapStateToProp)(
           </Col>
 
           <Col span={6}>{Col3(conditionItem.field)}</Col>
-
-          {!isFirstItem && !otherProps.isEdit && (
+          {!otherProps.isEdit && (
             <Col span={3}>
               <Icon
                 onClick={() => deleteConditionItem(conditionItem.id)}
@@ -177,8 +185,6 @@ const ConditionItem = connect(mapStateToProp)(
               />
             </Col>
           )}
-
-          {(otherProps.isEdit || isFirstItem) && <Col span={3} />}
         </Row>
         <Clearfix height={8} />
       </React.Fragment>
@@ -261,23 +267,29 @@ class AdvanceForm extends React.Component {
   }
 
   render() {
-    const { form } = this.props
+    const { form, isEdit } = this.props
     const { conditions } = this.state
     const repeatConfig = form.getFieldValue(`${FIELDS.REPEAT_CONFIG}.active`)
 
     return (
       <React.Fragment>
-        {conditions.map((conditionItem, index) => (
-          <ConditionItem
-            index={index}
-            form={form}
-            conditionItem={conditionItem}
-            deleteConditionItem={this.deleteConditionItem}
-          />
-        ))}
-        <Dropdown overlay={this.menu} placement="bottomCenter">
-          <Button>{translate('alarm.label.management.addCondition')}</Button>
-        </Dropdown>
+        <ConditionWrapper>
+          {conditions.map((conditionItem, index) => (
+            <ConditionItem
+              index={index}
+              form={form}
+              conditionItem={conditionItem}
+              deleteConditionItem={this.deleteConditionItem}
+            />
+          ))}
+          {!isEdit && (
+            <Dropdown overlay={this.menu} placement="bottomCenter">
+              <Button>
+                {translate('alarm.label.management.addCondition')}
+              </Button>
+            </Dropdown>
+          )}
+        </ConditionWrapper>
         <Clearfix height={24} />
         <Row gutter={6}>
           <Col span={8}>

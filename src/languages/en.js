@@ -3970,7 +3970,7 @@ export default {
         {{time}} : Signal loss time of monitoring station`,
       },
       advance: {
-        label: 'Adcance',
+        label: 'Advance',
         value: 'advance',
         template: `{{station}} : The name of the monitoring station exceeded the threshold,
         {{measure}} : The parameter is exceeded the threshold of the monitoring station,
