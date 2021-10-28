@@ -23,19 +23,6 @@ export default class DisconnectForm extends React.Component {
     }
   }
 
-  componentDidUpdate(prevProps) {
-    const { alarmSelected, form } = this.props
-    if (
-      !_.isEmpty(alarmSelected) &&
-      prevProps.alarmSelected !== alarmSelected
-    ) {
-      form.setFieldsValue({
-        [FIELDS.MAX_DISCONNECTION_TIME]:
-          alarmSelected[FIELDS.MAX_DISCONNECTION_TIME] / 60,
-      })
-    }
-  }
-
   render() {
     const { form, isEdit } = this.props
     return (

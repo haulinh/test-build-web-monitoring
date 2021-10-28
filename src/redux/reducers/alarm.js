@@ -21,7 +21,6 @@ const alarmReducer = (state = initialState, action) => {
         isEdit: true,
       }
     case CLEAR_ALARM_SELECTED:
-      console.log('run clear')
       return { ...state, alarmSelected: {}, isEdit: false }
     case SELECT_STATION:
       return { ...state, stationIdSelected: action.payload }

@@ -168,9 +168,15 @@ export default class AlarmForm extends Component {
   onSubmit = async e => {
     e.preventDefault()
     const { form, onClose, getData, alarmSelected, isEdit } = this.props
-    const values = await form.validateFields()
 
-    if (!values) return
+    const advanceForm = this.childFormRef.current.props.form
+
+    const [values, advanceFormValue] = await Promise.all([
+      form.validateFields(),
+      advanceForm.validateFields(),
+    ])
+
+    if (!values || !advanceFormValue) return
 
     const type = values[FIELDS.TYPE]
     const param = this.getParam(type)
@@ -195,10 +201,8 @@ export default class AlarmForm extends Component {
   handleOnClose = async () => {
     const { onClose, clearAlarmSelected, form } = this.props
     form.resetFields()
-    console.log({ clearAlarmSelected })
-    console.log(this.props)
-    clearAlarmSelected()
     onClose()
+    clearAlarmSelected()
   }
 
   getPopupContainer(trigger) {
