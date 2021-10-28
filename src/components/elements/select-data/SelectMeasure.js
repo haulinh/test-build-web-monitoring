@@ -1,4 +1,4 @@
-import { Select } from 'antd'
+import { Select, Tooltip } from 'antd'
 import CategoryApi from 'api/CategoryApi'
 import _ from 'lodash'
 import React, { Component } from 'react'
@@ -34,7 +34,7 @@ export default class SelectMeasure extends Component {
       >
         {measuringList.map(item => (
           <Select.Option key={item.key} value={item.key}>
-            {item.name}
+            <Tooltip title={item.name}>{item.name}</Tooltip>
           </Select.Option>
         ))}
       </Select>

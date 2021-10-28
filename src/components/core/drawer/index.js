@@ -18,7 +18,12 @@ const CDrawer = ({ title, right, ...props }) => {
       <Row
         type="flex"
         justify="space-between"
-        style={{ paddingRight: 24, paddingLeft: 24 }}
+        style={{
+          paddingRight: 24,
+          paddingLeft: 24,
+          borderBottomWidth: 1,
+          marginBottom: 24,
+        }}
       >
         <Col span={20}>
           <b
@@ -34,12 +39,13 @@ const CDrawer = ({ title, right, ...props }) => {
         <Col span={1}>{right}</Col>
       </Row>
 
-      <Divider style={{ width: '100%' }} />
+      <div style={{ height: 16, background: '#F8F8FB' }} />
+
       <div
         style={{
           paddingLeft: 24,
           paddingRight: 24,
-          height: '100%',
+          background: '#F8F8FB',
         }}
       >
         {props.children}

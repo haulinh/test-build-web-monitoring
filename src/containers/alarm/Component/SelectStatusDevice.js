@@ -1,4 +1,4 @@
-import { Select } from 'antd'
+import { Select, Tooltip } from 'antd'
 import { translate } from 'hoc/create-lang'
 import React from 'react'
 
@@ -25,7 +25,9 @@ const SelectStatusDevice = props => {
           value={deviceStatusItem.value}
           key={deviceStatusItem.value}
         >
-          {deviceStatusItem.label()}
+          <Tooltip title={deviceStatusItem.label()}>
+            {deviceStatusItem.label()}
+          </Tooltip>
         </Select.Option>
       ))}
     </Select>
