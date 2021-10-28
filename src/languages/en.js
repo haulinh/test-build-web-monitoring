@@ -3932,8 +3932,8 @@ export default {
         },
         addCondition: 'Add Condition +',
         typeCondition: {
-          value: 'value',
-          device: 'device',
+          value: 'Value',
+          device: 'Device Status',
         },
       },
       history: {

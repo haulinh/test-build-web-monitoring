@@ -29,7 +29,7 @@ const ConditionWrapper = styled.div`
   border: 1px solid #d0d8e2;
   box-sizing: border-box;
   border-radius: 4px;
-  padding: 16px;
+  padding: 8px;
 `
 
 const mapStateToProp = state => {
@@ -86,7 +86,7 @@ const ConditionItem = connect(mapStateToProp)(
         ),
         statusDevice: () => (
           <React.Fragment>
-            <FormItem label={i18n().form.label.value}>
+            <FormItem label={i18n().form.label.status}>
               {form.getFieldDecorator(
                 `${FIELDS.CONDITIONS}.${conditionItem.id}.value`,
                 {
@@ -296,7 +296,7 @@ class AdvanceForm extends React.Component {
             <FormItem label={i18n().form.label.repeatConfig}>
               {form.getFieldDecorator(`${FIELDS.REPEAT_CONFIG}.active`, {
                 valuePropName: 'checked',
-              })(<Switch />)}
+              })(<Switch disabled={isEdit} />)}
             </FormItem>
           </Col>
           {repeatConfig && (
@@ -304,7 +304,7 @@ class AdvanceForm extends React.Component {
               <FormItem label={i18n().form.label.frequency}>
                 {form.getFieldDecorator(`${FIELDS.REPEAT_CONFIG}.frequency`, {
                   initialValue: 15,
-                })(<SelectFrequency />)}
+                })(<SelectFrequency disabled={isEdit} />)}
               </FormItem>
             </Col>
           )}

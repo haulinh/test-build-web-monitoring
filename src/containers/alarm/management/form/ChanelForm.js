@@ -111,7 +111,10 @@ export class ChanelForm extends React.Component {
                   `${FIELDS.CHANNELS}.${channel.type}.template`,
                   { initialValue: alarmType[typeAlarm].initialValue }
                 )(
-                  <TextArea disabled={typeAlarm === alarmType.advance.value} />
+                  <TextArea
+                    style={{ height: 250 }}
+                    disabled={typeAlarm === alarmType.advance.value}
+                  />
                 )}
               </React.Fragment>
               {form.getFieldDecorator(
