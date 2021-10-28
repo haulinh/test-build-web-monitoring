@@ -1,5 +1,5 @@
 import React from 'react'
-import { Select } from 'antd'
+import { Select, Tooltip } from 'antd'
 import _ from 'lodash'
 
 const SelectMeasureParameter = ({
@@ -31,7 +31,7 @@ const SelectMeasureParameter = ({
     >
       {measuringList.map(item => (
         <Select.Option key={item.key} value={item.key}>
-          {item.name}
+          <Tooltip title={item.name}>{item.name}</Tooltip>
         </Select.Option>
       ))}
     </Select>

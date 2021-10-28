@@ -169,6 +169,11 @@ export default class AlarmForm extends Component {
     e.preventDefault()
     const { form, onClose, getData, alarmSelected, isEdit } = this.props
 
+    if (form.getFieldValue(FIELDS.TYPE) !== 'advance') {
+      const values = await form.validateFields()
+      if (!values) return
+    }
+
     const advanceForm = this.childFormRef.current.props.form
 
     const [values, advanceFormValue] = await Promise.all([
@@ -291,6 +296,7 @@ export default class AlarmForm extends Component {
                   ],
                 })(
                   <SelectStationAuto
+                    allowClear={false}
                     disabled={isEdit}
                     fieldValue="_id"
                     getPopupContainer={this.getPopupContainer}

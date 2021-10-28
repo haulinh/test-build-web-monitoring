@@ -134,7 +134,6 @@ export default class SelectStationAuto extends React.PureComponent {
     return (
       <Select
         maxTagCount={3}
-        {...this.props}
         style={{ width: '100%' }}
         allowClear
         showSearch
@@ -142,6 +141,7 @@ export default class SelectStationAuto extends React.PureComponent {
         value={!value ? value : selectValue}
         onSearch={this.handleSearch}
         filterOption={false}
+        {...this.props}
       >
         {stationAutos.map(item => (
           <Select.Option key={item.key} value={item[fieldValue || 'key']}>

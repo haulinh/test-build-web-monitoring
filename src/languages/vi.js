@@ -3931,8 +3931,8 @@ export default {
         },
         addCondition: 'Thêm điều kiện +',
         typeCondition: {
-          value: 'value',
-          device: 'device',
+          value: 'Giá trị thông số',
+          device: 'Trạng thái Thiết bị',
         },
       },
       history: {
