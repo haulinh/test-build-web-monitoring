@@ -215,6 +215,7 @@ export default class AlarmForm extends Component {
 
     return (
       <CDrawer
+        key={visible}
         closable={false}
         onClose={this.handleOnClose}
         visible={visible}

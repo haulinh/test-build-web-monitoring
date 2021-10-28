@@ -19,23 +19,25 @@ function i18n() {
   }
 }
 
-const groupButton = [
-  {
-    iconType: 'bar-chart',
-    title: i18n().column,
-    key: 'column',
-  },
-  {
-    iconType: 'line-chart',
-    title: i18n().line,
-    key: 'line',
-  },
-  {
-    iconType: 'table',
-    title: i18n().table,
-    key: 'table',
-  },
-]
+const groupButton = () => {
+  return [
+    {
+      iconType: 'bar-chart',
+      title: i18n().column,
+      key: 'column',
+    },
+    {
+      iconType: 'line-chart',
+      title: i18n().line,
+      key: 'line',
+    },
+    {
+      iconType: 'table',
+      title: i18n().table,
+      key: 'table',
+    },
+  ]
+}
 
 const ButtonChart = styled.div`
   background: #eeeeee;
@@ -77,7 +79,7 @@ export default class ChartType extends Component {
     return (
       <React.Fragment>
         <Row gutter={12}>
-          {groupButton.map(item => (
+          {groupButton().map(item => (
             <Col span={8} key={item.key}>
               <ButtonChart
                 active={item.key === optionActive}
