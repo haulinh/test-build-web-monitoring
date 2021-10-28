@@ -20,7 +20,7 @@ const CDrawer = ({ title, right, ...props }) => {
         justify="space-between"
         style={{ paddingRight: 24, paddingLeft: 24 }}
       >
-        <Col>
+        <Col span={20}>
           <b
             style={{
               fontWeight: '500',
@@ -31,7 +31,7 @@ const CDrawer = ({ title, right, ...props }) => {
             {title}
           </b>
         </Col>
-        <Col>{right}</Col>
+        <Col span={1}>{right}</Col>
       </Row>
 
       <Divider style={{ width: '100%' }} />

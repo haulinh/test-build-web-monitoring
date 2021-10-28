@@ -36,7 +36,9 @@ export const alarmType = {
     label: () => t('alarm.alarmType.advance.label'),
     value: 'advance',
     template: () => t('alarm.alarmType.advance.template', undefined, false),
-    initialValue: ``,
+    initialValue: `{{station}}: ({{time}})
+[STATUS_DATA]- {{measure}}: {{value}} {{unit}} ({{sign}} {{config}})
+[STATUS_DEVICE]- {{measure}}: Sensor {{status}}`,
   },
 }
 
