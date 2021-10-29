@@ -127,8 +127,11 @@ export default class AlarmForm extends Component {
   }
 
   getParamDisconnect = () => {
-    const { form } = this.props
+    const { form, isEdit } = this.props
     const values = form.getFieldsValue()
+    if (!isEdit) {
+      return values
+    }
     const { maxDisconnectionTime, ...param } = values
     return param
   }
@@ -174,16 +177,17 @@ export default class AlarmForm extends Component {
       if (!values) return
     }
 
-    const advanceForm = this.childFormRef.current.props.form
+    if (form.getFieldValue(FIELDS.TYPE) === 'advance') {
+      const advanceForm = this.childFormRef.current.props.form
 
-    const [values, advanceFormValue] = await Promise.all([
-      form.validateFields(),
-      advanceForm.validateFields(),
-    ])
+      const [values, advanceFormValue] = await Promise.all([
+        form.validateFields(),
+        advanceForm.validateFields(),
+      ])
 
-    if (!values || !advanceFormValue) return
-
-    const type = values[FIELDS.TYPE]
+      if (!values || !advanceFormValue) return
+    }
+    const type = form.getFieldValue(FIELDS.TYPE)
     const param = this.getParam(type)
 
     try {
