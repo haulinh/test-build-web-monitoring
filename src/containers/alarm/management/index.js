@@ -105,7 +105,7 @@ export default class AlarmManagement extends Component {
   }
 
   renderButtonAdd = () => {
-    return protectRole(ROLE.INCIDENT_CONFIG_PROPERTIES.CREATE)(
+    return protectRole(ROLE.ALARM_MANAGEMENT.CREATE)(
       <Button onClick={this.showDrawer} type="primary">
         <Icon type="plus" />
         {t('addon.create')}

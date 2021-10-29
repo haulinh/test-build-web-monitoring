@@ -2306,7 +2306,13 @@ export default {
         name: 'Incident Management',
       },
       incidentConfigProperties: {
-        name: 'Config Properties',
+        name: 'Incident Config Properties',
+      },
+      alarm_management: {
+        name: 'Alarm Management',
+      },
+      alarm_history: {
+        name: 'Alarm History',
       },
       actions: {
         role: 'Role Assignment',

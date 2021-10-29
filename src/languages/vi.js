@@ -2303,7 +2303,13 @@ export default {
         name: 'Quản lý sự cố',
       },
       incidentConfigProperties: {
-        name: 'Cấu hình thuộc tính',
+        name: 'Cấu hình thuộc tính sự cố',
+      },
+      alarm_management: {
+        name: 'Quản lý cấu hình cảnh báo',
+      },
+      alarm_history: {
+        name: 'Lịch sử cảnh báo',
       },
       /////
       actions: {

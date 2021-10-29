@@ -107,6 +107,7 @@ export default class ExceedForm extends React.Component {
             <FormItem label={i18n().form.label.repeatConfig}>
               {form.getFieldDecorator(`${FIELDS.REPEAT_CONFIG}.active`, {
                 valuePropName: 'checked',
+                initialValue: true,
               })(<Switch disabled={isEdit} />)}
             </FormItem>
           </Col>

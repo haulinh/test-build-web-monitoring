@@ -1,5 +1,6 @@
 import { Col, Popconfirm, Row, Table } from 'antd'
 import CalculateApi from 'api/CalculateApi'
+import role, { checkRolePriority } from 'constants/role'
 import { translate } from 'hoc/create-lang'
 import _ from 'lodash'
 import React from 'react'
@@ -8,6 +9,7 @@ import { selectAlarm } from 'redux/actions/alarm'
 import styled from 'styled-components'
 import { i18n } from './form/AlarmForm'
 import { alarmType } from './index'
+import protectRole from 'hoc/protect-role'
 
 const TableStyled = styled(Table)`
   .ant-table-row {
@@ -65,37 +67,41 @@ const AlarmList = ({
                   updateStatus(record._id, 'delete')
                 }}
               >
-                <div
-                  onClick={e => e.stopPropagation()}
-                  style={{ color: '#E64D3D' }}
-                >
-                  {translate('global.delete')}
-                </div>
+                {protectRole(role.ALARM_MANAGEMENT.DELETE)(
+                  <div
+                    onClick={e => e.stopPropagation()}
+                    style={{ color: '#E64D3D' }}
+                  >
+                    {translate('global.delete')}
+                  </div>
+                )}
               </Popconfirm>
             </Col>
-            <Col>
-              {value === 'disable' ? (
-                <div
-                  onClick={e => {
-                    e.stopPropagation()
-                    updateStatus(record._id, 'enable')
-                  }}
-                  style={{ color: '#1890FF' }}
-                >
-                  {translate('global.enable')}
-                </div>
-              ) : (
-                <div
-                  onClick={e => {
-                    e.stopPropagation()
-                    updateStatus(record._id, 'disable')
-                  }}
-                  style={{ color: '#E64D3D' }}
-                >
-                  {translate('global.disable')}
-                </div>
-              )}
-            </Col>
+            {protectRole(role.ALARM_MANAGEMENT)(
+              <Col>
+                {value === 'disable' ? (
+                  <div
+                    onClick={e => {
+                      e.stopPropagation()
+                      updateStatus(record._id, 'enable')
+                    }}
+                    style={{ color: '#1890FF' }}
+                  >
+                    {translate('global.enable')}
+                  </div>
+                ) : (
+                  <div
+                    onClick={e => {
+                      e.stopPropagation()
+                      updateStatus(record._id, 'disable')
+                    }}
+                    style={{ color: '#E64D3D' }}
+                  >
+                    {translate('global.disable')}
+                  </div>
+                )}
+              </Col>
+            )}
           </Row>
         )
       },
@@ -108,6 +114,10 @@ const AlarmList = ({
         onRow={(record, rowIndex) => {
           return {
             onClick: event => {
+              if (
+                !checkRolePriority(props.userInfo, role.ALARM_MANAGEMENT.EDIT)
+              )
+                return
               props.selectAlarm(record, record.type)
               showDrawer()
             }, // click row
