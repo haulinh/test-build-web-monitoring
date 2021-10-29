@@ -1,5 +1,7 @@
 import React, { lazy, Suspense } from 'react'
 import { Route, Switch, withRouter } from 'react-router-dom'
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 
 import { getConfigApi } from 'config'
 import slug from 'constants/slug'
@@ -84,6 +86,19 @@ const TicketRoute = lazy(() => import('containers/ticket/TicketRoute'))
 const BillingRoute = lazy(() => import('containers/billing/BillingRoute'))
 const AlarmRoute = lazy(() => import('containers/alarm/AlarmRoute'))
 
+class LoadingNProgress extends React.Component {
+  componentDidMount() {
+    NProgress.start()
+  }
+  componentWillUnmount() {
+    NProgress.done()
+  }
+
+  render() {
+    return <React.Fragment />
+  }
+}
+
 @withRouter
 @autobind
 export default class RouteDefault extends React.Component {
@@ -99,26 +114,22 @@ export default class RouteDefault extends React.Component {
   render() {
     return (
       <div>
-        <Suspense
-          fallback={
-            <div style={{ background: 'red', width: 1000, height: 1000 }}></div>
-          }
-        >
-          <Switch>
-            <Route path={slug.login.loginWithEmail} component={LoginRoute} />
-            <Route
-              path={slug.login.loginWithPhoneNumber}
-              component={LoginRoute}
-            />
-            <Route path={slug.password.emailConfirm} component={LoginRoute} />
-            <Route path={slug.password.resetPassword} component={LoginRoute} />
-            <Route path={slug.user.accountActive} component={AccountActive} />
-            <Route path={slug.user.expLicense} component={PageExpLicenseInfo} />
+        <Switch>
+          <Route path={slug.login.loginWithEmail} component={LoginRoute} />
+          <Route
+            path={slug.login.loginWithPhoneNumber}
+            component={LoginRoute}
+          />
+          <Route path={slug.password.emailConfirm} component={LoginRoute} />
+          <Route path={slug.password.resetPassword} component={LoginRoute} />
+          <Route path={slug.user.accountActive} component={AccountActive} />
+          <Route path={slug.user.expLicense} component={PageExpLicenseInfo} />
 
-            <Route path={slug.apps.incidents} component={AppIncidents} />
-            <Route path={slug.apps.grafana} component={AppGrafana} />
+          <Route path={slug.apps.incidents} component={AppIncidents} />
+          <Route path={slug.apps.grafana} component={AppGrafana} />
 
-            <Layout isShowSidebarMenu>
+          <Layout isShowSidebarMenu>
+            <Suspense fallback={<LoadingNProgress />}>
               <LayoutRoute
                 path={slug.dashboard.healthCheck}
                 exact
@@ -260,9 +271,9 @@ export default class RouteDefault extends React.Component {
               <LayoutRoute path={slug.billing.base} component={BillingRoute} />
               <LayoutRoute path={slug.ticket.base} component={TicketRoute} />
               <LayoutRoute path={slug.alarm.base} component={AlarmRoute} />
-            </Layout>
-          </Switch>
-        </Suspense>
+            </Suspense>
+          </Layout>
+        </Switch>
       </div>
     )
   }
