@@ -212,7 +212,10 @@ class AdvanceForm extends React.Component {
         {}
       )
 
-      form.setFieldsValue({ [FIELDS.CONDITIONS]: conditionFieldValue })
+      form.setFieldsValue({
+        [FIELDS.CONDITIONS]: conditionFieldValue,
+        [FIELDS.REPEAT_CONFIG]: alarmSelected[FIELDS.REPEAT_CONFIG],
+      })
     })
   }
 
