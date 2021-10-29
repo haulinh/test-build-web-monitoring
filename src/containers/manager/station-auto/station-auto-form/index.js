@@ -296,6 +296,7 @@ export default class StationAutoForm extends React.PureComponent {
         dataFrequency: values.dataFrequency,
         note: values.note,
         linkedStation: values.linkedStation,
+        diameter: values.diameter,
         measuringList: _.compact(measuringList), // values.measuringList,
         options: this.state.options,
         image: this.state.imgList.length > 0 ? this.state.imgList[0] : null,
@@ -596,6 +597,12 @@ export default class StationAutoForm extends React.PureComponent {
                 <FormItem
                   {...formItemLayout}
                   label={t('stationAutoManager.form.qcvn.label')}
+                  labelCol={{
+                    sm: { span: 8, offset: 0 },
+                  }}
+                  wrapperCol={{
+                    sm: { span: 15, offset: 0 },
+                  }}
                 >
                   {getFieldDecorator('standardsVN', {
                     rules: [
@@ -734,14 +741,20 @@ export default class StationAutoForm extends React.PureComponent {
               <Col span={12}>
                 <FormItem
                   {...formItemLayout}
+                  labelCol={{
+                    sm: { span: 6, offset: 0 },
+                  }}
+                  wrapperCol={{
+                    sm: { span: 17, offset: 0 },
+                  }}
                   label={t('stationAutoManager.form.frequency.label')}
                 >
                   {getFieldDecorator('dataFrequency', {
                     rules: [{ required: false }],
                   })(
-                    <InputNumberCell
+                    <InputNumber
+                      style={{ width: '100%' }}
                       editable={true}
-                      size="small"
                       min={1}
                       max={1000000}
                     />
@@ -790,6 +803,27 @@ export default class StationAutoForm extends React.PureComponent {
                   })(<Checkbox />)}
                 </FormItem>
               </Col> */}
+            </Row>
+            <Row gutter={8}>
+              <Col span={12}>
+                <FormItem
+                  {...formItemLayout}
+                  labelCol={{
+                    sm: { span: 8, offset: 0 },
+                  }}
+                  wrapperCol={{
+                    sm: { span: 15, offset: 0 },
+                  }}
+                  label={t('stationAutoManager.form.diameter.label')}
+                >
+                  {getFieldDecorator('diameter')(
+                    <InputNumber
+                      placeholder={t('stationAutoManager.form.diameter.placeholder')}
+                      style={{ width: '100%' }}
+                    />
+                  )}
+                </FormItem>
+              </Col>
             </Row>
             <ConnectionStatusWrapper>
               <div style={{ width: '43em' }}>
@@ -986,12 +1020,12 @@ export default class StationAutoForm extends React.PureComponent {
                     this.state.measuringList
                       ? this.state.measuringList
                       : [
-                          {
-                            key: '',
-                            name: '',
-                            unit: '',
-                          },
-                        ]
+                        {
+                          key: '',
+                          name: '',
+                          unit: '',
+                        },
+                      ]
                   }
                   measuringListSource={this.state.measuringListSource}
                 />

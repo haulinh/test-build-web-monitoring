@@ -1677,6 +1677,10 @@ export default {
         placeholder: 'Actived At',
         error: 'Please Choose Actived At',
       },
+      diameter: {
+        label: 'Diameter(m)',
+        placeholder: 'Diameter(m)'
+      },
       isStopWorking: {
         label: 'Stop working',
         placeholder: 'Stop working',

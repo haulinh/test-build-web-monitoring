@@ -1675,6 +1675,10 @@ export default {
         placeholder: 'Ngày hoạt động',
         error: 'Vui lòng chọn ngày hoạt động',
       },
+      diameter: {
+        label: 'Đường kính ống khói (m)',
+        placeholder: 'Nhập đường kính (m)'
+      },
       isStopWorking: {
         label: 'Ngừng hoạt động',
         placeholder: 'Ngừng hoạt động',
