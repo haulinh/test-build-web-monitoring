@@ -1,4 +1,4 @@
-import { Col, Drawer, Row, Divider } from 'antd'
+import { Col, Drawer, Row } from 'antd'
 import React from 'react'
 import styled from 'styled-components'
 
