@@ -29,16 +29,7 @@ export default class ExceedForm extends React.Component {
       const condition = _.get(alarmSelected, `${[FIELDS.CONDITIONS]}.0`, {})
       form.setFieldsValue({
         [FIELDS.CONDITIONS]: condition,
-      })
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    const { alarmSelected, form } = this.props
-    if (_.isEmpty(alarmSelected) && prevProps.alarmSelected !== alarmSelected) {
-      const condition = _.get(alarmSelected, `${[FIELDS.CONDITIONS]}.0`, {})
-      form.setFieldsValue({
-        [FIELDS.CONDITIONS]: condition,
+        [FIELDS.REPEAT_CONFIG]: alarmSelected[FIELDS.REPEAT_CONFIG],
       })
     }
   }
