@@ -1677,7 +1677,7 @@ export default {
       },
       diameter: {
         label: 'Đường kính ống khói (m)',
-        placeholder: 'Nhập đường kính (m)'
+        placeholder: 'Nhập đường kính (m)',
       },
       isStopWorking: {
         label: 'Ngừng hoạt động',
@@ -3942,7 +3942,7 @@ export default {
         addCondition: 'Thêm điều kiện +',
         typeCondition: {
           value: 'Giá trị thông số',
-          device: 'Trạng thái Thiết bị',
+          device: 'Trạng thái thiết bị',
         },
       },
       history: {

@@ -77,7 +77,7 @@ const AlarmList = ({
                 )}
               </Popconfirm>
             </Col>
-            {protectRole(role.ALARM_MANAGEMENT)(
+            {protectRole(role.ALARM_MANAGEMENT.EDIT)(
               <Col>
                 {value === 'disable' ? (
                   <div

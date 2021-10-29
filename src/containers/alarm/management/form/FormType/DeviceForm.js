@@ -30,6 +30,7 @@ export default class DeviceForm extends React.Component {
       const condition = _.get(alarmSelected, `${[FIELDS.CONDITIONS]}.0`, {})
       form.setFieldsValue({
         [FIELDS.CONDITIONS]: condition,
+        [FIELDS.REPEAT_CONFIG]: alarmSelected[FIELDS.REPEAT_CONFIG],
       })
     }
   }
