@@ -260,8 +260,8 @@ export default class MenuApp extends React.PureComponent {
             ]) && TicketMenu.renderComp(this.props)}
 
             {this.checkRoleForGroup([
-              ROLE.INCIDENT_MANAGEMENT.VIEW,
-              ROLE.INCIDENT_CONFIG_PROPERTIES.VIEW,
+              ROLE.ALARM_HISTORY.VIEW,
+              ROLE.ALARM_MANAGEMENT.VIEW,
             ]) && AlarmMenu.renderComp(this.props)}
 
             {/* TODO  Chưa có role nên dùng tạm của STATION_AUTO, xem lại */}

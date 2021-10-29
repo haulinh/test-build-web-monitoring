@@ -29,9 +29,9 @@ export default {
         </Tooltip>
       }
     >
-      {protectRole(ROLE.INCIDENT_MANAGEMENT.VIEW)(
+      {protectRole(ROLE.ALARM_MANAGEMENT.VIEW)(
         <Menu.Item
-          key={slug.ticket.incident}
+          key={slug.alarm.management}
           onClick={() => {
             props.selectMenu(slug.alarm.management)
           }}
@@ -42,7 +42,7 @@ export default {
         </Menu.Item>
       )}
 
-      {protectRole(ROLE.INCIDENT_CONFIG_PROPERTIES.VIEW)(
+      {protectRole(ROLE.ALARM_HISTORY.VIEW)(
         <Menu.Item
           key={slug.alarm.history}
           onClick={() => {

@@ -307,4 +307,13 @@ export default {
     EDIT: 'menu.incidentConfigProperties.actions.edit',
     DELETE: 'menu.incidentConfigProperties.actions.delete',
   },
+  ALARM_MANAGEMENT: {
+    VIEW: 'menu.alarm_management.actions.view',
+    DELETE: 'menu.alarm_management.actions.delete',
+    EDIT: 'menu.alarm_management.actions.edit',
+    CREATE: 'menu.alarm_management.actions.create',
+  },
+  ALARM_HISTORY: {
+    VIEW: 'menu.alarm_history.actions.view',
+  },
 }
