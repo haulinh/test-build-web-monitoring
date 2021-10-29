@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "engines": {
-    "node": "10"
+    "node": "10.22.1"
   },
   "dependencies": {
     "@atlaskit/breadcrumbs": "^3.1.10",
