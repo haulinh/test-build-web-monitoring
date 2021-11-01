@@ -150,17 +150,14 @@ export class SearchForm extends React.Component {
 
   handleOnSubmit = async e => {
     // console.log("handleOnSubmit")
-    e.preventDefault()
+    e && e.preventDefault()
     this.setState({
       foreceRerender: !this.state.foreceRerender,
     })
     const values = await this.props.form.validateFields()
-    // console.log(JSON.stringify(values, null, 2))
 
     const ranges = isNumber(values.time) ? values.time : values.timeRange
-    // console.log(ranges, '==ranges==')
     const { from, to } = getTimes(ranges)
-    // console.log({ from: from.format('DD/MM/YYYY HH:mm'), to: to.format('DD/MM/YYYY HH:mm') })
 
     const paramQuery = {
       phaseIds: values.phase,
@@ -171,7 +168,6 @@ export class SearchForm extends React.Component {
       isExceeded: values.isExceeded,
       standardsVN: values.standardsVN,
     }
-    // console.log(paramQuery, '==paramQuery==')
 
     this.props.setQueryParam(paramQuery)
     this.props.onSearch()
@@ -186,9 +182,13 @@ export class SearchForm extends React.Component {
   }
 
   render() {
-    const { loadingSearch, setQueryParam, setStandardVNObject } = this.props
+    const {
+      loadingSearch,
+      setQueryParam,
+      setStandardVNObject,
+      form,
+    } = this.props
     const { phases, points, stationTypes, isOpenRangePicker } = this.state
-    const { form } = this.props
 
     const rangeConfig = {
       rules: [
@@ -279,6 +279,7 @@ export class SearchForm extends React.Component {
               </Col>
               <Col span={8}>
                 <SelectQCVNForm
+                  handleOnSubmit={this.handleOnSubmit}
                   form={form}
                   setQueryParam={setQueryParam}
                   setStandardVNObject={setStandardVNObject}

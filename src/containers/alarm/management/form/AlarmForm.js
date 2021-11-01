@@ -239,7 +239,7 @@ export default class AlarmForm extends Component {
         closable={false}
         onClose={this.handleOnClose}
         visible={visible}
-        width={400}
+        width={600}
         title={alarmSelected.name || i18n().drawer.title}
         right={<Icon type="close" onClick={this.handleOnClose} />}
       >
