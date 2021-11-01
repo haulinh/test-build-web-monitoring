@@ -48,27 +48,6 @@ export default class Filter extends Component {
             </FormItem>
           </Col>
 
-          {!this.isDisableStation() && (
-            <Col span={8}>
-              <FormItem label={t('menuApp.config.stationAuto')}>
-                {form.getFieldDecorator(Fields.stationIds, {
-                  rules: [
-                    {
-                      required: true,
-                      message: t('ticket.required.incident.stationName'),
-                    },
-                  ],
-                })(
-                  <TreeSelectStation
-                    province={province}
-                    fieldValue="_id"
-                    onStationAutosFetchSuccess={this.onStationAutosFetchSuccess}
-                  />
-                )}
-              </FormItem>
-            </Col>
-          )}
-
           <Col span={8}>
             <FormItem label={t('ticket.label.incident.time')}>
               {form.getFieldDecorator(Fields.time, {
@@ -82,6 +61,29 @@ export default class Filter extends Component {
               })(<RangePicker style={{ width: '100%' }} />)}
             </FormItem>
           </Col>
+        </Row>
+        <Row>
+          {!this.isDisableStation() && (
+            <Col>
+              <FormItem label={t('menuApp.config.stationAuto')}>
+                {form.getFieldDecorator(Fields.stationIds, {
+                  rules: [
+                    {
+                      required: true,
+                      message: t('ticket.required.incident.stationName'),
+                    },
+                  ],
+                })(
+                  <TreeSelectStation
+                    maxTagCount={8}
+                    province={province}
+                    fieldValue="_id"
+                    onStationAutosFetchSuccess={this.onStationAutosFetchSuccess}
+                  />
+                )}
+              </FormItem>
+            </Col>
+          )}
         </Row>
       </Form>
     )
