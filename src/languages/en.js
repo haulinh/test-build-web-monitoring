@@ -3982,13 +3982,13 @@ export default {
       advance: {
         label: 'Advance',
         value: 'advance',
-        template: `{{station}} : Station's name,
-        {{measure}} : The monitoring parameter,
+        template: `{{station}} : The name of the monitoring station,
+        {{measure}} : The device / The monitoring parameter,
         {{value}} : The value of the parameter,
         {{unit}} : The unit of the parameter,
         {{sign}} : The comparison operator,
         {{config}} : Configurable parameter value,
-        {{status}} : The device's status,
+        {{status}} : The status of the device,
         {{time}} : The time that the condition is meet`,
       },
       exceed: {
@@ -4004,7 +4004,7 @@ export default {
       device: {
         label: 'Device',
         value: 'device',
-        template: `{{station}} : Station's name,
+        template: `{{station}} : The name of the monitoring station,
         {{measure}} : The device,
         {{status}} : The device's status,
         {{time}} : The time that meet the condition`,

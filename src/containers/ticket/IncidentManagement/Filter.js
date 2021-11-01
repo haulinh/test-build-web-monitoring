@@ -75,7 +75,7 @@ export default class Filter extends Component {
                   ],
                 })(
                   <TreeSelectStation
-                    maxTagCount={8}
+                    maxTagCount={5}
                     province={province}
                     fieldValue="_id"
                     onStationAutosFetchSuccess={this.onStationAutosFetchSuccess}
