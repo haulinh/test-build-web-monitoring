@@ -30,7 +30,7 @@ export default class Filter extends Component {
 
   isDisableStation = () => {
     const { form } = this.props
-    return form.getFieldValue(Fields.type) === 'default'
+    return ['', 'default'].includes(form.getFieldValue(Fields.type))
   }
 
   render() {
@@ -43,8 +43,8 @@ export default class Filter extends Component {
           <Col span={8}>
             <FormItem label={i18n().incidentType}>
               {form.getFieldDecorator(Fields.type, {
-                initialValue: 'default',
-              })(<SelectIncidentType />)}
+                initialValue: '',
+              })(<SelectIncidentType isShowAll />)}
             </FormItem>
           </Col>
 

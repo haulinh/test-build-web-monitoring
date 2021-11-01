@@ -12,6 +12,7 @@ import { Fields, i18n } from './index'
 import { translate as t } from 'hoc/create-lang'
 import styled from 'styled-components'
 import _ from 'lodash'
+import SelectProvince from 'components/elements/select-province'
 
 const TextAreaCustom = styled(TextArea)`
   > textarea {
@@ -124,6 +125,8 @@ export default class IncidentCreate extends Component {
     const { visible, form } = this.props
     const { isModalVisible } = this.state
 
+    const province = form.getFieldValue(Fields.province)
+
     return (
       <React.Fragment>
         <ILLDrawer
@@ -169,23 +172,36 @@ export default class IncidentCreate extends Component {
                 </FormItem>
 
                 {this.isHaveSelectStation() && (
-                  <FormItem label={i18n().stationName}>
-                    {form.getFieldDecorator(Fields.stationIds, {
-                      rules: [
-                        {
-                          required: true,
-                          message: t('ticket.required.incident.stationName'),
-                        },
-                      ],
-                    })(
-                      <TreeSelectStation
-                        fieldValue="_id"
-                        onStationAutosFetchSuccess={
-                          this.onStationAutosFetchSuccess
-                        }
-                      />
-                    )}
-                  </FormItem>
+                  <React.Fragment>
+                    <FormItem label={i18n().provinceName}>
+                      {form.getFieldDecorator(Fields.province)(
+                        <SelectProvince
+                          isShowAll
+                          allowClear={false}
+                          fieldValue="_id"
+                        />
+                      )}
+                    </FormItem>
+
+                    <FormItem label={i18n().stationName}>
+                      {form.getFieldDecorator(Fields.stationIds, {
+                        rules: [
+                          {
+                            required: true,
+                            message: t('ticket.required.incident.stationName'),
+                          },
+                        ],
+                      })(
+                        <TreeSelectStation
+                          province={province}
+                          fieldValue="_id"
+                          onStationAutosFetchSuccess={
+                            this.onStationAutosFetchSuccess
+                          }
+                        />
+                      )}
+                    </FormItem>
+                  </React.Fragment>
                 )}
 
                 {this.isHaveSelectMeasureParameter() && (
