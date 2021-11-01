@@ -115,6 +115,6 @@ export default class TreeSelectStation extends Component {
       },
     }
 
-    return <TreeSelect {...this.props} {...tProps} />
+    return <TreeSelect {...tProps} {...this.props} />
   }
 }
