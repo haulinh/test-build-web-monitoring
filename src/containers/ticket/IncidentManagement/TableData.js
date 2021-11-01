@@ -26,6 +26,7 @@ const TooltipCustom = ({ name }) => {
     <Tooltip title={name}>
       <div
         style={{
+          width: 150,
           maxWidth: 300,
           fontSize: 14,
           color: '#262626',
@@ -75,7 +76,7 @@ export const TableData = connect(
         },
         {
           dataIndex: 'name',
-          width: 200,
+          width: 100,
           align: 'center',
           title: i18n().name,
           render: value => <TooltipCustom name={value} />,
@@ -89,6 +90,7 @@ export const TableData = connect(
         {
           dataIndex: 'stations',
           align: 'center',
+          width: 200,
           title: t('apiSharingNew.fields.stationKeys'),
           render: value => {
             const stationNames =

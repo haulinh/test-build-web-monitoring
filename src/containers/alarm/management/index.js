@@ -36,7 +36,9 @@ export const alarmType = {
     label: () => t('alarm.alarmType.advance.label'),
     value: 'advance',
     template: () => t('alarm.alarmType.advance.template', undefined, false),
-    initialValue: ``,
+    initialValue: `{{station}}: ({{time}})
+[STATUS_DATA]- {{measure}}: {{value}} {{unit}} ({{sign}} {{config}})
+[STATUS_DEVICE]- {{measure}}: Sensor {{status}}`,
   },
 }
 
@@ -103,7 +105,7 @@ export default class AlarmManagement extends Component {
   }
 
   renderButtonAdd = () => {
-    return protectRole(ROLE.INCIDENT_CONFIG_PROPERTIES.CREATE)(
+    return protectRole(ROLE.ALARM_MANAGEMENT.CREATE)(
       <Button onClick={this.showDrawer} type="primary">
         <Icon type="plus" />
         {t('addon.create')}

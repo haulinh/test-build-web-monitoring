@@ -40,7 +40,6 @@ export default class MinutesDataSearch extends React.Component {
   }
 
   handleSubmitSearch(searchFormData) {
-    console.log({ searchFormData })
     this.setState(
       {
         measuringList: [...(searchFormData.measuringList || [])],

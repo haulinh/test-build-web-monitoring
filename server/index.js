@@ -5,7 +5,7 @@ const bodyParser = require('body-parser')
 
 var app = express()
 
-app.get('/app.json', function(req, res) {
+app.get('/app.json', function (req, res) {
   res.json({
     apiGateway:
       process.env.WEB_GATEWAY_API || 'https://dev.ilotusland.asia:5000', //http://27.74.251.0:5000
@@ -38,7 +38,7 @@ app.use(bodyParser.json())
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, ''))
 
-app.get('/*', function(req, res) {
+app.get('/*', function (req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'))
 })
 

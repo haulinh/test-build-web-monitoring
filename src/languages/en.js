@@ -1677,6 +1677,10 @@ export default {
         placeholder: 'Actived At',
         error: 'Please Choose Actived At',
       },
+      diameter: {
+        label: 'Diameter(m)',
+        placeholder: 'Diameter(m)',
+      },
       isStopWorking: {
         label: 'Stop working',
         placeholder: 'Stop working',
@@ -2302,7 +2306,13 @@ export default {
         name: 'Incident Management',
       },
       incidentConfigProperties: {
-        name: 'Config Properties',
+        name: 'Incident Config Properties',
+      },
+      alarm_management: {
+        name: 'Alarm Management',
+      },
+      alarm_history: {
+        name: 'Alarm History',
       },
       actions: {
         role: 'Role Assignment',
@@ -3932,8 +3942,8 @@ export default {
         },
         addCondition: 'Add Condition +',
         typeCondition: {
-          value: 'value',
-          device: 'device',
+          value: 'Value',
+          device: 'Device Status',
         },
       },
       history: {
@@ -3970,14 +3980,16 @@ export default {
         {{time}} : Signal loss time of monitoring station`,
       },
       advance: {
-        label: 'Adcance',
+        label: 'Advance',
         value: 'advance',
-        template: `{{station}} : The name of the monitoring station exceeded the threshold,
-        {{measure}} : The parameter is exceeded the threshold of the monitoring station,
+        template: `{{station}} : The name of the monitoring station,
+        {{measure}} : The device / The monitoring parameter,
         {{value}} : The value of the parameter,
         {{unit}} : The unit of the parameter,
-{​​​​​{​​​​​config}​​​​​}​​​​​ : Configurable parameter value,
-        {{time}} : The time the parameter was exceeded`,
+        {{sign}} : The comparison operator,
+        {{config}} : Configurable parameter value,
+        {{status}} : The status of the device,
+        {{time}} : The time that the condition is meet`,
       },
       exceed: {
         label: 'Exceed',
@@ -3992,8 +4004,10 @@ export default {
       device: {
         label: 'Device',
         value: 'device',
-        template: `{{station}} : The name of the monitoring station exceeded the threshold,
-        {{measure}} : The parameter is exceeded the threshold of the monitoring station`,
+        template: `{{station}} : The name of the monitoring station,
+        {{measure}} : The device,
+        {{status}} : The device's status,
+        {{time}} : The time that meet the condition`,
       },
     },
   },

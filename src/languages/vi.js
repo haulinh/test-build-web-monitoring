@@ -1675,6 +1675,10 @@ export default {
         placeholder: 'Ngày hoạt động',
         error: 'Vui lòng chọn ngày hoạt động',
       },
+      diameter: {
+        label: 'Đường kính ống khói (m)',
+        placeholder: 'Nhập đường kính (m)',
+      },
       isStopWorking: {
         label: 'Ngừng hoạt động',
         placeholder: 'Ngừng hoạt động',
@@ -2299,7 +2303,13 @@ export default {
         name: 'Quản lý sự cố',
       },
       incidentConfigProperties: {
-        name: 'Cấu hình thuộc tính',
+        name: 'Cấu hình thuộc tính sự cố',
+      },
+      alarm_management: {
+        name: 'Quản lý cấu hình cảnh báo',
+      },
+      alarm_history: {
+        name: 'Lịch sử cảnh báo',
       },
       /////
       actions: {
@@ -3931,8 +3941,8 @@ export default {
         },
         addCondition: 'Thêm điều kiện +',
         typeCondition: {
-          value: 'value',
-          device: 'device',
+          value: 'Giá trị thông số',
+          device: 'Trạng thái thiết bị',
         },
       },
       history: {
@@ -3971,28 +3981,34 @@ export default {
       advance: {
         label: 'Nâng cao',
         value: 'advance',
-        template: `{{station}} : Tên trạm quan trắc bị vượt ngưỡng,
-{{measure}} : Thông số bị vượt ngưỡng của trạm quan trắc,
-{{value}} : Giá trị của thông số,
-{{unit}} : Đơn vị của thông số,
-{​​​​​{​​​​​config}​​​​​}​​​​​ : Giá trị cấu hình của thông số,
-{{time}} : Thời gian thông số bị vượt ngưỡng`,
+        template: `{{station}} : Tên trạm quan trắc,
+        {{measure}}: Thiết bị / thông số quan trắc,
+        {{value}}: Giá trị của thông số,
+        {{unit}}: Đơn vị của thông số,
+        {{sign}}: Toán tử so sánh,
+        {{config}}: Giá trị thông số được cấu hình,
+        {{status}}: Trạng thái của thiết bị,
+        {{time}}: Thời gian thỏa điều kiện`,
       },
       exceed: {
         label: 'Vượt ngưỡng',
         value: 'exceed',
-        template: `{{station}} : Tên trạm quan trắc bị vượt ngưỡng,
-        {{measure}} : Thông số bị vượt ngưỡng của trạm quan trắc,
-        {{value}} : Giá trị của thông số,
-        {{unit}} : Đơn vị của thông số,
-        {​​​​​{​​​​​config}​​​​​}​​​​​ : Giá trị cấu hình của thông số,
-        {{time}} : Thời gian thông số bị vượt ngưỡng`,
+        template: `{{station}} : Tên trạm quan trắc,
+        {{measure}}: Thiết bị / thông số quan trắc,
+        {{value}}: Giá trị của thông số,
+        {{unit}}: Đơn vị của thông số,
+        {{sign}}: Toán tử so sánh,
+        {{config}}: Giá trị thông số được cấu hình,
+        {{status}}: Trạng thái của thiết bị,
+        {{time}}: Thời gian thỏa điều kiện`,
       },
       device: {
         label: 'Thiết bị',
         value: 'device',
-        template: `{{station}} : Tên trạm quan trắc bị vượt ngưỡng,
-{{measure}} : Thông số bị vượt ngưỡng của trạm quan trắc
+        template: `{{station}}: Tên trạm quan trắc,
+        {{measure}}: Tên thiết bị,
+        {{status}}: Trạng thái của thiết bị,
+        {{time}}: Thời gian thỏa điều kiện,
         `,
       },
     },

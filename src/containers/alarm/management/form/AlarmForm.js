@@ -1,4 +1,4 @@
-import { Button, Form, Input, Select, Icon, message } from 'antd'
+import { Button, Form, Icon, Input, message, Select } from 'antd'
 import CalculateApi from 'api/CalculateApi'
 import CDrawer from 'components/core/drawer'
 import SelectUser from 'components/elements/select-data/SelectUser'
@@ -8,10 +8,10 @@ import { translate as t } from 'hoc/create-lang'
 import _ from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { clearAlarmSelected } from 'redux/actions/alarm'
+import { clearAlarmSelected, selectStation } from 'redux/actions/alarm'
 import { alarmType, FIELDS } from '../index'
-import { AlarmTypeForm } from './FormType/AlarmTypeForm'
 import { ChanelForm } from './ChanelForm'
+import { AlarmTypeFormWrapper } from './FormType/AlarmTypeForm'
 
 export const i18n = () => ({
   drawer: {
@@ -53,18 +53,20 @@ export const i18n = () => ({
     alarmType: state.alarm.alarmType,
     isEdit: state.alarm.isEdit,
   }),
-  {
-    clearAlarmSelected,
-  }
+  dispatch => ({
+    clearAlarmSelected: () => dispatch(clearAlarmSelected()),
+    selectStation: stationId => dispatch(selectStation(stationId)),
+  })
 )
 export default class AlarmForm extends Component {
   constructor(props) {
     super(props)
-    this.aRef = React.createRef()
+    this.childFormRef = React.createRef()
   }
+
   state = {
     isModalVisible: false,
-    categories: []
+    categories: [],
   }
 
   clearFields = () => {
@@ -92,25 +94,58 @@ export default class AlarmForm extends Component {
     ])
   }
 
+  processGeneralValue = () => {
+    const { form } = this.props
+    const fieldsValues = form.getFieldsValue()
+    return {
+      ...fieldsValues,
+      [FIELDS.NAME]: fieldsValues[FIELDS.NAME].trim(),
+    }
+  }
+
   getParam = type => {
     const param = {
       disconnect: this.getParamDisconnect,
-      advance: '',
+      advance: this.getParamAdvance,
       exceed: this.getParamExceed,
       device: this.getParamDevice,
+      undefined: () => ({}),
     }
     return param[type]()
   }
 
+  getParamAdvance = () => {
+    const values = this.processGeneralValue()
+    const advanceForm = this.childFormRef.current.props.form
+    const {
+      conditions: conditionObject,
+      repeatConfig,
+    } = advanceForm.getFieldsValue()
+
+    const conditions = Object.entries(conditionObject).map(([key, value]) => ({
+      ...value,
+      id: key,
+    }))
+
+    return {
+      ...values,
+      conditions,
+      repeatConfig,
+    }
+  }
+
   getParamDisconnect = () => {
-    const { form } = this.props
-    const values = form.getFieldsValue()
-    return values
+    const { isEdit } = this.props
+    const values = this.processGeneralValue()
+    if (!isEdit) {
+      return values
+    }
+    const { maxDisconnectionTime, ...param } = values
+    return param
   }
 
   getParamExceed = () => {
-    const { form } = this.props
-    const values = form.getFieldsValue()
+    const values = this.processGeneralValue()
     const param = {
       ...values,
       [FIELDS.CONDITIONS]: [
@@ -125,8 +160,8 @@ export default class AlarmForm extends Component {
   }
 
   getParamDevice = () => {
-    const { form } = this.props
-    const values = form.getFieldsValue()
+    const values = this.processGeneralValue()
+
     const param = {
       ...values,
       [FIELDS.CONDITIONS]: [
@@ -143,11 +178,23 @@ export default class AlarmForm extends Component {
   onSubmit = async e => {
     e.preventDefault()
     const { form, onClose, getData, alarmSelected, isEdit } = this.props
-    const values = await form.validateFields()
 
-    if (!values) return
+    if (form.getFieldValue(FIELDS.TYPE) !== 'advance') {
+      const values = await form.validateFields()
+      if (!values) return
+    }
 
-    const type = values[FIELDS.TYPE]
+    if (form.getFieldValue(FIELDS.TYPE) === 'advance') {
+      const advanceForm = this.childFormRef.current.props.form
+
+      const [values, advanceFormValue] = await Promise.all([
+        form.validateFields(),
+        advanceForm.validateFields(),
+      ])
+
+      if (!values || !advanceFormValue) return
+    }
+    const type = form.getFieldValue(FIELDS.TYPE)
     const param = this.getParam(type)
 
     try {
@@ -156,7 +203,6 @@ export default class AlarmForm extends Component {
         message.success(t('alarm.message.management.updateSuccess'))
       } else {
         await CalculateApi.createAlarm(param)
-        console.log({ param })
         message.success(t('alarm.message.management.createSuccess'))
       }
     } catch (error) {
@@ -179,6 +225,11 @@ export default class AlarmForm extends Component {
     return trigger.parentElement
   }
 
+  handleStationChange = value => {
+    const { selectStation } = this.props
+    selectStation(value)
+  }
+
   render() {
     const { visible, form, alarmSelected, isEdit } = this.props
 
@@ -188,7 +239,7 @@ export default class AlarmForm extends Component {
         closable={false}
         onClose={this.handleOnClose}
         visible={visible}
-        width={400}
+        width={600}
         title={alarmSelected.name || i18n().drawer.title}
         right={<Icon type="close" onClick={this.handleOnClose} />}
       >
@@ -232,7 +283,10 @@ export default class AlarmForm extends Component {
                   ],
                   initialValue: 'disconnect',
                 })(
-                  <Select disabled={isEdit} getPopupContainer={this.getPopupContainer}>
+                  <Select
+                    disabled={isEdit}
+                    getPopupContainer={this.getPopupContainer}
+                  >
                     {Object.values(alarmType).map(item => (
                       <Select.Option key={item.value} value={item.value}>
                         {item.label()}
@@ -244,16 +298,28 @@ export default class AlarmForm extends Component {
 
               <FormItem label={i18n().form.label.station}>
                 {form.getFieldDecorator(FIELDS.STATION_ID, {
+                  onChange: this.handleStationChange,
                   rules: [
                     {
                       required: true,
                       message: t('ticket.required.incident.stationName'),
                     },
                   ],
-                })(<SelectStationAuto disabled={isEdit} fieldValue="_id" getPopupContainer={this.getPopupContainer} />)}
+                })(
+                  <SelectStationAuto
+                    allowClear={false}
+                    disabled={isEdit}
+                    fieldValue="_id"
+                    getPopupContainer={this.getPopupContainer}
+                  />
+                )}
               </FormItem>
 
-              <AlarmTypeForm form={form} getPopupContainer={this.getPopupContainer} />
+              <AlarmTypeFormWrapper
+                ref={this.childFormRef}
+                form={form}
+                getPopupContainer={this.getPopupContainer}
+              />
 
               <FormItem label={i18n().form.label.recipient}>
                 {form.getFieldDecorator(FIELDS.RECIPIENTS, {
@@ -263,7 +329,12 @@ export default class AlarmForm extends Component {
                       message: t('ticket.required.incident.recipient'),
                     },
                   ],
-                })(<SelectUser mode="multiple" getPopupContainer={this.getPopupContainer} />)}
+                })(
+                  <SelectUser
+                    mode="multiple"
+                    getPopupContainer={this.getPopupContainer}
+                  />
+                )}
               </FormItem>
 
               <FormItem>
