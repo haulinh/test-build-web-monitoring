@@ -94,6 +94,15 @@ export default class AlarmForm extends Component {
     ])
   }
 
+  processGeneralValue = () => {
+    const { form } = this.props
+    const fieldsValues = form.getFieldsValue()
+    return {
+      ...fieldsValues,
+      [FIELDS.NAME]: fieldsValues[FIELDS.NAME].trim(),
+    }
+  }
+
   getParam = type => {
     const param = {
       disconnect: this.getParamDisconnect,
@@ -106,8 +115,7 @@ export default class AlarmForm extends Component {
   }
 
   getParamAdvance = () => {
-    const { form } = this.props
-    const values = form.getFieldsValue()
+    const values = this.processGeneralValue()
     const advanceForm = this.childFormRef.current.props.form
     const {
       conditions: conditionObject,
@@ -127,8 +135,8 @@ export default class AlarmForm extends Component {
   }
 
   getParamDisconnect = () => {
-    const { form, isEdit } = this.props
-    const values = form.getFieldsValue()
+    const { isEdit } = this.props
+    const values = this.processGeneralValue()
     if (!isEdit) {
       return values
     }
@@ -137,8 +145,7 @@ export default class AlarmForm extends Component {
   }
 
   getParamExceed = () => {
-    const { form } = this.props
-    const values = form.getFieldsValue()
+    const values = this.processGeneralValue()
     const param = {
       ...values,
       [FIELDS.CONDITIONS]: [
@@ -153,8 +160,8 @@ export default class AlarmForm extends Component {
   }
 
   getParamDevice = () => {
-    const { form } = this.props
-    const values = form.getFieldsValue()
+    const values = this.processGeneralValue()
+
     const param = {
       ...values,
       [FIELDS.CONDITIONS]: [
