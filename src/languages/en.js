@@ -1679,7 +1679,7 @@ export default {
       },
       diameter: {
         label: 'Diameter(m)',
-        placeholder: 'Diameter(m)'
+        placeholder: 'Diameter(m)',
       },
       isStopWorking: {
         label: 'Stop working',
@@ -3982,12 +3982,14 @@ export default {
       advance: {
         label: 'Advance',
         value: 'advance',
-        template: `{{station}} : The name of the monitoring station exceeded the threshold,
-        {{measure}} : The parameter is exceeded the threshold of the monitoring station,
+        template: `{{station}} : Station's name,
+        {{measure}} : The monitoring parameter,
         {{value}} : The value of the parameter,
         {{unit}} : The unit of the parameter,
-{​​​​​{​​​​​config}​​​​​}​​​​​ : Configurable parameter value,
-        {{time}} : The time the parameter was exceeded`,
+        {{sign}} : The comparison operator,
+        {{config}} : Configurable parameter value,
+        {{status}} : The device's status,
+        {{time}} : The time that the condition is meet`,
       },
       exceed: {
         label: 'Exceed',
@@ -4002,8 +4004,10 @@ export default {
       device: {
         label: 'Device',
         value: 'device',
-        template: `{{station}} : The name of the monitoring station exceeded the threshold,
-        {{measure}} : The parameter is exceeded the threshold of the monitoring station`,
+        template: `{{station}} : Station's name,
+        {{measure}} : The device,
+        {{status}} : The device's status,
+        {{time}} : The time that meet the condition`,
       },
     },
   },
