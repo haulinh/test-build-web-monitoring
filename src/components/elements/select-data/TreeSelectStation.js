@@ -115,6 +115,7 @@ export default class TreeSelectStation extends Component {
       style: {
         width: '100%',
       },
+      allowClear: true,
     }
 
     return <TreeSelect {...tProps} {...this.props} />
