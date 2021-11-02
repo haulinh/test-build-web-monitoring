@@ -184,7 +184,7 @@ export default class IncidentCreate extends Component {
                         onChange: this.handleOnProvinceChange,
                       })(
                         <SelectProvince
-                          isShowAll
+                          isShowOther
                           allowClear={false}
                           fieldValue="_id"
                         />

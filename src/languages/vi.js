@@ -595,6 +595,7 @@ export default {
       range: 'Trong khoảng',
     },
     form: {
+      other: 'Khác',
       all: 'Tất cả',
       time: 'Thời gian',
       search: 'Tìm kiếm',

@@ -596,6 +596,7 @@ export default {
       range: 'In range',
     },
     form: {
+      other: 'Other',
       all: 'All',
       time: 'Time',
       search: 'Search',
