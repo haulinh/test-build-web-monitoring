@@ -3815,6 +3815,7 @@ export default {
         createdAt: 'Tạo lúc {{=it.time}} ngày {{=it.date}} ',
         updatedAt: 'Cập nhập gần nhất {{=it.time}} ngày {{=it.date}} ',
         detailInfo: 'Thông tin chi tiết',
+        status: 'Trạng thái',
       },
       configProperties: {
         name: 'Tên thuộc tính',
