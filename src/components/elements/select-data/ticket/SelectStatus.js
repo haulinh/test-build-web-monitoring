@@ -40,14 +40,15 @@ export default class SelectStatus extends Component {
 
   render() {
     const { options } = this.state
+    const { isFilter } = this.props
     const status = this.getStatus()
 
     return (
       <SelectWrapper
         style={{ width: 120 }}
-        background={status.background}
+        background={!isFilter && status.background}
         onChange={this.handleOnChange}
-        color={status.color}
+        color={!isFilter && status.color}
         {...this.props}
       >
         {this.props.isShowAll && (
