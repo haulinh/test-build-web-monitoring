@@ -67,7 +67,7 @@ export default class Filter extends Component {
             <FormItem label={t('ticket.label.incident.status')}>
               {form.getFieldDecorator(Fields.status, {
                 initialValue: '',
-              })(<SelectStatus isShowAll style={{ width: '100%' }} />)}
+              })(<SelectStatus isFilter isShowAll style={{ width: '100%' }} />)}
             </FormItem>
           </Col>
         </Row>
