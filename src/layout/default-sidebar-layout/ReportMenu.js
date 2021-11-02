@@ -132,9 +132,7 @@ export default {
             placement="right"
             title={listTooltipMenu().report.status_data}
           >
-            <Link to={slug.report.type1_exceed}>
-              {listMenuName().report.status_data}
-            </Link>
+            <Link to={slug.report.type1_exceed}>Dữ liệu vượt ngưỡng</Link>
           </Tooltip>
         </Menu.Item>
       )}
