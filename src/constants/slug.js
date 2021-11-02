@@ -230,6 +230,7 @@ export default {
     type11: '/report/type11', // Ket qua quan trac trung binh gio cua 1 ngay
     type12: '/report/type12', // tỷ lệ dữ liệu vượt ngưỡng của 1 trạm
     status_data: '/report/status-data',
+    type1_exceed: '/report/type1-exceed', // báo cáo vượt ngưỡng
   },
   advance: {
     base: '/advance',
