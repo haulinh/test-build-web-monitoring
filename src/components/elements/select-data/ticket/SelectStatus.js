@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import CalculateApi from 'api/CalculateApi'
 import { Select } from 'antd'
 import styled from 'styled-components'
+import { translate as t } from 'hoc/create-lang'
 
 const SelectWrapper = styled(Select)`
   .ant-select-selection--single {
@@ -43,12 +44,15 @@ export default class SelectStatus extends Component {
 
     return (
       <SelectWrapper
-        {...this.props}
         style={{ width: 120 }}
         background={status.background}
         onChange={this.handleOnChange}
         color={status.color}
+        {...this.props}
       >
+        {this.props.isShowAll && (
+          <Select.Option value="">{t('global.all')}</Select.Option>
+        )}
         {options.map(option => (
           <Select.Option key={option._id} value={option._id}>
             {option.name}

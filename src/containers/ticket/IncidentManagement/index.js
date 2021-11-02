@@ -27,6 +27,7 @@ export const Fields = {
   measures: 'measures',
   province: 'province',
   time: 'time',
+  status: 'statusId',
 }
 
 export const incidentType = () => ({
@@ -106,6 +107,7 @@ export default class IncidentManagement extends Component {
     let params = {
       [Fields.stationIds]: getParamArray(values[Fields.stationIds]),
       [Fields.type]: values[Fields.type],
+      [Fields.status]: values[Fields.status],
       from: values[Fields.time][0].startOf('d').toDate(),
       to: values[Fields.time][1].endOf('d').toDate(),
       offset: page - 1,

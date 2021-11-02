@@ -5,6 +5,7 @@ import { Fields, i18n } from './index'
 import { translate as t } from 'hoc/create-lang'
 import TreeSelectStation from 'components/elements/select-data/TreeSelectStation'
 import SelectIncidentType from 'components/elements/select-data/ticket/SelectIncidentType'
+import SelectStatus from 'components/elements/select-data/ticket/SelectStatus'
 import moment from 'moment'
 
 const { RangePicker } = DatePicker
@@ -59,6 +60,14 @@ export default class Filter extends Component {
                   },
                 ],
               })(<RangePicker style={{ width: '100%' }} />)}
+            </FormItem>
+          </Col>
+
+          <Col span={8}>
+            <FormItem label={t('ticket.label.incident.status')}>
+              {form.getFieldDecorator(Fields.status, {
+                initialValue: '',
+              })(<SelectStatus isShowAll style={{ width: '100%' }} />)}
             </FormItem>
           </Col>
         </Row>
