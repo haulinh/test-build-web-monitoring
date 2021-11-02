@@ -120,6 +120,24 @@ export default {
           </Tooltip>
         </Menu.Item>
       )}
+
+      {protectRole(ROLE.TINH_TRANG_DU_LIEU.VIEW)(
+        <Menu.Item
+          key={slug.report.type1_exceed}
+          onClick={() => {
+            props.selectMenu(slug.report.type1_exceed)
+          }}
+        >
+          <Tooltip
+            placement="right"
+            title={listTooltipMenu().report.status_data}
+          >
+            <Link to={slug.report.type1_exceed}>
+              {listMenuName().report.status_data}
+            </Link>
+          </Tooltip>
+        </Menu.Item>
+      )}
     </Menu.SubMenu>
   ),
 }
