@@ -2947,6 +2947,12 @@ export default {
         title: 'Report Status Data',
         dateRange: 'Date range',
       },
+      option: {
+        reportYear: 'Report Year',
+        reportMonth: 'Report Month',
+        quarter: 'Quarter',
+        month: 'Month',
+      },
       table: {
         header: {
           station: 'Station',
@@ -2984,6 +2990,7 @@ export default {
       wqiHour: 'WQI - Hour',
       wqiDay: 'WQI - Day',
       status_data: 'Status Data',
+      type1_exceed: 'Exceed Report',
     },
     billing: 'Billing',
     ticket: 'Incident',

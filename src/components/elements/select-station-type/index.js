@@ -108,7 +108,7 @@ export default class SelectStationType extends PureComponent {
         {...this.props}
         showSearch
         onSearch={this.handleSearch}
-        style={{ width: '100%', ...this.props.style }}
+        style={{ width: '300px', ...this.props.style }}
         onChange={this.handleOnChange}
         value={this.props.value}
         filterOption={false}
