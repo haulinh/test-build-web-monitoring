@@ -121,6 +121,12 @@ export default class IncidentCreate extends Component {
     this.setState({ isModalVisible: false })
   }
 
+  handleOnProvinceChange = () => {
+    const { form } = this.props
+    console.log('type change')
+    form.setFieldsValue({ [Fields.stationIds]: [] })
+  }
+
   render() {
     const { visible, form } = this.props
     const { isModalVisible } = this.state
@@ -174,9 +180,11 @@ export default class IncidentCreate extends Component {
                 {this.isHaveSelectStation() && (
                   <React.Fragment>
                     <FormItem label={i18n().provinceName}>
-                      {form.getFieldDecorator(Fields.province)(
+                      {form.getFieldDecorator(Fields.province, {
+                        onChange: this.handleOnProvinceChange,
+                      })(
                         <SelectProvince
-                          isShowAll
+                          isShowOther
                           allowClear={false}
                           fieldValue="_id"
                         />

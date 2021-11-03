@@ -43,7 +43,7 @@ export default class TreeSelectStation extends Component {
     const { province, fieldValue } = this.props
     let stationAutos = this.state.stationAutos
 
-    if (province) {
+    if (province && (province !=='other')) {
       stationAutos = stationAutos.filter(stationAuto => {
         const provinceValue = _.get(
           stationAuto,
@@ -54,6 +54,10 @@ export default class TreeSelectStation extends Component {
       })
     }
 
+    if (province === 'other') {
+      stationAutos = stationAutos.filter(stationAuto => !stationAuto.province)
+    }
+    
     return stationAutos
   }
 
@@ -115,6 +119,7 @@ export default class TreeSelectStation extends Component {
       style: {
         width: '100%',
       },
+      allowClear: true,
     }
 
     return <TreeSelect {...tProps} {...this.props} />

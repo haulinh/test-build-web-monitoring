@@ -77,19 +77,19 @@ export const TableData = connect(
         {
           dataIndex: 'name',
           width: 100,
-          align: 'center',
+          align: 'left',
           title: i18n().name,
           render: value => <TooltipCustom name={value} />,
         },
         {
           dataIndex: 'type',
-          align: 'center',
+          align: 'left',
           title: i18n().incidentType,
           render: value => <div>{incidentType()[value]}</div>,
         },
         {
           dataIndex: 'stations',
-          align: 'center',
+          align: 'left',
           width: 200,
           title: t('apiSharingNew.fields.stationKeys'),
           render: value => {
@@ -102,7 +102,7 @@ export const TableData = connect(
         },
         {
           dataIndex: 'status',
-          align: 'center',
+          align: 'left',
           title: i18n().status,
           render: value => (
             <div
@@ -159,6 +159,7 @@ export const TableData = connect(
           }}
           dataSource={get(result, 'data', [])}
           pagination={{
+            current: page,
             onChange: handleOnChangePagination,
             total: get(result, 'pagination.total'),
           }}

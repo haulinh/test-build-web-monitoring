@@ -596,6 +596,7 @@ export default {
       range: 'In range',
     },
     form: {
+      other: 'Other',
       all: 'All',
       time: 'Time',
       search: 'Search',
@@ -3816,6 +3817,7 @@ export default {
         createAt: 'Created at {{=it.time}} date {{=it.date}} ',
         updatedAt: 'Last update {{=it.time}} date {{=it.date}} ',
         detailInfo: 'Details',
+        status: 'Status',
       },
       configProperties: {
         name: 'Name',

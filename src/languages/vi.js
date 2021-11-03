@@ -595,6 +595,7 @@ export default {
       range: 'Trong khoảng',
     },
     form: {
+      other: 'Khác',
       all: 'Tất cả',
       time: 'Thời gian',
       search: 'Tìm kiếm',
@@ -3815,6 +3816,7 @@ export default {
         createdAt: 'Tạo lúc {{=it.time}} ngày {{=it.date}} ',
         updatedAt: 'Cập nhập gần nhất {{=it.time}} ngày {{=it.date}} ',
         detailInfo: 'Thông tin chi tiết',
+        status: 'Trạng thái',
       },
       configProperties: {
         name: 'Tên thuộc tính',

@@ -27,6 +27,7 @@ export const Fields = {
   measures: 'measures',
   province: 'province',
   time: 'time',
+  status: 'statusId',
 }
 
 export const incidentType = () => ({
@@ -68,12 +69,12 @@ export default class IncidentManagement extends Component {
     total: null,
   }
 
-  componentDidMount() {
-    const { type, form } = this.props
-    if (type) {
-      form.setFieldsValue({ [Fields.type]: type })
-    }
-  }
+  // componentDidMount() {
+  //   const { type, form } = this.props
+  //   if (type) {
+  //     form.setFieldsValue({ [Fields.type]: type })
+  //   }
+  // }
 
   showDrawer = () => {
     this.setState({
@@ -106,6 +107,7 @@ export default class IncidentManagement extends Component {
     let params = {
       [Fields.stationIds]: getParamArray(values[Fields.stationIds]),
       [Fields.type]: values[Fields.type],
+      [Fields.status]: values[Fields.status],
       from: values[Fields.time][0].startOf('d').toDate(),
       to: values[Fields.time][1].endOf('d').toDate(),
       offset: page - 1,
@@ -125,7 +127,7 @@ export default class IncidentManagement extends Component {
     this.setState({ loading: true })
     try {
       const result = await CalculateApi.getTickets(params)
-      this.setState({ result, loading: false })
+      this.setState({ result, page: 1, loading: false })
     } catch (error) {
       console.log(error)
       this.setState({ loading: false })
