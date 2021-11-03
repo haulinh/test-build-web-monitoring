@@ -114,7 +114,7 @@ export default class DeviceForm extends React.Component {
               <FormItem label={i18n().form.label.frequency}>
                 {form.getFieldDecorator(`${FIELDS.REPEAT_CONFIG}.frequency`, {
                   initialValue: 15,
-                })(<SelectFrequency />)}
+                })(<SelectFrequency disabled={isEdit} />)}
               </FormItem>
             </Col>
           )}
