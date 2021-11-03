@@ -69,12 +69,12 @@ export default class IncidentManagement extends Component {
     total: null,
   }
 
-  componentDidMount() {
-    const { type, form } = this.props
-    if (type) {
-      form.setFieldsValue({ [Fields.type]: type })
-    }
-  }
+  // componentDidMount() {
+  //   const { type, form } = this.props
+  //   if (type) {
+  //     form.setFieldsValue({ [Fields.type]: type })
+  //   }
+  // }
 
   showDrawer = () => {
     this.setState({
@@ -127,7 +127,7 @@ export default class IncidentManagement extends Component {
     this.setState({ loading: true })
     try {
       const result = await CalculateApi.getTickets(params)
-      this.setState({ result, loading: false })
+      this.setState({ result, page: 1, loading: false })
     } catch (error) {
       console.log(error)
       this.setState({ loading: false })
