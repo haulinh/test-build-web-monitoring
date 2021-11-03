@@ -81,4 +81,9 @@ export default createBreadcrumb({
     href: slug.report.status_data,
     getName: () => translate('menuApp.reportBreadcrum.status_data'),
   },
+  type2_flow: {
+    id: 'type2_flow',
+    href: slug.report.type2_flow,
+    getName: () => translate('menuApp.reportBreadcrum.type2_flow'),
+  },
 })

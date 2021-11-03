@@ -2942,6 +2942,7 @@ export default {
       aqiDay: 'AQI - Ngày',
       aqi878: 'AQI - 1479',
       status_data: 'Tình trạng dữ liệu',
+      type2_flow: 'Lưu lượng phát thải',
       status_data_obj: {
         title: 'Báo cáo đánh giá tình trạng dữ liệu',
         dateRange: 'Khoảng thời gian',
@@ -2982,7 +2983,8 @@ export default {
       aqiDay: 'AQI - Ngày',
       wqiHour: 'WQI - Giờ',
       wqiDay: 'WQI - Ngày',
-      status_data: 'Tình trạng dữ liệu', // Qui them cho dong bo voi file EN
+      status_data: 'Tình trạng dữ liệu',
+      type2_flow: 'Báo cáo lưu lượng phát thải',
     },
     billing: 'Phí môi trường',
     ticket: 'Sự cố',
@@ -3020,6 +3022,7 @@ export default {
       status_data: ' Báo cáo tổng hợp tình trạng dữ liệu theo nhiều trạm',
       aqi_hour: 'Báo cáo giá trị AQI của từng trạm',
       aqi_day: 'Báo cáo giá trị AQI ngày theo nhiều trạm',
+      type2_flow: 'Báo cáo lưu lượng phát thải',
     },
     advanceSub: 'Các chức năng nâng cao của hệ thống',
     advance: {

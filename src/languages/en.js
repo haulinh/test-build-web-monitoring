@@ -2943,6 +2943,7 @@ export default {
       aqiDay: 'AQI - Day',
       aqi878: 'AQI - 1479',
       status_data: 'Status Data',
+      type2_flow: 'Emission Flow',
       status_data_obj: {
         title: 'Report Status Data',
         dateRange: 'Date range',
@@ -2984,6 +2985,7 @@ export default {
       wqiHour: 'WQI - Hour',
       wqiDay: 'WQI - Day',
       status_data: 'Status Data',
+      type2_flow: 'Emission Flow',
     },
     billing: 'Billing',
     ticket: 'Incident',
@@ -3041,6 +3043,7 @@ export default {
       status_data: 'Summary report on status of data at many stations',
       aqi_hour: 'Report the AQI value of each station',
       aqi_day: 'Report AQI day values ​​for multiple stations',
+      type2_flow: 'Report emission flow',
     },
     advanceSub: 'Advanced functions of the system',
     advance: {

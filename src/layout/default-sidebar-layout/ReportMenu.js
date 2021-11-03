@@ -136,6 +136,23 @@ export default {
           </Tooltip>
         </Menu.Item>
       )}
+      {protectRole(ROLE.TINH_TRANG_DU_LIEU.VIEW)(
+        <Menu.Item
+          key={slug.report.type2_flow}
+          onClick={() => {
+            props.selectMenu(slug.report.type2_flow)
+          }}
+        >
+          <Tooltip
+            placement="right"
+            title={listTooltipMenu().report.type2_flow}
+          >
+            <Link to={slug.report.type2_flow}>
+              {listMenuName().report.type2_flow}
+            </Link>
+          </Tooltip>
+        </Menu.Item>
+      )}
     </Menu.SubMenu>
   ),
 }
