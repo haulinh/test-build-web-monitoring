@@ -17,7 +17,7 @@ const Text = styled.div`
 `
 
 export const FIELDS = {
-  reportType: 'reportType',
+  REPORT_TYPE: 'reportType',
   time: 'time',
   province: 'province',
   stationKey: 'stationKeys',
@@ -32,40 +32,67 @@ export default class ReportExceed extends Component {
     loading: false,
   }
 
-  getQueryParams = async () => {
+  getQueryParams = () => {
     const { form } = this.props
-    const values = await form.getFieldsValue()
+    const values = form.getFieldsValue()
     const type = values.reportType
-    const params = values.reportType === 'year' ?
-      {
-        time: getTimeUTC(moment(values.time, 'YYYY').startOf('year')),
-        isFilter: values.isFilter,
-        stationKeys: values.stationKeys.join(','),
-      }
-      :
-      {
-        time: values.time.clone().utc().format(),
-        isFilter: values.isFilter,
-        stationKeys: values.stationKeys.join(','),
-      }
-    return { params , type }
+    const queryParams = {
+      year: this.getQueryParamsYear,
+      month: () => {},
+    }
+    return queryParams[type]()
+    // const params =
+    //   values.reportType === 'year'
+    //     ? {
+    //         time: getTimeUTC(moment(values.time, 'YYYY').startOf('year')),
+    //         isFilter: values.isFilter,
+    //         stationKeys: values.stationKeys.join(','),
+    //       }
+    //     : {
+    //         time: values.time
+    //           .clone()
+    //           .utc()
+    //           .format(),
+    //         isFilter: values.isFilter,
+    //         stationKeys: values.stationKeys.join(','),
+    //       }
+  }
+
+  getQueryParamsGeneral = () => {
+    const { form } = this.props
+    const values = form.getFieldsValue()
+    const params = {
+      ...values,
+      [FIELDS.isFilter]: values[FIELDS.isFilter],
+      [FIELDS.stationKey]: values.stationKeys.join(','),
+    }
+    return params
+  }
+
+  getQueryParamsYear = () => {
+    const paramsGeneral = this.getQueryParamsGeneral()
+    const params = {
+      ...paramsGeneral,
+      [FIELDS.time]: getTimeUTC(
+        moment(paramsGeneral.time, 'YYYY').startOf('year')
+      ),
+    }
+    return params
   }
 
   handleOnSearch = async () => {
-    const data = await this.getQueryParams()
-    console.log(data.type)
+    const params = await this.getQueryParams()
     try {
-      const results = await DataInsight.getExceedData(data.type, data.params)
+      const results = await DataInsight.getExceedData(params.type, params)
       console.log(results)
-    }
-    catch (err) {
+    } catch (err) {
       console.log(err)
     }
   }
 
   render() {
     const { form } = this.props
-    const { loading} = this.state
+    const { loading } = this.state
 
     return (
       <PageContainer>
