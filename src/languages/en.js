@@ -2938,7 +2938,7 @@ export default {
       type7: 'AQI day by parameter',
       type9: 'Percentage of data',
       type10: 'Percentage of obtained data',
-      type11: 'Results of 1-hour average monitoring',
+      type11: '1 hour average',
       type12: 'Percentage of exceeded data',
       aqiHour: 'AQI - Hour',
       aqiDay: 'AQI - Day',
