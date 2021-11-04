@@ -47,16 +47,20 @@ export function removeAccentsSort(str) {
 }
 
 export function translate(key, params = {}, isParse = true) {
-  const languageData =
-    typeof window !== 'undefined'
-      ? window.currentLanguage
-      : global.currentLanguage
+  try {
+    const languageData =
+      typeof window !== 'undefined'
+        ? window.currentLanguage
+        : global.currentLanguage
 
-  let translated = objectPath.get(languageData, key)
-  if (translated && isParse) {
-    const tempFn = dot.template(translated)
-    return tempFn(params)
-  } else return translated ? translated : ''
+    let translated = objectPath.get(languageData, key)
+    if (translated && isParse) {
+      const tempFn = dot.template(translated)
+      return tempFn(params)
+    } else return translated ? translated : ''
+  } catch (ex) {
+    return ' -- '
+  }
 }
 
 const createLanguageHoc = Component => {
