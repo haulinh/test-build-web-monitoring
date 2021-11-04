@@ -124,7 +124,7 @@ export default class IncidentCreate extends Component {
   handleOnProvinceChange = () => {
     const { form } = this.props
     console.log('type change')
-    form.setFieldsValue({ [Fields.stationIds]: [] })
+    form.setFieldsValue({ [Fields.stationIds]: [], [Fields.measures]: [] })
   }
 
   render() {

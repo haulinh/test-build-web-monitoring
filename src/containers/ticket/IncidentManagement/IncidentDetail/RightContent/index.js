@@ -82,11 +82,15 @@ const RightContent = ({
 
   return (
     <React.Fragment>
-      {form.getFieldDecorator('statusId')(
-        withUpdate(SelectStatus, value =>
-          handleUpdateField(Fields.status, value)
-        )()
-      )}
+      <Row>
+        <Col span={6}>
+          {form.getFieldDecorator('statusId')(
+            withUpdate(SelectStatus, value =>
+              handleUpdateField(Fields.status, value)
+            )()
+          )}
+        </Col>
+      </Row>
 
       <Divider />
 

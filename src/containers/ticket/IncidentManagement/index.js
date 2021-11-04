@@ -121,17 +121,23 @@ export default class IncidentManagement extends Component {
     return params
   }
 
-  handleOnSearch = async () => {
+  getData = async () => {
     const params = await this.getParams()
     if (!params) return
     this.setState({ loading: true })
     try {
       const result = await CalculateApi.getTickets(params)
-      this.setState({ result, page: 1, loading: false })
+      this.setState({ result, loading: false })
     } catch (error) {
       console.log(error)
       this.setState({ loading: false })
     }
+  }
+
+  handleOnSearch = () => {
+    this.setState({ page: 1 }, () => {
+      this.getData()
+    })
   }
 
   getTimes = () => {
@@ -179,7 +185,7 @@ export default class IncidentManagement extends Component {
 
         <Search onSearch={this.handleOnSearch} loading={loading}>
           <BoxShadow>
-            <Filter form={form} onSearch={this.handleOnSearch} />
+            <Filter form={form} onSearch={this.getData} />
           </BoxShadow>
         </Search>
 
@@ -201,7 +207,7 @@ export default class IncidentManagement extends Component {
         <TableData
           result={result}
           setPage={this.setPage}
-          onSearch={this.handleOnSearch}
+          onSearch={this.getData}
           page={page}
           loading={loading}
           type={type}
