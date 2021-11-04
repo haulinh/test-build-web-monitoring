@@ -1,19 +1,13 @@
-import { Col, Form, Icon, Row, Switch } from 'antd'
-import CalculateApi from 'api/CalculateApi'
+import { Form } from 'antd'
+import DataInsight from 'api/DataInsight'
 import Clearfix from 'components/elements/clearfix'
 import { Search } from 'components/layouts/styles'
-import { DD_MM_YYYY } from 'constants/format-date'
-import ROLE from 'constants/role'
 import { BoxShadow } from 'containers/api-sharing/layout/styles'
-import { translate as t } from 'hoc/create-lang'
-import createProtectRole from 'hoc/protect-role'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import _ from 'lodash'
 import moment from 'moment'
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { downFileExcel } from 'utils/downFile'
-import { getLanguage } from 'utils/localStorage'
+import { getTimeUTC } from 'utils/datetime'
 import Breadcrumb from '../breadcrumb'
 import Filter from './Filter'
 
@@ -21,7 +15,16 @@ const Text = styled.div`
   font-size: 16px;
   font-weight: 600px;
 `
- 
+
+export const FIELDS = {
+  reportType: 'reportType',
+  time: 'time',
+  province: 'province',
+  stationKey: 'stationKeys',
+  selectTime: 'selectTime',
+  isFilter: 'isFilter',
+}
+
 @Form.create()
 export default class ReportExceed extends Component {
   state = {
@@ -32,39 +35,50 @@ export default class ReportExceed extends Component {
   getQueryParams = async () => {
     const { form } = this.props
     const values = await form.getFieldsValue()
-    return values
+    const type = values.reportType
+    const params = values.reportType === 'year' ?
+      {
+        time: getTimeUTC(moment(values.time, 'YYYY').startOf('year')),
+        isFilter: values.isFilter,
+        stationKeys: values.stationKeys.join(','),
+      }
+      :
+      {
+        time: values.time.clone().utc().format(),
+        isFilter: values.isFilter,
+        stationKeys: values.stationKeys.join(','),
+      }
+    return { params , type }
   }
 
   handleOnSearch = async () => {
-    const params = await this.getQueryParams()
-    console.log(params)
-  }
-
-  setResultReport = resultReport => {
-    this.setState({ resultReport })
+    const data = await this.getQueryParams()
+    console.log(data.type)
+    try {
+      const results = await DataInsight.getExceedData(data.type, data.params)
+      console.log(results)
+    }
+    catch (err) {
+      console.log(err)
+    }
   }
 
   render() {
     const { form } = this.props
-    const { loading, resultReport } = this.state
+    const { loading} = this.state
 
     return (
       <PageContainer>
-        <Clearfix height={16} />
-        <Breadcrumb items={['type1_exceed']} />
-        <Search loading={loading} onSearch={this.handleOnSearch}>
-          <BoxShadow>
-            <Filter form={form} setResultReport={this.setResultReport} />
-          </BoxShadow>
-        </Search>
-        <Clearfix height={32} />
-        <Row type="flex" justify="end">
-          <Row type="flex" justify="space-around" align="middle">
-            <Col span={6}><Icon style={{paddingTop: '15px', fontSize: '22px', width: '50px', height: '50px' }} type="question-circle" /></Col>
-            <Col span={16}><Text>Kiểm duyệt dữ liệu</Text></Col>
-            <Col span={2}><Switch/></Col>
-          </Row>
-        </Row>
+        <div style={{ height: '100vh' }}>
+          <Clearfix height={16} />
+          <Breadcrumb items={['type1_exceed']} />
+          <Search loading={loading} onSearch={this.handleOnSearch}>
+            <BoxShadow>
+              <Filter form={form} />
+            </BoxShadow>
+          </Search>
+          <Clearfix height={32} />
+        </div>
       </PageContainer>
     )
   }

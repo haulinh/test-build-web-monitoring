@@ -3,12 +3,12 @@ import { Select } from 'antd'
 
 const options = [
   {
-    key: 'day',
-    name: 'Báo cáo ngày',
-  },
-  {
     key: 'year',
     name: 'Báo cáo năm',
+  },
+  {
+    key: 'date',
+    name: 'Báo cáo ngày',
   },
 ]
 
