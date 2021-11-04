@@ -1,10 +1,10 @@
+import { Col, DatePicker, Row, Select } from 'antd'
 import React from 'react'
-import { Col, Select, Row, DatePicker } from 'antd'
 const { Option } = Select
 
 const options = [
   {
-    key: 'day',
+    key: 'custom',
     name: 'Ngày',
   },
   {
@@ -16,33 +16,46 @@ const options = [
     name: 'Năm',
   },
   {
-    key: 'custom',
+    key: 'anyYear',
     name: 'Các năm',
   },
 ]
 
-const SelectReportFlowTime = props => {
-  return (
-    <Row gutter={16}>
-      <Col span={6}>
-        <Select
-          disabled
-          defaultValue="month"
-          {...props}
-          style={{ width: '100%' }}
-        >
-          {options.map(option => (
-            <Option key={option.key} value={option.key}>
-              {option.name}
-            </Option>
-          ))}
-        </Select>
-      </Col>
-      <Col span={18}>
-        <DatePicker style={{ width: '100%' }} />
-      </Col>
-    </Row>
-  )
+export default class SelectReportFlowTime extends React.Component {
+  handleOnDateChange = value => {
+    const { onChange, value: valueField } = this.props
+    onChange({
+      ...valueField,
+      value,
+    })
+  }
+  render() {
+    const { value } = this.props
+    // console.log({ value: value })
+    return (
+      <Row gutter={16}>
+        <Col span={6}>
+          <Select
+            value={value.type}
+            disabled={value.type !== 'anyYear'}
+            style={{ width: '100%' }}
+          >
+            {options.map(option => (
+              <Option key={option.key} value={option.key}>
+                {option.name}
+              </Option>
+            ))}
+          </Select>
+        </Col>
+        <Col span={18}>
+          {value.type === 'custom' && (
+            <DatePicker
+              onChange={this.handleOnDateChange}
+              style={{ width: '100%' }}
+            />
+          )}
+        </Col>
+      </Row>
+    )
+  }
 }
-
-export default SelectReportFlowTime

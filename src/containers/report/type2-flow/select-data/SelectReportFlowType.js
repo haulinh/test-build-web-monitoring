@@ -5,7 +5,7 @@ const { Option } = Select
 
 const options = [
   {
-    key: 'day',
+    key: 'custom',
     name: 'Báo cáo ngày',
   },
   { key: 'month', name: 'Báo cáo tháng' },
@@ -14,7 +14,7 @@ const options = [
     name: 'Báo cáo hàng năm',
   },
   {
-    key: 'custom',
+    key: 'anyYear',
     name: 'Báo cáo các năm',
   },
 ]
