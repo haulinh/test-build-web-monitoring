@@ -451,7 +451,7 @@ export default class UserList extends React.Component {
         <Breadcrumb items={['list']} />
         {this.props.dataSource && (
           <DynamicTable
-            loading={this.props.isLoading}
+            isLoading={this.props.isLoading}
             rows={this.getRows()}
             head={this.getHead()}
             paginationOptions={{
