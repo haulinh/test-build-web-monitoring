@@ -83,7 +83,7 @@ const RightContent = ({
   return (
     <React.Fragment>
       <Row>
-        <Col span={6}>
+        <Col span={12}>
           {form.getFieldDecorator('statusId')(
             withUpdate(SelectStatus, value =>
               handleUpdateField(Fields.status, value)

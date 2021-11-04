@@ -6,7 +6,7 @@ import { translate } from 'hoc/create-lang'
 import { connect } from 'react-redux'
 import Breadcrumb from '../breadcrumb'
 import { get as _get } from 'lodash'
-import SearchForm from '../search-form/search-form-2'
+import SearchForm from './Form'
 import { Table, Typography, Button, Spin } from 'antd'
 import Clearfix from 'components/elements/clearfix'
 import moment from 'moment-timezone'
@@ -16,8 +16,16 @@ import {
   getUrlReportType10Excel,
 } from 'api/DataStationAutoApi'
 import { getFormatNumber, ROUND_DIGIT } from 'constants/format-number'
+import 'rc-picker/assets/index.css'
 
 const { Title, Text } = Typography
+
+export const FIELDS = {
+  STATION_IDS: 'stationIds',
+  STATISTIC: 'statistic',
+  TIME_VALUE: 'timeValue',
+  TIME_TYPE: 'timeType',
+}
 
 function i18n() {
   return {
@@ -134,7 +142,6 @@ export default class ReportType10 extends React.Component {
   }
 
   handleSubmit = async (values = {}) => {
-    // console.log(JSON.stringify(values, null, 4), "values");
     const {
       stationType = '',
       fromMonth = moment(),
@@ -191,42 +198,43 @@ export default class ReportType10 extends React.Component {
   render() {
     return (
       <PageContainer>
-        <Breadcrumb items={['type10']} />
-        <Clearfix height={16} />
-        <SearchForm cbSubmit={this.handleSubmit} />
-        <Clearfix height={16} />
-        <div style={{ position: 'relative', textAlign: 'center' }}>
-          <Title level={4}>{i18n().title}</Title>
-          <Text>
-            {' '}
-            {translate('avgSearchFrom.table.description', {
-              fromMonth: this.state.fromMonth,
-              toMonth: this.state.toMonth,
-            })}
-          </Text>
-          {this.state.isHaveData && (
-            <div
-              style={{
-                position: 'absolute',
-                top: '0px',
-                right: '0px',
-              }}
-            >
-              {protectRole(ROLE.TILE_DULIEU_THUDUOC.EXPORT)(
-                <Button
-                  type="primary"
-                  icon="file-excel"
-                  loading={this.state.isLoadingExcel}
-                  onClick={this.hanldeExcel}
-                >
-                  {translate('avgSearchFrom.tab.exportExcel')}
-                </Button>
-              )}
-            </div>
-          )}
-        </div>
-        <Clearfix height={8} />
-        <Spin spinning={this.state.isLoading}>
+        <div style={{ height: '100vh' }}>
+          <Breadcrumb items={['type10']} />
+          <Clearfix height={16} />
+          <SearchForm cbSubmit={this.handleSubmit} />
+          <Clearfix height={16} />
+          <div style={{ position: 'relative', textAlign: 'center' }}>
+            <Title level={4}>{i18n().title}</Title>
+            <Text>
+              {translate('avgSearchFrom.table.description', {
+                fromMonth: this.state.fromMonth,
+                toMonth: this.state.toMonth,
+              })}
+            </Text>
+            {this.state.isHaveData && (
+              <div
+                style={{
+                  position: 'absolute',
+                  top: '0px',
+                  right: '0px',
+                }}
+              >
+                {protectRole(ROLE.TILE_DULIEU_THUDUOC.EXPORT)(
+                  <Button
+                    type="primary"
+                    icon="file-excel"
+                    loading={this.state.isLoadingExcel}
+                    onClick={this.hanldeExcel}
+                  >
+                    {translate('avgSearchFrom.tab.exportExcel')}
+                  </Button>
+                )}
+              </div>
+            )}
+          </div>
+          <Clearfix height={8} />
+
+          {/* <Spin spinning={this.state.isLoading}>
           <Table
             size="small"
             rowKey="_id"
@@ -236,7 +244,8 @@ export default class ReportType10 extends React.Component {
             locale={{ emptyText: translate('dataSearchFrom.table.emptyText') }}
             pagination={false}
           />
-        </Spin>
+        </Spin> */}
+        </div>
       </PageContainer>
     )
   }
