@@ -1,4 +1,5 @@
 import { Col, Icon, Input, Row } from 'antd'
+import { YYYY } from 'constants/format-date'
 import moment from 'moment'
 import React, { Component } from 'react'
 import styled from 'styled-components'
@@ -11,7 +12,7 @@ const PickerContainer = styled.div`
   transition: all 0.3s;
   box-shadow: 0 3px 6px -4px #0000001f, 0 6px 16px #00000014,
     0 9px 28px 8px #0000000d;
-  width: 280px;
+  min-width: 280px;
 
   .arrow {
     &:hover {
@@ -22,7 +23,8 @@ const PickerContainer = styled.div`
 `
 
 const YearItem = styled.div`
-  padding: 16px;
+  background: ${props => props.active && '#1890ff'};
+  padding: 8px 8px;
   &:hover {
     cursor: pointer;
     background: #f5f5f5;
@@ -30,7 +32,7 @@ const YearItem = styled.div`
   text-align: center;
 `
 
-export default class DatePickerYear extends Component {
+export default class DatePickerRangeYear extends Component {
   state = {
     currentYear: moment().add(1, 'year'),
     quarterChose: 'Q1',
@@ -38,6 +40,7 @@ export default class DatePickerYear extends Component {
   }
 
   ref = React.createRef()
+  countClickDate = React.createRef(0)
 
   handleOnClickOutSide = e => {
     if (
@@ -53,8 +56,16 @@ export default class DatePickerYear extends Component {
     window.addEventListener('click', this.handleOnClickOutSide)
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (this.countClickDate.current > 1) {
+      this.countClickDate.current = 0
+      this.setState({ open: false })
+    }
+  }
+
   componentWillUnmount() {
     window.removeEventListener('click', this.onClickOutsideHandler)
+    this.countClickDate = 0
   }
 
   onClickPreYear = () => {
@@ -70,9 +81,25 @@ export default class DatePickerYear extends Component {
   }
 
   handleOnYearItemClick = year => {
-    const { onChange = () => {} } = this.props
-    this.setState({ open: false })
-    onChange(year)
+    this.countClickDate.current++
+    const { onChange = () => {}, value } = this.props
+    const cloneValue = value || []
+    cloneValue[this.countClickDate.current - 1] = year
+    onChange(cloneValue)
+  }
+
+  isHaveValue = () => {
+    const { value } = this.props
+    if (value[0] && value[1]) return true
+    return false
+  }
+
+  generateValueInput = () => {
+    const { value } = this.props
+    return `${moment(value[0], YYYY).format(YYYY)}-${moment(
+      value[1],
+      YYYY
+    ).format(YYYY)}`
   }
 
   render() {
@@ -80,13 +107,21 @@ export default class DatePickerYear extends Component {
     const { value } = this.props
 
     const twelveYearsAgo = currentYear.clone().subtract(12, 'year')
-    const listYear = Array(12)
+
+    const listYear1 = Array(12)
       .fill(0)
       .map((_, index) => twelveYearsAgo.year() + index)
 
+    const listYear2 = Array(12)
+      .fill(0)
+      .map((_, index) => currentYear.year() + index)
+
     return (
       <div ref={this.ref}>
-        <Input onClick={() => this.setState({ open: true })} value={value} />
+        <Input
+          onClick={() => this.setState({ open: true })}
+          value={this.isHaveValue() ? this.generateValueInput() : ''}
+        />
         {open && (
           <PickerContainer>
             <Row type="flex" justify="space-around" style={{ padding: 12 }}>
@@ -102,7 +137,7 @@ export default class DatePickerYear extends Component {
                 {twelveYearsAgo.format('YYYY')}-
                 {currentYear
                   .clone()
-                  .subtract(1, 'year')
+                  .add(11, 'year')
                   .format('YYYY')}
               </Col>
               <Col>
@@ -114,14 +149,37 @@ export default class DatePickerYear extends Component {
                 />
               </Col>
             </Row>
-            <Row>
-              {listYear.map(year => (
-                <Col span={8}>
-                  <YearItem onClick={() => this.handleOnYearItemClick(year)}>
-                    {year}
-                  </YearItem>
-                </Col>
-              ))}
+
+            <Row gutter={16}>
+              <Col span={12}>
+                <Row>
+                  {listYear1.map(year => (
+                    <Col span={8}>
+                      <YearItem
+                        active={value[0] === year}
+                        onClick={() => this.handleOnYearItemClick(year)}
+                      >
+                        {year}
+                      </YearItem>
+                    </Col>
+                  ))}
+                </Row>
+              </Col>
+
+              <Col span={12}>
+                <Row>
+                  {listYear2.map(year => (
+                    <Col span={8}>
+                      <YearItem
+                        active={value[1] === year}
+                        onClick={() => this.handleOnYearItemClick(year)}
+                      >
+                        {year}
+                      </YearItem>
+                    </Col>
+                  ))}
+                </Row>
+              </Col>
             </Row>
           </PickerContainer>
         )}
