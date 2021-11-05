@@ -18,7 +18,7 @@ const SelectQCVNForm = ({
   }
 
   return (
-    <FormItemStyled label="Quy chuẩn">
+    <FormItemStyled label={t('dataAnalytics.standard')}>
       {form.getFieldDecorator(FIELDS.STANDARDS_VN, {
         onChange: handleOnChange,
         rules: [
