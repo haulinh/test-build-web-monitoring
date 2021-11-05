@@ -16,7 +16,6 @@ import {
   getUrlReportType10Excel,
 } from 'api/DataStationAutoApi'
 import { getFormatNumber, ROUND_DIGIT } from 'constants/format-number'
-import 'rc-picker/assets/index.css'
 
 const { Title, Text } = Typography
 
