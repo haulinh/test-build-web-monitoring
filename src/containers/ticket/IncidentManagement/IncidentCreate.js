@@ -123,8 +123,12 @@ export default class IncidentCreate extends Component {
 
   handleOnProvinceChange = () => {
     const { form } = this.props
-    console.log('type change')
-    form.setFieldsValue({ [Fields.stationIds]: [] })
+    form.setFieldsValue({ [Fields.stationIds]: [], [Fields.measures]: [] })
+  }
+
+  handleOnStationChange = () => {
+    const { form } = this.props
+    form.setFieldsValue({ [Fields.measures]: [] })
   }
 
   render() {
@@ -184,7 +188,7 @@ export default class IncidentCreate extends Component {
                         onChange: this.handleOnProvinceChange,
                       })(
                         <SelectProvince
-                          isShowAll
+                          isShowOther
                           allowClear={false}
                           fieldValue="_id"
                         />
@@ -193,6 +197,7 @@ export default class IncidentCreate extends Component {
 
                     <FormItem label={i18n().stationName}>
                       {form.getFieldDecorator(Fields.stationIds, {
+                        onChange: this.handleOnStationChange,
                         rules: [
                           {
                             required: true,

@@ -170,7 +170,7 @@ export class CommentComponent extends React.Component {
           <Col span={isEdit ? 22 : 10}>
             <Flex>
               <Text style={{ fontWeight: 'bold' }}>
-                {lastName} {firstName}
+                {firstName} {lastName}
               </Text>
               <Text
                 style={{
