@@ -22,7 +22,8 @@ const PickerContainer = styled.div`
 `
 
 const YearItem = styled.div`
-  padding: 16px;
+  background: ${props => props.active && '#1890ff'};
+  padding: 8px;
   &:hover {
     color: silver;
     cursor: pointer;
@@ -122,7 +123,10 @@ export default class DatePickerYear extends Component {
             <Row>
               {listYear.map(year => (
                 <Col span={8}>
-                  <YearItem onClick={() => this.handleOnYearItemClick(year)}>
+                  <YearItem
+                    active={year === value}
+                    onClick={() => this.handleOnYearItemClick(year)}
+                  >
                     {year}
                   </YearItem>
                 </Col>

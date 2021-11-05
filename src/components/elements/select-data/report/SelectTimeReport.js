@@ -12,25 +12,24 @@ const timeOption = [
   },
 ]
 
-const TimeReport = ({value = {}, reportType, onChange, setResultReport }) => {
-
-  const handleOnChangeOption = key => {
-    setResultReport({})
-    onChange({ ...value, type: key })
+const TimeReport = ({ value: valueField = {}, reportType, onChange }) => {
+  const handleOnChangeOption = type => {
+    onChange({ ...valueField, type })
   }
 
-  const getValueOption = () => {
-    if (reportType) return reportType
-
-    if (value.type) return value.type
-
-    return timeOption[0].key
+  const handleOnPicker = value => {
+    onChange({ ...valueField, value })
   }
 
   return (
     <Row gutter={16}>
       <Col span={7}>
-        <Select style={{ width: '100%' }} disabled={true} value={getValueOption()} onChange={handleOnChangeOption}>
+        <Select
+          style={{ width: '100%' }}
+          disabled={true}
+          value={valueField.type}
+          onChange={handleOnChangeOption}
+        >
           {timeOption.map(option => (
             <Select.Option key={option.key} value={option.key}>
               {option.name}
@@ -41,13 +40,17 @@ const TimeReport = ({value = {}, reportType, onChange, setResultReport }) => {
       <Col span={17}>
         {reportType === 'year' ? (
           <DatePickerYear
-          placeholder="Chọn thời gian"
-          style={{ width: '100%' }}
-          onChange={onChange}
-          value={value}
+            placeholder="Chọn thời gian"
+            style={{ width: '100%' }}
+            onChange={handleOnPicker}
+            value={valueField.value}
           />
         ) : (
-          <DatePicker onChange={onChange} style={{ width: '100%' }} placeholder="Chọn thời gian" />
+          <DatePicker
+            onChange={handleOnPicker}
+            style={{ width: '100%' }}
+            placeholder="Chọn thời gian"
+          />
         )}
       </Col>
     </Row>

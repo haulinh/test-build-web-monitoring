@@ -20,9 +20,6 @@ export default function Filter({ form, setResultReport }) {
     form.setFieldsValue({ isFilter: value })
   }
 
-  const handleOnChangeTime = value => {
-  }
-
   const province = form.getFieldValue('province')
 
   return (
@@ -39,42 +36,36 @@ export default function Filter({ form, setResultReport }) {
         <Col span={8}>
           <FormItem label="Thời gian">
             {form.getFieldDecorator(FIELDS.TIME, {
-              initialValue: { type: 'year', value: moment() },
-              onChange: handleOnChangeTime,
-            })(<TimeReport form={form} reportType={reportType} setResultReport={setResultReport} />)}
+              initialValue: { type: 'year', value: moment().year() },
+            })(<TimeReport reportType={reportType} />)}
           </FormItem>
         </Col>
         <Col span={10}>
           <FormItem label="Đơn vị quản lý">
-            {form.getFieldDecorator(FIELDS.PROVINCE, {
-            })(<SelectProvince isShowAll allowClear={false} />)}
+            {form.getFieldDecorator(
+              FIELDS.PROVINCE,
+              {}
+            )(<SelectProvince isShowAll allowClear={false} />)}
           </FormItem>
         </Col>
       </Row>
       <Row>
         <FormItem label="Trạm quan trắc">
-          {form.getFieldDecorator(FIELDS.STATIONKEY, {
+          {form.getFieldDecorator(FIELDS.STATION_KEY, {
             rules: [
               {
                 required: true,
               },
             ],
-          })(
-            <SelectStationAuto
-              province={province}
-              mode="tags"
-            />
-          )}
+          })(<SelectStationAuto province={province} mode="tags" />)}
         </FormItem>
       </Row>
       <Row type="flex" align="middle" justify="end">
         <FormItem style={{ width: '240px' }}>
-          {form.getFieldDecorator(FIELDS.ISFILTER, {
+          {form.getFieldDecorator(FIELDS.IS_FILTER, {
             initialValue: false,
             onChange: handleOnChangeFilter,
-          })(
-            <CheckFilter form={form} />
-          )}
+          })(<CheckFilter form={form} />)}
         </FormItem>
       </Row>
     </React.Fragment>
