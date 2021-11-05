@@ -19,7 +19,7 @@ const options = [
   },
 ]
 
-const SelectReportFlowType = ({ onChange }) => {
+const SelectReportType = ({ onChange }) => {
   const handleOnChange = reportType => {
     onChange(reportType)
   }
@@ -38,4 +38,4 @@ const SelectReportFlowType = ({ onChange }) => {
   )
 }
 
-export default SelectReportFlowType
+export default SelectReportType

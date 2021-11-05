@@ -10,8 +10,9 @@ import { ToolTip } from 'containers/search/common/tooltip'
 import { get } from 'lodash'
 import React from 'react'
 import { FIELDS } from './index'
-import SelectReportFlowTime from './select-data/SelectReportFlowTime'
-import SelectReportFlowType from './select-data/SelectReportFlowType'
+import SelectReportTime from './select-data/SelectReportTime'
+import SelectReportType from './select-data/SelectReportType'
+import moment from 'moment'
 
 const Item = props => (
   <Form.Item
@@ -30,7 +31,7 @@ export default class Filter extends React.Component {
   state = {
     stationAutos: [],
   }
-  handleSelectChange = value => {
+  handleSelectTimeChange = value => {
     const { form } = this.props
     form.setFieldsValue({
       [FIELDS.REPORT_TIME]: {
@@ -66,9 +67,6 @@ export default class Filter extends React.Component {
   setStationAutoSelected = stationAutoSelected => {
     console.log(stationAutoSelected)
   }
-  onChange = value => {
-    console.log(value)
-  }
   render() {
     const { form } = this.props
     const province = form.getFieldValue(FIELDS.PROVINCE)
@@ -84,35 +82,28 @@ export default class Filter extends React.Component {
             <FormItem label="Loại báo cáo">
               {form.getFieldDecorator(FIELDS.REPORT_TYPE, {
                 initialValue: 'month',
-                onChange: this.handleSelectChange,
-              })(<SelectReportFlowType />)}
+                onChange: this.handleSelectTimeChange,
+              })(<SelectReportType />)}
             </FormItem>
           </Col>
 
           <Col span={10}>
             <FormItem label={i18n().detailPage.label.timeLabel}>
               {form.getFieldDecorator(FIELDS.REPORT_TIME, {
-                initialValue: {
-                  type: 'month',
-                },
+                initialValue: { type: 'month', value: moment() },
                 rules: [
                   {
                     required: true,
+                    message: i18n().rules.requireChoose,
                   },
                 ],
-              })(<SelectReportFlowTime />)}
+              })(<SelectReportTime />)}
             </FormItem>
           </Col>
           <Col span={7}>
             <FormItem label={i18n().detailPage.label.province}>
-              {form.getFieldDecorator(
-                FIELDS.PROVINCE,
-                {}
-              )(
-                <SelectProvince
-                  isShowAll
-                  // onChange={handleOnFieldChange}
-                />
+              {form.getFieldDecorator(FIELDS.PROVINCE)(
+                <SelectProvince isShowAll />
               )}
             </FormItem>
           </Col>
@@ -120,10 +111,7 @@ export default class Filter extends React.Component {
         <Row gutter={12}>
           <Col span={7}>
             <FormItem label={i18n().detailPage.label.stationType}>
-              {form.getFieldDecorator(
-                FIELDS.STATION_TYPE,
-                {}
-              )(
+              {form.getFieldDecorator(FIELDS.STATION_TYPE)(
                 <SelectStationType
                   onFetchSuccess={this.onFetchStationTypeSuccess}
                 />
@@ -141,16 +129,11 @@ export default class Filter extends React.Component {
                 ],
               })(
                 <SelectStationAuto
-                  // onChange={change => {
-                  //   console.log(change)
-                  // }}
-
                   mode="multiple"
                   province={province}
                   stationType={stationType}
                   onFetchSuccess={this.onStationAutosFetchSuccess}
                   onChangeObject={this.setStationAutoSelected}
-                  // valueNames={form.getFieldValue(FIELDS.STATION_NAME)}
                 />
               )}
             </FormItem>
