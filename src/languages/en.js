@@ -3720,6 +3720,8 @@ export default {
         'REPORTING ENVIRONMENTAL PROTECTION CHARGES FOR INDUSTRIAL WASTE WATER',
       detail:
         'Statistics are according to {{=it.time}} from date {{=it.from}} to {{=it.to}}',
+      reportMonth: 'month {{it.param}}',
+      reportQuarter: 'quarter {{it.param}}',
     },
     menu: {
       billingReport: 'Charge Report',

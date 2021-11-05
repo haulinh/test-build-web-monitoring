@@ -2948,7 +2948,7 @@ export default {
       },
       type1_exceed: {
         label: {
-          unitManage: 'Đơn vị quản lý'
+          unitManage: 'Đơn vị quản lý',
         },
       },
       table: {
@@ -3726,6 +3726,8 @@ export default {
       name: 'BÁO CÁO PHÍ BẢO VỆ MÔI TRƯỜNG ĐỐI VỚI NƯỚC THẢI CÔNG NGHIỆP',
       detail:
         'Các số liệu được thống kê theo {{=it.time}} từ ngày {{=it.from}} đến {{=it.to}}',
+      reportMonth: 'tháng {{it.param}}',
+      reportQuarter: 'quí {{it.param}}',
     },
     menu: {
       billingReport: 'Báo cáo phí',
