@@ -186,6 +186,7 @@ export default class IncidentCreate extends Component {
                     <FormItem label={i18n().provinceName}>
                       {form.getFieldDecorator(Fields.province, {
                         onChange: this.handleOnProvinceChange,
+                        initialValue: 'other',
                       })(
                         <SelectProvince
                           isShowOther
