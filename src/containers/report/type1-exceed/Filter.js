@@ -30,7 +30,7 @@ export default function Filter({ form, setResultReport }) {
       <Row gutter={12}>
         <Col span={6}>
           <FormItem label="Loại báo cáo">
-            {form.getFieldDecorator(FIELDS.reportType, {
+            {form.getFieldDecorator(FIELDS.REPORT_TYPE, {
               initialValue: 'year',
               onChange: handleOnChangeReportType,
             })(<ReportType form={form} />)}
@@ -38,7 +38,7 @@ export default function Filter({ form, setResultReport }) {
         </Col>
         <Col span={8}>
           <FormItem label="Thời gian">
-            {form.getFieldDecorator(FIELDS.time, {
+            {form.getFieldDecorator(FIELDS.TIME, {
               initialValue: { type: 'year', value: moment() },
               onChange: handleOnChangeTime,
             })(<TimeReport form={form} reportType={reportType} setResultReport={setResultReport} />)}
@@ -46,14 +46,14 @@ export default function Filter({ form, setResultReport }) {
         </Col>
         <Col span={10}>
           <FormItem label="Đơn vị quản lý">
-            {form.getFieldDecorator(FIELDS.province, {
+            {form.getFieldDecorator(FIELDS.PROVINCE, {
             })(<SelectProvince isShowAll allowClear={false} />)}
           </FormItem>
         </Col>
       </Row>
       <Row>
         <FormItem label="Trạm quan trắc">
-          {form.getFieldDecorator(FIELDS.stationKey, {
+          {form.getFieldDecorator(FIELDS.STATIONKEY, {
             rules: [
               {
                 required: true,
@@ -69,7 +69,7 @@ export default function Filter({ form, setResultReport }) {
       </Row>
       <Row type="flex" align="middle" justify="end">
         <FormItem style={{ width: '240px' }}>
-          {form.getFieldDecorator(FIELDS.isFilter, {
+          {form.getFieldDecorator(FIELDS.ISFILTER, {
             initialValue: false,
             onChange: handleOnChangeFilter,
           })(

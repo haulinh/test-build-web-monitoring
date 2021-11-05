@@ -1,4 +1,4 @@
-import { Form } from 'antd'
+import { Form, Row, Col, Button } from 'antd'
 import DataInsight from 'api/DataInsight'
 import Clearfix from 'components/elements/clearfix'
 import { Search } from 'components/layouts/styles'
@@ -18,11 +18,11 @@ const Text = styled.div`
 
 export const FIELDS = {
   REPORT_TYPE: 'reportType',
-  time: 'time',
-  province: 'province',
-  stationKey: 'stationKeys',
-  selectTime: 'selectTime',
-  isFilter: 'isFilter',
+  TIME: 'time',
+  PROVINCE: 'province',
+  STATIONKEY: 'stationKeys',
+  SELECTTIME: 'selectTime',
+  ISFILTER: 'isFilter',
 }
 
 @Form.create()
@@ -38,24 +38,9 @@ export default class ReportExceed extends Component {
     const type = values.reportType
     const queryParams = {
       year: this.getQueryParamsYear,
-      month: () => {},
+      date: this.getQueryParamsDate,
     }
     return queryParams[type]()
-    // const params =
-    //   values.reportType === 'year'
-    //     ? {
-    //         time: getTimeUTC(moment(values.time, 'YYYY').startOf('year')),
-    //         isFilter: values.isFilter,
-    //         stationKeys: values.stationKeys.join(','),
-    //       }
-    //     : {
-    //         time: values.time
-    //           .clone()
-    //           .utc()
-    //           .format(),
-    //         isFilter: values.isFilter,
-    //         stationKeys: values.stationKeys.join(','),
-    //       }
   }
 
   getQueryParamsGeneral = () => {
@@ -63,8 +48,8 @@ export default class ReportExceed extends Component {
     const values = form.getFieldsValue()
     const params = {
       ...values,
-      [FIELDS.isFilter]: values[FIELDS.isFilter],
-      [FIELDS.stationKey]: values.stationKeys.join(','),
+      [FIELDS.ISFILTER]: values[FIELDS.ISFILTER],
+      [FIELDS.STATIONKEY]: values.stationKeys.join(','),
     }
     return params
   }
@@ -73,9 +58,22 @@ export default class ReportExceed extends Component {
     const paramsGeneral = this.getQueryParamsGeneral()
     const params = {
       ...paramsGeneral,
-      [FIELDS.time]: getTimeUTC(
+      [FIELDS.TIME]: getTimeUTC(
         moment(paramsGeneral.time, 'YYYY').startOf('year')
       ),
+    }
+    return params
+  }
+
+  getQueryParamsDate = () => {
+    const paramsGeneral = this.getQueryParamsGeneral()
+    const params = {
+      ...paramsGeneral,
+      [FIELDS.TIME]: paramsGeneral.time
+                 .clone()
+                 .utc()
+                 .format()
+      ,
     }
     return params
   }
@@ -83,7 +81,7 @@ export default class ReportExceed extends Component {
   handleOnSearch = async () => {
     const params = await this.getQueryParams()
     try {
-      const results = await DataInsight.getExceedData(params.type, params)
+      const results = await DataInsight.getExceedData(params.reportType, params)
       console.log(results)
     } catch (err) {
       console.log(err)
@@ -105,6 +103,15 @@ export default class ReportExceed extends Component {
             </BoxShadow>
           </Search>
           <Clearfix height={32} />
+
+          <Row gutter={32}>
+            <Col span={12}>
+              <p>BÁO CÁO DỮ LIỆU VƯỢT NGƯỠNG THEO NĂM</p>
+            </Col>
+            <Col span={4}>
+              <Button type="primary">Xuất dữ liệu excel</Button>
+            </Col>
+          </Row>
         </div>
       </PageContainer>
     )
