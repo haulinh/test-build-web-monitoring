@@ -22,8 +22,10 @@ const PickerContainer = styled.div`
 `
 
 const YearItem = styled.div`
-  padding: 16px;
+  background: ${props => props.active && '#1890ff'};
+  padding: 8px;
   &:hover {
+    color: silver;
     cursor: pointer;
     background: #f5f5f5;
   }
@@ -77,7 +79,7 @@ export default class DatePickerYear extends Component {
 
   render() {
     const { open, currentYear } = this.state
-    const { value } = this.props
+    const { value, placeholder } = this.props
 
     const twelveYearsAgo = currentYear.clone().subtract(12, 'year')
     const listYear = Array(12)
@@ -86,7 +88,11 @@ export default class DatePickerYear extends Component {
 
     return (
       <div ref={this.ref}>
-        <Input onClick={() => this.setState({ open: true })} value={value} />
+        <Input
+          placeholder={placeholder}
+          onClick={() => this.setState({ open: true })}
+          value={value}
+        />
         {open && (
           <PickerContainer>
             <Row type="flex" justify="space-around" style={{ padding: 12 }}>
@@ -117,7 +123,10 @@ export default class DatePickerYear extends Component {
             <Row>
               {listYear.map(year => (
                 <Col span={8}>
-                  <YearItem onClick={() => this.handleOnYearItemClick(year)}>
+                  <YearItem
+                    active={year === value}
+                    onClick={() => this.handleOnYearItemClick(year)}
+                  >
                     {year}
                   </YearItem>
                 </Col>

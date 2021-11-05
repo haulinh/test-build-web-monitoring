@@ -55,7 +55,6 @@ export default class AlarmHistory extends Component {
       stationIdsStr: values[FIELDS.STATION_IDS].join(),
       isHappen: values[FIELDS.IS_HAPPEN]
     }
-
     return queryParams
   }
 
