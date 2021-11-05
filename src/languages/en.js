@@ -4013,4 +4013,15 @@ export default {
       },
     },
   },
+  report: {
+    label: {
+      dataRatio: {
+        statistic: 'Statistic',
+        type: {
+          rangeTime: 'Range Time',
+          date: 'Date',
+        },
+      },
+    },
+  },
 }

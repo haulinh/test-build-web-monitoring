@@ -1,4 +1,4 @@
-import { Button, Col, Form, Row, Select } from 'antd'
+import { Button, Col, Form, Row } from 'antd'
 import { default as SearchFormContainer } from 'components/elements/box-shadow'
 import Heading from 'components/elements/heading'
 import SelectStationAuto from 'components/elements/select-station-auto'
@@ -8,11 +8,9 @@ import { translate } from 'hoc/create-lang'
 import moment from 'moment-timezone'
 import PropTypes from 'prop-types'
 import React from 'react'
-
-const FIELDS = {
-  STATION_IDS: 'stationIds',
-  STATISTIC: 'statistic',
-}
+import { FIELDS } from '../index'
+import SelectReportType from './SelectReportType'
+import SelectTime from './SelectTime'
 
 function i18n() {
   return {
@@ -46,19 +44,6 @@ const Item = props => (
   />
 )
 
-const SelectReportType = props => {
-  return (
-    <Select style={{ width: '100%' }} {...props}>
-      <Select.Option value="rangeTime">
-        {translate('report.label.dataRatio.type.rangeTime')}
-      </Select.Option>
-      <Select.Option value="date">
-        {translate('report.label.dataRatio.type.date')}
-      </Select.Option>
-    </Select>
-  )
-}
-
 // Search form ty le nhan du lieu
 @Form.create()
 export default class SearchForm extends React.Component {
@@ -76,6 +61,7 @@ export default class SearchForm extends React.Component {
   submit = () => {
     this.props.form.validateFields((err, values) => {
       // console.log(err, values)
+
       if (!err) {
         // console.log("Received values of form: ", values);
         // console.log(moment(values.fromMonth).startOf("month").format())
@@ -96,27 +82,17 @@ export default class SearchForm extends React.Component {
     })
   }
 
-  compareTofromDate = (rule, value, callback) => {
+  handleOnStatisticChange = value => {
     const { form } = this.props
-    console.log()
-    if (value && value < form.getFieldValue('fromMonth')) {
-      callback(i18n().error.toMonth_1)
-    }
-    if (value && value.isAfter(moment(), 'month')) {
-      callback(i18n().error.toMonth_2)
-    } else {
-      callback()
-    }
+    form.setFieldsValue({
+      [FIELDS.TIME_TYPE]: value,
+    })
   }
 
   render() {
-    const {
-      form: { getFieldValue, getFieldDecorator },
-      // getFieldValue,
-      // setFieldsValue
-    } = this.props
+    const { form } = this.props
 
-    const stationType = getFieldValue('stationType')
+    const stationType = form.getFieldValue('stationType')
 
     return (
       <SearchFormContainer>
@@ -139,30 +115,34 @@ export default class SearchForm extends React.Component {
         >
           {translate('addon.searchSelect')}
         </Heading>
-
         <div style={{ padding: '8px 16px' }}>
           <Row gutter={16}>
             <Col span={8}>
               <Item label={translate('report.label.dataRatio.statistic')}>
-                {getFieldDecorator(FIELDS.STATISTIC, {
+                {form.getFieldDecorator(FIELDS.STATISTIC, {
+                  onChange: this.handleOnStatisticChange,
                   initialValue: 'rangeTime',
                 })(<SelectReportType />)}
               </Item>
             </Col>
-            <Col></Col>
+            <Col span={8}>
+              <Item label={translate('dataSearchFilterForm.form.time')}>
+                <SelectTime form={form} />
+              </Item>
+            </Col>
           </Row>
 
           <Row gutter={16}>
             <Col span={8}>
               <Item label={i18n().label.stationType}>
-                {getFieldDecorator('stationType', {
+                {form.getFieldDecorator('stationType', {
                   initialValue: '',
                 })(<SelectStationType isShowAll />)}
               </Item>
             </Col>
             <Col span={8}>
               <Item label={i18n().label.station}>
-                {getFieldDecorator(FIELDS.STATION_IDS, {
+                {form.getFieldDecorator(FIELDS.STATION_IDS, {
                   rules: [
                     {
                       required: true,
@@ -174,7 +154,6 @@ export default class SearchForm extends React.Component {
                 })(<SelectStationAuto stationType={stationType} />)}
               </Item>
             </Col>
-            <Col></Col>
           </Row>
           <Clearfix height={16} />
         </div>

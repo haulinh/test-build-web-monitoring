@@ -2966,6 +2966,15 @@ export default {
           note: 'Ghi chú',
         },
       },
+      label: {
+        dataRatio: {
+          statistic: 'Thống kê theo',
+          type: {
+            rangeTime: 'Khoảng thời gian',
+            date: 'Từng ngày',
+          },
+        },
+      },
     },
     reportBreadcrum: {
       type1: 'Tỷ lệ dữ liệu',
@@ -4012,6 +4021,17 @@ export default {
         {{status}}: Trạng thái của thiết bị,
         {{time}}: Thời gian thỏa điều kiện,
         `,
+      },
+    },
+  },
+  report: {
+    label: {
+      dataRatio: {
+        statistic: 'Thống kê theo',
+        type: {
+          rangeTime: 'Khoảng thời gian',
+          date: 'Từng ngày',
+        },
       },
     },
   },
