@@ -595,6 +595,7 @@ export default {
       range: 'Trong khoảng',
     },
     form: {
+      other: 'Khác',
       all: 'Tất cả',
       time: 'Thời gian',
       search: 'Tìm kiếm',
@@ -2970,11 +2971,14 @@ export default {
           note: 'Ghi chú',
         },
       },
-      option: {
-        reportYear: 'Báo cáo năm',
-        reportMonth: 'Báo cáo tháng',
-        quarter: 'Quý',
-        month: 'Tháng',
+      label: {
+        dataRatio: {
+          statistic: 'Thống kê theo',
+          type: {
+            rangeTime: 'Khoảng thời gian',
+            date: 'Từng ngày',
+          },
+        },
       },
     },
     reportBreadcrum: {
@@ -4027,6 +4031,17 @@ export default {
         {{status}}: Trạng thái của thiết bị,
         {{time}}: Thời gian thỏa điều kiện,
         `,
+      },
+    },
+  },
+  report: {
+    label: {
+      dataRatio: {
+        statistic: 'Thống kê theo',
+        type: {
+          rangeTime: 'Khoảng thời gian',
+          date: 'Từng ngày',
+        },
       },
     },
   },

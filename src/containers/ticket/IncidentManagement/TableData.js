@@ -159,6 +159,7 @@ export const TableData = connect(
           }}
           dataSource={get(result, 'data', [])}
           pagination={{
+            current: page,
             onChange: handleOnChangePagination,
             total: get(result, 'pagination.total'),
           }}

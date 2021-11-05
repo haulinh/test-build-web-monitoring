@@ -60,7 +60,7 @@ export default class ReportType11 extends React.Component {
         key: item.key,
         title: `${item.name} (${_get(item, 'unit', '')})`,
         dataIndex: item.key,
-        align: 'center',
+        align: 'right',
         render: value => {
           return <div>{getFormatNumber(value, ROUND_DIGIT)}</div>
         },

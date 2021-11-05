@@ -69,12 +69,12 @@ export default class IncidentManagement extends Component {
     total: null,
   }
 
-  componentDidMount() {
-    const { type, form } = this.props
-    if (type) {
-      form.setFieldsValue({ [Fields.type]: type })
-    }
-  }
+  // componentDidMount() {
+  //   const { type, form } = this.props
+  //   if (type) {
+  //     form.setFieldsValue({ [Fields.type]: type })
+  //   }
+  // }
 
   showDrawer = () => {
     this.setState({
@@ -121,7 +121,7 @@ export default class IncidentManagement extends Component {
     return params
   }
 
-  handleOnSearch = async () => {
+  getData = async () => {
     const params = await this.getParams()
     if (!params) return
     this.setState({ loading: true })
@@ -132,6 +132,12 @@ export default class IncidentManagement extends Component {
       console.log(error)
       this.setState({ loading: false })
     }
+  }
+
+  handleOnSearch = () => {
+    this.setState({ page: 1 }, () => {
+      this.getData()
+    })
   }
 
   getTimes = () => {
@@ -179,7 +185,7 @@ export default class IncidentManagement extends Component {
 
         <Search onSearch={this.handleOnSearch} loading={loading}>
           <BoxShadow>
-            <Filter form={form} onSearch={this.handleOnSearch} />
+            <Filter form={form} onSearch={this.getData} />
           </BoxShadow>
         </Search>
 
@@ -201,7 +207,7 @@ export default class IncidentManagement extends Component {
         <TableData
           result={result}
           setPage={this.setPage}
-          onSearch={this.handleOnSearch}
+          onSearch={this.getData}
           page={page}
           loading={loading}
           type={type}
