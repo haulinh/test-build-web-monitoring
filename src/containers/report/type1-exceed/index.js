@@ -1,4 +1,4 @@
-import { Form, Row, Col, Button } from 'antd'
+import { Button, Col, Form, Row } from 'antd'
 import DataInsight from 'api/DataInsight'
 import Clearfix from 'components/elements/clearfix'
 import { Search } from 'components/layouts/styles'
@@ -6,23 +6,17 @@ import { BoxShadow } from 'containers/api-sharing/layout/styles'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import moment from 'moment'
 import React, { Component } from 'react'
-import styled from 'styled-components'
 import { getTimeUTC } from 'utils/datetime'
 import Breadcrumb from '../breadcrumb'
 import Filter from './Filter'
-
-const Text = styled.div`
-  font-size: 16px;
-  font-weight: 600px;
-`
 
 export const FIELDS = {
   REPORT_TYPE: 'reportType',
   TIME: 'time',
   PROVINCE: 'province',
-  STATIONKEY: 'stationKeys',
-  SELECTTIME: 'selectTime',
-  ISFILTER: 'isFilter',
+  STATION_KEY: 'stationKeys',
+  SELECT_TIME: 'selectTime',
+  IS_FILTER: 'isFilter',
 }
 
 @Form.create()
@@ -48,8 +42,8 @@ export default class ReportExceed extends Component {
     const values = form.getFieldsValue()
     const params = {
       ...values,
-      [FIELDS.ISFILTER]: values[FIELDS.ISFILTER],
-      [FIELDS.STATIONKEY]: values.stationKeys.join(','),
+      [FIELDS.IS_FILTER]: values[FIELDS.IS_FILTER],
+      [FIELDS.STATION_KEY]: values.stationKeys.join(','),
     }
     return params
   }
@@ -59,7 +53,7 @@ export default class ReportExceed extends Component {
     const params = {
       ...paramsGeneral,
       [FIELDS.TIME]: getTimeUTC(
-        moment(paramsGeneral.time, 'YYYY').startOf('year')
+        moment(paramsGeneral[FIELDS.TIME].value, 'YYYY').startOf('year')
       ),
     }
     return params
@@ -69,11 +63,7 @@ export default class ReportExceed extends Component {
     const paramsGeneral = this.getQueryParamsGeneral()
     const params = {
       ...paramsGeneral,
-      [FIELDS.TIME]: paramsGeneral.time
-                 .clone()
-                 .utc()
-                 .format()
-      ,
+      [FIELDS.TIME]: getTimeUTC(paramsGeneral[FIELDS.TIME].value),
     }
     return params
   }

@@ -24,9 +24,7 @@ const PickerContainer = styled.div`
 const YearItem = styled.div`
   padding: 16px;
   &:hover {
-    <<<<<<<HEAD
     color: silver;
-    =======>>>>>>> dev/qa
     cursor: pointer;
     background: #f5f5f5;
   }

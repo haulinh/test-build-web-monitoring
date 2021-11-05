@@ -38,7 +38,8 @@ export default class SelectStationType extends PureComponent {
 
   async componentDidMount() {
     const { isAuto, value, isShowAll, getRef, api, onFetchSuccess } = this.props
-    const fetchApi = typeof api === 'function' ? api : CategoryApi.getStationTypes
+    const fetchApi =
+      typeof api === 'function' ? api : CategoryApi.getStationTypes
     const results = await fetchApi({}, { isAuto })
 
     const data = (Array.isArray(results) ? results : results.data) || []
@@ -108,7 +109,7 @@ export default class SelectStationType extends PureComponent {
         {...this.props}
         showSearch
         onSearch={this.handleSearch}
-        style={{ width: '300px', ...this.props.style }}
+        style={{ width: '100%', ...this.props.style }}
         onChange={this.handleOnChange}
         value={this.props.value}
         filterOption={false}

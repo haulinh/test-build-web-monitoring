@@ -1,24 +1,13 @@
-import { Col, DatePicker, Select, Icon, Row, Switch } from 'antd'
+import { Col, Icon, Switch } from 'antd'
 import React from 'react'
 import styled from 'styled-components'
-
-const timeOption = [
-  {
-    key: 'year',
-    name: 'Năm',
-  },
-  {
-    key: 'day',
-    name: 'Ngày',
-  },
-]
 
 const Text = styled.div`
   font-size: 16px;
   font-weight: 600px;
 `
 
-const CheckFilter = (props)=> {
+const CheckFilter = props => {
   return (
     <React.Fragment>
       <Col span={5}>
@@ -36,7 +25,7 @@ const CheckFilter = (props)=> {
         <Text>Kiểm duyệt dữ liệu</Text>
       </Col>
       <Col span={5}>
-        <Switch {...props} style={{marginLeft: '10px'}}/>
+        <Switch {...props} style={{ marginLeft: '10px' }} />
       </Col>
     </React.Fragment>
   )
