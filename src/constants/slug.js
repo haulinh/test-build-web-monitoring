@@ -416,6 +416,7 @@ export const MENU_NAME = {
     aqi_day: translate('menuApp.report.aqiDay'),
     aqi_878: translate('menuApp.report.aqi878'),
     status_data: translate('menuApp.report.status_data'),
+    type1_exceed: translate('menuApp.report.type1_exceed'),
   },
 
   advanceSub: translate('menuApp.advanceSub'),
@@ -498,6 +499,7 @@ export const TOOLTIP_MENU = {
     type4: translate('tooltipMenuApp.report.type4'),
     type12: translate('tooltipMenuApp.report.type12'),
     status_data: translate('tooltipMenuApp.report.status_data'),
+    type1_exceed: translate('tooltipMenuApp.report.type1_exceed'),
     aqi_hour: translate('tooltipMenuApp.report.aqi_hour'),
     aqi_day: translate('tooltipMenuApp.report.aqi_day'),
   },

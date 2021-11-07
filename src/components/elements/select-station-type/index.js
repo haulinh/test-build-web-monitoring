@@ -38,7 +38,8 @@ export default class SelectStationType extends PureComponent {
 
   async componentDidMount() {
     const { isAuto, value, isShowAll, getRef, api, onFetchSuccess } = this.props
-    const fetchApi = typeof api === 'function' ? api : CategoryApi.getStationTypes
+    const fetchApi =
+      typeof api === 'function' ? api : CategoryApi.getStationTypes
     const results = await fetchApi({}, { isAuto })
 
     const data = (Array.isArray(results) ? results : results.data) || []

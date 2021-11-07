@@ -2949,6 +2949,12 @@ export default {
         title: 'Report Status Data',
         dateRange: 'Date range',
       },
+      option: {
+        reportYear: 'Report Year',
+        reportMonth: 'Report Month',
+        quarter: 'Quarter',
+        month: 'Month',
+      },
       table: {
         header: {
           station: 'Station',
@@ -2987,6 +2993,7 @@ export default {
       wqiDay: 'WQI - Day',
       status_data: 'Status Data',
       type2_flow: 'Emission Flow',
+      type1_exceed: 'Exceed Report',
     },
     billing: 'Billing',
     ticket: 'Incident',
@@ -3717,6 +3724,8 @@ export default {
         'REPORTING ENVIRONMENTAL PROTECTION CHARGES FOR INDUSTRIAL WASTE WATER',
       detail:
         'Statistics are according to {{=it.time}} from date {{=it.from}} to {{=it.to}}',
+      reportMonth: 'month {{it.param}}',
+      reportQuarter: 'quarter {{it.param}}',
     },
     menu: {
       billingReport: 'Charge Report',
