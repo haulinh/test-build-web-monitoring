@@ -9,11 +9,12 @@ import React from 'react'
 import moment from 'moment'
 import { FIELDS } from './index'
 
-export default function Filter({ form, setResultReport }) {
+export default function Filter({ form, resetData = () => {} }) {
   const { reportType } = form.getFieldsValue() || {}
 
   const handleOnChangeReportType = value => {
-    form.setFieldsValue({ time: { type: value } })
+    resetData()
+    form.setFieldsValue({ [FIELDS.TIME]: { type: value } })
   }
 
   const handleOnChangeFilter = value => {

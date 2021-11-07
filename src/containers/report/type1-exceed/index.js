@@ -9,6 +9,7 @@ import React, { Component } from 'react'
 import { getTimeUTC } from 'utils/datetime'
 import Breadcrumb from '../breadcrumb'
 import Filter from './Filter'
+import { TableDate, TableYear } from './TableData'
 
 export const FIELDS = {
   REPORT_TYPE: 'reportType',
@@ -22,7 +23,7 @@ export const FIELDS = {
 @Form.create()
 export default class ReportExceed extends Component {
   state = {
-    resultReport: {},
+    data: [],
     loading: false,
   }
 
@@ -71,16 +72,27 @@ export default class ReportExceed extends Component {
   handleOnSearch = async () => {
     const params = await this.getQueryParams()
     try {
+      this.setState({ loading: true })
       const results = await DataInsight.getExceedData(params.reportType, params)
-      console.log(results)
+      this.setState({ data: results, loading: false })
     } catch (err) {
+      this.setState({ loading: false })
       console.log(err)
     }
   }
 
+  resetData = () => this.setState({ data: [] })
+
   render() {
     const { form } = this.props
-    const { loading } = this.state
+    const { loading, data } = this.state
+
+    const Report = {
+      date: <TableDate data={data} />,
+      year: <TableYear data={data} />,
+    }
+
+    const type = form.getFieldValue(FIELDS.REPORT_TYPE)
 
     return (
       <PageContainer>
@@ -89,7 +101,7 @@ export default class ReportExceed extends Component {
           <Breadcrumb items={['type1_exceed']} />
           <Search loading={loading} onSearch={this.handleOnSearch}>
             <BoxShadow>
-              <Filter form={form} />
+              <Filter form={form} resetData={this.resetData} />
             </BoxShadow>
           </Search>
           <Clearfix height={32} />
@@ -102,6 +114,7 @@ export default class ReportExceed extends Component {
               <Button type="primary">Xuất dữ liệu excel</Button>
             </Col>
           </Row>
+          {Report[type]}
         </div>
       </PageContainer>
     )
