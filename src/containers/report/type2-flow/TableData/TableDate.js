@@ -3,7 +3,7 @@ import React from 'react'
 import _ from 'lodash'
 import { translate as t } from 'hoc/create-lang'
 
-function TableDate({ data }) {
+function TableDate({ data, loading }) {
   if (_.isEmpty(data)) {
     return (
       <Empty
@@ -73,12 +73,15 @@ function TableDate({ data }) {
     },
   ]
 
+  console.log({ dataSource })
+
   return (
     <Table
+      loading={loading}
       bordered
       dataSource={dataSource}
       columns={columns}
-      rowKey={row => `${row._id}-${row.station.name}`}
+      rowKey={row => `${row._id}-${row.station.key}`}
     />
   )
 }

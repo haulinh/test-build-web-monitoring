@@ -1,4 +1,4 @@
-import { Form, Row, Col, Button, Empty } from 'antd'
+import { Form, Row, Col, Button } from 'antd'
 import React from 'react'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import Breadcrumb from '../breadcrumb'
@@ -8,9 +8,8 @@ import { BoxShadow } from 'containers/api-sharing/layout/styles'
 import Filter from './Filter'
 import moment from 'moment'
 import { getTimeUTC } from 'utils/datetime/index'
-import _ from 'lodash'
 import DataInsight from 'api/DataInsight'
-import { TableDate } from './TableData'
+import { TableAnyYears, TableDate, TableYear } from './TableData'
 
 export const FIELDS = {
   REPORT_TYPE: 'reportType',
@@ -52,7 +51,7 @@ export default class ReportFlow extends React.Component {
       ),
       to: getTimeUTC(paramsGeneral[FIELDS.REPORT_TIME].value[1].endOf('day')),
     }
-    console.log({ params: params })
+
     return params
   }
 
@@ -194,9 +193,10 @@ export default class ReportFlow extends React.Component {
     const { loading, data, time } = this.state
 
     const Report = {
-      custom: <TableDate data={data} />,
-      // year: <TableYear data={resultsReport} />,
-      undefined: <div />,
+      custom: <TableDate data={data} loading={loading} />,
+      year: <TableYear data={data} loading={loading} />,
+      anyYear: <TableAnyYears data={data} loading={loading} />,
+      undefined: <React.Fragment />,
     }
 
     const type = form.getFieldValue(FIELDS.REPORT_TYPE)
