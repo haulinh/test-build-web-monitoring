@@ -2998,7 +2998,6 @@ export default {
       aqiDay: 'AQI - Ngày',
       wqiHour: 'WQI - Giờ',
       wqiDay: 'WQI - Ngày',
-      status_data: 'Tình trạng dữ liệu',
       type2_flow: 'Báo cáo lưu lượng phát thải',
       status_data: 'Tình trạng dữ liệu', // Qui them cho dong bo voi file EN
       type1_exceed: 'Báo cáo vượt ngưỡng',

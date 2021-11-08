@@ -27,6 +27,46 @@ const options = [
   },
 ]
 
+function Picker({ value, onChange }) {
+  if (value.type === 'custom')
+    return (
+      <DatePicker.RangePicker
+        placeholder="Chọn ngày"
+        onChange={onChange}
+        style={{ width: '100%' }}
+      />
+    )
+
+  if (value.type === 'month')
+    return (
+      <MonthPicker
+        placeholder="Chọn tháng"
+        style={{ width: '100%' }}
+        onChange={onChange}
+      />
+    )
+
+  if (value.type === 'year')
+    return (
+      <DatePickerYear
+        value={value.value}
+        style={{ with: '100%' }}
+        onChange={onChange}
+      />
+    )
+
+  if (value.type === 'anyYear')
+    return (
+      <DatePickerRangeYear
+        value={value}
+        style={{ with: '100%' }}
+        onChange={onChange}
+      />
+    )
+
+  return <React.Fragment />
+}
+
 export default class SelectReportTime extends React.Component {
   handleOnTimeChange = value => {
     const { onChange, value: valueField } = this.props
@@ -49,35 +89,9 @@ export default class SelectReportTime extends React.Component {
             ))}
           </Select>
         </Col>
+
         <Col span={18}>
-          {value.type === 'custom' && (
-            <DatePicker
-              placeholder="Chọn ngày"
-              onChange={this.handleOnTimeChange}
-              style={{ width: '100%' }}
-            />
-          )}
-          {value.type === 'month' && (
-            <MonthPicker
-              placeholder="Chọn tháng"
-              style={{ width: '100%' }}
-              onChange={this.handleOnTimeChange}
-            />
-          )}
-          {value.type === 'year' && (
-            <DatePickerYear
-              value={value.value}
-              style={{ with: '100%' }}
-              onChange={this.handleOnTimeChange}
-            />
-          )}
-          {value.type === 'anyYear' && (
-            <DatePickerRangeYear
-              value={value}
-              style={{ with: '100%' }}
-              onChange={this.handleOnTimeChange}
-            />
-          )}
+          <Picker onChange={this.handleOnTimeChange} value={value} />
         </Col>
       </Row>
     )

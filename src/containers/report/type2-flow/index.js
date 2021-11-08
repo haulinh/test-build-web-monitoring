@@ -9,6 +9,7 @@ import Filter from './Filter'
 import moment from 'moment'
 import { getTimeUTC } from 'utils/datetime/index'
 import DataInsight from 'api/DataInsight'
+import { TableDate } from './TableData'
 
 export const FIELDS = {
   REPORT_TYPE: 'reportType',
@@ -33,7 +34,7 @@ export default class ReportFlow extends React.Component {
     const params = {
       ...values,
       [FIELDS.STATION_AUTO]: values[FIELDS.STATION_AUTO].join(','),
-      [FIELDS.MEASURING_LIST]: values[FIELDS.MEASURING_LIST].join(','),
+      [FIELDS.MEASURING_LIST]: values[FIELDS.MEASURING_LIST],
     }
     return params
   }
@@ -44,8 +45,10 @@ export default class ReportFlow extends React.Component {
 
     const params = {
       ...newParams,
-      from: getTimeUTC(paramsGeneral[FIELDS.REPORT_TIME].value.startOf('day')),
-      to: getTimeUTC(paramsGeneral[FIELDS.REPORT_TIME].value.endOf('day')),
+      from: getTimeUTC(
+        paramsGeneral[FIELDS.REPORT_TIME].value[0].startOf('day')
+      ),
+      to: getTimeUTC(paramsGeneral[FIELDS.REPORT_TIME].value[1].endOf('day')),
     }
     return params
   }
@@ -99,7 +102,7 @@ export default class ReportFlow extends React.Component {
   getQueryParams = () => {
     const { form } = this.props
     const values = form.getFieldsValue()
-    const type = values.reportType
+    const type = values[FIELDS.REPORT_TYPE]
     const queryParams = {
       custom: this.getQueryParamsDate,
       month: this.getQueryParamsMonth,
@@ -113,7 +116,7 @@ export default class ReportFlow extends React.Component {
     const { form } = this.props
     const values = await form.validateFields()
     if (!values) return
-    const params = await this.getQueryParams()
+    const params = this.getQueryParams()
 
     try {
       this.setState({ loading: true })
@@ -130,7 +133,15 @@ export default class ReportFlow extends React.Component {
   }
   render() {
     const { form } = this.props
-    const { loading } = this.state
+    const { loading, resultsReport } = this.state
+
+    const Report = {
+      custom: <TableDate data={resultsReport} />,
+      // year: <TableYear data={resultsReport} />,
+      undefined: <div />,
+    }
+
+    const type = form.getFieldValue(FIELDS.REPORT_TYPE)
 
     return (
       <PageContainer>
@@ -165,6 +176,7 @@ export default class ReportFlow extends React.Component {
               </div>
             </Col>
           </Row>
+          {Report[type]}
         </div>
       </PageContainer>
     )

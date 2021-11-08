@@ -42,14 +42,15 @@ export default class Filter extends React.Component {
 
   getMeasuringList = () => {
     const { form } = this.props
-    const stationAutoValue = form.getFieldValue(FIELDS.STATION_AUTO)
-    if (stationAutoValue !== undefined) {
-      const stationAutoList = this.state.stationAutos.filter(stationAuto =>
-        stationAutoValue.includes(stationAuto.key)
-      )
-      const measureList = getMeasuringListFromStationAutos(stationAutoList)
-      return measureList
-    }
+    const stationAutoValues = form.getFieldValue(FIELDS.STATION_AUTO)
+
+    if (!stationAutoValues) return []
+
+    const stationAutoList = this.state.stationAutos.filter(stationAuto =>
+      stationAutoValues.includes(stationAuto.key)
+    )
+    const measureList = getMeasuringListFromStationAutos(stationAutoList)
+    return measureList
   }
 
   onStationAutosFetchSuccess = stationAutos => {
@@ -147,7 +148,12 @@ export default class Filter extends React.Component {
                     message: i18n().rules.requireChoose,
                   },
                 ],
-              })(<SelectMeasureParameter measuringList={measureList} />)}
+              })(
+                <SelectMeasureParameter
+                  mode="single"
+                  measuringList={measureList}
+                />
+              )}
             </FormItem>
           </Col>
         </Row>

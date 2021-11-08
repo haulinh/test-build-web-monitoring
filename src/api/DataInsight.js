@@ -44,13 +44,13 @@ export default {
     const url = getDataInsightUrl(`billing-config/${id}`)
     return getFetch(url)
   },
+
   //#region report
   getDataFlow: params => {
     const url = getDataInsightUrl(`report/data-flow`)
     return getFetch(url, params)
   },
 
-  //#region report
   getExceedData: (type, param) => {
     const url = getDataInsightUrl(`report/data-exceed/${type}`)
     return getFetch(url, param)
