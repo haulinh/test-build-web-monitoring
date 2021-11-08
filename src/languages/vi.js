@@ -764,8 +764,10 @@ export default {
       header8: 'Giờ',
       header9: 'Tỉ lệ số liệu vượt ngưỡng (%)',
       title: 'BÁO CÁO TỈ LỆ SỐ LIỆU THU ĐƯỢC',
-      description:
-        'Các số liệu thống kê về tỉ lệ số liệu thu được của các trạm quan trắc từ tháng {{=it.fromMonth}} đến tháng {{=it.toMonth}}',
+      descriptionRatioMonth:
+        'Các số liệu thống kê về tỉ lệ số liệu thu được của các trạm quan trắc từ tháng {{=it.from}} đến tháng {{=it.to}}',
+      descriptionRatioDate:
+        'Các số liệu thống kê về tỉ lệ số liệu thu được của các trạm quan trắc từ ngày {{=it.from}} đến ngày {{=it.to}}',
       title2: 'BÁO CÁO KẾT QUẢ QUAN TRẮC TRUNG BÌNH 24 GIỜ',
       description2:
         'Các số liệu thống kê về kết quả quan trắc trung bình 24 giờ của trạm {{=it.stationName}} trong tháng {{=it.monthYear}}',

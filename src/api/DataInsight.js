@@ -50,5 +50,9 @@ export default {
     const url = getDataInsightUrl(`report/data-exceed/${type}`)
     return getFetch(url, param)
   },
+  getDataRatio: (type, param) => {
+    const url = getDataInsightUrl(`report/data-ratio/${type}`)
+    return getFetch(url, param)
+  },
   //#endregion
 }
