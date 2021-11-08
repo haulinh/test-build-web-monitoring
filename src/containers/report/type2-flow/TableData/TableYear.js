@@ -56,6 +56,7 @@ function TableYear({ data, loading }) {
       dataSource={data}
       columns={columns}
       rowKey={row => row.station._id}
+      pagination={false}
     />
   )
 }

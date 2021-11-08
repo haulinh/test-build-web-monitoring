@@ -1,6 +1,7 @@
 import { Empty, Table } from 'antd'
 import React from 'react'
 import _ from 'lodash'
+import { getFormatNumber } from 'constants/format-number'
 import { translate as t } from 'hoc/create-lang'
 
 function TableDate({ data, loading }) {
@@ -51,9 +52,10 @@ function TableDate({ data, loading }) {
 
   const columns = [
     {
-      title: 'Thời gian',
+      title: t('report.type2_flow.time'),
       dataIndex: 'date',
       render: (value, record) => {
+        console.log({ value, record })
         const obj = {
           children: value,
           props: {},
@@ -68,8 +70,24 @@ function TableDate({ data, loading }) {
       },
     },
     {
-      title: 'Trạm quan trắc',
+      title: t('report.type2_flow.stationName'),
       dataIndex: 'station.name',
+    },
+    {
+      title: t('report.type2_flow.diameter'),
+      dataIndex: 'station.diameter',
+      render: value => {
+        if (!value) return '-'
+        return value
+      },
+    },
+    {
+      title: t('report.type2_flow.value'),
+      dataIndex: 'value',
+      render: value => {
+        if (!value) return '-'
+        return getFormatNumber(value)
+      },
     },
   ]
 
@@ -82,6 +100,7 @@ function TableDate({ data, loading }) {
       dataSource={dataSource}
       columns={columns}
       rowKey={row => `${row._id}-${row.station.key}`}
+      pagination={false}
     />
   )
 }

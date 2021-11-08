@@ -10,6 +10,8 @@ import moment from 'moment'
 import { getTimeUTC } from 'utils/datetime/index'
 import DataInsight from 'api/DataInsight'
 import { TableAnyYears, TableDate, TableYear } from './TableData'
+import TableMonth from './TableData/TableMonth'
+import { translate as t } from 'hoc/create-lang'
 
 export const FIELDS = {
   REPORT_TYPE: 'reportType',
@@ -128,24 +130,32 @@ export default class ReportFlow extends React.Component {
         .endOf('year')
         .format('L')
       return {
-        time: `NĂM ${values[FIELDS.REPORT_TIME].value}`,
-        timeRanger: `${from} đến ${to}`,
+        time: `${t('report.type2_flow.timeRanger.year')} ${
+          values[FIELDS.REPORT_TIME].value
+        }`,
+        timeRanger: `${t('report.type2_flow.timeRanger.from')} ${from} ${t(
+          'report.type2_flow.time.to'
+        )} ${to}`,
       }
     }
     if (type === 'custom') {
       from = values[FIELDS.REPORT_TIME].value[0].startOf('day').format('L')
       to = values[FIELDS.REPORT_TIME].value[1].endOf('day').format('L')
       return {
-        time: `TỪ NGÀY ${from} - ${to}`,
-        timeRanger: `${from} đến ${to}`,
+        time: `${from} - ${to}`,
+        timeRanger: `${t('report.type2_flow.timeRanger.from')} ${from} ${t(
+          'report.type2_flow.time.to'
+        )} ${to}`,
       }
     }
     if (type === 'month') {
       from = values[FIELDS.REPORT_TIME].value.startOf('month').format('L')
       to = values[FIELDS.REPORT_TIME].value.endOf('month').format('L')
       return {
-        time: `THÁNG ${values[FIELDS.REPORT_TIME].value.format('MM')}`,
-        timeRanger: `${from} đến ${to}`,
+        time: `${values[FIELDS.REPORT_TIME].value.format('MM/YYYY')}`,
+        timeRanger: `${t('report.type2_flow.timeRanger.from')} ${from} ${t(
+          'report.type2_flow.time.to'
+        )} ${to}`,
       }
     }
     if (type === 'anyYear') {
@@ -156,10 +166,12 @@ export default class ReportFlow extends React.Component {
         .endOf('year')
         .format('L')
       return {
-        time: `TỪ NĂM ${values[FIELDS.REPORT_TIME].value[0]} - ${
+        time: `${values[FIELDS.REPORT_TIME].value[0]} - ${
           values[FIELDS.REPORT_TIME].value[1]
         }`,
-        timeRanger: `${from} đến ${to}`,
+        timeRanger: `${t('report.type2_flow.timeRanger.from')} ${from} ${t(
+          'report.type2_flow.time.to'
+        )} ${to}`,
       }
     }
   }
@@ -195,6 +207,7 @@ export default class ReportFlow extends React.Component {
     const Report = {
       custom: <TableDate data={data} loading={loading} />,
       year: <TableYear data={data} loading={loading} />,
+      month: <TableMonth data={data} loading={loading} />,
       anyYear: <TableAnyYears data={data} loading={loading} />,
       undefined: <React.Fragment />,
     }
@@ -216,7 +229,7 @@ export default class ReportFlow extends React.Component {
           <Row type="flex" justify="end">
             <Col>
               <Button onClick={this.handleExportBilling} type="primary">
-                Xuất báo cáo
+                {t('billing.button.exportReport')}
               </Button>
             </Col>
           </Row>
@@ -228,9 +241,10 @@ export default class ReportFlow extends React.Component {
                   fontSize: '20px',
                   textAlign: 'center',
                   fontWeight: 'bold',
+                  textTransform: 'uppercase',
                 }}
               >
-                BÁO CÁO LƯU LƯỢNG PHÁT THẢI {time.time}
+                {t('report.type2_flow.title')} {time.time}
               </div>
               <div
                 style={{
@@ -239,7 +253,7 @@ export default class ReportFlow extends React.Component {
                   marginBottom: '50px',
                 }}
               >
-                Các số liệu được thống kê theo từ {time.timeRanger}
+                {t('report.type2_flow.subTitle')} {time.timeRanger}
               </div>
             </Col>
           </Row>

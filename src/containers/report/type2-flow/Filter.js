@@ -13,6 +13,7 @@ import { FIELDS } from './index'
 import SelectReportTime from './select-data/SelectReportTime'
 import SelectReportType from './select-data/SelectReportType'
 import moment from 'moment'
+import { translate } from 'hoc/create-lang'
 
 const Item = props => (
   <Form.Item
@@ -80,7 +81,7 @@ export default class Filter extends React.Component {
       <React.Fragment>
         <Row gutter={12}>
           <Col span={7}>
-            <FormItem label="Loại báo cáo">
+            <FormItem label={translate('report.label.reportType')}>
               {form.getFieldDecorator(FIELDS.REPORT_TYPE, {
                 initialValue: 'month',
                 onChange: this.handleSelectTimeChange,
@@ -164,7 +165,7 @@ export default class Filter extends React.Component {
             </Col>
             <Col>
               <div style={{ fontSize: '16px', fontWeight: '600' }}>
-                Kiểm duyệt dữ liệu
+                {translate('monitoring.actions.more.checkData')}
               </div>
             </Col>
             <Col>

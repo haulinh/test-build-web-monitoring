@@ -4039,6 +4039,7 @@ export default {
   },
   report: {
     label: {
+      reportType: 'Loại báo cáo',
       dataRatio: {
         statistic: 'Thống kê theo',
         type: {
@@ -4046,6 +4047,19 @@ export default {
           date: 'Từng ngày',
         },
       },
+    },
+    type2_flow: {
+      title: 'Báo cáo lưu lượng phát thải',
+      subTitle: 'Các số liệu thống kê',
+      timeRanger: {
+        year: 'năm',
+        from: 'từ',
+        to: 'đến',
+      },
+      stationName: 'Trạm quan trắc',
+      diameter: 'Đường kính',
+      value: 'Giá trị',
+      time: 'Thời gian',
     },
   },
 }

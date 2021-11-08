@@ -56,6 +56,7 @@ function TableAnyYears({ data, loading }) {
       dataSource={data}
       columns={columns}
       rowKey={row => `${row._id}-${row.station.name}`}
+      pagination={false}
     />
   )
 }

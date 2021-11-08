@@ -29,7 +29,13 @@ const options = [
 
 function PickTimes({ type, onChange, value }) {
   if (type === 'custom') {
-    return <RangePicker onChange={onChange} style={{ width: '100%' }} />
+    return (
+      <RangePicker
+        onChange={onChange}
+        style={{ width: '100%' }}
+        value={value.value}
+      />
+    )
   }
   if (type === 'month') {
     return (
@@ -37,6 +43,7 @@ function PickTimes({ type, onChange, value }) {
         placeholder="Chọn tháng"
         style={{ width: '100%' }}
         onChange={onChange}
+        value={value.value}
       />
     )
   }
@@ -52,9 +59,9 @@ function PickTimes({ type, onChange, value }) {
   if (type === 'anyYear') {
     return (
       <DatePickerRangeYear
-        value={value}
         style={{ with: '100%' }}
         onChange={onChange}
+        value={value}
       />
     )
   }

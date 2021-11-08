@@ -4027,6 +4027,7 @@ export default {
   },
   report: {
     label: {
+      reportType: 'Report Type',
       dataRatio: {
         statistic: 'Statistic',
         type: {
@@ -4034,6 +4035,19 @@ export default {
           date: 'Date',
         },
       },
+    },
+    type2_flow: {
+      title: 'Reporting of Emission Flow',
+      subTitle: 'Statistics about emission flow',
+      timeRanger: {
+        year: 'in',
+        from: 'from',
+        to: 'to',
+      },
+      stationName: 'Station Name',
+      diameter: 'Diameter',
+      value: 'Value',
+      time: 'Time',
     },
   },
 }

@@ -1,5 +1,6 @@
 import React from 'react'
 import { Select } from 'antd'
+import { translate } from 'hoc/create-lang'
 
 const { Option } = Select
 
