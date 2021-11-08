@@ -19,6 +19,7 @@ export default class SelectProvince extends PureComponent {
       PropTypes.array,
     ]),
     isShowAll: PropTypes.bool,
+    isShowOther: PropTypes.bool
   }
 
   state = {
@@ -110,6 +111,11 @@ export default class SelectProvince extends PureComponent {
         {this.props.isShowAll && (
           <Select.Option value="">
             {translate('dataSearchFrom.form.all')}
+          </Select.Option>
+        )}
+        {this.props.isShowOther && (
+          <Select.Option value="other">
+            {translate('dataSearchFrom.form.other')}
           </Select.Option>
         )}
         {provinces.map(province => (

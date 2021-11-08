@@ -180,7 +180,9 @@ export default class SearchAvgForm extends React.Component {
 
     this.state = {
       rangesView,
-      filterList: listFilter.filter(filter => props.initialValues[filter.key]),
+      filterList: listFilter().filter(
+        filter => props.initialValues[filter.key]
+      ),
       isFilter: false,
     }
   }
@@ -531,14 +533,6 @@ export default class SearchAvgForm extends React.Component {
                 </Tooltip>
               </HeaderWrapper>
             </Col>
-            {/* <Col span={6}>
-              <Field
-                label={translate('dataSearchFrom.processData')}
-                name="isFilter"
-                size="large"
-                component={FSwitchFilter}
-              />
-            </Col> */}
           </Row>
           <Row type="flex" justify="end">
             <Col>

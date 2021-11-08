@@ -26,6 +26,7 @@ const TooltipCustom = ({ name }) => {
     <Tooltip title={name}>
       <div
         style={{
+          width: 150,
           maxWidth: 300,
           fontSize: 14,
           color: '#262626',
@@ -75,20 +76,21 @@ export const TableData = connect(
         },
         {
           dataIndex: 'name',
-          width: 200,
-          align: 'center',
+          width: 100,
+          align: 'left',
           title: i18n().name,
           render: value => <TooltipCustom name={value} />,
         },
         {
           dataIndex: 'type',
-          align: 'center',
+          align: 'left',
           title: i18n().incidentType,
           render: value => <div>{incidentType()[value]}</div>,
         },
         {
           dataIndex: 'stations',
-          align: 'center',
+          align: 'left',
+          width: 200,
           title: t('apiSharingNew.fields.stationKeys'),
           render: value => {
             const stationNames =
@@ -100,7 +102,7 @@ export const TableData = connect(
         },
         {
           dataIndex: 'status',
-          align: 'center',
+          align: 'left',
           title: i18n().status,
           render: value => (
             <div
@@ -157,6 +159,7 @@ export const TableData = connect(
           }}
           dataSource={get(result, 'data', [])}
           pagination={{
+            current: page,
             onChange: handleOnChangePagination,
             total: get(result, 'pagination.total'),
           }}

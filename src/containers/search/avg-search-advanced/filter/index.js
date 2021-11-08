@@ -25,11 +25,11 @@ const Wrapper = styled.div`
   }
 `
 
-export default class ListFilter extends React.PureComponent {
+export default class ListFilterComponent extends React.PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      listFilter: listFilter.map(filter => ({
+      listFilter: listFilter().map(filter => ({
         ...filter,
         checked:
           !!props.listFilter.find(fil => fil.key === filter.key) || false,
@@ -38,7 +38,7 @@ export default class ListFilter extends React.PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const filterList = listFilter.map(filter => ({
+    const filterList = listFilter().map(filter => ({
       ...filter,
       checked:
         !!nextProps.listFilter.find(fil => fil.key === filter.key) || false,

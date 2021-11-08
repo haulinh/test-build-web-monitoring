@@ -595,6 +595,7 @@ export default {
       range: 'Trong khoảng',
     },
     form: {
+      other: 'Khác',
       all: 'Tất cả',
       time: 'Thời gian',
       search: 'Tìm kiếm',
@@ -2946,6 +2947,11 @@ export default {
         title: 'Báo cáo đánh giá tình trạng dữ liệu',
         dateRange: 'Khoảng thời gian',
       },
+      type1_exceed: {
+        label: {
+          unitManage: 'Đơn vị quản lý',
+        },
+      },
       table: {
         header: {
           station: 'Trạm',
@@ -2963,6 +2969,15 @@ export default {
           dataExceedsStandard: 'Số liệu vượt chuẩn',
           timeUsuallyExceeds: 'Thời gian thường vượt',
           note: 'Ghi chú',
+        },
+      },
+      label: {
+        dataRatio: {
+          statistic: 'Thống kê theo',
+          type: {
+            rangeTime: 'Khoảng thời gian',
+            date: 'Từng ngày',
+          },
         },
       },
     },
@@ -2983,6 +2998,7 @@ export default {
       wqiHour: 'WQI - Giờ',
       wqiDay: 'WQI - Ngày',
       status_data: 'Tình trạng dữ liệu', // Qui them cho dong bo voi file EN
+      type1_exceed: 'Báo cáo vượt ngưỡng',
     },
     billing: 'Phí môi trường',
     ticket: 'Sự cố',
@@ -3018,6 +3034,7 @@ export default {
         'Giá trị lớn nhất trong số các giá trị trung bình 8 giờ  trong 1 ngày đo',
       type12: 'Thống kê về tỉ lệ dữ liệu vượt ngưỡng của trạm trong ngày',
       status_data: ' Báo cáo tổng hợp tình trạng dữ liệu theo nhiều trạm',
+      type1_exceed: ' Báo cáo vượt ngưỡng, tra cứu theo năm',
       aqi_hour: 'Báo cáo giá trị AQI của từng trạm',
       aqi_day: 'Báo cáo giá trị AQI ngày theo nhiều trạm',
     },
@@ -3713,6 +3730,8 @@ export default {
       name: 'BÁO CÁO PHÍ BẢO VỆ MÔI TRƯỜNG ĐỐI VỚI NƯỚC THẢI CÔNG NGHIỆP',
       detail:
         'Các số liệu được thống kê theo {{=it.time}} từ ngày {{=it.from}} đến {{=it.to}}',
+      reportMonth: 'tháng {{it.param}}',
+      reportQuarter: 'quí {{it.param}}',
     },
     menu: {
       billingReport: 'Báo cáo phí',
@@ -3724,6 +3743,7 @@ export default {
       reportCustom: 'Báo cáo tuỳ chọn',
       quarter: 'Quý',
       month: 'Tháng',
+      year: 'Năm',
     },
     label: {
       key: 'Mã cấu hình phí',
@@ -3815,6 +3835,7 @@ export default {
         createdAt: 'Tạo lúc {{=it.time}} ngày {{=it.date}} ',
         updatedAt: 'Cập nhập gần nhất {{=it.time}} ngày {{=it.date}} ',
         detailInfo: 'Thông tin chi tiết',
+        status: 'Trạng thái',
       },
       configProperties: {
         name: 'Tên thuộc tính',
@@ -3981,29 +4002,46 @@ export default {
       advance: {
         label: 'Nâng cao',
         value: 'advance',
-        template: `{{station}} : Tên trạm quan trắc bị vượt ngưỡng,
-{{measure}} : Thông số bị vượt ngưỡng của trạm quan trắc,
-{{value}} : Giá trị của thông số,
-{{unit}} : Đơn vị của thông số,
-{​​​​​{​​​​​config}​​​​​}​​​​​ : Giá trị cấu hình của thông số,
-{{time}} : Thời gian thông số bị vượt ngưỡng`,
+        template: `{{station}} : Tên trạm quan trắc,
+        {{measure}}: Thiết bị / thông số quan trắc,
+        {{value}}: Giá trị của thông số,
+        {{unit}}: Đơn vị của thông số,
+        {{sign}}: Toán tử so sánh,
+        {{config}}: Giá trị thông số được cấu hình,
+        {{status}}: Trạng thái của thiết bị,
+        {{time}}: Thời gian thỏa điều kiện`,
       },
       exceed: {
         label: 'Vượt ngưỡng',
         value: 'exceed',
-        template: `{{station}} : Tên trạm quan trắc bị vượt ngưỡng,
-        {{measure}} : Thông số bị vượt ngưỡng của trạm quan trắc,
-        {{value}} : Giá trị của thông số,
-        {{unit}} : Đơn vị của thông số,
-        {​​​​​{​​​​​config}​​​​​}​​​​​ : Giá trị cấu hình của thông số,
-        {{time}} : Thời gian thông số bị vượt ngưỡng`,
+        template: `{{station}} : Tên trạm quan trắc,
+        {{measure}}: Thiết bị / thông số quan trắc,
+        {{value}}: Giá trị của thông số,
+        {{unit}}: Đơn vị của thông số,
+        {{sign}}: Toán tử so sánh,
+        {{config}}: Giá trị thông số được cấu hình,
+        {{status}}: Trạng thái của thiết bị,
+        {{time}}: Thời gian thỏa điều kiện`,
       },
       device: {
         label: 'Thiết bị',
         value: 'device',
-        template: `{{station}} : Tên trạm quan trắc bị vượt ngưỡng,
-{{measure}} : Thông số bị vượt ngưỡng của trạm quan trắc
+        template: `{{station}}: Tên trạm quan trắc,
+        {{measure}}: Tên thiết bị,
+        {{status}}: Trạng thái của thiết bị,
+        {{time}}: Thời gian thỏa điều kiện,
         `,
+      },
+    },
+  },
+  report: {
+    label: {
+      dataRatio: {
+        statistic: 'Thống kê theo',
+        type: {
+          rangeTime: 'Khoảng thời gian',
+          date: 'Từng ngày',
+        },
       },
     },
   },

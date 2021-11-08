@@ -38,6 +38,18 @@ class QuarterPicker extends React.Component {
     open: false,
   }
 
+  ref = React.createRef()
+
+  handleOnClickOutSide = e => {
+    if (this.state.open && !this.ref.current.contains(e.target)) {
+      this.setState({ open: false })
+    }
+  }
+
+  componentDidMount() {
+    window.addEventListener('click', this.handleOnClickOutSide)
+  }
+
   onClickPreYear = () => {
     this.setState(prevState => ({
       currentYear: prevState.currentYear.subtract(1, 'y'),
@@ -71,7 +83,7 @@ class QuarterPicker extends React.Component {
     const { open, currentYear, quarterChose } = this.state
     const { value } = this.props
     return (
-      <React.Fragment>
+      <div ref={this.ref}>
         <Input
           value={value && this.getValue()}
           className="quarter"
@@ -115,7 +127,7 @@ class QuarterPicker extends React.Component {
             </Row>
           </QuarterPickerContainer>
         )}
-      </React.Fragment>
+      </div>
     )
   }
 }

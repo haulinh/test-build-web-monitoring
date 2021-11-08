@@ -596,6 +596,7 @@ export default {
       range: 'In range',
     },
     form: {
+      other: 'Other',
       all: 'All',
       time: 'Time',
       search: 'Search',
@@ -1679,7 +1680,7 @@ export default {
       },
       diameter: {
         label: 'Diameter(m)',
-        placeholder: 'Diameter(m)'
+        placeholder: 'Diameter(m)',
       },
       isStopWorking: {
         label: 'Stop working',
@@ -2937,7 +2938,7 @@ export default {
       type7: 'AQI day by parameter',
       type9: 'Percentage of data',
       type10: 'Percentage of obtained data',
-      type11: 'Results of 1-hour average monitoring',
+      type11: '1 hour average',
       type12: 'Percentage of exceeded data',
       aqiHour: 'AQI - Hour',
       aqiDay: 'AQI - Day',
@@ -2946,6 +2947,12 @@ export default {
       status_data_obj: {
         title: 'Report Status Data',
         dateRange: 'Date range',
+      },
+      option: {
+        reportYear: 'Report Year',
+        reportMonth: 'Report Month',
+        quarter: 'Quarter',
+        month: 'Month',
       },
       table: {
         header: {
@@ -2984,6 +2991,7 @@ export default {
       wqiHour: 'WQI - Hour',
       wqiDay: 'WQI - Day',
       status_data: 'Status Data',
+      type1_exceed: 'Exceed Report',
     },
     billing: 'Billing',
     ticket: 'Incident',
@@ -3713,6 +3721,8 @@ export default {
         'REPORTING ENVIRONMENTAL PROTECTION CHARGES FOR INDUSTRIAL WASTE WATER',
       detail:
         'Statistics are according to {{=it.time}} from date {{=it.from}} to {{=it.to}}',
+      reportMonth: 'month {{it.param}}',
+      reportQuarter: 'quarter {{it.param}}',
     },
     menu: {
       billingReport: 'Charge Report',
@@ -3816,6 +3826,7 @@ export default {
         createAt: 'Created at {{=it.time}} date {{=it.date}} ',
         updatedAt: 'Last update {{=it.time}} date {{=it.date}} ',
         detailInfo: 'Details',
+        status: 'Status',
       },
       configProperties: {
         name: 'Name',
@@ -3982,12 +3993,14 @@ export default {
       advance: {
         label: 'Advance',
         value: 'advance',
-        template: `{{station}} : The name of the monitoring station exceeded the threshold,
-        {{measure}} : The parameter is exceeded the threshold of the monitoring station,
+        template: `{{station}} : The name of the monitoring station,
+        {{measure}} : The device / The monitoring parameter,
         {{value}} : The value of the parameter,
         {{unit}} : The unit of the parameter,
-{​​​​​{​​​​​config}​​​​​}​​​​​ : Configurable parameter value,
-        {{time}} : The time the parameter was exceeded`,
+        {{sign}} : The comparison operator,
+        {{config}} : Configurable parameter value,
+        {{status}} : The status of the device,
+        {{time}} : The time that the condition is meet`,
       },
       exceed: {
         label: 'Exceed',
@@ -4002,8 +4015,21 @@ export default {
       device: {
         label: 'Device',
         value: 'device',
-        template: `{{station}} : The name of the monitoring station exceeded the threshold,
-        {{measure}} : The parameter is exceeded the threshold of the monitoring station`,
+        template: `{{station}} : The name of the monitoring station,
+        {{measure}} : The device,
+        {{status}} : The device's status,
+        {{time}} : The time that meet the condition`,
+      },
+    },
+  },
+  report: {
+    label: {
+      dataRatio: {
+        statistic: 'Statistic',
+        type: {
+          rangeTime: 'Range Time',
+          date: 'Date',
+        },
       },
     },
   },

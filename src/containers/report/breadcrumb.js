@@ -81,4 +81,10 @@ export default createBreadcrumb({
     href: slug.report.status_data,
     getName: () => translate('menuApp.reportBreadcrum.status_data'),
   },
+  type1_exceed: {
+    id: 'type1_exceed',
+    // icon: '',
+    href: slug.report.type1_exceed,
+    getName: () => translate('menuApp.reportBreadcrum.type1_exceed'),
+  },
 })

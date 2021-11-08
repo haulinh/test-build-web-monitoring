@@ -43,7 +43,7 @@ export default class TreeSelectStation extends Component {
     const { province, fieldValue } = this.props
     let stationAutos = this.state.stationAutos
 
-    if (province) {
+    if (province && (province !=='other')) {
       stationAutos = stationAutos.filter(stationAuto => {
         const provinceValue = _.get(
           stationAuto,
@@ -54,6 +54,10 @@ export default class TreeSelectStation extends Component {
       })
     }
 
+    if (province === 'other') {
+      stationAutos = stationAutos.filter(stationAuto => !stationAuto.province)
+    }
+    
     return stationAutos
   }
 
@@ -61,21 +65,23 @@ export default class TreeSelectStation extends Component {
     const { stationTypes } = this.state
     const { fieldValue } = this.props
     const stationAutos = this.getStationAutos()
-    const treeData = stationTypes.map(stationType => {
-      const stationAutosOfStationType = stationAutos.filter(
-        stationAuto => stationAuto.stationType._id === stationType._id
-      )
-      return {
-        title: stationType.name,
-        value: stationType._id,
-        key: stationType._id,
-        children: stationAutosOfStationType.map(station => ({
-          title: station.name,
-          value: station[fieldValue || 'key'],
-          key: station._id,
-        })),
-      }
-    })
+    const treeData = stationTypes
+      .map(stationType => {
+        const stationAutosOfStationType = stationAutos.filter(
+          stationAuto => stationAuto.stationType._id === stationType._id
+        )
+        return {
+          title: stationType.name,
+          value: stationType._id,
+          key: stationType._id,
+          children: stationAutosOfStationType.map(station => ({
+            title: station.name,
+            value: station[fieldValue || 'key'],
+            key: station._id,
+          })),
+        }
+      })
+      .filter(item => item.children.length !== 0)
     return treeData
   }
 
@@ -113,8 +119,9 @@ export default class TreeSelectStation extends Component {
       style: {
         width: '100%',
       },
+      allowClear: true,
     }
 
-    return <TreeSelect {...this.props} {...tProps} />
+    return <TreeSelect {...tProps} {...this.props} />
   }
 }

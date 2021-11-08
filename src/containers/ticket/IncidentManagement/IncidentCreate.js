@@ -12,6 +12,7 @@ import { Fields, i18n } from './index'
 import { translate as t } from 'hoc/create-lang'
 import styled from 'styled-components'
 import _ from 'lodash'
+import SelectProvince from 'components/elements/select-province'
 
 const TextAreaCustom = styled(TextArea)`
   > textarea {
@@ -120,9 +121,21 @@ export default class IncidentCreate extends Component {
     this.setState({ isModalVisible: false })
   }
 
+  handleOnProvinceChange = () => {
+    const { form } = this.props
+    form.setFieldsValue({ [Fields.stationIds]: [], [Fields.measures]: [] })
+  }
+
+  handleOnStationChange = () => {
+    const { form } = this.props
+    form.setFieldsValue({ [Fields.measures]: [] })
+  }
+
   render() {
     const { visible, form } = this.props
     const { isModalVisible } = this.state
+
+    const province = form.getFieldValue(Fields.province)
 
     return (
       <React.Fragment>
@@ -169,23 +182,40 @@ export default class IncidentCreate extends Component {
                 </FormItem>
 
                 {this.isHaveSelectStation() && (
-                  <FormItem label={i18n().stationName}>
-                    {form.getFieldDecorator(Fields.stationIds, {
-                      rules: [
-                        {
-                          required: true,
-                          message: t('ticket.required.incident.stationName'),
-                        },
-                      ],
-                    })(
-                      <TreeSelectStation
-                        fieldValue="_id"
-                        onStationAutosFetchSuccess={
-                          this.onStationAutosFetchSuccess
-                        }
-                      />
-                    )}
-                  </FormItem>
+                  <React.Fragment>
+                    <FormItem label={i18n().provinceName}>
+                      {form.getFieldDecorator(Fields.province, {
+                        onChange: this.handleOnProvinceChange,
+                        initialValue: 'other',
+                      })(
+                        <SelectProvince
+                          isShowOther
+                          allowClear={false}
+                          fieldValue="_id"
+                        />
+                      )}
+                    </FormItem>
+
+                    <FormItem label={i18n().stationName}>
+                      {form.getFieldDecorator(Fields.stationIds, {
+                        onChange: this.handleOnStationChange,
+                        rules: [
+                          {
+                            required: true,
+                            message: t('ticket.required.incident.stationName'),
+                          },
+                        ],
+                      })(
+                        <TreeSelectStation
+                          province={province}
+                          fieldValue="_id"
+                          onStationAutosFetchSuccess={
+                            this.onStationAutosFetchSuccess
+                          }
+                        />
+                      )}
+                    </FormItem>
+                  </React.Fragment>
                 )}
 
                 {this.isHaveSelectMeasureParameter() && (

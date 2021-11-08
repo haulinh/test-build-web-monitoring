@@ -112,7 +112,7 @@ export class ChanelForm extends React.Component {
                   { initialValue: alarmType[typeAlarm].initialValue }
                 )(
                   <TextArea
-                    style={{ height: 100 }}
+                    style={{ height: 150 }}
                     disabled={typeAlarm === alarmType.advance.value}
                   />
                 )}
