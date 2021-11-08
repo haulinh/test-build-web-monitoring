@@ -766,8 +766,10 @@ export default {
       header8: 'Hours',
       header9: 'Percentage of exceeded data (%)',
       title: 'REPORT THE PERCENTAGE OF OBTAINED DATA',
-      description:
-        'Statistics about the Percentage of data obtained of stations from {{=it.fromMonth}} to {{=it.toMonth}}',
+      descriptionRatioMonth:
+        'Statistics about the Percentage of data obtained of stations from {{=it.from}} to {{=it.to}}',
+      descriptionRatioDate:
+        'Statistics about the Percentage of data obtained of stations from {{=it.from}} to {{=it.to}}',
       title2: 'REPORT THE RESULTS OF 24-HOUR AVERAGE MONITORING',
       description2:
         'Statistics about Results of 24-hour average monitoring of {{=it.stationName}} station in {{=it.monthYear}}',
