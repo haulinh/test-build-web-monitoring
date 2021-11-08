@@ -1,6 +1,7 @@
 import { Col, Icon, Switch } from 'antd'
 import React from 'react'
 import styled from 'styled-components'
+import {translate as t} from 'hoc/create-lang'
 
 const Text = styled.div`
   font-size: 16px;
@@ -22,7 +23,7 @@ const CheckFilter = props => {
         />
       </Col>
       <Col span={14}>
-        <Text>Kiểm duyệt dữ liệu</Text>
+        <Text>{t('qaqc.approveData')}</Text>
       </Col>
       <Col span={5}>
         <Switch {...props} style={{ marginLeft: '10px' }} />

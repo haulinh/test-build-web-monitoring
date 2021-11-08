@@ -1,14 +1,16 @@
 import { Col, DatePicker, Row, Select } from 'antd'
 import React from 'react'
 import DatePickerYear from 'components/core/date-picker/DatePickerYear'
+import {translate as t} from 'hoc/create-lang'
+
 const timeOption = [
   {
     key: 'date',
-    name: 'Ngày',
+    name: t('menuApp.report.type1_exceed.option.day'),
   },
   {
     key: 'year',
-    name: 'Năm',
+    name: t('menuApp.report.type1_exceed.option.year'),
   },
 ]
 

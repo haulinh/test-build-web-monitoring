@@ -1,4 +1,4 @@
-import { Col, Row } from 'antd'
+import { Col, Row, Form, Switch } from 'antd'
 import ReportType from 'components/elements/select-data/report/SelectReportType'
 import TimeReport from 'components/elements/select-data/report/SelectTimeReport'
 import CheckFilter from 'components/elements/select-data/report/CheckFilter'
@@ -7,7 +7,16 @@ import SelectStationAuto from 'components/elements/select-station-auto'
 import { FormItem } from 'components/layouts/styles'
 import React from 'react'
 import moment from 'moment'
-import { FIELDS } from './index'
+import { FIELDS, i18n } from './index'
+import { ToolTip } from 'containers/search/common/tooltip'
+import { translate as t } from 'hoc/create-lang'
+import styled from 'styled-components'
+
+const ColSwitch = styled(Col)`
+  .ant-form-item .ant-switch {
+    margin: 20px 0 4px;
+  }
+`
 
 export default function Filter({ form, resetData = () => {} }) {
   const { reportType } = form.getFieldsValue() || {}
@@ -27,7 +36,7 @@ export default function Filter({ form, resetData = () => {} }) {
     <React.Fragment>
       <Row gutter={12}>
         <Col span={6}>
-          <FormItem label="Loại báo cáo">
+          <FormItem label={i18n().reportType.label}>
             {form.getFieldDecorator(FIELDS.REPORT_TYPE, {
               initialValue: 'year',
               onChange: handleOnChangeReportType,
@@ -35,14 +44,14 @@ export default function Filter({ form, resetData = () => {} }) {
           </FormItem>
         </Col>
         <Col span={8}>
-          <FormItem label="Thời gian">
+          <FormItem label={i18n().time.label}>
             {form.getFieldDecorator(FIELDS.TIME, {
               initialValue: { type: 'year', value: moment().year() },
             })(<TimeReport reportType={reportType} />)}
           </FormItem>
         </Col>
         <Col span={10}>
-          <FormItem label="Đơn vị quản lý">
+          <FormItem label={i18n().province.label}>
             {form.getFieldDecorator(
               FIELDS.PROVINCE,
               {}
@@ -51,7 +60,7 @@ export default function Filter({ form, resetData = () => {} }) {
         </Col>
       </Row>
       <Row>
-        <FormItem label="Trạm quan trắc">
+        <FormItem label={i18n().station.label}>
           {form.getFieldDecorator(FIELDS.STATION_KEY, {
             rules: [
               {
@@ -61,13 +70,29 @@ export default function Filter({ form, resetData = () => {} }) {
           })(<SelectStationAuto province={province} mode="tags" />)}
         </FormItem>
       </Row>
-      <Row type="flex" align="middle" justify="end">
-        <FormItem style={{ width: '240px' }}>
-          {form.getFieldDecorator(FIELDS.IS_FILTER, {
-            initialValue: false,
-            onChange: handleOnChangeFilter,
-          })(<CheckFilter form={form} />)}
-        </FormItem>
+      <Row type="flex" justify="end">
+        <Col>
+          <Row type="flex" align="middle">
+            <Col>
+              <ToolTip />
+            </Col>
+            <Col>
+              <div style={{ fontSize: '16px', fontWeight: '600' }}>
+                {t('qaqc.approveData')}
+              </div>
+            </Col>
+            <ColSwitch>
+              <div style={{ marginLeft: '10px' }}>
+                <FormItem>
+                  {form.getFieldDecorator('isFilter', {
+                    initialValue: false,
+                    onChange: handleOnChangeFilter,
+                  })(<Switch form={form} />)}
+                </FormItem>
+              </div>
+            </ColSwitch>
+          </Row>
+        </Col>
       </Row>
     </React.Fragment>
   )

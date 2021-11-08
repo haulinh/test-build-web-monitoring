@@ -31,9 +31,7 @@ const TableDataDate = ({ data, loading, ...props }) => {
     })
     return [...base, ...dataStation]
   }, [])
-
   console.log({ dataSource })
-
   const columnsExceed = [1, 2, 3].map(column => ({
     title: `Vượt ngưỡng lần ${column}`,
     children: [
@@ -72,10 +70,10 @@ const TableDataDate = ({ data, loading, ...props }) => {
   const columns = [
     {
       title: 'Trạm quan trắc',
-      dataIndex: 'stationKey',
+      dataIndex: 'stationKey.key',
       render: (value, record, index) => {
         const obj = {
-          children: value,
+          children: props.stationAutoByKey[value].name,
           props: {},
         }
 
@@ -138,8 +136,10 @@ const TableDataDate = ({ data, loading, ...props }) => {
 }
 
 const mapStateToProps = state => {
+  const stationAutoByKey = _.keyBy(state.stationAuto.list,'key')
   return {
     lang: state.language.locale,
+    stationAutoByKey,
   }
 }
 

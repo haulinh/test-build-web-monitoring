@@ -2948,8 +2948,15 @@ export default {
         dateRange: 'Khoảng thời gian',
       },
       type1_exceed: {
-        label: {
-          unitManage: 'Đơn vị quản lý',
+        option: {
+          reportYear: 'Báo cáo năm',
+          reportDay: 'Báo cáo ngày',
+          year: 'Năm',
+          day: 'Ngày',
+        },
+        title: {
+          reportYear: 'Các số liệu thống kê về dữ liệu vượt ngưỡng trong năm ',
+          reportDay: 'Các số liệu thống kê về dữ liệu vượt ngưỡng trong ngày ',
         },
       },
       table: {
@@ -4043,6 +4050,22 @@ export default {
           date: 'Từng ngày',
         },
       },
+    },
+    type1_exceed: {
+      title: {
+        year: 'BÁO CÁO THỐNG KÊ VƯỢT NGƯỠNG THEO NĂM',
+        date: 'BÁO CÁO THỐNG KÊ VƯỢT NGƯỠNG THEO NGÀY',
+      },
+      table: {
+        station: 'Trạm quan trắc',
+        param: 'Thông số',
+        qcvn: 'QCVN',
+        permiss_value: 'Giá trị quy chuẩn',
+        numday24h: 'Số ngày có giá trị trung bình 24h vượt QCVN',
+        numday1h: 'Số ngày có giá trị trung bình 1h vượt QCVN',
+        numrecord1h: 'Số giá trị trung bình 1h vượt QCVN',
+        rate: 'Tỉ lệ giá trị trung bình 1 giờ vượt QCVN',
+      }
     },
   },
 }

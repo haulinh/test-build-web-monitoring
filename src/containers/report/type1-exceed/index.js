@@ -10,6 +10,9 @@ import { getTimeUTC } from 'utils/datetime'
 import Breadcrumb from '../breadcrumb'
 import Filter from './Filter'
 import { TableDate, TableYear } from './TableData'
+import styled from 'styled-components'
+import {translate as t} from 'hoc/create-lang'
+import _ from 'lodash'
 
 export const FIELDS = {
   REPORT_TYPE: 'reportType',
@@ -18,6 +21,32 @@ export const FIELDS = {
   STATION_KEY: 'stationKeys',
   SELECT_TIME: 'selectTime',
   IS_FILTER: 'isFilter',
+}
+
+const Text = styled.div`
+  font-size: ${props => `${props.fontSize}px`};
+  font-weight: ${props => `${props.fontWeight}`};
+`
+
+export function i18n() {
+  return {
+    reportType: {
+      label: t('dataSearchFrom.form.type.label'),
+      option: {
+        year: t('menuApp.report.type1_exceed.option.reportYear'),
+      }
+    },
+    time: {
+      label: t('dataSearchFrom.form.time'),
+    },
+    province: {
+      label: t('dataSearchFilterForm.form.province.label'),
+    },
+    station: {
+      label: t('menuApp.config.stationAuto'),
+    },
+
+  }
 }
 
 @Form.create()
@@ -57,6 +86,7 @@ export default class ReportExceed extends Component {
         moment(paramsGeneral[FIELDS.TIME].value, 'YYYY').startOf('year')
       ),
     }
+    console.log(params)
     return params
   }
 
@@ -68,6 +98,23 @@ export default class ReportExceed extends Component {
     }
     return params
   }
+
+  getDetailTitle = () => {
+    const { form } = this.props
+    const values = form.getFieldsValue()
+
+    if (values.reportType === 'year' ) {
+      const startTitle = t('menuApp.report.type1_exceed.title.reportYear') + moment(values.time.value, 'YYYY').format('YYYY')
+      return startTitle
+    }
+
+    if (values.reportType === 'date') {
+      const startTitle = t('menuApp.report.type1_exceed.title.reportDay') + values.time.value.format('DD/MM/YYYY')
+      return startTitle
+    }
+  }
+
+
 
   handleOnSearch = async () => {
     const params = await this.getQueryParams()
@@ -86,13 +133,21 @@ export default class ReportExceed extends Component {
   render() {
     const { form } = this.props
     const { loading, data } = this.state
+    const { time: { type, value: timeValue } = {} } =
+      form.getFieldsValue() || {}
 
     const Report = {
       date: <TableDate data={data} />,
       year: <TableYear data={data} />,
     }
-
-    const type = form.getFieldValue(FIELDS.REPORT_TYPE)
+    const getTitle = () => {
+      const title = {
+        year: t('report.type1_exceed.title.year'),
+        date: t('report.type1_exceed.title.date'),
+      }
+  
+      return title[type]
+    }
 
     return (
       <PageContainer>
@@ -107,13 +162,24 @@ export default class ReportExceed extends Component {
           <Clearfix height={32} />
 
           <Row gutter={32}>
-            <Col span={12}>
-              <p>BÁO CÁO DỮ LIỆU VƯỢT NGƯỠNG THEO NĂM</p>
+            <Col span={20}>
+              <Row type="flex" justify="center" align="middle">
+                <Text fontSize={20} fontWeight={600}>{getTitle()}</Text>
+              </Row>
+              <Clearfix height={16}/>
+              <Row type="flex" justify="center" align="middle">
+                {!_.isEmpty(timeValue) && (
+                  <Text fontSize={16} fontWeight={400}>{this.getDetailTitle()}</Text>
+                )}
+              </Row>
             </Col>
             <Col span={4}>
-              <Button type="primary">Xuất dữ liệu excel</Button>
+              <Row type="flex" justify="end">
+                <Button type="primary">{t('dataSearchFrom.tab.exportExcel')}</Button>
+              </Row>
             </Col>
           </Row>
+          <Clearfix height={31}/>
           {Report[type]}
         </div>
       </PageContainer>

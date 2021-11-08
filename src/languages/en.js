@@ -2948,11 +2948,17 @@ export default {
         title: 'Report Status Data',
         dateRange: 'Date range',
       },
-      option: {
-        reportYear: 'Report Year',
-        reportMonth: 'Report Month',
-        quarter: 'Quarter',
-        month: 'Month',
+      type1_exceed: {
+        option: {
+          reportYear: 'Report year',
+          reportDay: 'Report day',
+          year: 'Year',
+          day: 'Day'
+        },
+        title: {
+          reportYear: 'Statistics about exceed data in ',
+          reportDay: 'Statistics about exceed data in ',
+        },
       },
       table: {
         header: {
@@ -4023,6 +4029,10 @@ export default {
     },
   },
   report: {
+    title: {
+      year: 'REPORT DATA OVER THE THRESHOLD BY YEAR',
+      date: 'REPORT DATA OVER THE THRESHOLD BY DAY',
+    },
     label: {
       dataRatio: {
         statistic: 'Statistic',
@@ -4031,6 +4041,19 @@ export default {
           date: 'Date',
         },
       },
+    },
+    type1_exceed: {
+      table: {
+        station: 'Station Name',
+        param: 'Parameter',
+        qcvn: 'Technical Regulation',
+        permiss_value: 'Permissable values',
+        numday24h: 'Number of days with 24-hour average exceeding the regulation',
+        numday1h: 'Number of days with 1-hour average exceeding the regulation',
+        numrecord1h: 'Number of 1-hour average values exceeding the regulation',
+        rate: 'Percentage of 1-hour average values exceeding the regulation',
+
+      }
     },
   },
 }
