@@ -2948,6 +2948,11 @@ export default {
         title: 'Báo cáo đánh giá tình trạng dữ liệu',
         dateRange: 'Khoảng thời gian',
       },
+      type1_exceed: {
+        label: {
+          unitManage: 'Đơn vị quản lý',
+        },
+      },
       table: {
         header: {
           station: 'Trạm',
@@ -2995,6 +3000,8 @@ export default {
       wqiDay: 'WQI - Ngày',
       status_data: 'Tình trạng dữ liệu',
       type2_flow: 'Báo cáo lưu lượng phát thải',
+      status_data: 'Tình trạng dữ liệu', // Qui them cho dong bo voi file EN
+      type1_exceed: 'Báo cáo vượt ngưỡng',
     },
     billing: 'Phí môi trường',
     ticket: 'Sự cố',
@@ -3030,6 +3037,7 @@ export default {
         'Giá trị lớn nhất trong số các giá trị trung bình 8 giờ  trong 1 ngày đo',
       type12: 'Thống kê về tỉ lệ dữ liệu vượt ngưỡng của trạm trong ngày',
       status_data: ' Báo cáo tổng hợp tình trạng dữ liệu theo nhiều trạm',
+      type1_exceed: ' Báo cáo vượt ngưỡng, tra cứu theo năm',
       aqi_hour: 'Báo cáo giá trị AQI của từng trạm',
       aqi_day: 'Báo cáo giá trị AQI ngày theo nhiều trạm',
       type2_flow: 'Báo cáo lưu lượng phát thải',
@@ -3726,6 +3734,8 @@ export default {
       name: 'BÁO CÁO PHÍ BẢO VỆ MÔI TRƯỜNG ĐỐI VỚI NƯỚC THẢI CÔNG NGHIỆP',
       detail:
         'Các số liệu được thống kê theo {{=it.time}} từ ngày {{=it.from}} đến {{=it.to}}',
+      reportMonth: 'tháng {{it.param}}',
+      reportQuarter: 'quí {{it.param}}',
     },
     menu: {
       billingReport: 'Báo cáo phí',
@@ -3737,6 +3747,7 @@ export default {
       reportCustom: 'Báo cáo tuỳ chọn',
       quarter: 'Quý',
       month: 'Tháng',
+      year: 'Năm',
     },
     label: {
       key: 'Mã cấu hình phí',

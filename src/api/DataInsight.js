@@ -49,5 +49,11 @@ export default {
     const url = getDataInsightUrl(`report/data-flow`)
     return getFetch(url, params)
   },
-  //#end region
+
+  //#region report
+  getExceedData: (type, param) => {
+    const url = getDataInsightUrl(`report/data-exceed/${type}`)
+    return getFetch(url, param)
+  },
+  //#endregion
 }

@@ -62,3 +62,36 @@ export const formatQuarter = (time, lang = getLanguage()) => {
 }
 
 export { getTimes }
+
+const timeLang = {
+  vi: {
+    day: day => `${day} ngày`,
+    hour: hour => `${hour} giờ`,
+    minute: minute => `${minute} phút`,
+  },
+  en: {
+    day: day => `${day} ${day > 1 ? 'dates' : 'date'}`,
+    hour: hour => `${hour} ${hour > 1 ? 'hours' : 'hour'}`,
+    minute: minute => `${minute} ${minute > 1 ? 'minutes' : 'minute'}`,
+  },
+}
+
+export const getDurationTime = (params, lang) => {
+  const { from, to } = params
+
+  if (!to) return
+  const duration = moment.duration(moment(to).diff(from))
+  const day = Math.floor(moment.duration(duration).asDays())
+  const hour = moment.duration(duration).hours()
+  const minute = moment.duration(duration).minutes()
+
+  const time = timeLang[lang]
+
+  return [
+    day ? time.day(day) : '',
+    hour ? time.hour(hour) : '',
+    minute ? time.minute(minute) : '',
+  ]
+    .filter(Boolean)
+    .join(' ')
+}

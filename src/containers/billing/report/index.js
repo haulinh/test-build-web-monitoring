@@ -196,14 +196,18 @@ export default class BillingReport extends Component {
       return time
 
     if (values.reportType === 'month') {
-      time = `tháng ${values.time.value.format('M')}`
+      time = t('billing.title.reportMonth', {
+        param: values.time.value.format('M'),
+      })
 
       const startTitle = t('billing.title.detail', { time, from, to })
       return startTitle
     }
 
     if (values.reportType === 'quarter') {
-      time = `quý ${moment(values.time.value, 'YYYY-Q').format('Q')}`
+      time = t('billing.title.reportQuarter', {
+        param: moment(values.time.value, 'YYYY-Q').format('Q'),
+      })
 
       const startTitle = t('billing.title.detail', { time, from, to })
       return startTitle
@@ -211,7 +215,9 @@ export default class BillingReport extends Component {
 
     time = `quý ${values.time.value[0].format('Q')}`
     if (values.time.type === 'month')
-      time = `tháng ${values.time.value[0].format('Q')}`
+      time = t('billing.title.reportMonth', {
+        param: values.time.value[0].format('Q'),
+      })
 
     const startTitle = t('billing.title.detail', { time, from, to })
     return startTitle
