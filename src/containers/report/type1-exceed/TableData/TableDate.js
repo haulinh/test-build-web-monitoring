@@ -32,8 +32,6 @@ const TableDataDate = ({ data, loading, ...props }) => {
     return [...base, ...dataStation]
   }, [])
 
-  console.log({ dataSource })
-
   const columnsExceed = [1, 2, 3].map(column => ({
     title: `Vượt ngưỡng lần ${column}`,
     children: [
