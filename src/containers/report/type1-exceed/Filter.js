@@ -1,7 +1,6 @@
 import { Col, Row, Form, Switch } from 'antd'
 import ReportType from 'components/elements/select-data/report/SelectReportType'
 import TimeReport from 'components/elements/select-data/report/SelectTimeReport'
-import CheckFilter from 'components/elements/select-data/report/CheckFilter'
 import SelectProvince from 'components/elements/select-province'
 import SelectStationAuto from 'components/elements/select-station-auto'
 import { FormItem } from 'components/layouts/styles'
@@ -78,7 +77,7 @@ export default function Filter({ form, resetData = () => {} }) {
             </Col>
             <Col>
               <div style={{ fontSize: '16px', fontWeight: '600' }}>
-                {t('qaqc.approveData')}
+                {t('report.qaqc.approveData')}
               </div>
             </Col>
             <ColSwitch>

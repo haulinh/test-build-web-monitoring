@@ -5,11 +5,11 @@ import {translate as t } from 'hoc/create-lang'
 const options = [
   {
     key: 'year',
-    name: t('menuApp.report.type1_exceed.option.reportYear'),
+    name: t('report.type1_exceed.option.reportYear'),
   },
   {
     key: 'date',
-    name: t('menuApp.report.type1_exceed.option.reportDay'),
+    name: t('report.type1_exceed.option.reportDay'),
   },
 ]
 

@@ -31,19 +31,20 @@ const Text = styled.div`
 export function i18n() {
   return {
     reportType: {
-      label: t('dataSearchFrom.form.type.label'),
+      label: t('report.label.reportType'),
       option: {
-        year: t('menuApp.report.type1_exceed.option.reportYear'),
+        year: t('report.type1_exceed.option.reportYear'),
+        date: t('report.type1_exceed.option.reportDay'),
       }
     },
     time: {
-      label: t('dataSearchFrom.form.time'),
+      label: t('report.label.time'),
     },
     province: {
-      label: t('dataSearchFilterForm.form.province.label'),
+      label: t('report.label.province'),
     },
     station: {
-      label: t('menuApp.config.stationAuto'),
+      label: t('report.label.station'),
     },
 
   }
@@ -104,12 +105,12 @@ export default class ReportExceed extends Component {
     const values = form.getFieldsValue()
 
     if (values.reportType === 'year' ) {
-      const startTitle = t('menuApp.report.type1_exceed.title.reportYear') + moment(values.time.value, 'YYYY').format('YYYY')
+      const startTitle = t('report.type1_exceed.detailTitle.reportYear') + moment(values.time.value, 'YYYY').format('YYYY')
       return startTitle
     }
 
     if (values.reportType === 'date') {
-      const startTitle = t('menuApp.report.type1_exceed.title.reportDay') + values.time.value.format('DD/MM/YYYY')
+      const startTitle = t('report.type1_exceed.detailTitle.reportDay') + values.time.value.format('DD/MM/YYYY')
       return startTitle
     }
   }
@@ -175,7 +176,7 @@ export default class ReportExceed extends Component {
             </Col>
             <Col span={4}>
               <Row type="flex" justify="end">
-                <Button type="primary">{t('dataSearchFrom.tab.exportExcel')}</Button>
+                <Button type="primary">{t('report.exportExcel')}</Button>
               </Row>
             </Col>
           </Row>
