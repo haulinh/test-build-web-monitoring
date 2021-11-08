@@ -6,7 +6,7 @@ import {
 import React from 'react'
 const { Option } = Select
 
-const { MonthPicker } = DatePicker
+const { MonthPicker, RangePicker } = DatePicker
 
 const options = [
   {
@@ -27,17 +27,11 @@ const options = [
   },
 ]
 
-function Picker({ value, onChange }) {
-  if (value.type === 'custom')
-    return (
-      <DatePicker.RangePicker
-        placeholder="Chọn ngày"
-        onChange={onChange}
-        style={{ width: '100%' }}
-      />
-    )
-
-  if (value.type === 'month')
+function PickTimes({ type, onChange, value }) {
+  if (type === 'custom') {
+    return <RangePicker onChange={onChange} style={{ width: '100%' }} />
+  }
+  if (type === 'month') {
     return (
       <MonthPicker
         placeholder="Chọn tháng"
@@ -45,17 +39,17 @@ function Picker({ value, onChange }) {
         onChange={onChange}
       />
     )
-
-  if (value.type === 'year')
+  }
+  if (type === 'year') {
     return (
       <DatePickerYear
-        value={value.value}
         style={{ with: '100%' }}
+        value={value.value}
         onChange={onChange}
       />
     )
-
-  if (value.type === 'anyYear')
+  }
+  if (type === 'anyYear') {
     return (
       <DatePickerRangeYear
         value={value}
@@ -63,8 +57,7 @@ function Picker({ value, onChange }) {
         onChange={onChange}
       />
     )
-
-  return <React.Fragment />
+  }
 }
 
 export default class SelectReportTime extends React.Component {
@@ -91,7 +84,11 @@ export default class SelectReportTime extends React.Component {
         </Col>
 
         <Col span={18}>
-          <Picker onChange={this.handleOnTimeChange} value={value} />
+          <PickTimes
+            type={value.type}
+            onChange={this.handleOnTimeChange}
+            value={value}
+          />
         </Col>
       </Row>
     )
