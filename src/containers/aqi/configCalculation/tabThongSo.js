@@ -96,7 +96,20 @@ export default class TabThongSo extends React.Component {
                   message: i18n().required,
                 },
               ],
-            })(<this.SelectMeasure />)}
+            })(
+              <Select {...this.props} showSearch style={{width: '100%'}}>
+                {_.map(this.state.dataMeasuringObj, mea => {
+                  const isDisable = this.state.dataSource.some(
+                    item => item.keyMeasure === mea.key
+                  )
+                  return (
+                    <Select.Option disabled={isDisable} key={mea.key} value={mea.key}>
+                      {mea.name}
+                    </Select.Option>
+                  )
+                })}
+              </Select>
+            )}
           </Form.Item>
         )
       },
@@ -380,13 +393,16 @@ export default class TabThongSo extends React.Component {
     }
   }
 
+  componentDidUpdate(){
+    const {isDisable} = this.state
+    const isValid = this.validateForm()
+    if(isValid !== isDisable) this.setState({isDisable: isValid})
+  }
+
   validateForm(){
     const {form} = this.props
-    const {dataSource} = this.state
     const formValues = form.getFieldsValue()
     const aqiQCMeasures = _.get(formValues, 'aqiQCMeasures', []);
-
-    if(aqiQCMeasures.length !== dataSource.length) return true
 
     const record = aqiQCMeasures.find((item) => {
       if(!item.keyMeasure) return true
@@ -397,8 +413,8 @@ export default class TabThongSo extends React.Component {
     return !!record
   }
 
-  render() {
-    const isDisable = this.validateForm()
+ render() {
+   const {isDisable} = this.state
     return (
       <Spin spinning={!this.state.isLoaded}>
         <Button type="primary" onClick={this.add}>
