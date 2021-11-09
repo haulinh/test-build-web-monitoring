@@ -764,8 +764,10 @@ export default {
       header8: 'Giờ',
       header9: 'Tỉ lệ số liệu vượt ngưỡng (%)',
       title: 'BÁO CÁO TỈ LỆ SỐ LIỆU THU ĐƯỢC',
-      description:
-        'Các số liệu thống kê về tỉ lệ số liệu thu được của các trạm quan trắc từ tháng {{=it.fromMonth}} đến tháng {{=it.toMonth}}',
+      descriptionRatioMonth:
+        'Các số liệu thống kê về tỉ lệ số liệu thu được của các trạm quan trắc từ tháng {{=it.from}} đến tháng {{=it.to}}',
+      descriptionRatioDate:
+        'Các số liệu thống kê về tỉ lệ số liệu thu được của các trạm quan trắc từ ngày {{=it.from}} đến ngày {{=it.to}}',
       title2: 'BÁO CÁO KẾT QUẢ QUAN TRẮC TRUNG BÌNH 24 GIỜ',
       description2:
         'Các số liệu thống kê về kết quả quan trắc trung bình 24 giờ của trạm {{=it.stationName}} trong tháng {{=it.monthYear}}',
@@ -2943,6 +2945,7 @@ export default {
       aqiDay: 'AQI - Ngày',
       aqi878: 'AQI - 1479',
       status_data: 'Tình trạng dữ liệu',
+      type2_flow: 'Lưu lượng phát thải',
       status_data_obj: {
         title: 'Báo cáo đánh giá tình trạng dữ liệu',
         dateRange: 'Khoảng thời gian',
@@ -2993,6 +2996,7 @@ export default {
       aqiDay: 'AQI - Ngày',
       wqiHour: 'WQI - Giờ',
       wqiDay: 'WQI - Ngày',
+      type2_flow: 'Báo cáo lưu lượng phát thải',
       status_data: 'Tình trạng dữ liệu', // Qui them cho dong bo voi file EN
       type1_exceed: 'Báo cáo vượt ngưỡng',
     },
@@ -3033,6 +3037,7 @@ export default {
       aqi_hour: 'Báo cáo giá trị AQI của từng trạm',
       aqi_day: 'Báo cáo giá trị AQI ngày theo nhiều trạm',
       type1_exceed: 'Báo cáo dữ liệu vượt ngưỡng dựa theo số liệu thống kê',
+      type2_flow: 'Báo cáo lưu lượng phát thải',
     },
     advanceSub: 'Các chức năng nâng cao của hệ thống',
     advance: {
@@ -4039,6 +4044,7 @@ export default {
     },
     exportExcel: 'Xuất dữ liệu excel',
     label: {
+      reportType: 'Loại báo cáo',
       dataRatio: {
         statistic: 'Thống kê theo',
         type: {
@@ -4084,7 +4090,20 @@ export default {
         numday1h: 'Số ngày có giá trị trung bình 1h vượt QCVN',
         numrecord1h: 'Số giá trị trung bình 1h vượt QCVN',
         rate: 'Tỉ lệ giá trị trung bình 1 giờ vượt QCVN',
-      }
+      },
+    },
+    type2_flow: {
+      title: 'Báo cáo lưu lượng phát thải',
+      subTitle: 'Các số liệu thống kê',
+      timeRanger: {
+        year: 'năm',
+        from: 'từ',
+        to: 'đến',
+      },
+      stationName: 'Trạm quan trắc',
+      diameter: 'Đường kính',
+      value: 'Giá trị',
+      time: 'Thời gian',
     },
   },
 }

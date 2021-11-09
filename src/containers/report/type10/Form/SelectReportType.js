@@ -5,7 +5,7 @@ import { translate } from 'hoc/create-lang'
 const SelectReportType = props => {
   return (
     <Select style={{ width: '100%' }} {...props}>
-      <Select.Option value="rangeTime">
+      <Select.Option value="month">
         {translate('report.label.dataRatio.type.rangeTime')}
       </Select.Option>
       <Select.Option value="date">

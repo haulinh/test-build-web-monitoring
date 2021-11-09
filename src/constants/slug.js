@@ -230,7 +230,8 @@ export default {
     type11: '/report/type11', // Ket qua quan trac trung binh gio cua 1 ngay
     type12: '/report/type12', // tỷ lệ dữ liệu vượt ngưỡng của 1 trạm
     status_data: '/report/status-data',
-    type1_exceed: '/report/type1-exceed', // báo cáo vượt ngưỡng
+    type1_exceed: '/report/type1-exceed',
+    type2_flow: '/report/type2-flow', // báo cáo vượt ngưỡng
   },
   advance: {
     base: '/advance',
@@ -616,6 +617,7 @@ export function listMenuName() {
       aqi_878: translate('menuApp.report.aqi878'),
       status_data: translate('menuApp.report.status_data'),
       type1_exceed: translate('menuApp.report.type1_exceed'),
+      type2_flow: translate('menuApp.report.type2_flow'),
     },
 
     advanceSub: translate('menuApp.advanceSub'),
@@ -704,6 +706,7 @@ export function listTooltipMenu() {
       aqi_hour: translate('tooltipMenuApp.report.aqi_hour'),
       aqi_day: translate('tooltipMenuApp.report.aqi_day'),
       type1_exceed: translate('tooltipMenuApp.report.type1_exceed'),
+      type2_flow: translate('tooltipMenuApp.report.type2_flow'),
     },
     advanceSub: translate('tooltipMenuApp.advanceSub'),
     advance: {

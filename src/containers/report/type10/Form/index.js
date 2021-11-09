@@ -5,7 +5,6 @@ import SelectStationAuto from 'components/elements/select-station-auto'
 import SelectStationType from 'components/elements/select-station-type'
 import { Clearfix } from 'containers/fixed-map/map-default/components/box-analytic-list/style'
 import { translate } from 'hoc/create-lang'
-import moment from 'moment-timezone'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { FIELDS } from '../index'
@@ -60,17 +59,15 @@ export default class SearchForm extends React.Component {
 
   submit = () => {
     this.props.form.validateFields((err, values) => {
-      // console.log(err, values)
-
       if (!err) {
-        // console.log("Received values of form: ", values);
-        // console.log(moment(values.fromMonth).startOf("month").format())
+        if (values[FIELDS.TIME_TYPE] === 'date') {
+          values.from = values[FIELDS.TIME_VALUE][0].startOf('day')
+          values.to = values[FIELDS.TIME_VALUE][1].startOf('day')
+        } else {
+          values.from = values[FIELDS.TIME_VALUE][0].startOf('month')
+          values.to = values[FIELDS.TIME_VALUE][1].startOf('month')
+        }
 
-        values.fromMonth = moment(values.fromMonth).startOf('month')
-        values.toMonth =
-          moment(values.toMonth).endOf('month') > moment()
-            ? moment()
-            : moment(values.toMonth).endOf('month')
         if (this.props.cbSubmit) {
           this.props.cbSubmit({
             ...values,
@@ -93,6 +90,8 @@ export default class SearchForm extends React.Component {
     const { form } = this.props
 
     const stationType = form.getFieldValue('stationType')
+
+    console.log({ values: form.getFieldsValue() })
 
     return (
       <SearchFormContainer>
@@ -121,7 +120,7 @@ export default class SearchForm extends React.Component {
               <Item label={translate('report.label.dataRatio.statistic')}>
                 {form.getFieldDecorator(FIELDS.STATISTIC, {
                   onChange: this.handleOnStatisticChange,
-                  initialValue: 'rangeTime',
+                  initialValue: 'month',
                 })(<SelectReportType />)}
               </Item>
             </Col>
@@ -142,7 +141,7 @@ export default class SearchForm extends React.Component {
             </Col>
             <Col span={8}>
               <Item label={i18n().label.station}>
-                {form.getFieldDecorator(FIELDS.STATION_IDS, {
+                {form.getFieldDecorator(FIELDS.STATION_KEYS, {
                   rules: [
                     {
                       required: true,
@@ -151,7 +150,12 @@ export default class SearchForm extends React.Component {
                       ),
                     },
                   ],
-                })(<SelectStationAuto stationType={stationType} />)}
+                })(
+                  <SelectStationAuto
+                    mode="multiple"
+                    stationType={stationType}
+                  />
+                )}
               </Item>
             </Col>
           </Row>
