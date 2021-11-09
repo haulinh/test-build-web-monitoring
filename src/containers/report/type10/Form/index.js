@@ -10,6 +10,8 @@ import React from 'react'
 import { FIELDS } from '../index'
 import SelectReportType from './SelectReportType'
 import SelectTime from './SelectTime'
+import styled from 'styled-components'
+import { connect } from 'react-redux'
 
 function i18n() {
   return {
@@ -29,6 +31,18 @@ function i18n() {
   }
 }
 
+const Label = styled.label`
+  ::before {
+    display: inline-block;
+    margin-right: 4 px;
+    color: #f5222d;
+    font-size: 14px;
+    font-family: SimSun, sans-serif;
+    line-height: 1;
+    content: '*';
+  }
+`
+
 const Item = props => (
   <Form.Item
     className="noMarginBot"
@@ -45,6 +59,9 @@ const Item = props => (
 
 // Search form ty le nhan du lieu
 @Form.create()
+@connect(state => ({
+  stationAutos: state.stationAuto.list,
+}))
 export default class SearchForm extends React.Component {
   static propTypes = {
     cbSubmit: PropTypes.func,
@@ -55,6 +72,17 @@ export default class SearchForm extends React.Component {
     this.state = {
       measuringList: [],
     }
+  }
+
+  componentDidMount() {
+    this.setInitValue()
+    this.submit()
+  }
+
+  setInitValue = () => {
+    const { form, stationAutos } = this.props
+    const stationAutoKeys = stationAutos.map(stationAuto => stationAuto.key)
+    form.setFieldsValue({ [FIELDS.STATION_KEYS]: stationAutoKeys })
   }
 
   submit = () => {
@@ -91,8 +119,6 @@ export default class SearchForm extends React.Component {
 
     const stationType = form.getFieldValue('stationType')
 
-    console.log({ values: form.getFieldsValue() })
-
     return (
       <SearchFormContainer>
         <Heading
@@ -125,13 +151,14 @@ export default class SearchForm extends React.Component {
               </Item>
             </Col>
             <Col span={8}>
-              <Item label={translate('dataSearchFilterForm.form.time')}>
+              <Item
+                label={
+                  <Label>{translate('dataSearchFilterForm.form.time')}</Label>
+                }
+              >
                 <SelectTime form={form} />
               </Item>
             </Col>
-          </Row>
-
-          <Row gutter={16}>
             <Col span={8}>
               <Item label={i18n().label.stationType}>
                 {form.getFieldDecorator('stationType', {
@@ -139,7 +166,10 @@ export default class SearchForm extends React.Component {
                 })(<SelectStationType isShowAll />)}
               </Item>
             </Col>
-            <Col span={8}>
+          </Row>
+
+          <Row gutter={16}>
+            <Col span={24}>
               <Item label={i18n().label.station}>
                 {form.getFieldDecorator(FIELDS.STATION_KEYS, {
                   rules: [

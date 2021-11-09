@@ -55,7 +55,6 @@ function TableDate({ data, loading }) {
       title: t('report.type2_flow.time'),
       dataIndex: 'date',
       render: (value, record) => {
-        console.log({ value, record })
         const obj = {
           children: value,
           props: {},
