@@ -91,8 +91,6 @@ function TableDate({ data, loading }) {
     },
   ]
 
-  console.log({ dataSource })
-
   return (
     <Table
       loading={loading}

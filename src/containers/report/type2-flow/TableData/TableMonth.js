@@ -17,7 +17,6 @@ function TableMonth({ data, loading }) {
     const dayData = current.data.map(dataItem => dataItem._id)
     return [...base, ...dayData]
   }, [])
-  console.log({ daysData: daysData })
   const daysUnique = new Set(daysData)
 
   const columnsMonth = [...daysUnique].map(day => ({
@@ -56,12 +55,6 @@ function TableMonth({ data, loading }) {
 
   return (
     <div>
-      {/* <Table
-        columns={columns}
-        dataSource={data}
-        scroll={{ x: 1500, y: 300 }}
-        bordered
-      /> */}
       <Table
         loading={loading}
         bordered

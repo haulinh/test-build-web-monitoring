@@ -1,6 +1,5 @@
-import React from 'react'
 import { Select } from 'antd'
-import { translate } from 'hoc/create-lang'
+import React from 'react'
 
 const { Option } = Select
 
@@ -20,16 +19,9 @@ const options = [
   },
 ]
 
-const SelectReportType = ({ onChange }) => {
-  const handleOnChange = reportType => {
-    onChange(reportType)
-  }
+const SelectReportType = props => {
   return (
-    <Select
-      defaultValue="month"
-      style={{ width: '100%' }}
-      onChange={handleOnChange}
-    >
+    <Select defaultValue="month" style={{ width: '100%' }} {...props}>
       {options.map(option => (
         <Option key={option.key} value={option.key}>
           {option.name}
