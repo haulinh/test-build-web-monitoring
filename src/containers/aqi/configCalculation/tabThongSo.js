@@ -121,6 +121,9 @@ export default class TabThongSo extends React.Component {
               },
             })(
               <Checkbox
+                disabled={!getFieldValue(
+                  `aqiQCMeasures[${record.key}].keyMeasure`
+                )}
                 checked={getFieldValue(
                   `aqiQCMeasures[${record.key}].isrequired`
                 )}
@@ -151,6 +154,9 @@ export default class TabThongSo extends React.Component {
               },
             })(
               <Checkbox
+                disabled={!getFieldValue(
+                  `aqiQCMeasures[${record.key}].keyMeasure`
+                )}
                 checked={getFieldValue(`aqiQCMeasures[${record.key}].1h`)}
                 style={{ display: 'flex', justifyContent: 'center' }}
               />
@@ -177,14 +183,11 @@ export default class TabThongSo extends React.Component {
                   ),
                 })
               },
-              // rules: [
-              //   {
-              //     required: !getFieldValue(`aqiQCMeasures[${record.key}].8h`),
-              //     message: i18n().required1D_1H
-              //   }
-              // ]
             })(
               <Checkbox
+                disabled={!getFieldValue(
+                  `aqiQCMeasures[${record.key}].keyMeasure`
+                )}
                 checked={getFieldValue(`aqiQCMeasures[${record.key}].8h`)}
                 style={{ display: 'flex', justifyContent: 'center' }}
               />
@@ -211,14 +214,11 @@ export default class TabThongSo extends React.Component {
                   ),
                 })
               },
-              // rules: [
-              //   {
-              //     required: !getFieldValue(`aqiQCMeasures[${record.key}].24h`),
-              //     message: i18n().required1D_1H
-              //   }
-              // ]
             })(
               <Checkbox
+                disabled={!getFieldValue(
+                  `aqiQCMeasures[${record.key}].keyMeasure`
+                )}
                 checked={getFieldValue(`aqiQCMeasures[${record.key}].24h`)}
                 style={{ display: 'flex', justifyContent: 'center' }}
               />
@@ -380,7 +380,24 @@ export default class TabThongSo extends React.Component {
     }
   }
 
+  validateForm(){
+    const {form} = this.props
+    const {dataSource} = this.state
+    const formValues = form.getFieldsValue()
+    const aqiQCMeasures = _.get(formValues, 'aqiQCMeasures', []);
+
+    if(aqiQCMeasures.length !== dataSource.length) return true
+
+    const record = aqiQCMeasures.find((item) => {
+      if(!item.keyMeasure) return true
+      if(['1h', '8h', '24h', 'isrequired'].every(key => !_.identity(item[key]))) return true
+    })
+
+    return !!record
+  }
+
   render() {
+    const isDisable = this.validateForm()
     return (
       <Spin spinning={!this.state.isLoaded}>
         <Button type="primary" onClick={this.add}>
@@ -400,6 +417,7 @@ export default class TabThongSo extends React.Component {
           block
           type="primary"
           onClick={this.submit}
+          disabled={isDisable}
         >
           {i18n().submit}
         </Button>
