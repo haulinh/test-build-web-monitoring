@@ -4031,6 +4031,10 @@ export default {
     },
   },
   report: {
+    required: {
+      time: 'Vui lòng chọn thời gian',
+      station: 'Vui lòng chọn trạm quan trắc'
+    },
     placeholder: {
       time: 'Chọn thời gian',
     },

@@ -46,6 +46,12 @@ export default function Filter({ form, resetData = () => {} }) {
           <FormItem label={i18n().time.label}>
             {form.getFieldDecorator(FIELDS.TIME, {
               initialValue: { type: 'year', value: moment().year() },
+              rules: [
+                {
+                  required: true,
+                  message: i18n().time.required,
+                },
+              ],
             })(<TimeReport reportType={reportType} />)}
           </FormItem>
         </Col>
@@ -64,6 +70,7 @@ export default function Filter({ form, resetData = () => {} }) {
             rules: [
               {
                 required: true,
+                message: i18n().station.required,
               },
             ],
           })(<SelectStationAuto province={province} mode="tags" />)}

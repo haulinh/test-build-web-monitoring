@@ -4019,6 +4019,10 @@ export default {
     },
   },
   report: {
+    required: {
+      time: 'Please choose time',
+      station: 'Please choose station',
+    },
     placeholder: {
       time: 'Select time',
     },

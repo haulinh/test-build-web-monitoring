@@ -39,12 +39,14 @@ export function i18n() {
     },
     time: {
       label: t('report.label.time'),
+      required: t('report.required.time'),
     },
     province: {
       label: t('report.label.province'),
     },
     station: {
       label: t('report.label.station'),
+      required: t('report.required.station'),
     },
 
   }
@@ -57,9 +59,24 @@ export default class ReportExceed extends Component {
     loading: false,
   }
 
-  getQueryParams = () => {
+  getQueryParams = async () => {
     const { form } = this.props
-    const values = form.getFieldsValue()
+    const values = await form.validateFields()
+    const time = _.get(values, 'time.value')
+    if (
+      !time ||
+      (values.reportType === 'date' && _.isEmpty(time))
+    ) {
+      form.setFields({
+        time: {
+          type: _.get(values, 'reportType'),
+          value: _.get(values, 'time'),
+          errors: [new Error(i18n().time.required)],
+        },
+      })
+      return
+    }
+
     const type = values.reportType
     const queryParams = {
       year: this.getQueryParamsYear,
@@ -106,6 +123,7 @@ export default class ReportExceed extends Component {
 
     if (values.reportType === 'year' ) {
       const startTitle = t('report.type1_exceed.detailTitle.reportYear') + moment(values.time.value, 'YYYY').format('YYYY')
+      console.log('hi')
       return startTitle
     }
 
