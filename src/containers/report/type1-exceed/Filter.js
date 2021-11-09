@@ -1,15 +1,15 @@
-import { Col, Row, Form, Switch } from 'antd'
+import { Col, Row, Switch } from 'antd'
 import ReportType from 'components/elements/select-data/report/SelectReportType'
 import TimeReport from 'components/elements/select-data/report/SelectTimeReport'
 import SelectProvince from 'components/elements/select-province'
 import SelectStationAuto from 'components/elements/select-station-auto'
 import { FormItem } from 'components/layouts/styles'
-import React from 'react'
-import moment from 'moment'
-import { FIELDS, i18n } from './index'
 import { ToolTip } from 'containers/search/common/tooltip'
 import { translate as t } from 'hoc/create-lang'
+import moment from 'moment'
+import React from 'react'
 import styled from 'styled-components'
+import { FIELDS, i18n } from './index'
 
 const ColSwitch = styled(Col)`
   .ant-form-item .ant-switch {
