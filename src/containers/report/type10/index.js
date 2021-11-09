@@ -1,6 +1,5 @@
 import { Button, Typography } from 'antd'
 import DataInsight from 'api/DataInsight'
-import { getUrlReportType10Excel } from 'api/DataStationAutoApi'
 import Clearfix from 'components/elements/clearfix'
 import { DD_MM_YYYY, MM_YYYY } from 'constants/format-date.js'
 import ROLE from 'constants/role'
