@@ -25,7 +25,7 @@ const TableYear = ({ data, loading, ...props }) => {
       />
     )
   }
-  console.log({data})
+
   const dataSource = data.reduce((base, current) => {
     if (_.isEmpty(current.data)) return base
 
@@ -47,8 +47,7 @@ const TableYear = ({ data, loading, ...props }) => {
     )
     return [...base, ...dataStation]
   }, [])
-  console.log(props.stationAutoByKey)
-  console.log({dataSource})
+
   const columns = [
     {
       title: i18n().station,

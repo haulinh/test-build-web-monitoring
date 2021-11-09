@@ -86,6 +86,7 @@ export default function Filter({ form, resetData = () => {} }) {
                   {form.getFieldDecorator('isFilter', {
                     initialValue: false,
                     onChange: handleOnChangeFilter,
+                    valuePropName: "checked",
                   })(<Switch form={form} />)}
                 </FormItem>
               </div>
