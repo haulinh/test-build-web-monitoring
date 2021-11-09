@@ -2945,15 +2945,12 @@ export default {
       aqiDay: 'AQI - Ngày',
       aqi878: 'AQI - 1479',
       status_data: 'Tình trạng dữ liệu',
+      type2_flow: 'Lưu lượng phát thải',
       status_data_obj: {
         title: 'Báo cáo đánh giá tình trạng dữ liệu',
         dateRange: 'Khoảng thời gian',
       },
-      type1_exceed: {
-        label: {
-          unitManage: 'Đơn vị quản lý',
-        },
-      },
+      type1_exceed: 'Dữ liệu vượt ngưỡng',
       table: {
         header: {
           station: 'Trạm',
@@ -2999,6 +2996,7 @@ export default {
       aqiDay: 'AQI - Ngày',
       wqiHour: 'WQI - Giờ',
       wqiDay: 'WQI - Ngày',
+      type2_flow: 'Báo cáo lưu lượng phát thải',
       status_data: 'Tình trạng dữ liệu', // Qui them cho dong bo voi file EN
       type1_exceed: 'Báo cáo vượt ngưỡng',
     },
@@ -3036,9 +3034,10 @@ export default {
         'Giá trị lớn nhất trong số các giá trị trung bình 8 giờ  trong 1 ngày đo',
       type12: 'Thống kê về tỉ lệ dữ liệu vượt ngưỡng của trạm trong ngày',
       status_data: ' Báo cáo tổng hợp tình trạng dữ liệu theo nhiều trạm',
-      type1_exceed: ' Báo cáo vượt ngưỡng, tra cứu theo năm',
       aqi_hour: 'Báo cáo giá trị AQI của từng trạm',
       aqi_day: 'Báo cáo giá trị AQI ngày theo nhiều trạm',
+      type1_exceed: 'Báo cáo dữ liệu vượt ngưỡng dựa theo số liệu thống kê',
+      type2_flow: 'Báo cáo lưu lượng phát thải',
     },
     advanceSub: 'Các chức năng nâng cao của hệ thống',
     advance: {
@@ -4037,6 +4036,13 @@ export default {
     },
   },
   report: {
+    placeholder: {
+      time: 'Chọn thời gian',
+    },
+    qaqc: {
+      approveData: 'Kiểm duyệt dữ liệu',
+    },
+    exportExcel: 'Xuất dữ liệu excel',
     label: {
       dataRatio: {
         statistic: 'Thống kê theo',
@@ -4045,6 +4051,58 @@ export default {
           date: 'Từng ngày',
         },
       },
+      reportType: 'Loại báo cáo',
+      time: 'Thời gian',
+      province: 'Đơn vị quản lý',
+      station: 'Trạm quan trắc',
+    },
+    type1_exceed: {
+      detailTitle: {
+        reportYear: 'Các số liệu thống kê về dữ liệu vượt ngưỡng trong năm ',
+        reportDay: 'Các số liệu thống kê về dữ liệu vượt ngưỡng trong ngày ',
+      },
+      title: {
+        year: 'BÁO CÁO THỐNG KÊ VƯỢT NGƯỠNG THEO NĂM',
+        date: 'BÁO CÁO THỐNG KÊ VƯỢT NGƯỠNG THEO NGÀY',
+      },
+      option: {
+        reportYear: 'Báo cáo năm',
+        reportDay: 'Báo cáo ngày',
+        year: 'Năm',
+        day: 'Ngày',
+      },
+      table: {
+        data_day: 'Số liệu trong ngày',
+        station: 'Trạm quan trắc',
+        param: 'Thông số',
+        unit: 'Đơn vị',
+        limit: 'Giá trị giới hạn',
+        avg_value: 'Giá trị trung bình',
+        max_value: 'Giá trị lớn nhất',
+        overtime: 'Vượt ngưỡng lần ',
+        start_time: 'Thời điểm phát sinh',
+        process_time: 'Thời gian xử lý',
+        over_value: 'Giá trị vượt ngưỡng',
+        qcvn: 'QCVN',
+        permiss_value: 'Giá trị quy chuẩn',
+        numday24h: 'Số ngày có giá trị trung bình 24h vượt QCVN',
+        numday1h: 'Số ngày có giá trị trung bình 1h vượt QCVN',
+        numrecord1h: 'Số giá trị trung bình 1h vượt QCVN',
+        rate: 'Tỉ lệ giá trị trung bình 1 giờ vượt QCVN',
+      },
+    },
+    type2_flow: {
+      title: 'Báo cáo lưu lượng phát thải',
+      subTitle: 'Các số liệu thống kê',
+      timeRanger: {
+        year: 'năm',
+        from: 'từ',
+        to: 'đến',
+      },
+      stationName: 'Trạm quan trắc',
+      diameter: 'Đường kính',
+      value: 'Giá trị',
+      time: 'Thời gian',
     },
   },
 }

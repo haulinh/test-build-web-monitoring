@@ -2946,16 +2946,12 @@ export default {
       aqiDay: 'AQI - Day',
       aqi878: 'AQI - 1479',
       status_data: 'Status Data',
+      type2_flow: 'Emission Flow',
       status_data_obj: {
         title: 'Report Status Data',
         dateRange: 'Date range',
       },
-      option: {
-        reportYear: 'Report Year',
-        reportMonth: 'Report Month',
-        quarter: 'Quarter',
-        month: 'Month',
-      },
+      type1_exceed: 'Data over the threshold',
       table: {
         header: {
           station: 'Station',
@@ -2993,6 +2989,7 @@ export default {
       wqiHour: 'WQI - Hour',
       wqiDay: 'WQI - Day',
       status_data: 'Status Data',
+      type2_flow: 'Emission Flow',
       type1_exceed: 'Exceed Report',
     },
     billing: 'Billing',
@@ -3051,6 +3048,8 @@ export default {
       status_data: 'Summary report on status of data at many stations',
       aqi_hour: 'Report the AQI value of each station',
       aqi_day: 'Report AQI day values ​​for multiple stations',
+      type1_exceed: 'Report data over the threshold by statistics',
+      type2_flow: 'Report emission flow',
     },
     advanceSub: 'Advanced functions of the system',
     advance: {
@@ -4025,6 +4024,13 @@ export default {
     },
   },
   report: {
+    placeholder: {
+      time: 'Select time',
+    },
+    qaqc: {
+      approveData: 'Data processing',
+    },
+    exportExcel: 'Export To Excel',
     label: {
       dataRatio: {
         statistic: 'Statistic',
@@ -4033,6 +4039,61 @@ export default {
           date: 'Date',
         },
       },
+      reportType: 'Types Of Report',
+      time: 'Time',
+      province: 'Site',
+      station: 'Station Name',
+    },
+    type1_exceed: {
+      detailTitle: {
+        reportYear:
+          'Statistics about the percentage of data over the threshold in ',
+        reportDay:
+          'Statistics about the percentage of data over the threshold in ',
+      },
+      title: {
+        year: 'REPORT DATA OVER THE THRESHOLD BY YEAR',
+        date: 'REPORT DATA OVER THE THRESHOLD BY DAY',
+      },
+      option: {
+        reportYear: 'Year Report',
+        reportDay: 'Day Report',
+        year: 'Year',
+        day: 'Day',
+      },
+      table: {
+        data_day: 'Data in today',
+        station: 'Station Name',
+        param: 'Parameter',
+        unit: 'Unit',
+        limit: 'Limit Value',
+        avg_value: 'Average Value',
+        max_value: 'Maximum Value',
+        overtime: 'Over Threshold ',
+        start_time: 'Starting Time',
+        process_time: 'Processing Time',
+        over_value: 'Over Threshold Value',
+        qcvn: 'Technical Regulation',
+        permiss_value: 'Permissable values',
+        numday24h:
+          'Number of days with 24-hour average exceeding the regulation',
+        numday1h: 'Number of days with 1-hour average exceeding the regulation',
+        numrecord1h: 'Number of 1-hour average values exceeding the regulation',
+        rate: 'Percentage of 1-hour average values exceeding the regulation',
+      },
+    },
+    type2_flow: {
+      title: 'Reporting of Emission Flow',
+      subTitle: 'Statistics about emission flow',
+      timeRanger: {
+        year: 'in',
+        from: 'from',
+        to: 'to',
+      },
+      stationName: 'Station Name',
+      diameter: 'Diameter',
+      value: 'Value',
+      time: 'Time',
     },
   },
 }

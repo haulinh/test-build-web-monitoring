@@ -130,9 +130,26 @@ export default {
         >
           <Tooltip
             placement="right"
-            title={listTooltipMenu().report.status_data}
+            title={listTooltipMenu().report.type1_exceed}
           >
-            <Link to={slug.report.type1_exceed}>Dữ liệu vượt ngưỡng</Link>
+            <Link to={slug.report.type1_exceed}>{listMenuName().report.type1_exceed}</Link>
+          </Tooltip>
+        </Menu.Item>
+      )}
+      {protectRole(ROLE.TINH_TRANG_DU_LIEU.VIEW)(
+        <Menu.Item
+          key={slug.report.type2_flow}
+          onClick={() => {
+            props.selectMenu(slug.report.type2_flow)
+          }}
+        >
+          <Tooltip
+            placement="right"
+            title={listTooltipMenu().report.type2_flow}
+          >
+            <Link to={slug.report.type2_flow}>
+              {listMenuName().report.type2_flow}
+            </Link>
           </Tooltip>
         </Menu.Item>
       )}
