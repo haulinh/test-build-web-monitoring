@@ -85,7 +85,7 @@ const Flex = styled.div`
   lang: state.language.locale,
 }))
 @Form.create()
-export class StationFixedReport extends React.Component {
+export default class StationFixedReport extends React.Component {
   state = {
     dataPoints: [],
     loading: false,

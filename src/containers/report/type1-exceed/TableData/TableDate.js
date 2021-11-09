@@ -7,6 +7,20 @@ import { connect } from 'react-redux'
 import { getDurationTime } from 'utils/datetime'
 import { translate as t } from 'hoc/create-lang'
 
+const i18n = () => ({
+  station: t('report.type1_exceed.table.station'),
+  param: t('report.type1_exceed.table.param'),
+  unit: t('report.type1_exceed.table.unit'),
+  limit: t('report.type1_exceed.table.limit'),
+  avg_value: t('report.type1_exceed.table.avg_value'),
+  max_value: t('report.type1_exceed.table.max_value'),
+  overtime: t('report.type1_exceed.table.overtime'),
+  start_time: t('report.type1_exceed.table.start_time'),
+  process_time: t('report.type1_exceed.table.process_time'),
+  over_value: t('report.type1_exceed.table.over_value'),
+  data_day: t('report.type1_exceed.table.data_day'),
+})
+
 const TableDataDate = ({ data, loading, ...props }) => {
   if (_.isEmpty(data)) {
     return (
@@ -16,7 +30,7 @@ const TableDataDate = ({ data, loading, ...props }) => {
       />
     )
   }
-
+  console.log(data)
   const dataSource = data.reduce((base, current, currentIndex) => {
     const dataStation = current.data.map((dataItem, index) => {
       return {
@@ -31,12 +45,11 @@ const TableDataDate = ({ data, loading, ...props }) => {
     })
     return [...base, ...dataStation]
   }, [])
-
   const columnsExceed = [1, 2, 3].map(column => ({
-    title: `Vượt ngưỡng lần ${column}`,
+    title: `${i18n().overtime} ${column}`,
     children: [
       {
-        title: 'Thời điểm phát sinh',
+        title: i18n().start_time,
         dataIndex: `data.${column - 1}`,
         render: value => {
           if (!value) return null
@@ -44,7 +57,7 @@ const TableDataDate = ({ data, loading, ...props }) => {
         },
       },
       {
-        title: 'Thời gian xử lý',
+        title: i18n().process_time,
         dataIndex: `data.${column - 1}`,
         render: value => {
           if (!value) return null
@@ -58,7 +71,7 @@ const TableDataDate = ({ data, loading, ...props }) => {
         },
       },
       {
-        title: 'Giá trị vượt ngưỡng',
+        title: i18n().over_value,
         dataIndex: `data.${column - 1}`,
         render: value => {
           return <div>{_.get(value, '[0].value', '-')}</div>
@@ -69,11 +82,11 @@ const TableDataDate = ({ data, loading, ...props }) => {
 
   const columns = [
     {
-      title: 'Trạm quan trắc',
+      title: i18n().station,
       dataIndex: 'stationKey',
       render: (value, record, index) => {
         const obj = {
-          children: value,
+          children: props.stationAutoByKey[value].name,
           props: {},
         }
 
@@ -86,14 +99,14 @@ const TableDataDate = ({ data, loading, ...props }) => {
         return obj
       },
     },
-    { title: 'Thông số', dataIndex: 'measure' },
+    { title: i18n().param, dataIndex: 'measure' },
     {
-      title: 'Đơn vị',
+      title: i18n().unit,
       dataIndex: 'config.unit',
       render: value => <div>{_.isNumber(value) ? value : '-'}</div>,
     },
     {
-      title: 'Giá trị giới hạn',
+      title: i18n().limit_value,
       dataIndex: 'config',
       render: value => {
         if (!value.maxLimit) return null
@@ -105,15 +118,15 @@ const TableDataDate = ({ data, loading, ...props }) => {
       },
     },
     {
-      title: 'Số liệu trong ngày',
+      title: i18n().data_day,
       children: [
         {
-          title: 'Giá trị TB',
+          title: i18n().avg_value,
           dataIndex: 'avg',
           render: value => <div>{_.isNumber(value) ? value : '-'}</div>,
         },
         {
-          title: 'Giá trị lớn nhất',
+          title: i18n().max_value,
           dataIndex: 'max',
           render: value => <div>{_.isNumber(value) ? value : '-'}</div>,
         },
@@ -136,8 +149,10 @@ const TableDataDate = ({ data, loading, ...props }) => {
 }
 
 const mapStateToProps = state => {
+  const stationAutoByKey = _.keyBy(state.stationAuto.list, 'key')
   return {
     lang: state.language.locale,
+    stationAutoByKey,
   }
 }
 

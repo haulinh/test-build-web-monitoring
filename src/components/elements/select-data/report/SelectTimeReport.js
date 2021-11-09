@@ -1,14 +1,16 @@
 import { Col, DatePicker, Row, Select } from 'antd'
 import React from 'react'
 import DatePickerYear from 'components/core/date-picker/DatePickerYear'
+import {translate as t} from 'hoc/create-lang'
+
 const timeOption = [
   {
     key: 'date',
-    name: 'Ngày',
+    name: t('report.type1_exceed.option.day'),
   },
   {
     key: 'year',
-    name: 'Năm',
+    name: t('report.type1_exceed.option.year'),
   },
 ]
 
@@ -40,7 +42,6 @@ const TimeReport = ({ value: valueField = {}, reportType, onChange }) => {
       <Col span={17}>
         {reportType === 'year' ? (
           <DatePickerYear
-            placeholder="Chọn thời gian"
             style={{ width: '100%' }}
             onChange={handleOnPicker}
             value={valueField.value}
@@ -49,7 +50,7 @@ const TimeReport = ({ value: valueField = {}, reportType, onChange }) => {
           <DatePicker
             onChange={handleOnPicker}
             style={{ width: '100%' }}
-            placeholder="Chọn thời gian"
+            placeholder={t('report.placeholder.time')}
           />
         )}
       </Col>
