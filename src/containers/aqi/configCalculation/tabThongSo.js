@@ -391,6 +391,7 @@ export default class TabThongSo extends React.Component {
     const record = aqiQCMeasures.find((item) => {
       if(!item.keyMeasure) return true
       if(['1h', '8h', '24h', 'isrequired'].every(key => !_.identity(item[key]))) return true
+      return false
     })
 
     return !!record
