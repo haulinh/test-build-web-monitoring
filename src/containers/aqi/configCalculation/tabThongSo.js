@@ -386,7 +386,7 @@ export default class TabThongSo extends React.Component {
     const formValues = form.getFieldsValue()
     const aqiQCMeasures = _.get(formValues, 'aqiQCMeasures', []);
 
-    const record = aqiQCMeasures.find((item) => {
+    const record = aqiQCMeasures.filter(Boolean).find((item) => {
       if(!item.keyMeasure) return true
       if(['1h', '8h', '24h', 'isrequired'].every(key => !_.identity(item[key]))) return true
       return false
