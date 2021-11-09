@@ -766,8 +766,10 @@ export default {
       header8: 'Hours',
       header9: 'Percentage of exceeded data (%)',
       title: 'REPORT THE PERCENTAGE OF OBTAINED DATA',
-      description:
-        'Statistics about the Percentage of data obtained of stations from {{=it.fromMonth}} to {{=it.toMonth}}',
+      descriptionRatioMonth:
+        'Statistics about the Percentage of data obtained of stations from {{=it.from}} to {{=it.to}}',
+      descriptionRatioDate:
+        'Statistics about the Percentage of data obtained of stations from {{=it.from}} to {{=it.to}}',
       title2: 'REPORT THE RESULTS OF 24-HOUR AVERAGE MONITORING',
       description2:
         'Statistics about Results of 24-hour average monitoring of {{=it.stationName}} station in {{=it.monthYear}}',
@@ -2944,6 +2946,7 @@ export default {
       aqiDay: 'AQI - Day',
       aqi878: 'AQI - 1479',
       status_data: 'Status Data',
+      type2_flow: 'Emission Flow',
       status_data_obj: {
         title: 'Report Status Data',
         dateRange: 'Date range',
@@ -2986,6 +2989,7 @@ export default {
       wqiHour: 'WQI - Hour',
       wqiDay: 'WQI - Day',
       status_data: 'Status Data',
+      type2_flow: 'Emission Flow',
       type1_exceed: 'Exceed Report',
     },
     billing: 'Billing',
@@ -3045,6 +3049,7 @@ export default {
       aqi_hour: 'Report the AQI value of each station',
       aqi_day: 'Report AQI day values ​​for multiple stations',
       type1_exceed: 'Report data over the threshold by statistics',
+      type2_flow: 'Report emission flow',
     },
     advanceSub: 'Advanced functions of the system',
     advance: {
@@ -4045,8 +4050,10 @@ export default {
     },
     type1_exceed: {
       detailTitle: {
-          reportYear: 'Statistics about the percentage of data over the threshold in ',
-          reportDay: 'Statistics about the percentage of data over the threshold in ',
+        reportYear:
+          'Statistics about the percentage of data over the threshold in ',
+        reportDay:
+          'Statistics about the percentage of data over the threshold in ',
       },
       title: {
         year: 'REPORT DATA OVER THE THRESHOLD BY YEAR',
@@ -4056,7 +4063,7 @@ export default {
         reportYear: 'Year Report',
         reportDay: 'Day Report',
         year: 'Year',
-        day: 'Day'
+        day: 'Day',
       },
       table: {
         data_day: 'Data in today',
@@ -4072,12 +4079,25 @@ export default {
         over_value: 'Over Threshold Value',
         qcvn: 'Technical Regulation',
         permiss_value: 'Permissable values',
-        numday24h: 'Number of days with 24-hour average exceeding the regulation',
+        numday24h:
+          'Number of days with 24-hour average exceeding the regulation',
         numday1h: 'Number of days with 1-hour average exceeding the regulation',
         numrecord1h: 'Number of 1-hour average values exceeding the regulation',
         rate: 'Percentage of 1-hour average values exceeding the regulation',
-
-      }
+      },
+    },
+    type2_flow: {
+      title: 'Reporting of Emission Flow',
+      subTitle: 'Statistics about emission flow',
+      timeRanger: {
+        year: 'in',
+        from: 'from',
+        to: 'to',
+      },
+      stationName: 'Station Name',
+      diameter: 'Diameter',
+      value: 'Value',
+      time: 'Time',
     },
   },
 }

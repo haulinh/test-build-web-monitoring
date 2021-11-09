@@ -17,6 +17,7 @@ import ReportType12 from './type12'
 
 import ReportStatusData from './status-data'
 import ReportExceed from './type1-exceed'
+import ReportFlow from './type2-flow'
 
 export default props => (
   <Switch>
@@ -86,6 +87,10 @@ export default props => (
     <Route
       path={slug.report.type1_exceed}
       render={matchProps => <ReportExceed {...matchProps} {...props} />}
+    />
+    <Route
+      path={slug.report.type2_flow}
+      render={matchProps => <ReportFlow {...matchProps} {...props} />}
     />
   </Switch>
 )

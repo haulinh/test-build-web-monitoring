@@ -46,8 +46,17 @@ export default {
   },
 
   //#region report
+  getDataFlow: params => {
+    const url = getDataInsightUrl(`report/data-flow`)
+    return getFetch(url, params)
+  },
+
   getExceedData: (type, param) => {
     const url = getDataInsightUrl(`report/data-exceed/${type}`)
+    return getFetch(url, param)
+  },
+  getDataRatio: (type, param) => {
+    const url = getDataInsightUrl(`report/data-ratio/${type}`)
     return getFetch(url, param)
   },
   //#endregion
