@@ -541,6 +541,12 @@ export default class StationAutoForm extends React.PureComponent {
               <Col span={12}>
                 <FormItem
                   {...formItemLayout}
+                  labelCol={{
+                    sm: { span: 8, offset: 0 },
+                  }}
+                  wrapperCol={{
+                    sm: { span: 15, offset: 0 },
+                  }}
                   label={t('stationAutoManager.form.name.label')}
                 >
                   {getFieldDecorator('name', {
@@ -648,6 +654,12 @@ export default class StationAutoForm extends React.PureComponent {
               <Col span={12}>
                 <FormItem
                   {...formItemLayout}
+                  labelCol={{
+                    sm: { span: 8, offset: 0 },
+                  }}
+                  wrapperCol={{
+                    sm: { span: 15, offset: 0 },
+                  }}
                   label={t('stationAutoManager.form.lat.label')}
                 >
                   {getFieldDecorator('lat', {
@@ -670,6 +682,7 @@ export default class StationAutoForm extends React.PureComponent {
               <Col span={12}>
                 <FormItem
                   {...formItemLayout}
+
                   label={t('stationAutoManager.form.longVn2000.label')}
                 >
                   {getFieldDecorator('longVn2000')(
@@ -685,6 +698,12 @@ export default class StationAutoForm extends React.PureComponent {
               <Col span={12}>
                 <FormItem
                   {...formItemLayout}
+                  labelCol={{
+                    sm: { span: 8, offset: 0 },
+                  }}
+                  wrapperCol={{
+                    sm: { span: 15, offset: 0 },
+                  }}
                   label={t('stationAutoManager.form.latVn2000.label')}
                 >
                   {getFieldDecorator('latVn2000')(
@@ -716,6 +735,12 @@ export default class StationAutoForm extends React.PureComponent {
               <Col span={12}>
                 <FormItem
                   {...formItemLayout}
+                  labelCol={{
+                    sm: { span: 8, offset: 0 },
+                  }}
+                  wrapperCol={{
+                    sm: { span: 15, offset: 0 },
+                  }}
                   label={t('stationAutoManager.form.stationType.label')}
                 >
                   {getFieldDecorator('stationType', {
@@ -779,6 +804,12 @@ export default class StationAutoForm extends React.PureComponent {
               <Col span={12}>
                 <FormItem
                   {...formItemLayout}
+                  labelCol={{
+                    sm: { span: 8, offset: 0 },
+                  }}
+                  wrapperCol={{
+                    sm: { span: 15, offset: 0 },
+                  }}
                   label={t('stationAutoManager.form.dayOfOperation.label')}
                 >
                   {getFieldDecorator('activatedAt', {
@@ -826,11 +857,16 @@ export default class StationAutoForm extends React.PureComponent {
               </Col>
             </Row>
             <ConnectionStatusWrapper>
-              <div style={{ width: '43em' }}>
+              <div style={{ width: '44em' }}>
                 <FormItem
                   {...formItemLayout}
+                  labelCol={{
+                    sm: { span: 7, offset: 0 },
+                  }}
+                  wrapperCol={{
+                    sm: { span: 16, offset: 0 },
+                  }}
                   label={t('stationAutoManager.form.connectionStatus.label')}
-                  style={{ color: 'red ', marginLeft: '12px' }}
                 >
                   {getFieldDecorator('connectionStatusNumber', {
                     rules: [
