@@ -4044,7 +4044,6 @@ export default {
     },
     exportExcel: 'Xuất dữ liệu excel',
     label: {
-      reportType: 'Loại báo cáo',
       dataRatio: {
         statistic: 'Thống kê theo',
         type: {

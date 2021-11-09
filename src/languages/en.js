@@ -4032,7 +4032,6 @@ export default {
     },
     exportExcel: 'Export To Excel',
     label: {
-      reportType: 'Report Type',
       dataRatio: {
         statistic: 'Statistic',
         type: {
