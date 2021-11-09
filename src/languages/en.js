@@ -2946,6 +2946,7 @@ export default {
       aqiDay: 'AQI - Day',
       aqi878: 'AQI - 1479',
       status_data: 'Status Data',
+      type2_flow: 'Emission Flow',
       status_data_obj: {
         title: 'Report Status Data',
         dateRange: 'Date range',
@@ -2993,6 +2994,7 @@ export default {
       wqiHour: 'WQI - Hour',
       wqiDay: 'WQI - Day',
       status_data: 'Status Data',
+      type2_flow: 'Emission Flow',
       type1_exceed: 'Exceed Report',
     },
     billing: 'Billing',
@@ -3051,6 +3053,7 @@ export default {
       status_data: 'Summary report on status of data at many stations',
       aqi_hour: 'Report the AQI value of each station',
       aqi_day: 'Report AQI day values ​​for multiple stations',
+      type2_flow: 'Report emission flow',
     },
     advanceSub: 'Advanced functions of the system',
     advance: {
@@ -4026,6 +4029,7 @@ export default {
   },
   report: {
     label: {
+      reportType: 'Report Type',
       dataRatio: {
         statistic: 'Statistic',
         type: {
@@ -4033,6 +4037,19 @@ export default {
           date: 'Date',
         },
       },
+    },
+    type2_flow: {
+      title: 'Reporting of Emission Flow',
+      subTitle: 'Statistics about emission flow',
+      timeRanger: {
+        year: 'in',
+        from: 'from',
+        to: 'to',
+      },
+      stationName: 'Station Name',
+      diameter: 'Diameter',
+      value: 'Value',
+      time: 'Time',
     },
   },
 }
