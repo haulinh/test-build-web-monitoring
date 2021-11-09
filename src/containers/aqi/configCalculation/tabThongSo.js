@@ -277,24 +277,6 @@ export default class TabThongSo extends React.Component {
     },
   ]
 
-  SelectMeasure = React.forwardRef(props => {
-    // console.log(props,"SelectMeasure")
-    return (
-      <Select {...props} showSearch style={{ width: '100%' }}>
-        {_.map(this.state.dataMeasuringObj, mea => {
-          const isDisable = this.state.dataSource.some(
-            item => item.keyMeasure === mea.key
-          )
-          return (
-            <Select.Option disabled={isDisable} key={mea.key} value={mea.key}>
-              {mea.name}
-            </Select.Option>
-          )
-        })}
-      </Select>
-    )
-  })
-
   submit = () => {
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
