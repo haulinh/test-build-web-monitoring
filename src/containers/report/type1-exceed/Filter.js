@@ -20,9 +20,10 @@ const ColSwitch = styled(Col)`
 export default function Filter({ form, resetData = () => {} }) {
   const { reportType } = form.getFieldsValue() || {}
 
-  const handleOnChangeReportType = value => {
+  const handleOnChangeReportType = type => {
     resetData()
-    form.setFieldsValue({ [FIELDS.TIME]: { type: value } })
+    const time = form.getFieldValue(FIELDS.TIME)
+    form.setFieldsValue({ [FIELDS.TIME]: { ...time, type } })
   }
 
   const handleOnChangeFilter = value => {
@@ -45,7 +46,7 @@ export default function Filter({ form, resetData = () => {} }) {
         <Col span={8}>
           <FormItem label={i18n().time.label}>
             {form.getFieldDecorator(FIELDS.TIME, {
-              initialValue: { type: 'year', value: moment().year() },
+              initialValue: { type: 'year', value: moment() },
               rules: [
                 {
                   required: true,
@@ -93,7 +94,7 @@ export default function Filter({ form, resetData = () => {} }) {
                   {form.getFieldDecorator('isFilter', {
                     initialValue: false,
                     onChange: handleOnChangeFilter,
-                    valuePropName: "checked",
+                    valuePropName: 'checked',
                   })(<Switch form={form} />)}
                 </FormItem>
               </div>
