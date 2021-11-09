@@ -2,18 +2,20 @@ import { Button, Col, Form, Row } from 'antd'
 import DataInsight from 'api/DataInsight'
 import Clearfix from 'components/elements/clearfix'
 import { Search } from 'components/layouts/styles'
+import { DD_MM_YYYY, YYYY } from 'constants/format-date'
 import { BoxShadow } from 'containers/api-sharing/layout/styles'
+import { translate as t } from 'hoc/create-lang'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
+import _ from 'lodash'
 import moment from 'moment'
 import React, { Component } from 'react'
+import styled from 'styled-components'
 import { getTimeUTC } from 'utils/datetime'
+import { downFileExcel } from 'utils/downFile'
+import { getLanguage } from 'utils/localStorage'
 import Breadcrumb from '../breadcrumb'
 import Filter from './Filter'
 import { TableDate, TableYear } from './TableData'
-import styled from 'styled-components'
-import { translate as t } from 'hoc/create-lang'
-import _ from 'lodash'
-import { DD_MM_YYYY, YYYY } from 'constants/format-date'
 
 export const FIELDS = {
   REPORT_TYPE: 'reportType',
@@ -61,16 +63,21 @@ export default class ReportExceed extends Component {
 
   getQueryParams = async () => {
     const { form } = this.props
-    const values = await form.validateFields()
+    const values = await form.getFieldsValue()
     const time = _.get(values, 'time.value')
-    if (!time || (values.reportType === 'date' && _.isEmpty(time))) {
-      form.setFields({
-        time: {
-          type: _.get(values, 'reportType'),
-          value: _.get(values, 'time'),
-          errors: [new Error(i18n().time.required)],
-        },
-      })
+    if (
+      !time
+    ) {
+      await Promise.all([
+        form.validateFields(),
+        form.setFields({
+          time: {
+            type: _.get(values, 'reportType'),
+            value: _.get(values, 'time'),
+            errors: [new Error(i18n().time.required)],
+          },
+        })
+      ])
       return
     }
 
@@ -101,7 +108,6 @@ export default class ReportExceed extends Component {
         moment(paramsGeneral[FIELDS.TIME].value, 'YYYY').startOf('year')
       ),
     }
-    console.log(params)
     return params
   }
 
@@ -145,6 +151,15 @@ export default class ReportExceed extends Component {
     }
   }
 
+  handleExportExceed = async () => {
+    const params = await this.getQueryParams()
+    const result = await DataInsight.getExportReportExceed(params.reportType, {
+      ...params,
+      lang: getLanguage(),
+    })
+    downFileExcel(result.data, `${this.getDetailTitle()}`)
+  }
+
   resetData = () => this.setState({ data: [] })
 
   render() {
@@ -178,7 +193,7 @@ export default class ReportExceed extends Component {
           <Clearfix height={32} />
 
           <Row gutter={32}>
-            <Col span={20}>
+            <Col span={21}>
               <Row type="flex" justify="center" align="middle">
                 <Text fontSize={20} fontWeight={600}>
                   {getTitle()}
@@ -191,9 +206,9 @@ export default class ReportExceed extends Component {
                 </Text>
               </Row>
             </Col>
-            <Col span={4}>
+            <Col span={3 }>
               <Row type="flex" justify="end">
-                <Button type="primary">{t('report.exportExcel')}</Button>
+                <Button type="primary" onClick={this.handleExportExceed}>{t('report.exportExcel')}</Button>
               </Row>
             </Col>
           </Row>
