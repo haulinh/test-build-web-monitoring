@@ -12,6 +12,7 @@ import moment from 'moment-timezone'
 import React from 'react'
 import { connect } from 'react-redux'
 import { getTimeUTC } from 'utils/datetime'
+import { downFileExcel } from 'utils/downFile'
 import Breadcrumb from '../breadcrumb'
 import SearchForm from './Form'
 import { TableMonth, TabStation } from './TableData'
@@ -94,22 +95,37 @@ export default class ReportType10 extends React.Component {
     } catch (error) {}
   }
 
+  getTitle = () => {
+    const { dataSearch, from, to } = this.state
+    const type = dataSearch[FIELDS.TIME_TYPE]
+    return translate(
+      `avgSearchFrom.table.${
+        type === 'month' ? 'descriptionRatioMonth' : 'descriptionRatioDate'
+      }`,
+      {
+        from,
+        to,
+      }
+    )
+  }
+
   hanldeExcel = async () => {
     this.setState({
       isLoadingExcel: true,
     })
-    let res = await getUrlReportType10Excel({
-      ...this.state.dataSearch,
-      language: this.props.locale,
-    })
+    const { timeType, ...param } = this.state.dataSearch
 
-    if (res.success) {
+    try {
+      let res = await DataInsight.exportDataRatio(timeType, {
+        ...param,
+        language: this.props.locale,
+      })
+
       this.setState({
         isLoadingExcel: false,
       })
-      // console.log("getUrlReportType1", res.data);
-      window.open(res.data, '_blank')
-    }
+      downFileExcel(res.data, this.getTitle())
+    } catch (error) {}
   }
 
   render() {
@@ -172,7 +188,7 @@ export default class ReportType10 extends React.Component {
           </div>
           <Clearfix height={8} />
 
-          {Report[type]}
+          <div>{Report[type]}</div>
         </div>
       </PageContainer>
     )

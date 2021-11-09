@@ -11,7 +11,7 @@ import Breadcrumb from '../breadcrumb'
 import Filter from './Filter'
 import { TableDate, TableYear } from './TableData'
 import styled from 'styled-components'
-import {translate as t} from 'hoc/create-lang'
+import { translate as t } from 'hoc/create-lang'
 import _ from 'lodash'
 
 export const FIELDS = {
@@ -35,7 +35,7 @@ export function i18n() {
       option: {
         year: t('report.type1_exceed.option.reportYear'),
         date: t('report.type1_exceed.option.reportDay'),
-      }
+      },
     },
     time: {
       label: t('report.label.time'),
@@ -46,7 +46,6 @@ export function i18n() {
     station: {
       label: t('report.label.station'),
     },
-
   }
 }
 
@@ -87,7 +86,6 @@ export default class ReportExceed extends Component {
         moment(paramsGeneral[FIELDS.TIME].value, 'YYYY').startOf('year')
       ),
     }
-    console.log(params)
     return params
   }
 
@@ -104,18 +102,20 @@ export default class ReportExceed extends Component {
     const { form } = this.props
     const values = form.getFieldsValue()
 
-    if (values.reportType === 'year' ) {
-      const startTitle = t('report.type1_exceed.detailTitle.reportYear') + moment(values.time.value, 'YYYY').format('YYYY')
+    if (values.reportType === 'year') {
+      const startTitle =
+        t('report.type1_exceed.detailTitle.reportYear') +
+        moment(values.time.value, 'YYYY').format('YYYY')
       return startTitle
     }
 
     if (values.reportType === 'date') {
-      const startTitle = t('report.type1_exceed.detailTitle.reportDay') + values.time.value.format('DD/MM/YYYY')
+      const startTitle =
+        t('report.type1_exceed.detailTitle.reportDay') +
+        values.time.value.format('DD/MM/YYYY')
       return startTitle
     }
   }
-
-
 
   handleOnSearch = async () => {
     const params = await this.getQueryParams()
@@ -146,7 +146,7 @@ export default class ReportExceed extends Component {
         year: t('report.type1_exceed.title.year'),
         date: t('report.type1_exceed.title.date'),
       }
-  
+
       return title[type]
     }
 
@@ -165,12 +165,16 @@ export default class ReportExceed extends Component {
           <Row gutter={32}>
             <Col span={20}>
               <Row type="flex" justify="center" align="middle">
-                <Text fontSize={20} fontWeight={600}>{getTitle()}</Text>
+                <Text fontSize={20} fontWeight={600}>
+                  {getTitle()}
+                </Text>
               </Row>
-              <Clearfix height={16}/>
+              <Clearfix height={16} />
               <Row type="flex" justify="center" align="middle">
                 {!_.isEmpty(timeValue) && (
-                  <Text fontSize={16} fontWeight={400}>{this.getDetailTitle()}</Text>
+                  <Text fontSize={16} fontWeight={400}>
+                    {this.getDetailTitle()}
+                  </Text>
                 )}
               </Row>
             </Col>
@@ -180,7 +184,7 @@ export default class ReportExceed extends Component {
               </Row>
             </Col>
           </Row>
-          <Clearfix height={31}/>
+          <Clearfix height={31} />
           {Report[type]}
         </div>
       </PageContainer>
