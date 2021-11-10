@@ -4059,8 +4059,7 @@ export default {
       detailTitle: {
         reportYear:
           'Statistics about the percentage of data over the threshold in ',
-        reportDay:
-          'Statistics about data over the threshold in ',
+        reportDay: 'Statistics about data over the threshold in ',
       },
       title: {
         year: 'REPORT DATA OVER THE THRESHOLD BY YEAR',
@@ -4105,6 +4104,9 @@ export default {
         day: 'Day',
         month: 'Month',
         chooseMonth: 'Choose Month',
+      },
+      by: {
+        byDay: 'theo ngày',
       },
       range: {
         year: 'in',
