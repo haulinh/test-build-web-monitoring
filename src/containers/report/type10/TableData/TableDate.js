@@ -48,7 +48,7 @@ export function TableDate({ dataSource, loading, dataFrequency }) {
     {
       title: translate('dataSearchFilterForm.form.time'),
       dataIndex: 'date',
-      align: 'center',
+      align: 'left',
       render: value => {
         return (
           <div style={{ textAlign: 'right' }}>
