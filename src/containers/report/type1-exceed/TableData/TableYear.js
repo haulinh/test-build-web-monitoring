@@ -140,7 +140,7 @@ const TableYear = ({ data, loading, ...props }) => {
 }
 
 const mapStateToProps = state => {
-  const stationAutoByKey = _.keyBy(state.stationAuto.list,'key')
+  const stationAutoByKey = _.keyBy(state.stationAuto.list, 'key')
   return {
     lang: state.language.locale,
     stationAutoByKey,

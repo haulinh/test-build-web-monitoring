@@ -4025,6 +4025,10 @@ export default {
     },
   },
   report: {
+    required: {
+      time: 'Please choose time',
+      station: 'Please choose station',
+    },
     placeholder: {
       time: 'Select time',
     },
@@ -4050,7 +4054,7 @@ export default {
         reportYear:
           'Statistics about the percentage of data over the threshold in ',
         reportDay:
-          'Statistics about the percentage of data over the threshold in ',
+          'Statistics about data over the threshold in ',
       },
       title: {
         year: 'REPORT DATA OVER THE THRESHOLD BY YEAR',

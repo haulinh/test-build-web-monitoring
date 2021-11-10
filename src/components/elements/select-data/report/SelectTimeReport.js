@@ -1,7 +1,8 @@
 import { Col, DatePicker, Row, Select } from 'antd'
 import React from 'react'
 import DatePickerYear from 'components/core/date-picker/DatePickerYear'
-import {translate as t} from 'hoc/create-lang'
+import { translate as t } from 'hoc/create-lang'
+import _ from 'lodash'
 
 const timeOption = [
   {
@@ -44,13 +45,19 @@ const TimeReport = ({ value: valueField = {}, reportType, onChange }) => {
           <DatePickerYear
             style={{ width: '100%' }}
             onChange={handleOnPicker}
-            value={valueField.value}
+            value={
+              _.isNumber(valueField.value)
+                ? valueField.value
+                : valueField.value.year()
+            }
           />
         ) : (
           <DatePicker
+            value={valueField.value}
             onChange={handleOnPicker}
             style={{ width: '100%' }}
             placeholder={t('report.placeholder.time')}
+            allowClear={false}
           />
         )}
       </Col>

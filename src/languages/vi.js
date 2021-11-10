@@ -4037,6 +4037,10 @@ export default {
     },
   },
   report: {
+    required: {
+      time: 'Vui lòng chọn thời gian',
+      station: 'Vui lòng chọn trạm quan trắc'
+    },
     placeholder: {
       time: 'Chọn thời gian',
     },
@@ -4064,7 +4068,7 @@ export default {
       },
       title: {
         year: 'BÁO CÁO THỐNG KÊ VƯỢT NGƯỠNG THEO NĂM',
-        date: 'BÁO CÁO THỐNG KÊ VƯỢT NGƯỠNG THEO NGÀY',
+        date: 'BÁO CÁO DỮ LIỆU VƯỢT NGƯỠNG THEO NGÀY',
       },
       option: {
         reportYear: 'Báo cáo năm',

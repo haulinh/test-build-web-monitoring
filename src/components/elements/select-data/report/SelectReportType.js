@@ -1,15 +1,15 @@
 import React from 'react'
 import { Select } from 'antd'
-import {translate as t } from 'hoc/create-lang'
+import { translate as t } from 'hoc/create-lang'
 
 const options = [
   {
-    key: 'year',
-    name: t('report.type1_exceed.option.reportYear'),
-  },
-  {
     key: 'date',
     name: t('report.type1_exceed.option.reportDay'),
+  },
+  {
+    key: 'year',
+    name: t('report.type1_exceed.option.reportYear'),
   },
 ]
 
