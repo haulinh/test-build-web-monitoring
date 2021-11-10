@@ -181,39 +181,37 @@ export default class ReportExceed extends Component {
 
     return (
       <PageContainer>
-        <div style={{ height: '100vh' }}>
-          <Clearfix height={16} />
-          <Breadcrumb items={['type1_exceed']} />
-          <Search loading={loading} onSearch={this.handleOnSearch}>
-            <BoxShadow>
-              <Filter form={form} resetData={this.resetData} />
-            </BoxShadow>
-          </Search>
-          <Clearfix height={32} />
+        <Clearfix height={16} />
+        <Breadcrumb items={['type1_exceed']} />
+        <Search loading={loading} onSearch={this.handleOnSearch}>
+          <BoxShadow>
+            <Filter form={form} resetData={this.resetData} />
+          </BoxShadow>
+        </Search>
+        <Clearfix height={32} />
 
-          <Row gutter={32}>
-            <Col span={21}>
-              <Row type="flex" justify="center" align="middle">
-                <Text fontSize={20} fontWeight={600}>
-                  {getTitle()}
-                </Text>
-              </Row>
-              <Clearfix height={16} />
-              <Row type="flex" justify="center" align="middle">
-                <Text fontSize={16} fontWeight={400}>
-                  {this.getDetailTitle()}
-                </Text>
-              </Row>
-            </Col>
-            <Col span={3}>
-              <Row type="flex" justify="end">
-                <Button type="primary" onClick={this.handleExportExceed}>{t('report.exportExcel')}</Button>
-              </Row>
-            </Col>
-          </Row>
-          <Clearfix height={31} />
-          {Report[type]}
-        </div>
+        <Row gutter={32}>
+          <Col span={21}>
+            <Row type="flex" justify="center" align="middle">
+              <Text fontSize={20} fontWeight={600}>
+                {getTitle()}
+              </Text>
+            </Row>
+            <Clearfix height={16} />
+            <Row type="flex" justify="center" align="middle">
+              <Text fontSize={16} fontWeight={400}>
+                {this.getDetailTitle()}
+              </Text>
+            </Row>
+          </Col>
+          <Col span={3}>
+            <Row type="flex" justify="end">
+              <Button type="primary" onClick={this.handleExportExceed}>{t('report.exportExcel')}</Button>
+            </Row>
+          </Col>
+        </Row>
+        <Clearfix height={31} />
+        {Report[type]}
       </PageContainer>
     )
   }

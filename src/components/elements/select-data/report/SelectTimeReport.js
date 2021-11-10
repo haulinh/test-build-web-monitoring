@@ -57,6 +57,7 @@ const TimeReport = ({ value: valueField = {}, reportType, onChange }) => {
             onChange={handleOnPicker}
             style={{ width: '100%' }}
             placeholder={t('report.placeholder.time')}
+            allowClear={false}
           />
         )}
       </Col>

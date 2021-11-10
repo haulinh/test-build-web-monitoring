@@ -17,11 +17,12 @@ const ColSwitch = styled(Col)`
   }
 `
 
-export default function Filter({ form, resetData = () => {} }) {
+export default function Filter({ form, resetData = () => { } }) {
   const { reportType } = form.getFieldsValue() || {}
 
   const handleOnChangeReportType = type => {
     resetData()
+    form.resetFields()
     const time = form.getFieldValue(FIELDS.TIME)
     form.setFieldsValue({ [FIELDS.TIME]: { ...time, type } })
   }

@@ -4067,7 +4067,7 @@ export default {
       },
       title: {
         year: 'BÁO CÁO THỐNG KÊ VƯỢT NGƯỠNG THEO NĂM',
-        date: 'BÁO CÁO THỐNG KÊ VƯỢT NGƯỠNG THEO NGÀY',
+        date: 'BÁO CÁO DỮ LIỆU VƯỢT NGƯỠNG THEO NGÀY',
       },
       option: {
         reportYear: 'Báo cáo năm',
