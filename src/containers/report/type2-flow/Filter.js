@@ -103,7 +103,7 @@ export default class Filter extends React.Component {
 
   handleProvinceChange = province => {
     const { form } = this.props
-    form.resetFields(FIELDS.MEASURING_LIST)
+    form.resetFields([FIELDS.MEASURING_LIST])
     const stationType = form.getFieldValue(FIELDS.STATION_TYPE)
 
     const stationAutos = this.getStationAutos(province, stationType)
@@ -117,7 +117,7 @@ export default class Filter extends React.Component {
 
   handleStationTypeChange = stationType => {
     const { form } = this.props
-    form.resetFields(FIELDS.MEASURING_LIST)
+    form.resetFields([FIELDS.MEASURING_LIST])
     const province = form.getFieldValue(FIELDS.PROVINCE)
 
     const stationAutos = this.getStationAutos(province, stationType)
