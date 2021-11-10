@@ -121,7 +121,8 @@ export default class ReportType10 extends React.Component {
       this.setState({
         isLoadingExcel: false,
       })
-      downFileExcel(res.data, this.getTitle())
+      console.log({ res })
+      downFileExcel(res.data, this.getDetailTitle())
     } catch (error) {}
   }
 
