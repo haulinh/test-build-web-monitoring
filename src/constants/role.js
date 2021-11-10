@@ -136,6 +136,14 @@ export default {
     VIEW: 'menu.tinhTrangDuLieu.actions.view',
     EXPORT: 'menu.tinhTrangDuLieu.actions.export',
   },
+  REPORT_EXCEED: {
+    VIEW: 'menu.reportExceed.actions.view',
+    EXPORT: 'menu.reportExceed.actions.export',
+  },
+  REPORT_FLOW: {
+    VIEW: 'menu.reportFlow.actions.view',
+    EXPORT: 'menu.reportFlow.actions.export',
+  },
   WQI_GIO: {
     VIEW: 'menu.wqiGio.actions.view',
     WQI_GIO_EXPORT: 'menu.wqiGio.actions.export',

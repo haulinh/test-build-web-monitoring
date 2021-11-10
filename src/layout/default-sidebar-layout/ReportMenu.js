@@ -121,7 +121,7 @@ export default {
         </Menu.Item>
       )}
 
-      {protectRole(ROLE.TINH_TRANG_DU_LIEU.VIEW)(
+      {protectRole(ROLE.REPORT_EXCEED.VIEW)(
         <Menu.Item
           key={slug.report.type1_exceed}
           onClick={() => {
@@ -132,11 +132,13 @@ export default {
             placement="right"
             title={listTooltipMenu().report.type1_exceed}
           >
-            <Link to={slug.report.type1_exceed}>{listMenuName().report.type1_exceed}</Link>
+            <Link to={slug.report.type1_exceed}>
+              {listMenuName().report.type1_exceed}
+            </Link>
           </Tooltip>
         </Menu.Item>
       )}
-      {protectRole(ROLE.TINH_TRANG_DU_LIEU.VIEW)(
+      {protectRole(ROLE.REPORT_FLOW.VIEW)(
         <Menu.Item
           key={slug.report.type2_flow}
           onClick={() => {
