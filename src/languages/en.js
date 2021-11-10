@@ -766,6 +766,7 @@ export default {
       header8: 'Hours',
       header9: 'Percentage of exceeded data (%)',
       title: 'REPORT THE PERCENTAGE OF OBTAINED DATA',
+      titleDay: 'REPORT THE PERCENTAGE OF OBTAINED DATA BY DAY',
       descriptionRatioMonth:
         'Statistics about the Percentage of data obtained of stations from {{=it.from}} to {{=it.to}}',
       descriptionRatioDate:
