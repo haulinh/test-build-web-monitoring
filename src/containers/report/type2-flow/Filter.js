@@ -128,6 +128,10 @@ export default class Filter extends React.Component {
       [FIELDS.STATION_AUTO]: stationAutosKey,
     })
   }
+  handleStationAutosChange = () => {
+    const { form } = this.props
+    form.resetFields([FIELDS.MEASURING_LIST])
+  }
 
   getMoment = () => {
     const { form } = this.props
@@ -179,8 +183,9 @@ export default class Filter extends React.Component {
           <Col span={7}>
             <FormItem label={i18n().detailPage.label.province}>
               {form.getFieldDecorator(FIELDS.PROVINCE, {
+                initialValue: '',
                 onChange: this.handleProvinceChange,
-              })(<SelectProvince isShowAll />)}
+              })(<SelectProvince isShowAll allowClear={false} />)}
             </FormItem>
           </Col>
         </Row>
@@ -199,6 +204,7 @@ export default class Filter extends React.Component {
           <Col span={10}>
             <FormItem label={i18n().detailPage.label.stationName}>
               {form.getFieldDecorator(FIELDS.STATION_AUTO, {
+                onChange: this.handleStationAutosChange,
                 rules: [
                   {
                     required: true,
@@ -221,7 +227,7 @@ export default class Filter extends React.Component {
                 rules: [
                   {
                     required: true,
-                    message: i18n().rules.requireChoose,
+                    message: t('report.type2_flow.required.measure'),
                   },
                 ],
               })(

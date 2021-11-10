@@ -36,6 +36,7 @@ function PickTimes({ type, onChange, value }) {
         onChange={onChange}
         style={{ width: '100%' }}
         value={value.value}
+        format={['DD/MM/YYYY', 'DD/MM/YY']}
       />
     )
   }
@@ -46,6 +47,7 @@ function PickTimes({ type, onChange, value }) {
         style={{ width: '100%' }}
         onChange={onChange}
         value={value.value}
+        format="MM/YYYY"
       />
     )
   }
