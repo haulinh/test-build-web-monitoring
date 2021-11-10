@@ -17,7 +17,7 @@ const ColSwitch = styled(Col)`
   }
 `
 
-export default function Filter({ form, resetData = () => { } }) {
+export default function Filter({ form, resetData = () => {} }) {
   const { reportType } = form.getFieldsValue() || {}
 
   const handleOnChangeReportType = type => {
@@ -59,14 +59,12 @@ export default function Filter({ form, resetData = () => { } }) {
         </Col>
         <Col span={10}>
           <FormItem label={i18n().province.label}>
-            {form.getFieldDecorator(
-              FIELDS.PROVINCE,
-              {
-                onChange: val => {
-                  form.setFieldsValue({ stationKeys: null })
-                },
-              }
-            )(<SelectProvince isShowAll allowClear={false} />)}
+            {form.getFieldDecorator(FIELDS.PROVINCE, {
+              initialValue: '',
+              onChange: val => {
+                form.setFieldsValue({ stationKeys: null })
+              },
+            })(<SelectProvince isShowAll allowClear={false} />)}
           </FormItem>
         </Col>
       </Row>
