@@ -3779,7 +3779,7 @@ export default {
     },
     table: {
       month: {
-        stt: 'STT',
+        stt: 'No.',
         date: 'Date',
         avgValue: 'Average value of pollution parameter / day (24h)',
         price: 'Cost',
