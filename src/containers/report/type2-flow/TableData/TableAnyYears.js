@@ -24,27 +24,25 @@ function TableAnyYears({ data, loading }) {
   const columnsYear = [...yearsUnique].map(year => ({
     title: `Năm ${year}`,
     dataIndex: 'data',
+    align: 'right',
     render: value => {
-      const dataGroupYear = _.keyBy(value, '_id')
-      return (
-        <div>
-          {dataGroupYear[year]
-            ? getFormatNumber(dataGroupYear[year].value)
-            : '-'}
-        </div>
-      )
+      const dataGroupYears = _.keyBy(value, '_id')
+      const dataGroupYear = dataGroupYears[year]
+      const dataYear = _.get(dataGroupYear, 'value')
+      return <div>{_.isNumber(dataYear) ? getFormatNumber(dataYear) : '-'}</div>
     },
   }))
 
   const columns = [
     {
-      title: 'Trạm quan trắc',
+      title: t('report.type2_flow.stationName'),
       dataIndex: 'station.name',
     },
     {
-      title: 'Đường kính',
+      title: t('report.type2_flow.diameter'),
       dataIndex: 'station.diameter',
-      render: value => <div>{value ? value : '-'}</div>,
+      align: 'right',
+      render: value => <div>{_.isNumber(value) ? value : '-'}</div>,
     },
     ...columnsYear,
   ]

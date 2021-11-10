@@ -4099,11 +4099,22 @@ export default {
     type2_flow: {
       title: 'Báo cáo lưu lượng phát thải',
       subTitle: 'Các số liệu thống kê',
-      timeRanger: {
+      option: {
+        reportYear: 'Báo cáo năm',
+        reportDay: 'Báo cáo ngày',
+        reportMonth: 'Báo cáo tháng',
+        reportRangeYear: 'Báo cáo các năm',
+        year: 'Năm',
+        day: 'Ngày',
+        month: 'Tháng',
+        chooseMonth: 'Chọn tháng',
+      },
+      range: {
         year: 'năm',
         from: 'từ',
         to: 'đến',
       },
+      parameters: 'Thông số',
       stationName: 'Trạm quan trắc',
       diameter: 'Đường kính',
       value: 'Giá trị',

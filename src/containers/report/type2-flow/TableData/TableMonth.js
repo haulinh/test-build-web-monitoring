@@ -22,7 +22,7 @@ function TableMonth({ data, loading }) {
   const columnsMonth = [...daysUnique].map(day => ({
     title: day,
     dataIndex: 'data',
-    align: 'center',
+    align: 'right',
     render: value => {
       const dataDay = _.keyBy(value, '_id')
       return (
@@ -33,16 +33,16 @@ function TableMonth({ data, loading }) {
 
   const columns = [
     {
-      title: 'Trạm quan trắc',
+      title: t('report.type2_flow.stationName'),
       dataIndex: 'station.name',
       width: 200,
       fixed: 'left',
     },
     {
-      title: 'Đường kính',
+      title: t('report.type2_flow.diameter'),
       dataIndex: 'station.diameter',
       width: 120,
-      align: 'center',
+      align: 'right',
       fixed: 'left',
 
       render: value => {

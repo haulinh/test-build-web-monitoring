@@ -13,7 +13,8 @@ import { FIELDS } from './index'
 import SelectReportTime from './select-data/SelectReportTime'
 import SelectReportType from './select-data/SelectReportType'
 import moment from 'moment'
-import { translate } from 'hoc/create-lang'
+import { translate as t } from 'hoc/create-lang'
+import _ from 'lodash'
 
 const Item = props => (
   <Form.Item
@@ -32,15 +33,20 @@ export default class Filter extends React.Component {
   state = {
     stationAutos: [],
   }
-  handleSelectTimeChange = value => {
+  handleSelectTimeChange = type => {
     const { form } = this.props
+    let value = moment()
+    if (['custom', 'anyYear'].includes(type)) {
+      value = [moment(), moment()]
+    }
+
     form.setFieldsValue({
       [FIELDS.REPORT_TIME]: {
-        type: value,
+        value,
+        type,
       },
     })
   }
-
   getMeasuringList = () => {
     const { form } = this.props
     const stationAutoValues = form.getFieldValue(FIELDS.STATION_AUTO)
@@ -55,9 +61,22 @@ export default class Filter extends React.Component {
   }
 
   onStationAutosFetchSuccess = stationAutos => {
-    this.setState({ stationAutos: stationAutos })
-  }
+    const { form } = this.props
 
+    const stationType = form.getFieldValue(FIELDS.STATION_TYPE)
+
+    const stationAutosList = stationAutos.filter(
+      stationAuto => _.get(stationAuto, 'stationType.key') === stationType
+    )
+    const stationAutosSelected = stationAutosList.map(
+      stationAutoSelect => stationAutoSelect.key
+    )
+    form.setFieldsValue({
+      [FIELDS.STATION_AUTO]: stationAutosSelected,
+    })
+
+    this.setState({ stationAutos })
+  }
   onFetchStationTypeSuccess = stationTypes => {
     const { form } = this.props
     const stationType = get(stationTypes, '0.key')
@@ -66,9 +85,61 @@ export default class Filter extends React.Component {
       [FIELDS.STATION_TYPE]: stationType,
     })
   }
-  setStationAutoSelected = stationAutoSelected => {
-    console.log(stationAutoSelected)
+  getStationAutos = (province, stationType) => {
+    let { stationAutos } = this.state
+    if (stationType) {
+      stationAutos = stationAutos.filter(
+        stationAuto => _.get(stationAuto, 'stationType.key') === stationType
+      )
+    }
+    if (province) {
+      stationAutos = stationAutos.filter(
+        stationAuto => _.get(stationAuto, 'province.key') === province
+      )
+    }
+
+    return stationAutos
   }
+
+  handleProvinceChange = province => {
+    const { form } = this.props
+    form.resetFields([FIELDS.MEASURING_LIST])
+    const stationType = form.getFieldValue(FIELDS.STATION_TYPE)
+
+    const stationAutos = this.getStationAutos(province, stationType)
+    const stationAutosKey = stationAutos.map(
+      stationAutoKey => stationAutoKey.key
+    )
+    form.setFieldsValue({
+      [FIELDS.STATION_AUTO]: stationAutosKey,
+    })
+  }
+
+  handleStationTypeChange = stationType => {
+    const { form } = this.props
+    form.resetFields([FIELDS.MEASURING_LIST])
+    const province = form.getFieldValue(FIELDS.PROVINCE)
+
+    const stationAutos = this.getStationAutos(province, stationType)
+    const stationAutosKey = stationAutos.map(
+      stationAutoKey => stationAutoKey.key
+    )
+    form.setFieldsValue({
+      [FIELDS.STATION_AUTO]: stationAutosKey,
+    })
+  }
+
+  getMoment = () => {
+    const { form } = this.props
+    const type = form.getFieldValue(FIELDS.REPORT_TYPE)
+    if (type === 'custom' || type === 'anyYear') {
+      return [moment(), moment()]
+    }
+    if (type === 'month' || type === 'year') {
+      return moment()
+    }
+  }
+
   render() {
     const { form } = this.props
     const province = form.getFieldValue(FIELDS.PROVINCE)
@@ -81,9 +152,9 @@ export default class Filter extends React.Component {
       <React.Fragment>
         <Row gutter={12}>
           <Col span={7}>
-            <FormItem label={translate('report.label.reportType')}>
+            <FormItem label={t('report.label.reportType')}>
               {form.getFieldDecorator(FIELDS.REPORT_TYPE, {
-                initialValue: 'month',
+                initialValue: 'custom',
                 onChange: this.handleSelectTimeChange,
               })(<SelectReportType />)}
             </FormItem>
@@ -92,7 +163,10 @@ export default class Filter extends React.Component {
           <Col span={10}>
             <FormItem label={i18n().detailPage.label.timeLabel}>
               {form.getFieldDecorator(FIELDS.REPORT_TIME, {
-                initialValue: { type: 'month', value: moment() },
+                initialValue: {
+                  type: 'custom',
+                  value: this.getMoment(),
+                },
                 rules: [
                   {
                     required: true,
@@ -104,16 +178,18 @@ export default class Filter extends React.Component {
           </Col>
           <Col span={7}>
             <FormItem label={i18n().detailPage.label.province}>
-              {form.getFieldDecorator(FIELDS.PROVINCE)(
-                <SelectProvince isShowAll />
-              )}
+              {form.getFieldDecorator(FIELDS.PROVINCE, {
+                onChange: this.handleProvinceChange,
+              })(<SelectProvince isShowAll />)}
             </FormItem>
           </Col>
         </Row>
         <Row gutter={12}>
           <Col span={7}>
             <FormItem label={i18n().detailPage.label.stationType}>
-              {form.getFieldDecorator(FIELDS.STATION_TYPE)(
+              {form.getFieldDecorator(FIELDS.STATION_TYPE, {
+                onChange: this.handleStationTypeChange,
+              })(
                 <SelectStationType
                   onFetchSuccess={this.onFetchStationTypeSuccess}
                 />
@@ -135,13 +211,12 @@ export default class Filter extends React.Component {
                   province={province}
                   stationType={stationType}
                   onFetchSuccess={this.onStationAutosFetchSuccess}
-                  onChangeObject={this.setStationAutoSelected}
                 />
               )}
             </FormItem>
           </Col>
           <Col span={7}>
-            <FormItem label={i18n().detailPage.label.parameter}>
+            <FormItem label={t('report.type2_flow.parameters')}>
               {form.getFieldDecorator(FIELDS.MEASURING_LIST, {
                 rules: [
                   {
@@ -165,7 +240,7 @@ export default class Filter extends React.Component {
             </Col>
             <Col>
               <div style={{ fontSize: '16px', fontWeight: '600' }}>
-                {translate('monitoring.actions.more.checkData')}
+                {t('monitoring.actions.more.checkData')}
               </div>
             </Col>
             <Col>

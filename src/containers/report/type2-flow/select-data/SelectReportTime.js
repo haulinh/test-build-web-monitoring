@@ -4,6 +4,8 @@ import {
   DatePickerYear,
 } from 'components/core/date-picker'
 import React from 'react'
+import { translate as t } from 'hoc/create-lang'
+import _ from 'lodash'
 const { Option } = Select
 
 const { MonthPicker, RangePicker } = DatePicker
@@ -11,19 +13,19 @@ const { MonthPicker, RangePicker } = DatePicker
 const options = [
   {
     key: 'custom',
-    name: 'Ngày',
+    name: () => t('report.type2_flow.option.day'),
   },
   {
     key: 'month',
-    name: 'Tháng',
+    name: () => t('report.type2_flow.option.month'),
   },
   {
     key: 'year',
-    name: 'Năm',
+    name: () => t('report.type2_flow.option.year'),
   },
   {
     key: 'anyYear',
-    name: 'Các năm',
+    name: () => t('report.type2_flow.option.year'),
   },
 ]
 
@@ -40,7 +42,7 @@ function PickTimes({ type, onChange, value }) {
   if (type === 'month') {
     return (
       <MonthPicker
-        placeholder="Chọn tháng"
+        placeholder={t('report.type2_flow.option.chooseMonth')}
         style={{ width: '100%' }}
         onChange={onChange}
         value={value.value}
@@ -51,17 +53,18 @@ function PickTimes({ type, onChange, value }) {
     return (
       <DatePickerYear
         style={{ with: '100%' }}
-        value={value.value}
+        value={_.isNumber(value.value) ? value.value : value.value.year()}
         onChange={onChange}
       />
     )
   }
+
   if (type === 'anyYear') {
     return (
       <DatePickerRangeYear
         style={{ with: '100%' }}
         onChange={onChange}
-        value={value}
+        value={value.value}
       />
     )
   }
@@ -84,7 +87,7 @@ export default class SelectReportTime extends React.Component {
           <Select value={value.type} disabled style={{ width: '100%' }}>
             {options.map(option => (
               <Option key={option.key} value={option.key}>
-                {option.name}
+                {option.name()}
               </Option>
             ))}
           </Select>
