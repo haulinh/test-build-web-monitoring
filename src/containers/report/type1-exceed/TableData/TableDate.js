@@ -30,7 +30,7 @@ const TableDataDate = ({ data, loading, ...props }) => {
       />
     )
   }
-  console.log(data)
+
   const dataSource = data.reduce((base, current, currentIndex) => {
     const dataStation = current.data.map((dataItem, index) => {
       return {
@@ -106,7 +106,7 @@ const TableDataDate = ({ data, loading, ...props }) => {
       render: value => <div>{_.isNumber(value) ? value : '-'}</div>,
     },
     {
-      title: i18n().limit_value,
+      title: i18n().limit,
       dataIndex: 'config',
       render: value => {
         if (!value.maxLimit) return null
