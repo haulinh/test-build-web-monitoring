@@ -125,19 +125,24 @@ export default class ReportFlow extends React.Component {
     }
     return params
   }
-
-  getQueryParams = () => {
+  getQueryParams = async () => {
     const { form } = this.props
     const values = form.getFieldsValue()
     const timeValue = values[FIELDS.REPORT_TIME].value
-    if (
-      !timeValue ||
-      (['custom' || 'anyYear'].includes(values.reportType) &&
-        (!Array.isArray(timeValue) || _.isEmpty(timeValue))) ||
-      (['month' || 'year'].includes(values.reportType) && _.isEmpty(timeValue))
-    ) {
-      return
+    let validates = [form.validateFields()]
+    if (!timeValue || _.isEmpty(timeValue)) {
+      validates = [
+        ...validates,
+        form.setFields({
+          [FIELDS.REPORT_TIME]: {
+            value: values.reportTime,
+            errors: [new Error(i18n().rules.requireChoose)],
+          },
+        }),
+      ]
     }
+    const [valueForm, valueTime] = await Promise.all(validates)
+    if (!valueForm && !valueTime) return
     const type = values[FIELDS.REPORT_TYPE]
     const queryParams = {
       custom: this.getQueryParamsDate,
@@ -155,7 +160,7 @@ export default class ReportFlow extends React.Component {
     const type = values[FIELDS.REPORT_TYPE]
     const timeValue = _.get(values, 'reportTime.value')
     let to, from
-    if (!timeValue)
+    if (_.isEmpty(timeValue))
       return {
         time: '',
         timeRange: '',
@@ -215,26 +220,10 @@ export default class ReportFlow extends React.Component {
       }
     }
   }
-  validateSlelectTime = () => {
-    const { form } = this.props
-    const valuesForm = form.getFieldsValue()
-    if (!valuesForm.reportTime.value) {
-      return form.setFields({
-        [FIELDS.REPORT_TIME]: {
-          value: valuesForm.reportTime,
-          errors: [new Error(i18n().rules.requireChoose)],
-        },
-      })
-    }
-    return
-  }
   handleOnSearch = async () => {
-    const { form } = this.props
-
-    await Promise.all([form.validateFields(), this.validateSlelectTime()])
-
-    const params = this.getQueryParams()
+    const params = await this.getQueryParams()
     const time = this.getTime()
+
     this.setState({
       time: time,
     })

@@ -77,7 +77,6 @@ export default class SelectReportTime extends React.Component {
       ...valueField,
       value,
     })
-    console.log({ value })
   }
 
   render() {
