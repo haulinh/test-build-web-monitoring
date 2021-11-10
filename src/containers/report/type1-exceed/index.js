@@ -13,6 +13,8 @@ import { TableDate, TableYear } from './TableData'
 import styled from 'styled-components'
 import { translate as t } from 'hoc/create-lang'
 import _ from 'lodash'
+import protectRole from 'hoc/protect-role/forMenu'
+import ROLE from 'constants/role'
 
 export const FIELDS = {
   REPORT_TYPE: 'reportType',
@@ -49,6 +51,7 @@ export function i18n() {
   }
 }
 
+@protectRole(ROLE.REPORT_EXCEED.VIEW)
 @Form.create()
 export default class ReportExceed extends Component {
   state = {
@@ -178,11 +181,13 @@ export default class ReportExceed extends Component {
                 )}
               </Row>
             </Col>
-            <Col span={4}>
-              <Row type="flex" justify="end">
-                <Button type="primary">{t('report.exportExcel')}</Button>
-              </Row>
-            </Col>
+            {protectRole(ROLE.REPORT_EXCEED.EXPORT)(
+              <Col span={4}>
+                <Row type="flex" justify="end">
+                  <Button type="primary">{t('report.exportExcel')}</Button>
+                </Row>
+              </Col>
+            )}
           </Row>
           <Clearfix height={31} />
           {Report[type]}

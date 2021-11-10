@@ -2215,6 +2215,9 @@ export default {
       tileDuLieuVuotNguong: {
         name: 'Tỉ lệ dữ liệu vượt ngưỡng',
       },
+      reportExceed: {
+        name: 'Báo cáo dữ liệu vượt ngưỡng',
+      },
       soLanMatKetNoi: {
         name: 'Số lần mất kết nối',
       },
