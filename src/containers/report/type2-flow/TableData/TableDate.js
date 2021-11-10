@@ -75,14 +75,13 @@ function TableDate({ data, loading }) {
     {
       title: t('report.type2_flow.diameter'),
       dataIndex: 'station.diameter',
-      render: value => {
-        if (!value) return '-'
-        return value
-      },
+      align: 'right',
+      render: value => (_.isNumber(value) ? value : '-'),
     },
     {
       title: t('report.type2_flow.value'),
       dataIndex: 'value',
+      align: 'right',
       render: value => {
         if (!value) return '-'
         return getFormatNumber(value)

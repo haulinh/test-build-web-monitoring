@@ -24,13 +24,13 @@ function TableYear({ data, loading }) {
   const columnsYear = [...monthsUnique].map(month => ({
     title: month,
     dataIndex: 'data',
+    align: 'right',
     render: value => {
       const dataGroupYear = _.keyBy(value, '_id')
+      const dataGroupMonth = dataGroupYear[month].value
       return (
         <div>
-          {dataGroupYear[month]
-            ? getFormatNumber(dataGroupYear[month].value)
-            : '-'}
+          {_.isNumber(dataGroupMonth) ? getFormatNumber(dataGroupMonth) : '-'}
         </div>
       )
     },
@@ -38,13 +38,14 @@ function TableYear({ data, loading }) {
 
   const columns = [
     {
-      title: 'Trạm quan trắc',
+      title: t('report.type2_flow.stationName'),
       dataIndex: 'station.name',
     },
     {
-      title: 'Đường kính',
+      title: t('report.type2_flow.diameter'),
       dataIndex: 'station.diameter',
-      render: value => <div>{value ? value : '-'}</div>,
+      align: 'right',
+      render: value => <div>{_.isNumber(value) ? value : '-'}</div>,
     },
     ...columnsYear,
   ]

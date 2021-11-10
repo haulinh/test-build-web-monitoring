@@ -7,11 +7,15 @@ import { Search } from 'components/layouts/styles'
 import { BoxShadow } from 'containers/api-sharing/layout/styles'
 import Filter from './Filter'
 import moment from 'moment'
+import _ from 'lodash'
 import { getTimeUTC } from 'utils/datetime/index'
 import DataInsight from 'api/DataInsight'
 import { TableAnyYears, TableDate, TableYear } from './TableData'
 import TableMonth from './TableData/TableMonth'
 import { translate as t } from 'hoc/create-lang'
+import { i18n } from 'containers/api-sharing/constants'
+import { getLanguage } from 'utils/localStorage'
+import { downFileExcel } from 'utils/downFile'
 
 export const FIELDS = {
   REPORT_TYPE: 'reportType',
@@ -44,7 +48,12 @@ export default class ReportFlow extends React.Component {
 
   getQueryParamsDate = () => {
     const paramsGeneral = this.getQueryParamsGeneral()
-    const { reportTime, reportProvince, ...newParams } = paramsGeneral
+    const {
+      reportTime,
+      stationType,
+      reportProvince,
+      ...newParams
+    } = paramsGeneral
 
     const params = {
       ...newParams,
@@ -53,13 +62,17 @@ export default class ReportFlow extends React.Component {
       ),
       to: getTimeUTC(paramsGeneral[FIELDS.REPORT_TIME].value[1].endOf('day')),
     }
-
     return params
   }
 
   getQueryParamsMonth = () => {
     const paramsGeneral = this.getQueryParamsGeneral()
-    const { reportTime, reportProvince, ...newParams } = paramsGeneral
+    const {
+      reportTime,
+      stationType,
+      reportProvince,
+      ...newParams
+    } = paramsGeneral
     const params = {
       ...newParams,
       from: getTimeUTC(
@@ -72,7 +85,12 @@ export default class ReportFlow extends React.Component {
 
   getQueryParamsYear = () => {
     const paramsGeneral = this.getQueryParamsGeneral()
-    const { reportTime, reportProvince, ...newParams } = paramsGeneral
+    const {
+      reportTime,
+      stationType,
+      reportProvince,
+      ...newParams
+    } = paramsGeneral
     const params = {
       ...newParams,
       from: getTimeUTC(
@@ -88,7 +106,12 @@ export default class ReportFlow extends React.Component {
 
   getParamsRangeYear = () => {
     const paramsGeneral = this.getQueryParamsGeneral()
-    const { reportTime, reportProvince, ...newParams } = paramsGeneral
+    const {
+      reportTime,
+      stationType,
+      reportProvince,
+      ...newParams
+    } = paramsGeneral
     const params = {
       ...newParams,
       from: getTimeUTC(
@@ -106,6 +129,15 @@ export default class ReportFlow extends React.Component {
   getQueryParams = () => {
     const { form } = this.props
     const values = form.getFieldsValue()
+    const timeValue = values[FIELDS.REPORT_TIME].value
+    if (
+      !timeValue ||
+      (['custom' || 'anyYear'].includes(values.reportType) &&
+        (!Array.isArray(timeValue) || _.isEmpty(timeValue))) ||
+      (['month' || 'year'].includes(values.reportType) && _.isEmpty(timeValue))
+    ) {
+      return
+    }
     const type = values[FIELDS.REPORT_TYPE]
     const queryParams = {
       custom: this.getQueryParamsDate,
@@ -119,67 +151,88 @@ export default class ReportFlow extends React.Component {
   getTime() {
     const { form } = this.props
     const values = form.getFieldsValue()
+    if (!values) return
     const type = values[FIELDS.REPORT_TYPE]
-    let from, to
-    if (!type) return
+    const timeValue = _.get(values, 'reportTime.value')
+    let to, from
+    if (!timeValue)
+      return {
+        time: '',
+        timeRange: '',
+      }
     if (type === 'year') {
-      from = moment(values[FIELDS.REPORT_TIME].value, 'yyyy')
+      from = moment(timeValue, 'yyyy')
         .startOf('year')
         .format('L')
-      to = moment(values[FIELDS.REPORT_TIME].value, 'yyyy')
+      to = moment(timeValue, 'yyyy')
         .endOf('year')
         .format('L')
       return {
-        time: `${t('report.type2_flow.timeRanger.year')} ${
-          values[FIELDS.REPORT_TIME].value
-        }`,
-        timeRanger: `${t('report.type2_flow.timeRanger.from')} ${from} ${t(
-          'report.type2_flow.time.to'
+        time: `${t('report.type2_flow.range.year')} ${moment(
+          timeValue,
+          'YYYY'
+        ).format('YYYY')}`,
+        timeRange: `${t('report.type2_flow.range.from')} ${from} ${t(
+          'report.type2_flow.range.to'
         )} ${to}`,
       }
     }
     if (type === 'custom') {
-      from = values[FIELDS.REPORT_TIME].value[0].startOf('day').format('L')
-      to = values[FIELDS.REPORT_TIME].value[1].endOf('day').format('L')
+      from = timeValue[0].startOf('day').format('L')
+      to = timeValue[1].endOf('day').format('L')
       return {
         time: `${from} - ${to}`,
-        timeRanger: `${t('report.type2_flow.timeRanger.from')} ${from} ${t(
-          'report.type2_flow.time.to'
+        timeRange: `${t('report.type2_flow.range.from')} ${from} ${t(
+          'report.type2_flow.range.to'
         )} ${to}`,
       }
     }
     if (type === 'month') {
-      from = values[FIELDS.REPORT_TIME].value.startOf('month').format('L')
-      to = values[FIELDS.REPORT_TIME].value.endOf('month').format('L')
+      from = timeValue.startOf('month').format('L')
+      to = timeValue.endOf('month').format('L')
       return {
-        time: `${values[FIELDS.REPORT_TIME].value.format('MM/YYYY')}`,
-        timeRanger: `${t('report.type2_flow.timeRanger.from')} ${from} ${t(
-          'report.type2_flow.time.to'
+        time: `${timeValue.format('MM/YYYY')}`,
+        timeRange: `${t('report.type2_flow.range.from')} ${from} ${t(
+          'report.type2_flow.range.to'
         )} ${to}`,
       }
     }
     if (type === 'anyYear') {
-      from = moment(values[FIELDS.REPORT_TIME].value[0], 'yyyy')
+      from = moment(timeValue[0], 'yyyy')
         .startOf('year')
         .format('L')
-      to = moment(values[FIELDS.REPORT_TIME].value[1], 'yyyy')
+      to = moment(timeValue[1], 'yyyy')
         .endOf('year')
         .format('L')
       return {
-        time: `${values[FIELDS.REPORT_TIME].value[0]} - ${
-          values[FIELDS.REPORT_TIME].value[1]
-        }`,
-        timeRanger: `${t('report.type2_flow.timeRanger.from')} ${from} ${t(
-          'report.type2_flow.time.to'
+        time: `${t('report.type2_flow.range.year')} ${moment(
+          timeValue[0],
+          'YYYY'
+        ).format('YYYY')} - ${moment(timeValue[1], 'YYYY').format('YYYY')}`,
+        timeRange: `${t('report.type2_flow.range.from')} ${from} ${t(
+          'report.type2_flow.range.to'
         )} ${to}`,
       }
     }
   }
-
+  validateSlelectTime = () => {
+    const { form } = this.props
+    const valuesForm = form.getFieldsValue()
+    if (!valuesForm.reportTime.value) {
+      return form.setFields({
+        [FIELDS.REPORT_TIME]: {
+          value: valuesForm.reportTime,
+          errors: [new Error(i18n().rules.requireChoose)],
+        },
+      })
+    }
+    return
+  }
   handleOnSearch = async () => {
     const { form } = this.props
-    const values = await form.validateFields()
-    if (!values) return
+
+    await Promise.all([form.validateFields(), this.validateSlelectTime()])
+
     const params = this.getQueryParams()
     const time = this.getTime()
     this.setState({
@@ -200,6 +253,16 @@ export default class ReportFlow extends React.Component {
     }
   }
 
+  exportExcel = async () => {
+    const { form } = this.props
+    await form.validateFields()
+    const params = this.getQueryParams()
+    const time = this.getTime()
+    const newParams = { ...params, lang: getLanguage() }
+    const results = await DataInsight.exportDataFlow(newParams)
+    downFileExcel(results.data, `${t('report.type2_flow.title')} ${time.time}`)
+  }
+
   render() {
     const { form } = this.props
     const { loading, data, time } = this.state
@@ -216,7 +279,7 @@ export default class ReportFlow extends React.Component {
 
     return (
       <PageContainer>
-        <div style={{ height: '100vh' }}>
+        <div style={{}}>
           <Breadcrumb items={['type2_flow']} />
           <Clearfix height={16} />
           <Search onSearch={this.handleOnSearch} loading={loading}>
@@ -228,7 +291,7 @@ export default class ReportFlow extends React.Component {
 
           <Row type="flex" justify="end">
             <Col>
-              <Button onClick={this.handleExportBilling} type="primary">
+              <Button onClick={this.exportExcel} type="primary">
                 {t('billing.button.exportReport')}
               </Button>
             </Col>
@@ -250,15 +313,16 @@ export default class ReportFlow extends React.Component {
                 style={{
                   fontSize: '16px',
                   textAlign: 'center',
-                  marginBottom: '50px',
                 }}
               >
-                {t('report.type2_flow.subTitle')} {time.timeRanger}
+                {t('report.type2_flow.subTitle')} {time.timeRange}
               </div>
             </Col>
           </Row>
+          <Clearfix height={50} />
           {Report[type]}
         </div>
+        <Clearfix height={50} />
       </PageContainer>
     )
   }

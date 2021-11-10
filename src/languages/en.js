@@ -4085,11 +4085,22 @@ export default {
     type2_flow: {
       title: 'Reporting of Emission Flow',
       subTitle: 'Statistics about emission flow',
-      timeRanger: {
+      option: {
+        reportYear: 'Year Report',
+        reportDay: 'Day Report',
+        reportMonth: 'Month Report',
+        reportRangeYear: 'Custom Years Report',
+        year: 'Year',
+        day: 'Day',
+        month: 'Month',
+        chooseMonth: 'Choose Month',
+      },
+      range: {
         year: 'in',
         from: 'from',
         to: 'to',
       },
+      parameters: 'Parameters',
       stationName: 'Station Name',
       diameter: 'Diameter',
       value: 'Value',
