@@ -2217,6 +2217,12 @@ export default {
       tileDuLieuVuotNguong: {
         name: 'Percentage of exceeded data',
       },
+      reportExceed: {
+        name: 'Report data over the threshold',
+      },
+      reportFlow: {
+        name: 'Report of emission flow',
+      },
       soLanMatKetNoi: {
         name: 'Number of disconnections',
       },

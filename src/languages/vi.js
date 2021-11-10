@@ -2219,6 +2219,9 @@ export default {
       reportExceed: {
         name: 'Báo cáo dữ liệu vượt ngưỡng',
       },
+      reportFlow: {
+        name: 'Báo cáo lưu lượng phát thải',
+      },
       soLanMatKetNoi: {
         name: 'Số lần mất kết nối',
       },
@@ -4085,7 +4088,7 @@ export default {
         param: 'Thông số',
         unit: 'Đơn vị',
         limit: 'Giá trị giới hạn',
-        avg_value: 'Giá trị trung bình',
+        avg_value: 'Giá trị TB',
         max_value: 'Giá trị lớn nhất',
         overtime: 'Vượt ngưỡng lần ',
         start_time: 'Thời điểm phát sinh',
