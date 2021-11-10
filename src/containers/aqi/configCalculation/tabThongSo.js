@@ -96,7 +96,20 @@ export default class TabThongSo extends React.Component {
                   message: i18n().required,
                 },
               ],
-            })(<this.SelectMeasure />)}
+            })(
+              <Select {...this.props} showSearch style={{width: '100%'}}>
+                {_.map(this.state.dataMeasuringObj, mea => {
+                  const isDisable = this.state.dataSource.some(
+                    item => item.keyMeasure === mea.key
+                  )
+                  return (
+                    <Select.Option disabled={isDisable} key={mea.key} value={mea.key}>
+                      {mea.name}
+                    </Select.Option>
+                  )
+                })}
+              </Select>
+            )}
           </Form.Item>
         )
       },
@@ -121,6 +134,9 @@ export default class TabThongSo extends React.Component {
               },
             })(
               <Checkbox
+                disabled={!getFieldValue(
+                  `aqiQCMeasures[${record.key}].keyMeasure`
+                )}
                 checked={getFieldValue(
                   `aqiQCMeasures[${record.key}].isrequired`
                 )}
@@ -151,6 +167,9 @@ export default class TabThongSo extends React.Component {
               },
             })(
               <Checkbox
+                disabled={!getFieldValue(
+                  `aqiQCMeasures[${record.key}].keyMeasure`
+                )}
                 checked={getFieldValue(`aqiQCMeasures[${record.key}].1h`)}
                 style={{ display: 'flex', justifyContent: 'center' }}
               />
@@ -177,14 +196,11 @@ export default class TabThongSo extends React.Component {
                   ),
                 })
               },
-              // rules: [
-              //   {
-              //     required: !getFieldValue(`aqiQCMeasures[${record.key}].8h`),
-              //     message: i18n().required1D_1H
-              //   }
-              // ]
             })(
               <Checkbox
+                disabled={!getFieldValue(
+                  `aqiQCMeasures[${record.key}].keyMeasure`
+                )}
                 checked={getFieldValue(`aqiQCMeasures[${record.key}].8h`)}
                 style={{ display: 'flex', justifyContent: 'center' }}
               />
@@ -211,14 +227,11 @@ export default class TabThongSo extends React.Component {
                   ),
                 })
               },
-              // rules: [
-              //   {
-              //     required: !getFieldValue(`aqiQCMeasures[${record.key}].24h`),
-              //     message: i18n().required1D_1H
-              //   }
-              // ]
             })(
               <Checkbox
+                disabled={!getFieldValue(
+                  `aqiQCMeasures[${record.key}].keyMeasure`
+                )}
                 checked={getFieldValue(`aqiQCMeasures[${record.key}].24h`)}
                 style={{ display: 'flex', justifyContent: 'center' }}
               />
@@ -263,24 +276,6 @@ export default class TabThongSo extends React.Component {
       },
     },
   ]
-
-  SelectMeasure = React.forwardRef(props => {
-    // console.log(props,"SelectMeasure")
-    return (
-      <Select {...props} showSearch style={{ width: '100%' }}>
-        {_.map(this.state.dataMeasuringObj, mea => {
-          const isDisable = this.state.dataSource.some(
-            item => item.keyMeasure === mea.key
-          )
-          return (
-            <Select.Option disabled={isDisable} key={mea.key} value={mea.key}>
-              {mea.name}
-            </Select.Option>
-          )
-        })}
-      </Select>
-    )
-  })
 
   submit = () => {
     this.props.form.validateFields(async (err, values) => {
@@ -380,7 +375,28 @@ export default class TabThongSo extends React.Component {
     }
   }
 
-  render() {
+  componentDidUpdate(){
+    const {isDisable} = this.state
+    const isValid = this.validateForm()
+    if(isValid !== isDisable) this.setState({isDisable: isValid})
+  }
+
+  validateForm(){
+    const {form} = this.props
+    const formValues = form.getFieldsValue()
+    const aqiQCMeasures = _.get(formValues, 'aqiQCMeasures', []);
+
+    const record = aqiQCMeasures.filter(Boolean).find((item) => {
+      if(!item.keyMeasure) return true
+      if(['1h', '8h', '24h', 'isrequired'].every(key => !_.identity(item[key]))) return true
+      return false
+    })
+
+    return !!record
+  }
+
+ render() {
+   const {isDisable} = this.state
     return (
       <Spin spinning={!this.state.isLoaded}>
         <Button type="primary" onClick={this.add}>
@@ -400,6 +416,7 @@ export default class TabThongSo extends React.Component {
           block
           type="primary"
           onClick={this.submit}
+          disabled={isDisable}
         >
           {i18n().submit}
         </Button>

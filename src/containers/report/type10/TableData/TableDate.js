@@ -2,6 +2,7 @@ import { Col, Row, Table, Tabs } from 'antd'
 import { Clearfix } from 'components/layouts/styles'
 import { DD_MM_YYYY } from 'constants/format-date'
 import { translate } from 'hoc/create-lang'
+import get from 'lodash/get'
 import moment from 'moment'
 import React from 'react'
 import { i18n } from '../index'
@@ -10,23 +11,28 @@ const { TabPane } = Tabs
 
 const TabStation = ({ data, loading }) => {
   return (
-    <Tabs defaultActiveKey={data[0].station.key}>
+    <Tabs defaultActiveKey={get(data[0], 'station.key')}>
       {data.map(dataItem => {
         return (
-          <TabPane tab={dataItem.station.name} key={dataItem.station.key}>
-            <Row type="flex" justify="end">
-              <Col>
-                <div style={{ fontWeight: 500 }}>
-                  {i18n().header6}:{' '}
-                  {moment(dataItem.station.activatedAt).format(DD_MM_YYYY)}
-                </div>
-              </Col>
-            </Row>
+          <TabPane
+            tab={get(dataItem, 'station.name')}
+            key={get(dataItem, 'station.key')}
+          >
+            {get(dataItem, 'station.activatedAt') && (
+              <Row type="flex" justify="end">
+                <Col>
+                  <div style={{ fontWeight: 500 }}>
+                    {i18n().header6}:{' '}
+                    {moment(dataItem.station.activatedAt).format(DD_MM_YYYY)}
+                  </div>
+                </Col>
+              </Row>
+            )}
             <Clearfix height={8} />
             <TableDate
               dataSource={dataItem.data}
               loading={loading}
-              dataFrequency={dataItem.station.dataFrequency}
+              dataFrequency={get(dataItem, 'station.dataFrequency')}
             />
           </TabPane>
         )
@@ -40,9 +46,9 @@ export default TabStation
 export function TableDate({ dataSource, loading, dataFrequency }) {
   const columns = [
     {
-      title: 'Thời gian',
+      title: translate('dataSearchFilterForm.form.time'),
       dataIndex: 'date',
-      align: 'center',
+      align: 'left',
       render: value => {
         return (
           <div style={{ textAlign: 'right' }}>

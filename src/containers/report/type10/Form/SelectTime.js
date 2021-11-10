@@ -1,7 +1,8 @@
-import { Col, DatePicker, Row, Select } from 'antd'
+import { Col, DatePicker, Form, Row, Select } from 'antd'
 import { translate } from 'hoc/create-lang'
 import React from 'react'
 import { FIELDS } from '../index'
+import moment from 'moment'
 
 const { RangePicker } = DatePicker
 
@@ -15,9 +16,17 @@ const SelectTime = ({ form }) => {
         })(<SelectTimeType />)}
       </Col>
       <Col span={17}>
-        {form.getFieldDecorator(FIELDS.TIME_VALUE)(
-          <SelectDatePickerType timeType={timeType} />
-        )}
+        <Form.Item>
+          {form.getFieldDecorator(FIELDS.TIME_VALUE, {
+            initialValue: [moment(), moment()],
+            rules: [
+              {
+                required: true,
+                message: translate('avgSearchFrom.form.rangesDate.error'),
+              },
+            ],
+          })(<SelectDatePickerType timeType={timeType} />)}
+        </Form.Item>
       </Col>
     </Row>
   )
@@ -56,13 +65,14 @@ class DatePickerRangeMonth extends React.Component {
   }
 
   render() {
-    const { value, mode } = this.state
+    const { value: valueState, mode } = this.state
+    const { value } = this.props
 
     return (
       <DatePicker.RangePicker
         placeholder={['Start month', 'End month']}
         format="YYYY-MM"
-        value={value}
+        value={value ? value : valueState}
         mode={mode}
         onChange={this.handleChange}
         onPanelChange={this.handlePanelChange}

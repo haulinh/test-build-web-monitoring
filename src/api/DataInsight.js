@@ -63,5 +63,10 @@ export default {
     const url = getDataInsightUrl(`report/data-ratio/${type}`)
     return getFetch(url, param)
   },
+  exportDataRatio: (type, param) => {
+    const url = getDataInsightUrl(`report/data-ratio/${type}/export`)
+    return getFetchDownFile(url, param)
+  },
+
   //#endregion
 }

@@ -762,8 +762,9 @@ export default {
       header6: 'Ngày bắt đầu truyền dữ liệu',
       header7: 'Ngày/tháng',
       header8: 'Giờ',
-      header9: 'Tỉ lệ số liệu vượt ngưỡng (%)',
-      title: 'BÁO CÁO TỈ LỆ SỐ LIỆU THU ĐƯỢC',
+      header9: 'TỶ lệ số liệu vượt ngưỡng (%)',
+      title: 'BÁO CÁO TỶ LỆ SỐ LIỆU THU ĐƯỢC',
+      titleDay: 'BÁO CÁO TỶ LỆ SỐ LIỆU THU ĐƯỢC THEO NGÀY',
       descriptionRatioMonth:
         'Các số liệu thống kê về tỉ lệ số liệu thu được của các trạm quan trắc từ tháng {{=it.from}} đến tháng {{=it.to}}',
       descriptionRatioDate:

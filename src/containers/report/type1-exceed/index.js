@@ -67,19 +67,21 @@ export default class ReportExceed extends Component {
     const time = _.get(values, 'time.value')
     let validates = [form.validateFields()]
     if (!time) {
-      validates = [...validates, form.setFields({
-        time: {
-          type: _.get(values, 'reportType'),
-          value: _.get(values, 'time'),
-          errors: [new Error(i18n().time.required)],
-        },
-      })]
+      validates = [
+        ...validates,
+        form.setFields({
+          time: {
+            type: _.get(values, 'reportType'),
+            value: _.get(values, 'time'),
+            errors: [new Error(i18n().time.required)],
+          },
+        }),
+      ]
     }
     const type = values.reportType
 
     const [valuesForm, valueTime] = await Promise.all(validates)
-    if (!valuesForm && !valueTime)
-      return
+    if (!valuesForm && !valueTime) return
 
     const queryParams = {
       year: this.getQueryParamsYear,
@@ -206,7 +208,9 @@ export default class ReportExceed extends Component {
           </Col>
           <Col span={3}>
             <Row type="flex" justify="end">
-              <Button type="primary" onClick={this.handleExportExceed}>{t('report.exportExcel')}</Button>
+              <Button type="primary" onClick={this.handleExportExceed}>
+                {t('report.exportExcel')}
+              </Button>
             </Row>
           </Col>
         </Row>

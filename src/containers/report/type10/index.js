@@ -1,6 +1,5 @@
 import { Button, Typography } from 'antd'
 import DataInsight from 'api/DataInsight'
-import { getUrlReportType10Excel } from 'api/DataStationAutoApi'
 import Clearfix from 'components/elements/clearfix'
 import { DD_MM_YYYY, MM_YYYY } from 'constants/format-date.js'
 import ROLE from 'constants/role'
@@ -12,6 +11,7 @@ import moment from 'moment-timezone'
 import React from 'react'
 import { connect } from 'react-redux'
 import { getTimeUTC } from 'utils/datetime'
+import { downFileExcel } from 'utils/downFile'
 import Breadcrumb from '../breadcrumb'
 import SearchForm from './Form'
 import { TableMonth, TabStation } from './TableData'
@@ -34,6 +34,7 @@ export function i18n() {
     header5: translate('avgSearchFrom.table.header5'),
     header6: translate('avgSearchFrom.table.header6'),
     title: translate('avgSearchFrom.table.title'),
+    titleDay: translate('avgSearchFrom.table.titleDay'),
   }
 }
 
@@ -55,11 +56,6 @@ export default class ReportType10 extends React.Component {
       to: '',
     }
   }
-
-  // componentDidMount() {
-  //   // console.log("ABC", this.props.timeZone);
-  //   this.handleSubmit()
-  // }
 
   handleSubmit = async (values = {}) => {
     this.setState({
@@ -94,23 +90,42 @@ export default class ReportType10 extends React.Component {
     } catch (error) {}
   }
 
+  getDetailTitle = () => {
+    const { dataSearch, from, to } = this.state
+    const type = dataSearch[FIELDS.TIME_TYPE]
+    const title = translate(
+      `avgSearchFrom.table.${
+        type === 'month' ? 'descriptionRatioMonth' : 'descriptionRatioDate'
+      }`,
+      {
+        from,
+        to,
+      }
+    )
+
+    return title
+  }
+
   hanldeExcel = async () => {
     this.setState({
       isLoadingExcel: true,
     })
-    let res = await getUrlReportType10Excel({
-      ...this.state.dataSearch,
-      language: this.props.locale,
-    })
+    const { timeType, ...param } = this.state.dataSearch
 
-    if (res.success) {
+    try {
+      let res = await DataInsight.exportDataRatio(timeType, {
+        ...param,
+        language: this.props.locale,
+      })
+
       this.setState({
         isLoadingExcel: false,
       })
-      // console.log("getUrlReportType1", res.data);
-      window.open(res.data, '_blank')
-    }
+      downFileExcel(res.data, this.getTitle())
+    } catch (error) {}
   }
+
+  resetData = () => this.setState({ dataSource: [] })
 
   render() {
     const { dataSource, isLoading, dataSearch } = this.state
@@ -125,30 +140,19 @@ export default class ReportType10 extends React.Component {
       date: <TabStation data={dataSource} loading={isLoading} />,
     }
     const type = dataSearch[FIELDS.TIME_TYPE]
+
     return (
       <PageContainer>
-        <div style={{ height: '100vh' }}>
+        <div style={{ height: '100vh', overflow: 'hidden' }}>
           <Breadcrumb items={['type10']} />
           <Clearfix height={16} />
-          <SearchForm cbSubmit={this.handleSubmit} />
+          <SearchForm cbSubmit={this.handleSubmit} resetData={this.resetData} />
           <Clearfix height={16} />
           <div style={{ position: 'relative', textAlign: 'center' }}>
-            <Title level={4}>{i18n().title}</Title>
-            {type && (
-              <Text>
-                {translate(
-                  `avgSearchFrom.table.${
-                    type === 'month'
-                      ? 'descriptionRatioMonth'
-                      : 'descriptionRatioDate'
-                  }`,
-                  {
-                    from: this.state.from,
-                    to: this.state.to,
-                  }
-                )}
-              </Text>
-            )}
+            <Title level={4}>
+              {type === 'date' ? i18n().titleDay : i18n().title}
+            </Title>
+            {type && <Text>{this.getDetailTitle()}</Text>}
             {this.state.isHaveData && (
               <div
                 style={{
@@ -172,7 +176,7 @@ export default class ReportType10 extends React.Component {
           </div>
           <Clearfix height={8} />
 
-          {Report[type]}
+          <div>{Report[type]}</div>
         </div>
       </PageContainer>
     )
