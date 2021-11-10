@@ -16,6 +16,8 @@ import { translate as t } from 'hoc/create-lang'
 import { i18n } from 'containers/api-sharing/constants'
 import { getLanguage } from 'utils/localStorage'
 import { downFileExcel } from 'utils/downFile'
+import protectRole from 'hoc/protect-role/forMenu'
+import ROLE from 'constants/role'
 
 export const FIELDS = {
   REPORT_TYPE: 'reportType',
@@ -28,6 +30,7 @@ export const FIELDS = {
   FILTER_DATA: 'isFilter',
 }
 @Form.create()
+@protectRole(ROLE.REPORT_FLOW.VIEW)
 export default class ReportFlow extends React.Component {
   state = {
     data: [],
@@ -186,7 +189,7 @@ export default class ReportFlow extends React.Component {
       from = timeValue[0].startOf('day').format('L')
       to = timeValue[1].endOf('day').format('L')
       return {
-        time: `${from} - ${to}`,
+        time: t('report.type2_flow.by.byDay'),
         timeRange: `${t('report.type2_flow.range.from')} ${from} ${t(
           'report.type2_flow.range.to'
         )} ${to}`,
@@ -245,7 +248,7 @@ export default class ReportFlow extends React.Component {
   exportExcel = async () => {
     const { form } = this.props
     await form.validateFields()
-    const params = this.getQueryParams()
+    const params = await this.getQueryParams()
     const time = this.getTime()
     const newParams = { ...params, lang: getLanguage() }
     const results = await DataInsight.exportDataFlow(newParams)
@@ -279,11 +282,13 @@ export default class ReportFlow extends React.Component {
           <Clearfix height={32} />
 
           <Row type="flex" justify="end">
-            <Col>
-              <Button onClick={this.exportExcel} type="primary">
-                {t('billing.button.exportReport')}
-              </Button>
-            </Col>
+            {protectRole(ROLE.REPORT_FLOW.EXPORT)(
+              <Col>
+                <Button onClick={this.exportExcel} type="primary">
+                  {t('billing.button.exportReport')}
+                </Button>
+              </Col>
+            )}
           </Row>
 
           <Row type="flex" justify="center" align="center">

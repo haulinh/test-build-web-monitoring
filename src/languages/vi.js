@@ -4042,7 +4042,7 @@ export default {
   report: {
     required: {
       time: 'Vui lòng chọn thời gian',
-      station: 'Vui lòng chọn trạm quan trắc'
+      station: 'Vui lòng chọn trạm quan trắc',
     },
     placeholder: {
       time: 'Chọn thời gian',
@@ -4101,7 +4101,7 @@ export default {
     },
     type2_flow: {
       title: 'Báo cáo lưu lượng phát thải',
-      subTitle: 'Các số liệu thống kê',
+      subTitle: 'Các số liệu thống kê về lưu lượng phát',
       option: {
         reportYear: 'Báo cáo năm',
         reportDay: 'Báo cáo ngày',
@@ -4109,6 +4109,7 @@ export default {
         reportRangeYear: 'Báo cáo các năm',
         year: 'Năm',
         day: 'Ngày',
+        byDay: 'theo ngày',
         month: 'Tháng',
         chooseMonth: 'Chọn tháng',
       },

@@ -27,7 +27,7 @@ function TableYear({ data, loading }) {
     align: 'right',
     render: value => {
       const dataGroupYear = _.keyBy(value, '_id')
-      const dataGroupMonth = dataGroupYear[month].value
+      const dataGroupMonth = _.get(dataGroupYear[month], 'value')
       return (
         <div>
           {_.isNumber(dataGroupMonth) ? getFormatNumber(dataGroupMonth) : '-'}
