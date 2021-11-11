@@ -66,6 +66,7 @@ const TableDataDate = ({ data, loading, ...props }) => {
         dataIndex: `data.${column - 1}`,
         render: value => {
           if (!value) return <div>{'-'}</div>
+          if (Array.isArray(value) && value.length === 1) return <div>{'-'}</div>
           if (value[0] && value[1]) {
             const duration = getDurationTime(
               { from: value[0].time, to: value[1].time },
@@ -163,7 +164,7 @@ const TableDataDate = ({ data, loading, ...props }) => {
       size="small"
       pagination={false}
       rowKey="key"
-      scroll={{ x: 1300 }}
+      scroll={{ x: 1080, y: 600}}
     />
   )
 }
