@@ -219,7 +219,7 @@ export default class ReportExceed extends Component {
           <Col span={3}>
             <Row type="flex" justify="end">
               {protectRole(ROLE.REPORT_EXCEED.EXPORT)(
-                <Button type="primary" onClick={this.handleExportExceed} icon="file-excel" loading={this.state.isLoadingExcel}>
+                <Button style={{ marginRight: '12px' }} type="primary" onClick={this.handleExportExceed} icon="file-excel" loading={this.state.isLoadingExcel}>
                   {t('report.exportExcel')}
                 </Button>
               )}
