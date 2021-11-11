@@ -8,14 +8,19 @@ import { Table } from 'antd'
 import { translate } from 'hoc/create-lang'
 import _ from 'lodash'
 
-export default function TableMonth({ dataSource, loading, parentProps }) {
+export default function TableMonth({
+  dataSource,
+  loading,
+  hidden,
+  parentProps,
+}) {
   const columns = [
     {
       title: i18n().header1,
       dataIndex: 'name',
-      align: 'center',
+      align: 'left',
       render: value => {
-        return <div style={{ textAlign: 'left' }}>{value}</div>
+        return <div>{value}</div>
       },
     },
     {
@@ -24,7 +29,7 @@ export default function TableMonth({ dataSource, loading, parentProps }) {
       align: 'left',
       render: value => {
         if (!value) {
-          return null
+          return '-'
         }
         return (
           <div style={{ textAlign: 'left' }}>
@@ -74,9 +79,9 @@ export default function TableMonth({ dataSource, loading, parentProps }) {
     {
       title: i18n().header5,
       dataIndex: 'percentageReceived',
-      align: 'center',
+      align: 'right',
       render: value => {
-        if (!value) return null
+        if (!value) return '-'
         return (
           <div style={{ textAlign: 'right' }}>
             {_.isNumber(value) ? getFormatNumber(value, ROUND_DIGIT) : '-'}
@@ -86,17 +91,19 @@ export default function TableMonth({ dataSource, loading, parentProps }) {
     },
   ]
   return (
-    <Table
-      loading={loading}
-      size="small"
-      rowKey="_id"
-      columns={columns}
-      bordered={true}
-      dataSource={dataSource}
-      locale={{
-        emptyText: translate('dataSearchFrom.table.emptyText'),
-      }}
-      pagination={false}
-    />
+    <div style={{ display: hidden && 'none' }}>
+      <Table
+        loading={loading}
+        size="small"
+        rowKey="_id"
+        columns={columns}
+        bordered={true}
+        dataSource={dataSource}
+        locale={{
+          emptyText: translate('dataSearchFrom.table.emptyText'),
+        }}
+        pagination={false}
+      />
+    </div>
   )
 }

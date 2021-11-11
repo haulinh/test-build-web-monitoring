@@ -91,7 +91,7 @@ export default class SelectStationType extends PureComponent {
   }
 
   getStationTypes = () => {
-    const { province, stationAutos } = this.props
+    let { province, stationAutos, fieldValue } = this.props
     if (this.state.searchString) {
       const searchString = replaceVietnameseStr(this.state.searchString)
       return this.state.stationTypes.filter(
@@ -101,11 +101,23 @@ export default class SelectStationType extends PureComponent {
     }
 
     if (province && stationAutos) {
-      const stationAutoLength = stationAutos.filter(
-        stationAuto => _get(stationAuto, 'province.key') === province
-      ).length
-      return this.state.stationTypes.filter(() => stationAutoLength)
+      const stationAutoTypeKeys = stationAutos
+        .filter(stationAuto => {
+          const provinceValue = _get(
+            stationAuto,
+            ['province', fieldValue || 'key'],
+            ''
+          )
+          return provinceValue === province
+        })
+        .filter(station => station.stationType)
+        .map(station => station.stationType[fieldValue || 'key'])
+
+      return this.state.stationTypes.filter(stationType =>
+        stationAutoTypeKeys.includes(stationType.key)
+      )
     }
+
     return this.state.stationTypes
   }
 
