@@ -1,4 +1,4 @@
-import { Col, Row, Switch } from 'antd'
+import { Col, Row, Switch, Form } from 'antd'
 import ReportType from 'components/elements/select-data/report/SelectReportType'
 import TimeReport from 'components/elements/select-data/report/SelectTimeReport'
 import TreeSelectStation from 'components/elements/select-data/TreeSelectStation'
@@ -10,101 +10,143 @@ import moment from 'moment'
 import React from 'react'
 import styled from 'styled-components'
 import { FIELDS, i18n } from './index'
+import { connect } from 'react-redux'
+import _ from 'lodash'
 
 const ColSwitch = styled(Col)`
   .ant-form-item .ant-switch {
     margin: 20px 0 4px;
   }
 `
+@Form.create()
+@connect(state => ({
+  stationAutos: state.stationAuto.list,
+}))
+export default class Filter extends React.Component {
 
-export default function Filter({ form, resetData = () => {} }) {
-  const { reportType } = form.getFieldsValue() || {}
+  constructor(props) {
+    super(props)
+    this.state = {
+      measuringList: [],
+      stationAutos: [],
+    }
+  }
 
-  const handleOnChangeReportType = type => {
+  handleOnChangeReportType = type => {
+    const { form, resetData } = this.props
     resetData()
     form.resetFields()
+    const stationAutoKeys = this.state.stationAutos.map(stationAuto => stationAuto.key)
+
+    form.setFieldsValue({
+      [FIELDS.STATION_KEY]: stationAutoKeys,
+    })
     const time = form.getFieldValue(FIELDS.TIME)
     form.setFieldsValue({ [FIELDS.TIME]: { ...time, type } })
   }
 
-  const handleOnChangeFilter = value => {
+  handleOnChangeFilter = value => {
+    const { form } = this.props
     form.setFieldsValue({ isFilter: value })
   }
 
-  const province = form.getFieldValue('province')
+  handleOnProvinceChange = (value) => {
+    const { form } = this.props
+    let { stationAutos } = this.state
+    if (value) {
+      stationAutos = stationAutos.filter(
+        station => _.get(station, 'province.key') === value
+      )
+    }
+    const stationAutoKeys = stationAutos.map(stationAuto => stationAuto.key)
+    form.setFieldsValue({ [FIELDS.STATION_KEY]: stationAutoKeys })
+  }
 
-  return (
-    <React.Fragment>
-      <Row gutter={12}>
-        <Col span={6}>
-          <FormItem label={i18n().reportType.label}>
-            {form.getFieldDecorator(FIELDS.REPORT_TYPE, {
-              initialValue: 'date',
-              onChange: handleOnChangeReportType,
-            })(<ReportType form={form} />)}
-          </FormItem>
-        </Col>
-        <Col span={8}>
-          <FormItem label={i18n().time.label}>
-            {form.getFieldDecorator(FIELDS.TIME, {
-              initialValue: { type: 'date', value: moment() },
+  onStationAutosFetchSuccess = stationAutos => {
+    const { form } = this.props
+    this.setState({ stationAutos })
+    const stationAutoKeys = stationAutos.map(stationAuto => stationAuto.key)
+
+    form.setFieldsValue({
+      [FIELDS.STATION_KEY]: stationAutoKeys,
+    })
+  }
+
+  render() {
+    const { form } = this.props
+    const { reportType } = form.getFieldsValue() || {}
+    const province = form.getFieldValue('province')
+    return (
+      <React.Fragment>
+        <Row gutter={12}>
+          <Col span={6}>
+            <FormItem label={i18n().reportType.label}>
+              {form.getFieldDecorator(FIELDS.REPORT_TYPE, {
+                initialValue: 'date',
+                onChange: this.handleOnChangeReportType,
+              })(<ReportType form={form} />)}
+            </FormItem>
+          </Col>
+          <Col span={8}>
+            <FormItem label={i18n().time.label}>
+              {form.getFieldDecorator(FIELDS.TIME, {
+                initialValue: { type: 'date', value: moment() },
+                rules: [
+                  {
+                    required: true,
+                    message: i18n().time.required,
+                  },
+                ],
+              })(<TimeReport reportType={reportType} />)}
+            </FormItem>
+          </Col>
+          <Col span={10}>
+            <FormItem label={i18n().province.label}>
+              {form.getFieldDecorator(FIELDS.PROVINCE, {
+                initialValue: '',
+                onChange: this.handleOnProvinceChange,
+              })(<SelectProvince isShowAll allowClear={false} />)}
+            </FormItem>
+          </Col>
+        </Row>
+        <Row>
+          <FormItem label={i18n().station.label}>
+            {form.getFieldDecorator(FIELDS.STATION_KEY, {
               rules: [
                 {
                   required: true,
-                  message: i18n().time.required,
+                  message: i18n().station.required,
                 },
               ],
-            })(<TimeReport reportType={reportType} />)}
+            })(<TreeSelectStation onStationAutosFetchSuccess={this.onStationAutosFetchSuccess} province={province} />)}
           </FormItem>
-        </Col>
-        <Col span={10}>
-          <FormItem label={i18n().province.label}>
-            {form.getFieldDecorator(FIELDS.PROVINCE, {
-              initialValue: '',
-              onChange: val => {
-                form.setFieldsValue({ stationKeys: null })
-              },
-            })(<SelectProvince isShowAll allowClear={false} />)}
-          </FormItem>
-        </Col>
-      </Row>
-      <Row>
-        <FormItem label={i18n().station.label}>
-          {form.getFieldDecorator(FIELDS.STATION_KEY, {
-            rules: [
-              {
-                required: true,
-                message: i18n().station.required,
-              },
-            ],
-          })(<TreeSelectStation province={province} />)}
-        </FormItem>
-      </Row>
-      <Row type="flex" justify="end">
-        <Col>
-          <Row type="flex" align="middle">
-            <Col>
-              <ToolTip />
-            </Col>
-            <Col>
-              <div style={{ fontSize: '16px', fontWeight: '600' }}>
-                {t('report.qaqc.approveData')}
-              </div>
-            </Col>
-            <ColSwitch>
-              <div style={{ marginLeft: '10px' }}>
-                <FormItem>
-                  {form.getFieldDecorator('isFilter', {
-                    initialValue: false,
-                    onChange: handleOnChangeFilter,
-                    valuePropName: 'checked',
-                  })(<Switch form={form} />)}
-                </FormItem>
-              </div>
-            </ColSwitch>
-          </Row>
-        </Col>
-      </Row>
-    </React.Fragment>
-  )
+        </Row>
+        <Row type="flex" justify="end">
+          <Col>
+            <Row type="flex" align="middle">
+              <Col>
+                <ToolTip />
+              </Col>
+              <Col>
+                <div style={{ fontSize: '16px', fontWeight: '600' }}>
+                  {t('report.qaqc.approveData')}
+                </div>
+              </Col>
+              <ColSwitch>
+                <div style={{ marginLeft: '10px' }}>
+                  <FormItem>
+                    {form.getFieldDecorator('isFilter', {
+                      initialValue: false,
+                      onChange: this.handleOnChangeFilter,
+                      valuePropName: 'checked',
+                    })(<Switch form={form} />)}
+                  </FormItem>
+                </div>
+              </ColSwitch>
+            </Row>
+          </Col>
+        </Row>
+      </React.Fragment>
+    )
+  }
 }

@@ -48,6 +48,21 @@ export default class Filter extends React.Component {
       },
     })
   }
+
+  getStationTypes = province => {
+    const stationAutoTypeKeys = this.state.stationAutos
+      .filter(stationAuto => {
+        const provinceValue = _.get(stationAuto, ['province', 'key'], '')
+        return provinceValue === province
+      })
+      .filter(station => station.stationType)
+      .map(station => station.stationType.key)
+
+    return this.state.stationTypes.filter(stationType =>
+      stationAutoTypeKeys.includes(stationType.key)
+    )
+  }
+
   getMeasuringList = () => {
     const { form } = this.props
     const stationAutoValues = form.getFieldValue(FIELDS.STATION_AUTO)
@@ -80,23 +95,29 @@ export default class Filter extends React.Component {
   }
   getStationAutos = (province, stationType) => {
     let { stationAutos } = this.state
-    if (stationType) {
-      stationAutos = stationAutos.filter(
-        stationAuto => _.get(stationAuto, 'stationType.key') === stationType
-      )
-    }
+
     if (province) {
-      stationAutos = stationAutos.filter(
-        stationAuto => _.get(stationAuto, 'province.key') === province
-      )
+      stationAutos = stationAutos.filter(stationAuto => {
+        const provinceValue = _.get(stationAuto, ['province', 'key'], '')
+        return provinceValue === province
+      })
     }
 
+    if (stationType) {
+      stationAutos = stationAutos.filter(
+        stationAuto => stationAuto.stationType.key === stationType
+      )
+    }
     return stationAutos
   }
 
-  handleProvinceChange = province => {
+  handleProvinceChange = async province => {
     const { form } = this.props
-    form.resetFields()
+    form.resetFields([FIELDS.MEASURING_LIST])
+
+    const stationTypes = this.getStationTypes(province)
+    const stationTypeKeys = stationTypes.map(stationType => stationType.key)
+    form.setFieldsValue({ [FIELDS.STATION_TYPE]: stationTypeKeys[0] })
     const stationType = form.getFieldValue(FIELDS.STATION_TYPE)
     const stationAutos = this.getStationAutos(province, stationType)
     const stationAutosKey = stationAutos.map(

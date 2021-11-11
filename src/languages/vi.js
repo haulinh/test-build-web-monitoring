@@ -4099,7 +4099,7 @@ export default {
         numday24h: 'Số ngày có giá trị trung bình 24h vượt QCVN',
         numday1h: 'Số ngày có giá trị trung bình 1h vượt QCVN',
         numrecord1h: 'Số giá trị trung bình 1h vượt QCVN',
-        rate: 'Tỉ lệ giá trị trung bình 1 giờ vượt QCVN',
+        rate: 'Tỷ lệ giá trị trung bình 1 giờ vượt QCVN',
       },
     },
     type2_flow: {

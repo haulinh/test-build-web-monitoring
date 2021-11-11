@@ -6,7 +6,8 @@ import { SHAPE } from 'themes/color'
 import { StickyContainer, Sticky } from 'react-sticky'
 // import Clearfix from 'components/elements/clearfix'
 import LoaderCircle from 'components/elements/loader-circle'
-// import { Affix } from 'antd'
+import { connect } from 'react-redux'
+
 
 const HeaderFlex = styled.div`
   display: flex;
@@ -64,9 +65,12 @@ const AbsoluteLoading = styled.div`
   align-items: center;
   height: 100vh;
 `
-
+@connect(state => ({
+  navigationIsOpen: state.theme.navigation.isOpen,
+}))
 export default class PageContainer extends React.PureComponent {
   static propTypes = {
+    navigationIsOpen: PropTypes.bool,
     title: PropTypes.string,
     backgroundColor: PropTypes.string,
     hideTitle: PropTypes.bool,
@@ -78,7 +82,7 @@ export default class PageContainer extends React.PureComponent {
 
   renderHeader() {
     return (
-      <Sticky>
+      <Sticky key={this.props.navigationIsOpen}>
         {props => (
           <div
             style={{

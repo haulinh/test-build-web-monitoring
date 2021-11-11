@@ -102,13 +102,13 @@ const Helper = () => {
       {renderMenu([
         {
           icon: <img src={iconError} alt="" />,
-          status: i18n().maintenance,
-          desc: i18n().description.maintenance,
+          status: i18n().sensorError,
+          desc: i18n().description.sensorError,
         },
         {
           icon: <img src={iconCalibration} alt="" />,
-          status: i18n().sensorError,
-          desc: i18n().description.sensorError,
+          status: i18n().maintenance,
+          desc: i18n().description.maintenance,
         },
         {
           icon: <img src={iconDeviceGood} alt="" />,
