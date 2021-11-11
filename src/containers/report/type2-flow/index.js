@@ -1,4 +1,4 @@
-import { Form, Row, Col, Button } from 'antd'
+import { Form, Row, Col, Button, Empty } from 'antd'
 import React from 'react'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import Breadcrumb from '../breadcrumb'
@@ -298,28 +298,15 @@ export default class ReportFlow extends React.Component {
           </Search>
           <Clearfix height={32} />
 
-          <Row type="flex" justify="end">
-            {protectRole(ROLE.REPORT_FLOW.EXPORT)(
-              <Col>
-                <Button
-                  onClick={this.exportExcel}
-                  icon="file-excel"
-                  type="primary"
-                >
-                  {t('dataSearchFrom.tab.exportExcel')}
-                </Button>
-              </Col>
-            )}
-          </Row>
-
-          <Row type="flex" justify="center" align="center">
-            <Col span={24}>
+          <Row type="flex" style={{ padding: '22px 12px' }}>
+            <Col span={20}>
               <div
                 style={{
                   fontSize: '20px',
                   textAlign: 'center',
                   fontWeight: 'bold',
                   textTransform: 'uppercase',
+                  marginBottom: '16px',
                 }}
               >
                 {t('report.type2_flow.title')} {time.time}
@@ -332,9 +319,25 @@ export default class ReportFlow extends React.Component {
               >
                 {t('report.type2_flow.subTitle')} {time.timeRange}
               </div>
+              {_.isEmpty(data) && (
+                <Empty
+                  style={{ margin: '0 auto', padding: '22px 16px' }}
+                  description={t('apiSharingNew.button.nodata')}
+                />
+              )}
             </Col>
+            {protectRole(ROLE.REPORT_FLOW.EXPORT)(
+              <Col align="end" span={4}>
+                <Button
+                  onClick={this.exportExcel}
+                  icon="file-excel"
+                  type="primary"
+                >
+                  {t('dataSearchFrom.tab.exportExcel')}
+                </Button>
+              </Col>
+            )}
           </Row>
-          <Clearfix height={50} />
           {Report[type]}
         </div>
         <Clearfix height={50} />

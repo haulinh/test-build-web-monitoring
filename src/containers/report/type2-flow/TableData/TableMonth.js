@@ -1,16 +1,11 @@
 import React from 'react'
-import { Empty, Table } from 'antd'
+import { Table } from 'antd'
 import { translate as t } from 'hoc/create-lang'
 import _ from 'lodash'
 
 function TableMonth({ data, loading }) {
   if (_.isEmpty(data)) {
-    return (
-      <Empty
-        style={{ margin: '0 auto', padding: '8px 16px' }}
-        description={t('apiSharingNew.button.nodata')}
-      />
-    )
+    return null
   }
   const daysData = data.reduce((base, current) => {
     const dayData = current.data.map(dataItem => dataItem._id)
