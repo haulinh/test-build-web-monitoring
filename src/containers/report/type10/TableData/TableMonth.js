@@ -13,9 +13,9 @@ export default function TableMonth({ dataSource, loading, parentProps }) {
     {
       title: i18n().header1,
       dataIndex: 'name',
-      align: 'center',
+      align: 'left',
       render: value => {
-        return <div style={{ textAlign: 'left' }}>{value}</div>
+        return <div>{value}</div>
       },
     },
     {
@@ -24,7 +24,7 @@ export default function TableMonth({ dataSource, loading, parentProps }) {
       align: 'left',
       render: value => {
         if (!value) {
-          return null
+          return '-'
         }
         return (
           <div style={{ textAlign: 'left' }}>
@@ -74,9 +74,9 @@ export default function TableMonth({ dataSource, loading, parentProps }) {
     {
       title: i18n().header5,
       dataIndex: 'percentageReceived',
-      align: 'center',
+      align: 'right',
       render: value => {
-        if (!value) return null
+        if (!value) return '-'
         return (
           <div style={{ textAlign: 'right' }}>
             {_.isNumber(value) ? getFormatNumber(value, ROUND_DIGIT) : '-'}
