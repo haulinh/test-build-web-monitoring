@@ -120,7 +120,9 @@ export class CommentComponent extends React.Component {
     }
     return (
       <React.Fragment>
-        <Text style={{ marginTop: '10px' }}>{content}</Text>
+        <Text style={{ marginTop: '10px', whiteSpace: 'pre-wrap' }}>
+          {content}
+        </Text>
         <Row style={{ marginTop: 8 }} type="flex">
           <Col span={24}>
             <ImageMoreInfo
