@@ -59,13 +59,15 @@ export default class Filter extends React.Component {
   setInitFieldValue = province => {
     const { form } = this.props
     const provinceForm = form.getFieldValue(FIELDS.PROVINCE)
-    const stationTypes = this.getStationTypes(province || provinceForm)
+    const stationTypes = this.getStationTypes(
+      province !== undefined ? province : provinceForm
+    )
     const stationTypeKeys = stationTypes.map(stationType => stationType.key)
     form.setFieldsValue({ [FIELDS.STATION_TYPE]: stationTypeKeys[0] })
     const stationType = form.getFieldValue(FIELDS.STATION_TYPE)
 
     const stationAutos = this.getStationAutos(
-      province || provinceForm,
+      province !== undefined ? province : provinceForm,
       stationType
     )
     const stationAutosKey = stationAutos.map(
