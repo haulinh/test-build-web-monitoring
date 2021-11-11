@@ -27,15 +27,14 @@ const TableYear = ({ data, loading, ...props }) => {
   }
 
   const dataSource = data.reduce((base, current) => {
-    if (_.isEmpty(current.data)) return base
-
     const stationDataArray = Object.entries(current.data)
-    const dataStation = stationDataArray.map(
+
+    let dataStation = stationDataArray.map(
       ([measureKey, dataMeasure], index) => {
         return {
           ...dataMeasure,
-          stationKey: current.station,
-          key: `${current.station}-${measureKey}`,
+          station: current.station,
+          key: `${current.station.key}-${measureKey}`,
           measure: measureKey,
           ...(index === 0 && {
             station: current.station,
@@ -45,44 +44,45 @@ const TableYear = ({ data, loading, ...props }) => {
         }
       }
     )
+    const emptySign = '-'
+    dataStation = dataStation.length > 0 ? dataStation : [{
+      station: current.station,
+      key: `${current.station.key}`,
+      measure: emptySign,
+    }]
+
     return [...base, ...dataStation]
   }, [])
 
   const columns = [
     {
       title: i18n().station,
-      dataIndex: 'stationKey.key',
+      dataIndex: 'station',
       render: (value, record, index) => {
         const obj = {
-          children: props.stationAutoByKey[value].name,
-          props: {},
+          children: value.name,
+          props: {rowSpan: 1},
         }
 
         if (record.indexMerge) {
           obj.props.rowSpan = record.spanMerge
-        } else {
-          obj.props.rowSpan = 0
         }
-
         return obj
       },
     },
     { title: i18n().param, dataIndex: 'measure' },
     {
       title: i18n().qcvn,
-      dataIndex: 'station.standardsVN.key',
+      dataIndex: 'station.standardsVN.name',
       render: (value, record, index) => {
         const obj = {
           children: value,
-          props: {},
+          props: {rowSpan: 1},
         }
 
         if (record.indexMerge) {
           obj.props.rowSpan = record.spanMerge
-        } else {
-          obj.props.rowSpan = 0
         }
-
         return obj
       },
     },
@@ -90,13 +90,13 @@ const TableYear = ({ data, loading, ...props }) => {
       title: i18n().permiss_value,
       dataIndex: 'qcvn',
       align: 'right',
-      render: value => {
-        if (!value.maxLimit) return null
+      render: qcvn => {
+        if (!qcvn || !qcvn.maxLimit) return '-'
 
-        if (_.isNumber(value.maxLimit) && !_.isNumber(value.minLimit))
-          return <div>{value.maxLimit}</div>
+        if (_.isNumber(qcvn.maxLimit) && !_.isNumber(qcvn.minLimit))
+          return <div>{qcvn.maxLimit}</div>
 
-        return <div>{`${value.minLimit}-${value.maxLimit}`}</div>
+        return <div>{`${qcvn.minLimit}-${qcvn.maxLimit}`}</div>
       },
     },
     {
