@@ -22,7 +22,7 @@ export default class TreeSelectStation extends Component {
     )
 
     if (this.props.onStationAutosFetchSuccess) {
-      this.props.onStationAutosFetchSuccess(stationAutos)
+      this.props.onStationAutosFetchSuccess(stationAutos, resStationTypes.data)
     }
 
     this.setState({ stationTypes: resStationTypes.data, stationAutos })

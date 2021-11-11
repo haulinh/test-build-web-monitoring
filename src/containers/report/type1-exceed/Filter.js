@@ -10,7 +10,6 @@ import moment from 'moment'
 import React from 'react'
 import styled from 'styled-components'
 import { FIELDS, i18n } from './index'
-import { connect } from 'react-redux'
 import _ from 'lodash'
 
 const ColSwitch = styled(Col)`
@@ -19,9 +18,6 @@ const ColSwitch = styled(Col)`
   }
 `
 @Form.create()
-@connect(state => ({
-  stationAutos: state.stationAuto.list,
-}))
 export default class Filter extends React.Component {
 
   constructor(props) {
@@ -34,10 +30,12 @@ export default class Filter extends React.Component {
 
   handleOnChangeReportType = type => {
     const { form, resetData } = this.props
+    const { stationAutos, stationTypes } = this.state
+
+    const stationAutoKeys = this.getDefaultStationAutos(stationAutos, stationTypes)
+
     resetData()
     form.resetFields()
-    const stationAutoKeys = this.state.stationAutos.map(stationAuto => stationAuto.key)
-
     form.setFieldsValue({
       [FIELDS.STATION_KEY]: stationAutoKeys,
     })
@@ -62,14 +60,26 @@ export default class Filter extends React.Component {
     form.setFieldsValue({ [FIELDS.STATION_KEY]: stationAutoKeys })
   }
 
-  onStationAutosFetchSuccess = stationAutos => {
+  onStationAutosFetchSuccess = (stationAutos, stationTypes) => {
     const { form } = this.props
-    this.setState({ stationAutos })
-    const stationAutoKeys = stationAutos.map(stationAuto => stationAuto.key)
+    this.setState({ stationAutos, stationTypes })
+
+    const stationAutoKeys = this.getDefaultStationAutos(stationAutos, stationTypes)
 
     form.setFieldsValue({
       [FIELDS.STATION_KEY]: stationAutoKeys,
     })
+  }
+
+  getDefaultStationAutos = (stationAutos, stationTypes) => {
+    let firstStationType = _.get(stationTypes, '0._id')
+    const stationAutoKeys = stationAutos
+      .map(stationAuto => {
+        if (!firstStationType) firstStationType = stationAuto.stationType._id
+        if (stationAuto.stationType._id === firstStationType) return stationAuto.key
+      }).filter(Boolean)
+
+    return stationAutoKeys
   }
 
   render() {
