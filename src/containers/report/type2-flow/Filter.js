@@ -32,6 +32,7 @@ const Item = props => (
 export default class Filter extends React.Component {
   state = {
     stationAutos: [],
+    stationTypes: [],
   }
   handleSelectTimeChange = type => {
     const { form } = this.props
@@ -77,14 +78,6 @@ export default class Filter extends React.Component {
 
     this.setState({ stationAutos })
   }
-  onFetchStationTypeSuccess = stationTypes => {
-    const { form } = this.props
-    const stationType = get(stationTypes, '0.key')
-
-    form.setFieldsValue({
-      [FIELDS.STATION_TYPE]: stationType,
-    })
-  }
   getStationAutos = (province, stationType) => {
     let { stationAutos } = this.state
     if (stationType) {
@@ -103,9 +96,8 @@ export default class Filter extends React.Component {
 
   handleProvinceChange = province => {
     const { form } = this.props
-    form.resetFields([FIELDS.MEASURING_LIST])
+    form.resetFields()
     const stationType = form.getFieldValue(FIELDS.STATION_TYPE)
-
     const stationAutos = this.getStationAutos(province, stationType)
     const stationAutosKey = stationAutos.map(
       stationAutoKey => stationAutoKey.key
@@ -126,6 +118,13 @@ export default class Filter extends React.Component {
     )
     form.setFieldsValue({
       [FIELDS.STATION_AUTO]: stationAutosKey,
+    })
+  }
+  onFetchStationTypeSuccess = stationTypes => {
+    const { form } = this.props
+    const stationType = get(stationTypes, '0.key')
+    form.setFieldsValue({
+      [FIELDS.STATION_TYPE]: stationType,
     })
   }
   handleStationAutosChange = () => {
@@ -211,7 +210,7 @@ export default class Filter extends React.Component {
                 rules: [
                   {
                     required: true,
-                    message: i18n().rules.requireChoose,
+                    message: t('report.required.station'),
                   },
                 ],
               })(
