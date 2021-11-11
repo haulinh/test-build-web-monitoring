@@ -1,21 +1,22 @@
 import { Select } from 'antd'
 import React from 'react'
+import { translate as t } from 'hoc/create-lang'
 
 const { Option } = Select
 
 const options = [
   {
     key: 'custom',
-    name: 'Báo cáo ngày',
+    name: () => t('report.type2_flow.option.reportDay'),
   },
-  { key: 'month', name: 'Báo cáo tháng' },
+  { key: 'month', name: () => t('report.type2_flow.option.reportMonth') },
   {
     key: 'year',
-    name: 'Báo cáo hàng năm',
+    name: () => t('report.type2_flow.option.reportYear'),
   },
   {
     key: 'anyYear',
-    name: 'Báo cáo các năm',
+    name: () => t('report.type2_flow.option.reportRangeYear'),
   },
 ]
 
@@ -24,7 +25,7 @@ const SelectReportType = props => {
     <Select defaultValue="month" style={{ width: '100%' }} {...props}>
       {options.map(option => (
         <Option key={option.key} value={option.key}>
-          {option.name}
+          {option.name()}
         </Option>
       ))}
     </Select>

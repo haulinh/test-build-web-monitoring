@@ -4,8 +4,8 @@ import { getLanguage } from 'utils/localStorage'
 const getTimes = rangeTime => {
   if (Array.isArray(rangeTime)) {
     return {
-      from: moment(rangeTime[0]).startOf('d'),
-      to: moment(rangeTime[1]).endOf('d'),
+      from: moment(rangeTime[0]),
+      to: moment(rangeTime[1])
     }
   }
   if (rangeTime === 1) {

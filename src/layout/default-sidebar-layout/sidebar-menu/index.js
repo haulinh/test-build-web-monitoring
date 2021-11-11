@@ -275,6 +275,8 @@ export default class MenuApp extends React.PureComponent {
               ROLE.TILE_DULIE_VUOTNGUONG.VIEW,
               ROLE.SO_LAN_MAT_KET_NOI.VIEW,
               ROLE.TINH_TRANG_DU_LIEU.VIEW,
+              ROLE.REPORT_EXCEED.VIEW,
+              ROLE.REPORT_FLOW.VIEW,
             ]) && ReportMenu.renderComp(this.props)}
 
             {this.checkRoleForGroup([

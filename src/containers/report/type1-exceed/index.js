@@ -3,8 +3,10 @@ import DataInsight from 'api/DataInsight'
 import Clearfix from 'components/elements/clearfix'
 import { Search } from 'components/layouts/styles'
 import { DD_MM_YYYY, YYYY } from 'constants/format-date'
+import ROLE from 'constants/role'
 import { BoxShadow } from 'containers/api-sharing/layout/styles'
 import { translate as t } from 'hoc/create-lang'
+import protectRole from 'hoc/protect-role/forMenu'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import _ from 'lodash'
 import moment from 'moment'
@@ -54,6 +56,7 @@ export function i18n() {
   }
 }
 
+@protectRole(ROLE.REPORT_EXCEED.VIEW)
 @Form.create()
 export default class ReportExceed extends Component {
   state = {
@@ -208,9 +211,11 @@ export default class ReportExceed extends Component {
           </Col>
           <Col span={3}>
             <Row type="flex" justify="end">
-              <Button type="primary" onClick={this.handleExportExceed}>
-                {t('report.exportExcel')}
-              </Button>
+              {protectRole(ROLE.REPORT_EXCEED.EXPORT)(
+                <Button type="primary" onClick={this.handleExportExceed}>
+                  {t('report.exportExcel')}
+                </Button>
+              )}
             </Row>
           </Col>
         </Row>

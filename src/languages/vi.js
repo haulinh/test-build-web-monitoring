@@ -2216,6 +2216,12 @@ export default {
       tileDuLieuVuotNguong: {
         name: 'Tỉ lệ dữ liệu vượt ngưỡng',
       },
+      reportExceed: {
+        name: 'Báo cáo dữ liệu vượt ngưỡng',
+      },
+      reportFlow: {
+        name: 'Báo cáo lưu lượng phát thải',
+      },
       soLanMatKetNoi: {
         name: 'Số lần mất kết nối',
       },
@@ -4039,7 +4045,7 @@ export default {
   report: {
     required: {
       time: 'Vui lòng chọn thời gian',
-      station: 'Vui lòng chọn trạm quan trắc'
+      station: 'Vui lòng chọn trạm quan trắc',
     },
     placeholder: {
       time: 'Chọn thời gian',
@@ -4082,7 +4088,7 @@ export default {
         param: 'Thông số',
         unit: 'Đơn vị',
         limit: 'Giá trị giới hạn',
-        avg_value: 'Giá trị trung bình',
+        avg_value: 'Giá trị TB',
         max_value: 'Giá trị lớn nhất',
         overtime: 'Vượt ngưỡng lần ',
         start_time: 'Thời điểm phát sinh',
@@ -4093,17 +4099,37 @@ export default {
         numday24h: 'Số ngày có giá trị trung bình 24h vượt QCVN',
         numday1h: 'Số ngày có giá trị trung bình 1h vượt QCVN',
         numrecord1h: 'Số giá trị trung bình 1h vượt QCVN',
-        rate: 'Tỉ lệ giá trị trung bình 1 giờ vượt QCVN',
+        rate: 'Tỷ lệ giá trị trung bình 1 giờ vượt QCVN',
       },
     },
     type2_flow: {
       title: 'Báo cáo lưu lượng phát thải',
-      subTitle: 'Các số liệu thống kê',
-      timeRanger: {
+      subTitle: 'Các số liệu thống kê về lưu lượng phát',
+      option: {
+        reportYear: 'Báo cáo năm',
+        reportDay: 'Báo cáo ngày',
+        reportMonth: 'Báo cáo tháng',
+        reportRangeYear: 'Báo cáo các năm',
+        year: 'Năm',
+        day: 'Ngày',
+        month: 'Tháng',
+        chooseMonth: 'Chọn tháng',
+      },
+      by: {
+        byDay: 'theo ngày',
+        mutipleYear: 'các năm',
+      },
+      range: {
         year: 'năm',
+        day: 'ngày',
+        month: 'tháng',
         from: 'từ',
         to: 'đến',
       },
+      required: {
+        measure: 'Vui lòng chọn thông số',
+      },
+      parameters: 'Thông số',
       stationName: 'Trạm quan trắc',
       diameter: 'Đường kính',
       value: 'Giá trị',

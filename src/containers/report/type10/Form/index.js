@@ -7,13 +7,11 @@ import { Clearfix } from 'containers/fixed-map/map-default/components/box-analyt
 import { translate } from 'hoc/create-lang'
 import PropTypes from 'prop-types'
 import React from 'react'
+import { connect } from 'react-redux'
+import styled from 'styled-components'
 import { FIELDS } from '../index'
 import SelectReportType from './SelectReportType'
 import SelectTime from './SelectTime'
-import styled from 'styled-components'
-import { connect } from 'react-redux'
-import moment from 'moment'
-import { DD_MM_YYYY } from 'constants/format-date'
 
 function i18n() {
   return {

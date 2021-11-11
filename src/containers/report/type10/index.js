@@ -121,7 +121,8 @@ export default class ReportType10 extends React.Component {
       this.setState({
         isLoadingExcel: false,
       })
-      downFileExcel(res.data, this.getTitle())
+      console.log({ res })
+      downFileExcel(res.data, this.getDetailTitle())
     } catch (error) {}
   }
 
@@ -129,6 +130,7 @@ export default class ReportType10 extends React.Component {
 
   render() {
     const { dataSource, isLoading, dataSearch } = this.state
+	  console.log({dataSource})
     const Report = {
       month: (
         <TableMonth
@@ -175,8 +177,7 @@ export default class ReportType10 extends React.Component {
             )}
           </div>
           <Clearfix height={8} />
-
-          <div>{Report[type]}</div>
+	  <div>{Report[type]}</div>
         </div>
       </PageContainer>
     )
