@@ -45,6 +45,7 @@ const TableDataDate = ({ data, loading, ...props }) => {
     })
     return [...base, ...dataStation]
   }, [])
+  console.log({ dataSource })
   const columnsExceed = [1, 2, 3].map(column => ({
     title: `${i18n().overtime} ${column}`,
     width: 300,
@@ -87,13 +88,14 @@ const TableDataDate = ({ data, loading, ...props }) => {
       },
     ],
   }))
+  console.log(window.innerWidth)
 
   const columns = [
     {
       title: i18n().station,
-      width: 270,
+      width: 280,
       align: 'left',
-      fixed: 'left',
+      fixed: window.innerWidth > 1920 ? false : 'left',
       dataIndex: 'stationKey',
       render: (value, record, index) => {
         const obj = {
@@ -110,7 +112,7 @@ const TableDataDate = ({ data, loading, ...props }) => {
         return obj
       },
     },
-    { title: i18n().param, width: 90, align: 'left', dataIndex: 'measure' },
+    { title: i18n().param, width: 130, align: 'left', dataIndex: 'config.name' },
     {
       title: i18n().unit,
       width: 70,
@@ -164,7 +166,7 @@ const TableDataDate = ({ data, loading, ...props }) => {
       size="small"
       pagination={false}
       rowKey="key"
-      scroll={{ x: 1080, y: 600}}
+      scroll={{ x: 1080 }}
     />
   )
 }

@@ -162,7 +162,7 @@
     "webpack-manifest-plugin": "1.2.1"
   },
   "scripts": {
-    "dev": "node scripts/start.js",
+    "dev": "set PORT=3001 && node scripts/start.js",
     "dev-window": "nodemon src/app.js --exec babel-node --presets=es2015,stage-2",
     "build": "node --max_old_space_size=8192 scripts/build.js",
     "start": "NODE_ENV=production node server/index.js",

@@ -48,22 +48,25 @@ const TableYear = ({ data, loading, ...props }) => {
       dataStation.length > 0
         ? dataStation
         : [
-            {
-              station: current.station,
-              key: `${current.station.key}`,
-              measure: emptySign,
-              spanMerge: 1,
-              indexMerge: true,
-            },
-          ]
+          {
+            station: current.station,
+            key: `${current.station.key}`,
+            measure: emptySign,
+            spanMerge: 1,
+            indexMerge: true,
+          },
+        ]
 
     return [...base, ...dataStation]
   }, [])
+
+  console.log({ dataSource })
 
   const columns = [
     {
       title: i18n().station,
       dataIndex: 'station',
+      width: 260,
       render: (value, record, index) => {
         const obj = {
           children: value.name,
@@ -78,13 +81,17 @@ const TableYear = ({ data, loading, ...props }) => {
         return obj
       },
     },
-    { title: i18n().param, dataIndex: 'measure' },
+    {
+      title: i18n().param, width: 90, render: (value, record) => {
+        return _.get(record, 'qcvn.name', '-')
+      }
+    },
     {
       title: i18n().qcvn,
       dataIndex: 'station.standardsVN.name',
       render: (value, record, index) => {
         const obj = {
-          children: value,
+          children: value ? value : '-',
           props: {},
         }
 
@@ -99,6 +106,7 @@ const TableYear = ({ data, loading, ...props }) => {
     {
       title: i18n().permiss_value,
       dataIndex: 'qcvn',
+      width: 70,
       align: 'right',
       render: qcvn => {
         if (!qcvn || !qcvn.maxLimit) return '-'
@@ -112,12 +120,14 @@ const TableYear = ({ data, loading, ...props }) => {
     {
       title: i18n().numday24h,
       align: 'right',
+      width: 120,
       dataIndex: 'numDay24hExceed',
       render: value => <div>{_.isNumber(value) ? value : '-'}</div>,
     },
     {
       title: i18n().numday1h,
       align: 'right',
+      width: 120,
       dataIndex: 'numDay1hExceed',
       render: value => <div>{_.isNumber(value) ? value : '-'}</div>,
     },
@@ -125,11 +135,13 @@ const TableYear = ({ data, loading, ...props }) => {
       title: i18n().numrecord1h,
       align: 'right',
       dataIndex: 'numRecord1hExceed',
+      width: 110,
       render: value => <div>{_.isNumber(value) ? value : '-'}</div>,
     },
     {
       title: i18n().rate,
       align: 'right',
+      width: 120,
       dataIndex: 'rate',
       render: value => <div>{_.isNumber(value) ? value : '-'}</div>,
     },
