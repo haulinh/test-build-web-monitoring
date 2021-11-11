@@ -77,6 +77,7 @@ export default class Filter extends React.Component {
       .map(stationAuto => {
         if (!firstStationType) firstStationType = stationAuto.stationType._id
         if (stationAuto.stationType._id === firstStationType) return stationAuto.key
+        return null
       }).filter(Boolean)
 
     return stationAutoKeys
