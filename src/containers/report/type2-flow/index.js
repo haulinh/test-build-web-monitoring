@@ -301,8 +301,12 @@ export default class ReportFlow extends React.Component {
           <Row type="flex" justify="end">
             {protectRole(ROLE.REPORT_FLOW.EXPORT)(
               <Col>
-                <Button onClick={this.exportExcel} type="primary">
-                  {t('billing.button.exportReport')}
+                <Button
+                  onClick={this.exportExcel}
+                  icon="file-excel"
+                  type="primary"
+                >
+                  {t('dataSearchFrom.tab.exportExcel')}
                 </Button>
               </Col>
             )}
