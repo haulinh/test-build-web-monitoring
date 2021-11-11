@@ -73,9 +73,21 @@ export default class ReportType10 extends React.Component {
     }
 
     if (values[FIELDS.TIME_TYPE] === 'date') {
-      this.setState({ dataSearch: params }, () => {
-        if (this.tabStationRef) this.tabStationRef.current.onSearch()
-      })
+      this.setState(
+        {
+          dataSearch: params,
+          isHaveData: true,
+          from: moment(values.from).format(
+            params[FIELDS.TIME_TYPE] === 'month' ? MM_YYYY : DD_MM_YYYY
+          ),
+          to: moment(values.to).format(
+            params[FIELDS.TIME_TYPE] === 'month' ? MM_YYYY : DD_MM_YYYY
+          ),
+        },
+        () => {
+          if (this.tabStationRef) this.tabStationRef.current.onSearch()
+        }
+      )
       return
     }
 
