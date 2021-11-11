@@ -88,9 +88,14 @@ export default class SearchForm extends React.Component {
 
   handleOnStationTypeChange = value => {
     const { form } = this.props
-    const stationAutos = this.state.stationAutos.filter(
-      station => station.stationType.key === value
-    )
+    let { stationAutos } = this.state
+
+    if (value) {
+      stationAutos = this.state.stationAutos.filter(
+        station => station.stationType.key === value
+      )
+    }
+
     const stationAutoKeys = stationAutos.map(stationAuto => stationAuto.key)
     form.setFieldsValue({ [FIELDS.STATION_KEYS]: stationAutoKeys })
   }
