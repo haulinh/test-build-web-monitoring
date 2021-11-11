@@ -3,6 +3,7 @@ import React from 'react'
 import _ from 'lodash'
 import { getFormatNumber } from 'constants/format-number'
 import { translate as t } from 'hoc/create-lang'
+import moment from 'moment-timezone'
 
 function TableDate({ data, loading }) {
   if (_.isEmpty(data)) {
@@ -93,7 +94,9 @@ function TableDate({ data, loading }) {
     <Table
       loading={loading}
       bordered
-      dataSource={dataSource}
+      dataSource={dataSource.sort(
+        (a, b) => moment(a._id, 'DD/MM/YYYY') - moment(b._id, 'DD/MM/YYYY')
+      )}
       columns={columns}
       rowKey={row => `${row._id}-${row.station.key}`}
       pagination={false}

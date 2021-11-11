@@ -146,6 +146,7 @@ export default class Filter extends React.Component {
 
   render() {
     const { form } = this.props
+    const { stationAutos } = this.state
     const province = form.getFieldValue(FIELDS.PROVINCE)
 
     const stationType = form.getFieldValue(FIELDS.STATION_TYPE)
@@ -196,6 +197,8 @@ export default class Filter extends React.Component {
                 onChange: this.handleStationTypeChange,
               })(
                 <SelectStationType
+                  province={province}
+                  stationAutos={stationAutos}
                   onFetchSuccess={this.onFetchStationTypeSuccess}
                 />
               )}
