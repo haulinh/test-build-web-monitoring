@@ -4106,12 +4106,18 @@ export default {
         chooseMonth: 'Choose Month',
       },
       by: {
-        byDay: 'theo ngày',
+        byDay: 'by day',
+        mutipleYear: 'MULTIPLE YEARS',
       },
       range: {
-        year: 'in',
+        day: '',
+        year: '',
+        month: '',
         from: 'from',
         to: 'to',
+      },
+      required: {
+        measure: 'Please select parameter',
       },
       parameters: 'Parameters',
       stationName: 'Station Name',

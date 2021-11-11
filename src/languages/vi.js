@@ -4112,14 +4112,22 @@ export default {
         reportRangeYear: 'Báo cáo các năm',
         year: 'Năm',
         day: 'Ngày',
-        byDay: 'theo ngày',
         month: 'Tháng',
         chooseMonth: 'Chọn tháng',
       },
+      by: {
+        byDay: 'theo ngày',
+        mutipleYear: 'các năm',
+      },
       range: {
         year: 'năm',
+        day: 'ngày',
+        month: 'tháng',
         from: 'từ',
         to: 'đến',
+      },
+      required: {
+        measure: 'Vui lòng chọn thông số',
       },
       parameters: 'Thông số',
       stationName: 'Trạm quan trắc',

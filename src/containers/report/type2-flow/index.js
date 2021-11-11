@@ -103,7 +103,7 @@ export default class ReportFlow extends React.Component {
         moment(paramsGeneral[FIELDS.REPORT_TIME].value, 'yyyy').endOf('year')
       ),
     }
-
+    console.log(params)
     return params
   }
 
@@ -133,7 +133,13 @@ export default class ReportFlow extends React.Component {
     const values = form.getFieldsValue()
     const timeValue = values[FIELDS.REPORT_TIME].value
     let validates = [form.validateFields()]
-    if (!timeValue || _.isEmpty(timeValue)) {
+    console.log(_.isEmpty(timeValue))
+    const typeReport = values[FIELDS.REPORT_TYPE]
+
+    if (
+      !timeValue ||
+      (['custom', 'anyYear'].includes(typeReport) && _.isEmpty(timeValue))
+    ) {
       validates = [
         ...validates,
         form.setFields({
@@ -171,17 +177,19 @@ export default class ReportFlow extends React.Component {
     if (type === 'year') {
       from = moment(timeValue, 'yyyy')
         .startOf('year')
-        .format('L')
+        .format('MM/YYYY')
       to = moment(timeValue, 'yyyy')
         .endOf('year')
-        .format('L')
+        .format('MM/YYYY')
       return {
         time: `${t('report.type2_flow.range.year')} ${moment(
           timeValue,
           'YYYY'
         ).format('YYYY')}`,
-        timeRange: `${t('report.type2_flow.range.from')} ${from} ${t(
-          'report.type2_flow.range.to'
+        timeRange: `${t('report.type2_flow.range.from')} ${t(
+          'report.type2_flow.range.month'
+        )} ${from} ${t('report.type2_flow.range.to')} ${t(
+          'report.type2_flow.range.month'
         )} ${to}`,
       }
     }
@@ -190,8 +198,10 @@ export default class ReportFlow extends React.Component {
       to = timeValue[1].endOf('day').format('L')
       return {
         time: t('report.type2_flow.by.byDay'),
-        timeRange: `${t('report.type2_flow.range.from')} ${from} ${t(
-          'report.type2_flow.range.to'
+        timeRange: `${t('report.type2_flow.range.from')} ${t(
+          'report.type2_flow.range.day'
+        )} ${from} ${t('report.type2_flow.range.to')} ${t(
+          'report.type2_flow.range.day'
         )} ${to}`,
       }
     }
@@ -199,26 +209,29 @@ export default class ReportFlow extends React.Component {
       from = timeValue.startOf('month').format('L')
       to = timeValue.endOf('month').format('L')
       return {
-        time: `${timeValue.format('MM/YYYY')}`,
-        timeRange: `${t('report.type2_flow.range.from')} ${from} ${t(
-          'report.type2_flow.range.to'
+        time: `${t('report.type2_flow.option.month')} ${timeValue.format(
+          'MM/YYYY'
+        )}`,
+        timeRange: `${t('report.type2_flow.range.from')} ${t(
+          'report.type2_flow.range.day'
+        )} ${from} ${t('report.type2_flow.range.to')} ${t(
+          'report.type2_flow.range.day'
         )} ${to}`,
       }
     }
     if (type === 'anyYear') {
       from = moment(timeValue[0], 'yyyy')
         .startOf('year')
-        .format('L')
+        .format('YYYY')
       to = moment(timeValue[1], 'yyyy')
         .endOf('year')
-        .format('L')
+        .format('YYYY')
       return {
-        time: `${t('report.type2_flow.range.year')} ${moment(
-          timeValue[0],
-          'YYYY'
-        ).format('YYYY')} - ${moment(timeValue[1], 'YYYY').format('YYYY')}`,
-        timeRange: `${t('report.type2_flow.range.from')} ${from} ${t(
-          'report.type2_flow.range.to'
+        time: `${t('report.type2_flow.by.mutipleYear')}`,
+        timeRange: `${t('report.type2_flow.range.from')} ${t(
+          'report.type2_flow.range.year'
+        )} ${from} ${t('report.type2_flow.range.to')} ${t(
+          'report.type2_flow.range.year'
         )} ${to}`,
       }
     }
