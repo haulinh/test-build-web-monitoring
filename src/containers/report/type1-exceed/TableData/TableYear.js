@@ -60,8 +60,6 @@ const TableYear = ({ data, loading, ...props }) => {
     return [...base, ...dataStation]
   }, [])
 
-  console.log({ dataSource })
-
   const columns = [
     {
       title: i18n().station,

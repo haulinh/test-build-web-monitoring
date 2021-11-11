@@ -45,7 +45,7 @@ const TableDataDate = ({ data, loading, ...props }) => {
     })
     return [...base, ...dataStation]
   }, [])
-  console.log({ dataSource })
+
   const columnsExceed = [1, 2, 3].map(column => ({
     title: `${i18n().overtime} ${column}`,
     width: 300,
@@ -88,7 +88,6 @@ const TableDataDate = ({ data, loading, ...props }) => {
       },
     ],
   }))
-  console.log(window.innerWidth)
 
   const columns = [
     {
