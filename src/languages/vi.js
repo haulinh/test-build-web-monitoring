@@ -135,7 +135,7 @@ export default {
     },
     chartRatio: {
       title: 'Biểu đồ tỷ lệ nhận dữ liệu',
-      dataByDate: 'Tỉ lệ dữ liệu {{=it.day}} ngày của {{=it.unit}}',
+      dataByDate: 'Tỷ lệ dữ liệu {{=it.day}} ngày của {{=it.unit}}',
       received: 'Nhận được dữ liệu',
       notReceived: 'Không nhận được dữ liệu',
       byDay: '{{=it.day}} ngày',
@@ -766,18 +766,18 @@ export default {
       title: 'BÁO CÁO TỶ LỆ SỐ LIỆU THU ĐƯỢC',
       titleDay: 'BÁO CÁO TỶ LỆ SỐ LIỆU THU ĐƯỢC THEO NGÀY',
       descriptionRatioMonth:
-        'Các số liệu thống kê về tỉ lệ số liệu thu được của các trạm quan trắc từ tháng {{=it.from}} đến tháng {{=it.to}}',
+        'Các số liệu thống kê về tỷ lệ số liệu thu được của các trạm quan trắc từ tháng {{=it.from}} đến tháng {{=it.to}}',
       descriptionRatioDate:
-        'Các số liệu thống kê về tỉ lệ số liệu thu được của các trạm quan trắc từ ngày {{=it.from}} đến ngày {{=it.to}}',
+        'Các số liệu thống kê về tỷ lệ số liệu thu được của các trạm quan trắc từ ngày {{=it.from}} đến ngày {{=it.to}}',
       title2: 'BÁO CÁO KẾT QUẢ QUAN TRẮC TRUNG BÌNH 24 GIỜ',
       description2:
         'Các số liệu thống kê về kết quả quan trắc trung bình 24 giờ của trạm {{=it.stationName}} trong tháng {{=it.monthYear}}',
       title3: 'BÁO CÁO KẾT QUẢ QUAN TRẮC TRUNG BÌNH 1 GIỜ LỚN NHẤT TRONG NGÀY',
       description3:
         'Các số liệu thống kê về kết quả quan trắc trung bình 1 giờ lớn nhất trong ngày tại trạm {{=it.stationName}}  trong tháng {{=it.monthYear}}',
-      title4: 'BÁO CÁO TỈ LỆ VƯỢT NGƯỠNG',
+      title4: 'BÁO CÁO TỶ LỆ VƯỢT NGƯỠNG',
       description4:
-        'Các số liệu thống kê về tỉ lệ dữ liệu vượt ngưỡng của trạm {{=it.fromMonth}}  trong ngày {{=it.toMonth}}',
+        'Các số liệu thống kê về tỷ lệ dữ liệu vượt ngưỡng của trạm {{=it.fromMonth}}  trong ngày {{=it.toMonth}}',
       title5: 'BÁO CÁO KẾT QUẢ QUAN TRẮC TRUNG BÌNH 8 GIỜ LỚN NHẤT TRONG NGÀY',
       description5:
         'Các số liệu thống kê về kết quả quan trắc trung bình 8 giờ lớn nhất trong ngày tại trạm {{=it.stationName}}  trong tháng {{=it.monthYear}}',

@@ -13,7 +13,6 @@ import DataInsight from 'api/DataInsight'
 import { TableAnyYears, TableDate, TableYear } from './TableData'
 import TableMonth from './TableData/TableMonth'
 import { translate as t } from 'hoc/create-lang'
-import { i18n } from 'containers/api-sharing/constants'
 import { getLanguage } from 'utils/localStorage'
 import { downFileExcel } from 'utils/downFile'
 import protectRole from 'hoc/protect-role/forMenu'
@@ -103,7 +102,6 @@ export default class ReportFlow extends React.Component {
         moment(paramsGeneral[FIELDS.REPORT_TIME].value, 'yyyy').endOf('year')
       ),
     }
-    console.log(params)
     return params
   }
 
@@ -133,7 +131,6 @@ export default class ReportFlow extends React.Component {
     const values = form.getFieldsValue()
     const timeValue = values[FIELDS.REPORT_TIME].value
     let validates = [form.validateFields()]
-    console.log(_.isEmpty(timeValue))
     const typeReport = values[FIELDS.REPORT_TYPE]
 
     if (
@@ -145,7 +142,7 @@ export default class ReportFlow extends React.Component {
         form.setFields({
           [FIELDS.REPORT_TIME]: {
             value: values.reportTime,
-            errors: [new Error(i18n().rules.requireChoose)],
+            errors: [new Error(t('avgSearchFrom.form.rangesDate.error'))],
           },
         }),
       ]
@@ -169,6 +166,15 @@ export default class ReportFlow extends React.Component {
     const type = values[FIELDS.REPORT_TYPE]
     const timeValue = _.get(values, 'reportTime.value')
     let to, from
+    const i18n = {
+      from: t('report.type2_flow.range.from'),
+      to: t('report.type2_flow.range.to'),
+      day: t('report.type2_flow.range.day'),
+      month: t('report.type2_flow.range.month'),
+      year: t('report.type2_flow.range.year'),
+      byDay: t('report.type2_flow.by.byDay'),
+      mutipleYear: t('report.type2_flow.by.mutipleYear'),
+    }
     if (_.isEmpty(timeValue))
       return {
         time: '',
@@ -182,27 +188,16 @@ export default class ReportFlow extends React.Component {
         .endOf('year')
         .format('MM/YYYY')
       return {
-        time: `${t('report.type2_flow.range.year')} ${moment(
-          timeValue,
-          'YYYY'
-        ).format('YYYY')}`,
-        timeRange: `${t('report.type2_flow.range.from')} ${t(
-          'report.type2_flow.range.month'
-        )} ${from} ${t('report.type2_flow.range.to')} ${t(
-          'report.type2_flow.range.month'
-        )} ${to}`,
+        time: `${i18n.year} ${moment(timeValue, 'YYYY').format('YYYY')}`,
+        timeRange: `${i18n.from} ${i18n.month} ${from} ${i18n.to} ${i18n.month} ${to}`,
       }
     }
     if (type === 'custom') {
       from = timeValue[0].startOf('day').format('L')
       to = timeValue[1].endOf('day').format('L')
       return {
-        time: t('report.type2_flow.by.byDay'),
-        timeRange: `${t('report.type2_flow.range.from')} ${t(
-          'report.type2_flow.range.day'
-        )} ${from} ${t('report.type2_flow.range.to')} ${t(
-          'report.type2_flow.range.day'
-        )} ${to}`,
+        time: i18n.byDay,
+        timeRange: `${i18n.from} ${i18n.day} ${from} ${i18n.to} ${i18n.day} ${to}`,
       }
     }
     if (type === 'month') {
@@ -212,11 +207,7 @@ export default class ReportFlow extends React.Component {
         time: `${t('report.type2_flow.option.month')} ${timeValue.format(
           'MM/YYYY'
         )}`,
-        timeRange: `${t('report.type2_flow.range.from')} ${t(
-          'report.type2_flow.range.day'
-        )} ${from} ${t('report.type2_flow.range.to')} ${t(
-          'report.type2_flow.range.day'
-        )} ${to}`,
+        timeRange: `${i18n.from} ${i18n.day} ${from} ${i18n.to} ${i18n.day} ${to}`,
       }
     }
     if (type === 'anyYear') {
@@ -227,12 +218,8 @@ export default class ReportFlow extends React.Component {
         .endOf('year')
         .format('YYYY')
       return {
-        time: `${t('report.type2_flow.by.mutipleYear')}`,
-        timeRange: `${t('report.type2_flow.range.from')} ${t(
-          'report.type2_flow.range.year'
-        )} ${from} ${t('report.type2_flow.range.to')} ${t(
-          'report.type2_flow.range.year'
-        )} ${to}`,
+        time: i18n.mutipleYear,
+        timeRange: `${i18n.from} ${i18n.year} ${from} ${i18n.to} ${i18n.year} ${to}`,
       }
     }
   }
@@ -262,10 +249,26 @@ export default class ReportFlow extends React.Component {
     const { form } = this.props
     await form.validateFields()
     const params = await this.getQueryParams()
-    const time = this.getTime()
+    const { from, to, reportType } = params
     const newParams = { ...params, lang: getLanguage() }
     const results = await DataInsight.exportDataFlow(newParams)
-    downFileExcel(results.data, `${t('report.type2_flow.title')} ${time.time}`)
+    const titleName = t('report.type2_flow.title')
+    const range = {
+      day: t('report.type2_flow.range.day'),
+      month: t('report.type2_flow.range.month'),
+      year: t('report.type2_flow.range.year'),
+    }
+    const dynamicNameFile = {
+      custom: `${titleName} ${range.day}_${moment(from).format(
+        'DDMMYYYY'
+      )}_${moment(to).format('DDMMYYYY')}`,
+      month: `${titleName} ${range.month}_${moment(to).format('MMYYYY')}`,
+      year: `${titleName} ${range.year}_${moment(to).format('YYYY')}`,
+      anyYear: `${titleName} ${t(range.year)}_${moment(from).format(
+        'YYYY'
+      )}_${moment(to).format('YYYY')}`,
+    }
+    downFileExcel(results.data, dynamicNameFile[reportType])
   }
 
   render() {

@@ -1,7 +1,6 @@
 import { Empty, Table } from 'antd'
 import React from 'react'
 import _ from 'lodash'
-import { getFormatNumber } from 'constants/format-number'
 import { translate as t } from 'hoc/create-lang'
 import moment from 'moment-timezone'
 
@@ -83,10 +82,7 @@ function TableDate({ data, loading }) {
       title: t('report.type2_flow.value'),
       dataIndex: 'value',
       align: 'right',
-      render: value => {
-        if (!value) return '-'
-        return getFormatNumber(value)
-      },
+      render: value => <div>{!value ? '-' : value}</div>,
     },
   ]
 
