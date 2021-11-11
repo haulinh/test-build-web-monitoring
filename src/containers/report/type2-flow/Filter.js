@@ -93,16 +93,6 @@ export default class Filter extends React.Component {
 
     this.setState({ stationAutos })
   }
-
-  onFetchStationTypeSuccess = stationTypes => {
-    const { form } = this.props
-    const stationType = get(stationTypes, '0.key')
-    this.setState({ stationTypes })
-    form.setFieldsValue({
-      [FIELDS.STATION_TYPE]: stationType,
-    })
-  }
-
   getStationAutos = (province, stationType) => {
     let { stationAutos } = this.state
 
