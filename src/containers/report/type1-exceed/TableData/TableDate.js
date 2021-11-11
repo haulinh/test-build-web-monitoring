@@ -30,7 +30,7 @@ const TableDataDate = ({ data, loading, ...props }) => {
       />
     )
   }
-  console.log(data)
+
   const dataSource = data.reduce((base, current, currentIndex) => {
     const dataStation = current.data.map((dataItem, index) => {
       return {
@@ -47,9 +47,12 @@ const TableDataDate = ({ data, loading, ...props }) => {
   }, [])
   const columnsExceed = [1, 2, 3].map(column => ({
     title: `${i18n().overtime} ${column}`,
+    width: 300,
     children: [
       {
         title: i18n().start_time,
+        width: 90,
+        align: 'right',
         dataIndex: `data.${column - 1}`,
         render: value => {
           if (!value) return null
@@ -58,6 +61,8 @@ const TableDataDate = ({ data, loading, ...props }) => {
       },
       {
         title: i18n().process_time,
+        width: 120,
+        align: 'right',
         dataIndex: `data.${column - 1}`,
         render: value => {
           if (!value) return null
@@ -72,6 +77,8 @@ const TableDataDate = ({ data, loading, ...props }) => {
       },
       {
         title: i18n().over_value,
+        width: 90,
+        align: 'right',
         dataIndex: `data.${column - 1}`,
         render: value => {
           return <div>{_.get(value, '[0].value', '-')}</div>
@@ -83,6 +90,9 @@ const TableDataDate = ({ data, loading, ...props }) => {
   const columns = [
     {
       title: i18n().station,
+      width: 120,
+      align: 'left',
+      fixed: 'left',
       dataIndex: 'stationKey',
       render: (value, record, index) => {
         const obj = {
@@ -99,14 +109,18 @@ const TableDataDate = ({ data, loading, ...props }) => {
         return obj
       },
     },
-    { title: i18n().param, dataIndex: 'measure' },
+    { title: i18n().param, width: 85, align: 'left', dataIndex: 'measure' },
     {
       title: i18n().unit,
+      width: 70,
+      align: 'left',
       dataIndex: 'config.unit',
       render: value => <div>{_.isNumber(value) ? value : '-'}</div>,
     },
     {
-      title: i18n().limit_value,
+      title: i18n().limit,
+      width: 80,
+      align: 'right',
       dataIndex: 'config',
       render: value => {
         if (!value.maxLimit) return null
@@ -119,14 +133,19 @@ const TableDataDate = ({ data, loading, ...props }) => {
     },
     {
       title: i18n().data_day,
+      width: 200,
       children: [
         {
           title: i18n().avg_value,
+          width: 80,
+          align: 'right',
           dataIndex: 'avg',
           render: value => <div>{_.isNumber(value) ? value : '-'}</div>,
         },
         {
           title: i18n().max_value,
+          width: 120,
+          align: 'right',
           dataIndex: 'max',
           render: value => <div>{_.isNumber(value) ? value : '-'}</div>,
         },
@@ -144,6 +163,7 @@ const TableDataDate = ({ data, loading, ...props }) => {
       size="small"
       pagination={false}
       rowKey="key"
+      scroll={{ x: 1100 }}
     />
   )
 }

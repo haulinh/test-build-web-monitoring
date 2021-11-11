@@ -7,11 +7,11 @@ import { Clearfix } from 'containers/fixed-map/map-default/components/box-analyt
 import { translate } from 'hoc/create-lang'
 import PropTypes from 'prop-types'
 import React from 'react'
+import { connect } from 'react-redux'
+import styled from 'styled-components'
 import { FIELDS } from '../index'
 import SelectReportType from './SelectReportType'
 import SelectTime from './SelectTime'
-import styled from 'styled-components'
-import { connect } from 'react-redux'
 
 function i18n() {
   return {
@@ -71,16 +71,25 @@ export default class SearchForm extends React.Component {
     super(props)
     this.state = {
       measuringList: [],
+      stationAutos: [],
     }
   }
 
-  componentDidMount() {
-    this.setInitValue()
+  fetchStationAutoSuccess = stationAutos => {
+    const { form } = this.props
+    this.setState({ stationAutos })
+    const stationAutoKeys = stationAutos.map(stationAuto => stationAuto.key)
+    form.setFieldsValue({
+      [FIELDS.STATION_KEYS]: stationAutoKeys,
+    })
     this.submit()
   }
 
-  setInitValue = () => {
-    const { form, stationAutos } = this.props
+  handleOnStationTypeChange = value => {
+    const { form } = this.props
+    const stationAutos = this.state.stationAutos.filter(
+      station => station.stationType.key === value
+    )
     const stationAutoKeys = stationAutos.map(stationAuto => stationAuto.key)
     form.setFieldsValue({ [FIELDS.STATION_KEYS]: stationAutoKeys })
   }
@@ -88,17 +97,20 @@ export default class SearchForm extends React.Component {
   submit = () => {
     this.props.form.validateFields((err, values) => {
       if (!err) {
+        let from, to
         if (values[FIELDS.TIME_TYPE] === 'date') {
-          values.from = values[FIELDS.TIME_VALUE][0].startOf('day')
-          values.to = values[FIELDS.TIME_VALUE][1].startOf('day')
+          from = values[FIELDS.TIME_VALUE][0].clone().startOf('day')
+          to = values[FIELDS.TIME_VALUE][1].clone().endOf('day')
         } else {
-          values.from = values[FIELDS.TIME_VALUE][0].startOf('month')
-          values.to = values[FIELDS.TIME_VALUE][1].startOf('month')
+          from = values[FIELDS.TIME_VALUE][0].clone().startOf('month')
+          to = values[FIELDS.TIME_VALUE][1].clone().endOf('month')
         }
 
         if (this.props.cbSubmit) {
           this.props.cbSubmit({
             ...values,
+            from,
+            to,
             // fromDate: moment(values.fromMonth).startOf("month").utc().format(), // NOTE lấy thời điẻm người dung mún seartch sau đó convert sang giờ UTC để rếarch data
             // toDate: moment(values.toMonth).endOf("month").utc().format()
           })
@@ -108,7 +120,8 @@ export default class SearchForm extends React.Component {
   }
 
   handleOnStatisticChange = value => {
-    const { form } = this.props
+    const { form, resetData } = this.props
+    resetData()
     form.setFieldsValue({
       [FIELDS.TIME_TYPE]: value,
     })
@@ -162,6 +175,7 @@ export default class SearchForm extends React.Component {
             <Col span={8}>
               <Item label={i18n().label.stationType}>
                 {form.getFieldDecorator('stationType', {
+                  onChange: this.handleOnStationTypeChange,
                   initialValue: '',
                 })(<SelectStationType isShowAll />)}
               </Item>
@@ -182,6 +196,7 @@ export default class SearchForm extends React.Component {
                   ],
                 })(
                   <SelectStationAuto
+                    onFetchSuccess={this.fetchStationAutoSuccess}
                     mode="multiple"
                     stationType={stationType}
                   />

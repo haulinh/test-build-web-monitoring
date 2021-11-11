@@ -34,6 +34,7 @@ export function i18n() {
     header5: translate('avgSearchFrom.table.header5'),
     header6: translate('avgSearchFrom.table.header6'),
     title: translate('avgSearchFrom.table.title'),
+    titleDay: translate('avgSearchFrom.table.titleDay'),
   }
 }
 
@@ -55,11 +56,6 @@ export default class ReportType10 extends React.Component {
       to: '',
     }
   }
-
-  // componentDidMount() {
-  //   // console.log("ABC", this.props.timeZone);
-  //   this.handleSubmit()
-  // }
 
   handleSubmit = async (values = {}) => {
     this.setState({
@@ -94,10 +90,10 @@ export default class ReportType10 extends React.Component {
     } catch (error) {}
   }
 
-  getTitle = () => {
+  getDetailTitle = () => {
     const { dataSearch, from, to } = this.state
     const type = dataSearch[FIELDS.TIME_TYPE]
-    return translate(
+    const title = translate(
       `avgSearchFrom.table.${
         type === 'month' ? 'descriptionRatioMonth' : 'descriptionRatioDate'
       }`,
@@ -106,6 +102,8 @@ export default class ReportType10 extends React.Component {
         to,
       }
     )
+
+    return title
   }
 
   hanldeExcel = async () => {
@@ -123,12 +121,16 @@ export default class ReportType10 extends React.Component {
       this.setState({
         isLoadingExcel: false,
       })
-      downFileExcel(res.data, this.getTitle())
+      console.log({ res })
+      downFileExcel(res.data, this.getDetailTitle())
     } catch (error) {}
   }
 
+  resetData = () => this.setState({ dataSource: [] })
+
   render() {
     const { dataSource, isLoading, dataSearch } = this.state
+	  console.log({dataSource})
     const Report = {
       month: (
         <TableMonth
@@ -140,30 +142,19 @@ export default class ReportType10 extends React.Component {
       date: <TabStation data={dataSource} loading={isLoading} />,
     }
     const type = dataSearch[FIELDS.TIME_TYPE]
+
     return (
       <PageContainer>
-        <div style={{ height: '100vh' }}>
+        <div style={{ height: '100vh', overflow: 'hidden' }}>
           <Breadcrumb items={['type10']} />
           <Clearfix height={16} />
-          <SearchForm cbSubmit={this.handleSubmit} />
+          <SearchForm cbSubmit={this.handleSubmit} resetData={this.resetData} />
           <Clearfix height={16} />
           <div style={{ position: 'relative', textAlign: 'center' }}>
-            <Title level={4}>{i18n().title}</Title>
-            {type && (
-              <Text>
-                {translate(
-                  `avgSearchFrom.table.${
-                    type === 'month'
-                      ? 'descriptionRatioMonth'
-                      : 'descriptionRatioDate'
-                  }`,
-                  {
-                    from: this.state.from,
-                    to: this.state.to,
-                  }
-                )}
-              </Text>
-            )}
+            <Title level={4}>
+              {type === 'date' ? i18n().titleDay : i18n().title}
+            </Title>
+            {type && <Text>{this.getDetailTitle()}</Text>}
             {this.state.isHaveData && (
               <div
                 style={{
@@ -186,8 +177,7 @@ export default class ReportType10 extends React.Component {
             )}
           </div>
           <Clearfix height={8} />
-
-          <div>{Report[type]}</div>
+	  <div>{Report[type]}</div>
         </div>
       </PageContainer>
     )

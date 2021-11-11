@@ -89,7 +89,7 @@ const TableYear = ({ data, loading, ...props }) => {
     {
       title: i18n().permiss_value,
       dataIndex: 'qcvn',
-      align: 'center',
+      align: 'right',
       render: value => {
         if (!value.maxLimit) return null
 
@@ -101,25 +101,25 @@ const TableYear = ({ data, loading, ...props }) => {
     },
     {
       title: i18n().numday24h,
-      align: 'center',
+      align: 'right',
       dataIndex: 'numDay24hExceed',
       render: value => <div>{_.isNumber(value) ? value : '-'}</div>,
     },
     {
       title: i18n().numday1h,
-      align: 'center',
+      align: 'right',
       dataIndex: 'numDay1hExceed',
       render: value => <div>{_.isNumber(value) ? value : '-'}</div>,
     },
     {
       title: i18n().numrecord1h,
-      align: 'center',
+      align: 'right',
       dataIndex: 'numRecord1hExceed',
       render: value => <div>{_.isNumber(value) ? value : '-'}</div>,
     },
     {
       title: i18n().rate,
-      align: 'center',
+      align: 'right',
       dataIndex: 'rate',
       render: value => <div>{_.isNumber(value) ? value : '-'}</div>,
     },
@@ -140,7 +140,7 @@ const TableYear = ({ data, loading, ...props }) => {
 }
 
 const mapStateToProps = state => {
-  const stationAutoByKey = _.keyBy(state.stationAuto.list,'key')
+  const stationAutoByKey = _.keyBy(state.stationAuto.list, 'key')
   return {
     lang: state.language.locale,
     stationAutoByKey,

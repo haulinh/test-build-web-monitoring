@@ -766,6 +766,7 @@ export default {
       header8: 'Hours',
       header9: 'Percentage of exceeded data (%)',
       title: 'REPORT THE PERCENTAGE OF OBTAINED DATA',
+      titleDay: 'REPORT THE PERCENTAGE OF OBTAINED DATA BY DAY',
       descriptionRatioMonth:
         'Statistics about the Percentage of data obtained of stations from {{=it.from}} to {{=it.to}}',
       descriptionRatioDate:
@@ -2215,6 +2216,12 @@ export default {
       },
       tileDuLieuVuotNguong: {
         name: 'Percentage of exceeded data',
+      },
+      reportExceed: {
+        name: 'Report data over the threshold',
+      },
+      reportFlow: {
+        name: 'Report of emission flow',
       },
       soLanMatKetNoi: {
         name: 'Number of disconnections',
@@ -3779,7 +3786,7 @@ export default {
     },
     table: {
       month: {
-        stt: 'STT',
+        stt: 'No.',
         date: 'Date',
         avgValue: 'Average value of pollution parameter / day (24h)',
         price: 'Cost',
@@ -4024,6 +4031,10 @@ export default {
     },
   },
   report: {
+    required: {
+      time: 'Please choose time',
+      station: 'Please choose station',
+    },
     placeholder: {
       time: 'Select time',
     },
@@ -4048,8 +4059,7 @@ export default {
       detailTitle: {
         reportYear:
           'Statistics about the percentage of data over the threshold in ',
-        reportDay:
-          'Statistics about the percentage of data over the threshold in ',
+        reportDay: 'Statistics about data over the threshold in ',
       },
       title: {
         year: 'REPORT DATA OVER THE THRESHOLD BY YEAR',
@@ -4085,11 +4095,31 @@ export default {
     type2_flow: {
       title: 'Reporting of Emission Flow',
       subTitle: 'Statistics about emission flow',
-      timeRanger: {
-        year: 'in',
+      option: {
+        reportYear: 'Year Report',
+        reportDay: 'Day Report',
+        reportMonth: 'Month Report',
+        reportRangeYear: 'Custom Years Report',
+        year: 'Year',
+        day: 'Day',
+        month: 'Month',
+        chooseMonth: 'Choose Month',
+      },
+      by: {
+        byDay: 'by day',
+        mutipleYear: 'MULTIPLE YEARS',
+      },
+      range: {
+        day: '',
+        year: '',
+        month: '',
         from: 'from',
         to: 'to',
       },
+      required: {
+        measure: 'Please select parameter',
+      },
+      parameters: 'Parameters',
       stationName: 'Station Name',
       diameter: 'Diameter',
       value: 'Value',

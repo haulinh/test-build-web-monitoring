@@ -2,17 +2,22 @@ import { Button, Col, Form, Row } from 'antd'
 import DataInsight from 'api/DataInsight'
 import Clearfix from 'components/elements/clearfix'
 import { Search } from 'components/layouts/styles'
+import { DD_MM_YYYY, YYYY } from 'constants/format-date'
+import ROLE from 'constants/role'
 import { BoxShadow } from 'containers/api-sharing/layout/styles'
+import { translate as t } from 'hoc/create-lang'
+import protectRole from 'hoc/protect-role/forMenu'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
+import _ from 'lodash'
 import moment from 'moment'
 import React, { Component } from 'react'
+import styled from 'styled-components'
 import { getTimeUTC } from 'utils/datetime'
+import { downFileExcel } from 'utils/downFile'
+import { getLanguage } from 'utils/localStorage'
 import Breadcrumb from '../breadcrumb'
 import Filter from './Filter'
 import { TableDate, TableYear } from './TableData'
-import styled from 'styled-components'
-import { translate as t } from 'hoc/create-lang'
-import _ from 'lodash'
 
 export const FIELDS = {
   REPORT_TYPE: 'reportType',
@@ -39,16 +44,19 @@ export function i18n() {
     },
     time: {
       label: t('report.label.time'),
+      required: t('report.required.time'),
     },
     province: {
       label: t('report.label.province'),
     },
     station: {
       label: t('report.label.station'),
+      required: t('report.required.station'),
     },
   }
 }
 
+@protectRole(ROLE.REPORT_EXCEED.VIEW)
 @Form.create()
 export default class ReportExceed extends Component {
   state = {
@@ -56,10 +64,28 @@ export default class ReportExceed extends Component {
     loading: false,
   }
 
-  getQueryParams = () => {
+  getQueryParams = async () => {
     const { form } = this.props
-    const values = form.getFieldsValue()
+    const values = await form.getFieldsValue()
+    const time = _.get(values, 'time.value')
+    let validates = [form.validateFields()]
+    if (!time) {
+      validates = [
+        ...validates,
+        form.setFields({
+          time: {
+            type: _.get(values, 'reportType'),
+            value: _.get(values, 'time'),
+            errors: [new Error(i18n().time.required)],
+          },
+        }),
+      ]
+    }
     const type = values.reportType
+
+    const [valuesForm, valueTime] = await Promise.all(validates)
+    if (!valuesForm && !valueTime) return
+
     const queryParams = {
       year: this.getQueryParamsYear,
       date: this.getQueryParamsDate,
@@ -105,14 +131,14 @@ export default class ReportExceed extends Component {
     if (values.reportType === 'year') {
       const startTitle =
         t('report.type1_exceed.detailTitle.reportYear') +
-        moment(values.time.value, 'YYYY').format('YYYY')
+        moment(values.time.value, YYYY).format(YYYY)
       return startTitle
     }
 
     if (values.reportType === 'date') {
       const startTitle =
         t('report.type1_exceed.detailTitle.reportDay') +
-        values.time.value.format('DD/MM/YYYY')
+        moment(values.time.value).format(DD_MM_YYYY)
       return startTitle
     }
   }
@@ -129,13 +155,21 @@ export default class ReportExceed extends Component {
     }
   }
 
+  handleExportExceed = async () => {
+    const params = await this.getQueryParams()
+    const result = await DataInsight.getExportReportExceed(params.reportType, {
+      ...params,
+      lang: getLanguage(),
+    })
+    downFileExcel(result.data, `${this.getDetailTitle()}`)
+  }
+
   resetData = () => this.setState({ data: [] })
 
   render() {
     const { form } = this.props
     const { loading, data } = this.state
-    const { time: { type, value: timeValue } = {} } =
-      form.getFieldsValue() || {}
+    const { time: { type } = {} } = form.getFieldsValue() || {}
 
     const Report = {
       date: <TableDate data={data} />,
@@ -152,41 +186,41 @@ export default class ReportExceed extends Component {
 
     return (
       <PageContainer>
-        <div style={{ height: '100vh' }}>
-          <Clearfix height={16} />
-          <Breadcrumb items={['type1_exceed']} />
-          <Search loading={loading} onSearch={this.handleOnSearch}>
-            <BoxShadow>
-              <Filter form={form} resetData={this.resetData} />
-            </BoxShadow>
-          </Search>
-          <Clearfix height={32} />
+        <Clearfix height={16} />
+        <Breadcrumb items={['type1_exceed']} />
+        <Search loading={loading} onSearch={this.handleOnSearch}>
+          <BoxShadow>
+            <Filter form={form} resetData={this.resetData} />
+          </BoxShadow>
+        </Search>
+        <Clearfix height={32} />
 
-          <Row gutter={32}>
-            <Col span={20}>
-              <Row type="flex" justify="center" align="middle">
-                <Text fontSize={20} fontWeight={600}>
-                  {getTitle()}
-                </Text>
-              </Row>
-              <Clearfix height={16} />
-              <Row type="flex" justify="center" align="middle">
-                {!_.isEmpty(timeValue) && (
-                  <Text fontSize={16} fontWeight={400}>
-                    {this.getDetailTitle()}
-                  </Text>
-                )}
-              </Row>
-            </Col>
-            <Col span={4}>
-              <Row type="flex" justify="end">
-                <Button type="primary">{t('report.exportExcel')}</Button>
-              </Row>
-            </Col>
-          </Row>
-          <Clearfix height={31} />
-          {Report[type]}
-        </div>
+        <Row gutter={32}>
+          <Col span={21}>
+            <Row type="flex" justify="center" align="middle">
+              <Text fontSize={20} fontWeight={600}>
+                {getTitle()}
+              </Text>
+            </Row>
+            <Clearfix height={16} />
+            <Row type="flex" justify="center" align="middle">
+              <Text fontSize={16} fontWeight={400}>
+                {this.getDetailTitle()}
+              </Text>
+            </Row>
+          </Col>
+          <Col span={3}>
+            <Row type="flex" justify="end">
+              {protectRole(ROLE.REPORT_EXCEED.EXPORT)(
+                <Button type="primary" onClick={this.handleExportExceed}>
+                  {t('report.exportExcel')}
+                </Button>
+              )}
+            </Row>
+          </Col>
+        </Row>
+        <Clearfix height={31} />
+        {Report[type]}
       </PageContainer>
     )
   }

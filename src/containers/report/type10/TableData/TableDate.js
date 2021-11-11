@@ -48,21 +48,21 @@ export function TableDate({ dataSource, loading, dataFrequency }) {
     {
       title: translate('dataSearchFilterForm.form.time'),
       dataIndex: 'date',
-      align: 'center',
+      align: 'left',
       render: value => {
         return (
-          <div style={{ textAlign: 'right' }}>
-            {moment(value).format(DD_MM_YYYY)}
+          <div>
+            {value ? moment(value).format(DD_MM_YYYY): '-'}
           </div>
         )
       },
     },
     {
       title: i18n().header2,
-      align: 'center',
+      align: 'right',
       render: () => {
         return (
-          <div style={{ textAlign: 'right' }}>
+          <div>
             {dataFrequency ? dataFrequency : '-'}
           </div>
         )
@@ -71,28 +71,29 @@ export function TableDate({ dataSource, loading, dataFrequency }) {
     {
       title: i18n().header3,
       dataIndex: 'totalDesign',
-      align: 'center',
+      align: 'right',
       render: value => {
-        return <div style={{ textAlign: 'right' }}>{value ? value : '-'}</div>
+        return <div>{value ? value : '-'}</div>
       },
     },
     {
       title: i18n().header4,
       dataIndex: 'totalFact',
-      align: 'center',
+      align: 'right',
       render: value => {
-        return <div style={{ textAlign: 'right' }}>{value ? value : '-'}</div>
+        return <div>{value ? value : '-'}</div>
       },
     },
     {
       title: i18n().header5,
       dataIndex: 'ratio',
-      align: 'center',
+      align: 'right',
       render: value => {
-        return <div style={{ textAlign: 'right' }}>{value ? value : '-'}</div>
+        return <div>{value ? value : '-'}</div>
       },
     },
   ]
+	console.log({dataSource})
   return (
     <Table
       loading={loading}

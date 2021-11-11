@@ -762,8 +762,9 @@ export default {
       header6: 'Ngày bắt đầu truyền dữ liệu',
       header7: 'Ngày/tháng',
       header8: 'Giờ',
-      header9: 'Tỉ lệ số liệu vượt ngưỡng (%)',
-      title: 'BÁO CÁO TỈ LỆ SỐ LIỆU THU ĐƯỢC',
+      header9: 'TỶ lệ số liệu vượt ngưỡng (%)',
+      title: 'BÁO CÁO TỶ LỆ SỐ LIỆU THU ĐƯỢC',
+      titleDay: 'BÁO CÁO TỶ LỆ SỐ LIỆU THU ĐƯỢC THEO NGÀY',
       descriptionRatioMonth:
         'Các số liệu thống kê về tỉ lệ số liệu thu được của các trạm quan trắc từ tháng {{=it.from}} đến tháng {{=it.to}}',
       descriptionRatioDate:
@@ -2214,6 +2215,12 @@ export default {
       },
       tileDuLieuVuotNguong: {
         name: 'Tỉ lệ dữ liệu vượt ngưỡng',
+      },
+      reportExceed: {
+        name: 'Báo cáo dữ liệu vượt ngưỡng',
+      },
+      reportFlow: {
+        name: 'Báo cáo lưu lượng phát thải',
       },
       soLanMatKetNoi: {
         name: 'Số lần mất kết nối',
@@ -4036,6 +4043,10 @@ export default {
     },
   },
   report: {
+    required: {
+      time: 'Vui lòng chọn thời gian',
+      station: 'Vui lòng chọn trạm quan trắc',
+    },
     placeholder: {
       time: 'Chọn thời gian',
     },
@@ -4063,7 +4074,7 @@ export default {
       },
       title: {
         year: 'BÁO CÁO THỐNG KÊ VƯỢT NGƯỠNG THEO NĂM',
-        date: 'BÁO CÁO THỐNG KÊ VƯỢT NGƯỠNG THEO NGÀY',
+        date: 'BÁO CÁO DỮ LIỆU VƯỢT NGƯỠNG THEO NGÀY',
       },
       option: {
         reportYear: 'Báo cáo năm',
@@ -4077,7 +4088,7 @@ export default {
         param: 'Thông số',
         unit: 'Đơn vị',
         limit: 'Giá trị giới hạn',
-        avg_value: 'Giá trị trung bình',
+        avg_value: 'Giá trị TB',
         max_value: 'Giá trị lớn nhất',
         overtime: 'Vượt ngưỡng lần ',
         start_time: 'Thời điểm phát sinh',
@@ -4093,12 +4104,32 @@ export default {
     },
     type2_flow: {
       title: 'Báo cáo lưu lượng phát thải',
-      subTitle: 'Các số liệu thống kê',
-      timeRanger: {
+      subTitle: 'Các số liệu thống kê về lưu lượng phát',
+      option: {
+        reportYear: 'Báo cáo năm',
+        reportDay: 'Báo cáo ngày',
+        reportMonth: 'Báo cáo tháng',
+        reportRangeYear: 'Báo cáo các năm',
+        year: 'Năm',
+        day: 'Ngày',
+        month: 'Tháng',
+        chooseMonth: 'Chọn tháng',
+      },
+      by: {
+        byDay: 'theo ngày',
+        mutipleYear: 'các năm',
+      },
+      range: {
         year: 'năm',
+        day: 'ngày',
+        month: 'tháng',
         from: 'từ',
         to: 'đến',
       },
+      required: {
+        measure: 'Vui lòng chọn thông số',
+      },
+      parameters: 'Thông số',
       stationName: 'Trạm quan trắc',
       diameter: 'Đường kính',
       value: 'Giá trị',

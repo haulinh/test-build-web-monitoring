@@ -6,24 +6,25 @@ import { DD_MM_YYYY } from 'constants/format-date'
 import get from 'lodash/get'
 import { Table } from 'antd'
 import { translate } from 'hoc/create-lang'
+import _ from 'lodash'
 
 export default function TableMonth({ dataSource, loading, parentProps }) {
   const columns = [
     {
       title: i18n().header1,
       dataIndex: 'name',
-      align: 'center',
+      align: 'left',
       render: value => {
-        return <div style={{ textAlign: 'left' }}>{value}</div>
+        return <div>{value}</div>
       },
     },
     {
       title: i18n().header6,
       dataIndex: 'activatedAt',
-      align: 'center',
+      align: 'left',
       render: value => {
         if (!value) {
-          return null
+          return '-'
         }
         return (
           <div style={{ textAlign: 'left' }}>
@@ -40,7 +41,9 @@ export default function TableMonth({ dataSource, loading, parentProps }) {
       align: 'center',
       render: value => {
         return (
-          <div style={{ textAlign: 'right' }}>{getFormatNumber(value, 0)}</div>
+          <div style={{ textAlign: 'right' }}>
+            {_.isNumber(value) ? getFormatNumber(value, 0) : '-'}
+          </div>
         )
       },
     },
@@ -50,7 +53,9 @@ export default function TableMonth({ dataSource, loading, parentProps }) {
       align: 'center',
       render: value => {
         return (
-          <div style={{ textAlign: 'right' }}>{getFormatNumber(value, 0)}</div>
+          <div style={{ textAlign: 'right' }}>
+            {_.isNumber(value) ? getFormatNumber(value, 0) : '-'}
+          </div>
         )
       },
     },
@@ -60,19 +65,21 @@ export default function TableMonth({ dataSource, loading, parentProps }) {
       align: 'center',
       render: value => {
         return (
-          <div style={{ textAlign: 'right' }}>{getFormatNumber(value, 0)}</div>
+          <div style={{ textAlign: 'right' }}>
+            {_.isNumber(value) ? getFormatNumber(value, 0) : '-'}
+          </div>
         )
       },
     },
     {
       title: i18n().header5,
       dataIndex: 'percentageReceived',
-      align: 'center',
+      align: 'right',
       render: value => {
-        if (!value) return null
+        if (!value) return '-'
         return (
           <div style={{ textAlign: 'right' }}>
-            {getFormatNumber(value, ROUND_DIGIT)}
+            {_.isNumber(value) ? getFormatNumber(value, ROUND_DIGIT) : '-'}
           </div>
         )
       },

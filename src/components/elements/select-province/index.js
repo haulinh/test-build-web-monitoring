@@ -19,7 +19,7 @@ export default class SelectProvince extends PureComponent {
       PropTypes.array,
     ]),
     isShowAll: PropTypes.bool,
-    isShowOther: PropTypes.bool
+    isShowOther: PropTypes.bool,
   }
 
   state = {
@@ -97,6 +97,8 @@ export default class SelectProvince extends PureComponent {
     const { fieldValue, value } = this.props
     let defaultValue =
       typeof value === 'object' && value != null ? value.key : value
+
+    const isUseForm = this.props['data-__field']
     return (
       <Select
         style={{ width: '100%' }}
@@ -105,7 +107,7 @@ export default class SelectProvince extends PureComponent {
         {...this.props}
         onChange={this.handleOnChange}
         onSearch={this.handleSearch}
-        value={defaultValue || this.state.value}
+        value={defaultValue || isUseForm ? defaultValue : this.state.value}
         filterOption={false}
       >
         {this.props.isShowAll && (

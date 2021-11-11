@@ -1,8 +1,8 @@
 import { Col, Row, Switch } from 'antd'
 import ReportType from 'components/elements/select-data/report/SelectReportType'
 import TimeReport from 'components/elements/select-data/report/SelectTimeReport'
+import TreeSelectStation from 'components/elements/select-data/TreeSelectStation'
 import SelectProvince from 'components/elements/select-province'
-import SelectStationAuto from 'components/elements/select-station-auto'
 import { FormItem } from 'components/layouts/styles'
 import { ToolTip } from 'containers/search/common/tooltip'
 import { translate as t } from 'hoc/create-lang'
@@ -20,9 +20,11 @@ const ColSwitch = styled(Col)`
 export default function Filter({ form, resetData = () => {} }) {
   const { reportType } = form.getFieldsValue() || {}
 
-  const handleOnChangeReportType = value => {
+  const handleOnChangeReportType = type => {
     resetData()
-    form.setFieldsValue({ [FIELDS.TIME]: { type: value } })
+    form.resetFields()
+    const time = form.getFieldValue(FIELDS.TIME)
+    form.setFieldsValue({ [FIELDS.TIME]: { ...time, type } })
   }
 
   const handleOnChangeFilter = value => {
@@ -37,7 +39,7 @@ export default function Filter({ form, resetData = () => {} }) {
         <Col span={6}>
           <FormItem label={i18n().reportType.label}>
             {form.getFieldDecorator(FIELDS.REPORT_TYPE, {
-              initialValue: 'year',
+              initialValue: 'date',
               onChange: handleOnChangeReportType,
             })(<ReportType form={form} />)}
           </FormItem>
@@ -45,16 +47,24 @@ export default function Filter({ form, resetData = () => {} }) {
         <Col span={8}>
           <FormItem label={i18n().time.label}>
             {form.getFieldDecorator(FIELDS.TIME, {
-              initialValue: { type: 'year', value: moment().year() },
+              initialValue: { type: 'date', value: moment() },
+              rules: [
+                {
+                  required: true,
+                  message: i18n().time.required,
+                },
+              ],
             })(<TimeReport reportType={reportType} />)}
           </FormItem>
         </Col>
         <Col span={10}>
           <FormItem label={i18n().province.label}>
-            {form.getFieldDecorator(
-              FIELDS.PROVINCE,
-              {}
-            )(<SelectProvince isShowAll allowClear={false} />)}
+            {form.getFieldDecorator(FIELDS.PROVINCE, {
+              initialValue: '',
+              onChange: val => {
+                form.setFieldsValue({ stationKeys: null })
+              },
+            })(<SelectProvince isShowAll allowClear={false} />)}
           </FormItem>
         </Col>
       </Row>
@@ -64,9 +74,10 @@ export default function Filter({ form, resetData = () => {} }) {
             rules: [
               {
                 required: true,
+                message: i18n().station.required,
               },
             ],
-          })(<SelectStationAuto province={province} mode="tags" />)}
+          })(<TreeSelectStation province={province} />)}
         </FormItem>
       </Row>
       <Row type="flex" justify="end">
@@ -86,7 +97,7 @@ export default function Filter({ form, resetData = () => {} }) {
                   {form.getFieldDecorator('isFilter', {
                     initialValue: false,
                     onChange: handleOnChangeFilter,
-                    valuePropName: "checked",
+                    valuePropName: 'checked',
                   })(<Switch form={form} />)}
                 </FormItem>
               </div>
