@@ -40,12 +40,39 @@ export default class Filter extends React.Component {
     if (['custom', 'anyYear'].includes(type)) {
       value = [moment(), moment()]
     }
-
     form.setFieldsValue({
       [FIELDS.REPORT_TIME]: {
         value,
         type,
       },
+    })
+
+    form.resetFields([
+      FIELDS.PROVINCE,
+      FIELDS.STATION_TYPE,
+      FIELDS.STATION_AUTO,
+    ])
+
+    this.setInitFieldValue()
+  }
+
+  setInitFieldValue = province => {
+    const { form } = this.props
+    const provinceForm = form.getFieldValue(FIELDS.PROVINCE)
+    const stationTypes = this.getStationTypes(province || provinceForm)
+    const stationTypeKeys = stationTypes.map(stationType => stationType.key)
+    form.setFieldsValue({ [FIELDS.STATION_TYPE]: stationTypeKeys[0] })
+    const stationType = form.getFieldValue(FIELDS.STATION_TYPE)
+
+    const stationAutos = this.getStationAutos(
+      province || provinceForm,
+      stationType
+    )
+    const stationAutosKey = stationAutos.map(
+      stationAutoKey => stationAutoKey.key
+    )
+    form.setFieldsValue({
+      [FIELDS.STATION_AUTO]: stationAutosKey,
     })
   }
 
@@ -125,18 +152,7 @@ export default class Filter extends React.Component {
     const { form } = this.props
     form.resetFields([FIELDS.MEASURING_LIST])
 
-    const stationTypes = this.getStationTypes(province)
-    const stationTypeKeys = stationTypes.map(stationType => stationType.key)
-    form.setFieldsValue({ [FIELDS.STATION_TYPE]: stationTypeKeys[0] })
-    const stationType = form.getFieldValue(FIELDS.STATION_TYPE)
-
-    const stationAutos = this.getStationAutos(province, stationType)
-    const stationAutosKey = stationAutos.map(
-      stationAutoKey => stationAutoKey.key
-    )
-    form.setFieldsValue({
-      [FIELDS.STATION_AUTO]: stationAutosKey,
-    })
+    this.setInitFieldValue(province)
   }
 
   handleStationTypeChange = stationType => {
