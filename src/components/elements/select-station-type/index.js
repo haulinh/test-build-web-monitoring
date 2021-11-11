@@ -118,12 +118,6 @@ export default class SelectStationType extends PureComponent {
       )
     }
 
-    if (province && stationAutos) {
-      const stationAutoLength = stationAutos.filter(
-        stationAuto => _get(stationAuto, 'province.key') === province
-      ).length
-      return this.state.stationTypes.filter(() => stationAutoLength)
-    }
     return this.state.stationTypes
   }
 
