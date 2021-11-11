@@ -49,6 +49,7 @@ export default class Filter extends React.Component {
 
     form.resetFields([
       FIELDS.PROVINCE,
+      FIELDS.MEASURING_LIST,
       FIELDS.STATION_TYPE,
       FIELDS.STATION_AUTO,
     ])
@@ -251,7 +252,7 @@ export default class Filter extends React.Component {
                 rules: [
                   {
                     required: true,
-                    message: i18n().rules.requireChoose,
+                    message: t('report.required.station'),
                   },
                 ],
               })(
