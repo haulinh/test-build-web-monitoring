@@ -76,8 +76,9 @@ export default class SearchForm extends React.Component {
   }
 
   fetchStationAutoSuccess = stationAutos => {
-    const { form } = this.props
+    const { form, setStationAutos } = this.props
     this.setState({ stationAutos })
+    setStationAutos(stationAutos)
     const stationAutoKeys = stationAutos.map(stationAuto => stationAuto.key)
     form.setFieldsValue({
       [FIELDS.STATION_KEYS]: stationAutoKeys,
@@ -111,6 +112,7 @@ export default class SearchForm extends React.Component {
             ...values,
             from,
             to,
+            type: values[FIELDS.TIME_TYPE],
             // fromDate: moment(values.fromMonth).startOf("month").utc().format(), // NOTE lấy thời điẻm người dung mún seartch sau đó convert sang giờ UTC để rếarch data
             // toDate: moment(values.toMonth).endOf("month").utc().format()
           })
