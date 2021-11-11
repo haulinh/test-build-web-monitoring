@@ -147,8 +147,8 @@ export default class ReportFlow extends React.Component {
         }),
       ]
     }
-    const [valueForm, valueTime] = await Promise.all(validates)
-    if (!valueForm || _.isEmpty(valueTime)) return
+    const [valueForm] = await Promise.all(validates)
+    if (!valueForm || _.isEmpty(timeValue)) return
 
     const type = values[FIELDS.REPORT_TYPE]
     const queryParams = {
