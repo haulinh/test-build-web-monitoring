@@ -15,7 +15,6 @@ const i18n = () => ({
   rate: t('report.type1_exceed.table.rate'),
 })
 
-
 const TableYear = ({ data, loading, ...props }) => {
   if (_.isEmpty(data)) {
     return (
@@ -45,11 +44,18 @@ const TableYear = ({ data, loading, ...props }) => {
       }
     )
     const emptySign = '-'
-    dataStation = dataStation.length > 0 ? dataStation : [{
-      station: current.station,
-      key: `${current.station.key}`,
-      measure: emptySign,
-    }]
+    dataStation =
+      dataStation.length > 0
+        ? dataStation
+        : [
+            {
+              station: current.station,
+              key: `${current.station.key}`,
+              measure: emptySign,
+              spanMerge: 1,
+              indexMerge: true,
+            },
+          ]
 
     return [...base, ...dataStation]
   }, [])
@@ -61,11 +67,13 @@ const TableYear = ({ data, loading, ...props }) => {
       render: (value, record, index) => {
         const obj = {
           children: value.name,
-          props: {rowSpan: 1},
+          props: {},
         }
 
         if (record.indexMerge) {
           obj.props.rowSpan = record.spanMerge
+        } else {
+          obj.props.rowSpan = 0
         }
         return obj
       },
@@ -77,11 +85,13 @@ const TableYear = ({ data, loading, ...props }) => {
       render: (value, record, index) => {
         const obj = {
           children: value,
-          props: {rowSpan: 1},
+          props: {},
         }
 
         if (record.indexMerge) {
           obj.props.rowSpan = record.spanMerge
+        } else {
+          obj.props.rowSpan = 0
         }
         return obj
       },
