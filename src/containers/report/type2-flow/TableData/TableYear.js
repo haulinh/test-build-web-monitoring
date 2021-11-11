@@ -2,7 +2,6 @@ import { Empty, Table } from 'antd'
 import React from 'react'
 import _ from 'lodash'
 import { translate as t } from 'hoc/create-lang'
-import { getFormatNumber } from 'constants/format-number'
 
 function TableYear({ data, loading }) {
   if (_.isEmpty(data)) {
@@ -28,11 +27,7 @@ function TableYear({ data, loading }) {
     render: value => {
       const dataGroupYear = _.keyBy(value, '_id')
       const dataGroupMonth = _.get(dataGroupYear[month], 'value')
-      return (
-        <div>
-          {_.isNumber(dataGroupMonth) ? getFormatNumber(dataGroupMonth) : '-'}
-        </div>
-      )
+      return <div>{!dataGroupMonth ? '-' : dataGroupMonth}</div>
     },
   }))
 
