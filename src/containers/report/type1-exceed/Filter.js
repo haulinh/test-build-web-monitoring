@@ -61,7 +61,8 @@ export default class Filter extends React.Component {
   }
 
   onStationAutosFetchSuccess = (stationAutos, stationTypes) => {
-    const { form } = this.props
+    const { form, onSearch } = this.props
+
     this.setState({ stationAutos, stationTypes })
 
     const stationAutoKeys = this.getDefaultStationAutos(stationAutos, stationTypes)
@@ -69,6 +70,7 @@ export default class Filter extends React.Component {
     form.setFieldsValue({
       [FIELDS.STATION_KEY]: stationAutoKeys,
     })
+    onSearch()
   }
 
   getDefaultStationAutos = (stationAutos, stationTypes) => {
