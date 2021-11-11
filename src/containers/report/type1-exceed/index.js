@@ -62,6 +62,7 @@ export default class ReportExceed extends Component {
   state = {
     data: [],
     loading: false,
+    isLoadingExcel: false,
   }
 
   getQueryParams = async () => {
@@ -156,10 +157,16 @@ export default class ReportExceed extends Component {
   }
 
   handleExportExceed = async () => {
+    this.setState({
+      isLoadingExcel: true,
+    })
     const params = await this.getQueryParams()
     const result = await DataInsight.getExportReportExceed(params.reportType, {
       ...params,
       lang: getLanguage(),
+    })
+    this.setState({
+      isLoadingExcel: false,
     })
     downFileExcel(result.data, `${this.getDetailTitle()}`)
   }
@@ -190,7 +197,7 @@ export default class ReportExceed extends Component {
         <Breadcrumb items={['type1_exceed']} />
         <Search loading={loading} onSearch={this.handleOnSearch}>
           <BoxShadow>
-            <Filter form={form} resetData={this.resetData} />
+            <Filter form={form} resetData={this.resetData} onSearch={this.handleOnSearch} />
           </BoxShadow>
         </Search>
         <Clearfix height={32} />
@@ -212,7 +219,7 @@ export default class ReportExceed extends Component {
           <Col span={3}>
             <Row type="flex" justify="end">
               {protectRole(ROLE.REPORT_EXCEED.EXPORT)(
-                <Button type="primary" onClick={this.handleExportExceed}>
+                <Button style={{ marginRight: '12px' }} type="primary" onClick={this.handleExportExceed} icon="file-excel" loading={this.state.isLoadingExcel}>
                   {t('report.exportExcel')}
                 </Button>
               )}

@@ -183,6 +183,7 @@ export default class ReportType10 extends React.Component {
               >
                 {protectRole(ROLE.TILE_DULIEU_THUDUOC.EXPORT)(
                   <Button
+                    style={{ marginRight: 16 }}
                     type="primary"
                     icon="file-excel"
                     loading={this.state.isLoadingExcel}
