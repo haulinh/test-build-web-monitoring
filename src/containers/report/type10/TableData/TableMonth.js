@@ -8,7 +8,12 @@ import { Table } from 'antd'
 import { translate } from 'hoc/create-lang'
 import _ from 'lodash'
 
-export default function TableMonth({ dataSource, loading, parentProps }) {
+export default function TableMonth({
+  dataSource,
+  loading,
+  hidden,
+  parentProps,
+}) {
   const columns = [
     {
       title: i18n().header1,
@@ -86,17 +91,19 @@ export default function TableMonth({ dataSource, loading, parentProps }) {
     },
   ]
   return (
-    <Table
-      loading={loading}
-      size="small"
-      rowKey="_id"
-      columns={columns}
-      bordered={true}
-      dataSource={dataSource}
-      locale={{
-        emptyText: translate('dataSearchFrom.table.emptyText'),
-      }}
-      pagination={false}
-    />
+    <div style={{ display: hidden && 'none' }}>
+      <Table
+        loading={loading}
+        size="small"
+        rowKey="_id"
+        columns={columns}
+        bordered={true}
+        dataSource={dataSource}
+        locale={{
+          emptyText: translate('dataSearchFrom.table.emptyText'),
+        }}
+        pagination={false}
+      />
+    </div>
   )
 }

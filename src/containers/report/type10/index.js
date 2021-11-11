@@ -54,7 +54,9 @@ export default class ReportType10 extends React.Component {
       dataSearch: {},
       from: '',
       to: '',
+      stationAutos: [],
     }
+    this.tabStationRef = React.createRef()
   }
 
   handleSubmit = async (values = {}) => {
@@ -68,6 +70,13 @@ export default class ReportType10 extends React.Component {
       from: getTimeUTC(values.from),
       to: getTimeUTC(values.to),
       [FIELDS.TIME_TYPE]: values[FIELDS.TIME_TYPE],
+    }
+
+    if (values[FIELDS.TIME_TYPE] === 'date') {
+      this.setState({ dataSearch: params }, () => {
+        if (this.tabStationRef) this.tabStationRef.current.onSearch()
+      })
+      return
     }
 
     try {
@@ -121,26 +130,19 @@ export default class ReportType10 extends React.Component {
       this.setState({
         isLoadingExcel: false,
       })
-      console.log({ res })
       downFileExcel(res.data, this.getDetailTitle())
     } catch (error) {}
   }
 
   resetData = () => this.setState({ dataSource: [] })
+  setStationAutos = stationAutos => this.setState({ stationAutos })
 
   render() {
-    const { dataSource, isLoading, dataSearch } = this.state
-	  console.log({dataSource})
-    const Report = {
-      month: (
-        <TableMonth
-          dataSource={dataSource}
-          loading={isLoading}
-          parentProps={this.props}
-        />
-      ),
-      date: <TabStation data={dataSource} loading={isLoading} />,
-    }
+    const { dataSource, isLoading, dataSearch, stationAutos } = this.state
+    const stationKeys = dataSearch.stationKeys
+      ? dataSearch.stationKeys.split(',')
+      : []
+
     const type = dataSearch[FIELDS.TIME_TYPE]
 
     return (
@@ -148,7 +150,11 @@ export default class ReportType10 extends React.Component {
         <div style={{ height: '100vh', overflow: 'hidden' }}>
           <Breadcrumb items={['type10']} />
           <Clearfix height={16} />
-          <SearchForm cbSubmit={this.handleSubmit} resetData={this.resetData} />
+          <SearchForm
+            cbSubmit={this.handleSubmit}
+            resetData={this.resetData}
+            setStationAutos={this.setStationAutos}
+          />
           <Clearfix height={16} />
           <div style={{ position: 'relative', textAlign: 'center' }}>
             <Title level={4}>
@@ -177,7 +183,19 @@ export default class ReportType10 extends React.Component {
             )}
           </div>
           <Clearfix height={8} />
-	  <div>{Report[type]}</div>
+          <TableMonth
+            hidden={type !== 'month'}
+            dataSource={dataSource}
+            loading={isLoading}
+            parentProps={this.props}
+          />
+          <TabStation
+            stationAutos={stationAutos}
+            hidden={type !== 'date'}
+            ref={this.tabStationRef}
+            dataSearch={dataSearch}
+            stationKeys={stationKeys}
+          />
         </div>
       </PageContainer>
     )
