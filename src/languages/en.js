@@ -4099,7 +4099,7 @@ export default {
         reportYear: 'Year Report',
         reportDay: 'Day Report',
         reportMonth: 'Month Report',
-        reportRangeYear: 'Custom Years Report',
+        reportRangeYear: 'Multi-Year Report',
         year: 'Year',
         day: 'Day',
         month: 'Month',

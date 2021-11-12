@@ -16,7 +16,7 @@ function TableAnyYears({ data, loading }) {
   const yearsUnique = new Set(yearsFlat)
 
   const columnsYear = [...yearsUnique].map(year => ({
-    title: `Năm ${year}`,
+    title: `${t('report.type2_flow.option.year')} ${year}`,
     dataIndex: 'data',
     align: 'right',
     render: value => {

@@ -176,7 +176,7 @@ export default class ReportFlow extends React.Component {
       byDay: t('report.type2_flow.by.byDay'),
       mutipleYear: t('report.type2_flow.by.mutipleYear'),
     }
-    if (_.isEmpty(timeValue))
+    if (['custom, anyYear'].includes(type) && _.isEmpty(timeValue))
       return {
         time: '',
         timeRange: '',
