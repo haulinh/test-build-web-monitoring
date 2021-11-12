@@ -42,6 +42,7 @@ export default class ChartMoreInfo extends React.Component {
   static propTypes = {}
   static defaultProps = {
     stationID: PropTypes.string,
+    isOpen: PropTypes.bool,
   }
 
   state = {

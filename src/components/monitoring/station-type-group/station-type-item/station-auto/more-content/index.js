@@ -16,7 +16,8 @@ import MoreRating from './rating'
 
 const MoreContentWrapper = styled.div`
   border: ${props => (props.panel === '' ? 'none' : ' solid 1px #80808030')};
-  width: ${props => (props.isOpen ? '80vw' : '92vw')};
+  max-width: ${props => (props.isOpen ? '78vw' : '92vw')};
+  min-width: 300px;
 `
 
 const tabsStyle = panel => ({
