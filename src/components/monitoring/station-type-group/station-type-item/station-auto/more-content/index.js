@@ -70,7 +70,7 @@ export default class SamplingMoreInfo extends React.Component {
                   <MoreCamera station={stationInfo} cameraList={cameraList} />
                 </Tabs.TabPane>
                 <Tabs.TabPane tab="chart" key="chart">
-                  <MoreChart stationID={stationID} />
+                  <MoreChart stationID={stationID} isOpen={this.props.isOpen} />
                 </Tabs.TabPane>
                 <Tabs.TabPane tab="map" key="map">
                   <MoreMap stationID={stationID} />

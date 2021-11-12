@@ -66,7 +66,7 @@ export default class ChartMoreInfo extends React.Component {
   handleChartTypeOnChange = e => {
     this.setState({ isLoading: true })
     let tempType = this.state.chartType
-    if (e.target.value) {
+    if (e && e.target.value) {
       tempType = e.target.value
     } else {
       tempType = defaultChartType
@@ -76,6 +76,20 @@ export default class ChartMoreInfo extends React.Component {
       isLoading: false,
       chartType: tempType,
     })
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // chỉ xử lý việc render chart cho phù hợp với kích thước
+    if (nextProps.isOpen !== this.props.isOpen) {
+      this.setState({
+        isLoading: true,
+      })
+      setInterval(() => {
+        this.setState({
+          isLoading: false,
+        })
+      }, 300)
+    }
   }
 
   render() {
