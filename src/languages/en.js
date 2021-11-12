@@ -4094,6 +4094,7 @@ export default {
     },
     type2_flow: {
       title: 'Report of Emission Flow',
+      nameFileExel: 'Report_Emission Flow_',
       subTitle: 'Statistics about emission flow',
       dataprocessing: 'Data processing',
       option: {
