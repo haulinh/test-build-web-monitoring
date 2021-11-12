@@ -1,16 +1,11 @@
-import { Empty, Table } from 'antd'
+import { Table } from 'antd'
 import React from 'react'
 import _ from 'lodash'
 import { translate as t } from 'hoc/create-lang'
 
 function TableYear({ data, loading }) {
   if (_.isEmpty(data)) {
-    return (
-      <Empty
-        style={{ margin: '0 auto', padding: '8px 16px' }}
-        description={t('apiSharingNew.button.nodata')}
-      />
-    )
+    return null
   }
 
   const monthsFlat = data.reduce((base, current) => {
@@ -35,11 +30,15 @@ function TableYear({ data, loading }) {
     {
       title: t('report.type2_flow.stationName'),
       dataIndex: 'station.name',
+      width: 200,
+      fixed: 'left',
     },
     {
       title: t('report.type2_flow.diameter'),
       dataIndex: 'station.diameter',
       align: 'right',
+      width: 120,
+      fixed: 'left',
       render: value => <div>{_.isNumber(value) ? value : '-'}</div>,
     },
     ...columnsYear,

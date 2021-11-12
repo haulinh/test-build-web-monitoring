@@ -34,6 +34,7 @@ function PickTimes({ type, onChange, value }) {
     return (
       <RangePicker
         onChange={onChange}
+        allowClear={false}
         style={{ width: '100%' }}
         value={value.value}
         format={['DD/MM/YYYY', 'DD/MM/YY']}
@@ -46,6 +47,7 @@ function PickTimes({ type, onChange, value }) {
         placeholder={t('report.type2_flow.option.chooseMonth')}
         style={{ width: '100%' }}
         onChange={onChange}
+        allowClear={false}
         value={value.value}
         format="MM/YYYY"
       />

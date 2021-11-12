@@ -81,7 +81,6 @@ export default function TableMonth({
       dataIndex: 'percentageReceived',
       align: 'right',
       render: value => {
-        if (!value) return '-'
         return (
           <div style={{ textAlign: 'right' }}>
             {_.isNumber(value) ? getFormatNumber(value, ROUND_DIGIT) : '-'}

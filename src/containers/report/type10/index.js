@@ -159,7 +159,6 @@ export default class ReportType10 extends React.Component {
 
     return (
       <PageContainer>
-        <div style={{ height: '100vh', overflow: 'hidden' }}>
           <Breadcrumb items={['type10']} />
           <Clearfix height={16} />
           <SearchForm
@@ -183,6 +182,7 @@ export default class ReportType10 extends React.Component {
               >
                 {protectRole(ROLE.TILE_DULIEU_THUDUOC.EXPORT)(
                   <Button
+                    style={{ marginRight: 16 }}
                     type="primary"
                     icon="file-excel"
                     loading={this.state.isLoadingExcel}
@@ -208,7 +208,7 @@ export default class ReportType10 extends React.Component {
             dataSearch={dataSearch}
             stationKeys={stationKeys}
           />
-        </div>
+          <Clearfix height={50}/>
       </PageContainer>
     )
   }

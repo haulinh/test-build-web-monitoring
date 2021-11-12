@@ -4117,7 +4117,7 @@ export default {
       },
       by: {
         byDay: 'theo ngày',
-        mutipleYear: 'các năm',
+        mutipleYear: 'theo năm',
       },
       range: {
         year: 'năm',

@@ -15,9 +15,8 @@ import MoreStation from './station'
 import MoreRating from './rating'
 
 const MoreContentWrapper = styled.div`
-  min-width: 300px;
   border: ${props => (props.panel === '' ? 'none' : ' solid 1px #80808030')};
-  max-width: ${props => (props.isOpen ? '73vw' : '88vw')};
+  width: ${props => (props.isOpen ? '80vw' : '92vw')};
 `
 
 const tabsStyle = panel => ({
@@ -49,12 +48,7 @@ export default class SamplingMoreInfo extends React.Component {
   render() {
     if (!this.props.isActive) return null
     // console.log("------ stationInfo ------", this.props.stationInfo)
-    const {
-      panel,
-      stationID,
-      stationInfo,
-      cameraList,
-    } = this.props
+    const { panel, stationID, stationInfo, cameraList } = this.props
     return (
       <MoreContentWrapper panel={panel} isOpen={this.props.isOpen}>
         {panel !== '' && (

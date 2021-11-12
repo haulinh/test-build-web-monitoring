@@ -38,7 +38,7 @@ const SelectDatePickerType = ({ timeType, ...props }) => {
     return <DatePickerRangeMonth {...props} />
   }
 
-  return <RangePicker format='DD/MM/YYYY' {...props} />
+  return <RangePicker allowClear={false} format='DD/MM/YYYY' {...props} />
 }
 
 class DatePickerRangeMonth extends React.Component {
@@ -70,6 +70,7 @@ class DatePickerRangeMonth extends React.Component {
 
     return (
       <DatePicker.RangePicker
+        allowClear={false}
         placeholder={['Start month', 'End month']}
         format="MM-YYYY"
         value={value ? value : valueState}
