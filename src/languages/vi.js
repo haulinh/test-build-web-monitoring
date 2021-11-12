@@ -4106,6 +4106,7 @@ export default {
       title: 'Báo cáo lưu lượng phát thải',
       subTitle: 'Các số liệu thống kê về lưu lượng phát thải',
       dataprocessing: 'Kiểm duyệt dữ liệu',
+      nameFileExel: 'Báo Cáo Lưu Lượng Phát Thải_',
       option: {
         reportYear: 'Báo cáo năm',
         reportDay: 'Báo cáo ngày',
@@ -4130,7 +4131,7 @@ export default {
       required: {
         measure: 'Vui lòng chọn thông số',
       },
-      parameters: 'Thông số',
+      parameter: 'Thông số',
       stationName: 'Trạm quan trắc',
       diameter: 'Đường kính',
       value: 'Giá trị',
