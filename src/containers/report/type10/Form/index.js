@@ -26,7 +26,7 @@ function i18n() {
       stationType: translate('avgSearchFrom.form.stationType.label'),
       fromMonth: translate('avgSearchFrom.form.fromMonth.label'),
       toMonth: translate('avgSearchFrom.form.toMonth.label'),
-      station: translate('apiSharingNew.fields.stationAuto'),
+      station: translate('apiSharingNew.fields.stationKeys'),
     },
   }
 }

@@ -4044,7 +4044,7 @@ export default {
     exportExcel: 'Export To Excel',
     label: {
       dataRatio: {
-        statistic: 'Statistic',
+        statistic: 'Statistic By',
         type: {
           rangeTime: 'Range Time',
           date: 'Date',
@@ -4125,6 +4125,9 @@ export default {
       diameter: 'Diameter',
       value: 'Value',
       time: 'Time',
+    },
+    typeRatio: {
+      titleExport: 'Report__Percentage Of Obtained Data_{{=it.time}}',
     },
   },
 }
