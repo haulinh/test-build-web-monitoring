@@ -4136,5 +4136,8 @@ export default {
       value: 'Giá trị',
       time: 'Thời gian',
     },
+    typeRatio: {
+      titleExport: 'Bao Cao Ty Le Du Lieu Thu Duoc_{{=it.time}}',
+    },
   },
 }
