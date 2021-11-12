@@ -4105,6 +4105,7 @@ export default {
     type2_flow: {
       title: 'Báo cáo lưu lượng phát thải',
       subTitle: 'Các số liệu thống kê về lưu lượng phát thải',
+      dataprocessing: 'Kiểm duyệt dữ liệu',
       option: {
         reportYear: 'Báo cáo năm',
         reportDay: 'Báo cáo ngày',

@@ -4093,8 +4093,9 @@ export default {
       },
     },
     type2_flow: {
-      title: 'Reporting of Emission Flow',
+      title: 'Report of Emission Flow',
       subTitle: 'Statistics about emission flow',
+      dataprocessing: 'Data processing',
       option: {
         reportYear: 'Year Report',
         reportDay: 'Day Report',
