@@ -268,7 +268,7 @@ export default class Filter extends React.Component {
             </FormItem>
           </Col>
           <Col span={7}>
-            <FormItem label={t('report.type2_flow.parameters')}>
+            <FormItem label={t('report.type2_flow.parameter')}>
               {form.getFieldDecorator(FIELDS.MEASURING_LIST, {
                 rules: [
                   {

@@ -4120,7 +4120,7 @@ export default {
       required: {
         measure: 'Please select parameter',
       },
-      parameters: 'Parameters',
+      parameter: 'Parameter',
       stationName: 'Station Name',
       diameter: 'Diameter',
       value: 'Value',

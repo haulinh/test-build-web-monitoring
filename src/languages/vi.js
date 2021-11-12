@@ -4130,7 +4130,7 @@ export default {
       required: {
         measure: 'Vui lòng chọn thông số',
       },
-      parameters: 'Thông số',
+      parameter: 'Thông số',
       stationName: 'Trạm quan trắc',
       diameter: 'Đường kính',
       value: 'Giá trị',
