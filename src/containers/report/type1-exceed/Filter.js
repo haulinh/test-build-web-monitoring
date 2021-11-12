@@ -86,7 +86,7 @@ export default class Filter extends React.Component {
   }
 
   render() {
-    const { form } = this.props
+    const { form, loading } = this.props
     const { reportType } = form.getFieldsValue() || {}
     const province = form.getFieldValue('province')
     return (
@@ -97,7 +97,7 @@ export default class Filter extends React.Component {
               {form.getFieldDecorator(FIELDS.REPORT_TYPE, {
                 initialValue: 'date',
                 onChange: this.handleOnChangeReportType,
-              })(<ReportType form={form} />)}
+              })(<ReportType disabled={loading} form={form} />)}
             </FormItem>
           </Col>
           <Col span={8}>

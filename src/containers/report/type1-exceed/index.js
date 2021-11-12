@@ -197,7 +197,7 @@ export default class ReportExceed extends Component {
         <Breadcrumb items={['type1_exceed']} />
         <Search loading={loading} onSearch={this.handleOnSearch}>
           <BoxShadow>
-            <Filter form={form} resetData={this.resetData} onSearch={this.handleOnSearch} />
+            <Filter loading={loading} form={form} resetData={this.resetData} onSearch={this.handleOnSearch} />
           </BoxShadow>
         </Search>
         <Clearfix height={32} />
