@@ -251,7 +251,6 @@ export default class ReportFlow extends React.Component {
     await form.validateFields()
     const params = await this.getQueryParams()
     const { from, to, reportType } = params
-    console.log({ params })
     const newParams = { ...params, lang: getLanguage() }
     const results = await DataInsight.exportDataFlow(newParams)
     const titleName = t('report.type2_flow.title')
