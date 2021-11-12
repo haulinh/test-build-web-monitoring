@@ -37,6 +37,7 @@ const TableDataDate = ({ data, loading, ...props }) => {
       return {
         ...dataItem,
         stationKey: current.station,
+        stationTypeKey: props.stationAutoByKey[current.station].stationType.key,
         key: `${current.station}-${dataItem.measure}`,
         ...(index === 0 && {
           spanMerge: current.data.length,
@@ -68,7 +69,8 @@ const TableDataDate = ({ data, loading, ...props }) => {
         dataIndex: `data.${column - 1}`,
         render: value => {
           if (!value) return <div>{'-'}</div>
-          if (Array.isArray(value) && value.length === 1) return <div>{'-'}</div>
+          if (Array.isArray(value) && value.length === 1)
+            return <div>{'-'}</div>
           if (value[0] && value[1]) {
             const duration = getDurationTime(
               { from: value[0].time, to: value[1].time },
@@ -112,7 +114,12 @@ const TableDataDate = ({ data, loading, ...props }) => {
         return obj
       },
     },
-    { title: i18n().param, width: 130, align: 'left', dataIndex: 'config.name' },
+    {
+      title: i18n().param,
+      width: 130,
+      align: 'left',
+      dataIndex: 'config.name',
+    },
     {
       title: i18n().unit,
       width: 70,
@@ -157,9 +164,13 @@ const TableDataDate = ({ data, loading, ...props }) => {
     ...columnsExceed,
   ]
 
+  const dataSourceSort = dataSource.sort((a, b) =>
+    a.stationTypeKey.localeCompare(b.stationTypeKey)
+  )
+
   return (
     <Table
-      dataSource={dataSource}
+      dataSource={dataSourceSort}
       loading={loading}
       bordered
       columns={columns}

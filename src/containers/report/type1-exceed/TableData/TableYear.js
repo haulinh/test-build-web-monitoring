@@ -33,6 +33,7 @@ const TableYear = ({ data, loading, ...props }) => {
         return {
           ...dataMeasure,
           station: current.station,
+          stationTypeKey: _.get(current.station, 'stationType.key'),
           key: `${current.station.key}-${measureKey}`,
           measure: measureKey,
           ...(index === 0 && {
@@ -49,6 +50,7 @@ const TableYear = ({ data, loading, ...props }) => {
         ? dataStation
         : [
           {
+            stationTypeKey: _.get(current.station, 'stationType.key'),
             station: current.station,
             key: `${current.station.key}`,
             measure: emptySign,
@@ -147,9 +149,11 @@ const TableYear = ({ data, loading, ...props }) => {
     // ...columnsExceed,
   ]
 
+  const dataSourceSort = dataSource.sort((a, b) => a.stationTypeKey.localeCompare(b.stationTypeKey))
+
   return (
     <Table
-      dataSource={dataSource}
+      dataSource={dataSourceSort}
       loading={loading}
       bordered
       columns={columns}
