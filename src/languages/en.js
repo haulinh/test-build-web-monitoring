@@ -4084,7 +4084,7 @@ export default {
         process_time: 'Processing Time',
         over_value: 'Over Threshold Value',
         qcvn: 'Technical Regulation',
-        permiss_value: 'Permissable values',
+        permiss_value: 'Permissible values',
         numday24h:
           'Number of days with 24-hour average exceeding the regulation',
         numday1h: 'Number of days with 1-hour average exceeding the regulation',
