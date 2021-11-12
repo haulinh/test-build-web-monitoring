@@ -208,6 +208,7 @@ export default class ReportType10 extends React.Component {
             dataSearch={dataSearch}
             stationKeys={stationKeys}
           />
+          <Clearfix height={50}/>
       </PageContainer>
     )
   }
