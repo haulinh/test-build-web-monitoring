@@ -4107,7 +4107,7 @@ export default {
       subTitle: 'Các số liệu thống kê về lưu lượng phát thải',
       option: {
         reportYear: 'Báo cáo năm',
-        reportDay: 'Báo cáo các ngày',
+        reportDay: 'Báo cáo ngày',
         reportMonth: 'Báo cáo tháng',
         reportRangeYear: 'Báo cáo các năm',
         year: 'Năm',
