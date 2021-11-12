@@ -4056,6 +4056,10 @@ export default {
       station: 'Station Name',
     },
     type1_exceed: {
+      excel: {
+        year: 'Report_Data Over The Threshold_',
+        date: 'Report_Data Over The Threshold_',
+      },
       detailTitle: {
         reportYear:
           'Statistics about the percentage of data over the threshold in ',
@@ -4079,17 +4083,21 @@ export default {
         limit: 'Limit Value',
         avg_value: 'Average Value',
         max_value: 'Maximum Value',
-        overtime: 'Over Threshold ',
+        overtime: {
+          1: 'Over Threshold For The First Time',
+          2: 'Over Threshold For The Second Time',
+          3: 'Over Threshold For The Third Time',
+        },
         start_time: 'Starting Time',
         process_time: 'Processing Time',
         over_value: 'Over Threshold Value',
         qcvn: 'Technical Regulation',
-        permiss_value: 'Permissible values',
+        permiss_value: 'Permissible Values',
         numday24h:
           'Number of days with 24-hour average exceeding the regulation',
         numday1h: 'Number of days with 1-hour average exceeding the regulation',
         numrecord1h: 'Number of 1-hour average values exceeding the regulation',
-        rate: 'Percentage of 1-hour average values exceeding the regulation',
+        rate: 'Percentage of 1-hour average values exceeding the regulation (%)',
       },
     },
     type2_flow: {

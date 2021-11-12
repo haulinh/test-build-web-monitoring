@@ -53,6 +53,9 @@ export function i18n() {
       label: t('report.label.station'),
       required: t('report.required.station'),
     },
+    excel: {
+      title: (value) => t(`report.type1_exceed.excel.${value}`),
+    },
   }
 }
 
@@ -168,7 +171,7 @@ export default class ReportExceed extends Component {
     this.setState({
       isLoadingExcel: false,
     })
-    downFileExcel(result.data, `${this.getDetailTitle()}`)
+    downFileExcel(result.data, `${i18n().excel.title(params.reportType)} ${params.reportType === 'date' ? moment(params.time).format('DDMMYYYY') : moment(params.time).format('YYYY')}`)
   }
 
   resetData = () => this.setState({ data: [] })
