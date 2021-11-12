@@ -148,7 +148,7 @@ export default class ReportFlow extends React.Component {
       ]
     }
     const [valueForm] = await Promise.all(validates)
-    if (!valueForm || _.isEmpty(timeValue)) return
+    if (!valueForm) return
 
     const type = values[FIELDS.REPORT_TYPE]
     const queryParams = {
@@ -251,6 +251,7 @@ export default class ReportFlow extends React.Component {
     await form.validateFields()
     const params = await this.getQueryParams()
     const { from, to, reportType } = params
+    console.log({ params })
     const newParams = { ...params, lang: getLanguage() }
     const results = await DataInsight.exportDataFlow(newParams)
     const titleName = t('report.type2_flow.title')
