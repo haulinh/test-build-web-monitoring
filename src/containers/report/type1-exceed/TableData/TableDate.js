@@ -15,7 +15,7 @@ const i18n = () => ({
   limit: t('report.type1_exceed.table.limit'),
   avg_value: t('report.type1_exceed.table.avg_value'),
   max_value: t('report.type1_exceed.table.max_value'),
-  overtime: t('report.type1_exceed.table.overtime'),
+  overtime: (value) => t(`report.type1_exceed.table.overtime.${value}`),
   start_time: t('report.type1_exceed.table.start_time'),
   process_time: t('report.type1_exceed.table.process_time'),
   over_value: t('report.type1_exceed.table.over_value'),
@@ -49,7 +49,7 @@ const TableDataDate = ({ data, loading, ...props }) => {
   }, [])
 
   const columnsExceed = [1, 2, 3].map(column => ({
-    title: `${i18n().overtime} ${column}`,
+    title: i18n().overtime(column),
     width: 300,
     children: [
       {

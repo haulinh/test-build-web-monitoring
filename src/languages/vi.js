@@ -4068,6 +4068,10 @@ export default {
       station: 'Trạm quan trắc',
     },
     type1_exceed: {
+      excel: {
+        year: 'Bao Cao Vuot Nguong Nam_',
+        date: 'Bao Cao Vuot Nguong Ngay_',
+      },
       detailTitle: {
         reportYear: 'Các số liệu thống kê về dữ liệu vượt ngưỡng trong năm ',
         reportDay: 'Các số liệu thống kê về dữ liệu vượt ngưỡng trong ngày ',
@@ -4090,7 +4094,11 @@ export default {
         limit: 'Giá trị giới hạn',
         avg_value: 'Giá trị TB',
         max_value: 'Giá trị lớn nhất',
-        overtime: 'Vượt ngưỡng lần ',
+        overtime: {
+          1: 'Vượt ngưỡng lần 1',
+          2: 'Vượt ngưỡng lần 2',
+          3: 'Vượt ngưỡng lần 3',
+        },
         start_time: 'Thời điểm phát sinh',
         process_time: 'Thời gian xử lý',
         over_value: 'Giá trị vượt ngưỡng',
