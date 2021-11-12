@@ -292,7 +292,7 @@ export default class Filter extends React.Component {
             </Col>
             <Col>
               <div style={{ fontSize: '16px', fontWeight: '600' }}>
-                {t('monitoring.actions.more.checkData')}
+                {t('report.type2_flow.dataprocessing')}
               </div>
             </Col>
             <Col>
