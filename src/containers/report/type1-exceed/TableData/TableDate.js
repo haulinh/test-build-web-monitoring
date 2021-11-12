@@ -6,6 +6,7 @@ import _ from 'lodash'
 import { connect } from 'react-redux'
 import { getDurationTime } from 'utils/datetime'
 import { translate as t } from 'hoc/create-lang'
+import { getFormatNumber, ROUND_DIGIT } from 'constants/format-number'
 
 const i18n = () => ({
   station: t('report.type1_exceed.table.station'),
@@ -83,7 +84,7 @@ const TableDataDate = ({ data, loading, ...props }) => {
         align: 'right',
         dataIndex: `data.${column - 1}`,
         render: value => {
-          return <div>{_.get(value, '[0].value', '-')}</div>
+          return <div>{getFormatNumber(_.get(value, '[0].value', '-'), ROUND_DIGIT)}</div>
         },
       },
     ],

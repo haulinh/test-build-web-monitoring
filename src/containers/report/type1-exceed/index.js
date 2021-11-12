@@ -1,4 +1,4 @@
-import { Button, Col, Form, Row } from 'antd'
+import { Button, Col, Form, Row, Spin } from 'antd'
 import DataInsight from 'api/DataInsight'
 import Clearfix from 'components/elements/clearfix'
 import { Search } from 'components/layouts/styles'
@@ -227,7 +227,10 @@ export default class ReportExceed extends Component {
           </Col>
         </Row>
         <Clearfix height={31} />
-        {Report[type]}
+        <Spin spinning={this.state.loading}>
+          {Report[type]}
+        </Spin>
+        <Clearfix height={50} />
       </PageContainer>
     )
   }

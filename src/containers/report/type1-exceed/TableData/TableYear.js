@@ -86,6 +86,7 @@ const TableYear = ({ data, loading, ...props }) => {
     },
     {
       title: i18n().qcvn,
+      width: 160,
       dataIndex: 'station.standardsVN.name',
       render: (value, record, index) => {
         const obj = {
@@ -104,7 +105,7 @@ const TableYear = ({ data, loading, ...props }) => {
     {
       title: i18n().permiss_value,
       dataIndex: 'qcvn',
-      width: 70,
+      width: 80,
       align: 'right',
       render: qcvn => {
         if (!qcvn || !qcvn.maxLimit) return '-'
