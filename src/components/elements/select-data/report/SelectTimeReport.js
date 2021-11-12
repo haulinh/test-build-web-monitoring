@@ -53,6 +53,7 @@ const TimeReport = ({ value: valueField = {}, reportType, onChange }) => {
           />
         ) : (
           <DatePicker
+            format={['DD/MM/YYYY']}
             value={valueField.value}
             onChange={handleOnPicker}
             style={{ width: '100%' }}

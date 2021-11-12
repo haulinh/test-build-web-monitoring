@@ -13,9 +13,9 @@ export default class TreeSelectStation extends Component {
 
   async componentDidMount() {
     const [resStationTypes, resStationAuto] = await Promise.all([
-      CategoryApi.getStationTypes( {}, { isAuto: true }),
-      StationAutoApi.getStationAutoAll({ page: 1, itemPerPage: Number.MAX_SAFE_INTEGER})
-    ]) 
+      CategoryApi.getStationTypes({}, { isAuto: true }),
+      StationAutoApi.getStationAutoAll({ page: 1, itemPerPage: Number.MAX_SAFE_INTEGER })
+    ])
 
     const stationAutos = get(resStationAuto, 'data', []).filter(
       item => !get(item, 'removeStatus.allowed')
@@ -38,7 +38,7 @@ export default class TreeSelectStation extends Component {
     const { province, fieldValue } = this.props
     let stationAutos = this.state.stationAutos
 
-    if (province && (province !=='other')) {
+    if (province && (province !== 'other')) {
       stationAutos = stationAutos.filter(stationAuto => {
         const provinceValue = _.get(
           stationAuto,
@@ -52,7 +52,7 @@ export default class TreeSelectStation extends Component {
     if (province === 'other') {
       stationAutos = stationAutos.filter(stationAuto => !get(stationAuto, 'province.key'))
     }
-    
+
     return stationAutos
   }
 
