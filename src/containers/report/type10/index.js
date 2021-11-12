@@ -131,8 +131,7 @@ export default class ReportType10 extends React.Component {
     this.setState({
       isLoadingExcel: true,
     })
-    const { from, to } = this.state
-    const { timeType, ...param } = this.state.dataSearch
+    const { timeType, from, to, ...param } = this.state.dataSearch
 
     try {
       let res = await DataInsight.exportDataRatio(timeType, {
@@ -143,9 +142,24 @@ export default class ReportType10 extends React.Component {
       this.setState({
         isLoadingExcel: false,
       })
+
+      console.log({ from })
+
+      const fromFormat =
+        timeType === 'month'
+          ? moment(from).format('MMYYYY')
+          : moment(from).format('DDMMYYYY')
+
+      console.log({ fromFormat })
+      const toFormat =
+        timeType === 'month'
+          ? moment(to).format('MMYYYY')
+          : moment(to).format('DDMMYYYY')
       downFileExcel(
         res.data,
-        translate('report.typeRatio.titleExport', { time: `${from}_${to}` })
+        translate('report.typeRatio.titleExport', {
+          time: `${fromFormat}_${toFormat}`,
+        })
       )
     } catch (error) {}
   }
