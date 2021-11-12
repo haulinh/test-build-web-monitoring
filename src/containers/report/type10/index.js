@@ -159,7 +159,6 @@ export default class ReportType10 extends React.Component {
 
     return (
       <PageContainer>
-        <div style={{ height: '100vh', overflow: 'hidden' }}>
           <Breadcrumb items={['type10']} />
           <Clearfix height={16} />
           <SearchForm
@@ -209,7 +208,6 @@ export default class ReportType10 extends React.Component {
             dataSearch={dataSearch}
             stationKeys={stationKeys}
           />
-        </div>
       </PageContainer>
     )
   }
