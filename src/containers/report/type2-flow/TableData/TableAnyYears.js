@@ -8,6 +8,12 @@ function TableAnyYears({ data, loading }) {
     return null
   }
 
+  const dataSortByProvince = data.sort((a, b) =>
+    _.get(b.station, 'province.key', '').localeCompare(
+      _.get(a.station, 'province.key', '')
+    )
+  )
+
   const yearsFlat = data.reduce((base, current) => {
     const yearData = current.data.map(dataItem => dataItem._id)
     return [...base, ...yearData]
@@ -46,7 +52,7 @@ function TableAnyYears({ data, loading }) {
     <Table
       loading={loading}
       bordered
-      dataSource={data}
+      dataSource={dataSortByProvince}
       columns={columns}
       rowKey={row => `${row._id}-${row.station.name}`}
       pagination={false}

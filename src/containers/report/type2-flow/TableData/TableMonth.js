@@ -7,6 +7,13 @@ function TableMonth({ data, loading }) {
   if (_.isEmpty(data)) {
     return null
   }
+
+  const dataSortByProvince = data.sort((a, b) =>
+    _.get(b.station, 'province.key', '').localeCompare(
+      _.get(a.station, 'province.key', '')
+    )
+  )
+
   const daysData = data.reduce((base, current) => {
     const dayData = current.data.map(dataItem => dataItem._id)
     return [...base, ...dayData]
@@ -52,7 +59,7 @@ function TableMonth({ data, loading }) {
       <Table
         loading={loading}
         bordered
-        dataSource={data}
+        dataSource={dataSortByProvince}
         columns={columns}
         rowKey={row => `${row._id}-${row.station.key}`}
         pagination={false}
