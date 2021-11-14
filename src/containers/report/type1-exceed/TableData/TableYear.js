@@ -66,6 +66,7 @@ const TableYear = ({ data, loading, ...props }) => {
     {
       title: i18n().station,
       dataIndex: 'station',
+      fixed: window.innerWidth > 1450 ? false : 'left',
       width: 260,
       render: (value, record, index) => {
         const obj = {
@@ -107,7 +108,7 @@ const TableYear = ({ data, loading, ...props }) => {
     {
       title: i18n().permiss_value,
       dataIndex: 'qcvn',
-      width: 80,
+      width: 90,
       align: 'right',
       render: qcvn => {
         if (!qcvn || !qcvn.maxLimit) return '-'
@@ -160,6 +161,7 @@ const TableYear = ({ data, loading, ...props }) => {
       size="small"
       pagination={false}
       rowKey="key"
+      scroll={{ x: 900 }}
     />
   )
 }

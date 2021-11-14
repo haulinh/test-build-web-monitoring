@@ -3043,7 +3043,7 @@ export default {
       status_data: ' Báo cáo tổng hợp tình trạng dữ liệu theo nhiều trạm',
       aqi_hour: 'Báo cáo giá trị AQI của từng trạm',
       aqi_day: 'Báo cáo giá trị AQI ngày theo nhiều trạm',
-      type1_exceed: 'Báo cáo dữ liệu vượt ngưỡng dựa theo số liệu thống kê',
+      type1_exceed: 'Thống kê về dữ liệu vượt ngưỡng của các trạm quan trắc theo thời gian',
       type2_flow: 'Báo cáo lưu lượng phát thải',
     },
     advanceSub: 'Các chức năng nâng cao của hệ thống',
@@ -4107,7 +4107,7 @@ export default {
         numday24h: 'Số ngày có giá trị trung bình 24h vượt QCVN',
         numday1h: 'Số ngày có giá trị trung bình 1h vượt QCVN',
         numrecord1h: 'Số giá trị trung bình 1h vượt QCVN',
-        rate: 'Tỷ lệ giá trị trung bình 1 giờ vượt QCVN',
+        rate: 'Tỷ lệ giá trị trung bình 1 giờ vượt QCVN (%)',
       },
     },
     type2_flow: {
