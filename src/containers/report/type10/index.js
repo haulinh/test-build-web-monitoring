@@ -136,7 +136,7 @@ export default class ReportType10 extends React.Component {
     try {
       let res = await DataInsight.exportDataRatio(timeType, {
         ...param,
-        language: this.props.locale,
+        lang: this.props.locale,
       })
 
       this.setState({
