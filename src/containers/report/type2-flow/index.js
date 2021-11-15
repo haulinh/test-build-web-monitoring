@@ -254,11 +254,7 @@ export default class ReportFlow extends React.Component {
     const newParams = { ...params, lang: getLanguage() }
     const results = await DataInsight.exportDataFlow(newParams)
     const titleName = t('report.type2_flow.nameFileExel')
-    const range = {
-      day: t('report.type2_flow.range.day'),
-      month: t('report.type2_flow.range.month'),
-      year: t('report.type2_flow.range.year'),
-    }
+
     const dynamicNameFile = {
       custom: `${titleName}${moment(from).format('DDMMYYYY')}_${moment(
         to
