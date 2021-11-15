@@ -3043,7 +3043,7 @@ export default {
       status_data: ' Báo cáo tổng hợp tình trạng dữ liệu theo nhiều trạm',
       aqi_hour: 'Báo cáo giá trị AQI của từng trạm',
       aqi_day: 'Báo cáo giá trị AQI ngày theo nhiều trạm',
-      type1_exceed: 'Báo cáo dữ liệu vượt ngưỡng dựa theo số liệu thống kê',
+      type1_exceed: 'Thống kê về dữ liệu vượt ngưỡng của các trạm quan trắc theo thời gian',
       type2_flow: 'Báo cáo lưu lượng phát thải',
     },
     advanceSub: 'Các chức năng nâng cao của hệ thống',
@@ -4068,6 +4068,10 @@ export default {
       station: 'Trạm quan trắc',
     },
     type1_exceed: {
+      excel: {
+        year: 'Bao Cao Vuot Nguong Nam_',
+        date: 'Bao Cao Vuot Nguong Ngay_',
+      },
       detailTitle: {
         reportYear: 'Các số liệu thống kê về dữ liệu vượt ngưỡng trong năm ',
         reportDay: 'Các số liệu thống kê về dữ liệu vượt ngưỡng trong ngày ',
@@ -4090,7 +4094,11 @@ export default {
         limit: 'Giá trị giới hạn',
         avg_value: 'Giá trị TB',
         max_value: 'Giá trị lớn nhất',
-        overtime: 'Vượt ngưỡng lần ',
+        overtime: {
+          1: 'Vượt ngưỡng lần 1',
+          2: 'Vượt ngưỡng lần 2',
+          3: 'Vượt ngưỡng lần 3',
+        },
         start_time: 'Thời điểm phát sinh',
         process_time: 'Thời gian xử lý',
         over_value: 'Giá trị vượt ngưỡng',
@@ -4099,15 +4107,17 @@ export default {
         numday24h: 'Số ngày có giá trị trung bình 24h vượt QCVN',
         numday1h: 'Số ngày có giá trị trung bình 1h vượt QCVN',
         numrecord1h: 'Số giá trị trung bình 1h vượt QCVN',
-        rate: 'Tỷ lệ giá trị trung bình 1 giờ vượt QCVN',
+        rate: 'Tỷ lệ giá trị trung bình 1 giờ vượt QCVN (%)',
       },
     },
     type2_flow: {
       title: 'Báo cáo lưu lượng phát thải',
       subTitle: 'Các số liệu thống kê về lưu lượng phát thải',
+      dataprocessing: 'Kiểm duyệt dữ liệu',
+      nameFileExel: 'Bao Cao Luu Luong Phat Thai_',
       option: {
         reportYear: 'Báo cáo năm',
-        reportDay: 'Báo cáo các ngày',
+        reportDay: 'Báo cáo ngày',
         reportMonth: 'Báo cáo tháng',
         reportRangeYear: 'Báo cáo các năm',
         year: 'Năm',
@@ -4129,11 +4139,14 @@ export default {
       required: {
         measure: 'Vui lòng chọn thông số',
       },
-      parameters: 'Thông số',
+      parameter: 'Thông số',
       stationName: 'Trạm quan trắc',
       diameter: 'Đường kính',
       value: 'Giá trị',
       time: 'Thời gian',
+    },
+    typeRatio: {
+      titleExport: 'Bao Cao Ty Le Du Lieu Thu Duoc_{{=it.time}}',
     },
   },
 }

@@ -9,7 +9,13 @@ function TableDate({ data, loading }) {
     return null
   }
 
-  const dataFlat = data.reduce((base, current) => {
+  const dataSortByProvince = data.sort((a, b) =>
+    _.get(b.station, 'province.key', '').localeCompare(
+      _.get(a.station, 'province.key', '')
+    )
+  )
+
+  const dataFlat = dataSortByProvince.reduce((base, current) => {
     if (_.isEmpty(current.data)) return base
 
     const dataStation = current.data.map(dataStationItem => ({

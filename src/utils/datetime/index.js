@@ -70,7 +70,7 @@ const timeLang = {
     minute: minute => `${minute} phút`,
   },
   en: {
-    day: day => `${day} ${day > 1 ? 'dates' : 'date'}`,
+    day: day => `${day} ${day > 1 ? 'days' : 'day'}`,
     hour: hour => `${hour} ${hour > 1 ? 'hours' : 'hour'}`,
     minute: minute => `${minute} ${minute > 1 ? 'minutes' : 'minute'}`,
   },

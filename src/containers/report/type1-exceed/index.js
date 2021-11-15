@@ -1,4 +1,4 @@
-import { Button, Col, Form, Row } from 'antd'
+import { Button, Col, Form, Row, Spin } from 'antd'
 import DataInsight from 'api/DataInsight'
 import Clearfix from 'components/elements/clearfix'
 import { Search } from 'components/layouts/styles'
@@ -52,6 +52,9 @@ export function i18n() {
     station: {
       label: t('report.label.station'),
       required: t('report.required.station'),
+    },
+    excel: {
+      title: value => t(`report.type1_exceed.excel.${value}`),
     },
   }
 }
@@ -168,7 +171,13 @@ export default class ReportExceed extends Component {
     this.setState({
       isLoadingExcel: false,
     })
-    downFileExcel(result.data, `${this.getDetailTitle()}`)
+    downFileExcel(
+      result.data,
+      `${i18n().excel.title(params.reportType)} ${params.reportType === 'date'
+        ? moment(params.time).format('DDMMYYYY')
+        : moment(params.time).format('YYYY')
+      }`
+    )
   }
 
   resetData = () => this.setState({ data: [] })
@@ -197,7 +206,12 @@ export default class ReportExceed extends Component {
         <Breadcrumb items={['type1_exceed']} />
         <Search loading={loading} onSearch={this.handleOnSearch}>
           <BoxShadow>
-            <Filter form={form} resetData={this.resetData} onSearch={this.handleOnSearch} />
+            <Filter
+              loading={loading}
+              form={form}
+              resetData={this.resetData}
+              onSearch={this.handleOnSearch}
+            />
           </BoxShadow>
         </Search>
         <Clearfix height={32} />
@@ -219,7 +233,13 @@ export default class ReportExceed extends Component {
           <Col span={3}>
             <Row type="flex" justify="end">
               {protectRole(ROLE.REPORT_EXCEED.EXPORT)(
-                <Button style={{ marginRight: '12px' }} type="primary" onClick={this.handleExportExceed} icon="file-excel" loading={this.state.isLoadingExcel}>
+                <Button
+                  style={{ marginRight: '12px' }}
+                  type="primary"
+                  onClick={this.handleExportExceed}
+                  icon="file-excel"
+                  loading={this.state.isLoadingExcel}
+                >
                   {t('report.exportExcel')}
                 </Button>
               )}
@@ -227,7 +247,8 @@ export default class ReportExceed extends Component {
           </Col>
         </Row>
         <Clearfix height={31} />
-        {Report[type]}
+        <Spin spinning={this.state.loading}>{Report[type]}</Spin>
+        <Clearfix height={50} />
       </PageContainer>
     )
   }

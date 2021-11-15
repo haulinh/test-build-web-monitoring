@@ -33,6 +33,7 @@ const TableYear = ({ data, loading, ...props }) => {
         return {
           ...dataMeasure,
           station: current.station,
+          stationTypeKey: _.get(current.station, 'stationType.key'),
           key: `${current.station.key}-${measureKey}`,
           measure: measureKey,
           ...(index === 0 && {
@@ -49,6 +50,7 @@ const TableYear = ({ data, loading, ...props }) => {
         ? dataStation
         : [
           {
+            stationTypeKey: _.get(current.station, 'stationType.key'),
             station: current.station,
             key: `${current.station.key}`,
             measure: emptySign,
@@ -64,6 +66,7 @@ const TableYear = ({ data, loading, ...props }) => {
     {
       title: i18n().station,
       dataIndex: 'station',
+      fixed: window.innerWidth > 1450 ? false : 'left',
       width: 260,
       render: (value, record, index) => {
         const obj = {
@@ -86,6 +89,7 @@ const TableYear = ({ data, loading, ...props }) => {
     },
     {
       title: i18n().qcvn,
+      width: 160,
       dataIndex: 'station.standardsVN.name',
       render: (value, record, index) => {
         const obj = {
@@ -104,7 +108,7 @@ const TableYear = ({ data, loading, ...props }) => {
     {
       title: i18n().permiss_value,
       dataIndex: 'qcvn',
-      width: 70,
+      width: 90,
       align: 'right',
       render: qcvn => {
         if (!qcvn || !qcvn.maxLimit) return '-'
@@ -146,15 +150,18 @@ const TableYear = ({ data, loading, ...props }) => {
     // ...columnsExceed,
   ]
 
+  const dataSourceSort = dataSource.sort((a, b) => a.stationTypeKey.localeCompare(b.stationTypeKey))
+
   return (
     <Table
-      dataSource={dataSource}
+      dataSource={dataSourceSort}
       loading={loading}
       bordered
       columns={columns}
       size="small"
       pagination={false}
       rowKey="key"
+      scroll={{ x: 900 }}
     />
   )
 }

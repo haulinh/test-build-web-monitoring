@@ -6,6 +6,7 @@ import _ from 'lodash'
 import { connect } from 'react-redux'
 import { getDurationTime } from 'utils/datetime'
 import { translate as t } from 'hoc/create-lang'
+import { getFormatNumber, ROUND_DIGIT } from 'constants/format-number'
 
 const i18n = () => ({
   station: t('report.type1_exceed.table.station'),
@@ -14,7 +15,7 @@ const i18n = () => ({
   limit: t('report.type1_exceed.table.limit'),
   avg_value: t('report.type1_exceed.table.avg_value'),
   max_value: t('report.type1_exceed.table.max_value'),
-  overtime: t('report.type1_exceed.table.overtime'),
+  overtime: (value) => t(`report.type1_exceed.table.overtime.${value}`),
   start_time: t('report.type1_exceed.table.start_time'),
   process_time: t('report.type1_exceed.table.process_time'),
   over_value: t('report.type1_exceed.table.over_value'),
@@ -36,6 +37,7 @@ const TableDataDate = ({ data, loading, ...props }) => {
       return {
         ...dataItem,
         stationKey: current.station,
+        stationTypeKey: props.stationAutoByKey[current.station].stationType.key,
         key: `${current.station}-${dataItem.measure}`,
         ...(index === 0 && {
           spanMerge: current.data.length,
@@ -47,7 +49,7 @@ const TableDataDate = ({ data, loading, ...props }) => {
   }, [])
 
   const columnsExceed = [1, 2, 3].map(column => ({
-    title: `${i18n().overtime} ${column}`,
+    title: i18n().overtime(column),
     width: 300,
     children: [
       {
@@ -67,7 +69,8 @@ const TableDataDate = ({ data, loading, ...props }) => {
         dataIndex: `data.${column - 1}`,
         render: value => {
           if (!value) return <div>{'-'}</div>
-          if (Array.isArray(value) && value.length === 1) return <div>{'-'}</div>
+          if (Array.isArray(value) && value.length === 1)
+            return <div>{'-'}</div>
           if (value[0] && value[1]) {
             const duration = getDurationTime(
               { from: value[0].time, to: value[1].time },
@@ -83,7 +86,7 @@ const TableDataDate = ({ data, loading, ...props }) => {
         align: 'right',
         dataIndex: `data.${column - 1}`,
         render: value => {
-          return <div>{_.get(value, '[0].value', '-')}</div>
+          return <div>{getFormatNumber(_.get(value, '[0].value', '-'), ROUND_DIGIT)}</div>
         },
       },
     ],
@@ -111,7 +114,12 @@ const TableDataDate = ({ data, loading, ...props }) => {
         return obj
       },
     },
-    { title: i18n().param, width: 130, align: 'left', dataIndex: 'config.name' },
+    {
+      title: i18n().param,
+      width: 130,
+      align: 'left',
+      dataIndex: 'config.name',
+    },
     {
       title: i18n().unit,
       width: 70,
@@ -156,9 +164,13 @@ const TableDataDate = ({ data, loading, ...props }) => {
     ...columnsExceed,
   ]
 
+  const dataSourceSort = dataSource.sort((a, b) =>
+    a.stationTypeKey.localeCompare(b.stationTypeKey)
+  )
+
   return (
     <Table
-      dataSource={dataSource}
+      dataSource={dataSourceSort}
       loading={loading}
       bordered
       columns={columns}

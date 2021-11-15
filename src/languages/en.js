@@ -3055,7 +3055,7 @@ export default {
       status_data: 'Summary report on status of data at many stations',
       aqi_hour: 'Report the AQI value of each station',
       aqi_day: 'Report AQI day values ​​for multiple stations',
-      type1_exceed: 'Report data over the threshold by statistics',
+      type1_exceed: 'Statistics data that exceeds the threshold of monitoring stations by time',
       type2_flow: 'Report emission flow',
     },
     advanceSub: 'Advanced functions of the system',
@@ -4044,7 +4044,7 @@ export default {
     exportExcel: 'Export To Excel',
     label: {
       dataRatio: {
-        statistic: 'Statistic',
+        statistic: 'Statistic By',
         type: {
           rangeTime: 'Range Time',
           date: 'Date',
@@ -4056,6 +4056,10 @@ export default {
       station: 'Station Name',
     },
     type1_exceed: {
+      excel: {
+        year: 'Report_Data Over The Threshold_',
+        date: 'Report_Data Over The Threshold_',
+      },
       detailTitle: {
         reportYear:
           'Statistics about the percentage of data over the threshold in ',
@@ -4079,27 +4083,33 @@ export default {
         limit: 'Limit Value',
         avg_value: 'Average Value',
         max_value: 'Maximum Value',
-        overtime: 'Over Threshold ',
+        overtime: {
+          1: 'Over Threshold For The First Time',
+          2: 'Over Threshold For The Second Time',
+          3: 'Over Threshold For The Third Time',
+        },
         start_time: 'Starting Time',
         process_time: 'Processing Time',
         over_value: 'Over Threshold Value',
         qcvn: 'Technical Regulation',
-        permiss_value: 'Permissable values',
+        permiss_value: 'Permissible Values',
         numday24h:
           'Number of days with 24-hour average exceeding the regulation',
         numday1h: 'Number of days with 1-hour average exceeding the regulation',
         numrecord1h: 'Number of 1-hour average values exceeding the regulation',
-        rate: 'Percentage of 1-hour average values exceeding the regulation',
+        rate: 'Percentage of 1-hour average values exceeding the regulation (%)',
       },
     },
     type2_flow: {
-      title: 'Reporting of Emission Flow',
+      title: 'Report of Emission Flow',
+      nameFileExel: 'Report_Emission Flow_',
       subTitle: 'Statistics about emission flow',
+      dataprocessing: 'Data processing',
       option: {
         reportYear: 'Year Report',
         reportDay: 'Day Report',
         reportMonth: 'Month Report',
-        reportRangeYear: 'Custom Years Report',
+        reportRangeYear: 'Multi-Year Report',
         year: 'Year',
         day: 'Day',
         month: 'Month',
@@ -4119,11 +4129,14 @@ export default {
       required: {
         measure: 'Please select parameter',
       },
-      parameters: 'Parameters',
+      parameter: 'Parameter',
       stationName: 'Station Name',
       diameter: 'Diameter',
       value: 'Value',
       time: 'Time',
+    },
+    typeRatio: {
+      titleExport: 'Report__Percentage Of Obtained Data_{{=it.time}}',
     },
   },
 }

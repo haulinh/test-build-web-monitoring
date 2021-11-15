@@ -14,6 +14,12 @@ export default function TableMonth({
   hidden,
   parentProps,
 }) {
+  const dataSortByStationType = dataSource.sort((a, b) =>
+    _.get(b.station, 'stationType.key', '').localeCompare(
+      _.get(a.station, 'stationType.key', '')
+    )
+  )
+
   const columns = [
     {
       title: i18n().header1,
@@ -97,7 +103,7 @@ export default function TableMonth({
         rowKey="_id"
         columns={columns}
         bordered={true}
-        dataSource={dataSource}
+        dataSource={dataSortByStationType}
         locale={{
           emptyText: translate('dataSearchFrom.table.emptyText'),
         }}

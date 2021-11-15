@@ -8,6 +8,12 @@ function TableAnyYears({ data, loading }) {
     return null
   }
 
+  const dataSortByProvince = data.sort((a, b) =>
+    _.get(b.station, 'province.key', '').localeCompare(
+      _.get(a.station, 'province.key', '')
+    )
+  )
+
   const yearsFlat = data.reduce((base, current) => {
     const yearData = current.data.map(dataItem => dataItem._id)
     return [...base, ...yearData]
@@ -16,7 +22,7 @@ function TableAnyYears({ data, loading }) {
   const yearsUnique = new Set(yearsFlat)
 
   const columnsYear = [...yearsUnique].map(year => ({
-    title: `Năm ${year}`,
+    title: `${t('report.type2_flow.option.year')} ${year}`,
     dataIndex: 'data',
     align: 'right',
     render: value => {
@@ -46,7 +52,7 @@ function TableAnyYears({ data, loading }) {
     <Table
       loading={loading}
       bordered
-      dataSource={data}
+      dataSource={dataSortByProvince}
       columns={columns}
       rowKey={row => `${row._id}-${row.station.name}`}
       pagination={false}
