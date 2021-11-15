@@ -3055,7 +3055,7 @@ export default {
       status_data: 'Summary report on status of data at many stations',
       aqi_hour: 'Report the AQI value of each station',
       aqi_day: 'Report AQI day values ​​for multiple stations',
-      type1_exceed: 'Report data over the threshold by statistics',
+      type1_exceed: 'Statistics data that exceeds the threshold of monitoring stations by time',
       type2_flow: 'Report emission flow',
     },
     advanceSub: 'Advanced functions of the system',
