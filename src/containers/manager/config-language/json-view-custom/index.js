@@ -88,8 +88,6 @@ export default class JsonViewCustom extends Component {
   }
 
   getContent = () => {
-    if (this.props.title === 'alarm')
-      console.log(this.props.dataStructure, '---- dataStructure ----')
     let result = this.getReduce(this.props.dataStructure, this.getReduce)
 
     if (this.props.dataStructure) {
