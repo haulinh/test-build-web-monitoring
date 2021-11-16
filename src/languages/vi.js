@@ -3043,7 +3043,8 @@ export default {
       status_data: ' Báo cáo tổng hợp tình trạng dữ liệu theo nhiều trạm',
       aqi_hour: 'Báo cáo giá trị AQI của từng trạm',
       aqi_day: 'Báo cáo giá trị AQI ngày theo nhiều trạm',
-      type1_exceed: 'Thống kê về dữ liệu vượt ngưỡng của các trạm quan trắc theo thời gian',
+      type1_exceed:
+        'Thống kê về dữ liệu vượt ngưỡng của các trạm quan trắc theo thời gian',
       type2_flow: 'Báo cáo lưu lượng phát thải',
     },
     advanceSub: 'Các chức năng nâng cao của hệ thống',
@@ -4147,6 +4148,7 @@ export default {
     },
     typeRatio: {
       titleExport: 'Bao Cao Ty Le Du Lieu Thu Duoc_{{=it.time}}',
+      notUpdate: 'chưa cập nhập',
     },
   },
 }
