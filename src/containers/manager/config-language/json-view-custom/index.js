@@ -58,6 +58,7 @@ export default class JsonViewCustom extends Component {
     const content = this.state.dataSource
       ? this.state.dataSource
       : this.props.content
+
     result = _.reduce(
       dataStructure,
       function(result, value, key) {
@@ -66,8 +67,9 @@ export default class JsonViewCustom extends Component {
           if (root) {
             path = `${root}.${key}`
           }
+
           const temp = callback(value, callback, path)
-          _.set(result, path, temp)
+          _.set(result, key, temp)
         } else {
           let path = key
           if (root) {
@@ -81,10 +83,13 @@ export default class JsonViewCustom extends Component {
       },
       {}
     )
+
     return result
   }
 
   getContent = () => {
+    if (this.props.title === 'alarm')
+      console.log(this.props.dataStructure, '---- dataStructure ----')
     let result = this.getReduce(this.props.dataStructure, this.getReduce)
 
     if (this.props.dataStructure) {
