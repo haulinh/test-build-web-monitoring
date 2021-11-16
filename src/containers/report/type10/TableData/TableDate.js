@@ -69,20 +69,24 @@ export default class TabStation extends React.Component {
           onChange={this.handleOnChange}
         >
           {stationKeys.map(stationKey => {
+            const isHaveActivatedAt = _.get(
+              dataSource,
+              '[0].station.activatedAt'
+            )
             return (
               <TabPane tab={stationAutoByKey[stationKey].name} key={stationKey}>
-                {_.get(dataSource, '[0].station.activatedAt') && (
-                  <Row type="flex" justify="end">
-                    <Col>
-                      <div style={{ fontWeight: 500 }}>
-                        {i18n().header6}:{' '}
-                        {moment(dataSource[0].station.activatedAt).format(
-                          DD_MM_YYYY
-                        )}
-                      </div>
-                    </Col>
-                  </Row>
-                )}
+                <Row type="flex" justify="end">
+                  <Col>
+                    <div style={{ fontWeight: 500 }}>
+                      {i18n().header6}:{' '}
+                      {isHaveActivatedAt
+                        ? moment(dataSource[0].station.activatedAt).format(
+                            DD_MM_YYYY
+                          )
+                        : translate('report.typeRatio.notUpdate')}
+                    </div>
+                  </Col>
+                </Row>
                 <Clearfix height={8} />
                 <TableDate
                   loading={loading}
