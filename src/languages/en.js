@@ -4095,7 +4095,7 @@ export default {
         qcvn: 'Technical Regulation',
         permiss_value: 'Permissible Values',
         numday24h:
-          'Number of days with 24-hour average exceeding the regulation',
+          'Number of days with 24-hours average exceeding the regulation',
         numday1h: 'Number of days with 1-hour average exceeding the regulation',
         numrecord1h: 'Number of 1-hour average values exceeding the regulation',
         rate:
