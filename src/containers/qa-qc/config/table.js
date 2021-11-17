@@ -225,7 +225,6 @@ export default class TableConfig extends React.Component {
   }
 
   render() {
-		console.log({data: this.props.dataTableMeasures})
     return (
       <div>
         <Table

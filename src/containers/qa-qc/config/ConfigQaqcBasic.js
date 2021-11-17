@@ -8,6 +8,7 @@ import {
   Skeleton,
   Row,
   message,
+  Collapse,
   // Modal
 } from 'antd'
 import PropTypes from 'prop-types'
@@ -20,6 +21,7 @@ import { getConfigQAQC, postConfigQAQC, putConfigQAQC } from 'api/CategoryApi'
 import Disconnection from 'components/elements/disconnection'
 
 const { TabPane } = Tabs
+const { Panel } = Collapse
 
 function i18n() {
   return {
@@ -71,6 +73,7 @@ export default class ConfigQaqcBasic extends React.Component {
   )
 
   handleSubmit = () => {
+		this.setState({isLoading: true})
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
         // console.log('Received values of form: ', values)
@@ -123,6 +126,8 @@ export default class ConfigQaqcBasic extends React.Component {
     // console.log(key, type)
     this.setState({ activeTabkey: key })
   }
+
+  getRef = () => this
 
   async componentDidMount() {
     try {
@@ -255,90 +260,99 @@ export default class ConfigQaqcBasic extends React.Component {
     this.setState({ activeTabkey })
   }
 
+  renderButton = () => {
+    return (
+      <Button
+				loading={this.state.isLoading}
+        onClick={event => {
+          event.stopPropagation()
+						this.handleSubmit()
+        }}
+        size="small"
+        type="primary"
+      >
+				{this.state.configId ? i18n().btnEdit : i18n().btnSave}
+      </Button>
+    )
+  }
+
   render() {
     const { getFieldDecorator } = this.props.form
     return (
       <React.Fragment>
-        {this.state.isDisconnection ? (
-          this._renderDisconnection()
-        ) : (
-          <Form style={{ padding: 24 }}>
-            {!this.state.isInitLoaded && (
-              <Skeleton
-                title={false}
-                paragraph={{ rows: 3, width: [200, 200, 200] }}
-              />
+        <Collapse defaultActiveKey="basic">
+          <Panel header="Bộ lọc cơ bản" key="basic" extra={this.renderButton()}>
+            {this.state.isDisconnection ? (
+              this._renderDisconnection()
+            ) : (
+              <Form style={{ padding: 24 }}>
+                {!this.state.isInitLoaded && (
+                  <Skeleton
+                    title={false}
+                    paragraph={{ rows: 3, width: [200, 200, 200] }}
+                  />
+                )}
+
+                {this.state.isInitLoaded && (
+                  <div>
+                    <Form.Item style={{ marginBottom: 8 }}>
+                      {getFieldDecorator('beyondMeasuringRange', {
+                        valuePropName: 'checked',
+                      })(<Checkbox>{i18n().beyondMeasuringRange}</Checkbox>)}
+                    </Form.Item>
+                    <Form.Item style={{ marginBottom: 8 }}>
+                      {getFieldDecorator('deviceError', {
+                        valuePropName: 'checked',
+                      })(<Checkbox>{i18n().deviceError}</Checkbox>)}
+                    </Form.Item>
+                    <Form.Item style={{ marginBottom: 8 }}>
+                      {getFieldDecorator('deviceCalibration', {
+                        valuePropName: 'checked',
+                      })(<Checkbox>{i18n().deviceCalibration}</Checkbox>)}
+                    </Form.Item>
+                  </div>
+                )}
+
+                <Card
+                  loading={!this.state.isInitLoaded || !this.props.isInitLoaded}
+                  style={{ width: '100%' }}
+                >
+                  <Tabs
+                    defaultActiveKey={this.state.activeTabkey}
+                    activeKey={this.state.activeTabkey}
+                    onChange={this.handleOnChangeTabKey}
+                  >
+                    {this.state.tabList.map(tab => {
+                      let measures = this.getMeasuringByType(tab.key)
+
+                      let dataTableMeasures = measures.map(item => {
+                        return {
+                          key: item,
+                          zero: false,
+                          negative: false,
+                        }
+                      })
+                      return (
+                        <TabPane
+                          forceRender={true}
+                          tab={tab.name}
+                          key={tab.key}
+                        >
+                          <TableConfig
+                            form={this.props.form}
+                            getRef={ref => this.dataTable.push(ref)}
+                            dataTableMeasures={dataTableMeasures}
+                            type={tab.key}
+                          />
+                        </TabPane>
+                      )
+                    })}
+                  </Tabs>
+                </Card>
+             </Form>
             )}
-
-            {this.state.isInitLoaded && (
-              <div>
-                <Form.Item style={{ marginBottom: 8 }}>
-                  {getFieldDecorator('beyondMeasuringRange', {
-                    valuePropName: 'checked',
-                  })(<Checkbox>{i18n().beyondMeasuringRange}</Checkbox>)}
-                </Form.Item>
-                <Form.Item style={{ marginBottom: 8 }}>
-                  {getFieldDecorator('deviceError', {
-                    valuePropName: 'checked',
-                  })(<Checkbox>{i18n().deviceError}</Checkbox>)}
-                </Form.Item>
-                <Form.Item style={{ marginBottom: 8 }}>
-                  {getFieldDecorator('deviceCalibration', {
-                    valuePropName: 'checked',
-                  })(<Checkbox>{i18n().deviceCalibration}</Checkbox>)}
-                </Form.Item>
-              </div>
-            )}
-
-            <Card
-              loading={!this.state.isInitLoaded || !this.props.isInitLoaded}
-              style={{ width: '100%' }}
-            >
-              <Tabs
-                defaultActiveKey={this.state.activeTabkey}
-                activeKey={this.state.activeTabkey}
-                onChange={this.handleOnChangeTabKey}
-              >
-                {this.state.tabList.map(tab => {
-                  let measures = this.getMeasuringByType(tab.key)
-
-                  let dataTableMeasures = measures.map(item => {
-                    return {
-                      key: item,
-                      zero: false,
-                      negative: false,
-                    }
-                  })
-                  return (
-                    <TabPane forceRender={true} tab={tab.name} key={tab.key}>
-                      <TableConfig
-                        form={this.props.form}
-                        getRef={ref => this.dataTable.push(ref)}
-                        dataTableMeasures={dataTableMeasures}
-                        type={tab.key}
-                      />
-                    </TabPane>
-                  )
-                })}
-              </Tabs>
-            </Card>
-
-            <br />
-            {this.state.isInitLoaded && (
-              <Button
-                loading={this.state.isLoading}
-                block
-                type="primary"
-                onClick={() => {
-                  this.setState({ isLoading: true }, this.handleSubmit)
-                }}
-              >
-                {this.state.configId && i18n().btnEdit}
-                {!this.state.configId && i18n().btnSave}
-              </Button>
-            )}
-          </Form>
-        )}
+          </Panel>
+        </Collapse>
       </React.Fragment>
     )
   }
