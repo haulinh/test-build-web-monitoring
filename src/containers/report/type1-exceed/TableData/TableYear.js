@@ -145,7 +145,7 @@ const TableYear = ({ data, loading, ...props }) => {
       align: 'right',
       width: 120,
       dataIndex: 'rate',
-      render: value => <div>{_.isNumber(value) ? value : '-'}</div>,
+      render: value => <div>{value ? value : '-'}</div>,
     },
     // ...columnsExceed,
   ]
