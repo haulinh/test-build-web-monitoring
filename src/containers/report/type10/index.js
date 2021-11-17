@@ -136,13 +136,28 @@ export default class ReportType10 extends React.Component {
     try {
       let res = await DataInsight.exportDataRatio(timeType, {
         ...param,
-        language: this.props.locale,
+        lang: this.props.locale,
       })
 
       this.setState({
         isLoadingExcel: false,
       })
-      downFileExcel(res.data, this.getDetailTitle())
+
+      const fromFormat =
+        timeType === 'month'
+          ? moment(param.from).format('MMYYYY')
+          : moment(param.from).format('DDMMYYYY')
+
+      const toFormat =
+        timeType === 'month'
+          ? moment(param.to).format('MMYYYY')
+          : moment(param.to).format('DDMMYYYY')
+      downFileExcel(
+        res.data,
+        translate('report.typeRatio.titleExport', {
+          time: `${fromFormat}_${toFormat}`,
+        })
+      )
     } catch (error) {}
   }
 
@@ -159,56 +174,56 @@ export default class ReportType10 extends React.Component {
 
     return (
       <PageContainer>
-          <Breadcrumb items={['type10']} />
-          <Clearfix height={16} />
-          <SearchForm
-            cbSubmit={this.handleSubmit}
-            resetData={this.resetData}
-            setStationAutos={this.setStationAutos}
-          />
-          <Clearfix height={16} />
-          <div style={{ position: 'relative', textAlign: 'center' }}>
-            <Title level={4}>
-              {type === 'date' ? i18n().titleDay : i18n().title}
-            </Title>
-            {type && <Text>{this.getDetailTitle()}</Text>}
-            {this.state.isHaveData && (
-              <div
-                style={{
-                  position: 'absolute',
-                  top: '0px',
-                  right: '0px',
-                }}
-              >
-                {protectRole(ROLE.TILE_DULIEU_THUDUOC.EXPORT)(
-                  <Button
-                    style={{ marginRight: 16 }}
-                    type="primary"
-                    icon="file-excel"
-                    loading={this.state.isLoadingExcel}
-                    onClick={this.hanldeExcel}
-                  >
-                    {translate('avgSearchFrom.tab.exportExcel')}
-                  </Button>
-                )}
-              </div>
-            )}
-          </div>
-          <Clearfix height={8} />
-          <TableMonth
-            hidden={type !== 'month'}
-            dataSource={dataSource}
-            loading={isLoading}
-            parentProps={this.props}
-          />
-          <TabStation
-            stationAutos={stationAutos}
-            hidden={type !== 'date'}
-            ref={this.tabStationRef}
-            dataSearch={dataSearch}
-            stationKeys={stationKeys}
-          />
-          <Clearfix height={50}/>
+        <Breadcrumb items={['type10']} />
+        <Clearfix height={16} />
+        <SearchForm
+          cbSubmit={this.handleSubmit}
+          resetData={this.resetData}
+          setStationAutos={this.setStationAutos}
+        />
+        <Clearfix height={16} />
+        <div style={{ position: 'relative', textAlign: 'center' }}>
+          <Title level={4}>
+            {type === 'date' ? i18n().titleDay : i18n().title}
+          </Title>
+          {type && <Text>{this.getDetailTitle()}</Text>}
+          {this.state.isHaveData && (
+            <div
+              style={{
+                position: 'absolute',
+                top: '0px',
+                right: '0px',
+              }}
+            >
+              {protectRole(ROLE.TILE_DULIEU_THUDUOC.EXPORT)(
+                <Button
+                  style={{ marginRight: 16 }}
+                  type="primary"
+                  icon="file-excel"
+                  loading={this.state.isLoadingExcel}
+                  onClick={this.hanldeExcel}
+                >
+                  {translate('avgSearchFrom.tab.exportExcel')}
+                </Button>
+              )}
+            </div>
+          )}
+        </div>
+        <Clearfix height={8} />
+        <TableMonth
+          hidden={type !== 'month'}
+          dataSource={dataSource}
+          loading={isLoading}
+          parentProps={this.props}
+        />
+        <TabStation
+          stationAutos={stationAutos}
+          hidden={type !== 'date'}
+          ref={this.tabStationRef}
+          dataSearch={dataSearch}
+          stationKeys={stationKeys}
+        />
+        <Clearfix height={50} />
       </PageContainer>
     )
   }

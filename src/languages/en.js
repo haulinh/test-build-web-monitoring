@@ -4044,7 +4044,7 @@ export default {
     exportExcel: 'Export To Excel',
     label: {
       dataRatio: {
-        statistic: 'Statistic',
+        statistic: 'Statistic By',
         type: {
           rangeTime: 'Range Time',
           date: 'Date',
@@ -4101,8 +4101,10 @@ export default {
       },
     },
     type2_flow: {
-      title: 'Reporting of Emission Flow',
+      title: 'Report of Emission Flow',
+      nameFileExel: 'Report_Emission Flow_',
       subTitle: 'Statistics about emission flow',
+      dataprocessing: 'Data processing',
       option: {
         reportYear: 'Year Report',
         reportDay: 'Day Report',
@@ -4127,11 +4129,14 @@ export default {
       required: {
         measure: 'Please select parameter',
       },
-      parameters: 'Parameters',
+      parameter: 'Parameter',
       stationName: 'Station Name',
       diameter: 'Diameter',
       value: 'Value',
       time: 'Time',
+    },
+    typeRatio: {
+      titleExport: 'Report__Percentage Of Obtained Data_{{=it.time}}',
     },
   },
 }

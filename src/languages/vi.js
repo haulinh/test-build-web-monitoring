@@ -4113,6 +4113,8 @@ export default {
     type2_flow: {
       title: 'Báo cáo lưu lượng phát thải',
       subTitle: 'Các số liệu thống kê về lưu lượng phát thải',
+      dataprocessing: 'Kiểm duyệt dữ liệu',
+      nameFileExel: 'Bao Cao Luu Luong Phat Thai_',
       option: {
         reportYear: 'Báo cáo năm',
         reportDay: 'Báo cáo ngày',
@@ -4137,11 +4139,14 @@ export default {
       required: {
         measure: 'Vui lòng chọn thông số',
       },
-      parameters: 'Thông số',
+      parameter: 'Thông số',
       stationName: 'Trạm quan trắc',
       diameter: 'Đường kính',
       value: 'Giá trị',
       time: 'Thời gian',
+    },
+    typeRatio: {
+      titleExport: 'Bao Cao Ty Le Du Lieu Thu Duoc_{{=it.time}}',
     },
   },
 }
