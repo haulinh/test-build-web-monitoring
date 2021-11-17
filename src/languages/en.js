@@ -2218,10 +2218,10 @@ export default {
         name: 'Percentage of exceeded data',
       },
       reportExceed: {
-        name: 'Report data over the threshold',
+        name: 'Data over the threshold',
       },
       reportFlow: {
-        name: 'Report of emission flow',
+        name: 'Emission flow',
       },
       soLanMatKetNoi: {
         name: 'Number of disconnections',

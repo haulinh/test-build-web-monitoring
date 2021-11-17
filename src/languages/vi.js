@@ -2217,10 +2217,10 @@ export default {
         name: 'Tỉ lệ dữ liệu vượt ngưỡng',
       },
       reportExceed: {
-        name: 'Báo cáo dữ liệu vượt ngưỡng',
+        name: 'Dữ liệu vượt ngưỡng',
       },
       reportFlow: {
-        name: 'Báo cáo lưu lượng phát thải',
+        name: 'Lưu lượng phát thải',
       },
       soLanMatKetNoi: {
         name: 'Số lần mất kết nối',
