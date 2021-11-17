@@ -1,7 +1,7 @@
 import React from 'react'
 import { i18n } from '../index'
 import moment from 'moment-timezone'
-import { getFormatNumber, ROUND_DIGIT } from 'constants/format-number'
+import { getFormatNumber } from 'constants/format-number'
 import { DD_MM_YYYY } from 'constants/format-date'
 import get from 'lodash/get'
 import { Table } from 'antd'
@@ -77,7 +77,7 @@ export default function TableMonth({
       render: value => {
         return (
           <div style={{ textAlign: 'right' }}>
-            {value ? value : '-'}
+            {_.isNumber(value) ? getFormatNumber(value, 0) : '-'}
           </div>
         )
       },
