@@ -4148,7 +4148,7 @@ export default {
     },
     typeRatio: {
       titleExport: 'Bao Cao Ty Le Du Lieu Thu Duoc_{{=it.time}}',
-      notUpdate: 'chưa cập nhập',
+      notUpdate: 'Chưa cập nhật',
     },
   },
 }
