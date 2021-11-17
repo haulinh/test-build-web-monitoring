@@ -77,7 +77,7 @@ export default function TableMonth({
       render: value => {
         return (
           <div style={{ textAlign: 'right' }}>
-            {_.isNumber(value) ? getFormatNumber(value, 0) : '-'}
+            {value ? value : '-'}
           </div>
         )
       },
@@ -89,7 +89,7 @@ export default function TableMonth({
       render: value => {
         return (
           <div style={{ textAlign: 'right' }}>
-            {_.isNumber(value) ? getFormatNumber(value, ROUND_DIGIT) : '-'}
+            {value ? value : '-'}
           </div>
         )
       },

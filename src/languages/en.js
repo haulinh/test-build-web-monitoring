@@ -2218,10 +2218,10 @@ export default {
         name: 'Percentage of exceeded data',
       },
       reportExceed: {
-        name: 'Report data over the threshold',
+        name: 'Data over the threshold',
       },
       reportFlow: {
-        name: 'Report of emission flow',
+        name: 'Emission flow',
       },
       soLanMatKetNoi: {
         name: 'Number of disconnections',
@@ -3055,7 +3055,8 @@ export default {
       status_data: 'Summary report on status of data at many stations',
       aqi_hour: 'Report the AQI value of each station',
       aqi_day: 'Report AQI day values ​​for multiple stations',
-      type1_exceed: 'Statistics data that exceeds the threshold of monitoring stations by time',
+      type1_exceed:
+        'Statistics data that exceeds the threshold of monitoring stations by time',
       type2_flow: 'Report emission flow',
     },
     advanceSub: 'Advanced functions of the system',
@@ -4094,10 +4095,11 @@ export default {
         qcvn: 'Technical Regulation',
         permiss_value: 'Permissible Values',
         numday24h:
-          'Number of days with 24-hour average exceeding the regulation',
+          'Number of days with 24-hours average exceeding the regulation',
         numday1h: 'Number of days with 1-hour average exceeding the regulation',
         numrecord1h: 'Number of 1-hour average values exceeding the regulation',
-        rate: 'Percentage of 1-hour average values exceeding the regulation (%)',
+        rate:
+          'Percentage of 1-hour average values exceeding the regulation (%)',
       },
     },
     type2_flow: {
@@ -4137,6 +4139,7 @@ export default {
     },
     typeRatio: {
       titleExport: 'Report__Percentage Of Obtained Data_{{=it.time}}',
+      notUpdate: 'Not updated',
     },
   },
 }
