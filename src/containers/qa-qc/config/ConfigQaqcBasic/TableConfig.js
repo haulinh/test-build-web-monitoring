@@ -1,5 +1,5 @@
 import React from 'react'
-import { Table, Checkbox } from 'antd'
+import { Table, Checkbox, InputNumber } from 'antd'
 import PropTypes from 'prop-types'
 import * as _ from 'lodash'
 import { translate } from 'hoc/create-lang'
@@ -153,7 +153,24 @@ export default class TableConfig extends React.Component {
           </span>
         )
       },
+
     },
+{
+			title:  'Reapeat',
+      dataIndex: 'reapeat',
+      key: 'reapeat',
+      render: (text, record, index) => {
+        const { getFieldDecorator } = this.props.form
+
+        return (
+          <React.Fragment>
+            {getFieldDecorator(`${this.props.type}.${record.key}.repeat`, {
+            })(<InputNumber/>)}
+					</React.Fragment>
+        )
+      },
+
+    }
   ]
 
   checkAllOption(option, isChecked) {

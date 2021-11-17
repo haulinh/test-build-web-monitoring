@@ -4,11 +4,11 @@ import {
   Form,
   Button,
   Tabs,
-  Card,
   Skeleton,
   Row,
   message,
   Collapse,
+  Col,
   // Modal
 } from 'antd'
 import PropTypes from 'prop-types'
@@ -16,9 +16,10 @@ import { translate } from 'hoc/create-lang'
 import { getStationTypes } from 'api/CategoryApi'
 import * as _ from 'lodash'
 import { connect } from 'react-redux'
-import TableConfig from './table'
+import TableConfig from './TableConfig.js'
 import { getConfigQAQC, postConfigQAQC, putConfigQAQC } from 'api/CategoryApi'
 import Disconnection from 'components/elements/disconnection'
+import { Clearfix } from 'components/layouts/styles'
 
 const { TabPane } = Tabs
 const { Panel } = Collapse
@@ -73,7 +74,7 @@ export default class ConfigQaqcBasic extends React.Component {
   )
 
   handleSubmit = () => {
-		this.setState({isLoading: true})
+    this.setState({ isLoading: true })
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
         // console.log('Received values of form: ', values)
@@ -263,21 +264,22 @@ export default class ConfigQaqcBasic extends React.Component {
   renderButton = () => {
     return (
       <Button
-				loading={this.state.isLoading}
+        loading={this.state.isLoading}
         onClick={event => {
           event.stopPropagation()
-						this.handleSubmit()
+          this.handleSubmit()
         }}
         size="small"
         type="primary"
       >
-				{this.state.configId ? i18n().btnEdit : i18n().btnSave}
+        {this.state.configId ? i18n().btnEdit : i18n().btnSave}
       </Button>
     )
   }
 
   render() {
-    const { getFieldDecorator } = this.props.form
+    const { getFieldDecorator, getFieldValue } = this.props.form
+    const otherField = getFieldValue('otherField')
     return (
       <React.Fragment>
         <Collapse defaultActiveKey="basic">
@@ -294,62 +296,77 @@ export default class ConfigQaqcBasic extends React.Component {
                 )}
 
                 {this.state.isInitLoaded && (
-                  <div>
-                    <Form.Item style={{ marginBottom: 8 }}>
-                      {getFieldDecorator('beyondMeasuringRange', {
-                        valuePropName: 'checked',
-                      })(<Checkbox>{i18n().beyondMeasuringRange}</Checkbox>)}
-                    </Form.Item>
-                    <Form.Item style={{ marginBottom: 8 }}>
-                      {getFieldDecorator('deviceError', {
-                        valuePropName: 'checked',
-                      })(<Checkbox>{i18n().deviceError}</Checkbox>)}
-                    </Form.Item>
-                    <Form.Item style={{ marginBottom: 8 }}>
-                      {getFieldDecorator('deviceCalibration', {
-                        valuePropName: 'checked',
-                      })(<Checkbox>{i18n().deviceCalibration}</Checkbox>)}
-                    </Form.Item>
-                  </div>
+                  <React.Fragment>
+                    <Row>
+                      <Col span={2}>Loai bo cac gia tri</Col>
+                      <Col span={22}>
+                        <Row gutter={12} type="flex">
+                          <Col>
+                            {getFieldDecorator('beyondMeasuringRange', {
+                              valuePropName: 'checked',
+                            })(
+                              <Checkbox>{i18n().beyondMeasuringRange}</Checkbox>
+                            )}
+                          </Col>
+                          <Col>
+                            {getFieldDecorator('deviceError', {
+                              valuePropName: 'checked',
+                            })(<Checkbox>{i18n().deviceError}</Checkbox>)}
+                          </Col>
+                          <Col>
+                            {getFieldDecorator('deviceCalibration', {
+                              valuePropName: 'checked',
+                            })(<Checkbox>{i18n().deviceCalibration}</Checkbox>)}
+                          </Col>
+                        </Row>
+                        <Clearfix height={12} />
+                        <Col>
+                          {getFieldDecorator('otherField', {
+                            valuePropName: 'checked',
+                          })(<Checkbox>{i18n().deviceCalibration}</Checkbox>)}
+                        </Col>
+                      </Col>
+                    </Row>
+                  </React.Fragment>
                 )}
 
-                <Card
-                  loading={!this.state.isInitLoaded || !this.props.isInitLoaded}
-                  style={{ width: '100%' }}
-                >
-                  <Tabs
-                    defaultActiveKey={this.state.activeTabkey}
-                    activeKey={this.state.activeTabkey}
-                    onChange={this.handleOnChangeTabKey}
-                  >
-                    {this.state.tabList.map(tab => {
-                      let measures = this.getMeasuringByType(tab.key)
+                {otherField && (
+                  <React.Fragment>
+                    <Clearfix height={12} />
+                    <Tabs
+                      defaultActiveKey={this.state.activeTabkey}
+                      activeKey={this.state.activeTabkey}
+                      onChange={this.handleOnChangeTabKey}
+                    >
+                      {this.state.tabList.map(tab => {
+                        let measures = this.getMeasuringByType(tab.key)
 
-                      let dataTableMeasures = measures.map(item => {
-                        return {
-                          key: item,
-                          zero: false,
-                          negative: false,
-                        }
-                      })
-                      return (
-                        <TabPane
-                          forceRender={true}
-                          tab={tab.name}
-                          key={tab.key}
-                        >
-                          <TableConfig
-                            form={this.props.form}
-                            getRef={ref => this.dataTable.push(ref)}
-                            dataTableMeasures={dataTableMeasures}
-                            type={tab.key}
-                          />
-                        </TabPane>
-                      )
-                    })}
-                  </Tabs>
-                </Card>
-             </Form>
+                        let dataTableMeasures = measures.map(item => {
+                          return {
+                            key: item,
+                            zero: false,
+                            negative: false,
+                          }
+                        })
+                        return (
+                          <TabPane
+                            forceRender={true}
+                            tab={tab.name}
+                            key={tab.key}
+                          >
+                            <TableConfig
+                              form={this.props.form}
+                              getRef={ref => this.dataTable.push(ref)}
+                              dataTableMeasures={dataTableMeasures}
+                              type={tab.key}
+                            />
+                          </TabPane>
+                        )
+                      })}
+                    </Tabs>
+                  </React.Fragment>
+                )}
+              </Form>
             )}
           </Panel>
         </Collapse>
