@@ -7,10 +7,6 @@ import ConfigQaqcBasic from './ConfigQaqcBasic'
 
 export default class QAQC_Config extends React.Component {
   render() {
-    if (this.props.isDrawer) {
-      return this.renderContent()
-    }
-
     return (
       <PageContainer backgroundColor={'#fafbfb'}>
         <Breadcrumb items={['configNew']} />

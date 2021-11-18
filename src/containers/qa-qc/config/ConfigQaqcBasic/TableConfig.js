@@ -8,6 +8,7 @@ function i18n() {
   return {
     zero: translate('qaqcConfig.zero'),
     negative: translate('qaqcConfig.negative'),
+		repeat: translate('qaqcConfig.basic.repeat')
   }
 }
 
@@ -156,16 +157,17 @@ export default class TableConfig extends React.Component {
 
     },
 {
-			title:  'Reapeat',
-      dataIndex: 'reapeat',
-      key: 'reapeat',
+			title:  i18n().repeat,
+      dataIndex: 'repeat',
+      key: 'repeat',
+			width: 180,
       render: (text, record, index) => {
         const { getFieldDecorator } = this.props.form
 
         return (
           <React.Fragment>
             {getFieldDecorator(`${this.props.type}.${record.key}.repeat`, {
-            })(<InputNumber/>)}
+            })(<InputNumber style={{width: '100%'}} />)}
 					</React.Fragment>
         )
       },
@@ -245,6 +247,7 @@ export default class TableConfig extends React.Component {
     return (
       <div>
         <Table
+					bordered
           pagination={false}
           columns={this.columns}
           dataSource={this.props.dataTableMeasures}

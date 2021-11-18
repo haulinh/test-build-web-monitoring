@@ -26,14 +26,16 @@ const { Panel } = Collapse
 
 function i18n() {
   return {
+		title: translate('qaqcConfig.basic.title'),
+    repeat: translate('qaqcConfig.basic.repeat'),
+    useBasicConfig: translate('qaqcConfig.basic.useBasicConfig'),
+    removeValues: translate('qaqcConfig.basic.removeValues'),
     beyondMeasuringRange: translate('qaqcConfig.beyondMeasuringRange'),
     deviceError: translate('qaqcConfig.deviceError'),
     deviceCalibration: translate('qaqcConfig.deviceCalibration'),
-
     btnEdit: translate('addon.save'),
     btnSave: translate('addon.create'),
     disconnectionMessage: translate('network.qaqc.lostConnection'),
-
     updateSuccess: translate('addon.onSave.update.success'),
   }
 }
@@ -162,6 +164,7 @@ export default class ConfigQaqcBasic extends React.Component {
             beyondMeasuringRange: data.beyondMeasuringRange,
             deviceError: data.deviceError,
             deviceCalibration: data.deviceCalibration,
+						repeat: data.repeat,
             ...(this.props.stationType
               ? {
                   [this.props.stationType]:
@@ -279,11 +282,11 @@ export default class ConfigQaqcBasic extends React.Component {
 
   render() {
     const { getFieldDecorator, getFieldValue } = this.props.form
-    const otherField = getFieldValue('otherField')
+    const useBasicConfig = getFieldValue('useBasicConfig')
     return (
       <React.Fragment>
         <Collapse defaultActiveKey="basic">
-          <Panel header="Bộ lọc cơ bản" key="basic" extra={this.renderButton()}>
+          <Panel header={i18n().title} key="basic" extra={this.renderButton()}>
             {this.state.isDisconnection ? (
               this._renderDisconnection()
             ) : (
@@ -298,7 +301,7 @@ export default class ConfigQaqcBasic extends React.Component {
                 {this.state.isInitLoaded && (
                   <React.Fragment>
                     <Row>
-                      <Col span={2}>Loai bo cac gia tri</Col>
+                      <Col span={2}>{i18n().removeValues}</Col>
                       <Col span={22}>
                         <Row gutter={12} type="flex">
                           <Col>
@@ -321,16 +324,15 @@ export default class ConfigQaqcBasic extends React.Component {
                         </Row>
                         <Clearfix height={12} />
                         <Col>
-                          {getFieldDecorator('otherField', {
+                          {getFieldDecorator('useBasicConfig', {
                             valuePropName: 'checked',
-                          })(<Checkbox>{i18n().deviceCalibration}</Checkbox>)}
+                          })(<Checkbox>{i18n().useBasicConfig}</Checkbox>)}
                         </Col>
                       </Col>
                     </Row>
                   </React.Fragment>
                 )}
 
-                {otherField && (
                   <React.Fragment>
                     <Clearfix height={12} />
                     <Tabs
@@ -346,6 +348,7 @@ export default class ConfigQaqcBasic extends React.Component {
                             key: item,
                             zero: false,
                             negative: false,
+														repeat: null
                           }
                         })
                         return (
@@ -365,7 +368,6 @@ export default class ConfigQaqcBasic extends React.Component {
                       })}
                     </Tabs>
                   </React.Fragment>
-                )}
               </Form>
             )}
           </Panel>
