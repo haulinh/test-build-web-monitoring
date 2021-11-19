@@ -1,7 +1,7 @@
 import { Col, Form, Row, Switch } from 'antd'
 import SelectMeasureParameter from 'components/elements/select-measure-parameter'
 import SelectProvince from 'components/elements/select-province'
-import SelectStationAuto from 'components/elements/select-station-auto'
+import SelectStationAuto from 'containers/search/common/select-station-auto' //'.././common/select-station-auto'
 import SelectStationType from 'components/elements/select-station-type'
 import { FormItem } from 'components/layouts/styles'
 import { i18n } from 'containers/api-sharing/constants'
@@ -260,8 +260,9 @@ export default class Filter extends React.Component {
               })(
                 <SelectStationAuto
                   mode="multiple"
-                  province={province}
-                  stationType={stationType}
+                  style={{ width: '100%' }}
+                  provinceKey={province}
+                  stationTypeKey={stationType}
                   onFetchSuccess={this.onStationAutosFetchSuccess}
                 />
               )}
