@@ -3045,7 +3045,8 @@ export default {
       aqi_day: 'Báo cáo giá trị AQI ngày theo nhiều trạm',
       type1_exceed:
         'Thống kê về dữ liệu vượt ngưỡng của các trạm quan trắc theo thời gian',
-      type2_flow: 'Báo cáo lưu lượng phát thải',
+      type2_flow:
+        'Thống kê về lưu lượng phát thải của trạm quan trắc theo thời gian',
     },
     advanceSub: 'Các chức năng nâng cao của hệ thống',
     advance: {
