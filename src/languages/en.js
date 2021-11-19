@@ -4077,7 +4077,7 @@ export default {
         day: 'Day',
       },
       table: {
-        data_day: 'Data in today',
+        data_day: 'Statistics For The Day',
         station: 'Station Name',
         param: 'Parameter',
         unit: 'Unit',
