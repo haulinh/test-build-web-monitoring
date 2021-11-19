@@ -262,6 +262,7 @@ export default class Filter extends React.Component {
                   mode="multiple"
                   style={{ width: '100%' }}
                   provinceKey={province}
+                  maxTagCount={2}
                   stationTypeKey={stationType}
                   onFetchSuccess={this.onStationAutosFetchSuccess}
                 />

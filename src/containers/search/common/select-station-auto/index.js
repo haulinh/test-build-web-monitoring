@@ -109,6 +109,7 @@ export default class SelectStationAuto extends React.PureComponent {
     if (!this.state.isLoaded) return <div />
     return (
       <Select
+        maxTagCount={5}
         {...this.props}
         allowClear
         showSearch
