@@ -19,7 +19,6 @@ const ColSwitch = styled(Col)`
 `
 @Form.create()
 export default class Filter extends React.Component {
-
   constructor(props) {
     super(props)
     this.state = {
@@ -32,7 +31,10 @@ export default class Filter extends React.Component {
     const { form, resetData } = this.props
     const { stationAutos, stationTypes } = this.state
 
-    const stationAutoKeys = this.getDefaultStationAutos(stationAutos, stationTypes)
+    const stationAutoKeys = this.getDefaultStationAutos(
+      stationAutos,
+      stationTypes
+    )
 
     resetData()
     form.resetFields()
@@ -48,7 +50,7 @@ export default class Filter extends React.Component {
     form.setFieldsValue({ isFilter: value })
   }
 
-  handleOnProvinceChange = (value) => {
+  handleOnProvinceChange = value => {
     const { form } = this.props
     let { stationAutos } = this.state
     if (value) {
@@ -65,7 +67,10 @@ export default class Filter extends React.Component {
 
     this.setState({ stationAutos, stationTypes })
 
-    const stationAutoKeys = this.getDefaultStationAutos(stationAutos, stationTypes)
+    const stationAutoKeys = this.getDefaultStationAutos(
+      stationAutos,
+      stationTypes
+    )
 
     form.setFieldsValue({
       [FIELDS.STATION_KEY]: stationAutoKeys,
@@ -74,13 +79,12 @@ export default class Filter extends React.Component {
   }
 
   getDefaultStationAutos = (stationAutos, stationTypes) => {
-    let firstStationType = _.get(stationTypes, '0._id')
+    let firstStationTypeKey = _.get(stationTypes, '0.key')
     const stationAutoKeys = stationAutos
-      .map(stationAuto => {
-        if (!firstStationType) firstStationType = stationAuto.stationType._id
-        if (stationAuto.stationType._id === firstStationType) return stationAuto.key
-        return null
-      }).filter(Boolean)
+      .filter(
+        stationAuto => stationAuto.stationType._id === firstStationTypeKey
+      )
+      .map(stationAuto => stationAuto.key)
 
     return stationAutoKeys
   }
@@ -131,7 +135,12 @@ export default class Filter extends React.Component {
                   message: i18n().station.required,
                 },
               ],
-            })(<TreeSelectStation onStationAutosFetchSuccess={this.onStationAutosFetchSuccess} province={province} />)}
+            })(
+              <TreeSelectStation
+                onStationAutosFetchSuccess={this.onStationAutosFetchSuccess}
+                province={province}
+              />
+            )}
           </FormItem>
         </Row>
         <Row type="flex" justify="end">

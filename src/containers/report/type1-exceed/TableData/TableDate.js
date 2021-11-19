@@ -175,8 +175,6 @@ const TableDataDate = ({ data, loading, ...props }) => {
     a.stationTypeKey.localeCompare(b.stationTypeKey)
   )
 
-  console.log({ dataSourceSort })
-
   return (
     <Table
       dataSource={dataSourceSort}
