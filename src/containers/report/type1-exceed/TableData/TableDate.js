@@ -15,7 +15,7 @@ const i18n = () => ({
   limit: t('report.type1_exceed.table.limit'),
   avg_value: t('report.type1_exceed.table.avg_value'),
   max_value: t('report.type1_exceed.table.max_value'),
-  overtime: (value) => t(`report.type1_exceed.table.overtime.${value}`),
+  overtime: value => t(`report.type1_exceed.table.overtime.${value}`),
   start_time: t('report.type1_exceed.table.start_time'),
   process_time: t('report.type1_exceed.table.process_time'),
   over_value: t('report.type1_exceed.table.over_value'),
@@ -36,9 +36,9 @@ const TableDataDate = ({ data, loading, ...props }) => {
     const dataStation = current.data.map((dataItem, index) => {
       return {
         ...dataItem,
-        stationKey: current.station,
-        stationTypeKey: props.stationAutoByKey[current.station].stationType.key,
-        key: `${current.station}-${dataItem.measure}`,
+        station: current.station,
+        stationTypeKey: _.get(current.station, 'stationType.key'),
+        key: `${current.station.key}-${dataItem.measure}`,
         ...(index === 0 && {
           spanMerge: current.data.length,
           indexMerge: true,
@@ -57,6 +57,7 @@ const TableDataDate = ({ data, loading, ...props }) => {
         width: 90,
         align: 'left',
         dataIndex: `data.${column - 1}`,
+        key: `data.${column - 1}-start-time`,
         render: value => {
           if (!value) return <div>{'-'}</div>
           return <div>{moment(value[0].time).format(DD_MM_YYYY_HH_MM)}</div>
@@ -67,6 +68,7 @@ const TableDataDate = ({ data, loading, ...props }) => {
         width: 120,
         align: 'right',
         dataIndex: `data.${column - 1}`,
+        key: `data.${column - 1}-process-time`,
         render: value => {
           if (!value) return <div>{'-'}</div>
           if (Array.isArray(value) && value.length === 1)
@@ -84,9 +86,14 @@ const TableDataDate = ({ data, loading, ...props }) => {
         title: i18n().over_value,
         width: 90,
         align: 'right',
-        dataIndex: `data.${column - 1}`,
+        dataIndex: `data.${column - 1}-over-value`,
+        key: `data.${column - 1}`,
         render: value => {
-          return <div>{getFormatNumber(_.get(value, '[0].value', '-'), ROUND_DIGIT)}</div>
+          return (
+            <div>
+              {getFormatNumber(_.get(value, '[0].value', '-'), ROUND_DIGIT)}
+            </div>
+          )
         },
       },
     ],
@@ -98,10 +105,10 @@ const TableDataDate = ({ data, loading, ...props }) => {
       width: 280,
       align: 'left',
       fixed: window.innerWidth > 1920 ? false : 'left',
-      dataIndex: 'stationKey',
+      dataIndex: 'station',
       render: (value, record, index) => {
         const obj = {
-          children: props.stationAutoByKey[value].name,
+          children: value.name,
           props: {},
         }
 
@@ -167,6 +174,8 @@ const TableDataDate = ({ data, loading, ...props }) => {
   const dataSourceSort = dataSource.sort((a, b) =>
     a.stationTypeKey.localeCompare(b.stationTypeKey)
   )
+
+  console.log({ dataSourceSort })
 
   return (
     <Table
