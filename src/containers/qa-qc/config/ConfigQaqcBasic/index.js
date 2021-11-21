@@ -26,7 +26,7 @@ const { Panel } = Collapse
 
 function i18n() {
   return {
-		title: translate('qaqcConfig.basic.title'),
+    title: translate('qaqcConfig.basic.title'),
     repeat: translate('qaqcConfig.basic.repeat'),
     useBasicConfig: translate('qaqcConfig.basic.useBasicConfig'),
     removeValues: translate('qaqcConfig.basic.removeValues'),
@@ -164,7 +164,7 @@ export default class ConfigQaqcBasic extends React.Component {
             beyondMeasuringRange: data.beyondMeasuringRange,
             deviceError: data.deviceError,
             deviceCalibration: data.deviceCalibration,
-						repeat: data.repeat,
+            repeat: data.repeat,
             ...(this.props.stationType
               ? {
                   [this.props.stationType]:
@@ -281,8 +281,8 @@ export default class ConfigQaqcBasic extends React.Component {
   }
 
   render() {
-    const { getFieldDecorator, getFieldValue } = this.props.form
-    const useBasicConfig = getFieldValue('useBasicConfig')
+    const { getFieldDecorator } = this.props.form
+    // const useBasicConfig = getFieldValue('useBasicConfig')
     return (
       <React.Fragment>
         <Collapse defaultActiveKey="basic">
@@ -333,41 +333,41 @@ export default class ConfigQaqcBasic extends React.Component {
                   </React.Fragment>
                 )}
 
-                  <React.Fragment>
-                    <Clearfix height={12} />
-                    <Tabs
-                      defaultActiveKey={this.state.activeTabkey}
-                      activeKey={this.state.activeTabkey}
-                      onChange={this.handleOnChangeTabKey}
-                    >
-                      {this.state.tabList.map(tab => {
-                        let measures = this.getMeasuringByType(tab.key)
+                <React.Fragment>
+                  <Clearfix height={12} />
+                  <Tabs
+                    defaultActiveKey={this.state.activeTabkey}
+                    activeKey={this.state.activeTabkey}
+                    onChange={this.handleOnChangeTabKey}
+                  >
+                    {this.state.tabList.map(tab => {
+                      let measures = this.getMeasuringByType(tab.key)
 
-                        let dataTableMeasures = measures.map(item => {
-                          return {
-                            key: item,
-                            zero: false,
-                            negative: false,
-														repeat: null
-                          }
-                        })
-                        return (
-                          <TabPane
-                            forceRender={true}
-                            tab={tab.name}
-                            key={tab.key}
-                          >
-                            <TableConfig
-                              form={this.props.form}
-                              getRef={ref => this.dataTable.push(ref)}
-                              dataTableMeasures={dataTableMeasures}
-                              type={tab.key}
-                            />
-                          </TabPane>
-                        )
-                      })}
-                    </Tabs>
-                  </React.Fragment>
+                      let dataTableMeasures = measures.map(item => {
+                        return {
+                          key: item,
+                          zero: false,
+                          negative: false,
+                          repeat: null,
+                        }
+                      })
+                      return (
+                        <TabPane
+                          forceRender={true}
+                          tab={tab.name}
+                          key={tab.key}
+                        >
+                          <TableConfig
+                            form={this.props.form}
+                            getRef={ref => this.dataTable.push(ref)}
+                            dataTableMeasures={dataTableMeasures}
+                            type={tab.key}
+                          />
+                        </TabPane>
+                      )
+                    })}
+                  </Tabs>
+                </React.Fragment>
               </Form>
             )}
           </Panel>
