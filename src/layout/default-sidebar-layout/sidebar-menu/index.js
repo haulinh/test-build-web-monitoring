@@ -15,7 +15,7 @@ import styled from 'styled-components'
 import LogoBrandName from './LogoBrandName'
 import ToggleResize from './ToggleResize'
 import MonitoringMenu from '../MenuMonitoring'
-import HandleDataMenu from '../HandleDataMenu'
+// import HandleDataMenu from '../HandleDataMenu'
 import ShareDataMenu from '../ShareDataMenu'
 import ReportMenu from '../ReportMenu'
 import AdvanceMenu from '../AdvanceMenu'
@@ -224,10 +224,10 @@ export default class MenuApp extends React.PureComponent {
               ROLE.AVG_SEARCH.VIEW,
             ]) && MonitoringMenu.renderComp(this.props)}
 
-            {this.checkRoleForGroup([
-              ROLE.XU_LY_KIEM_DUYET_DU_LIEU_CONFIG.VIEW,
-              ROLE.XU_LY_KIEM_DUYET_DU_LIEU.VIEW,
-            ]) && HandleDataMenu.renderComp(this.props)}
+            {/* {this.checkRoleForGroup([
+							ROLE.XU_LY_KIEM_DUYET_DU_LIEU_CONFIG.VIEW,
+							ROLE.XU_LY_KIEM_DUYET_DU_LIEU.VIEW,
+						]) && HandleDataMenu.renderComp(this.props)} */}
 
             {this.checkRoleForGroup([
               ROLE.PERIODICAL_STATION.VIEW,
@@ -307,6 +307,7 @@ export default class MenuApp extends React.PureComponent {
               ROLE.USER.VIEW,
               ROLE.XEM_NHAT_KY.VIEW,
               ROLE.LANGUAGES.VIEW,
+              ROLE.XU_LY_KIEM_DUYET_DU_LIEU_CONFIG.VIEW,
             ]) && ConfigMenu.renderComp(this.props)}
           </Menu>
         </SimpleBarReact>
