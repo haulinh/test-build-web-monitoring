@@ -58,7 +58,6 @@ export default class ConfigQaqcBasic extends React.Component {
       configId: null,
       stationTypes: [],
       configQAQC: {},
-      dataUseConfigBasic: {},
     }
     this.getData = this.getData.bind(this)
   }
@@ -175,7 +174,6 @@ export default class ConfigQaqcBasic extends React.Component {
               : data.measureConfig),
           }
           this.setState({
-            dataUseConfigBasic: dataForm,
             configQAQC: data,
             configId: _.get(response, 'data._id', null),
             isHaveConfig: true,
@@ -268,7 +266,7 @@ export default class ConfigQaqcBasic extends React.Component {
   }
 
   renderButton = () => {
-    const { isLoading, configId, dataUseConfigBasic } = this.state
+    const { isLoading, configId } = this.state
     return (
       <Button
         loading={isLoading}
