@@ -480,6 +480,15 @@ export default {
     deviceCalibration: 'Thiết bị hiệu chuẩn',
     zero: 'Giá trị 0',
     negative: 'Giá trị Âm',
+		basic: {
+			title: 'Bộ lọc cơ bản',
+			useBasicConfig: 'Giá trị 0, âm và lặp lại',
+			repeat: 'Lặp lại',
+			removeValues: 'Loại bỏ các giá trị'
+		},
+		advanced: {
+			title: 'Bộ lọc nâng cao',
+		}
   },
   controlStation: {
     text: 'Điều khiển lấy mẫu',

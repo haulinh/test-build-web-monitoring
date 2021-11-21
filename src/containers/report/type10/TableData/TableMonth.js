@@ -1,12 +1,12 @@
-import React from 'react'
-import { i18n } from '../index'
-import moment from 'moment-timezone'
-import { getFormatNumber } from 'constants/format-number'
-import { DD_MM_YYYY } from 'constants/format-date'
-import get from 'lodash/get'
 import { Table } from 'antd'
+import { DD_MM_YYYY } from 'constants/format-date'
+import { getFormatNumber } from 'constants/format-number'
 import { translate } from 'hoc/create-lang'
 import _ from 'lodash'
+import get from 'lodash/get'
+import moment from 'moment-timezone'
+import React from 'react'
+import { i18n } from '../index'
 
 export default function TableMonth({
   dataSource,
@@ -75,11 +75,7 @@ export default function TableMonth({
       dataIndex: 'totalFact',
       align: 'center',
       render: value => {
-        return (
-          <div style={{ textAlign: 'right' }}>
-            {_.isNumber(value) ? getFormatNumber(value, 0) : '-'}
-          </div>
-        )
+        return <div style={{ textAlign: 'right' }}>{value ? value : '-'}</div>
       },
     },
     {
@@ -87,11 +83,7 @@ export default function TableMonth({
       dataIndex: 'percentageReceived',
       align: 'right',
       render: value => {
-        return (
-          <div style={{ textAlign: 'right' }}>
-            {value ? value : '-'}
-          </div>
-        )
+        return <div style={{ textAlign: 'right' }}>{value ? value : '-'}</div>
       },
     },
   ]
