@@ -7,7 +7,7 @@ import { translate as t } from 'hoc/create-lang'
 import _ from 'lodash'
 import React, { Component } from 'react'
 import FormTableMeasureTime from './FormTableMeasureTime'
-import { FIELDS } from './index'
+import { FIELDS } from '../index'
 
 @Form.create()
 export default class ModalFilterTime extends Component {
@@ -46,7 +46,8 @@ export default class ModalFilterTime extends Component {
   handleSearch = () => {
     const { form } = this.props
     const values = form.getFieldsValue()
-    console.log(values)
+    const { stationKeys, stationType, time, ...newValues } = values
+    console.log(newValues)
   }
 
   render() {

@@ -4,7 +4,7 @@ import { Clearfix } from 'components/layouts/styles'
 import React, { Component } from 'react'
 import ModalFilterTime from './ModalFilterTime'
 import TableFilterTime from './TableFilterTime'
-import ModalComfirm from './ModalComfirm'
+import ModalConFirmDelete from '../components/ModalConFirmDelete'
 
 export const FIELDS = {
   STATION_TYPE: 'stationType',
@@ -16,7 +16,29 @@ export default class FilterTimeContainer extends Component {
   state = {
     stationKey: '',
     isShowModal: false,
-    showConfirmDelete: false,
+    isShowConfirmDelete: false,
+    conFirmDelete: false,
+    recordKey: '',
+    dataSource: [
+      {
+        key: '1',
+        stationName: 'VINATEX TOMS',
+        measure: 'pH, COD, NO2, NO3, TSS',
+        status: 'outdate',
+      },
+      {
+        key: '2',
+        stationName: 'Hoàn kiếm',
+        measure: 'pH, COD, NO2, NO3, TSS',
+        status: 'apply',
+      },
+      {
+        key: '3',
+        stationName: 'TEST_QUI',
+        measure: 'pH, COD, NO2, NO3, TSS',
+        status: 'outdate',
+      },
+    ],
   }
 
   showModal = () => {
@@ -27,42 +49,56 @@ export default class FilterTimeContainer extends Component {
 
   showConfirmDelete = () => {
     this.setState({
-      showConfirmDelete: true,
+      isShowConfirmDelete: true,
     })
   }
 
-  onCancelDelete = () => {
+  handleCancelDelete = () => {
     this.setState({
-      showConfirmDelete: false,
+      isShowConfirmDelete: false,
     })
   }
 
-  onCancelModal = () => {
+  handleCancelModal = () => {
     this.setState({
       isShowModal: false,
     })
   }
 
-  onChangeStationAuto = stationKey => {
+  handleChangeStationAuto = stationKey => {
     this.setState({
       stationKey,
     })
   }
-
-  handleDataChange = hasData => {
+  getRecordKey = recordKey => {
     this.setState({
-      hasData,
+      isShowConfirmDelete: true,
+      recordKey,
+    })
+  }
+
+  handleDeleteRecord = () => {
+    const { recordKey } = this.state
+    const dataSource = [...this.state.dataSource]
+    this.setState({
+      dataSource: dataSource.filter(record => record.key !== recordKey),
+      isShowConfirmDelete: false,
     })
   }
 
   render() {
-    const { stationKey, isShowModal, showConfirmDelete } = this.state
+    const {
+      stationKey,
+      isShowModal,
+      isShowConfirmDelete,
+      dataSource,
+    } = this.state
     return (
       <div>
         <Row type="flex" span={24} justify="space-between" align="middle">
           <Col span={5}>
             <SelectStationAuto
-              onChange={this.onChangeStationAuto}
+              onChange={this.handleChangeStationAuto}
               placeholder="Chọn trạm quan trắc"
               value={stationKey}
             />
@@ -75,7 +111,8 @@ export default class FilterTimeContainer extends Component {
         <Clearfix height={20} />
         <TableFilterTime
           editRecord={this.showModal}
-          deleteRecord={this.showConfirmDelete}
+          dataSource={dataSource}
+          recordKey={this.getRecordKey}
           footer={() => (
             <Row style={{ color: '#1890FF' }} align="middle">
               <Button type="link" onClick={this.showModal}>
@@ -85,16 +122,17 @@ export default class FilterTimeContainer extends Component {
             </Row>
           )}
         />
-        <ModalFilterTime
-          visible={isShowModal}
-          onCancel={this.onCancelModal}
-          showConfirmDelete={this.showConfirmDelete}
-        />
-        <ModalComfirm
-          visible={showConfirmDelete}
+        <ModalConFirmDelete
+          visible={isShowConfirmDelete}
           closable={false}
           footer={false}
-          onCancelDelete={this.onCancelDelete}
+          onConfirmDelete={this.handleDeleteRecord}
+          onCancelDelete={this.handleCancelDelete}
+        />
+        <ModalFilterTime
+          visible={isShowModal}
+          onCancel={this.handleCancelModal}
+          showConfirmDelete={this.showConfirmDelete}
         />
       </div>
     )

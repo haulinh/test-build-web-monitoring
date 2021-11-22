@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import { Modal, Row, Button } from 'antd'
 import { Clearfix } from 'components/layouts/styles'
 
-export default class ModalComfirm extends Component {
+export default class ModalConFirmDelete extends Component {
   render() {
-    const { onCancelDelete } = this.props
+    const { onCancelDelete, onConfirmDelete } = this.props
 
     return (
       <Modal centered {...this.props}>
@@ -20,7 +20,11 @@ export default class ModalComfirm extends Component {
         <Clearfix height={10} />
         <Row type="flex" justify="end">
           <Button onClick={onCancelDelete}>Huỷ bỏ</Button>
-          <Button type="danger" style={{ marginLeft: 10 }}>
+          <Button
+            type="danger"
+            onClick={onConfirmDelete}
+            style={{ marginLeft: 10 }}
+          >
             Xoá bộ lọc
           </Button>
         </Row>
