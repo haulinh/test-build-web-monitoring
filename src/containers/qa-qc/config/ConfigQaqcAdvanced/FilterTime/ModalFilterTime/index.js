@@ -36,7 +36,7 @@ export default class ModalFilterTime extends Component {
 
     if (!stationAutoValue) return []
 
-    const stationAutoList = this.state.stationAutos.filter(stationAuto =>
+    const stationAutoList = this.state.stationAutos.find(stationAuto =>
       stationAutoValue.includes(stationAuto.key)
     )
     const measureList = getMeasuringListFromStationAutos(stationAutoList)
@@ -51,7 +51,7 @@ export default class ModalFilterTime extends Component {
   }
 
   render() {
-    const { form, showConfirmDelete } = this.props
+    const { form, showModalConfirmDelete } = this.props
 
     const stationType = form.getFieldValue(FIELDS.STATION_TYPE)
     const measureList = this.getMeasuringList()
@@ -63,7 +63,7 @@ export default class ModalFilterTime extends Component {
         centered
         footer={[
           <Row type="flex" justify="space-between">
-            <Button type="danger" onClick={showConfirmDelete}>
+            <Button type="danger" onClick={showModalConfirmDelete}>
               Xoá bộ lọc
             </Button>
             <div style={{ display: 'flex' }}>

@@ -1,10 +1,10 @@
-import { Col, Row, Switch, Icon, Button } from 'antd'
+import { Col, Row, Switch } from 'antd'
 import SelectStationAuto from 'components/elements/select-station-auto'
 import { Clearfix } from 'components/layouts/styles'
 import React, { Component } from 'react'
 import ModalFilterTime from './ModalFilterTime'
 import TableFilterTime from './TableFilterTime'
-import ModalConFirmDelete from '../components/ModalConFirmDelete'
+import { ModalConFirmDelete } from '../components'
 
 export const FIELDS = {
   STATION_TYPE: 'stationType',
@@ -15,10 +15,10 @@ export const FIELDS = {
 export default class FilterTimeContainer extends Component {
   state = {
     stationKey: '',
-    isShowModal: false,
-    isShowConfirmDelete: false,
+    isShowModalFilterTime: false,
+    isShowModalConfirmDelete: false,
     conFirmDelete: false,
-    recordKey: '',
+    timeFilterItem: '',
     dataSource: [
       {
         key: '1',
@@ -41,27 +41,27 @@ export default class FilterTimeContainer extends Component {
     ],
   }
 
-  showModal = () => {
+  showModalFilterTime = () => {
     this.setState({
-      isShowModal: true,
+      isShowModalFilterTime: true,
     })
   }
 
-  showConfirmDelete = () => {
+  showModalConfirmDelete = () => {
     this.setState({
-      isShowConfirmDelete: true,
+      isShowModalConfirmDelete: true,
     })
   }
 
-  handleCancelDelete = () => {
+  closeModalConfirmDelete = () => {
     this.setState({
-      isShowConfirmDelete: false,
+      isShowModalConfirmDelete: false,
     })
   }
 
-  handleCancelModal = () => {
+  closeModalFilterTime = () => {
     this.setState({
-      isShowModal: false,
+      isShowModalFilterTime: false,
     })
   }
 
@@ -70,27 +70,31 @@ export default class FilterTimeContainer extends Component {
       stationKey,
     })
   }
-  getRecordKey = recordKey => {
+  setTimeFilterItem = timeFilterItem => {
     this.setState({
-      isShowConfirmDelete: true,
-      recordKey,
+      isShowModalConfirmDelete: true,
+      timeFilterItem,
     })
   }
 
-  handleDeleteRecord = () => {
-    const { recordKey } = this.state
-    const dataSource = [...this.state.dataSource]
+  handleDeleteTimeFilterItem = () => {
+    let { dataSource } = this.state
+    const { timeFilterItem } = this.state
+    dataSource = [...dataSource]
+    const timeFilterList = dataSource.filter(
+      item => item.key !== timeFilterItem
+    )
     this.setState({
-      dataSource: dataSource.filter(record => record.key !== recordKey),
-      isShowConfirmDelete: false,
+      dataSource: timeFilterList,
+      isShowModalConfirmDelete: false,
     })
   }
 
   render() {
     const {
       stationKey,
-      isShowModal,
-      isShowConfirmDelete,
+      isShowModalFilterTime,
+      isShowModalConfirmDelete,
       dataSource,
     } = this.state
     return (
@@ -110,29 +114,22 @@ export default class FilterTimeContainer extends Component {
         </Row>
         <Clearfix height={20} />
         <TableFilterTime
-          editRecord={this.showModal}
+          onEditRecord={this.showModalFilterTime}
           dataSource={dataSource}
-          recordKey={this.getRecordKey}
-          footer={() => (
-            <Row style={{ color: '#1890FF' }} align="middle">
-              <Button type="link" onClick={this.showModal}>
-                <Icon type="plus" style={{ marginRight: 5 }} />
-                Thêm điều kiện lọc
-              </Button>
-            </Row>
-          )}
-        />
-        <ModalConFirmDelete
-          visible={isShowConfirmDelete}
-          closable={false}
-          footer={false}
-          onConfirmDelete={this.handleDeleteRecord}
-          onCancelDelete={this.handleCancelDelete}
+          getRecordKey={this.setTimeFilterItem}
+          showModalFilterTime={this.showModalFilterTime}
         />
         <ModalFilterTime
-          visible={isShowModal}
-          onCancel={this.handleCancelModal}
-          showConfirmDelete={this.showConfirmDelete}
+          visible={isShowModalFilterTime}
+          onCancel={this.closeModalFilterTime}
+          showModalConfirmDelete={this.showModalConfirmDelete}
+        />
+        <ModalConFirmDelete
+          visible={isShowModalConfirmDelete}
+          closable={false}
+          footer={false}
+          onConfirmDelete={this.handleDeleteTimeFilterItem}
+          onCancelDelete={this.closeModalConfirmDelete}
         />
       </div>
     )

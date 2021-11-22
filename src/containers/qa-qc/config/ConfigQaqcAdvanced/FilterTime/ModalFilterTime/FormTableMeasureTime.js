@@ -6,15 +6,14 @@ const { RangePicker } = DatePicker
 export default class FormTableMeasureTime extends Component {
   constructor(props) {
     super(props)
+    const { form } = this.props
     this.columns = [
       {
         title: 'Thông số',
         render: record => {
           return (
             <React.Fragment>
-              {this.props.form.getFieldDecorator(record.key)(
-                <div> {record.key}</div>
-              )}
+              {form.getFieldDecorator(record.key)(<div> {record.key}</div>)}
             </React.Fragment>
           )
         },
@@ -23,7 +22,7 @@ export default class FormTableMeasureTime extends Component {
         title: 'Thời gian',
         render: record => {
           const onChangeTime = value => {
-            this.props.form.setFieldsValue({
+            form.setFieldsValue({
               [record.key]: value,
             })
           }

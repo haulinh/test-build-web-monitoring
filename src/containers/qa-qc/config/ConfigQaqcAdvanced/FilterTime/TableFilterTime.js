@@ -4,7 +4,7 @@ import { Table, Row, Icon, Button } from 'antd'
 export default class TableFilterTime extends Component {
   constructor(props) {
     super(props)
-    const { editRecord, recordKey } = this.props
+    const { onEditRecord, getRecordKey } = this.props
     this.state = {
       recordValue: '',
     }
@@ -46,13 +46,13 @@ export default class TableFilterTime extends Component {
         render: record => {
           return (
             <Row>
-              <Button type="link" onClick={editRecord}>
+              <Button type="link" onClick={onEditRecord}>
                 <Icon type="edit" style={{ color: '#1890FF' }} />
               </Button>
               <Button
                 type="link"
                 onClick={() => {
-                  recordKey(record.key)
+                  getRecordKey(record.key)
                 }}
               >
                 <Icon type="delete" style={{ color: 'red' }} />
@@ -65,7 +65,7 @@ export default class TableFilterTime extends Component {
   }
 
   render() {
-    const { dataSource } = this.props
+    const { dataSource, showModalFilterTime } = this.props
     return (
       <Table
         columns={this.columns}
@@ -73,6 +73,14 @@ export default class TableFilterTime extends Component {
         dataSource={dataSource}
         {...this.props}
         pagination={false}
+        footer={() => (
+          <Row style={{ color: '#1890FF' }} align="middle">
+            <Button type="link" onClick={showModalFilterTime}>
+              <Icon type="plus" style={{ marginRight: 5 }} />
+              Thêm điều kiện lọc
+            </Button>
+          </Row>
+        )}
       />
     )
   }
