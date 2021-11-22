@@ -14,18 +14,25 @@ export default class TreeSelectStation extends Component {
   async componentDidMount() {
     const [resStationTypes, resStationAuto] = await Promise.all([
       CategoryApi.getStationTypes({}, { isAuto: true }),
-      StationAutoApi.getStationAutoAll({ page: 1, itemPerPage: Number.MAX_SAFE_INTEGER })
+      StationAutoApi.getStationAutos({
+        page: 1,
+        itemPerPage: Number.MAX_SAFE_INTEGER,
+      }),
     ])
 
     const stationAutos = get(resStationAuto, 'data', []).filter(
       item => !get(item, 'removeStatus.allowed')
     )
 
-    if (this.props.onStationAutosFetchSuccess) {
-      this.props.onStationAutosFetchSuccess(stationAutos, resStationTypes.data)
-    }
-
-    this.setState({ stationTypes: resStationTypes.data, stationAutos })
+    this.setState({ stationTypes: resStationTypes.data, stationAutos }, () => {
+      if (this.props.onStationAutosFetchSuccess) {
+        const stationTypeDependentStationAuto = this.getStationTypeDependentStationAuto()
+        this.props.onStationAutosFetchSuccess(
+          stationAutos,
+          stationTypeDependentStationAuto
+        )
+      }
+    })
   }
 
   treeData = this.state.stationTypes.map(stationType => ({
@@ -38,7 +45,7 @@ export default class TreeSelectStation extends Component {
     const { province, fieldValue } = this.props
     let stationAutos = this.state.stationAutos
 
-    if (province && (province !== 'other')) {
+    if (province && province !== 'other') {
       stationAutos = stationAutos.filter(stationAuto => {
         const provinceValue = _.get(
           stationAuto,
@@ -50,17 +57,19 @@ export default class TreeSelectStation extends Component {
     }
 
     if (province === 'other') {
-      stationAutos = stationAutos.filter(stationAuto => !get(stationAuto, 'province.key'))
+      stationAutos = stationAutos.filter(
+        stationAuto => !get(stationAuto, 'province.key')
+      )
     }
 
     return stationAutos
   }
 
-  getTreeData = () => {
+  getStationTypeDependentStationAuto = () => {
     const { stationTypes } = this.state
-    const { fieldValue } = this.props
     const stationAutos = this.getStationAutos()
-    const treeData = stationTypes
+    const { fieldValue } = this.props
+    const stationTypeDependentStationAuto = stationTypes
       .map(stationType => {
         const stationAutosOfStationType = stationAutos.filter(
           stationAuto => stationAuto.stationType._id === stationType._id
@@ -77,6 +86,11 @@ export default class TreeSelectStation extends Component {
         }
       })
       .filter(item => item.children.length !== 0)
+    return stationTypeDependentStationAuto
+  }
+
+  getTreeData = () => {
+    const treeData = this.getStationTypeDependentStationAuto()
     return treeData
   }
 

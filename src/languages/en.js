@@ -3057,7 +3057,7 @@ export default {
       aqi_day: 'Report AQI day values ​​for multiple stations',
       type1_exceed:
         'Statistics data that exceeds the threshold of monitoring stations by time',
-      type2_flow: 'Report emission flow',
+      type2_flow: 'Statistics emission flow of monitoring stations by time',
     },
     advanceSub: 'Advanced functions of the system',
     advance: {
@@ -4077,7 +4077,7 @@ export default {
         day: 'Day',
       },
       table: {
-        data_day: 'Data in today',
+        data_day: 'Statistics For The Day',
         station: 'Station Name',
         param: 'Parameter',
         unit: 'Unit',

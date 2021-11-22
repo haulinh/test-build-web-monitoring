@@ -8,7 +8,7 @@ function i18n() {
   return {
     zero: translate('qaqcConfig.zero'),
     negative: translate('qaqcConfig.negative'),
-		repeat: translate('qaqcConfig.basic.repeat')
+    repeat: translate('qaqcConfig.basic.repeat'),
   }
 }
 
@@ -154,25 +154,25 @@ export default class TableConfig extends React.Component {
           </span>
         )
       },
-
     },
-{
-			title:  i18n().repeat,
+    {
+      title: i18n().repeat,
       dataIndex: 'repeat',
       key: 'repeat',
-			width: 180,
+      width: 180,
       render: (text, record, index) => {
         const { getFieldDecorator } = this.props.form
 
         return (
           <React.Fragment>
-            {getFieldDecorator(`${this.props.type}.${record.key}.repeat`, {
-            })(<InputNumber style={{width: '100%'}} />)}
-					</React.Fragment>
+            {getFieldDecorator(
+              `${this.props.type}.${record.key}.repeat`,
+              {}
+            )(<InputNumber style={{ width: '100%' }} />)}
+          </React.Fragment>
         )
       },
-
-    }
+    },
   ]
 
   checkAllOption(option, isChecked) {
@@ -247,7 +247,7 @@ export default class TableConfig extends React.Component {
     return (
       <div>
         <Table
-					bordered
+          bordered
           pagination={false}
           columns={this.columns}
           dataSource={this.props.dataTableMeasures}

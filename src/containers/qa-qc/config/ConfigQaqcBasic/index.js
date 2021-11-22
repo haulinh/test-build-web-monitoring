@@ -26,7 +26,7 @@ const { Panel } = Collapse
 
 function i18n() {
   return {
-		title: translate('qaqcConfig.basic.title'),
+    title: translate('qaqcConfig.basic.title'),
     repeat: translate('qaqcConfig.basic.repeat'),
     useBasicConfig: translate('qaqcConfig.basic.useBasicConfig'),
     removeValues: translate('qaqcConfig.basic.removeValues'),
@@ -35,6 +35,7 @@ function i18n() {
     deviceCalibration: translate('qaqcConfig.deviceCalibration'),
     btnEdit: translate('addon.save'),
     btnSave: translate('addon.create'),
+    btnUpdate: translate('addon.update'),
     disconnectionMessage: translate('network.qaqc.lostConnection'),
     updateSuccess: translate('addon.onSave.update.success'),
   }
@@ -57,6 +58,7 @@ export default class ConfigQaqcBasic extends React.Component {
       configId: null,
       stationTypes: [],
       configQAQC: {},
+      dataUseConfigBasic: {},
     }
     this.getData = this.getData.bind(this)
   }
@@ -164,7 +166,7 @@ export default class ConfigQaqcBasic extends React.Component {
             beyondMeasuringRange: data.beyondMeasuringRange,
             deviceError: data.deviceError,
             deviceCalibration: data.deviceCalibration,
-						repeat: data.repeat,
+            repeat: data.repeat,
             ...(this.props.stationType
               ? {
                   [this.props.stationType]:
@@ -173,6 +175,7 @@ export default class ConfigQaqcBasic extends React.Component {
               : data.measureConfig),
           }
           this.setState({
+            dataUseConfigBasic: dataForm,
             configQAQC: data,
             configId: _.get(response, 'data._id', null),
             isHaveConfig: true,
@@ -265,9 +268,10 @@ export default class ConfigQaqcBasic extends React.Component {
   }
 
   renderButton = () => {
+    const { isLoading, configId, dataUseConfigBasic } = this.state
     return (
       <Button
-        loading={this.state.isLoading}
+        loading={isLoading}
         onClick={event => {
           event.stopPropagation()
           this.handleSubmit()
@@ -275,7 +279,7 @@ export default class ConfigQaqcBasic extends React.Component {
         size="small"
         type="primary"
       >
-        {this.state.configId ? i18n().btnEdit : i18n().btnSave}
+        {configId ? i18n().btnUpdate : i18n().btnSave}
       </Button>
     )
   }
@@ -332,42 +336,41 @@ export default class ConfigQaqcBasic extends React.Component {
                     </Row>
                   </React.Fragment>
                 )}
+                <div style={{ display: !useBasicConfig && 'none' }}>
+                  <Clearfix height={12} />
+                  <Tabs
+                    defaultActiveKey={this.state.activeTabkey}
+                    activeKey={this.state.activeTabkey}
+                    onChange={this.handleOnChangeTabKey}
+                  >
+                    {this.state.tabList.map(tab => {
+                      let measures = this.getMeasuringByType(tab.key)
 
-                  <React.Fragment>
-                    <Clearfix height={12} />
-                    <Tabs
-                      defaultActiveKey={this.state.activeTabkey}
-                      activeKey={this.state.activeTabkey}
-                      onChange={this.handleOnChangeTabKey}
-                    >
-                      {this.state.tabList.map(tab => {
-                        let measures = this.getMeasuringByType(tab.key)
-
-                        let dataTableMeasures = measures.map(item => {
-                          return {
-                            key: item,
-                            zero: false,
-                            negative: false,
-														repeat: null
-                          }
-                        })
-                        return (
-                          <TabPane
-                            forceRender={true}
-                            tab={tab.name}
-                            key={tab.key}
-                          >
-                            <TableConfig
-                              form={this.props.form}
-                              getRef={ref => this.dataTable.push(ref)}
-                              dataTableMeasures={dataTableMeasures}
-                              type={tab.key}
-                            />
-                          </TabPane>
-                        )
-                      })}
-                    </Tabs>
-                  </React.Fragment>
+                      let dataTableMeasures = measures.map(item => {
+                        return {
+                          key: item,
+                          zero: false,
+                          negative: false,
+                          repeat: null,
+                        }
+                      })
+                      return (
+                        <TabPane
+                          forceRender={true}
+                          tab={tab.name}
+                          key={tab.key}
+                        >
+                          <TableConfig
+                            form={this.props.form}
+                            getRef={ref => this.dataTable.push(ref)}
+                            dataTableMeasures={dataTableMeasures}
+                            type={tab.key}
+                          />
+                        </TabPane>
+                      )
+                    })}
+                  </Tabs>
+                </div>
               </Form>
             )}
           </Panel>
