@@ -3,7 +3,7 @@ import {
 } from 'antd'
 import React from 'react'
 
-class ModalConfirm extends React.Component {
+class ModalConfirmDelete extends React.Component {
 
   render() {
     const { isVisible } = this.props
@@ -32,4 +32,4 @@ class ModalConfirm extends React.Component {
   }
 }
 
-export default ModalConfirm
+export default ModalConfirmDelete
