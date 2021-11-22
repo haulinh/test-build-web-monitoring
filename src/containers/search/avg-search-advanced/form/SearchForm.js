@@ -1,36 +1,31 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { autobind } from 'core-decorators'
-import styled from 'styled-components'
-import moment from 'moment-timezone'
-import { connect } from 'react-redux'
-import * as _ from 'lodash'
-import { reduxForm, Field, unregisterField, clearFields } from 'redux-form'
-import { Row, Col, Dropdown, Icon, InputNumber, Tooltip, Switch } from 'antd'
-import update from 'immutability-helper'
-import createLang, { translate } from 'hoc/create-lang'
-import SelectStationType from 'components/elements/select-station-type'
-import SelectQCVN from 'components/elements/select-qcvn'
+import { Col, Dropdown, Icon, InputNumber, Row, Switch, Tooltip } from 'antd'
+import { default as BoxShadowStyle } from 'components/elements/box-shadow'
+import SelectDatePicker from 'components/elements/datetime-picker'
+import Heading from 'components/elements/heading'
+import createValidateComponent from 'components/elements/redux-form-validate'
 import SelectAnt from 'components/elements/select-ant'
 import SelectProvince from 'components/elements/select-province'
-import SelectDatePicker from 'components/elements/datetime-picker'
-import createValidateComponent from 'components/elements/redux-form-validate'
-import { default as BoxShadowStyle } from 'components/elements/box-shadow'
-import Heading from 'components/elements/heading'
+import SelectQCVN from 'components/elements/select-qcvn'
+import SelectStationType from 'components/elements/select-station-type'
 import { dataStatusOptions } from 'constants/dataStatus'
+import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
+import { autobind } from 'core-decorators'
+import createLang, { translate } from 'hoc/create-lang'
+import update from 'immutability-helper'
+import * as _ from 'lodash'
+import moment from 'moment-timezone'
+import PropTypes from 'prop-types'
+import React from 'react'
+import { connect } from 'react-redux'
+import { clearFields, Field, reduxForm, unregisterField } from 'redux-form'
+import styled from 'styled-components'
+import { getTimes } from 'utils/datetime'
+import OptionsTimeRange from '../../common/options-time-range'
 // import SelectStationAuto from '../../common/select-station-auto'
 import SelectTimeRange from '../../common/select-time-range'
-import OptionsTimeRange from '../../common/options-time-range'
-import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
+import { listFilter } from '../constants'
 import FilterList from '../filter'
 import validate from '../utils/validate'
-import { listFilter } from '../constants'
-import QAQCSetup from '../drawer/QAQCSetup'
-// import AdvancedOperator from '../advanced-operator'
-// import Clearfix from 'components/elements/clearfix'
-import protectRole from 'hoc/protect-role'
-import ROLE from 'constants/role'
-import { getTimes } from 'utils/datetime'
 import { ToolTip } from './../../common/tooltip'
 
 const FSelectProvince = createValidateComponent(SelectProvince)
@@ -115,18 +110,6 @@ const Flex = styled.div`
 
 const Container = styled.div`
   padding: 16px 16px;
-`
-
-const HeadingText = styled.span`
-  cursor: pointer;
-  font-size: 16px;
-  color: #fff;
-  font-weight: 500;
-  white-space: nowrap;
-  > .anticon {
-    padding-left: 8px;
-    font-size: 14px;
-  }
 `
 
 const options = {
@@ -377,10 +360,6 @@ export default class SearchAvgForm extends React.Component {
     }))
   }
 
-  handleSetupQAQC = () => {
-    this.QAQCSetup.handleOpen()
-  }
-
   handleRemoveField = filterKey => () => {
     const { dispatch, form, change } = this.props
     if (this.filterListRef) {
@@ -403,26 +382,11 @@ export default class SearchAvgForm extends React.Component {
     }
   }
 
-  rightChildren() {
-    return protectRole(ROLE.XU_LY_KIEM_DUYET_DU_LIEU_CONFIG.EDIT)(
-      <Tooltip
-        placement="top"
-        title={translate('dataSearchFilterForm.tooltip.configQAQC')}
-      >
-        <HeadingText onClick={this.handleSetupQAQC}>
-          {this.props.lang.t('qaqcConfig.title')}
-          <Icon type="down" />
-        </HeadingText>
-      </Tooltip>
-    )
-  }
-
   render() {
     const t = this.props.lang.createNameSpace('dataSearchFilterForm.form')
     return (
       <SearchFormContainer>
         <Heading
-          rightChildren={this.rightChildren()}
           textColor="#ffffff"
           isBackground
           fontSize={14}
@@ -565,12 +529,6 @@ export default class SearchAvgForm extends React.Component {
             </React.Fragment>
           ) : null} */}
         </Container>
-        {protectRole(ROLE.XU_LY_KIEM_DUYET_DU_LIEU_CONFIG.EDIT)(
-          <QAQCSetup
-            stationType={this.props.values.stationType}
-            ref={ref => (this.QAQCSetup = ref)}
-          />
-        )}
       </SearchFormContainer>
     )
   }

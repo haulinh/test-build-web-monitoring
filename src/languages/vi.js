@@ -480,6 +480,15 @@ export default {
     deviceCalibration: 'Thiết bị hiệu chuẩn',
     zero: 'Giá trị 0',
     negative: 'Giá trị Âm',
+		basic: {
+			title: 'Bộ lọc cơ bản',
+			useBasicConfig: 'Giá trị 0, âm và lặp lại',
+			repeat: 'Lặp lại',
+			removeValues: 'Loại bỏ các giá trị'
+		},
+		advanced: {
+			title: 'Bộ lọc nâng cao',
+		}
   },
   controlStation: {
     text: 'Điều khiển lấy mẫu',
@@ -2217,10 +2226,10 @@ export default {
         name: 'Tỉ lệ dữ liệu vượt ngưỡng',
       },
       reportExceed: {
-        name: 'Báo cáo dữ liệu vượt ngưỡng',
+        name: 'Dữ liệu vượt ngưỡng',
       },
       reportFlow: {
-        name: 'Báo cáo lưu lượng phát thải',
+        name: 'Lưu lượng phát thải',
       },
       soLanMatKetNoi: {
         name: 'Số lần mất kết nối',
@@ -3043,8 +3052,10 @@ export default {
       status_data: ' Báo cáo tổng hợp tình trạng dữ liệu theo nhiều trạm',
       aqi_hour: 'Báo cáo giá trị AQI của từng trạm',
       aqi_day: 'Báo cáo giá trị AQI ngày theo nhiều trạm',
-      type1_exceed: 'Thống kê về dữ liệu vượt ngưỡng của các trạm quan trắc theo thời gian',
-      type2_flow: 'Báo cáo lưu lượng phát thải',
+      type1_exceed:
+        'Thống kê về dữ liệu vượt ngưỡng của các trạm quan trắc theo thời gian',
+      type2_flow:
+        'Thống kê về lưu lượng phát thải của trạm quan trắc theo thời gian',
     },
     advanceSub: 'Các chức năng nâng cao của hệ thống',
     advance: {
@@ -4147,6 +4158,7 @@ export default {
     },
     typeRatio: {
       titleExport: 'Bao Cao Ty Le Du Lieu Thu Duoc_{{=it.time}}',
+      notUpdate: 'Chưa cập nhật',
     },
   },
 }

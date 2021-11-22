@@ -4,11 +4,11 @@ import {
   Form,
   Button,
   Tabs,
-  Card,
   Skeleton,
   Row,
   message,
   Collapse,
+  Col,
   // Modal
 } from 'antd'
 import PropTypes from 'prop-types'
@@ -16,23 +16,26 @@ import { translate } from 'hoc/create-lang'
 import { getStationTypes } from 'api/CategoryApi'
 import * as _ from 'lodash'
 import { connect } from 'react-redux'
-import TableConfig from './table'
+import TableConfig from './TableConfig.js'
 import { getConfigQAQC, postConfigQAQC, putConfigQAQC } from 'api/CategoryApi'
 import Disconnection from 'components/elements/disconnection'
+import { Clearfix } from 'components/layouts/styles'
 
 const { TabPane } = Tabs
 const { Panel } = Collapse
 
 function i18n() {
   return {
+    title: translate('qaqcConfig.basic.title'),
+    repeat: translate('qaqcConfig.basic.repeat'),
+    useBasicConfig: translate('qaqcConfig.basic.useBasicConfig'),
+    removeValues: translate('qaqcConfig.basic.removeValues'),
     beyondMeasuringRange: translate('qaqcConfig.beyondMeasuringRange'),
     deviceError: translate('qaqcConfig.deviceError'),
     deviceCalibration: translate('qaqcConfig.deviceCalibration'),
-
     btnEdit: translate('addon.save'),
     btnSave: translate('addon.create'),
     disconnectionMessage: translate('network.qaqc.lostConnection'),
-
     updateSuccess: translate('addon.onSave.update.success'),
   }
 }
@@ -73,7 +76,7 @@ export default class ConfigQaqcBasic extends React.Component {
   )
 
   handleSubmit = () => {
-		this.setState({isLoading: true})
+    this.setState({ isLoading: true })
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
         // console.log('Received values of form: ', values)
@@ -161,6 +164,7 @@ export default class ConfigQaqcBasic extends React.Component {
             beyondMeasuringRange: data.beyondMeasuringRange,
             deviceError: data.deviceError,
             deviceCalibration: data.deviceCalibration,
+            repeat: data.repeat,
             ...(this.props.stationType
               ? {
                   [this.props.stationType]:
@@ -263,25 +267,26 @@ export default class ConfigQaqcBasic extends React.Component {
   renderButton = () => {
     return (
       <Button
-				loading={this.state.isLoading}
+        loading={this.state.isLoading}
         onClick={event => {
           event.stopPropagation()
-						this.handleSubmit()
+          this.handleSubmit()
         }}
         size="small"
         type="primary"
       >
-				{this.state.configId ? i18n().btnEdit : i18n().btnSave}
+        {this.state.configId ? i18n().btnEdit : i18n().btnSave}
       </Button>
     )
   }
 
   render() {
     const { getFieldDecorator } = this.props.form
+    // const useBasicConfig = getFieldValue('useBasicConfig')
     return (
       <React.Fragment>
         <Collapse defaultActiveKey="basic">
-          <Panel header="Bộ lọc cơ bản" key="basic" extra={this.renderButton()}>
+          <Panel header={i18n().title} key="basic" extra={this.renderButton()}>
             {this.state.isDisconnection ? (
               this._renderDisconnection()
             ) : (
@@ -294,29 +299,42 @@ export default class ConfigQaqcBasic extends React.Component {
                 )}
 
                 {this.state.isInitLoaded && (
-                  <div>
-                    <Form.Item style={{ marginBottom: 8 }}>
-                      {getFieldDecorator('beyondMeasuringRange', {
-                        valuePropName: 'checked',
-                      })(<Checkbox>{i18n().beyondMeasuringRange}</Checkbox>)}
-                    </Form.Item>
-                    <Form.Item style={{ marginBottom: 8 }}>
-                      {getFieldDecorator('deviceError', {
-                        valuePropName: 'checked',
-                      })(<Checkbox>{i18n().deviceError}</Checkbox>)}
-                    </Form.Item>
-                    <Form.Item style={{ marginBottom: 8 }}>
-                      {getFieldDecorator('deviceCalibration', {
-                        valuePropName: 'checked',
-                      })(<Checkbox>{i18n().deviceCalibration}</Checkbox>)}
-                    </Form.Item>
-                  </div>
+                  <React.Fragment>
+                    <Row>
+                      <Col span={2}>{i18n().removeValues}</Col>
+                      <Col span={22}>
+                        <Row gutter={12} type="flex">
+                          <Col>
+                            {getFieldDecorator('beyondMeasuringRange', {
+                              valuePropName: 'checked',
+                            })(
+                              <Checkbox>{i18n().beyondMeasuringRange}</Checkbox>
+                            )}
+                          </Col>
+                          <Col>
+                            {getFieldDecorator('deviceError', {
+                              valuePropName: 'checked',
+                            })(<Checkbox>{i18n().deviceError}</Checkbox>)}
+                          </Col>
+                          <Col>
+                            {getFieldDecorator('deviceCalibration', {
+                              valuePropName: 'checked',
+                            })(<Checkbox>{i18n().deviceCalibration}</Checkbox>)}
+                          </Col>
+                        </Row>
+                        <Clearfix height={12} />
+                        <Col>
+                          {getFieldDecorator('useBasicConfig', {
+                            valuePropName: 'checked',
+                          })(<Checkbox>{i18n().useBasicConfig}</Checkbox>)}
+                        </Col>
+                      </Col>
+                    </Row>
+                  </React.Fragment>
                 )}
 
-                <Card
-                  loading={!this.state.isInitLoaded || !this.props.isInitLoaded}
-                  style={{ width: '100%' }}
-                >
+                <React.Fragment>
+                  <Clearfix height={12} />
                   <Tabs
                     defaultActiveKey={this.state.activeTabkey}
                     activeKey={this.state.activeTabkey}
@@ -330,6 +348,7 @@ export default class ConfigQaqcBasic extends React.Component {
                           key: item,
                           zero: false,
                           negative: false,
+                          repeat: null,
                         }
                       })
                       return (
@@ -348,8 +367,8 @@ export default class ConfigQaqcBasic extends React.Component {
                       )
                     })}
                   </Tabs>
-                </Card>
-             </Form>
+                </React.Fragment>
+              </Form>
             )}
           </Panel>
         </Collapse>
