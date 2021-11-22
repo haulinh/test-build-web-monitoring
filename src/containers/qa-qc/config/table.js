@@ -4,9 +4,11 @@ import PropTypes from 'prop-types'
 import * as _ from 'lodash'
 import { translate } from 'hoc/create-lang'
 
-const i18n = {
-  zero: translate('qaqcConfig.zero'),
-  negative: translate('qaqcConfig.negative'),
+function i18n() {
+  return {
+    zero: translate('qaqcConfig.zero'),
+    negative: translate('qaqcConfig.negative'),
+  }
 }
 
 const OPTION = {
@@ -73,7 +75,7 @@ export default class TableConfig extends React.Component {
               this.checkAllOption(OPTION.ZERO, e.target.checked)
             }}
           >
-            {i18n.zero}
+            {i18n().zero}
           </Checkbox>
         )
       },
@@ -117,7 +119,7 @@ export default class TableConfig extends React.Component {
               this.checkAllOption(OPTION.NEGATIVE, e.target.checked)
             }}
           >
-            {i18n.negative}
+            {i18n().negative}
           </Checkbox>
         )
       },
