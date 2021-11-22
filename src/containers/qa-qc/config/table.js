@@ -1,15 +1,12 @@
 import React from 'react'
-import { Table, Checkbox, InputNumber } from 'antd'
+import { Table, Checkbox } from 'antd'
 import PropTypes from 'prop-types'
 import * as _ from 'lodash'
 import { translate } from 'hoc/create-lang'
 
-function i18n() {
-  return {
-    zero: translate('qaqcConfig.zero'),
-    negative: translate('qaqcConfig.negative'),
-    repeat: translate('qaqcConfig.basic.repeat'),
-  }
+const i18n = {
+  zero: translate('qaqcConfig.zero'),
+  negative: translate('qaqcConfig.negative'),
 }
 
 const OPTION = {
@@ -76,7 +73,7 @@ export default class TableConfig extends React.Component {
               this.checkAllOption(OPTION.ZERO, e.target.checked)
             }}
           >
-            {i18n().zero}
+            {i18n.zero}
           </Checkbox>
         )
       },
@@ -120,7 +117,7 @@ export default class TableConfig extends React.Component {
               this.checkAllOption(OPTION.NEGATIVE, e.target.checked)
             }}
           >
-            {i18n().negative}
+            {i18n.negative}
           </Checkbox>
         )
       },
@@ -152,24 +149,6 @@ export default class TableConfig extends React.Component {
               />
             )}
           </span>
-        )
-      },
-    },
-    {
-      title: i18n().repeat,
-      dataIndex: 'repeat',
-      key: 'repeat',
-      width: 180,
-      render: (text, record, index) => {
-        const { getFieldDecorator } = this.props.form
-
-        return (
-          <React.Fragment>
-            {getFieldDecorator(
-              `${this.props.type}.${record.key}.repeat`,
-              {}
-            )(<InputNumber style={{ width: '100%' }} />)}
-          </React.Fragment>
         )
       },
     },
@@ -247,7 +226,6 @@ export default class TableConfig extends React.Component {
     return (
       <div>
         <Table
-          bordered
           pagination={false}
           columns={this.columns}
           dataSource={this.props.dataTableMeasures}

@@ -264,24 +264,6 @@ export default {
           </Tooltip>
         </Menu.Item>
       )}
-
-      {protectRole(ROLE.XU_LY_KIEM_DUYET_DU_LIEU_CONFIG.VIEW)(
-        <Menu.Item
-          key={slug.qaqc.configNew}
-          onClick={() => {
-            props.selectMenu(slug.qaqc.configNew)
-          }}
-        >
-          <Tooltip
-            placement="right"
-            title={listTooltipMenu().processData.configNew}
-          >
-            <Link to={slug.qaqc.configNew}>
-              {listMenuName().processData.approveData}
-            </Link>
-          </Tooltip>
-        </Menu.Item>
-      )}
     </Menu.SubMenu>
   ),
 }
