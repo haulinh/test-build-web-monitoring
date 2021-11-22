@@ -35,6 +35,7 @@ function i18n() {
     deviceCalibration: translate('qaqcConfig.deviceCalibration'),
     btnEdit: translate('addon.save'),
     btnSave: translate('addon.create'),
+    btnUpdate: translate('addon.update'),
     disconnectionMessage: translate('network.qaqc.lostConnection'),
     updateSuccess: translate('addon.onSave.update.success'),
   }
@@ -57,6 +58,7 @@ export default class ConfigQaqcBasic extends React.Component {
       configId: null,
       stationTypes: [],
       configQAQC: {},
+      dataUseConfigBasic: {},
     }
     this.getData = this.getData.bind(this)
   }
@@ -173,6 +175,7 @@ export default class ConfigQaqcBasic extends React.Component {
               : data.measureConfig),
           }
           this.setState({
+            dataUseConfigBasic: dataForm,
             configQAQC: data,
             configId: _.get(response, 'data._id', null),
             isHaveConfig: true,
@@ -265,9 +268,10 @@ export default class ConfigQaqcBasic extends React.Component {
   }
 
   renderButton = () => {
+    const { isLoading, configId, dataUseConfigBasic } = this.state
     return (
       <Button
-        loading={this.state.isLoading}
+        loading={isLoading}
         onClick={event => {
           event.stopPropagation()
           this.handleSubmit()
@@ -275,14 +279,14 @@ export default class ConfigQaqcBasic extends React.Component {
         size="small"
         type="primary"
       >
-        {this.state.configId ? i18n().btnEdit : i18n().btnSave}
+        {configId ? i18n().btnUpdate : i18n().btnSave}
       </Button>
     )
   }
 
   render() {
-    const { getFieldDecorator } = this.props.form
-    // const useBasicConfig = getFieldValue('useBasicConfig')
+    const { getFieldDecorator, getFieldValue } = this.props.form
+    const useBasicConfig = getFieldValue('useBasicConfig')
     return (
       <React.Fragment>
         <Collapse defaultActiveKey="basic">
@@ -332,8 +336,7 @@ export default class ConfigQaqcBasic extends React.Component {
                     </Row>
                   </React.Fragment>
                 )}
-
-                <React.Fragment>
+                <div style={{ display: !useBasicConfig && 'none' }}>
                   <Clearfix height={12} />
                   <Tabs
                     defaultActiveKey={this.state.activeTabkey}
@@ -367,7 +370,7 @@ export default class ConfigQaqcBasic extends React.Component {
                       )
                     })}
                   </Tabs>
-                </React.Fragment>
+                </div>
               </Form>
             )}
           </Panel>
