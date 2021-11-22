@@ -75,7 +75,7 @@ export default function TableMonth({
       dataIndex: 'totalFact',
       align: 'center',
       render: value => {
-        return <div style={{ textAlign: 'right' }}>{value ? value : '-'}</div>
+        return <div style={{ textAlign: 'right' }}>{_.isNumber(value) ? value : '-'}</div>
       },
     },
     {
