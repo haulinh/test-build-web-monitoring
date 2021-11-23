@@ -17,9 +17,9 @@ export default class FilterTimeContainer extends Component {
     stationKey: '',
     isShowModalFilterTime: false,
     isShowModalConfirmDelete: false,
-    conFirmDelete: false,
     timeFilterItem: '',
-    dataSource: [
+
+    timeFilterList: [
       {
         key: '1',
         stationName: 'VINATEX TOMS',
@@ -65,11 +65,12 @@ export default class FilterTimeContainer extends Component {
     })
   }
 
-  handleChangeStationAuto = stationKey => {
+  onChangeStationAuto = stationKey => {
     this.setState({
       stationKey,
     })
   }
+
   setTimeFilterItem = timeFilterItem => {
     this.setState({
       isShowModalConfirmDelete: true,
@@ -77,15 +78,15 @@ export default class FilterTimeContainer extends Component {
     })
   }
 
-  handleDeleteTimeFilterItem = () => {
-    let { dataSource } = this.state
+  deleteTimeFilterItem = () => {
+    let { timeFilterList } = this.state
     const { timeFilterItem } = this.state
-    dataSource = [...dataSource]
-    const timeFilterList = dataSource.filter(
+    timeFilterList = [...timeFilterList]
+    const newTimeFilterList = timeFilterList.filter(
       item => item.key !== timeFilterItem
     )
     this.setState({
-      dataSource: timeFilterList,
+      timeFilterList: newTimeFilterList,
       isShowModalConfirmDelete: false,
     })
   }
@@ -95,40 +96,46 @@ export default class FilterTimeContainer extends Component {
       stationKey,
       isShowModalFilterTime,
       isShowModalConfirmDelete,
-      dataSource,
+      timeFilterList,
     } = this.state
+
     return (
       <div>
         <Row type="flex" span={24} justify="space-between" align="middle">
           <Col span={5}>
             <SelectStationAuto
-              onChange={this.handleChangeStationAuto}
+              onChange={this.onChangeStationAuto}
               placeholder="Chọn trạm quan trắc"
               value={stationKey}
             />
           </Col>
+
           <Col style={{ display: 'flex', gap: 10 }}>
             <Switch defaultChecked />
             <p>Bộ lọc khoảng thời gian</p>
           </Col>
         </Row>
+
         <Clearfix height={20} />
+
         <TableFilterTime
           onEditRecord={this.showModalFilterTime}
-          dataSource={dataSource}
-          getRecordKey={this.setTimeFilterItem}
+          dataSource={timeFilterList}
+          setTimeFilterItem={this.setTimeFilterItem}
           showModalFilterTime={this.showModalFilterTime}
         />
+
         <ModalFilterTime
           visible={isShowModalFilterTime}
           onCancel={this.closeModalFilterTime}
           showModalConfirmDelete={this.showModalConfirmDelete}
         />
+
         <ModalConFirmDelete
           visible={isShowModalConfirmDelete}
           closable={false}
           footer={false}
-          onConfirmDelete={this.handleDeleteTimeFilterItem}
+          onConfirmDelete={this.deleteTimeFilterItem}
           onCancelDelete={this.closeModalConfirmDelete}
         />
       </div>

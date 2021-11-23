@@ -7,27 +7,28 @@ export default class FormTableMeasureTime extends Component {
   constructor(props) {
     super(props)
     const { form } = this.props
+
     this.columns = [
       {
         title: 'Thông số',
         render: record => {
           return (
             <React.Fragment>
-              {form.getFieldDecorator(record.key)(<div> {record.key}</div>)}
+              {form.getFieldDecorator(record.key)(<div>{record.key}</div>)}
             </React.Fragment>
           )
         },
       },
+
       {
         title: 'Thời gian',
         render: record => {
-          const onChangeTime = value => {
-            form.setFieldsValue({
-              [record.key]: value,
-            })
-          }
           return (
-            <RangePicker style={{ width: '100%' }} onChange={onChangeTime} />
+            <React.Fragment>
+              {form.getFieldDecorator(record.key)(
+                <RangePicker style={{ width: '100%' }} />
+              )}
+            </React.Fragment>
           )
         },
       },
@@ -36,6 +37,7 @@ export default class FormTableMeasureTime extends Component {
 
   render() {
     const { measureList } = this.props
+
     return (
       <Table
         columns={this.columns}

@@ -4,16 +4,19 @@ import { Clearfix } from 'components/layouts/styles'
 
 export default class ModalConFirmDelete extends Component {
   render() {
-    const { onCancelDelete, onConfirmDelete } = this.props
+    const { onCancelDelete, onConfirmDelete, ...otherProps } = this.props
 
     return (
-      <Modal centered {...this.props}>
+      <Modal centered {...otherProps}>
         <h5>Xác nhận xoá bộ lọc</h5>
+
         <div>
           Hãy chắc chắn xóa bộ lọc dữ liệu, tất cả dữ liệu của báo cáo, thống kê
           sẽ không còn áp dụng bộ lọc để tính toán.
         </div>
+
         <Clearfix height={10} />
+
         <Row type="flex" justify="end">
           <Button onClick={onCancelDelete}>Huỷ bỏ</Button>
           <Button

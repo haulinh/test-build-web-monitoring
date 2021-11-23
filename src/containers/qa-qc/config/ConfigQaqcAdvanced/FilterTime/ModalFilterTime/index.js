@@ -4,7 +4,6 @@ import SelectStationType from 'components/elements/select-station-type'
 import { FormItem } from 'components/layouts/styles'
 import { getMeasuringListFromStationAutos } from 'containers/api-sharing/util'
 import { translate as t } from 'hoc/create-lang'
-import _ from 'lodash'
 import React, { Component } from 'react'
 import FormTableMeasureTime from './FormTableMeasureTime'
 import { FIELDS } from '../index'
@@ -13,20 +12,12 @@ import { FIELDS } from '../index'
 export default class ModalFilterTime extends Component {
   state = {
     stationAutos: [],
-    stationAutoList: [],
+    stationAuto: [],
   }
+
   onStationAutosFetchSuccess = stationAutos => {
     this.setState({
       stationAutos,
-    })
-  }
-  onChangeStationType = stationKey => {
-    const { stationAutos } = this.state
-    const stationAutoList = stationAutos.filter(
-      stationAuto => _.get(stationAuto, 'stationType.key') === stationKey
-    )
-    this.setState({
-      stationAutoList,
     })
   }
 
@@ -36,30 +27,30 @@ export default class ModalFilterTime extends Component {
 
     if (!stationAutoValue) return []
 
-    const stationAutoList = this.state.stationAutos.find(stationAuto =>
+    const stationAuto = this.state.stationAutos.filter(stationAuto =>
       stationAutoValue.includes(stationAuto.key)
     )
-    const measureList = getMeasuringListFromStationAutos(stationAutoList)
+
+    const measureList = getMeasuringListFromStationAutos(stationAuto)
     return measureList
   }
 
   handleSearch = () => {
     const { form } = this.props
     const values = form.getFieldsValue()
-    const { stationKeys, stationType, time, ...newValues } = values
-    console.log(newValues)
+    console.log(values)
   }
 
   render() {
-    const { form, showModalConfirmDelete } = this.props
-
+    const { form, showModalConfirmDelete, ...otherProps } = this.props
     const stationType = form.getFieldValue(FIELDS.STATION_TYPE)
     const measureList = this.getMeasuringList()
+
     return (
       <Modal
         width={900}
         title="Thêm bộ lọc điều kiện mới"
-        {...this.props}
+        {...otherProps}
         centered
         footer={[
           <Row type="flex" justify="space-between">
@@ -79,7 +70,6 @@ export default class ModalFilterTime extends Component {
           <Col span={8}>
             <FormItem label="Loại trạm">
               {form.getFieldDecorator(FIELDS.STATION_TYPE, {
-                onChange: this.onChangeStationType,
                 rules: [
                   {
                     required: true,
@@ -89,6 +79,7 @@ export default class ModalFilterTime extends Component {
               })(<SelectStationType placeholder="Chọn loại trạm" />)}
             </FormItem>
           </Col>
+
           <Col span={8}>
             <FormItem label="Trạm quan trắc">
               {form.getFieldDecorator(FIELDS.STATION_AUTO, {
