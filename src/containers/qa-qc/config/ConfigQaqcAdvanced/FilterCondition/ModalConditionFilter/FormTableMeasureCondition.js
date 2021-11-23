@@ -16,18 +16,16 @@ export default class FormTableMeasureCondition extends Component {
 
   addCondition = () => {
     const currentData = [...this.state.conditions]
-    const newData = {
-      id: '1',
-    }
+    const newData = {}
     const newDataSource = [...currentData, newData]
 
-    this.setState({ dataSource: newDataSource })
+    this.setState({ conditions: newDataSource })
   }
 
   deleteCondition = id => {
     const { conditions } = this.state
     const newConditions = conditions.filter(
-      conditionItem => conditionItem.id !== id
+      conditionItem => conditions.indexOf(conditionItem) !== id
     )
     this.setState({ conditions: newConditions })
   }
@@ -35,19 +33,20 @@ export default class FormTableMeasureCondition extends Component {
   columns = [
     {
       title: 'Thông số điều kiện',
-      dataIndex: 'conditionMeasure',
       width: 402,
-      render: (value, index) => {
+      render: (value, index, record) => {
+        console.log(record)
         const { form, measureList } = this.props
         return (
           <Row type="flex" align="middle" gutter={12}>
             <Col span={12}>
               <Form.Item required={false}>
                 {form.getFieldDecorator(
-                  `${FIELDS.CONDITIONS}.${index}.measure`,
+                  `${FIELDS.CONDITIONS}.${record}.measure`,
                   {}
                 )(
                   <SelectMeasureParameter
+                    placeholder="Chọn thông số"
                     measuringList={measureList}
                     mode="single"
                   />
@@ -57,7 +56,7 @@ export default class FormTableMeasureCondition extends Component {
             <Col span={6}>
               <Form.Item required={false}>
                 {form.getFieldDecorator(
-                  `${FIELDS.CONDITIONS}.${index}.operator`,
+                  `${FIELDS.CONDITIONS}.${record}.operator`,
                   {
                     initialValue: 'eq',
                   }
@@ -67,9 +66,9 @@ export default class FormTableMeasureCondition extends Component {
             <Col span={6}>
               <Form.Item required={false}>
                 {form.getFieldDecorator(
-                  `${FIELDS.CONDITIONS}.${index}.value`,
+                  `${FIELDS.CONDITIONS}.${record}.value`,
                   {}
-                )(<InputNumber style={{ width: '100%' }} />)}
+                )(<InputNumber placeholder="00" style={{ width: '100%' }} />)}
               </Form.Item>
             </Col>
           </Row>
@@ -78,14 +77,13 @@ export default class FormTableMeasureCondition extends Component {
     },
     {
       title: 'Thông số loại bỏ',
-      dataIndex: 'removeMeasure',
       width: 528,
-      render: (value, index) => {
+      render: (value, index, record) => {
         const { form, measureList } = this.props
         return (
           <Form.Item required={false}>
             {form.getFieldDecorator(
-              `${FIELDS.CONDITIONS}.${index}.excludeMeasures`,
+              `${FIELDS.CONDITIONS}.${record}.excludeMeasures`,
               {}
             )(
               <SelectMeasureParameter
@@ -101,9 +99,8 @@ export default class FormTableMeasureCondition extends Component {
     },
     {
       title: '',
-      dataIndex: 'option',
       align: 'center',
-      render: (value, index) => {
+      render: (value, index, record) => {
         return (
           <div
             onClick={() => {
@@ -113,7 +110,7 @@ export default class FormTableMeasureCondition extends Component {
           >
             <Row type="flex">
               <Icon
-                onClick={() => this.deleteCondition(index)}
+                onClick={() => this.deleteCondition(record)}
                 style={{ color: '#E64D3D' }}
                 type="delete"
               />
@@ -128,7 +125,7 @@ export default class FormTableMeasureCondition extends Component {
     return (
       <Table
         columns={this.columns}
-        dataSource={this.state.dataSource}
+        dataSource={this.state.conditions}
         bordered
         pagination={false}
         scroll={{ y: 300 }}

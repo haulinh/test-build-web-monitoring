@@ -1,4 +1,4 @@
-import { Icon, Row, Table } from 'antd'
+import { Icon, Row, Table, Button } from 'antd'
 import { Clearfix } from 'components/layouts/styles'
 import React from 'react'
 
@@ -75,19 +75,19 @@ class TableConditionFilter extends React.Component {
       align: 'center',
       render: (value, index) => {
         return (
-          <div>
-            <Row type="flex" justify="center">
-              <div
-                onClick={() => {
-                  this.setState({ visible: true })
-                }}
-              >
-                <Icon style={{ color: '#1890FF' }} type="edit" />
-              </div>
-              <Clearfix width={20} />
-              <Icon style={{ color: '#E64D3D' }} type="delete" />
-            </Row>
-          </div>
+          <Row>
+            <Button
+              type="link"
+              onClick={() => {
+                this.setState({ visible: true })
+              }}
+            >
+              <Icon type="edit" style={{ color: '#1890FF' }} />
+            </Button>
+            <Button type="link">
+              <Icon type="delete" style={{ color: '#E64D3D' }} />
+            </Button>
+          </Row>
         )
       },
     },

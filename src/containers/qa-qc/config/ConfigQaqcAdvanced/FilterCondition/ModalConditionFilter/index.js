@@ -18,11 +18,13 @@ class ModalConditionFilter extends React.Component {
       stationAutoList: [],
     }
   }
+
   onStationAutosFetchSuccess = stationAutos => {
     this.setState({
       stationAutos,
     })
   }
+
   onChangeStationType = stationKey => {
     const { stationAutos } = this.state
     const stationAutoList = stationAutos.find(
@@ -33,7 +35,7 @@ class ModalConditionFilter extends React.Component {
     })
   }
 
-  getMeasuringList = () => {
+  getMeasureList = () => {
     const { form } = this.props
     const stationAutoValue = form.getFieldValue(FIELDS.STATION)
 
@@ -54,10 +56,9 @@ class ModalConditionFilter extends React.Component {
 
   render() {
     const { form } = this.props
-
     const stationType = form.getFieldValue(FIELDS.STATION_TYPE)
+    const measureList = this.getMeasureList()
 
-    const measureList = this.getMeasuringList()
     return (
       <Modal
         title="Thêm điều kiện bộ lọc mới"
@@ -77,14 +78,13 @@ class ModalConditionFilter extends React.Component {
           <Col span={8}>
             <Form.Item label="Tên bộ lọc">
               {form.getFieldDecorator(FIELDS.FILTER_NAME, {
-                initialValue: 'Tên bộ lọc',
                 rules: [
                   {
                     required: true,
                     message: '',
                   },
                 ],
-              })(<Input />)}
+              })(<Input placeholder="Tên bộ lọc" />)}
             </Form.Item>
           </Col>
           <Col span={8}>
