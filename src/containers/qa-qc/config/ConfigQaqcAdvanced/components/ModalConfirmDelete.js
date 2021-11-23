@@ -1,12 +1,9 @@
-import {
-  Button, Modal, Row
-} from 'antd'
+import { Button, Modal, Row } from 'antd'
 import React from 'react'
 
 class ModalConfirmDelete extends React.Component {
-
   render() {
-    const { isVisible } = this.props
+    const { isVisible, onCancelDelete, onConfirmDelete } = this.props
 
     return (
       <Modal
@@ -16,8 +13,15 @@ class ModalConfirmDelete extends React.Component {
         centered
         footer={[
           <Row type="flex" justify="end">
-            <Button key="back">Hủy bỏ</Button>
-            <Button key="submit" type="danger">
+            <Button key="back" onClick={onCancelDelete}>
+              Hủy bỏ
+            </Button>
+            <Button
+              key="submit"
+              type="danger"
+              onClick={onConfirmDelete}
+              style={{ marginLeft: 10 }}
+            >
               Xóa bộ lọc
             </Button>
           </Row>,
