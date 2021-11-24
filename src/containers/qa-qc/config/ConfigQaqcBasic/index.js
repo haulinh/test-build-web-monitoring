@@ -127,7 +127,7 @@ export default class ConfigQaqcBasic extends React.Component {
   handleSubmit = async () => {
     const { form } = this.props
     const repeatValidateError = this.getRepeatValidateError()
-    const [values] = await Promise.all([
+    const [, values] = await Promise.all([
       form.setFields(repeatValidateError),
       form.validateFields(),
     ])
