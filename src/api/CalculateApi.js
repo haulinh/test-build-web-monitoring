@@ -117,4 +117,12 @@ export default {
     return pathFetch(url)
   },
   //#endregion
+
+  //#region qa-qc
+  getQaqcConfigs: param => {
+    const url = calc(`qaqc-config`)
+    return getFetch(url, param)
+  },
+
+  //#endregion
 }

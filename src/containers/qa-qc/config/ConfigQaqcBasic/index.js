@@ -289,7 +289,7 @@ export default class ConfigQaqcBasic extends React.Component {
     const useBasicConfig = getFieldValue('useBasicConfig')
     return (
       <React.Fragment>
-        <Collapse defaultActiveKey="basic">
+        <Collapse>
           <Panel header={i18n().title} key="basic" extra={this.renderButton()}>
             {this.state.isDisconnection ? (
               this._renderDisconnection()

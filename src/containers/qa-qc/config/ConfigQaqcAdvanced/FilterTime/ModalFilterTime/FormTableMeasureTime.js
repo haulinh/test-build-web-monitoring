@@ -7,25 +7,23 @@ export default class FormTableMeasureTime extends Component {
   constructor(props) {
     super(props)
     const { form } = this.props
-
     this.columns = [
       {
         title: 'Thông số',
-        render: record => {
+        render: (value, record) => {
           return (
             <React.Fragment>
-              {form.getFieldDecorator(record.key)(<div>{record.key}</div>)}
+              {form.getFieldDecorator(value.key)(<div>{value.key}</div>)}
             </React.Fragment>
           )
         },
       },
-
       {
         title: 'Thời gian',
-        render: record => {
+        render: value => {
           return (
             <React.Fragment>
-              {form.getFieldDecorator(record.key)(
+              {form.getFieldDecorator(value.key)(
                 <RangePicker style={{ width: '100%' }} />
               )}
             </React.Fragment>
@@ -33,16 +31,27 @@ export default class FormTableMeasureTime extends Component {
         },
       },
     ]
+    this.columnsModalEdit = [
+      ...this.columns,
+      {
+        title: 'Trạng thái',
+        render: () => <div>Áp dụng</div>,
+      },
+    ]
   }
-
+  rowSelection = {
+    onSelect: (record, selected, selectedRows) => {
+      console.log(record, selected, selectedRows)
+    },
+  }
   render() {
-    const { measureList } = this.props
-
+    const { measureList, modalType } = this.props
     return (
       <Table
-        columns={this.columns}
+        columns={modalType === 'edit' ? this.columnsModalEdit : this.columns}
         dataSource={measureList}
         bordered
+        rowSelection={this.rowSelection}
         pagination={false}
         scroll={{ y: 300 }}
       />

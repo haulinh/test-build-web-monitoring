@@ -1,48 +1,46 @@
-import { Col, Row, Switch } from 'antd'
-import SelectStationAuto from 'components/elements/select-station-auto'
+import { Button, Col, Form, Row, Switch } from 'antd'
+import CalculateApi from 'api/CalculateApi'
 import { Clearfix } from 'components/layouts/styles'
+import SelectStationAuto from 'containers/search/common/select-station-auto'
 import React, { Component } from 'react'
+import { ModalConFirmDelete } from '../components'
 import ModalFilterTime from './ModalFilterTime'
 import TableFilterTime from './TableFilterTime'
-import { ModalConFirmDelete } from '../components'
 
 export const FIELDS = {
   STATION_TYPE: 'stationType',
   MEASURING_LIST: 'measure',
   STATION_AUTO: 'stationKeys',
+  STATION_AUTO_ID: 'stationId',
 }
 
+@Form.create()
 export default class FilterTimeContainer extends Component {
   state = {
-    stationKey: '',
     isShowModalFilterTime: false,
     isShowModalConfirmDelete: false,
-    timeFilterItem: '',
-
-    timeFilterList: [
-      {
-        key: '1',
-        stationName: 'VINATEX TOMS',
-        measure: 'pH, COD, NO2, NO3, TSS',
-        status: 'outdate',
-      },
-      {
-        key: '2',
-        stationName: 'Hoàn kiếm',
-        measure: 'pH, COD, NO2, NO3, TSS',
-        status: 'apply',
-      },
-      {
-        key: '3',
-        stationName: 'TEST_QUI',
-        measure: 'pH, COD, NO2, NO3, TSS',
-        status: 'outdate',
-      },
-    ],
+    timeFilterItemKey: '',
+    modalFilterTimeType: '',
+    dataFilterTime: [],
+    isLoading: false,
   }
 
   showModalFilterTime = () => {
     this.setState({
+      isShowModalFilterTime: true,
+    })
+  }
+
+  showModalCreateFilterTime = () => {
+    this.setState({
+      modalFilterTimeType: 'create',
+      isShowModalFilterTime: true,
+    })
+  }
+
+  showModalEditFilterTime = () => {
+    this.setState({
+      modalFilterTimeType: 'edit',
       isShowModalFilterTime: true,
     })
   }
@@ -71,65 +69,141 @@ export default class FilterTimeContainer extends Component {
     })
   }
 
-  setTimeFilterItem = timeFilterItem => {
+  setTimeFilterItem = timeFilterItemKey => {
     this.setState({
       isShowModalConfirmDelete: true,
-      timeFilterItem,
+      timeFilterItemKey,
     })
   }
 
   deleteTimeFilterItem = () => {
-    let { timeFilterList } = this.state
-    const { timeFilterItem } = this.state
-    timeFilterList = [...timeFilterList]
-    const newTimeFilterList = timeFilterList.filter(
-      item => item.key !== timeFilterItem
-    )
+    // let { timeFilterList } = this.state
+    // const { timeFilterItem } = this.state
+    // timeFilterList = [...timeFilterList]
+    // const newTimeFilterList = timeFilterList.filter(
+    //   item => item.key !== timeFilterItem
+    // )
     this.setState({
-      timeFilterList: newTimeFilterList,
+      // timeFilterList: newTimeFilterList,
       isShowModalConfirmDelete: false,
     })
   }
 
+  hasPagination = {
+    limit: 999999,
+    offset: 0,
+  }
+
+  handleSearchFilterTime = async () => {
+    this.setState({
+      isLoading: true,
+    })
+    const { form } = this.props
+    const stationKeyList = form.getFieldValue(FIELDS.STATION_AUTO)
+    const stationKeys = stationKeyList.join(',')
+    let params = {
+      ...this.hasPagination,
+    }
+    if (stationKeys) {
+      params = {
+        stationKeys,
+        ...params,
+      }
+    }
+    const results = await CalculateApi.getQaqcConfigs(params)
+    this.setState({
+      dataFilterTime: results.results,
+      isLoading: false,
+    })
+  }
+
+  componentDidMount = async () => {
+    this.setState({
+      isLoading: true,
+    })
+    const params = {
+      ...this.hasPagination,
+    }
+    const results = await CalculateApi.getQaqcConfigs(params)
+    this.setState({
+      dataFilterTime: results.results,
+      isLoading: false,
+    })
+  }
+
   render() {
+    const { form } = this.props
     const {
-      stationKey,
       isShowModalFilterTime,
       isShowModalConfirmDelete,
-      timeFilterList,
+      modalFilterTimeType,
+      dataFilterTime,
+      isLoading,
     } = this.state
+
+    const DynamicModalFilterTime = {
+      create: (
+        <ModalFilterTime
+          modalTitle="Thêm bộ lọc điều kiện mới"
+          visible={isShowModalFilterTime}
+          onCancel={this.closeModalFilterTime}
+          modalType={modalFilterTimeType}
+        />
+      ),
+      edit: (
+        <ModalFilterTime
+          modalTitle="Chỉnh sửa bộ lọc"
+          visible={isShowModalFilterTime}
+          onCancel={this.closeModalFilterTime}
+          modalType={modalFilterTimeType}
+          showModalConfirmDelete={this.showModalConfirmDelete}
+        />
+      ),
+    }
 
     return (
       <div>
         <Row type="flex" span={24} justify="space-between" align="middle">
-          <Col span={5}>
-            <SelectStationAuto
-              onChange={this.onChangeStationAuto}
-              placeholder="Chọn trạm quan trắc"
-              value={stationKey}
+          <Col
+            span={18}
+            type="flex"
+            style={{ display: 'flex', gap: 15, alignItems: 'center' }}
+          >
+            {form.getFieldDecorator(FIELDS.STATION_AUTO)(
+              <SelectStationAuto
+                fieldValue
+                placeholder="Chọn trạm quan trắc"
+                mode="multiple"
+                style={{ width: '100%' }}
+                maxTagCount={3}
+              />
+            )}
+            <Button
+              shape="circle"
+              icon="search"
+              size="small"
+              loading={isLoading}
+              onClick={this.handleSearchFilterTime}
             />
           </Col>
 
-          <Col style={{ display: 'flex', gap: 10 }}>
+          <Col style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
             <Switch defaultChecked />
-            <p>Bộ lọc khoảng thời gian</p>
+            <div>Bộ lọc khoảng thời gian</div>
           </Col>
         </Row>
 
         <Clearfix height={20} />
 
         <TableFilterTime
-          onEditRecord={this.showModalFilterTime}
-          dataSource={timeFilterList}
-          setTimeFilterItem={this.setTimeFilterItem}
-          showModalFilterTime={this.showModalFilterTime}
+          loading={isLoading}
+          onEditFilterTime={this.showModalEditFilterTime}
+          dataSource={dataFilterTime}
+          setTimeFilterItemKey={this.setTimeFilterItem}
+          onCreateFilterTime={this.showModalCreateFilterTime}
         />
 
-        <ModalFilterTime
-          visible={isShowModalFilterTime}
-          onCancel={this.closeModalFilterTime}
-          showModalConfirmDelete={this.showModalConfirmDelete}
-        />
+        {DynamicModalFilterTime[modalFilterTimeType]}
 
         <ModalConFirmDelete
           visible={isShowModalConfirmDelete}

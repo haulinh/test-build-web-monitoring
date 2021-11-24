@@ -1,44 +1,80 @@
 import React, { Component } from 'react'
 import { Table, Row, Icon, Button } from 'antd'
+import _ from 'lodash'
+import moment from 'moment'
+import styled from 'styled-components'
+import { getTimeUTC } from 'utils/datetime/index'
 
+const BoxStatus = styled.div`
+  text-align: center;
+  border-radius: 4px;
+  padding: 5px 12px;
+`
 export default class TableFilterTime extends Component {
   constructor(props) {
     super(props)
-    const { onEditRecord, setTimeFilterItem } = this.props
-    this.state = {
-      recordValue: '',
-    }
+    const { onEditFilterTime, setTimeFilterItemKey } = this.props
 
     this.columns = [
       {
         title: '#',
-        dataIndex: 'key',
         width: 50,
         align: 'center',
+        render: (value, record, index) => <div>{index + 1}</div>,
       },
       {
         title: 'Trạm quan trắc',
-        dataIndex: 'stationName',
-        render: text => <div style={{ fontWeight: 500 }}>{text}</div>,
+        dataIndex: 'name',
+        render: (value, record) => (
+          <div style={{ fontWeight: 500 }}>{value}</div>
+        ),
       },
 
       {
         title: 'Thông số',
-        className: 'column-money',
-        dataIndex: 'measure',
+        dataIndex: 'conditions',
         align: 'left',
-        render: value => <div style={{ color: '#1890ff' }}>{value}</div>,
+        width: 332,
+        render: value => {
+          const measureList = _.map(value, 'measure')
+          return (
+            <div style={{ color: '#1890ff' }}>{measureList.join(', ')}</div>
+          )
+        },
       },
       {
         title: 'Trạng thái',
-        dataIndex: 'status',
+        dataIndex: 'conditions',
         align: 'center',
-        render: value => (
-          <span>
-            {value === 'outdate' && <div>Quá hạn</div>}
-            {value === 'apply' && <div>Áp dụng</div>}
-          </span>
-        ),
+        render: value => {
+          const endTimes = _.map(value, 'endAt')
+          const currentTime = getTimeUTC(moment())
+          const checkTime = endTimes.filter(time =>
+            moment(time).isSameOrAfter(moment(currentTime))
+          )
+          if (_.isEmpty(checkTime)) {
+            return (
+              <BoxStatus
+                style={{
+                  backgroundColor: '#F3F4F6',
+                  color: '#6B7280',
+                }}
+              >
+                Quá hạn
+              </BoxStatus>
+            )
+          }
+          return (
+            <BoxStatus
+              style={{
+                backgroundColor: '#E1EDFB',
+                color: '#1890FF',
+              }}
+            >
+              Áp dụng
+            </BoxStatus>
+          )
+        },
       },
       {
         title: '',
@@ -46,13 +82,13 @@ export default class TableFilterTime extends Component {
         render: record => {
           return (
             <Row>
-              <Button type="link" onClick={onEditRecord}>
+              <Button type="link" onClick={onEditFilterTime}>
                 <Icon type="edit" style={{ color: '#1890FF' }} />
               </Button>
               <Button
                 type="link"
                 onClick={() => {
-                  setTimeFilterItem(record.key)
+                  setTimeFilterItemKey(record.key)
                 }}
               >
                 <Icon type="delete" style={{ color: 'red' }} />
@@ -65,7 +101,7 @@ export default class TableFilterTime extends Component {
   }
 
   render() {
-    const { dataSource, showModalFilterTime, ...otherProps } = this.props
+    const { dataSource, onCreateFilterTime, ...otherProps } = this.props
     return (
       <Table
         columns={this.columns}
@@ -75,7 +111,7 @@ export default class TableFilterTime extends Component {
         pagination={false}
         footer={() => (
           <Row style={{ color: '#1890FF' }} align="middle">
-            <Button type="link" onClick={showModalFilterTime}>
+            <Button type="link" onClick={onCreateFilterTime}>
               <Icon type="plus" style={{ marginRight: 5 }} />
               Thêm điều kiện lọc
             </Button>

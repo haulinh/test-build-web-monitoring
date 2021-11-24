@@ -12,7 +12,6 @@ import { FIELDS } from '../index'
 export default class ModalFilterTime extends Component {
   state = {
     stationAutos: [],
-    stationAuto: [],
   }
 
   onStationAutosFetchSuccess = stationAutos => {
@@ -23,46 +22,84 @@ export default class ModalFilterTime extends Component {
 
   getMeasuringList = () => {
     const { form } = this.props
-    const stationAutoValue = form.getFieldValue(FIELDS.STATION_AUTO)
+    const { stationAutos } = this.state
+    const stationAutoValue = form.getFieldValue(FIELDS.STATION_AUTO_ID)
 
     if (!stationAutoValue) return []
 
-    const stationAuto = this.state.stationAutos.filter(stationAuto =>
-      stationAutoValue.includes(stationAuto.key)
+    const stationAuto = stationAutos.filter(stationAuto =>
+      stationAutoValue.includes(stationAuto._id)
     )
 
     const measureList = getMeasuringListFromStationAutos(stationAuto)
     return measureList
   }
 
-  handleSearch = () => {
+  handleSubmit = () => {
     const { form } = this.props
     const values = form.getFieldsValue()
-    console.log(values)
+    const params = {
+      name: '',
+      type: 'time',
+      ...values,
+    }
+    console.log(params)
+  }
+
+  resetModalFilterTime = () => {
+    const { form } = this.props
+    form.resetFields()
+  }
+
+  onChangeStationType = () => {
+    const { form } = this.props
+    form.resetFields([FIELDS.STATION_AUTO_ID])
   }
 
   render() {
-    const { form, showModalConfirmDelete, ...otherProps } = this.props
+    const {
+      form,
+      showModalConfirmDelete,
+      modalType,
+      modalTitle,
+      ...otherProps
+    } = this.props
     const stationType = form.getFieldValue(FIELDS.STATION_TYPE)
     const measureList = this.getMeasuringList()
 
+    const DynamicButtonSubmit = {
+      edit: (
+        <Button type="primary" onClick={this.handleSubmit}>
+          Cập nhật
+        </Button>
+      ),
+      create: (
+        <Button type="primary" onClick={this.handleSubmit}>
+          Tạo mới
+        </Button>
+      ),
+    }
     return (
       <Modal
         width={900}
-        title="Thêm bộ lọc điều kiện mới"
+        title={modalTitle}
         {...otherProps}
         centered
         footer={[
           <Row type="flex" justify="space-between">
-            <Button type="danger" onClick={showModalConfirmDelete}>
-              Xoá bộ lọc
-            </Button>
-            <div style={{ display: 'flex' }}>
-              <Button>Nhập lại</Button>
-              <Button type="primary" onClick={this.handleSearch}>
-                Cập nhật
-              </Button>
-            </div>
+            {modalType === 'edit' ? (
+              <Col>
+                <Button type="danger" onClick={showModalConfirmDelete}>
+                  Xoá bộ lọc
+                </Button>
+              </Col>
+            ) : (
+              <Col></Col>
+            )}
+            <Col>
+              <Button onClick={this.resetModalFilterTime}>Nhập lại</Button>
+              {DynamicButtonSubmit[modalType]}
+            </Col>
           </Row>,
         ]}
       >
@@ -70,19 +107,25 @@ export default class ModalFilterTime extends Component {
           <Col span={8}>
             <FormItem label="Loại trạm">
               {form.getFieldDecorator(FIELDS.STATION_TYPE, {
+                onChange: this.onChangeStationType,
                 rules: [
                   {
                     required: true,
                     message: t('report.required.station'),
                   },
                 ],
-              })(<SelectStationType placeholder="Chọn loại trạm" />)}
+              })(
+                <SelectStationType
+                  placeholder="Chọn loại trạm"
+                  fieldValue="_id"
+                />
+              )}
             </FormItem>
           </Col>
 
           <Col span={8}>
             <FormItem label="Trạm quan trắc">
-              {form.getFieldDecorator(FIELDS.STATION_AUTO, {
+              {form.getFieldDecorator(FIELDS.STATION_AUTO_ID, {
                 rules: [
                   {
                     required: true,
@@ -93,6 +136,7 @@ export default class ModalFilterTime extends Component {
                 <SelectStationAuto
                   placeholder="Chọn trạm quan trắc"
                   stationType={stationType}
+                  fieldValue="_id"
                   onFetchSuccess={this.onStationAutosFetchSuccess}
                 />
               )}
@@ -100,7 +144,11 @@ export default class ModalFilterTime extends Component {
           </Col>
         </Row>
         <Row span={24}>
-          <FormTableMeasureTime form={form} measureList={measureList} />
+          <FormTableMeasureTime
+            form={form}
+            measureList={measureList}
+            modalType={modalType}
+          />
         </Row>
       </Modal>
     )
