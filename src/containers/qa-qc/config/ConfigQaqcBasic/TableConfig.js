@@ -1,8 +1,7 @@
-import { Checkbox, Icon, InputNumber, Table, Tooltip } from 'antd'
+import { Checkbox, Form, Icon, InputNumber, Table, Tooltip } from 'antd'
 import { FormItem } from 'components/layouts/styles'
 import { translate } from 'hoc/create-lang'
 import * as _ from 'lodash'
-import { debounce } from 'lodash'
 import PropTypes from 'prop-types'
 import React from 'react'
 
@@ -21,7 +20,7 @@ const OPTION = {
   NEGATIVE: 'negative',
 }
 
-export default class TableConfig extends React.Component {
+class TableConfig extends React.Component {
   static propTypes = {
     form: PropTypes.object.isRequired,
     dataTableMeasures: PropTypes.array.isRequired,
@@ -37,7 +36,8 @@ export default class TableConfig extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.getRef) this.props.getRef(this)
+    const { form, data, type } = this.props
+    form.setFieldsValue({ [type]: data })
     this.handleCheckedAllInit()
   }
 
@@ -60,14 +60,13 @@ export default class TableConfig extends React.Component {
     this.handleCheckedAllInit()
   }
 
-  getRef() {
-    return this
+  validateRepeatField = (rule, value, callback) => {
+    if (value !== undefined && value !== '' && Number(value) <= 1) {
+      callback(translate('qaqcConfig.basic.error.repeat'))
+      return
+    }
+    callback()
   }
-
-  handleOnChangeRepeatField = debounce((value, repeatFieldName) => {
-    const { form } = this.props
-    form.setFieldsValue({ [repeatFieldName]: value })
-  }, 500)
 
   columns = [
     {
@@ -97,6 +96,7 @@ export default class TableConfig extends React.Component {
           <span>
             {getFieldDecorator(`${this.props.type}.${record.key}.zero`, {
               valuePropName: 'checked',
+              initialValue: false,
             })(
               <Checkbox
                 onChange={e => {
@@ -142,6 +142,7 @@ export default class TableConfig extends React.Component {
           <span>
             {getFieldDecorator(`${this.props.type}.${record.key}.negative`, {
               valuePropName: 'checked',
+              initialValue: false,
             })(
               <Checkbox
                 onChange={e => {
@@ -181,29 +182,34 @@ export default class TableConfig extends React.Component {
       key: 'repeat',
       width: 180,
       render: (text, record, index) => {
-        const { getFieldDecorator, getFieldValue } = this.props.form
+        const { getFieldDecorator } = this.props.form
         const { type } = this.props
 
         const repeatFieldName = `${type}.${record.key}.repeat`
-        const value = getFieldValue(repeatFieldName)
 
         return (
           <React.Fragment>
             <FormItem marginBottom="0px">
-              {getFieldDecorator(repeatFieldName)(<div />)}
-              <InputNumber
-                pattern="[0-9]*"
-                style={{ width: '100%' }}
-                value={value}
-                onKeyDown={e => {
-                  if (['e', 'E', '+', '-'].includes(e.key)) {
-                    e.preventDefault()
-                  }
-                }}
-                onChange={value =>
-                  this.handleOnChangeRepeatField(value, repeatFieldName)
-                }
-              />
+              {getFieldDecorator(repeatFieldName, {
+                trigger: 'onBlur',
+                validateTrigger: ['onBlur'],
+                rules: [
+                  {
+                    validator: this.validateRepeatField,
+                  },
+                ],
+              })(
+                <InputNumber
+                  placeholder={translate('qaqcConfig.basic.placeholderRepeat')}
+                  pattern="[0-9]*"
+                  style={{ width: '100%' }}
+                  onKeyDown={e => {
+                    if (['e', 'E', '+', '-', '.'].includes(e.key)) {
+                      e.preventDefault()
+                    }
+                  }}
+                />
+              )}
             </FormItem>
           </React.Fragment>
         )
@@ -266,28 +272,21 @@ export default class TableConfig extends React.Component {
     }
   }
 
-  getTableData() {
-    let me = this
-    return new Promise(function(resolve, reject) {
-      me.props.form.validateFields((err, values) => {
-        if (!err) {
-          resolve(values)
-        }
-        resolve(values)
-      })
-    })
-  }
-
   render() {
+    const { dataTableMeasures } = this.props
+
     return (
       <div>
         <Table
           bordered
           pagination={false}
           columns={this.columns}
-          dataSource={this.props.dataTableMeasures}
+          dataSource={dataTableMeasures}
         />
       </div>
     )
   }
 }
+
+const TableConfigForm = Form.create()(TableConfig)
+export default TableConfigForm

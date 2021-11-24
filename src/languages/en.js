@@ -486,9 +486,10 @@ export default {
       useBasicConfig: 'Value 0, negative and repeat',
       repeat: 'Repeat',
       tooltipRepeat: 'Set discard value based on number of repetitions',
+      placeholderRepeat: 'Number of repetitions',
       removeValues: 'Remove Values:',
       error: {
-        repeat: 'Please set positive integer repetitions greater than 1',
+        repeat: 'Please set repetitions greater than 1',
       },
     },
     advanced: {

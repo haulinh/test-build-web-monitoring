@@ -485,9 +485,10 @@ export default {
       useBasicConfig: 'Giá trị 0, âm và lặp lại',
       repeat: 'Lặp lại',
       tooltipRepeat: 'Thiết lập loại bỏ giá trị dựa vào số lần lặp lại',
+      placeholderRepeat: 'Số lần lặp lại',
       removeValues: 'Loại bỏ các giá trị: ',
       error: {
-        repeat: 'Vui lòng thiết lập số lần lặp lại nguyên dương lớn hơn 1',
+        repeat: 'Vui lòng thiết lập số lần lặp lại lớn hơn 1',
       },
     },
     advanced: {
