@@ -1,13 +1,18 @@
 import React from 'react'
-import { Table, Checkbox } from 'antd'
+import { Table, Checkbox, InputNumber, Form, Tooltip, Icon } from 'antd'
 import PropTypes from 'prop-types'
 import * as _ from 'lodash'
 import { translate } from 'hoc/create-lang'
+import { FormItem } from 'components/layouts/styles'
+import { debounce } from 'lodash'
 
 function i18n() {
   return {
     zero: translate('qaqcConfig.zero'),
     negative: translate('qaqcConfig.negative'),
+    repeat: translate('qaqcConfig.basic.repeat'),
+    measure: translate('aqiConfigCalculation.colMeasure'),
+    tooltipRepeat: translate('qaqcConfig.basic.tooltipRepeat'),
   }
 }
 
@@ -59,9 +64,14 @@ export default class TableConfig extends React.Component {
     return this
   }
 
+  handleOnChangeRepeatField = debounce((value, repeatFieldName) => {
+    const { form } = this.props
+    form.setFieldsValue({ [repeatFieldName]: value })
+  }, 500)
+
   columns = [
     {
-      title: 'Measure',
+      title: i18n().measure,
       dataIndex: 'key',
       key: 'key',
     },
@@ -154,6 +164,51 @@ export default class TableConfig extends React.Component {
         )
       },
     },
+    {
+      title: (
+        <div>
+          {i18n().repeat}
+          <Tooltip title={i18n().tooltipRepeat}>
+            <Icon
+              type="exclamation-circle"
+              theme="filled"
+              style={{ marginLeft: 12, color: '#A2A7B3' }}
+            />
+          </Tooltip>
+        </div>
+      ),
+      dataIndex: 'repeat',
+      key: 'repeat',
+      width: 180,
+      render: (text, record, index) => {
+        const { getFieldDecorator, getFieldValue } = this.props.form
+        const { type } = this.props
+
+        const repeatFieldName = `${type}.${record.key}.repeat`
+        const value = getFieldValue(repeatFieldName)
+
+        return (
+          <React.Fragment>
+            <FormItem marginBottom="0px">
+              {getFieldDecorator(repeatFieldName)(<div />)}
+              <InputNumber
+                pattern="[0-9]*"
+                style={{ width: '100%' }}
+                value={value}
+                onKeyDown={e => {
+                  if (['e', 'E', '+', '-'].includes(e.key)) {
+                    e.preventDefault()
+                  }
+                }}
+                onChange={value =>
+                  this.handleOnChangeRepeatField(value, repeatFieldName)
+                }
+              />
+            </FormItem>
+          </React.Fragment>
+        )
+      },
+    },
   ]
 
   checkAllOption(option, isChecked) {
@@ -216,7 +271,6 @@ export default class TableConfig extends React.Component {
     return new Promise(function(resolve, reject) {
       me.props.form.validateFields((err, values) => {
         if (!err) {
-          // console.log("Received values of form: ", values);
           resolve(values)
         }
         resolve(values)
@@ -228,6 +282,7 @@ export default class TableConfig extends React.Component {
     return (
       <div>
         <Table
+          bordered
           pagination={false}
           columns={this.columns}
           dataSource={this.props.dataTableMeasures}
