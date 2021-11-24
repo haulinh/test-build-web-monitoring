@@ -1,10 +1,10 @@
-import React from 'react'
-import { Table, Checkbox, InputNumber, Form, Tooltip, Icon } from 'antd'
-import PropTypes from 'prop-types'
-import * as _ from 'lodash'
-import { translate } from 'hoc/create-lang'
+import { Checkbox, Icon, InputNumber, Table, Tooltip } from 'antd'
 import { FormItem } from 'components/layouts/styles'
+import { translate } from 'hoc/create-lang'
+import * as _ from 'lodash'
 import { debounce } from 'lodash'
+import PropTypes from 'prop-types'
+import React from 'react'
 
 function i18n() {
   return {
