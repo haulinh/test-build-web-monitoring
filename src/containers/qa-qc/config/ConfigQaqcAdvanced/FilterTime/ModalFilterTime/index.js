@@ -7,11 +7,16 @@ import { translate as t } from 'hoc/create-lang'
 import React, { Component } from 'react'
 import FormTableMeasureTime from './FormTableMeasureTime'
 import { FIELDS } from '../index'
+import _ from 'lodash'
+import { getTimeUTC } from 'utils/datetime'
+import CalculateApi from 'api/CalculateApi'
+import moment from 'moment'
 
 @Form.create()
 export default class ModalFilterTime extends Component {
   state = {
     stationAutos: [],
+    isVisible: false,
   }
 
   onStationAutosFetchSuccess = stationAutos => {
@@ -35,15 +40,42 @@ export default class ModalFilterTime extends Component {
     return measureList
   }
 
-  handleSubmit = () => {
+  handleConditions = () => {
     const { form } = this.props
+    const { conditions } = form.getFieldsValue()
+    const newConditions = Object.entries(conditions)
+    const condition = newConditions.map(condition => {
+      return {
+        measure: _.get(condition, '[0]'),
+        startAt: getTimeUTC(moment(_.get(condition, '[1][0]')).startOf('day')),
+        endAt: getTimeUTC(moment(_.get(condition, '[1][1]')).endOf('day')),
+      }
+    })
+    return condition
+  }
+
+  handleSubmitCreate = async () => {
+    const { form, setIsModalFilter } = this.props
+    await form.validateFields()
+    const { stationAutos } = this.state
     const values = form.getFieldsValue()
+    const { stationId } = values
+    const conditions = this.handleConditions()
+
+    const stationAutoId = form.getFieldValue(FIELDS.STATION_AUTO_ID)
+    const stationAuto = stationAutos.find(
+      stationAuto => stationAuto._id === stationAutoId
+    )
+    const stationAutoName = _.get(stationAuto, 'name')
     const params = {
-      name: '',
+      name: stationAutoName,
       type: 'time',
-      ...values,
+      stationId,
+      conditions,
     }
-    console.log(params)
+    await CalculateApi.postQaqcConfigs(params)
+    form.resetFields()
+    setIsModalFilter(false)
   }
 
   resetModalFilterTime = () => {
@@ -74,7 +106,7 @@ export default class ModalFilterTime extends Component {
         </Button>
       ),
       create: (
-        <Button type="primary" onClick={this.handleSubmit}>
+        <Button type="primary" onClick={this.handleSubmitCreate}>
           Tạo mới
         </Button>
       ),

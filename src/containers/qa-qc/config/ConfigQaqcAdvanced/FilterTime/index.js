@@ -6,6 +6,7 @@ import React, { Component } from 'react'
 import { ModalConFirmDelete } from '../components'
 import ModalFilterTime from './ModalFilterTime'
 import TableFilterTime from './TableFilterTime'
+import _ from 'lodash'
 
 export const FIELDS = {
   STATION_TYPE: 'stationType',
@@ -76,17 +77,27 @@ export default class FilterTimeContainer extends Component {
     })
   }
 
-  deleteTimeFilterItem = () => {
-    // let { timeFilterList } = this.state
-    // const { timeFilterItem } = this.state
-    // timeFilterList = [...timeFilterList]
-    // const newTimeFilterList = timeFilterList.filter(
-    //   item => item.key !== timeFilterItem
-    // )
+  getData = async () => {
     this.setState({
-      // timeFilterList: newTimeFilterList,
+      isLoading: true,
+    })
+    const params = {
+      ...this.hasPagination,
+    }
+    const results = await CalculateApi.getQaqcConfigs(params)
+    this.setState({
+      dataFilterTime: results.results,
+      isLoading: false,
+    })
+  }
+
+  deleteTimeFilterItem = async () => {
+    const { timeFilterItemKey } = this.state
+    await CalculateApi.deleteQaqcConfig(timeFilterItemKey)
+    this.setState({
       isShowModalConfirmDelete: false,
     })
+    this.getData()
   }
 
   hasPagination = {
@@ -100,7 +111,7 @@ export default class FilterTimeContainer extends Component {
     })
     const { form } = this.props
     const stationKeyList = form.getFieldValue(FIELDS.STATION_AUTO)
-    const stationKeys = stationKeyList.join(',')
+    const stationKeys = _.join(stationKeyList, ',')
     let params = {
       ...this.hasPagination,
     }
@@ -117,18 +128,15 @@ export default class FilterTimeContainer extends Component {
     })
   }
 
+  onFinishCreate = setIsShowModal => {
+    this.setState({
+      isShowModalFilterTime: setIsShowModal,
+    })
+    this.getData()
+  }
+
   componentDidMount = async () => {
-    this.setState({
-      isLoading: true,
-    })
-    const params = {
-      ...this.hasPagination,
-    }
-    const results = await CalculateApi.getQaqcConfigs(params)
-    this.setState({
-      dataFilterTime: results.results,
-      isLoading: false,
-    })
+    this.getData()
   }
 
   render() {
@@ -146,6 +154,7 @@ export default class FilterTimeContainer extends Component {
         <ModalFilterTime
           modalTitle="Thêm bộ lọc điều kiện mới"
           visible={isShowModalFilterTime}
+          setIsModalFilter={this.onFinishCreate}
           onCancel={this.closeModalFilterTime}
           modalType={modalFilterTimeType}
         />

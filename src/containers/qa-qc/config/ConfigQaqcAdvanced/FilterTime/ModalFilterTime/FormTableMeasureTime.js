@@ -1,32 +1,37 @@
 import React, { Component } from 'react'
 import { Table, DatePicker } from 'antd'
-
+import { FormItem } from 'components/layouts/styles'
 const { RangePicker } = DatePicker
 
 export default class FormTableMeasureTime extends Component {
   constructor(props) {
     super(props)
     const { form } = this.props
+    this.state = {
+      conditons: [],
+    }
     this.columns = [
       {
         title: 'Thông số',
-        render: (value, record) => {
-          return (
-            <React.Fragment>
-              {form.getFieldDecorator(value.key)(<div>{value.key}</div>)}
-            </React.Fragment>
-          )
+        render: (value, record, index) => {
+          return <div>{value.key}</div>
         },
       },
       {
         title: 'Thời gian',
-        render: value => {
+        render: (value, record, index) => {
           return (
-            <React.Fragment>
-              {form.getFieldDecorator(value.key)(
-                <RangePicker style={{ width: '100%' }} />
-              )}
-            </React.Fragment>
+            <FormItem>
+              {form.getFieldDecorator(`conditions[${value.key}]`, {
+                initialValue: [],
+                rules: [
+                  {
+                    required: true,
+                    message: 'Vui lòng chọn thời gian',
+                  },
+                ],
+              })(<RangePicker style={{ width: '100%' }} />)}
+            </FormItem>
           )
         },
       },
@@ -39,11 +44,7 @@ export default class FormTableMeasureTime extends Component {
       },
     ]
   }
-  rowSelection = {
-    onSelect: (record, selected, selectedRows) => {
-      console.log(record, selected, selectedRows)
-    },
-  }
+  rowSelection = {}
   render() {
     const { measureList, modalType } = this.props
     return (

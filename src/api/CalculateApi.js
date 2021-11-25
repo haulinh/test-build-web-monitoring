@@ -124,5 +124,14 @@ export default {
     return getFetch(url, param)
   },
 
+  postQaqcConfigs: param => {
+    const url = calc(`qaqc-config`)
+    return postFetch(url, param)
+  },
+  deleteQaqcConfig: id => {
+    const url = calc(`qaqc-config/${id}`)
+    return deleteFetch(url)
+  },
+
   //#endregion
 }

@@ -25,6 +25,7 @@ export default class TableFilterTime extends Component {
       {
         title: 'Trạm quan trắc',
         dataIndex: 'name',
+        width: 350,
         render: (value, record) => (
           <div style={{ fontWeight: 500 }}>{value}</div>
         ),
@@ -34,7 +35,7 @@ export default class TableFilterTime extends Component {
         title: 'Thông số',
         dataIndex: 'conditions',
         align: 'left',
-        width: 332,
+        width: 370,
         render: value => {
           const measureList = _.map(value, 'measure')
           return (
@@ -46,12 +47,15 @@ export default class TableFilterTime extends Component {
         title: 'Trạng thái',
         dataIndex: 'conditions',
         align: 'center',
+        width: 120,
         render: value => {
           const endTimes = _.map(value, 'endAt')
-          const currentTime = getTimeUTC(moment())
+          const endToday = moment().endOf('day')
+          const today = getTimeUTC(endToday)
           const checkTime = endTimes.filter(time =>
-            moment(time).isSameOrAfter(moment(currentTime))
+            moment(time).isSameOrAfter(moment(today))
           )
+
           if (_.isEmpty(checkTime)) {
             return (
               <BoxStatus
@@ -79,16 +83,18 @@ export default class TableFilterTime extends Component {
       {
         title: '',
         align: 'center',
-        render: record => {
+        width: 150,
+        render: value => {
           return (
             <Row>
               <Button type="link" onClick={onEditFilterTime}>
                 <Icon type="edit" style={{ color: '#1890FF' }} />
               </Button>
+
               <Button
                 type="link"
                 onClick={() => {
-                  setTimeFilterItemKey(record.key)
+                  setTimeFilterItemKey(value._id)
                 }}
               >
                 <Icon type="delete" style={{ color: 'red' }} />
