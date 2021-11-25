@@ -1,51 +1,43 @@
-import React, { Component } from 'react'
+import { Button } from 'antd'
+import { Flex } from 'components/layouts/styles'
 import PropTypes from 'prop-types'
+import React, { Component } from 'react'
 
 export default class ErrorBoundary extends Component {
-  state = {
-    error: '',
-    errorInfo: '',
-    hasError: false,
-  }
-
-  static getDerivedStateFromError(error) {
-    return { hasError: true, error }
+  constructor(props) {
+    super(props)
+    this.state = { error: null, errorInfo: null }
   }
 
   componentDidCatch(error, errorInfo) {
-    // eslint-disable-next-line no-console
-    console.log({ error, errorInfo })
-    this.setState({ errorInfo })
+    // Catch errors in any components below and re-render with error message
+    this.setState({
+      error: error,
+      errorInfo: errorInfo,
+    })
+    // You can also log error messages to an error reporting service here
   }
 
   render() {
-    const { hasError, errorInfo } = this.state
-    if (hasError) {
+    if (this.state.errorInfo) {
+      // Error path
       return (
-        <div className="card my-5">
-          <div className="card-header">
-            <p>
-              An error has occurred in this component.{' '}
-              <span
-                style={{ cursor: 'pointer', color: '#0077FF' }}
-                onClick={() => {
-                  window.location.reload()
-                }}
-              >
-                Reload this page
-              </span>{' '}
-            </p>
-          </div>
-
-          <div className="card-body">
-            <details className="error-details">
-              <summary>Click for error details</summary>
-              {errorInfo && errorInfo.componentStack.toString()}
+        <Flex justifyContent="center">
+          <div style={{ marginTop: 16 }}>
+            <h2>Something went wrong.</h2>
+            <Button onClick={() => (window.location.href = '/')} type="primary">
+              Go Home Page
+            </Button>
+            <details style={{ whiteSpace: 'pre-wrap' }}>
+              {this.state.error && this.state.error.toString()}
+              <br />
+              {this.state.errorInfo.componentStack}
             </details>
           </div>
-        </div>
+        </Flex>
       )
     }
+    // Normally, just render children
     return this.props.children
   }
 }
