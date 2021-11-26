@@ -88,7 +88,7 @@ export default class SelectStationAuto extends React.PureComponent {
       )
     }
     stationAutos = stationAutos.filter(stationAuto =>
-      this.state.conditionFilterData.some(
+      this.state.conditionFilterData.every(
         station => station.stationId !== stationAuto._id
       )
     )
