@@ -341,10 +341,8 @@ export default class ConfigQaqcBasic extends React.Component {
     const { getFieldDecorator, getFieldValue } = this.props.form
     const { configQAQC } = this.state
     const useBasicConfig = getFieldValue('useBasicConfig')
-    const a = {}
     return (
       <React.Fragment>
-        <div>{a.b.c}</div>
         <Collapse defaultActiveKey="basic">
           <PanelStyled
             header={<div style={{ marginLeft: 2 }}>{i18n().title}</div>}
