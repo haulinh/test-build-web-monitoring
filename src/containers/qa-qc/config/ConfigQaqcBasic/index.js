@@ -190,8 +190,6 @@ export default class ConfigQaqcBasic extends React.Component {
   }
 
   async componentDidMount() {
-    const a = {}
-    a.b.c = ''
     try {
       let stationTypes = await getStationTypes({}, { isAuto: true })
       if (stationTypes.success) {
