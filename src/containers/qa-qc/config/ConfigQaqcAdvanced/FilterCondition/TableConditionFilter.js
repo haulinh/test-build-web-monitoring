@@ -1,106 +1,83 @@
 import { Icon, Row, Table, Button } from 'antd'
-import { Clearfix } from 'components/layouts/styles'
 import React from 'react'
-
-const dataSource = [
-  {
-    key: '01',
-    conditionName: 'Flow tăng cao',
-    station: 'Trạm A',
-    conditionMeasure: 'Flow = 0',
-    measure: 'pH, No2, TSS',
-  },
-  {
-    key: '02',
-    station: 'Trạm A',
-    conditionMeasure: 'Flow = 0',
-    conditionName: 'pH, No2',
-    measure: 'pH, No2, TSS',
-  },
-  {
-    key: '03',
-    conditionName: 'pH, No2',
-    conditionMeasure: 'Flow = 0',
-    station: 'Trạm A',
-    measure: 'pH, No2, TSS',
-  },
-]
 
 class TableConditionFilter extends React.Component {
   constructor(props) {
     super(props)
+    const { onEditRecord, setConditionFilter } = this.props
     this.state = {
-      visible: false,
+      isShowModalEditCondition: false,
     }
+    this.columns = [
+      {
+        title: '#',
+        dataIndex: 'key',
+        render: value => {
+          return value
+        },
+      },
+      {
+        title: 'Tên điều kiện',
+        dataIndex: 'conditionName',
+        render: value => {
+          return value
+        },
+      },
+      {
+        title: 'Trạm áp dụng',
+        dataIndex: 'stationName',
+        render: value => {
+          return value
+        },
+      },
+      {
+        title: 'Thông số điều kiện',
+        dataIndex: 'conditionMeasure[0].conditionMeasureItem',
+        render: value => {
+          return value
+        },
+      },
+      {
+        title: 'Thông số loại bỏ',
+        dataIndex: 'conditionMeasure[0].excludeMeasure',
+        render: value => {
+          return value
+        },
+      },
+      {
+        title: '',
+        align: 'center',
+        render: (value, record) => {
+          return (
+            <Row>
+              <Button type="link" onClick={onEditRecord}>
+                <Icon type="edit" style={{ color: '#1890FF' }} />
+              </Button>
+              <Button
+                type="link"
+                onClick={() => {
+                  setConditionFilter(record.key)
+                }}
+              >
+                <Icon type="delete" style={{ color: '#E64D3D' }} />
+              </Button>
+            </Row>
+          )
+        },
+      },
+    ]
   }
-  columns = [
-    {
-      title: '#',
-      dataIndex: 'key',
-      render: value => {
-        return value
-      },
-    },
-    {
-      title: 'Tên điều kiện',
-      dataIndex: 'conditionName',
-      render: value => {
-        return value
-      },
-    },
-    {
-      title: 'Trạm áp dụng',
-      dataIndex: 'station',
-      render: value => {
-        return value
-      },
-    },
-    {
-      title: 'Thông số điều kiện',
-      dataIndex: 'conditionMeasure',
-      render: value => {
-        return value
-      },
-    },
-    {
-      title: 'Thông số loại bỏ',
-      dataIndex: 'measure',
-      render: value => {
-        return value
-      },
-    },
-    {
-      title: '',
-      dataIndex: 'option',
-      align: 'center',
-      render: (value, index) => {
-        return (
-          <Row>
-            <Button
-              type="link"
-              onClick={() => {
-                this.setState({ visible: true })
-              }}
-            >
-              <Icon type="edit" style={{ color: '#1890FF' }} />
-            </Button>
-            <Button type="link">
-              <Icon type="delete" style={{ color: '#E64D3D' }} />
-            </Button>
-          </Row>
-        )
-      },
-    },
-  ]
 
   render() {
+    const { dataSource, ...otherProps } = this.props
+
     return (
       <Table
         columns={this.columns}
         dataSource={dataSource}
         pagination={false}
         bordered
-        {...this.props}
+        {...otherProps}
       />
     )
   }

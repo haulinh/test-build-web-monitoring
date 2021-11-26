@@ -1,49 +1,65 @@
-import { Col, Form, Icon, InputNumber, Row, Table } from 'antd'
+import { Col, Form, Icon, InputNumber, Row, Table, Button } from 'antd'
 import SelectOperator from 'components/core/select/SelectOperator'
 import SelectMeasureParameter from 'components/elements/select-measure-parameter'
 import React, { Component } from 'react'
 import { FIELDS } from '../index'
+import { v4 as uuidv4 } from 'uuid'
 
 export default class FormTableMeasureCondition extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      visible: false,
-      isDeleteVisible: false,
-      conditions: [],
-    }
+  state = {
+    isShowModalConfirmDelete: false,
+    conditions: [{ id: uuidv4() }],
+    newExcludeMeasureList: [],
   }
 
   addCondition = () => {
     const currentData = [...this.state.conditions]
-    const newData = {}
-    const newDataSource = [...currentData, newData]
+    const newData = {
+      id: uuidv4(),
+    }
+    const newConditions = [...currentData, newData]
 
-    this.setState({ conditions: newDataSource })
+    this.setState({ conditions: newConditions })
   }
 
   deleteCondition = id => {
     const { conditions } = this.state
     const newConditions = conditions.filter(
-      conditionItem => conditions.indexOf(conditionItem) !== id
+      conditionItem => conditionItem.id !== id
     )
     this.setState({ conditions: newConditions })
+  }
+
+  handleConditionMeasureChange = async value => {
+    const { measureList } = this.props
+    const newMeasureList = await measureList.filter(
+      measure => measure.name !== value
+    )
+
+    this.setState({ newExcludeMeasureList: newMeasureList })
   }
 
   columns = [
     {
       title: 'Thông số điều kiện',
       width: 402,
-      render: (value, index, record) => {
-        console.log(record)
+      render: (value, record, index) => {
         const { form, measureList } = this.props
         return (
           <Row type="flex" align="middle" gutter={12}>
             <Col span={12}>
               <Form.Item required={false}>
                 {form.getFieldDecorator(
-                  `${FIELDS.CONDITIONS}.${record}.measure`,
-                  {}
+                  `${FIELDS.CONDITIONS}.${index}.measure`,
+                  {
+                    onChange: this.handleConditionMeasureChange,
+                    rules: [
+                      {
+                        required: true,
+                        message: 'Vui lòng chọn thông số',
+                      },
+                    ],
+                  }
                 )(
                   <SelectMeasureParameter
                     placeholder="Chọn thông số"
@@ -56,7 +72,7 @@ export default class FormTableMeasureCondition extends Component {
             <Col span={6}>
               <Form.Item required={false}>
                 {form.getFieldDecorator(
-                  `${FIELDS.CONDITIONS}.${record}.operator`,
+                  `${FIELDS.CONDITIONS}.${index}.operator`,
                   {
                     initialValue: 'eq',
                   }
@@ -65,10 +81,14 @@ export default class FormTableMeasureCondition extends Component {
             </Col>
             <Col span={6}>
               <Form.Item required={false}>
-                {form.getFieldDecorator(
-                  `${FIELDS.CONDITIONS}.${record}.value`,
-                  {}
-                )(<InputNumber placeholder="00" style={{ width: '100%' }} />)}
+                {form.getFieldDecorator(`${FIELDS.CONDITIONS}.${index}.value`, {
+                  rules: [
+                    {
+                      required: true,
+                      message: 'Vui lòng nhập giá trị',
+                    },
+                  ],
+                })(<InputNumber placeholder="00" style={{ width: '100%' }} />)}
               </Form.Item>
             </Col>
           </Row>
@@ -78,16 +98,23 @@ export default class FormTableMeasureCondition extends Component {
     {
       title: 'Thông số loại bỏ',
       width: 528,
-      render: (value, index, record) => {
-        const { form, measureList } = this.props
+      render: (value, record, index) => {
+        const { form } = this.props
         return (
           <Form.Item required={false}>
             {form.getFieldDecorator(
-              `${FIELDS.CONDITIONS}.${record}.excludeMeasures`,
-              {}
+              `${FIELDS.CONDITIONS}.${index}.excludeMeasures`,
+              {
+                rules: [
+                  {
+                    required: true,
+                    message: 'Vui lòng chọn ít nhất 1 thông số',
+                  },
+                ],
+              }
             )(
               <SelectMeasureParameter
-                measuringList={measureList}
+                measuringList={this.state.newExcludeMeasureList}
                 mode="multiple"
                 style={{ width: '100%' }}
                 placeholder="Lựa chọn thông số sẽ loại bỏ"
@@ -100,22 +127,21 @@ export default class FormTableMeasureCondition extends Component {
     {
       title: '',
       align: 'center',
-      render: (value, index, record) => {
+      render: (value, record, index) => {
         return (
-          <div
-            onClick={() => {
-              this.setState({ isDeleteVisible: true })
-            }}
+          <Button
+            type="link"
+            disabled={this.state.conditions.length > 1 ? false : true}
+            onClick={() => this.deleteCondition(record.id)}
             style={{ marginBottom: '24px' }}
           >
-            <Row type="flex">
-              <Icon
-                onClick={() => this.deleteCondition(record)}
-                style={{ color: '#E64D3D' }}
-                type="delete"
-              />
-            </Row>
-          </div>
+            <Icon
+              style={{
+                color: this.state.conditions.length > 1 ? '#E64D3D' : '#A2A7B3',
+              }}
+              type="delete"
+            />
+          </Button>
         )
       },
     },
@@ -130,7 +156,7 @@ export default class FormTableMeasureCondition extends Component {
         pagination={false}
         scroll={{ y: 300 }}
         footer={() => (
-          <div onClick={this.addCondition}>
+          <div style={{ cursor: 'pointer' }} onClick={this.addCondition}>
             <Row type="flex">
               <div style={{ marginRight: '10px' }}>
                 <Icon type="plus" style={{ color: '#1890FF' }} />

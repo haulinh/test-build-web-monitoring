@@ -1,3 +1,3 @@
 import ModalConfirmDelete from './ModalConfirmDelete'
-
-export { ModalConfirmDelete }
+import ModalConfirmCancel from './ModalConfirmCancel'
+export { ModalConfirmDelete, ModalConfirmCancel }
