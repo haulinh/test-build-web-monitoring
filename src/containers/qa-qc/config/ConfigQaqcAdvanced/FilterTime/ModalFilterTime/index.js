@@ -1,4 +1,4 @@
-import { Button, Col, Form, Modal, Row } from 'antd'
+import { Button, Col, Form, Modal, Row, message } from 'antd'
 import SelectStationAuto from 'components/elements/select-station-auto'
 import SelectStationType from 'components/elements/select-station-type'
 import { FormItem } from 'components/layouts/styles'
@@ -40,7 +40,7 @@ export default class ModalFilterTime extends Component {
     return measureList
   }
 
-  handleConditions = () => {
+  handleValueTimes = () => {
     const { form } = this.props
     const { conditions } = form.getFieldsValue()
     const newConditions = Object.entries(conditions)
@@ -60,7 +60,7 @@ export default class ModalFilterTime extends Component {
     const { stationAutos } = this.state
     const values = form.getFieldsValue()
     const { stationId } = values
-    const conditions = this.handleConditions()
+    const conditions = this.handleValueTimes()
 
     const stationAutoId = form.getFieldValue(FIELDS.STATION_AUTO_ID)
     const stationAuto = stationAutos.find(
@@ -73,7 +73,13 @@ export default class ModalFilterTime extends Component {
       stationId,
       conditions,
     }
-    await CalculateApi.postQaqcConfigs(params)
+    try {
+      await CalculateApi.createQcqcConfig(params)
+      message.success(t('addon.onSave.add.success'))
+    } catch (error) {
+      message.success(t('addon.onSave.add.error'))
+    }
+
     form.resetFields()
     setIsModalFilter(false)
   }

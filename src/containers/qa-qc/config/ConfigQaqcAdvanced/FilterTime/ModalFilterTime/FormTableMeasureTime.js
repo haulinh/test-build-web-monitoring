@@ -14,7 +14,7 @@ export default class FormTableMeasureTime extends Component {
       {
         title: 'Thông số',
         render: (value, record, index) => {
-          return <div>{value.key}</div>
+          return <div>{value.name}</div>
         },
       },
       {

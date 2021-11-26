@@ -1,4 +1,4 @@
-import { Button, Col, Form, Row, Switch } from 'antd'
+import { Button, Col, Form, Row, Switch, message } from 'antd'
 import CalculateApi from 'api/CalculateApi'
 import { Clearfix } from 'components/layouts/styles'
 import SelectStationAuto from 'containers/search/common/select-station-auto'
@@ -7,6 +7,8 @@ import { ModalConFirmDelete } from '../components'
 import ModalFilterTime from './ModalFilterTime'
 import TableFilterTime from './TableFilterTime'
 import _ from 'lodash'
+import { translate as t } from 'hoc/create-lang'
+// import { toggleQaqcConfig } from 'api/CategoryApi'
 
 export const FIELDS = {
   STATION_TYPE: 'stationType',
@@ -24,6 +26,7 @@ export default class FilterTimeContainer extends Component {
     modalFilterTimeType: '',
     dataFilterTime: [],
     isLoading: false,
+    isApplyFilterTime: true,
   }
 
   showModalFilterTime = () => {
@@ -82,25 +85,40 @@ export default class FilterTimeContainer extends Component {
       isLoading: true,
     })
     const params = {
-      ...this.hasPagination,
+      ...this.pagination,
     }
-    const results = await CalculateApi.getQaqcConfigs(params)
-    this.setState({
-      dataFilterTime: results.results,
-      isLoading: false,
-    })
+    try {
+      const response = await CalculateApi.getQaqcConfigs(params)
+      console.log({ response })
+      this.setState({
+        dataFilterTime: response.results,
+        isLoading: false,
+      })
+    } catch (error) {
+      this.setState({
+        isLoading: false,
+      })
+    }
   }
 
   deleteTimeFilterItem = async () => {
     const { timeFilterItemKey } = this.state
-    await CalculateApi.deleteQaqcConfig(timeFilterItemKey)
-    this.setState({
-      isShowModalConfirmDelete: false,
-    })
+    try {
+      await CalculateApi.deleteQaqcConfig(timeFilterItemKey)
+      this.setState({
+        isShowModalConfirmDelete: false,
+      })
+      message.success(t('addon.onDelete.success'))
+    } catch (error) {
+      this.setState({
+        isShowModalConfirmDelete: false,
+      })
+      message.error(t('addon.onDelete.error'))
+    }
     this.getData()
   }
 
-  hasPagination = {
+  pagination = {
     limit: 999999,
     offset: 0,
   }
@@ -111,28 +129,44 @@ export default class FilterTimeContainer extends Component {
     })
     const { form } = this.props
     const stationKeyList = form.getFieldValue(FIELDS.STATION_AUTO)
-    const stationKeys = _.join(stationKeyList, ',')
     let params = {
-      ...this.hasPagination,
+      ...this.pagination,
     }
-    if (stationKeys) {
+    if (!_.isEmpty(stationKeyList)) {
+      const stationKeysStr = _.join(stationKeyList, ',')
       params = {
-        stationKeys,
+        stationKeys: stationKeysStr,
         ...params,
       }
     }
-    const results = await CalculateApi.getQaqcConfigs(params)
-    this.setState({
-      dataFilterTime: results.results,
-      isLoading: false,
-    })
+    try {
+      const response = await CalculateApi.getQaqcConfigs(params)
+      this.setState({
+        dataFilterTime: response.results,
+        isLoading: false,
+      })
+    } catch (error) {
+      this.setState({
+        isLoading: false,
+      })
+    }
   }
 
-  onFinishCreate = setIsShowModal => {
+  onFinishCreate = isShowModalFilterTime => {
     this.setState({
-      isShowModalFilterTime: setIsShowModal,
+      isShowModalFilterTime,
     })
     this.getData()
+  }
+
+  onChangeSwitchFilter = async value => {
+    // const param = {
+    //   excludeParametersByTime: value,
+    // }
+    // await toggleQaqcConfig(param)
+    this.setState({
+      isApplyFilterTime: value,
+    })
   }
 
   componentDidMount = async () => {
@@ -147,8 +181,8 @@ export default class FilterTimeContainer extends Component {
       modalFilterTimeType,
       dataFilterTime,
       isLoading,
+      isApplyFilterTime,
     } = this.state
-
     const DynamicModalFilterTime = {
       create: (
         <ModalFilterTime
@@ -197,7 +231,7 @@ export default class FilterTimeContainer extends Component {
           </Col>
 
           <Col style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-            <Switch defaultChecked />
+            <Switch defaultChecked onClick={this.onChangeSwitchFilter} />
             <div>Bộ lọc khoảng thời gian</div>
           </Col>
         </Row>
@@ -206,6 +240,7 @@ export default class FilterTimeContainer extends Component {
 
         <TableFilterTime
           loading={isLoading}
+          isDisable={isApplyFilterTime}
           onEditFilterTime={this.showModalEditFilterTime}
           dataSource={dataFilterTime}
           setTimeFilterItemKey={this.setTimeFilterItem}

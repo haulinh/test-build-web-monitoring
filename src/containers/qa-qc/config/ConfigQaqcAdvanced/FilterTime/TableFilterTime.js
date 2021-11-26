@@ -20,14 +20,16 @@ export default class TableFilterTime extends Component {
         title: '#',
         width: 50,
         align: 'center',
-        render: (value, record, index) => <div>{index + 1}</div>,
+        render: (value, record, index) => (
+          <div style={{ fontWeight: 500 }}>{index + 1}</div>
+        ),
       },
       {
         title: 'Trạm quan trắc',
-        dataIndex: 'name',
+        dataIndex: 'station',
         width: 350,
         render: (value, record) => (
-          <div style={{ fontWeight: 500 }}>{value}</div>
+          <div style={{ fontWeight: 500 }}>{value.name}</div>
         ),
       },
 
@@ -37,7 +39,7 @@ export default class TableFilterTime extends Component {
         align: 'left',
         width: 370,
         render: value => {
-          const measureList = _.map(value, 'measure')
+          const measureList = value.map(measureItem => measureItem.measure)
           return (
             <div style={{ color: '#1890ff' }}>{measureList.join(', ')}</div>
           )
@@ -87,11 +89,16 @@ export default class TableFilterTime extends Component {
         render: value => {
           return (
             <Row>
-              <Button type="link" onClick={onEditFilterTime}>
+              <Button
+                type="link"
+                onClick={onEditFilterTime}
+                disabled={!this.props.isDisable}
+              >
                 <Icon type="edit" style={{ color: '#1890FF' }} />
               </Button>
 
               <Button
+                disabled={!this.props.isDisable}
                 type="link"
                 onClick={() => {
                   setTimeFilterItemKey(value._id)
@@ -107,23 +114,34 @@ export default class TableFilterTime extends Component {
   }
 
   render() {
-    const { dataSource, onCreateFilterTime, ...otherProps } = this.props
+    const {
+      dataSource,
+      onCreateFilterTime,
+      isDisable,
+      ...otherProps
+    } = this.props
     return (
-      <Table
-        columns={this.columns}
-        bordered
-        dataSource={dataSource}
-        {...otherProps}
-        pagination={false}
-        footer={() => (
-          <Row style={{ color: '#1890FF' }} align="middle">
-            <Button type="link" onClick={onCreateFilterTime}>
-              <Icon type="plus" style={{ marginRight: 5 }} />
-              Thêm điều kiện lọc
-            </Button>
-          </Row>
-        )}
-      />
+      <div style={{ opacity: !isDisable && '0.5' }}>
+        <Table
+          columns={this.columns}
+          bordered
+          dataSource={dataSource}
+          {...otherProps}
+          pagination={false}
+          footer={() => (
+            <Row style={{ color: '#1890FF' }} align="middle">
+              <Button
+                type="link"
+                onClick={onCreateFilterTime}
+                disabled={!isDisable}
+              >
+                <Icon type="plus" style={{ marginRight: 5 }} />
+                Thêm điều kiện lọc
+              </Button>
+            </Row>
+          )}
+        />
+      </div>
     )
   }
 }

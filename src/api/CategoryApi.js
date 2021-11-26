@@ -1,5 +1,11 @@
 import { getConfigApi } from 'config'
-import { deleteFetch, getFetch, postFetch, putFetch } from 'utils/fetch'
+import {
+  deleteFetch,
+  getFetch,
+  postFetch,
+  putFetch,
+  pathFetch,
+} from 'utils/fetch'
 
 export function getMeasuringUrl(prefix = '') {
   return getConfigApi().measuring + '/' + prefix
@@ -82,6 +88,10 @@ export function postConfigQAQC(data) {
 
 export function putConfigQAQC(key, data) {
   return putFetch(getConfigSysUrl(key), data)
+}
+
+export function toggleQaqcConfig(param) {
+  return pathFetch(getConfigSysUrl('category'), param)
 }
 
 /* #endregion */
@@ -214,4 +224,5 @@ export default {
   getWarningLevelColor,
   updateWarningLevelColorData,
   updateWarningLevelColorSensor,
+  toggleQaqcConfig,
 }
