@@ -7,7 +7,6 @@ import { connect } from 'react-redux'
 import { removeAccents } from 'hoc/create-lang'
 import { replaceVietnameseStr } from 'utils/string'
 import { get } from 'lodash'
-import CalculateApi from 'api/CalculateApi'
 
 @connect(state => ({
   language: _.get(state, 'language.locale'),
@@ -25,7 +24,6 @@ export default class SelectStationAuto extends React.PureComponent {
     isLoaded: false,
     stationAutoSelects: [],
     searchString: '',
-    conditionFilterData: [],
   }
 
   async componentWillMount() {
@@ -37,18 +35,10 @@ export default class SelectStationAuto extends React.PureComponent {
     const data = get(res, 'data', []).filter(
       item => !get(item, 'removeStatus.allowed')
     )
-    const dataWithCondition = await CalculateApi.getQaqcConfigs({
-      limit: 999999,
-      offset: 0,
-    })
-    const conditionFilterData = dataWithCondition.results.filter(
-      item => item.type === 'value'
-    )
 
     this.setState({
       stationAutoSelects: data,
       isLoaded: true,
-      conditionFilterData: conditionFilterData,
     })
 
     if (this.props.onFetchSuccess) {
@@ -59,8 +49,12 @@ export default class SelectStationAuto extends React.PureComponent {
   }
 
   getStationAutos = () => {
-    const { province, stationType, fieldValue } = this.props
-
+    const {
+      province,
+      stationType,
+      fieldValue,
+      stationHadConditionFilter,
+    } = this.props
     let stationAutos = this.state.stationAutoSelects
     if (this.state.searchString) {
       const searchString = replaceVietnameseStr(this.state.searchString)
@@ -87,11 +81,15 @@ export default class SelectStationAuto extends React.PureComponent {
           stationAuto.stationType[fieldValue || 'key'] === stationType
       )
     }
-    stationAutos = stationAutos.filter(stationAuto =>
-      this.state.conditionFilterData.every(
-        station => station.stationId !== stationAuto._id
+
+    if (stationHadConditionFilter) {
+      stationAutos = stationAutos.filter(stationAuto =>
+        stationHadConditionFilter.every(
+          station => station.stationId !== stationAuto._id
+        )
       )
-    )
+    }
+
     return stationAutos
   }
 

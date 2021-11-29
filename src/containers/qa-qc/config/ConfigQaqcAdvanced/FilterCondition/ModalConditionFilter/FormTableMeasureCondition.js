@@ -9,11 +9,12 @@ export default class FormTableMeasureCondition extends Component {
   state = {
     isShowModalConfirmDelete: false,
     conditions: [{ id: uuidv4() }],
-    newExcludeMeasureList: [],
+    excludeMeasureList: [],
   }
 
   addCondition = () => {
-    const currentData = [...this.state.conditions]
+    const { conditions } = this.state
+    const currentData = [...conditions]
     const newData = {
       id: uuidv4(),
     }
@@ -30,13 +31,11 @@ export default class FormTableMeasureCondition extends Component {
     this.setState({ conditions: newConditions })
   }
 
-  handleConditionMeasureChange = async value => {
+  handleConditionMeasureChange = value => {
     const { measureList } = this.props
-    const newMeasureList = await measureList.filter(
-      measure => measure.name !== value
-    )
+    const newMeasureList = measureList.filter(measure => measure.key !== value)
 
-    this.setState({ newExcludeMeasureList: newMeasureList })
+    this.setState({ excludeMeasureList: newMeasureList })
   }
 
   columns = [
@@ -100,6 +99,7 @@ export default class FormTableMeasureCondition extends Component {
       width: 528,
       render: (value, record, index) => {
         const { form } = this.props
+        const { excludeMeasureList } = this.state
         return (
           <Form.Item required={false}>
             {form.getFieldDecorator(
@@ -114,7 +114,7 @@ export default class FormTableMeasureCondition extends Component {
               }
             )(
               <SelectMeasureParameter
-                measuringList={this.state.newExcludeMeasureList}
+                measuringList={excludeMeasureList}
                 mode="multiple"
                 style={{ width: '100%' }}
                 placeholder="Lựa chọn thông số sẽ loại bỏ"
@@ -128,16 +128,17 @@ export default class FormTableMeasureCondition extends Component {
       title: '',
       align: 'center',
       render: (value, record, index) => {
+        const isDisabled = index > 0
         return (
           <Button
             type="link"
-            disabled={this.state.conditions.length > 1 ? false : true}
+            disabled={!isDisabled}
             onClick={() => this.deleteCondition(record.id)}
             style={{ marginBottom: '24px' }}
           >
             <Icon
               style={{
-                color: this.state.conditions.length > 1 ? '#E64D3D' : '#A2A7B3',
+                color: isDisabled ? '#E64D3D' : '#A2A7B3',
               }}
               type="delete"
             />
@@ -148,10 +149,11 @@ export default class FormTableMeasureCondition extends Component {
   ]
 
   render() {
+    const { conditions } = this.state
     return (
       <Table
         columns={this.columns}
-        dataSource={this.state.conditions}
+        dataSource={conditions}
         bordered
         pagination={false}
         scroll={{ y: 300 }}

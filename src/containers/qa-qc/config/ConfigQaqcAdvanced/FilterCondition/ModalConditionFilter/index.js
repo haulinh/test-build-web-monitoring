@@ -1,14 +1,13 @@
-import { Button, Col, Form, Input, Modal, Row, message } from 'antd'
+import { Button, Col, Form, Input, message, Modal, Row } from 'antd'
+import CalculateApi from 'api/CalculateApi'
 import SelectStationAuto from 'components/elements/select-station-auto'
 import SelectStationType from 'components/elements/select-station-type'
-import React from 'react'
 import { Clearfix } from 'components/layouts/styles'
+import { getMeasuringListFromStationAutos } from 'containers/api-sharing/util'
+import { ModalConfirmCancel } from 'containers/qa-qc/config/ConfigQaqcAdvanced/components'
+import React from 'react'
 import { FIELDS } from '../index'
 import FormTableMeasureCondition from './FormTableMeasureCondition'
-import _ from 'lodash'
-import { getMeasuringListFromStationAutos } from 'containers/api-sharing/util'
-import CalculateApi from 'api/CalculateApi'
-import { ModalConfirmCancel } from 'containers/qa-qc/config/ConfigQaqcAdvanced/components'
 
 @Form.create()
 class ModalConditionFilter extends React.Component {
@@ -20,7 +19,6 @@ class ModalConditionFilter extends React.Component {
       isDeleteVisible: false,
       measures: [],
       stationAutos: [],
-      stationAutoList: [],
       isShowModalConditionFilter: true,
       isShowModalConfirmCancel: false,
     }
@@ -32,49 +30,42 @@ class ModalConditionFilter extends React.Component {
     })
   }
 
-  onChangeStationType = stationKey => {
+  onChangeStationType = () => {
     const { form } = this.props
-    form.resetFields('stationKeys')
-    form.resetFields('conditions')
-    const { stationAutos } = this.state
-    const stationAutoList = stationAutos.filter(
-      stationAuto => _.get(stationAuto, 'stationType.key') === stationKey
-    )
-    this.setState({
-      stationAutoList,
-    })
+    form.resetFields(FIELDS.STATION)
+    form.resetFields(FIELDS.CONDITIONS)
   }
 
   onChangeStation = () => {
     const { form } = this.props
-    form.resetFields('conditions')
+    form.resetFields(FIELDS.CONDITIONS)
   }
 
   getMeasureList = () => {
     const { form } = this.props
+    const { stationAutos } = this.state
     const stationAutoValue = form.getFieldValue(FIELDS.STATION)
-
     if (!stationAutoValue) return []
 
-    const stationAutoList = this.state.stationAutos.filter(stationAuto =>
-      stationAutoValue.includes(stationAuto.key)
+    const stationAuto = stationAutos.filter(stationAuto =>
+      stationAutoValue.includes(stationAuto._id)
     )
-    const measureList = getMeasuringListFromStationAutos(stationAutoList)
+    //getMesuringListFromStationAutos bat buoc get tham so la mot mang?
+    const measureList = getMeasuringListFromStationAutos(stationAuto)
     return measureList
   }
 
   onSubmit = async e => {
     e.preventDefault()
     const { form, onCancel } = this.props
+    const { stationAutos } = this.state
     const values = await form.validateFields()
     this.setState({ loading: true })
 
-    const stationAutoValue = await form.getFieldValue(FIELDS.STATION)
+    const stationAutoValue = form.getFieldValue(FIELDS.STATION)
 
-    if (!stationAutoValue) return []
-
-    const stationAutoList = this.state.stationAutos.find(stationAuto =>
-      stationAutoValue.includes(stationAuto.key)
+    const stationAutoList = stationAutos.find(stationAuto =>
+      stationAutoValue.includes(stationAuto._id)
     )
 
     const param = {
@@ -115,7 +106,12 @@ class ModalConditionFilter extends React.Component {
   }
 
   render() {
-    const { form, onCancel, ...otherProps } = this.props
+    const {
+      form,
+      onCancel,
+      dataWithConditionFilter,
+      ...otherProps
+    } = this.props
     const stationType = form.getFieldValue(FIELDS.STATION_TYPE)
     const measureList = this.getMeasureList()
 
@@ -174,7 +170,12 @@ class ModalConditionFilter extends React.Component {
                     message: 'Vui lòng chọn loại trạm',
                   },
                 ],
-              })(<SelectStationType placeholder="Chọn loại trạm" />)}
+              })(
+                <SelectStationType
+                  fieldValue="_id"
+                  placeholder="Chọn loại trạm"
+                />
+              )}
             </Form.Item>
           </Col>
           <Col span={8}>
@@ -189,9 +190,11 @@ class ModalConditionFilter extends React.Component {
                 ],
               })(
                 <SelectStationAuto
+                  fieldValue="_id"
                   placeholder="Chọn trạm quan trắc"
                   stationType={stationType}
                   onFetchSuccess={this.onStationAutosFetchSuccess}
+                  stationHadConditionFilter={dataWithConditionFilter}
                 />
               )}
             </Form.Item>

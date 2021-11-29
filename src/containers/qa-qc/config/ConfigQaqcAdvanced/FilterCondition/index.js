@@ -1,5 +1,6 @@
-import { Col, Form, Icon, Row, Switch, Button } from 'antd'
+import { Col, Form, Icon, Row, Switch } from 'antd'
 import CalculateApi from 'api/CalculateApi'
+import { toggleQaqcConfig } from 'api/CategoryApi'
 import SelectStationAuto from 'components/elements/select-station-auto'
 import { Clearfix } from 'components/layouts/styles'
 import { ModalConfirmDelete } from 'containers/qa-qc/config/ConfigQaqcAdvanced/components'
@@ -16,19 +17,10 @@ const ColSwitch = styled(Col)`
 `
 export const FIELDS = {
   FILTER_NAME: 'filterName',
-  STATION_KEYS: 'stationKeys',
   STATION_TYPE: 'stationType',
   STATION: 'stationKeys',
   STATION_ID: 'stationId',
   CONDITIONS: 'conditions',
-}
-
-const operators = {
-  eq: '=',
-  gt: '>',
-  lt: '<',
-  gte: '>=',
-  lte: '<=',
 }
 
 const Item = props => (
@@ -56,50 +48,29 @@ class FilterConditionContainer extends React.Component {
     isShowModalConditionFilter: false,
     isShowModalConfirmDelete: false,
     conditionItem: '',
-    dataConditionFromApi: [],
+    data: [],
     loading: false,
-    conditionFilterDataTable: [],
+    isApplyConditionFilter: true,
   }
 
   async componentDidMount() {
     await this.getData()
-    let count = 0
-    const conditionDataList = this.state.dataConditionFromApi.map(condition => {
-      count += 1
-      return {
-        key: `${count}`,
-        conditionName: condition.name,
-        stationName: condition.station.name,
-        conditionMeasure: condition.conditions.map(item => {
-          return {
-            conditionMeasureItem: `${item.measure} ${
-              operators[item.operator]
-            } ${item.value}`,
-            excludeMeasure: item.excludeMeasures.join(', '),
-          }
-        }),
-      }
-    })
-    this.setState({
-      conditionFilterDataTable: conditionDataList,
-    })
   }
 
   getData = async () => {
     try {
       this.setState({ loading: true })
-      const data = await CalculateApi.getQaqcConfigs({
+      const dataFromApi = await CalculateApi.getQaqcConfigs({
         limit: 999999,
         offset: 0,
       })
-      const conditionFilterData = data.results.filter(
+      const conditionFilterData = dataFromApi.results.filter(
         item => item.type === 'value'
       )
       this.setState({
-        dataConditionFromApi: conditionFilterData,
+        data: conditionFilterData,
         loading: false,
       })
-      console.log(this.state.dataConditionFromApi)
     } catch (error) {
       this.setState({ loading: false })
     }
@@ -143,13 +114,13 @@ class FilterConditionContainer extends React.Component {
   }
 
   deleteConditionFilterItem = () => {
-    let { conditionFilterDataTable } = this.state
+    let { data } = this.state
     const { conditionItem } = this.state
-    const newConditionFilterList = conditionFilterDataTable.filter(
+    const newConditionFilterList = data.filter(
       item => item.key !== conditionItem
     )
     this.setState({
-      conditionFilterDataTable: newConditionFilterList,
+      data: newConditionFilterList,
       isShowModalConfirmDelete: false,
     })
   }
@@ -159,16 +130,26 @@ class FilterConditionContainer extends React.Component {
     this.setState({ stationAutos })
     const stationAutoKeys = stationAutos.map(stationAuto => stationAuto.key)
     form.setFieldsValue({
-      [FIELDS.STATION_KEYS]: stationAutoKeys,
+      [FIELDS.STATION]: stationAutoKeys,
+    })
+  }
+
+  onChangeSwitchFilter = async value => {
+    const param = {
+      excludeParametersByValue: value,
+    }
+    await toggleQaqcConfig(param)
+    this.setState({
+      isApplyConditionFilter: value,
     })
   }
 
   render() {
     const {
-      stationKey,
       isShowModalConditionFilter,
       isShowModalConfirmDelete,
-      conditionFilterDataTable,
+      data,
+      isApplyConditionFilter,
     } = this.state
     const { form } = this.props
     return (
@@ -177,14 +158,15 @@ class FilterConditionContainer extends React.Component {
           <Col span={10}>
             <Item label="">
               {form.getFieldDecorator(
-                FIELDS.STATION_KEYS,
+                FIELDS.STATION,
                 {}
               )(
                 <SelectStationAuto
-                  onChange={this.handleChangeStationAuto}
                   mode="multiple"
                   style={{ width: '100%' }}
-                  onFetchSuccess={this.fetchStationAutoSuccess}
+                  maxTagCount={3}
+                  fieldValue
+                  placeholder="Chọn trạm quan trắc"
                 />
               )}
             </Item>
@@ -193,7 +175,7 @@ class FilterConditionContainer extends React.Component {
             <Row type="flex" justify="end" align="middle">
               <ColSwitch>
                 <div style={{ marginRight: '10px' }}>
-                  <Switch defaultChecked />
+                  <Switch defaultChecked onClick={this.onChangeSwitchFilter} />
                 </div>
               </ColSwitch>
               <Col>
@@ -207,8 +189,9 @@ class FilterConditionContainer extends React.Component {
         <Clearfix height={12} />
         <TableConditionFilter
           editRecord={this.showModalConditionFilter}
-          dataSource={conditionFilterDataTable}
+          dataSource={data}
           setConditionFilter={this.setConditionFilter}
+          isDisabled={isApplyConditionFilter}
           footer={() => (
             <div
               style={{ cursor: 'pointer' }}
@@ -235,6 +218,7 @@ class FilterConditionContainer extends React.Component {
           visible={isShowModalConditionFilter}
           onCancel={this.onCancelModalConditionFilter}
           showConfirmDelete={this.showModalConfirmDelete}
+          dataWithConditionFilter={data}
         />
         <ModalConfirmDelete
           visible={isShowModalConfirmDelete}
