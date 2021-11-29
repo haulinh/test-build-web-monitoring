@@ -123,7 +123,7 @@ export default {
     const url = calc(`qaqc-config`)
     return getFetch(url, param)
   },
-  createQcqcConfig: param => {
+  createQaqcConfig: param => {
     const url = calc(`qaqc-config`)
     return postFetch(url, param)
   },
