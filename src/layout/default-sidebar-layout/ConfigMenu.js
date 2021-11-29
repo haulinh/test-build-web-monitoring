@@ -274,7 +274,7 @@ export default {
         >
           <Tooltip
             placement="right"
-            title={listTooltipMenu().processData.configNew}
+            title={listTooltipMenu().processData.approveData}
           >
             <Link to={slug.qaqc.configNew}>
               {listMenuName().processData.approveData}
