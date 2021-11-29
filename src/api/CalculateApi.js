@@ -117,4 +117,19 @@ export default {
     return pathFetch(url)
   },
   //#endregion
+
+  //#region qa-qc
+  getQaqcConfigs: param => {
+    const url = calc(`qaqc-config`)
+    return getFetch(url, param)
+  },
+  createQcqcConfig: param => {
+    const url = calc(`qaqc-config`)
+    return postFetch(url, param)
+  },
+  deleteQaqcConfig: id => {
+    const url = calc(`qaqc-config/${id}`)
+    return deleteFetch(url)
+  },
+  //#endregion
 }
