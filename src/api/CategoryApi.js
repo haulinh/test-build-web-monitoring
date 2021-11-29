@@ -224,4 +224,5 @@ export default {
   getWarningLevelColor,
   updateWarningLevelColorData,
   updateWarningLevelColorSensor,
+  toggleQaqcConfig,
 }

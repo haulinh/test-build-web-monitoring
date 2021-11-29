@@ -11,18 +11,27 @@ import {
   Col,
   // Modal
 } from 'antd'
-import PropTypes from 'prop-types'
 import { translate } from 'hoc/create-lang'
 import { getStationTypes } from 'api/CategoryApi'
 import * as _ from 'lodash'
 import { connect } from 'react-redux'
-import TableConfig from './TableConfig.js'
 import { getConfigQAQC, postConfigQAQC, putConfigQAQC } from 'api/CategoryApi'
 import Disconnection from 'components/elements/disconnection'
 import { Clearfix } from 'components/layouts/styles'
-
+import styled from 'styled-components'
+import TableConfigForm from './TableConfig'
 const { TabPane } = Tabs
 const { Panel } = Collapse
+
+const PanelStyled = styled(Panel)`
+  .ant-collapse-header {
+    padding: 0px 16px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+`
 
 function i18n() {
   return {
@@ -35,8 +44,10 @@ function i18n() {
     deviceCalibration: translate('qaqcConfig.deviceCalibration'),
     btnEdit: translate('addon.save'),
     btnSave: translate('addon.create'),
+    btnUpdate: translate('addon.update'),
     disconnectionMessage: translate('network.qaqc.lostConnection'),
     updateSuccess: translate('addon.onSave.update.success'),
+    errorRepeat: translate('qaqcConfig.basic.error.repeat'),
   }
 }
 
@@ -58,16 +69,7 @@ export default class ConfigQaqcBasic extends React.Component {
       stationTypes: [],
       configQAQC: {},
     }
-    this.getData = this.getData.bind(this)
   }
-
-  static propTypes = {
-    onCompleted: PropTypes.func,
-    isDrawer: PropTypes.bool,
-    stationType: PropTypes.string,
-  }
-
-  dataTable = []
 
   _renderDisconnection = () => (
     <Row type="flex" justify="center" align="middle">
@@ -75,62 +77,117 @@ export default class ConfigQaqcBasic extends React.Component {
     </Row>
   )
 
-  handleSubmit = () => {
-    this.setState({ isLoading: true })
-    this.props.form.validateFields(async (err, values) => {
-      if (!err) {
-        // console.log('Received values of form: ', values)
-      }
-      let measureConfig = await this.getData()
-      // console.log('measureConfig', measureConfig)
+  getRepeatValidateError = () => {
+    const { form } = this.props
+    const {
+      beyondMeasuringRange,
+      deviceCalibration,
+      deviceError,
+      useBasicConfig,
+      ...valueStationTypes
+    } = form.getFieldsValue()
 
-      let response = null
-      // console.log(this.state.configId, '(this.state.configId')
-      if (this.state.configId) {
-        response = await putConfigQAQC(this.state.configId, {
-          measureConfig: {
-            ...measureConfig,
-          },
-          ...values,
-        })
-      } else {
-        response = await postConfigQAQC({
-          measureConfig: {
-            ...measureConfig,
-          },
-          ...values,
-        })
+    const convertArrayErrorToObject = stationTypeKey => (
+      baseErrorMeasure,
+      [measureKey, valueMeasure]
+    ) => {
+      return {
+        ...baseErrorMeasure,
+        [`${stationTypeKey}.${measureKey}.repeat`]: {
+          value: valueMeasure.repeat,
+          errors: [new Error(i18n().errorRepeat)],
+        },
       }
+    }
 
-      if (response.success) {
-        message.success(i18n().updateSuccess)
-        if (!this.state.configId) {
-          this.setState({
-            configId: _.get(response, 'data._id', null),
+    const repeatValidateError = Object.entries(valueStationTypes).reduce(
+      (base, [stationTypeKey, value]) => {
+        const valueRepeatMeasureErrors = Object.entries(value)
+          .filter(([_, valueMeasure]) => {
+            const isInValidValue =
+              valueMeasure.repeat !== undefined &&
+              (valueMeasure.repeat <= 1 ||
+                !Number.isInteger(valueMeasure.repeat))
+            return isInValidValue
           })
-        }
-      } else message.error(response.message)
+          .reduce(convertArrayErrorToObject(stationTypeKey), {})
 
-      this.setState({ isLoading: false }, this.props.onCompleted)
-    })
+        return { ...base, ...valueRepeatMeasureErrors }
+      },
+      {}
+    )
+
+    return repeatValidateError
   }
 
-  async getData() {
-    let result = {}
-    for (var i = 0; i < this.dataTable.length; i++) {
-      let item = this.dataTable[i]
-      let data = await item.getTableData()
-      result = _.merge(result, data)
+  handleSubmit = async () => {
+    const { form } = this.props
+    const values = form.getFieldsValue()
+
+    const validateMeasureValues = this.refTableConfigs.map(
+      async refTableConfig =>
+        await refTableConfig.current.props.form.validateFields()
+    )
+
+    const valuesValidate = await Promise.all(validateMeasureValues)
+    if (!valuesValidate) return
+
+    const measureValues = this.refTableConfigs.map(refTableConfig =>
+      refTableConfig.current.props.form.getFieldsValue()
+    )
+
+    // map repeat field string to number (onBlur field return string)
+    const measureValuesObject = measureValues.reduce((base, currentValue) => {
+      if (_.isEmpty(currentValue)) return base
+      const [stationTypeKey, value] = Object.entries(currentValue)[0]
+
+      const valueMeasureMapped = Object.entries(value).map(
+        ([measureKey, valueMeasure]) => ({
+          measureKey,
+          ...valueMeasure,
+          repeat: valueMeasure.repeat ? Number(valueMeasure.repeat) : undefined,
+        })
+      )
+      const valueMeasureObject = _.keyBy(valueMeasureMapped, 'measureKey')
+
+      return {
+        ...base,
+        [stationTypeKey]: valueMeasureObject,
+      }
+    }, {})
+
+    this.setState({ isLoading: true })
+    let response = null
+    if (this.state.configId) {
+      response = await putConfigQAQC(this.state.configId, {
+        measureConfig: {
+          ...measureValuesObject,
+        },
+        ...values,
+      })
+    } else {
+      response = await postConfigQAQC({
+        measureConfig: {
+          ...measureValuesObject,
+        },
+        ...values,
+      })
     }
-    return result
+    if (response.success) {
+      message.success(i18n().updateSuccess)
+      if (!this.state.configId) {
+        this.setState({
+          configId: _.get(response, 'data._id', null),
+        })
+      }
+    } else message.error(response.message)
+
+    this.setState({ isLoading: false }, this.props.onCompleted)
   }
 
   onTabChange = (key, type) => {
-    // console.log(key, type)
     this.setState({ activeTabkey: key })
   }
-
-  getRef = () => this
 
   async componentDidMount() {
     try {
@@ -146,6 +203,9 @@ export default class ConfigQaqcBasic extends React.Component {
               name: item.name,
             }
           })
+        this.refTableConfigs = Array(tabList.length)
+          .fill(0)
+          .map(tabListItem => React.createRef())
         this.setState({
           stationTypes: stationTypes.data,
           tabList,
@@ -165,12 +225,7 @@ export default class ConfigQaqcBasic extends React.Component {
             deviceError: data.deviceError,
             deviceCalibration: data.deviceCalibration,
             repeat: data.repeat,
-            ...(this.props.stationType
-              ? {
-                  [this.props.stationType]:
-                    data.measureConfig[this.props.stationType],
-                }
-              : data.measureConfig),
+            useBasicConfig: data.useBasicConfig,
           }
           this.setState({
             configQAQC: data,
@@ -265,28 +320,33 @@ export default class ConfigQaqcBasic extends React.Component {
   }
 
   renderButton = () => {
+    const { isLoading, configId } = this.state
     return (
       <Button
-        loading={this.state.isLoading}
+        loading={isLoading}
         onClick={event => {
           event.stopPropagation()
           this.handleSubmit()
         }}
-        size="small"
         type="primary"
       >
-        {this.state.configId ? i18n().btnEdit : i18n().btnSave}
+        {configId ? i18n().btnUpdate : i18n().btnSave}
       </Button>
     )
   }
 
   render() {
-    const { getFieldDecorator } = this.props.form
-    // const useBasicConfig = getFieldValue('useBasicConfig')
+    const { getFieldDecorator, getFieldValue } = this.props.form
+    const { configQAQC } = this.state
+    const useBasicConfig = getFieldValue('useBasicConfig')
     return (
       <React.Fragment>
         <Collapse defaultActiveKey="basic">
-          <Panel header={i18n().title} key="basic" extra={this.renderButton()}>
+          <PanelStyled
+            header={<div style={{ marginLeft: 2 }}>{i18n().title}</div>}
+            key="basic"
+            extra={this.renderButton()}
+          >
             {this.state.isDisconnection ? (
               this._renderDisconnection()
             ) : (
@@ -300,9 +360,9 @@ export default class ConfigQaqcBasic extends React.Component {
 
                 {this.state.isInitLoaded && (
                   <React.Fragment>
-                    <Row>
-                      <Col span={2}>{i18n().removeValues}</Col>
-                      <Col span={22}>
+                    <Row type="flex" gutter={12}>
+                      <Col>{i18n().removeValues}</Col>
+                      <Col>
                         <Row gutter={12} type="flex">
                           <Col>
                             {getFieldDecorator('beyondMeasuringRange', {
@@ -323,54 +383,66 @@ export default class ConfigQaqcBasic extends React.Component {
                           </Col>
                         </Row>
                         <Clearfix height={12} />
-                        <Col>
+                        <React.Fragment>
                           {getFieldDecorator('useBasicConfig', {
                             valuePropName: 'checked',
                           })(<Checkbox>{i18n().useBasicConfig}</Checkbox>)}
-                        </Col>
+                        </React.Fragment>
                       </Col>
                     </Row>
                   </React.Fragment>
                 )}
-
-                <React.Fragment>
+                <div
+                  style={{
+                    ...(!useBasicConfig && {
+                      pointerEvents: 'none',
+                      opacity: 0.5,
+                    }),
+                  }}
+                >
                   <Clearfix height={12} />
-                  <Tabs
-                    defaultActiveKey={this.state.activeTabkey}
-                    activeKey={this.state.activeTabkey}
-                    onChange={this.handleOnChangeTabKey}
-                  >
-                    {this.state.tabList.map(tab => {
-                      let measures = this.getMeasuringByType(tab.key)
+                  {!_.isEmpty(configQAQC) && (
+                    <Tabs
+                      defaultActiveKey={this.state.activeTabkey}
+                      activeKey={this.state.activeTabkey}
+                      onChange={this.handleOnChangeTabKey}
+                    >
+                      {this.state.tabList.map((tab, index) => {
+                        let measures = this.getMeasuringByType(tab.key)
 
-                      let dataTableMeasures = measures.map(item => {
-                        return {
-                          key: item,
-                          zero: false,
-                          negative: false,
-                          repeat: null,
-                        }
-                      })
-                      return (
-                        <TabPane
-                          forceRender={true}
-                          tab={tab.name}
-                          key={tab.key}
-                        >
-                          <TableConfig
-                            form={this.props.form}
-                            getRef={ref => this.dataTable.push(ref)}
-                            dataTableMeasures={dataTableMeasures}
-                            type={tab.key}
-                          />
-                        </TabPane>
-                      )
-                    })}
-                  </Tabs>
-                </React.Fragment>
+                        let dataTableMeasures = measures.map(item => {
+                          return {
+                            key: item,
+                            zero: false,
+                            negative: false,
+                            repeat: null,
+                          }
+                        })
+                        return (
+                          <TabPane
+                            forceRender={true}
+                            tab={tab.name}
+                            key={tab.key}
+                          >
+                            <TableConfigForm
+                              data={_.get(
+                                configQAQC,
+                                ['measureConfig', tab.key],
+                                {}
+                              )}
+                              wrappedComponentRef={this.refTableConfigs[index]}
+                              type={tab.key}
+                              dataTableMeasures={dataTableMeasures}
+                            />
+                          </TabPane>
+                        )
+                      })}
+                    </Tabs>
+                  )}
+                </div>
               </Form>
             )}
-          </Panel>
+          </PanelStyled>
         </Collapse>
       </React.Fragment>
     )

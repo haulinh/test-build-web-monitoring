@@ -118,15 +118,18 @@ export default {
   },
   //#endregion
 
-  //#region qaqc
-  //#region ticket
-  createQaqcConfigs: params => {
-    const url = calc('qaqc-config')
-    return postFetch(url, params)
+  //#region qa-qc
+  getQaqcConfigs: param => {
+    const url = calc(`qaqc-config`)
+    return getFetch(url, param)
   },
-  getQaqcConfigs: params => {
-    const url = calc('qaqc-config')
-    return getFetch(url, params)
+  createQaqcConfig: param => {
+    const url = calc(`qaqc-config`)
+    return postFetch(url, param)
+  },
+  deleteQaqcConfig: id => {
+    const url = calc(`qaqc-config/${id}`)
+    return deleteFetch(url)
   },
   //#endregion
 }
