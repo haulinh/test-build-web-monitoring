@@ -49,7 +49,12 @@ export default class SelectStationAuto extends React.PureComponent {
   }
 
   getStationAutos = () => {
-    const { province, stationType, fieldValue } = this.props
+    const {
+      province,
+      stationType,
+      fieldValue,
+      stationHadConditionFilter,
+    } = this.props
     let stationAutos = this.state.stationAutoSelects
     if (this.state.searchString) {
       const searchString = replaceVietnameseStr(this.state.searchString)
@@ -74,6 +79,14 @@ export default class SelectStationAuto extends React.PureComponent {
       stationAutos = stationAutos.filter(
         stationAuto =>
           stationAuto.stationType[fieldValue || 'key'] === stationType
+      )
+    }
+
+    if (stationHadConditionFilter) {
+      stationAutos = stationAutos.filter(stationAuto =>
+        stationHadConditionFilter.every(
+          station => station.stationId !== stationAuto._id
+        )
       )
     }
 
