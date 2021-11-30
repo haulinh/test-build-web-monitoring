@@ -14,7 +14,6 @@ export default class TableFilterTime extends Component {
   constructor(props) {
     super(props)
     const { onEditFilterTime, setTimeFilterItemKey } = this.props
-
     this.columns = [
       {
         title: '#',
@@ -39,7 +38,7 @@ export default class TableFilterTime extends Component {
         align: 'left',
         width: 370,
         render: value => {
-          const measureList = value.map(measureItem => measureItem.measure)
+          const measureList = value.map(measureItem => measureItem.measureName)
           return (
             <div style={{ color: '#1890ff' }}>{measureList.join(', ')}</div>
           )
@@ -115,9 +114,9 @@ export default class TableFilterTime extends Component {
 
   render() {
     const {
-      dataSource,
       onCreateFilterTime,
       isDisable,
+      dataSource,
       ...otherProps
     } = this.props
     return (
