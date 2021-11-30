@@ -89,7 +89,6 @@ export default class FilterTimeContainer extends Component {
     }
     try {
       const response = await CalculateApi.getQaqcConfigs(params)
-      console.log({ response })
       this.setState({
         dataFilterTime: response.results,
         isLoading: false,
