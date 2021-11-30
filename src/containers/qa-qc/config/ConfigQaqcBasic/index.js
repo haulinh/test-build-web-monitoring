@@ -20,6 +20,7 @@ import Disconnection from 'components/elements/disconnection'
 import { Clearfix } from 'components/layouts/styles'
 import styled from 'styled-components'
 import TableConfigForm from './TableConfig'
+import { getMeasuringListFromStationAutos } from 'containers/api-sharing/util'
 const { TabPane } = Tabs
 const { Panel } = Collapse
 
@@ -272,22 +273,12 @@ class ConfigQaqcBasic extends React.Component {
     return result
   }
 
-  getMeasuringByType(type) {
-    let result = []
-    let stations = this.props.stationList.filter(
+  getMeasuringByType = type => {
+    const stationAutos = this.props.stationList.filter(
       item => _.result(item, 'stationType.key') === type
     )
-    stations.map(station => {
-      let measures = station.measuringList.map(mea => {
-        console.log({ mea })
-        return mea.key
-      })
-      result = _.union(result, measures)
-
-      return null
-    })
-
-    return result
+    const measureList = getMeasuringListFromStationAutos(stationAutos)
+    return measureList
   }
 
   handleOnChangeTabKey = activeTabkey => {
@@ -405,11 +396,12 @@ class ConfigQaqcBasic extends React.Component {
                       onChange={this.handleOnChangeTabKey}
                     >
                       {this.state.tabList.map((tab, index) => {
-                        let measures = this.getMeasuringByType(tab.key)
+                        const measures = this.getMeasuringByType(tab.key)
 
-                        let dataTableMeasures = measures.map(item => {
+                        let dataTableMeasures = measures.map(measure => {
                           return {
-                            key: item,
+                            key: measure.key,
+                            name: measure.name,
                             zero: false,
                             negative: false,
                             repeat: null,
