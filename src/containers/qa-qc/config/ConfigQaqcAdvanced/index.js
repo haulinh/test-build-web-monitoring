@@ -8,9 +8,28 @@ const { Panel } = Collapse
 
 class ConfigQaqcAdvancedTab extends React.Component {
   render() {
+    const { setActiveKeyPanel, activeKeyPanel } = this.props
     return (
-      <Collapse defaultActiveKey="advanced">
-        <Panel header="Bộ lọc nâng cao" key="advanced">
+      <Collapse
+        defaultActiveKey={activeKeyPanel}
+        activeKey={activeKeyPanel}
+        onChange={() => setActiveKeyPanel('advanced')}
+      >
+        <Panel
+          header={
+            <div
+              style={{
+                marginLeft: 2,
+                fontWeight: 500,
+                fontSize: 16,
+                color: '#111827',
+              }}
+            >
+              Bộ lọc nâng cao
+            </div>
+          }
+          key="advanced"
+        >
           <Tabs defaultActiveKey="filterRangeTime">
             <TabPane tab="Lọc theo khoảng thời gian" key="filterRangeTime">
               <FilterTimeContainer />
@@ -25,4 +44,4 @@ class ConfigQaqcAdvancedTab extends React.Component {
   }
 }
 
-export default ConfigQaqcAdvancedTab
+export default React.memo(ConfigQaqcAdvancedTab)

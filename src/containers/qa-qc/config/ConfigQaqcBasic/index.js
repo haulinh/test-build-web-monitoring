@@ -20,8 +20,15 @@ import Disconnection from 'components/elements/disconnection'
 import { Clearfix } from 'components/layouts/styles'
 import styled from 'styled-components'
 import TableConfigForm from './TableConfig'
+import { getMeasuringListFromStationAutos } from 'containers/api-sharing/util'
 const { TabPane } = Tabs
 const { Panel } = Collapse
+
+const fields = {
+  excludeParametersByTime: 'excludeParametersByTime',
+  excludeParametersByValue: 'excludeParametersByValue',
+  useBasicConfig: 'useBasicConfig',
+}
 
 const PanelStyled = styled(Panel)`
   .ant-collapse-header {
@@ -56,7 +63,7 @@ function i18n() {
   stationList: state.stationAuto.list,
 }))
 @Form.create()
-export default class ConfigQaqcBasic extends React.Component {
+class ConfigQaqcBasic extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -77,66 +84,8 @@ export default class ConfigQaqcBasic extends React.Component {
     </Row>
   )
 
-  getRepeatValidateError = () => {
-    const { form } = this.props
-    const {
-      beyondMeasuringRange,
-      deviceCalibration,
-      deviceError,
-      useBasicConfig,
-      ...valueStationTypes
-    } = form.getFieldsValue()
-
-    const convertArrayErrorToObject = stationTypeKey => (
-      baseErrorMeasure,
-      [measureKey, valueMeasure]
-    ) => {
-      return {
-        ...baseErrorMeasure,
-        [`${stationTypeKey}.${measureKey}.repeat`]: {
-          value: valueMeasure.repeat,
-          errors: [new Error(i18n().errorRepeat)],
-        },
-      }
-    }
-
-    const repeatValidateError = Object.entries(valueStationTypes).reduce(
-      (base, [stationTypeKey, value]) => {
-        const valueRepeatMeasureErrors = Object.entries(value)
-          .filter(([_, valueMeasure]) => {
-            const isInValidValue =
-              valueMeasure.repeat !== undefined &&
-              (valueMeasure.repeat <= 1 ||
-                !Number.isInteger(valueMeasure.repeat))
-            return isInValidValue
-          })
-          .reduce(convertArrayErrorToObject(stationTypeKey), {})
-
-        return { ...base, ...valueRepeatMeasureErrors }
-      },
-      {}
-    )
-
-    return repeatValidateError
-  }
-
-  handleSubmit = async () => {
-    const { form } = this.props
-    const values = form.getFieldsValue()
-
-    const validateMeasureValues = this.refTableConfigs.map(
-      async refTableConfig =>
-        await refTableConfig.current.props.form.validateFields()
-    )
-
-    const valuesValidate = await Promise.all(validateMeasureValues)
-    if (!valuesValidate) return
-
-    const measureValues = this.refTableConfigs.map(refTableConfig =>
-      refTableConfig.current.props.form.getFieldsValue()
-    )
-
-    // map repeat field string to number (onBlur field return string)
+  // map repeat field string to number (onBlur field return string)
+  convertRepeatField = measureValues => {
     const measureValuesObject = measureValues.reduce((base, currentValue) => {
       if (_.isEmpty(currentValue)) return base
       const [stationTypeKey, value] = Object.entries(currentValue)[0]
@@ -155,6 +104,26 @@ export default class ConfigQaqcBasic extends React.Component {
         [stationTypeKey]: valueMeasureObject,
       }
     }, {})
+    return measureValuesObject
+  }
+
+  handleSubmit = async () => {
+    const { form } = this.props
+    const values = form.getFieldsValue()
+
+    const validateMeasureValues = this.refTableConfigs.map(
+      async refTableConfig =>
+        await refTableConfig.current.props.form.validateFields()
+    )
+
+    const valuesValidate = await Promise.all(validateMeasureValues)
+    if (!valuesValidate) return
+
+    const measureValues = this.refTableConfigs.map(refTableConfig =>
+      refTableConfig.current.props.form.getFieldsValue()
+    )
+
+    const measureValuesObject = this.convertRepeatField(measureValues)
 
     this.setState({ isLoading: true })
     let response = null
@@ -225,7 +194,11 @@ export default class ConfigQaqcBasic extends React.Component {
             deviceError: data.deviceError,
             deviceCalibration: data.deviceCalibration,
             repeat: data.repeat,
-            useBasicConfig: data.useBasicConfig,
+            [fields.useBasicConfig]: data[fields.useBasicConfig],
+            [fields.excludeParametersByTime]:
+              data[fields.excludeParametersByTime],
+            [fields.excludeParametersByValue]:
+              data[fields.excludeParametersByValue],
           }
           this.setState({
             configQAQC: data,
@@ -300,19 +273,12 @@ export default class ConfigQaqcBasic extends React.Component {
     return result
   }
 
-  getMeasuringByType(type) {
-    let result = []
-    let stations = this.props.stationList.filter(
+  getMeasuringByType = type => {
+    const stationAutos = this.props.stationList.filter(
       item => _.result(item, 'stationType.key') === type
     )
-    stations.map(station => {
-      let measures = station.measuringList.map(mea => mea.key)
-      result = _.union(result, measures)
-
-      return null
-    })
-
-    return result
+    const measureList = getMeasuringListFromStationAutos(stationAutos)
+    return measureList
   }
 
   handleOnChangeTabKey = activeTabkey => {
@@ -337,13 +303,29 @@ export default class ConfigQaqcBasic extends React.Component {
 
   render() {
     const { getFieldDecorator, getFieldValue } = this.props.form
+    const { setActiveKeyPanel, activeKeyPanel } = this.props
     const { configQAQC } = this.state
     const useBasicConfig = getFieldValue('useBasicConfig')
     return (
       <React.Fragment>
-        <Collapse defaultActiveKey="basic">
+        <Collapse
+          activeKey={activeKeyPanel}
+          defaultActiveKey={activeKeyPanel}
+          onChange={() => setActiveKeyPanel('basic')}
+        >
           <PanelStyled
-            header={<div style={{ marginLeft: 2 }}>{i18n().title}</div>}
+            header={
+              <div
+                style={{
+                  marginLeft: 2,
+                  fontWeight: 500,
+                  fontSize: 16,
+                  color: '#111827',
+                }}
+              >
+                {i18n().title}
+              </div>
+            }
             key="basic"
             extra={this.renderButton()}
           >
@@ -390,6 +372,12 @@ export default class ConfigQaqcBasic extends React.Component {
                         </React.Fragment>
                       </Col>
                     </Row>
+                    {getFieldDecorator(fields.excludeParametersByTime, {
+                      initialValue: false,
+                    })(<div />)}
+                    {getFieldDecorator(fields.excludeParametersByValue, {
+                      initialValue: false,
+                    })(<div />)}
                   </React.Fragment>
                 )}
                 <div
@@ -408,11 +396,12 @@ export default class ConfigQaqcBasic extends React.Component {
                       onChange={this.handleOnChangeTabKey}
                     >
                       {this.state.tabList.map((tab, index) => {
-                        let measures = this.getMeasuringByType(tab.key)
+                        const measures = this.getMeasuringByType(tab.key)
 
-                        let dataTableMeasures = measures.map(item => {
+                        let dataTableMeasures = measures.map(measure => {
                           return {
-                            key: item,
+                            key: measure.key,
+                            name: measure.name,
                             zero: false,
                             negative: false,
                             repeat: null,
@@ -448,3 +437,5 @@ export default class ConfigQaqcBasic extends React.Component {
     )
   }
 }
+
+export default React.memo(ConfigQaqcBasic)
