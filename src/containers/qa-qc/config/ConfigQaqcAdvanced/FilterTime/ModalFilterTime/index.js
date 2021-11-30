@@ -14,9 +14,13 @@ import moment from 'moment'
 
 @Form.create()
 export default class ModalFilterTime extends Component {
-  state = {
-    stationAutos: [],
-    isVisible: false,
+  constructor(props) {
+    super(props)
+    this.state = {
+      stationAutos: [],
+      isVisible: false,
+      isSelected: false,
+    }
   }
 
   onStationAutosFetchSuccess = stationAutos => {
@@ -43,10 +47,16 @@ export default class ModalFilterTime extends Component {
   handleValueTimes = () => {
     const { form } = this.props
     const { conditions } = form.getFieldsValue()
+    const measureFieldValue = form.getFieldValue('measure')
     const newConditions = Object.entries(conditions)
     const condition = newConditions.map(condition => {
+      const measure = measureFieldValue.find(
+        measure => measure.key === condition[0]
+      )
+      console.log({ condition })
       return {
         measure: _.get(condition, '[0]'),
+        measureName: measure.name,
         startAt: getTimeUTC(moment(_.get(condition, '[1][0]')).startOf('day')),
         endAt: getTimeUTC(moment(_.get(condition, '[1][1]')).endOf('day')),
       }
@@ -54,9 +64,8 @@ export default class ModalFilterTime extends Component {
     return condition
   }
 
-  handleSubmitCreate = async () => {
-    const { form, setIsModalFilter } = this.props
-    await form.validateFields()
+  getParams = () => {
+    const { form } = this.props
     const { stationAutos } = this.state
     const values = form.getFieldsValue()
     const { stationId } = values
@@ -73,6 +82,14 @@ export default class ModalFilterTime extends Component {
       stationId,
       conditions,
     }
+    return params
+  }
+
+  handleSubmitCreate = async () => {
+    const { form, setIsModalFilter } = this.props
+    await form.validateFields()
+    const params = this.getParams()
+
     try {
       await CalculateApi.createQcqcConfig(params)
       message.success(t('addon.onSave.add.success'))
@@ -84,10 +101,21 @@ export default class ModalFilterTime extends Component {
     setIsModalFilter(false)
   }
 
+  resetFieldsOnCancel = () => {
+    const { form } = this.props
+    form.resetFields()
+  }
+
   resetModalFilterTime = () => {
     const { form } = this.props
     form.resetFields()
   }
+
+  // checkSelected = value => {
+  //   this.setState({
+  //     isSelected: value,
+  //   })
+  // }
 
   onChangeStationType = () => {
     const { form } = this.props
@@ -184,6 +212,7 @@ export default class ModalFilterTime extends Component {
         <Row span={24}>
           <FormTableMeasureTime
             form={form}
+            // hasSelected={this.checkSelected}
             measureList={measureList}
             modalType={modalType}
           />

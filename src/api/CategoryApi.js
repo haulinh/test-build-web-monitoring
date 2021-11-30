@@ -91,7 +91,7 @@ export function putConfigQAQC(key, data) {
 }
 
 export function toggleQaqcConfig(param) {
-  return pathFetch(getConfigSysUrl('category'), param)
+  return pathFetch(getConfigSysUrl(), param)
 }
 
 /* #endregion */
