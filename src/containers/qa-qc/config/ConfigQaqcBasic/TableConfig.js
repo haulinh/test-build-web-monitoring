@@ -71,7 +71,7 @@ class TableConfig extends React.Component {
   columns = [
     {
       title: i18n().measure,
-      dataIndex: 'key',
+      dataIndex: 'name',
       key: 'key',
     },
     {

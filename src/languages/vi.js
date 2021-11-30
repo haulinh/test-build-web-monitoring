@@ -474,7 +474,7 @@ export default {
     outOfRange: 'Ngoài vùng đo',
   },
   qaqcConfig: {
-    title: 'Cấu hình kiểm duyệt dữ liệu',
+    title: 'Kiểm duyệt dữ liệu',
     beyondMeasuringRange: 'Ngoài dải đo',
     deviceError: 'Thiết bị lỗi',
     deviceCalibration: 'Thiết bị hiệu chuẩn',

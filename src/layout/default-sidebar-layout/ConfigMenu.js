@@ -187,6 +187,25 @@ export default {
         </Menu.Item>
       )}
 
+      {/* Kiem duyet du lieu */}
+      {protectRole(ROLE.XU_LY_KIEM_DUYET_DU_LIEU_CONFIG.VIEW)(
+        <Menu.Item
+          key={slug.qaqc.configNew}
+          onClick={() => {
+            props.selectMenu(slug.qaqc.configNew)
+          }}
+        >
+          <Tooltip
+            placement="right"
+            title={listTooltipMenu().processData.approveData}
+          >
+            <Link to={slug.qaqc.configNew}>
+              {listMenuName().processData.approveData}
+            </Link>
+          </Tooltip>
+        </Menu.Item>
+      )}
+
       {/* NOTE  NHÓM QUYỀN */}
       {protectRole(ROLE.SERVICE_CONFIG.VIEW)(
         <Menu.Item
@@ -260,24 +279,6 @@ export default {
           >
             <Link to={slug.dataLogger.base}>
               {listMenuName().config.dataLogger}
-            </Link>
-          </Tooltip>
-        </Menu.Item>
-      )}
-
-      {protectRole(ROLE.XU_LY_KIEM_DUYET_DU_LIEU_CONFIG.VIEW)(
-        <Menu.Item
-          key={slug.qaqc.configNew}
-          onClick={() => {
-            props.selectMenu(slug.qaqc.configNew)
-          }}
-        >
-          <Tooltip
-            placement="right"
-            title={listTooltipMenu().processData.approveData}
-          >
-            <Link to={slug.qaqc.configNew}>
-              {listMenuName().processData.approveData}
             </Link>
           </Tooltip>
         </Menu.Item>
