@@ -129,6 +129,7 @@ export default class SelectStationAuto extends React.PureComponent {
       value,
       valueNames,
       fieldValue,
+      disabled,
     } = this.props
     const stationAutos = this.getStationAutos()
     const stationAutoMaps = new Map(
@@ -153,6 +154,7 @@ export default class SelectStationAuto extends React.PureComponent {
         value={!value ? value : selectValue}
         onSearch={this.handleSearch}
         filterOption={false}
+        disabled={disabled}
         {...this.props}
       >
         {stationAutos.map(item => (
