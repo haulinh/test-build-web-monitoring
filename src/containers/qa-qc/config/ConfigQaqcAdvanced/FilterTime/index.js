@@ -3,12 +3,12 @@ import CalculateApi from 'api/CalculateApi'
 import { Clearfix } from 'components/layouts/styles'
 import SelectStationAuto from 'containers/search/common/select-station-auto'
 import React, { Component } from 'react'
-import { ModalConfirmDelete } from '../components'
+import { ModalConfirmDelete } from '../components/index'
 import ModalFilterTime from './ModalFilterTime'
 import TableFilterTime from './TableFilterTime'
 import _ from 'lodash'
 import { translate as t } from 'hoc/create-lang'
-// import { toggleQaqcConfig } from 'api/CategoryApi'
+import { toggleQaqcConfig } from 'api/CategoryApi'
 
 export const FIELDS = {
   STATION_TYPE: 'stationType',
@@ -62,9 +62,11 @@ export default class FilterTimeContainer extends Component {
   }
 
   closeModalFilterTime = () => {
+    const { form } = this.props
     this.setState({
       isShowModalFilterTime: false,
     })
+    form.resetFields([FIELDS.STATION_TYPE, FIELDS.STATION_AUTO_ID])
   }
 
   onChangeStationAuto = stationKey => {
@@ -117,6 +119,10 @@ export default class FilterTimeContainer extends Component {
     this.getData()
   }
 
+  handleStatus = () => {
+    return 'Áp dụng'
+  }
+
   pagination = {
     limit: 999999,
     offset: 0,
@@ -159,10 +165,11 @@ export default class FilterTimeContainer extends Component {
   }
 
   onChangeSwitchFilter = async value => {
-    // const param = {
-    //   excludeParametersByTime: value,
-    // }
-    // await toggleQaqcConfig(param)
+    const param = {
+      excludeParametersByTime: value,
+    }
+    console.log({ param })
+    await toggleQaqcConfig(param)
     this.setState({
       isApplyFilterTime: value,
     })
@@ -188,6 +195,7 @@ export default class FilterTimeContainer extends Component {
           modalTitle="Thêm bộ lọc điều kiện mới"
           visible={isShowModalFilterTime}
           setIsModalFilter={this.onFinishCreate}
+          form={form}
           onCancel={this.closeModalFilterTime}
           modalType={modalFilterTimeType}
         />
@@ -238,6 +246,7 @@ export default class FilterTimeContainer extends Component {
         <Clearfix height={20} />
 
         <TableFilterTime
+          status={this.handleStatus}
           loading={isLoading}
           isDisable={isApplyFilterTime}
           onEditFilterTime={this.showModalEditFilterTime}

@@ -8,13 +8,28 @@ export default class FormTableMeasureTime extends Component {
     super(props)
     const { form } = this.props
     this.state = {
-      conditons: [],
+      selectedRowKeys: [],
+      isSelected: false,
+      attribute: {
+        name: 'name',
+        isActive: true,
+        eventId: 1,
+      },
     }
     this.columns = [
       {
         title: 'Thông số',
         render: (value, record, index) => {
-          return <div>{value.name}</div>
+          return (
+            <div>
+              {form.getFieldDecorator(`measure[${index}]`, {
+                initialValue: {
+                  name: value.name,
+                  key: value.key,
+                },
+              })(<div>{value.name}</div>)}
+            </div>
+          )
         },
       },
       {
@@ -23,14 +38,18 @@ export default class FormTableMeasureTime extends Component {
           return (
             <FormItem>
               {form.getFieldDecorator(`conditions[${value.key}]`, {
-                initialValue: [],
                 rules: [
                   {
                     required: true,
                     message: 'Vui lòng chọn thời gian',
                   },
                 ],
-              })(<RangePicker style={{ width: '100%' }} />)}
+              })(
+                <RangePicker
+                  style={{ width: '100%' }}
+                  format={['DD/MM/YYYY']}
+                />
+              )}
             </FormItem>
           )
         },
@@ -44,15 +63,22 @@ export default class FormTableMeasureTime extends Component {
       },
     ]
   }
-  rowSelection = {}
+
+  onSelectChange = selectedRowKeys => {
+    // console.log('selectedRowKeys changed: ', selectedRowKeys)
+    this.setState({ selectedRowKeys })
+  }
   render() {
     const { measureList, modalType } = this.props
+    const rowSelection = {
+      onChange: this.onSelectChange,
+    }
     return (
       <Table
         columns={modalType === 'edit' ? this.columnsModalEdit : this.columns}
         dataSource={measureList}
         bordered
-        rowSelection={this.rowSelection}
+        rowSelection={rowSelection}
         pagination={false}
         scroll={{ y: 300 }}
       />
