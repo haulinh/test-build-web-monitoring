@@ -13,6 +13,7 @@ import LayoutRoute from 'layout/default-sidebar-layout/routeCombine'
 
 import advanceRoute from './advanceRoute'
 import LoginRoute from './loginRoute'
+import ErrorBoundary from './ErrorBoundary'
 
 const APISharing = lazy(() => import('containers/api-sharing-hidden'))
 const ApiSharingRoute = lazy(() =>
@@ -130,147 +131,170 @@ export default class RouteDefault extends React.Component {
 
           <Layout isShowSidebarMenu>
             <Suspense fallback={<LoadingNProgress />}>
-              <LayoutRoute
-                path={slug.dashboard.healthCheck}
-                exact
-                component={OverviewDashboard}
-              />
-              <LayoutRoute
-                path={slug.dashboard.overview}
-                exact
-                component={DashboardDetail}
-              />
-              <LayoutRoute path={slug.map.base} component={Map} />
+              <ErrorBoundary>
+                <LayoutRoute
+                  path={slug.dashboard.healthCheck}
+                  exact
+                  component={OverviewDashboard}
+                />
+                <LayoutRoute
+                  path={slug.dashboard.overview}
+                  exact
+                  component={DashboardDetail}
+                />
+                <LayoutRoute path={slug.map.base} component={Map} />
 
-              <LayoutRoute
-                path={slug.measuring.base}
-                component={MeasuringRoute}
-              />
+                <LayoutRoute
+                  path={slug.measuring.base}
+                  component={MeasuringRoute}
+                />
 
-              <LayoutRoute
-                path={slug.stationAuto.base}
-                component={StationAutoRoute}
-              />
-              <LayoutRoute
-                path={slug.stationFixed.base}
-                component={StationFixedRoute}
-              />
-              <LayoutRoute
-                path={slug.stationFixedPhase.base}
-                component={StationFixedPhaseRoute}
-              />
+                <LayoutRoute
+                  path={slug.stationAuto.base}
+                  component={StationAutoRoute}
+                />
+                <LayoutRoute
+                  path={slug.stationFixed.base}
+                  component={StationFixedRoute}
+                />
+                <LayoutRoute
+                  path={slug.stationFixedPhase.base}
+                  component={StationFixedPhaseRoute}
+                />
 
-              <LayoutRoute
-                path={slug.stationFixedReport.base}
-                component={StationFixedReport}
-              />
+                <LayoutRoute
+                  path={slug.stationFixedReport.base}
+                  component={StationFixedReport}
+                />
 
-              <LayoutRoute
-                path={slug.stationType.base}
-                component={StationTypeRoute}
-              />
-              <LayoutRoute
-                path={slug.province.base}
-                component={ProvinceRoute}
-              />
-              <LayoutRoute path={slug.qcvn.base} component={QCVNRoute} />
-              <LayoutRoute
-                path={slug.ftpTransfer.base}
-                component={FtpTransferRoute}
-              />
-              <LayoutRoute
-                path={slug.apiSharing.base}
-                component={ApiSharingRoute}
-              />
-              <LayoutRoute path="/api-sharing-hidden" component={APISharing} />
-              <LayoutRoute
-                path={slug.onlineMonitoring.base}
-                component={OnlineMonitoring}
-              />
-              <LayoutRoute path={slug.monitoring.base} component={Monitoring} />
-              <LayoutRoute
-                path={slug.monitoringList.base}
-                component={MonitoringList}
-              />
-              <LayoutRoute path={slug.dataSearch.base} component={DataSearch} />
-              <LayoutRoute
-                path={slug.avgSearchAdvanced.base}
-                component={AvgSearchAdvanced}
-              />
-              <LayoutRoute path={slug.avgSearch.base} component={AvgSearch} />
-              <LayoutRoute
-                path={slug.dataSearchFixed.base}
-                component={DataSearchFixed}
-              />
-              <LayoutRoute
-                path={slug.mapFixed.base}
-                component={MapFixedContainer}
-              />
-              {/* <LayoutRoute path={slug.statistic.aqi} component={AqiStatistic} />
+                <LayoutRoute
+                  path={slug.stationType.base}
+                  component={StationTypeRoute}
+                />
+                <LayoutRoute
+                  path={slug.province.base}
+                  component={ProvinceRoute}
+                />
+                <LayoutRoute path={slug.qcvn.base} component={QCVNRoute} />
+                <LayoutRoute
+                  path={slug.ftpTransfer.base}
+                  component={FtpTransferRoute}
+                />
+                <LayoutRoute
+                  path={slug.apiSharing.base}
+                  component={ApiSharingRoute}
+                />
+                <LayoutRoute
+                  path="/api-sharing-hidden"
+                  component={APISharing}
+                />
+                <LayoutRoute
+                  path={slug.onlineMonitoring.base}
+                  component={OnlineMonitoring}
+                />
+                <LayoutRoute
+                  path={slug.monitoring.base}
+                  component={Monitoring}
+                />
+                <LayoutRoute
+                  path={slug.monitoringList.base}
+                  component={MonitoringList}
+                />
+                <LayoutRoute
+                  path={slug.dataSearch.base}
+                  component={DataSearch}
+                />
+                <LayoutRoute
+                  path={slug.avgSearchAdvanced.base}
+                  component={AvgSearchAdvanced}
+                />
+                <LayoutRoute path={slug.avgSearch.base} component={AvgSearch} />
+                <LayoutRoute
+                  path={slug.dataSearchFixed.base}
+                  component={DataSearchFixed}
+                />
+                <LayoutRoute
+                  path={slug.mapFixed.base}
+                  component={MapFixedContainer}
+                />
+                {/* <LayoutRoute path={slug.statistic.aqi} component={AqiStatistic} />
             <LayoutRoute path={slug.statistic.wqi} component={WqiStatistic} /> */}
-              <LayoutRoute
-                path={slug.statistic.exceeded}
-                component={ExceededContainer}
-              />
-              <LayoutRoute
-                path={slug.statistic.perRecData}
-                component={PercentReceivedData}
-              />
+                <LayoutRoute
+                  path={slug.statistic.exceeded}
+                  component={ExceededContainer}
+                />
+                <LayoutRoute
+                  path={slug.statistic.perRecData}
+                  component={PercentReceivedData}
+                />
 
-              <LayoutRoute path={slug.qaqc.base} component={QaQcContainer} />
-              <LayoutRoute
-                path={slug.qaqc.config}
-                component={PublishConfigContainer}
-              />
-              <LayoutRoute path={slug.qaqc.configNew} component={QaQcConfig} />
+                <LayoutRoute path={slug.qaqc.base} component={QaQcContainer} />
+                <LayoutRoute
+                  path={slug.qaqc.config}
+                  component={PublishConfigContainer}
+                />
+                <LayoutRoute
+                  path={slug.qaqc.configNew}
+                  component={QaQcConfig}
+                />
 
-              <LayoutRoute path={slug.user.base} component={UserRoute} />
-              <LayoutRoute path={slug.role.base} component={RoleRoute} />
-              <LayoutRoute
-                path={slug.subscription.base}
-                component={SubscriptionRoute}
-              />
+                <LayoutRoute path={slug.user.base} component={UserRoute} />
+                <LayoutRoute path={slug.role.base} component={RoleRoute} />
+                <LayoutRoute
+                  path={slug.subscription.base}
+                  component={SubscriptionRoute}
+                />
 
-              <LayoutRoute
-                path={slug.controlStation.base}
-                component={ControlStation}
-              />
-              <LayoutRoute path={slug.camera.base} component={Camera} />
-              <LayoutRoute
-                path={slug.dataAnalytics.base}
-                component={DataAnalytics}
-              />
-              <LayoutRoute
-                path={slug.cameraControl.base}
-                component={CameraControl}
-              />
-              <LayoutRoute path={slug.support.base} component={SupportRoute} />
+                <LayoutRoute
+                  path={slug.controlStation.base}
+                  component={ControlStation}
+                />
+                <LayoutRoute path={slug.camera.base} component={Camera} />
+                <LayoutRoute
+                  path={slug.dataAnalytics.base}
+                  component={DataAnalytics}
+                />
+                <LayoutRoute
+                  path={slug.cameraControl.base}
+                  component={CameraControl}
+                />
+                <LayoutRoute
+                  path={slug.support.base}
+                  component={SupportRoute}
+                />
 
-              <LayoutRoute path={slug.report.base} component={Report} />
-              <LayoutRoute path={slug.advance.base} component={advanceRoute} />
+                <LayoutRoute path={slug.report.base} component={Report} />
+                <LayoutRoute
+                  path={slug.advance.base}
+                  component={advanceRoute}
+                />
 
-              {/* NOTE Nhật ký */}
-              <LayoutRoute
-                path={slug.dataLogger.base}
-                component={DataLoggerPage}
-              />
-              <LayoutRoute
-                path={slug.language.base}
-                component={ConfigLanguagePage}
-              />
+                {/* NOTE Nhật ký */}
+                <LayoutRoute
+                  path={slug.dataLogger.base}
+                  component={DataLoggerPage}
+                />
+                <LayoutRoute
+                  path={slug.language.base}
+                  component={ConfigLanguagePage}
+                />
 
-              <LayoutRoute
-                path={slug.config.service}
-                component={ConfigService}
-              />
-              <LayoutRoute
-                path={slug.periodicalForecast.base}
-                component={PeriodicalForecastRoute}
-              />
+                <LayoutRoute
+                  path={slug.config.service}
+                  component={ConfigService}
+                />
+                <LayoutRoute
+                  path={slug.periodicalForecast.base}
+                  component={PeriodicalForecastRoute}
+                />
 
-              <LayoutRoute path={slug.billing.base} component={BillingRoute} />
-              <LayoutRoute path={slug.ticket.base} component={TicketRoute} />
-              <LayoutRoute path={slug.alarm.base} component={AlarmRoute} />
+                <LayoutRoute
+                  path={slug.billing.base}
+                  component={BillingRoute}
+                />
+                <LayoutRoute path={slug.ticket.base} component={TicketRoute} />
+                <LayoutRoute path={slug.alarm.base} component={AlarmRoute} />
+              </ErrorBoundary>
             </Suspense>
           </Layout>
         </Switch>

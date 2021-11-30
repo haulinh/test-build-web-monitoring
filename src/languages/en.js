@@ -481,6 +481,20 @@ export default {
     deviceCalibration: 'Sensor Calibration',
     zero: 'Zero value',
     negative: 'Negative value',
+    basic: {
+      title: 'Basic Filter',
+      useBasicConfig: 'Value 0, negative and repeat',
+      repeat: 'Repeat',
+      tooltipRepeat: 'Set discard value based on number of repetitions',
+      placeholderRepeat: 'Number of repetitions',
+      removeValues: 'Remove Values:',
+      error: {
+        repeat: 'Please set repetitions greater than 1',
+      },
+    },
+    advanced: {
+      title: 'Advanced Filter',
+    },
   },
   controlStation: {
     text: 'Sampling',

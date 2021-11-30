@@ -3,7 +3,7 @@ import CalculateApi from 'api/CalculateApi'
 import { Clearfix } from 'components/layouts/styles'
 import SelectStationAuto from 'containers/search/common/select-station-auto'
 import React, { Component } from 'react'
-import { ModalConFirmDelete } from '../components/index'
+import { ModalConfirmDelete } from '../components/index'
 import ModalFilterTime from './ModalFilterTime'
 import TableFilterTime from './TableFilterTime'
 import _ from 'lodash'
@@ -257,7 +257,7 @@ export default class FilterTimeContainer extends Component {
 
         {DynamicModalFilterTime[modalFilterTimeType]}
 
-        <ModalConFirmDelete
+        <ModalConfirmDelete
           visible={isShowModalConfirmDelete}
           closable={false}
           footer={false}

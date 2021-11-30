@@ -480,15 +480,20 @@ export default {
     deviceCalibration: 'Thiết bị hiệu chuẩn',
     zero: 'Giá trị 0',
     negative: 'Giá trị Âm',
-		basic: {
-			title: 'Bộ lọc cơ bản',
-			useBasicConfig: 'Giá trị 0, âm và lặp lại',
-			repeat: 'Lặp lại',
-			removeValues: 'Loại bỏ các giá trị'
-		},
-		advanced: {
-			title: 'Bộ lọc nâng cao',
-		}
+    basic: {
+      title: 'Bộ lọc cơ bản',
+      useBasicConfig: 'Giá trị 0, âm và lặp lại',
+      repeat: 'Lặp lại',
+      tooltipRepeat: 'Thiết lập loại bỏ giá trị dựa vào số lần lặp lại',
+      placeholderRepeat: 'Số lần lặp lại',
+      removeValues: 'Loại bỏ các giá trị: ',
+      error: {
+        repeat: 'Vui lòng thiết lập số lần lặp lại lớn hơn 1',
+      },
+    },
+    advanced: {
+      title: 'Bộ lọc nâng cao',
+    },
   },
   controlStation: {
     text: 'Điều khiển lấy mẫu',

@@ -3,7 +3,7 @@ import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import { DATA_COLOR, i18n } from 'containers/api-sharing/constants'
 import { getMeasuringListFromStationAutos } from 'containers/api-sharing/util'
 import { withApiSharingDetailContext } from 'containers/api-sharing/withShareApiContext'
-import { get, keyBy } from 'lodash-es'
+import { get, isNumber, keyBy } from 'lodash-es'
 import moment from 'moment'
 import React from 'react'
 
@@ -36,7 +36,7 @@ const DataTable = ({
         const warningLevel = get(value, [measure, 'warningLevel'], '')
         return (
           <div style={{ color: DATA_COLOR[warningLevel] }}>
-            {measureValue ? measureValue.toFixed(2) : '-'}
+            {isNumber(measureValue) ? measureValue.toFixed(2) : '-'}
           </div>
         )
       },

@@ -225,9 +225,9 @@ export default class MenuApp extends React.PureComponent {
             ]) && MonitoringMenu.renderComp(this.props)}
 
             {/* {this.checkRoleForGroup([
-							ROLE.XU_LY_KIEM_DUYET_DU_LIEU_CONFIG.VIEW,
-							ROLE.XU_LY_KIEM_DUYET_DU_LIEU.VIEW,
-						]) && HandleDataMenu.renderComp(this.props)} */}
+              ROLE.XU_LY_KIEM_DUYET_DU_LIEU_CONFIG.VIEW,
+              ROLE.XU_LY_KIEM_DUYET_DU_LIEU.VIEW,
+            ]) && HandleDataMenu.renderComp(this.props)} */}
 
             {this.checkRoleForGroup([
               ROLE.PERIODICAL_STATION.VIEW,
