@@ -187,23 +187,7 @@ export default {
         </Menu.Item>
       )}
 
-      {/* NOTE  NHÓM QUYỀN */}
-      {protectRole(ROLE.SERVICE_CONFIG.VIEW)(
-        <Menu.Item
-          key={slug.config.service}
-          // key={slug.role.base}
-          onClick={() => {
-            props.selectMenu(slug.config.service)
-          }}
-        >
-          <Tooltip placement="right" title={listTooltipMenu().config.role}>
-            <Link to={slug.config.service}>
-              {listMenuName().config.service}
-            </Link>
-          </Tooltip>
-        </Menu.Item>
-      )}
-
+      {/* Kiem duyet du lieu */}
       {protectRole(ROLE.XU_LY_KIEM_DUYET_DU_LIEU_CONFIG.VIEW)(
         <Menu.Item
           key={slug.qaqc.configNew}
@@ -217,6 +201,23 @@ export default {
           >
             <Link to={slug.qaqc.configNew}>
               {listMenuName().processData.approveData}
+            </Link>
+          </Tooltip>
+        </Menu.Item>
+      )}
+
+      {/* NOTE  NHÓM QUYỀN */}
+      {protectRole(ROLE.SERVICE_CONFIG.VIEW)(
+        <Menu.Item
+          key={slug.config.service}
+          // key={slug.role.base}
+          onClick={() => {
+            props.selectMenu(slug.config.service)
+          }}
+        >
+          <Tooltip placement="right" title={listTooltipMenu().config.role}>
+            <Link to={slug.config.service}>
+              {listMenuName().config.service}
             </Link>
           </Tooltip>
         </Menu.Item>
