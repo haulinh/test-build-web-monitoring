@@ -135,12 +135,11 @@ const TableConditionFilter = ({
         const obj = {
           children: (
             <Row>
-              <Button type="link" disabled={!isDisabled} onClick={onEditRecord}>
+              <Button type="link" onClick={onEditRecord}>
                 <Icon type="edit" style={{ color: '#1890FF' }} />
               </Button>
               <Button
                 type="link"
-                disabled={!isDisabled}
                 onClick={() => {
                   setConditionFilterItemKey(value._id)
                 }}
@@ -164,11 +163,19 @@ const TableConditionFilter = ({
   ]
 
   const dataSort = data.sort(function(a, b) {
-    return moment(a.createdAt).format('X') - moment(b.createdAt).format('X')
+    return moment(a.createdAt) - moment(b.createdAt)
   })
 
   return (
-    <div style={{ opacity: !isDisabled && '0.5' }}>
+    <div
+      style={{
+        ...(!isDisabled && {
+          pointerEvents: 'none',
+
+          opacity: 0.5,
+        }),
+      }}
+    >
       <Table
         columns={columns}
         dataSource={dataSort}

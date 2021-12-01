@@ -225,11 +225,7 @@ class FilterConditionContainer extends React.Component {
           setConditionFilterItemKey={this.setConditionFilterItem}
           isDisabled={isApplyConditionFilter}
           footer={() => (
-            <Button
-              type="link"
-              onClick={this.showModalConditionFilter}
-              disabled={!isApplyConditionFilter}
-            >
+            <Button type="link" onClick={this.showModalConditionFilter}>
               <Row type="flex" align="middle">
                 <Col style={{ marginRight: '8px', marginTop: '2px' }}>
                   <Icon type="plus" style={{ color: '#1890FF' }} />

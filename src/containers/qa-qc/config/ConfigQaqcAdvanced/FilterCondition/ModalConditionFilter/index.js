@@ -20,7 +20,6 @@ class ModalConditionFilter extends React.Component {
       stationAutos: [],
       isShowModalConditionFilter: true,
       isShowModalConfirmCancel: false,
-      isSelectStationType: false,
     }
   }
 
@@ -34,9 +33,6 @@ class ModalConditionFilter extends React.Component {
     const { form } = this.props
     form.resetFields(FIELDS.STATION)
     form.resetFields(FIELDS.CONDITIONS)
-    this.setState({
-      isSelectStationType: true,
-    })
   }
 
   onChangeStation = () => {
@@ -87,6 +83,7 @@ class ModalConditionFilter extends React.Component {
       console.log(error)
     }
     onCancel()
+    form.resetFields()
     showModalConditionFilter(false)
   }
 
@@ -117,11 +114,7 @@ class ModalConditionFilter extends React.Component {
       dataWithConditionFilter,
       ...otherProps
     } = this.props
-    const {
-      isSelectStationType,
-      loading,
-      isShowModalConfirmCancel,
-    } = this.state
+    const { loading, isShowModalConfirmCancel } = this.state
     const stationType = form.getFieldValue(FIELDS.STATION_TYPE)
     const measureList = this.getMeasureList()
 
@@ -200,7 +193,7 @@ class ModalConditionFilter extends React.Component {
                 ],
               })(
                 <SelectStationAuto
-                  disabled={!isSelectStationType}
+                  disabled={!stationType}
                   fieldValue="_id"
                   placeholder="Chọn trạm quan trắc"
                   stationType={stationType}

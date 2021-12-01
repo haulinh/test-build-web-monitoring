@@ -12,9 +12,6 @@ const TableCondition = styled(Table)`
     padding: 12px 16px 0px 16px;
   }
 `
-const FormConditionItem = styled(FormItem)`
-  margin-bottom: 12px;
-`
 
 export default class FormTableMeasureCondition extends Component {
   state = {
@@ -41,28 +38,32 @@ export default class FormTableMeasureCondition extends Component {
     this.setState({ conditions: newConditions })
   }
 
+  handleConditionMeasureChange = (value, excludeMeasuresField) => {
+    const { measureList, form } = this.props
+    form.resetFields(excludeMeasuresField)
+    const newMeasureList = measureList.filter(measure => measure.key !== value)
+    this.setState({ excludeMeasureList: newMeasureList })
+  }
+
   columns = [
     {
       title: 'Thông số điều kiện',
       width: 402,
       render: (value, record, index) => {
         const { form, measureList } = this.props
+        const excludeMeasuresField = `${FIELDS.CONDITIONS}.${index}.excludeMeasures`
         return (
           <Row type="flex" align="middle" gutter={12}>
             <Col span={12}>
-              <FormConditionItem required={false}>
+              <FormItem required={false} marginBottom="12px">
                 {form.getFieldDecorator(
                   `${FIELDS.CONDITIONS}.${index}.measure`,
                   {
                     onChange: value => {
-                      form.resetFields(
-                        `${FIELDS.CONDITIONS}.${index}.excludeMeasures`
+                      this.handleConditionMeasureChange(
+                        value,
+                        excludeMeasuresField
                       )
-                      const newMeasureList = measureList.filter(
-                        measure => measure.key !== value
-                      )
-
-                      this.setState({ excludeMeasureList: newMeasureList })
                     },
                     rules: [
                       {
@@ -78,20 +79,20 @@ export default class FormTableMeasureCondition extends Component {
                     mode="single"
                   />
                 )}
-              </FormConditionItem>
+              </FormItem>
             </Col>
             <Col span={6}>
-              <FormConditionItem required={false}>
+              <FormItem required={false} marginBottom="12px">
                 {form.getFieldDecorator(
                   `${FIELDS.CONDITIONS}.${index}.operator`,
                   {
                     initialValue: 'eq',
                   }
                 )(<SelectOperator />)}
-              </FormConditionItem>
+              </FormItem>
             </Col>
             <Col span={6}>
-              <FormConditionItem required={false}>
+              <FormItem required={false} marginBottom="12px">
                 {form.getFieldDecorator(`${FIELDS.CONDITIONS}.${index}.value`, {
                   rules: [
                     {
@@ -100,7 +101,7 @@ export default class FormTableMeasureCondition extends Component {
                     },
                   ],
                 })(<InputNumber placeholder="00" style={{ width: '100%' }} />)}
-              </FormConditionItem>
+              </FormItem>
             </Col>
           </Row>
         )
@@ -113,7 +114,7 @@ export default class FormTableMeasureCondition extends Component {
         const { form } = this.props
         const { excludeMeasureList } = this.state
         return (
-          <FormConditionItem required={false}>
+          <FormItem required={false} marginBottom="12px">
             {form.getFieldDecorator(
               `${FIELDS.CONDITIONS}.${index}.excludeMeasures`,
               {
@@ -132,7 +133,7 @@ export default class FormTableMeasureCondition extends Component {
                 placeholder="Lựa chọn thông số sẽ loại bỏ"
               />
             )}
-          </FormConditionItem>
+          </FormItem>
         )
       },
     },
