@@ -53,7 +53,7 @@ export default class SelectStationAuto extends React.PureComponent {
       province,
       stationType,
       fieldValue,
-      stationHadConditionFilter,
+      stationAutosExclude,
     } = this.props
     let stationAutos = this.state.stationAutoSelects
     if (this.state.searchString) {
@@ -64,11 +64,13 @@ export default class SelectStationAuto extends React.PureComponent {
       )
     }
 
+    const fieldValueName = fieldValue || 'key'
+
     if (province) {
       stationAutos = stationAutos.filter(stationAuto => {
         const provinceValue = _.get(
           stationAuto,
-          ['province', fieldValue || 'key'],
+          ['province', fieldValueName],
           ''
         )
         return provinceValue === province
@@ -77,16 +79,14 @@ export default class SelectStationAuto extends React.PureComponent {
 
     if (stationType) {
       stationAutos = stationAutos.filter(
-        stationAuto =>
-          stationAuto.stationType[fieldValue || 'key'] === stationType
+        stationAuto => stationAuto.stationType[fieldValueName] === stationType
       )
     }
 
-    if (stationHadConditionFilter) {
-      stationAutos = stationAutos.filter(stationAuto =>
-        stationHadConditionFilter.every(
-          station => station.stationId !== stationAuto._id
-        )
+    if (stationAutosExclude) {
+      stationAutos = stationAutos.filter(
+        stationAuto =>
+          !stationAutosExclude.includes(stationAuto[fieldValueName])
       )
     }
 
@@ -129,6 +129,7 @@ export default class SelectStationAuto extends React.PureComponent {
       value,
       valueNames,
       fieldValue,
+      disabled,
     } = this.props
     const stationAutos = this.getStationAutos()
     const stationAutoMaps = new Map(
@@ -153,6 +154,7 @@ export default class SelectStationAuto extends React.PureComponent {
         value={!value ? value : selectValue}
         onSearch={this.handleSearch}
         filterOption={false}
+        disabled={disabled}
         {...this.props}
       >
         {stationAutos.map(item => (

@@ -8,6 +8,7 @@ import { ModalConfirmCancel } from 'containers/qa-qc/config/ConfigQaqcAdvanced/c
 import React from 'react'
 import { FIELDS } from '../index'
 import FormTableMeasureCondition from './FormTableMeasureCondition'
+import { FormItem } from 'components/layouts/styles'
 
 @Form.create()
 class ModalConditionFilter extends React.Component {
@@ -15,8 +16,6 @@ class ModalConditionFilter extends React.Component {
     super(props)
     this.state = {
       loading: false,
-      visible: false,
-      isDeleteVisible: false,
       measures: [],
       stationAutos: [],
       isShowModalConditionFilter: true,
@@ -47,42 +46,45 @@ class ModalConditionFilter extends React.Component {
     const stationAutoValue = form.getFieldValue(FIELDS.STATION)
     if (!stationAutoValue) return []
 
-    const stationAuto = stationAutos.filter(stationAuto =>
-      stationAutoValue.includes(stationAuto._id)
+    const stationAuto = stationAutos.find(
+      stationAuto => stationAutoValue === stationAuto._id
     )
-    //getMesuringListFromStationAutos bat buoc get tham so la mot mang?
-    const measureList = getMeasuringListFromStationAutos(stationAuto)
+
+    const measureList = getMeasuringListFromStationAutos([stationAuto])
     return measureList
   }
 
   onSubmit = async e => {
     e.preventDefault()
-    const { form, onCancel } = this.props
+    const { form, onCancel, showModalConditionFilter } = this.props
     const { stationAutos } = this.state
     const values = await form.validateFields()
     this.setState({ loading: true })
 
     const stationAutoValue = form.getFieldValue(FIELDS.STATION)
 
-    const stationAutoList = stationAutos.find(stationAuto =>
-      stationAutoValue.includes(stationAuto._id)
+    const stationAuto = stationAutos.find(
+      stationAuto => stationAutoValue === stationAuto._id
     )
 
     const param = {
-      stationId: stationAutoList._id,
+      stationId: stationAuto._id,
       name: values.filterName,
       type: 'value',
       conditions: values.conditions,
     }
 
     try {
-      await CalculateApi.createQaqcConfigs(param)
+      await CalculateApi.createQaqcConfig(param)
       this.setState({ loading: false })
       message.success('Tạo thành công')
     } catch (error) {
+      this.setState({ loading: false })
       console.log(error)
     }
     onCancel()
+    form.resetFields()
+    showModalConditionFilter(false)
   }
 
   handleResetFields = () => {
@@ -105,15 +107,20 @@ class ModalConditionFilter extends React.Component {
     form.resetFields()
   }
 
+  getStationAutosExcludeList = () => {
+    const { dataWithConditionFilter } = this.props
+    const stationAutosExcludeList = dataWithConditionFilter.map(item => {
+      return item.stationId
+    })
+    return stationAutosExcludeList
+  }
+
   render() {
-    const {
-      form,
-      onCancel,
-      dataWithConditionFilter,
-      ...otherProps
-    } = this.props
+    const { form, onCancel, ...otherProps } = this.props
+    const { loading, isShowModalConfirmCancel } = this.state
     const stationType = form.getFieldValue(FIELDS.STATION_TYPE)
     const measureList = this.getMeasureList()
+    const stationAutosExcludeList = this.getStationAutosExcludeList()
 
     return (
       <Modal
@@ -130,7 +137,7 @@ class ModalConditionFilter extends React.Component {
             <Button
               key="submit"
               type="primary"
-              loading={this.state.loading}
+              loading={loading}
               onClick={this.onSubmit}
             >
               Tạo mới
@@ -139,9 +146,9 @@ class ModalConditionFilter extends React.Component {
           </Row>,
         ]}
       >
-        <Row gutter={12}>
+        <Row gutter={24}>
           <Col span={8}>
-            <Form.Item label="Tên bộ lọc">
+            <FormItem label="Tên bộ lọc">
               {form.getFieldDecorator(FIELDS.FILTER_NAME, {
                 rules: [
                   {
@@ -158,10 +165,10 @@ class ModalConditionFilter extends React.Component {
                   },
                 ],
               })(<Input placeholder="Tên bộ lọc" />)}
-            </Form.Item>
+            </FormItem>
           </Col>
           <Col span={8}>
-            <Form.Item label="Loại trạm">
+            <FormItem label="Loại trạm">
               {form.getFieldDecorator(FIELDS.STATION_TYPE, {
                 onChange: this.onChangeStationType,
                 rules: [
@@ -176,10 +183,10 @@ class ModalConditionFilter extends React.Component {
                   placeholder="Chọn loại trạm"
                 />
               )}
-            </Form.Item>
+            </FormItem>
           </Col>
           <Col span={8}>
-            <Form.Item label="Trạm quan trắc">
+            <FormItem label="Trạm quan trắc">
               {form.getFieldDecorator(FIELDS.STATION, {
                 onChange: this.onChangeStation,
                 rules: [
@@ -190,21 +197,22 @@ class ModalConditionFilter extends React.Component {
                 ],
               })(
                 <SelectStationAuto
+                  disabled={!stationType}
                   fieldValue="_id"
                   placeholder="Chọn trạm quan trắc"
                   stationType={stationType}
                   onFetchSuccess={this.onStationAutosFetchSuccess}
-                  stationHadConditionFilter={dataWithConditionFilter}
+                  stationAutosExclude={stationAutosExcludeList}
                 />
               )}
-            </Form.Item>
+            </FormItem>
           </Col>
         </Row>
         <Row>
           <FormTableMeasureCondition form={form} measureList={measureList} />
         </Row>
         <ModalConfirmCancel
-          visible={this.state.isShowModalConfirmCancel}
+          visible={isShowModalConfirmCancel}
           closable={false}
           footer={false}
           onCancelOut={this.handleContinueCreate}
