@@ -64,11 +64,13 @@ export default class SelectStationAuto extends React.PureComponent {
       )
     }
 
+    const fieldValueName = fieldValue || 'key'
+
     if (province) {
       stationAutos = stationAutos.filter(stationAuto => {
         const provinceValue = _.get(
           stationAuto,
-          ['province', fieldValue || 'key'],
+          ['province', fieldValueName],
           ''
         )
         return provinceValue === province
@@ -77,14 +79,14 @@ export default class SelectStationAuto extends React.PureComponent {
 
     if (stationType) {
       stationAutos = stationAutos.filter(
-        stationAuto =>
-          stationAuto.stationType[fieldValue || 'key'] === stationType
+        stationAuto => stationAuto.stationType[fieldValueName] === stationType
       )
     }
 
     if (stationAutosExclude) {
       stationAutos = stationAutos.filter(
-        stationAuto => !stationAutosExclude.includes(stationAuto._id)
+        stationAuto =>
+          !stationAutosExclude.includes(stationAuto[fieldValueName])
       )
     }
 
