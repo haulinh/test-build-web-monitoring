@@ -175,7 +175,7 @@ class FilterConditionContainer extends React.Component {
       <React.Fragment>
         <Row type="flex" justify="space-between" align="middle">
           <Col
-            span={9}
+            span={18}
             type="flex"
             style={{ display: 'flex', gap: 15, alignItems: 'center' }}
           >

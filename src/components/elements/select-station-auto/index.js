@@ -53,7 +53,7 @@ export default class SelectStationAuto extends React.PureComponent {
       province,
       stationType,
       fieldValue,
-      stationHadConditionFilter,
+      stationAutosExclude,
     } = this.props
     let stationAutos = this.state.stationAutoSelects
     if (this.state.searchString) {
@@ -82,11 +82,9 @@ export default class SelectStationAuto extends React.PureComponent {
       )
     }
 
-    if (stationHadConditionFilter) {
-      stationAutos = stationAutos.filter(stationAuto =>
-        stationHadConditionFilter.every(
-          station => station.stationId !== stationAuto._id
-        )
+    if (stationAutosExclude) {
+      stationAutos = stationAutos.filter(
+        stationAuto => !stationAutosExclude.includes(stationAuto._id)
       )
     }
 

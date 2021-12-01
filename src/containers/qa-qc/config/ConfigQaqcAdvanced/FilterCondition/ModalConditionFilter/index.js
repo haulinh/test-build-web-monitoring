@@ -107,16 +107,20 @@ class ModalConditionFilter extends React.Component {
     form.resetFields()
   }
 
+  getStationAutosExcludeList = () => {
+    const { dataWithConditionFilter } = this.props
+    const stationAutosExcludeList = dataWithConditionFilter.map(item => {
+      return item.stationId
+    })
+    return stationAutosExcludeList
+  }
+
   render() {
-    const {
-      form,
-      onCancel,
-      dataWithConditionFilter,
-      ...otherProps
-    } = this.props
+    const { form, onCancel, ...otherProps } = this.props
     const { loading, isShowModalConfirmCancel } = this.state
     const stationType = form.getFieldValue(FIELDS.STATION_TYPE)
     const measureList = this.getMeasureList()
+    const stationAutosExcludeList = this.getStationAutosExcludeList()
 
     return (
       <Modal
@@ -198,7 +202,7 @@ class ModalConditionFilter extends React.Component {
                   placeholder="Chọn trạm quan trắc"
                   stationType={stationType}
                   onFetchSuccess={this.onStationAutosFetchSuccess}
-                  stationHadConditionFilter={dataWithConditionFilter}
+                  stationAutosExclude={stationAutosExcludeList}
                 />
               )}
             </FormItem>
