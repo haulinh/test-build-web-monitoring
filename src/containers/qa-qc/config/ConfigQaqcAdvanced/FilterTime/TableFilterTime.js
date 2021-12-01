@@ -10,10 +10,11 @@ const BoxStatus = styled.div`
   border-radius: 4px;
   padding: 5px 12px;
 `
+
 export default class TableFilterTime extends Component {
   constructor(props) {
     super(props)
-    const { onEditFilterTime, setTimeFilterItemKey } = this.props
+    const { onEditFilterTime, onDeleteFilterTime } = this.props
     this.columns = [
       {
         title: '#',
@@ -25,11 +26,9 @@ export default class TableFilterTime extends Component {
       },
       {
         title: 'Trạm quan trắc',
-        dataIndex: 'station',
+        dataIndex: 'station.name',
         width: 350,
-        render: (value, record) => (
-          <div style={{ fontWeight: 500 }}>{value.name}</div>
-        ),
+        render: value => <div style={{ fontWeight: 500 }}>{value}</div>,
       },
 
       {
@@ -38,7 +37,7 @@ export default class TableFilterTime extends Component {
         align: 'left',
         width: 370,
         render: value => {
-          const measureList = value.map(measureItem => measureItem.measureName)
+          const measureList = value.map(measure => measure.measureName)
           return (
             <div style={{ color: '#1890ff' }}>{measureList.join(', ')}</div>
           )
@@ -100,7 +99,7 @@ export default class TableFilterTime extends Component {
                 disabled={!this.props.isDisable}
                 type="link"
                 onClick={() => {
-                  setTimeFilterItemKey(value._id)
+                  onDeleteFilterTime(value._id)
                 }}
               >
                 <Icon type="delete" style={{ color: 'red' }} />
@@ -124,6 +123,10 @@ export default class TableFilterTime extends Component {
         <Table
           columns={this.columns}
           bordered
+          style={{
+            maxHeight: '1000px',
+            overflow: 'scroll',
+          }}
           dataSource={dataSource}
           {...otherProps}
           pagination={false}
