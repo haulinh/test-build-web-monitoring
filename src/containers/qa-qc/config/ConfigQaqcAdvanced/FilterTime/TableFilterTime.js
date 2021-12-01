@@ -37,7 +37,7 @@ export default class TableFilterTime extends Component {
         align: 'left',
         width: 370,
         render: value => {
-          const measureList = value.map(measure => measure.measureName)
+          const measureList = value.map(measure => measure.measure)
           return (
             <div style={{ color: '#1890ff' }}>{measureList.join(', ')}</div>
           )

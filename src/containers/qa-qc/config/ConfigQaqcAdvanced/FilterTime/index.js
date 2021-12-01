@@ -196,7 +196,7 @@ export default class FilterTimeContainer extends Component {
     })
   }
 
-  componentDidMount = async () => {
+  componentDidMount = () => {
     this.getData()
   }
 
@@ -262,7 +262,9 @@ export default class FilterTimeContainer extends Component {
 
           <Col style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
             <Switch defaultChecked onClick={this.handleToggleFilter} />
-            <div style={{ fontWeight: 500 }}>Bộ lọc khoảng thời gian</div>
+            <div style={{ fontWeight: 500, fontSize: '16px' }}>
+              Bộ lọc khoảng thời gian
+            </div>
           </Col>
         </Row>
 

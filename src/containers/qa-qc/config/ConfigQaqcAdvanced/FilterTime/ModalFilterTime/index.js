@@ -19,7 +19,8 @@ export default class ModalFilterTime extends Component {
     this.state = {
       stationAutoList: [],
       isVisible: false,
-      selected: [],
+      measureKeyListSelected: [],
+      isDisable: true,
     }
   }
 
@@ -47,20 +48,18 @@ export default class ModalFilterTime extends Component {
   getConditionParam = () => {
     const { form } = this.props
     const { conditions } = form.getFieldsValue()
-    const measureList = this.getMeasuringList()
 
     //convert condition array to condition object
-    const conditionsObj = Object.entries(conditions)
+    const conditionList = Object.entries(conditions)
+      .filter(([key, value]) => value.length > 0)
+      .map(([key, value]) => {
+        return {
+          measure: key,
+          startAt: getTimeUTC(moment(value[0]).startOf('day')),
+          endAt: getTimeUTC(moment(value[1]).endOf('day')),
+        }
+      })
 
-    const conditionList = conditionsObj.map(condition => {
-      const measure = measureList.find(measure => measure.key === condition[0])
-      return {
-        measure: _.get(condition, '[0]'),
-        measureName: measure.name,
-        startAt: getTimeUTC(moment(_.get(condition, '[1][0]')).startOf('day')),
-        endAt: getTimeUTC(moment(_.get(condition, '[1][1]')).endOf('day')),
-      }
-    })
     return conditionList
   }
 
@@ -114,6 +113,18 @@ export default class ModalFilterTime extends Component {
     form.resetFields([FIELDS.STATION_AUTO_ID])
   }
 
+  handleChangeStationAuto = () => {
+    this.setState({
+      measureKeyListSelected: [],
+    })
+  }
+
+  setMeasureKeyListSelected = selectedList => {
+    this.setState({
+      measureKeyListSelected: selectedList,
+    })
+  }
+
   render() {
     const {
       form,
@@ -122,8 +133,13 @@ export default class ModalFilterTime extends Component {
       modalTitle,
       ...otherProps
     } = this.props
+
+    const { measureKeyListSelected } = this.state
+
     const stationType = form.getFieldValue(FIELDS.STATION_TYPE)
     const measureList = this.getMeasuringList()
+    const stationAuto = form.getFieldValue(FIELDS.STATION_AUTO_ID)
+
     const DynamicButtonSubmit = {
       edit: (
         <Button type="primary" onClick={this.handleSubmit}>
@@ -131,11 +147,16 @@ export default class ModalFilterTime extends Component {
         </Button>
       ),
       create: (
-        <Button type="primary" onClick={this.handleSubmitCreate}>
+        <Button
+          type="primary"
+          onClick={this.handleSubmitCreate}
+          disabled={measureKeyListSelected.length === 0}
+        >
           Tạo mới
         </Button>
       ),
     }
+
     return (
       <Modal
         width={900}
@@ -183,6 +204,7 @@ export default class ModalFilterTime extends Component {
           <Col span={8}>
             <FormItem label="Trạm quan trắc">
               {form.getFieldDecorator(FIELDS.STATION_AUTO_ID, {
+                onChange: this.handleChangeStationAuto,
                 rules: [
                   {
                     required: true,
@@ -204,8 +226,11 @@ export default class ModalFilterTime extends Component {
         <Row span={24}>
           <FormTableMeasureTime
             form={form}
+            stationAuto={stationAuto}
+            setMeasureKeyListSelected={this.setMeasureKeyListSelected}
             measureList={measureList}
             modalType={modalType}
+            measureKeyListSelected={measureKeyListSelected}
           />
         </Row>
       </Modal>
