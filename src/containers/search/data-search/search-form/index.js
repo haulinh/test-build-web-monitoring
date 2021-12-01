@@ -328,12 +328,6 @@ export default class SearchFormHistoryData extends React.Component {
 
   handleChangeRanges(ranges) {
     if (ranges === null) return
-    // console.log(ranges, '==ranges==')
-    // console.log({
-    //   timeRange: ranges,
-    //   fromDate: from,
-    //   toDate: to,
-    // })
     // trong khoang
     if (Array.isArray(ranges)) {
       this.setState({
@@ -346,10 +340,6 @@ export default class SearchFormHistoryData extends React.Component {
 
     // cac truong hop khac
     const { from, to } = getTimes(ranges)
-    // if (ranges === null) {
-    //   console.log({ from: from.format('DD/MM/YYYY HH:mm'), to: to.format('DD/MM/YYYY HH:mm') })
-    //   console.log({ from: from.format('DD/MM/YYYY HH:mm'), to })
-    // }
 
     this.setState({
       timeRange: ranges,
@@ -383,29 +373,7 @@ export default class SearchFormHistoryData extends React.Component {
       // console.log(itemFind,"itemFind")
       return encodeURIComponent(itemFind.unit)
     })
-    // console.log({
-    //   fromDate: this.convertDateToString(this.state.fromDate),
-    //   toDate: this.convertDateToString(this.state.toDate),
-    //   key: values.stationAuto,
-    //   name: this.state.stationAutoName,
-    //   measuringListUnitStr,
-    //   measuringList: values.measuringList,
-    //   measuringData: this.state.measuringData,
-    //   // dataType: values.dataType,
-    //   isExceeded: values.isExceeded,
-    //   advanced: values.advanced
-    //     ? values.advanced.filter(
-    //       item =>
-    //         item.measuringKey &&
-    //         item.operator &&
-    //         item.value !== null &&
-    //         typeof item.value !== 'undefined'
-    //     )
-    //     : [],
-    //   queryType: this.state.queryType,
-    //   qcvnList: qcvnOptions.join(','),
-    //   isFilter: values.isFilter || false
-    // })
+
     const twentyFourHours = {
       from: moment().subtract(1, 'd'),
       to: moment(),

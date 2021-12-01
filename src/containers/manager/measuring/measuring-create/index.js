@@ -12,11 +12,16 @@ import createLanguage, { langPropTypes } from 'hoc/create-lang'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 import { Clearfix } from 'components/elements'
+import { connect } from 'react-redux'
+import { createMeasure } from 'redux/actions/globalAction'
 
 @protectRole(ROLE.MEASURING.CREATE)
 @createManagerCreate({
   apiCreate: CategoryApi.createMeasuring,
 })
+@connect(null, dispatch => ({
+  createMeasure: measure => dispatch(createMeasure(measure)),
+}))
 @createLanguage
 @autobind
 export default class MeasuringCreate extends React.PureComponent {
@@ -27,10 +32,12 @@ export default class MeasuringCreate extends React.PureComponent {
 
   async handleSubmit(data) {
     let result
+    const { createMeasure } = this.props
     await this.props.onCreateItem(data, res => {
       result = res
       if (res.success) {
         message.info(this.props.lang.t('addon.onSave.add.success'))
+        createMeasure(res.data)
         this.props.history.push(slug.measuring.list)
       }
       //  else {

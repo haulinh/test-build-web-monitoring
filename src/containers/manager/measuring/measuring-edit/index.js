@@ -12,8 +12,13 @@ import PropTypes from 'prop-types'
 import Breadcrumb from '../breadcrumb'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
+import { connect } from 'react-redux'
+import { updateMeasure } from 'redux/actions/globalAction'
 
 @protectRole(ROLE.MEASURING.EDIT)
+@connect(null, dispatch => ({
+  updateMeasure: measure => dispatch(updateMeasure(measure)),
+}))
 @createManagerDelete({
   apiDelete: CategoryApi.deleteMeasuring,
 })
@@ -36,10 +41,13 @@ export default class MeasuringEdit extends React.PureComponent {
   }
 
   async handleSubmit(data) {
+    const { updateMeasure } = this.props
     this.setState({
       dataSource: data,
     })
+    console.log({ data })
     this.props.onUpdateItem(data)
+    updateMeasure(data)
   }
 
   //Su kien truoc khi component duoc tao ra

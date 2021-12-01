@@ -4,6 +4,7 @@ import _ from 'lodash'
 import moment from 'moment'
 import styled from 'styled-components'
 import { getTimeUTC } from 'utils/datetime/index'
+import { connect } from 'react-redux'
 
 const BoxStatus = styled.div`
   text-align: center;
@@ -11,10 +12,13 @@ const BoxStatus = styled.div`
   padding: 5px 12px;
 `
 
+@connect(state => ({
+  measuresObj: state.global.measuresObj,
+}))
 export default class TableFilterTime extends Component {
   constructor(props) {
     super(props)
-    const { onEditFilterTime, onDeleteFilterTime } = this.props
+    const { onEditFilterTime, onDeleteFilterTime, measuresObj } = this.props
     this.columns = [
       {
         title: '#',
@@ -34,18 +38,22 @@ export default class TableFilterTime extends Component {
       {
         title: 'Thông số',
         dataIndex: 'conditions',
+        key: 'measure',
         align: 'left',
         width: 370,
         render: value => {
-          const measureList = value.map(measure => measure.measureName)
+          const measureListName = value.map(
+            condition => measuresObj[condition.measure].name
+          )
           return (
-            <div style={{ color: '#1890ff' }}>{measureList.join(', ')}</div>
+            <div style={{ color: '#1890ff' }}>{measureListName.join(', ')}</div>
           )
         },
       },
       {
         title: 'Trạng thái',
         dataIndex: 'conditions',
+        key: 'status',
         align: 'center',
         width: 120,
         render: value => {
@@ -118,9 +126,11 @@ export default class TableFilterTime extends Component {
       dataSource,
       ...otherProps
     } = this.props
+
     return (
       <div style={{ opacity: !isDisable && '0.5' }}>
         <Table
+          rowKey={record => record._id}
           columns={this.columns}
           bordered
           style={{

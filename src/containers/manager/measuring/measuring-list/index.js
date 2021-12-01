@@ -12,7 +12,9 @@ import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import * as _ from 'lodash'
 import PropTypes from 'prop-types'
 import React from 'react'
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { deleteMeasure } from 'redux/actions/globalAction'
 import Breadcrumb from '../breadcrumb'
 import MeasuringSearchForm from '../measuring-search'
 import MeasuringSearchAdvancedForm from '../measuring-search/advanced'
@@ -24,6 +26,9 @@ import MeasuringSearchAdvancedForm from '../measuring-search/advanced'
 @createManagerDelete({
   apiDelete: CategoryApi.deleteMeasuring,
 })
+@connect(null, dispatch => ({
+  deleteMeasure: measureKey => dispatch(deleteMeasure(measureKey)),
+}))
 @createLanguage
 @autobind
 export default class MeasuringList extends React.Component {
@@ -128,8 +133,14 @@ export default class MeasuringList extends React.Component {
     ])
   }
 
+  callBackDelete = key => {
+    const { fetchData, deleteMeasure } = this.props
+    deleteMeasure(key)
+    fetchData()
+  }
   async handleOnDelete(_id, key) {
-    this.props.onDeleteItem(_id, this.props.fetchData)
+    const { onDeleteItem } = this.props
+    onDeleteItem(_id, () => this.callBackDelete(key))
   }
 
   renderSearchForm() {
