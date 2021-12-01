@@ -1,11 +1,14 @@
 import { Icon, Row, Table, Button } from 'antd'
 import React from 'react'
 import moment from 'moment'
+import { connect } from 'react-redux'
+
 const TableConditionFilter = ({
   onEditRecord,
   setConditionFilterItemKey,
   dataSource,
   isDisabled,
+  measuresObj,
   ...otherProps
 }) => {
   const operators = {
@@ -24,7 +27,7 @@ const TableConditionFilter = ({
         _id: current._id,
         name: current.name,
         station: current.station,
-        conditionMeasureItem: `${dataItem.measure} ${
+        conditionMeasureItem: `${measuresObj[dataItem.measure].name} ${
           operators[dataItem.operator]
         } ${dataItem.value}`,
         ...(index === 0 && {
@@ -121,9 +124,12 @@ const TableConditionFilter = ({
       title: 'Thông số loại bỏ',
       dataIndex: 'excludeMeasures',
       render: value => {
+        const measureExcludeListName = value.map(
+          excludeMeasure => measuresObj[excludeMeasure].name
+        )
         return (
           <div style={{ color: '#1890ff', fontWeight: 500 }}>
-            {value.join(', ')}
+            {measureExcludeListName.join(', ')}
           </div>
         )
       },
@@ -177,6 +183,7 @@ const TableConditionFilter = ({
       }}
     >
       <Table
+        rowKey={record => record._id}
         columns={columns}
         dataSource={dataSort}
         pagination={false}
@@ -187,4 +194,8 @@ const TableConditionFilter = ({
   )
 }
 
-export default TableConditionFilter
+const mapStateToProps = state => ({
+  measuresObj: state.global.measuresObj,
+})
+
+export default connect(mapStateToProps)(TableConditionFilter)
