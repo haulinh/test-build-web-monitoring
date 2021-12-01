@@ -1,42 +1,31 @@
-import React, { Component } from 'react'
-import { Table, DatePicker } from 'antd'
+import { DatePicker, Table } from 'antd'
 import { FormItem } from 'components/layouts/styles'
+import React, { Component } from 'react'
 const { RangePicker } = DatePicker
 
 export default class FormTableMeasureTime extends Component {
   constructor(props) {
     super(props)
-    const { form } = this.props
     this.state = {
-      selectedRowKeys: [],
-      isSelected: false,
-      attribute: {
-        name: 'name',
-        isActive: true,
-        eventId: 1,
-      },
+      selectedKeyList: [],
     }
-    this.columns = [
+  }
+
+  getColumns = () => {
+    const { selectedKeyList } = this.state
+    const { form } = this.props
+
+    return [
       {
         title: 'Thông số',
-        render: (value, record, index) => {
-          return (
-            <div>
-              {form.getFieldDecorator(`measure[${index}]`, {
-                initialValue: {
-                  name: value.name,
-                  key: value.key,
-                },
-              })(<div>{value.name}</div>)}
-            </div>
-          )
-        },
+        dataIndex: 'name',
+        render: value => <div style={{ fontWeight: 500 }}>{value}</div>,
       },
       {
         title: 'Thời gian',
         render: (value, record, index) => {
           return (
-            <FormItem>
+            <FormItem style={{ marginBottom: 0 }}>
               {form.getFieldDecorator(`conditions[${value.key}]`, {
                 rules: [
                   {
@@ -46,7 +35,8 @@ export default class FormTableMeasureTime extends Component {
                 ],
               })(
                 <RangePicker
-                  style={{ width: '100%' }}
+                  disabled={!selectedKeyList.includes(value.key)}
+                  style={{ width: '100%', padding: 0 }}
                   format={['DD/MM/YYYY']}
                 />
               )}
@@ -55,27 +45,20 @@ export default class FormTableMeasureTime extends Component {
         },
       },
     ]
-    this.columnsModalEdit = [
-      ...this.columns,
-      {
-        title: 'Trạng thái',
-        render: () => <div>Áp dụng</div>,
-      },
-    ]
   }
 
-  onSelectChange = selectedRowKeys => {
-    // console.log('selectedRowKeys changed: ', selectedRowKeys)
-    this.setState({ selectedRowKeys })
+  handleSelectChange = selectedKeyList => {
+    this.setState({ selectedKeyList })
   }
+
   render() {
-    const { measureList, modalType } = this.props
+    const { measureList } = this.props
     const rowSelection = {
-      onChange: this.onSelectChange,
+      onChange: this.handleSelectChange,
     }
     return (
       <Table
-        columns={modalType === 'edit' ? this.columnsModalEdit : this.columns}
+        columns={this.getColumns()}
         dataSource={measureList}
         bordered
         rowSelection={rowSelection}

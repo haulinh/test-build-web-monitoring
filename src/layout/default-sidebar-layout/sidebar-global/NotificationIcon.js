@@ -20,7 +20,7 @@ import { translate } from 'hoc/create-lang'
 import { withRouter } from 'react-router-dom'
 
 const NotificationWrapperIcon = styled.div`
-  color: #333
+  color: #333;
   background-color: #e4e6eb;
   width: 35px;
   height: 35px;

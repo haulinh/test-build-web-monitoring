@@ -343,7 +343,13 @@ class ConfigQaqcBasic extends React.Component {
                 {this.state.isInitLoaded && (
                   <React.Fragment>
                     <Row type="flex" gutter={12}>
-                      <Col>{i18n().removeValues}</Col>
+                      <Col>
+                        {
+                          <div style={{ fontWeight: 500, color: '#111827' }}>
+                            {i18n().removeValues}
+                          </div>
+                        }
+                      </Col>
                       <Col>
                         <Row gutter={12} type="flex">
                           <Col>

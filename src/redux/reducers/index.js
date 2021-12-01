@@ -10,6 +10,7 @@ import map from './map'
 import config from './config'
 import ticket from './ticket'
 import alarmReducer from './alarm'
+import globalReducer from './global'
 
 export default {
   config,
@@ -24,4 +25,5 @@ export default {
   map,
   ticket,
   alarm: alarmReducer,
+  global: globalReducer,
 }

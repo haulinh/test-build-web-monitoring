@@ -30,14 +30,10 @@ export const getcolorMeasure = (
   { maxLimit, minLimit, maxTend, minTend },
   colorGood
 ) => {
-  // if (value == 103.24) {
-  //   console.log({ maxLimit, minLimit, maxTend, minTend, colorLevels: colorLevels.EXCEEDED })
-  //   console.log("Condition match: " + ((minLimit && value < minLimit) || (maxLimit && value > maxLimit)))
-  // }
-  if ((_.isNumber(minLimit) && value < minLimit) || (_.isNumber(maxLimit) && value > maxLimit)) {
-    // if (value == 103.24) {
-    //   console.log({ maxLimit, minLimit, maxTend, minTend, colorLevels: colorLevels.EXCEEDED })
-    // }
+  if (
+    (_.isNumber(minLimit) && value < minLimit) ||
+    (_.isNumber(maxLimit) && value > maxLimit)
+  ) {
     return colorLevels.EXCEEDED
   } else if ((minTend && value < minTend) || (maxTend && value > maxTend)) {
     return colorLevels.EXCEEDED_TENDENCY
@@ -46,7 +42,7 @@ export const getcolorMeasure = (
   }
 }
 
-export const getColorStatusDevice = (status) => {
+export const getColorStatusDevice = status => {
   if (status === 1) {
     return colorLevels.MAINTAIN
   } else if (status === 2) {

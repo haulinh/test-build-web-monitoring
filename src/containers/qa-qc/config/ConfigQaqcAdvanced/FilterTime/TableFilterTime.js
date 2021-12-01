@@ -4,16 +4,21 @@ import _ from 'lodash'
 import moment from 'moment'
 import styled from 'styled-components'
 import { getTimeUTC } from 'utils/datetime/index'
+import { connect } from 'react-redux'
 
 const BoxStatus = styled.div`
   text-align: center;
   border-radius: 4px;
   padding: 5px 12px;
 `
+
+@connect(state => ({
+  measuresObj: state.global.measuresObj,
+}))
 export default class TableFilterTime extends Component {
   constructor(props) {
     super(props)
-    const { onEditFilterTime, setTimeFilterItemKey } = this.props
+    const { onEditFilterTime, onDeleteFilterTime, measuresObj } = this.props
     this.columns = [
       {
         title: '#',
@@ -25,28 +30,30 @@ export default class TableFilterTime extends Component {
       },
       {
         title: 'Trạm quan trắc',
-        dataIndex: 'station',
+        dataIndex: 'station.name',
         width: 350,
-        render: (value, record) => (
-          <div style={{ fontWeight: 500 }}>{value.name}</div>
-        ),
+        render: value => <div style={{ fontWeight: 500 }}>{value}</div>,
       },
 
       {
         title: 'Thông số',
         dataIndex: 'conditions',
+        key: 'measure',
         align: 'left',
         width: 370,
         render: value => {
-          const measureList = value.map(measureItem => measureItem.measureName)
+          const measureListName = value.map(
+            condition => measuresObj[condition.measure].name
+          )
           return (
-            <div style={{ color: '#1890ff' }}>{measureList.join(', ')}</div>
+            <div style={{ color: '#1890ff' }}>{measureListName.join(', ')}</div>
           )
         },
       },
       {
         title: 'Trạng thái',
         dataIndex: 'conditions',
+        key: 'status',
         align: 'center',
         width: 120,
         render: value => {
@@ -100,7 +107,7 @@ export default class TableFilterTime extends Component {
                 disabled={!this.props.isDisable}
                 type="link"
                 onClick={() => {
-                  setTimeFilterItemKey(value._id)
+                  onDeleteFilterTime(value._id)
                 }}
               >
                 <Icon type="delete" style={{ color: 'red' }} />
@@ -119,11 +126,17 @@ export default class TableFilterTime extends Component {
       dataSource,
       ...otherProps
     } = this.props
+
     return (
       <div style={{ opacity: !isDisable && '0.5' }}>
         <Table
+          rowKey={record => record._id}
           columns={this.columns}
           bordered
+          style={{
+            maxHeight: '1000px',
+            overflow: 'scroll',
+          }}
           dataSource={dataSource}
           {...otherProps}
           pagination={false}

@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { getListLanguageWeb } from 'redux/actions/languageAction'
+import { getMeasuresAsync } from 'redux/actions/globalAction'
 import languageApi from 'api/languageApi'
 import slug from 'constants/slug'
 import languages from 'languages'
@@ -10,9 +11,11 @@ import * as _ from 'lodash'
   state => ({
     languageData: state.language.dataInitial[state.language.locale],
     languageLocale: state.language.locale,
+    global: state.global,
   }),
   {
     getListLanguageWeb,
+    getMeasuresAsync,
   }
 )
 export default class AppContainer extends React.Component {
@@ -21,6 +24,11 @@ export default class AppContainer extends React.Component {
       this.initialLanguage()
       this.props.getListLanguageWeb()
     }
+  }
+
+  async componentDidMount() {
+    const { getMeasuresAsync } = this.props
+    await getMeasuresAsync()
   }
 
   async initialLanguage() {

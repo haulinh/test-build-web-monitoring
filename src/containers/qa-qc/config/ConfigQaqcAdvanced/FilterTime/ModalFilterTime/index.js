@@ -17,43 +17,43 @@ export default class ModalFilterTime extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      stationAutos: [],
+      stationAutoList: [],
       isVisible: false,
-      isSelected: false,
+      selected: [],
     }
   }
 
-  onStationAutosFetchSuccess = stationAutos => {
+  onStationAutosFetchSuccess = stationAutoList => {
     this.setState({
-      stationAutos,
+      stationAutoList,
     })
   }
 
   getMeasuringList = () => {
     const { form } = this.props
-    const { stationAutos } = this.state
+    const { stationAutoList } = this.state
     const stationAutoValue = form.getFieldValue(FIELDS.STATION_AUTO_ID)
 
     if (!stationAutoValue) return []
 
-    const stationAuto = stationAutos.filter(stationAuto =>
-      stationAutoValue.includes(stationAuto._id)
+    const stationAuto = stationAutoList.find(
+      stationAuto => stationAuto._id === stationAutoValue
     )
 
-    const measureList = getMeasuringListFromStationAutos(stationAuto)
+    const measureList = getMeasuringListFromStationAutos([stationAuto])
     return measureList
   }
 
-  handleValueTimes = () => {
+  getConditionParam = () => {
     const { form } = this.props
     const { conditions } = form.getFieldsValue()
-    const measureFieldValue = form.getFieldValue('measure')
-    const newConditions = Object.entries(conditions)
-    const condition = newConditions.map(condition => {
-      const measure = measureFieldValue.find(
-        measure => measure.key === condition[0]
-      )
-      console.log({ condition })
+    const measureList = this.getMeasuringList()
+
+    //convert condition array to condition object
+    const conditionsObj = Object.entries(conditions)
+
+    const conditionList = conditionsObj.map(condition => {
+      const measure = measureList.find(measure => measure.key === condition[0])
       return {
         measure: _.get(condition, '[0]'),
         measureName: measure.name,
@@ -61,32 +61,35 @@ export default class ModalFilterTime extends Component {
         endAt: getTimeUTC(moment(_.get(condition, '[1][1]')).endOf('day')),
       }
     })
-    return condition
+    return conditionList
   }
 
   getParams = () => {
     const { form } = this.props
-    const { stationAutos } = this.state
+    const { stationAutoList } = this.state
     const values = form.getFieldsValue()
     const { stationId } = values
-    const conditions = this.handleValueTimes()
+    const conditionList = this.getConditionParam()
 
     const stationAutoId = form.getFieldValue(FIELDS.STATION_AUTO_ID)
-    const stationAuto = stationAutos.find(
+    const stationAuto = stationAutoList.find(
       stationAuto => stationAuto._id === stationAutoId
     )
+
     const stationAutoName = _.get(stationAuto, 'name')
+
     const params = {
       name: stationAutoName,
       type: 'time',
       stationId,
-      conditions,
+      conditions: conditionList,
     }
+
     return params
   }
 
   handleSubmitCreate = async () => {
-    const { form, setIsModalFilter } = this.props
+    const { form, showModal } = this.props
     await form.validateFields()
     const params = this.getParams()
 
@@ -98,26 +101,15 @@ export default class ModalFilterTime extends Component {
     }
 
     form.resetFields()
-    setIsModalFilter(false)
+    showModal(false)
   }
 
-  resetFieldsOnCancel = () => {
+  handleResetModal = () => {
     const { form } = this.props
     form.resetFields()
   }
 
-  resetModalFilterTime = () => {
-    const { form } = this.props
-    form.resetFields()
-  }
-
-  // checkSelected = value => {
-  //   this.setState({
-  //     isSelected: value,
-  //   })
-  // }
-
-  onChangeStationType = () => {
+  handleChangeStationType = () => {
     const { form } = this.props
     form.resetFields([FIELDS.STATION_AUTO_ID])
   }
@@ -125,14 +117,13 @@ export default class ModalFilterTime extends Component {
   render() {
     const {
       form,
-      showModalConfirmDelete,
+      onShowModalConfirmDelete,
       modalType,
       modalTitle,
       ...otherProps
     } = this.props
     const stationType = form.getFieldValue(FIELDS.STATION_TYPE)
     const measureList = this.getMeasuringList()
-
     const DynamicButtonSubmit = {
       edit: (
         <Button type="primary" onClick={this.handleSubmit}>
@@ -155,7 +146,7 @@ export default class ModalFilterTime extends Component {
           <Row type="flex" justify="space-between">
             {modalType === 'edit' ? (
               <Col>
-                <Button type="danger" onClick={showModalConfirmDelete}>
+                <Button type="danger" onClick={onShowModalConfirmDelete}>
                   Xoá bộ lọc
                 </Button>
               </Col>
@@ -163,7 +154,7 @@ export default class ModalFilterTime extends Component {
               <Col></Col>
             )}
             <Col>
-              <Button onClick={this.resetModalFilterTime}>Nhập lại</Button>
+              <Button onClick={this.handleResetModal}>Nhập lại</Button>
               {DynamicButtonSubmit[modalType]}
             </Col>
           </Row>,
@@ -173,7 +164,7 @@ export default class ModalFilterTime extends Component {
           <Col span={8}>
             <FormItem label="Loại trạm">
               {form.getFieldDecorator(FIELDS.STATION_TYPE, {
-                onChange: this.onChangeStationType,
+                onChange: this.handleChangeStationType,
                 rules: [
                   {
                     required: true,
@@ -200,6 +191,7 @@ export default class ModalFilterTime extends Component {
                 ],
               })(
                 <SelectStationAuto
+                  disabled={!stationType}
                   placeholder="Chọn trạm quan trắc"
                   stationType={stationType}
                   fieldValue="_id"
@@ -212,7 +204,6 @@ export default class ModalFilterTime extends Component {
         <Row span={24}>
           <FormTableMeasureTime
             form={form}
-            // hasSelected={this.checkSelected}
             measureList={measureList}
             modalType={modalType}
           />
