@@ -1,9 +1,17 @@
-import { Col, Form, Icon, InputNumber, Row, Table, Button } from 'antd'
+import { Button, Col, Icon, InputNumber, Row, Table } from 'antd'
 import SelectOperator from 'components/core/select/SelectOperator'
 import SelectMeasureParameter from 'components/elements/select-measure-parameter'
+import { FormItem } from 'components/layouts/styles'
 import React, { Component } from 'react'
-import { FIELDS } from '../index'
+import styled from 'styled-components'
 import { v4 as uuidv4 } from 'uuid'
+import { FIELDS } from '../index'
+
+const TableCondition = styled(Table)`
+  .ant-table-tbody > tr > td {
+    padding: 12px 16px 0px 16px;
+  }
+`
 
 export default class FormTableMeasureCondition extends Component {
   state = {
@@ -14,11 +22,10 @@ export default class FormTableMeasureCondition extends Component {
 
   addCondition = () => {
     const { conditions } = this.state
-    const currentData = [...conditions]
     const newData = {
       id: uuidv4(),
     }
-    const newConditions = [...currentData, newData]
+    const newConditions = [...conditions, newData]
 
     this.setState({ conditions: newConditions })
   }
@@ -31,10 +38,10 @@ export default class FormTableMeasureCondition extends Component {
     this.setState({ conditions: newConditions })
   }
 
-  handleConditionMeasureChange = value => {
-    const { measureList } = this.props
+  handleConditionMeasureChange = (value, excludeMeasuresField) => {
+    const { measureList, form } = this.props
+    form.resetFields(excludeMeasuresField)
     const newMeasureList = measureList.filter(measure => measure.key !== value)
-
     this.setState({ excludeMeasureList: newMeasureList })
   }
 
@@ -44,14 +51,20 @@ export default class FormTableMeasureCondition extends Component {
       width: 402,
       render: (value, record, index) => {
         const { form, measureList } = this.props
+        const excludeMeasuresField = `${FIELDS.CONDITIONS}.${index}.excludeMeasures`
         return (
           <Row type="flex" align="middle" gutter={12}>
             <Col span={12}>
-              <Form.Item required={false}>
+              <FormItem required={false} marginBottom="12px">
                 {form.getFieldDecorator(
                   `${FIELDS.CONDITIONS}.${index}.measure`,
                   {
-                    onChange: this.handleConditionMeasureChange,
+                    onChange: value => {
+                      this.handleConditionMeasureChange(
+                        value,
+                        excludeMeasuresField
+                      )
+                    },
                     rules: [
                       {
                         required: true,
@@ -66,20 +79,20 @@ export default class FormTableMeasureCondition extends Component {
                     mode="single"
                   />
                 )}
-              </Form.Item>
+              </FormItem>
             </Col>
             <Col span={6}>
-              <Form.Item required={false}>
+              <FormItem required={false} marginBottom="12px">
                 {form.getFieldDecorator(
                   `${FIELDS.CONDITIONS}.${index}.operator`,
                   {
                     initialValue: 'eq',
                   }
                 )(<SelectOperator />)}
-              </Form.Item>
+              </FormItem>
             </Col>
             <Col span={6}>
-              <Form.Item required={false}>
+              <FormItem required={false} marginBottom="12px">
                 {form.getFieldDecorator(`${FIELDS.CONDITIONS}.${index}.value`, {
                   rules: [
                     {
@@ -88,7 +101,7 @@ export default class FormTableMeasureCondition extends Component {
                     },
                   ],
                 })(<InputNumber placeholder="00" style={{ width: '100%' }} />)}
-              </Form.Item>
+              </FormItem>
             </Col>
           </Row>
         )
@@ -101,7 +114,7 @@ export default class FormTableMeasureCondition extends Component {
         const { form } = this.props
         const { excludeMeasureList } = this.state
         return (
-          <Form.Item required={false}>
+          <FormItem required={false} marginBottom="12px">
             {form.getFieldDecorator(
               `${FIELDS.CONDITIONS}.${index}.excludeMeasures`,
               {
@@ -120,7 +133,7 @@ export default class FormTableMeasureCondition extends Component {
                 placeholder="Lựa chọn thông số sẽ loại bỏ"
               />
             )}
-          </Form.Item>
+          </FormItem>
         )
       },
     },
@@ -128,13 +141,14 @@ export default class FormTableMeasureCondition extends Component {
       title: '',
       align: 'center',
       render: (value, record, index) => {
-        const isDisabled = index > 0
+        const { conditions } = this.state
+        const isDisabled = conditions.length > 1
         return (
           <Button
             type="link"
             disabled={!isDisabled}
             onClick={() => this.deleteCondition(record.id)}
-            style={{ marginBottom: '24px' }}
+            style={{ marginBottom: '10px' }}
           >
             <Icon
               style={{
@@ -151,29 +165,31 @@ export default class FormTableMeasureCondition extends Component {
   render() {
     const { conditions } = this.state
     return (
-      <Table
+      <TableCondition
         columns={this.columns}
         dataSource={conditions}
         bordered
         pagination={false}
         scroll={{ y: 300 }}
         footer={() => (
-          <div style={{ cursor: 'pointer' }} onClick={this.addCondition}>
-            <Row type="flex">
-              <div style={{ marginRight: '10px' }}>
+          <Button type="link" onClick={this.addCondition}>
+            <Row type="flex" align="middle">
+              <Col style={{ marginRight: '8px', marginTop: '2px' }}>
                 <Icon type="plus" style={{ color: '#1890FF' }} />
-              </div>
-              <div
-                style={{
-                  fontSize: '16px',
-                  fontWeight: '500',
-                  color: '#1890FF',
-                }}
-              >
-                Thêm điều kiện lọc
-              </div>
+              </Col>
+              <Col>
+                <span
+                  style={{
+                    fontSize: '16px',
+                    fontWeight: '500',
+                    color: '#1890FF',
+                  }}
+                >
+                  Thêm điều kiện lọc
+                </span>
+              </Col>
             </Row>
-          </div>
+          </Button>
         )}
       />
     )
