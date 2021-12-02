@@ -4,8 +4,8 @@ import moment from 'moment'
 import { connect } from 'react-redux'
 
 const TableConditionFilter = ({
-  onEditRecord,
-  setConditionFilterItemKey,
+  setEditItemKey,
+  setDeleteItemKey,
   dataSource,
   isDisabled,
   measuresObj,
@@ -27,6 +27,7 @@ const TableConditionFilter = ({
         _id: current._id,
         name: current.name,
         station: current.station,
+        key: `${current._id}_${dataItem.measure}`,
         conditionMeasureItem: `${measuresObj[dataItem.measure].name} ${
           operators[dataItem.operator]
         } ${dataItem.value}`,
@@ -141,13 +142,13 @@ const TableConditionFilter = ({
         const obj = {
           children: (
             <Row>
-              <Button type="link" onClick={onEditRecord}>
+              <Button type="link" onClick={() => setEditItemKey(value)}>
                 <Icon type="edit" style={{ color: '#1890FF' }} />
               </Button>
               <Button
                 type="link"
                 onClick={() => {
-                  setConditionFilterItemKey(value._id)
+                  setDeleteItemKey(value)
                 }}
               >
                 <Icon type="delete" style={{ color: '#E64D3D' }} />
@@ -183,7 +184,7 @@ const TableConditionFilter = ({
       }}
     >
       <Table
-        rowKey={record => record._id}
+        rowKey={record => record.key}
         columns={columns}
         dataSource={dataSort}
         pagination={false}

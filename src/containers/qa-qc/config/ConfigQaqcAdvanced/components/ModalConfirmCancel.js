@@ -3,18 +3,25 @@ import React from 'react'
 
 class ModalConfirmDelete extends React.Component {
   render() {
-    const { onCancelOut, onConfirmCancel, ...otherProps } = this.props
+    const { onCancelOut, onConfirmCancel, type, ...otherProps } = this.props
+
+    const message = {
+      create:
+        'Bộ lọc dữ liệu chưa được tạo. Nếu đóng cửa sổ, dữ liệu bộ lọc đã nhập sẽ không được lưu lại',
+      edit:
+        'Bộ lọc dữ liệu chưa được lưu. Nếu đóng cửa sổ, những chỉnh sửa bộ lọc đã nhập sẽ không được lưu lại',
+    }
 
     return (
       <Modal
-        title="Hủy tạo mới"
+        title={type === 'create' ? 'Hủy tạo mới' : 'Hủy chỉnh sửa'}
         width={554}
         centered
         {...otherProps}
         footer={[
           <Row type="flex" justify="end">
             <Button key="back" onClick={onCancelOut}>
-              Tiếp tục tạo
+              {type === 'create' ? 'Tiếp tục tạo' : 'Tiếp tục chỉnh sửa'}
             </Button>
             <Button
               key="submit"
@@ -27,10 +34,7 @@ class ModalConfirmDelete extends React.Component {
           </Row>,
         ]}
       >
-        <div>
-          Bộ lọc dữ liệu chưa được tạo. Nếu đóng cửa sổ, dữ liệu bộ lọc đã nhập
-          sẽ không được lưu lại
-        </div>
+        <div>{message[type]}</div>
       </Modal>
     )
   }
