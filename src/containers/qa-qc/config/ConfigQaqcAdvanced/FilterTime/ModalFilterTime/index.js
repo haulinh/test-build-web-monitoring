@@ -175,7 +175,15 @@ export default class ModalFilterTime extends Component {
               <Col></Col>
             )}
             <Col>
-              <Button onClick={this.handleResetModal}>Nhập lại</Button>
+              <Button
+                onClick={this.handleResetModal}
+                style={{
+                  backgroundColor: '#E1EDFB',
+                  color: '#1890FF',
+                }}
+              >
+                Nhập lại
+              </Button>
               {DynamicButtonSubmit[modalType]}
             </Col>
           </Row>,

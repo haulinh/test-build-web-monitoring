@@ -262,7 +262,9 @@ export default class FilterTimeContainer extends Component {
 
           <Col style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
             <Switch defaultChecked onClick={this.handleToggleFilter} />
-            <div style={{ fontWeight: 500, fontSize: '16px' }}>
+            <div
+              style={{ fontWeight: 500, fontSize: '16px', color: '#111827' }}
+            >
               Bộ lọc khoảng thời gian
             </div>
           </Col>
