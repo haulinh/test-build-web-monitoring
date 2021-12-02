@@ -24,7 +24,7 @@ export default class FormTableMeasureTime extends Component {
         render: value => <div style={{ fontWeight: 500 }}>{value}</div>,
       },
       {
-        title: 'Thời gian',
+        title: 'Khoảng thời gian',
         render: (value, record, index) => {
           return (
             <FormItem style={{ marginBottom: 0 }}>
