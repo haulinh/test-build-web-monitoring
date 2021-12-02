@@ -5,7 +5,7 @@ const getTimes = rangeTime => {
   if (Array.isArray(rangeTime)) {
     return {
       from: moment(rangeTime[0]),
-      to: moment(rangeTime[1])
+      to: moment(rangeTime[1]),
     }
   }
   if (rangeTime === 1) {
@@ -74,6 +74,11 @@ const timeLang = {
     hour: hour => `${hour} ${hour > 1 ? 'hours' : 'hour'}`,
     minute: minute => `${minute} ${minute > 1 ? 'minutes' : 'minute'}`,
   },
+  tw: {
+    day: day => `${day} 日`,
+    hour: hour => `${hour} 分钟`,
+    minute: minute => `${minute} 分钟`,
+  },
 }
 
 export const getDurationTime = (params, lang) => {
@@ -84,6 +89,7 @@ export const getDurationTime = (params, lang) => {
   const day = Math.floor(moment.duration(duration).asDays())
   const hour = moment.duration(duration).hours()
   const minute = moment.duration(duration).minutes()
+  console.log(duration, '')
 
   const time = timeLang[lang]
 
