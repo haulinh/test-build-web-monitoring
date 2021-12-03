@@ -1,6 +1,5 @@
 import { Table } from 'antd'
 import { DD_MM_YYYY } from 'constants/format-date'
-import { getFormatNumber } from 'constants/format-number'
 import { translate } from 'hoc/create-lang'
 import _ from 'lodash'
 import get from 'lodash/get'
