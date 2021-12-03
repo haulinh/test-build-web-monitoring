@@ -263,6 +263,7 @@ export default class ModalFilterTime extends Component {
                 <SelectStationAuto
                   disabled={!stationType || isEdit}
                   fieldValue="_id"
+                  stationType={stationType}
                   placeholder="Chọn trạm quan trắc"
                   onFetchSuccess={this.onStationAutosFetchSuccess}
                 />
