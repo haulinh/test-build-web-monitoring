@@ -86,12 +86,14 @@ export default class TableFilterTime extends Component {
         title: '',
         align: 'center',
         width: 150,
-        render: value => {
+        render: (value, record, index) => {
           return (
             <Row>
               <Button
                 type="link"
-                onClick={onEditFilterTime}
+                onClick={() => {
+                  onEditFilterTime(value._id)
+                }}
                 disabled={!this.props.isDisable}
               >
                 <Icon type="edit" style={{ color: '#1890FF' }} />
