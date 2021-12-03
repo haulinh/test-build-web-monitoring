@@ -8,7 +8,7 @@ import ModalFilterTime from './ModalFilterTime'
 import TableFilterTime from './TableFilterTime'
 import _ from 'lodash'
 import { translate as t } from 'hoc/create-lang'
-import { toggleQaqcConfig } from 'api/CategoryApi'
+import { toggleQaqcConfig, getValueToggleQaqcConfig } from 'api/CategoryApi'
 
 export const FIELDS = {
   STATION_TYPE: 'stationType',
@@ -19,27 +19,36 @@ export const FIELDS = {
 
 @Form.create()
 export default class FilterTimeContainer extends Component {
-  state = {
-    isModalFilterTime: false,
-    isModalConfirmDelete: false,
-    isModalConfirmCancel: false,
-    isLoading: false,
-    hasApplyFilterTime: true,
-    filterItemId: '',
-    modalType: '',
-    dataFilterTime: [],
+  constructor(props) {
+    super(props)
+    this.state = {
+      isModalFilterTime: false,
+      isModalConfirmDelete: false,
+      isModalConfirmCancel: false,
+      isLoading: false,
+      hasApplyFilterTime: true,
+      filterItemId: '',
+      modalType: '',
+      dataFilterTime: [],
+      dataItemFilterTimeSelected: {},
+      dataSource: [],
+    }
+  }
+
+  componentDidMount = async () => {
+    this.getData()
+    try {
+      const response = await getValueToggleQaqcConfig()
+      this.setState({
+        hasApplyFilterTime: response.data.value.excludeParametersByTime,
+      })
+      console.log(response.data.value.excludeParametersByTime)
+    } catch (error) {}
   }
 
   showModalCreate = () => {
     this.setState({
       modalType: 'create',
-      isModalFilterTime: true,
-    })
-  }
-
-  showModalEdit = () => {
-    this.setState({
-      modalType: 'edit',
       isModalFilterTime: true,
     })
   }
@@ -100,6 +109,21 @@ export default class FilterTimeContainer extends Component {
     })
   }
 
+  setItemEdit = filterItemId => {
+    const { dataFilterTime } = this.state
+
+    const dataItemFilterTimeSelected = dataFilterTime.find(
+      data => data._id === filterItemId
+    )
+
+    this.setState({
+      filterItemId,
+      modalType: 'edit',
+      isModalFilterTime: true,
+      dataItemFilterTimeSelected,
+    })
+  }
+
   getData = async () => {
     this.setState({
       isLoading: true,
@@ -111,8 +135,12 @@ export default class FilterTimeContainer extends Component {
 
     try {
       const response = await CalculateApi.getQaqcConfigs(params)
+      const dataFilterTime = response.results.filter(
+        result => result.type === 'time'
+      )
+
       this.setState({
-        dataFilterTime: response.results,
+        dataFilterTime,
         isLoading: false,
       })
     } catch (error) {
@@ -129,11 +157,13 @@ export default class FilterTimeContainer extends Component {
       await CalculateApi.deleteQaqcConfig(filterItemId)
       this.setState({
         isModalConfirmDelete: false,
+        isModalFilterTime: false,
       })
       message.success(t('addon.onDelete.success'))
     } catch (error) {
       this.setState({
         isModalConfirmDelete: false,
+        isModalFilterTime: false,
       })
       message.error(t('addon.onDelete.error'))
     }
@@ -196,12 +226,9 @@ export default class FilterTimeContainer extends Component {
     })
   }
 
-  componentDidMount = () => {
-    this.getData()
-  }
-
   render() {
     const { form } = this.props
+
     const {
       isModalFilterTime,
       isModalConfirmDelete,
@@ -209,6 +236,7 @@ export default class FilterTimeContainer extends Component {
       modalType,
       dataFilterTime,
       isLoading,
+      dataItemFilterTimeSelected,
       hasApplyFilterTime,
     } = this.state
 
@@ -229,11 +257,12 @@ export default class FilterTimeContainer extends Component {
           visible={isModalFilterTime}
           onCancel={this.closeModalFilterTime}
           modalType={modalType}
+          setMeasureList={this.setMeasureList}
+          dataItemFilterTime={dataItemFilterTimeSelected}
           onShowModalConfirmDelete={this.showModalConfirmDelete}
         />
       ),
     }
-
     return (
       <div>
         <Row type="flex" span={24} justify="space-between" align="middle">
@@ -244,7 +273,6 @@ export default class FilterTimeContainer extends Component {
           >
             {form.getFieldDecorator(FIELDS.STATION_AUTO)(
               <SelectStationAuto
-                fieldValue
                 placeholder="Chọn trạm quan trắc"
                 mode="multiple"
                 style={{ width: '100%' }}
@@ -261,7 +289,10 @@ export default class FilterTimeContainer extends Component {
           </Col>
 
           <Col style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-            <Switch defaultChecked onClick={this.handleToggleFilter} />
+            <Switch
+              checked={hasApplyFilterTime}
+              onClick={this.handleToggleFilter}
+            />
             <div
               style={{ fontWeight: 500, fontSize: '16px', color: '#111827' }}
             >
@@ -276,13 +307,11 @@ export default class FilterTimeContainer extends Component {
           status={this.handleStatus}
           loading={isLoading}
           isDisable={hasApplyFilterTime}
-          onEditFilterTime={this.showModalEdit}
+          onEditFilterTime={this.setItemEdit}
           dataSource={dataFilterTime}
           onDeleteFilterTime={this.setItemDelete}
           onCreateFilterTime={this.showModalCreate}
         />
-
-        {DynamicModalFilterTime[modalType]}
 
         <ModalConfirmDelete
           visible={isModalConfirmDelete}
@@ -302,6 +331,8 @@ export default class FilterTimeContainer extends Component {
           visible={isModalConfirmCancel}
           onCancelOut={this.closeModalConfirmCancel}
         />
+
+        {DynamicModalFilterTime[modalType]}
       </div>
     )
   }
