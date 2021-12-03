@@ -8,7 +8,7 @@ import ModalFilterTime from './ModalFilterTime'
 import TableFilterTime from './TableFilterTime'
 import _ from 'lodash'
 import { translate as t } from 'hoc/create-lang'
-import { toggleQaqcConfig } from 'api/CategoryApi'
+import { toggleQaqcConfig, getValueToggleQaqcConfig } from 'api/CategoryApi'
 
 export const FIELDS = {
   STATION_TYPE: 'stationType',
@@ -30,10 +30,20 @@ export default class FilterTimeContainer extends Component {
       filterItemId: '',
       modalType: '',
       dataFilterTime: [],
-      dataItemFilterTime: {},
+      dataItemFilterTimeSelected: {},
       dataSource: [],
-      measureList: [],
     }
+  }
+
+  componentDidMount = async () => {
+    this.getData()
+    try {
+      const response = await getValueToggleQaqcConfig()
+      this.setState({
+        hasApplyFilterTime: response.data.value.excludeParametersByTime,
+      })
+      console.log(response.data.value.excludeParametersByTime)
+    } catch (error) {}
   }
 
   showModalCreate = () => {
@@ -102,7 +112,7 @@ export default class FilterTimeContainer extends Component {
   setItemEdit = filterItemId => {
     const { dataFilterTime } = this.state
 
-    const dataItemFilterTime = dataFilterTime.find(
+    const dataItemFilterTimeSelected = dataFilterTime.find(
       data => data._id === filterItemId
     )
 
@@ -110,7 +120,7 @@ export default class FilterTimeContainer extends Component {
       filterItemId,
       modalType: 'edit',
       isModalFilterTime: true,
-      dataItemFilterTime,
+      dataItemFilterTimeSelected,
     })
   }
 
@@ -205,12 +215,6 @@ export default class FilterTimeContainer extends Component {
     this.getData()
   }
 
-  setMeasureList = measuringList => {
-    // this.setState({
-    //   measureList: measuringList,
-    // })
-  }
-
   handleToggleFilter = async value => {
     const param = {
       excludeParametersByTime: value,
@@ -222,47 +226,9 @@ export default class FilterTimeContainer extends Component {
     })
   }
 
-  componentDidMount = () => {
-    this.getData()
-  }
-
   render() {
     const { form } = this.props
 
-    // const measuringList = [
-    //   {
-    //     key: 'INOx',
-    //     name: 'NOx',
-    //     minLimit: '',
-    //     maxLimit: '',
-    //     minTend: '',
-    //     maxTend: '',
-    //     unit: 'ppb',
-    //   },
-    //   {
-    //     key: 'INO2',
-    //     name: 'NO2',
-    //     minLimit: '',
-    //     maxLimit: 200,
-    //     minTend: '',
-    //     maxTend: '',
-    //     unit: 'ug/m3',
-    //   },
-    // ]
-
-    // const conditions = [
-    //   {
-    //     measure: 'Temp',
-
-    //     startAt: '2021-11-15T17:00:00Z',
-    //     endAt: '2021-11-27T16:59:59Z',
-    //   },
-    //   {
-    //     measure: 'TSS',
-    //     startAt: '2021-11-02T17:00:00Z',
-    //     endAt: '2021-11-19T16:59:59Z',
-    //   },
-    // ]
     const {
       isModalFilterTime,
       isModalConfirmDelete,
@@ -270,8 +236,7 @@ export default class FilterTimeContainer extends Component {
       modalType,
       dataFilterTime,
       isLoading,
-      measureList,
-      dataItemFilterTime,
+      dataItemFilterTimeSelected,
       hasApplyFilterTime,
     } = this.state
 
@@ -282,10 +247,8 @@ export default class FilterTimeContainer extends Component {
           visible={isModalFilterTime}
           showModal={this.handleFinishCreate}
           form={form}
-          dataItemFilterTime={dataItemFilterTime}
           onCancel={this.closeModalFilterTime}
           modalType={modalType}
-          setMeasureList={this.setMeasureList}
         />
       ),
       edit: (
@@ -295,7 +258,7 @@ export default class FilterTimeContainer extends Component {
           onCancel={this.closeModalFilterTime}
           modalType={modalType}
           setMeasureList={this.setMeasureList}
-          dataItemFilterTime={dataItemFilterTime}
+          dataItemFilterTime={dataItemFilterTimeSelected}
           onShowModalConfirmDelete={this.showModalConfirmDelete}
         />
       ),
@@ -326,7 +289,10 @@ export default class FilterTimeContainer extends Component {
           </Col>
 
           <Col style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-            <Switch defaultChecked onClick={this.handleToggleFilter} />
+            <Switch
+              checked={hasApplyFilterTime}
+              onClick={this.handleToggleFilter}
+            />
             <div
               style={{ fontWeight: 500, fontSize: '16px', color: '#111827' }}
             >

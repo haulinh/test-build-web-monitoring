@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Table, Row, Icon, Button } from 'antd'
-import _ from 'lodash'
 import moment from 'moment'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
@@ -158,6 +157,7 @@ export default class TableFilterTime extends Component {
             <Row style={{ color: '#1890FF' }} align="middle">
               <Button
                 type="link"
+                style={{ fontWeight: 500, fontSize: '16px' }}
                 onClick={onCreateFilterTime}
                 disabled={!isDisable}
               >
