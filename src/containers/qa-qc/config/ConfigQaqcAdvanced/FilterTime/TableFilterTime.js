@@ -3,7 +3,6 @@ import { Table, Row, Icon, Button } from 'antd'
 import _ from 'lodash'
 import moment from 'moment'
 import styled from 'styled-components'
-import { getTimeUTC } from 'utils/datetime/index'
 import { connect } from 'react-redux'
 
 const BoxStatus = styled.div`
@@ -52,19 +51,13 @@ export default class TableFilterTime extends Component {
       },
       {
         title: 'Trạng thái',
-        dataIndex: 'conditions',
+        dataIndex: 'status',
         key: 'status',
+        sorter: (a, b) => a.status.localeCompare(b.status),
         align: 'center',
         width: 120,
         render: value => {
-          const endTimes = _.map(value, 'endAt')
-          const endToday = moment().endOf('day')
-          const today = getTimeUTC(endToday)
-          const checkTime = endTimes.filter(time =>
-            moment(time).isSameOrAfter(moment(today))
-          )
-
-          if (_.isEmpty(checkTime)) {
+          if (value === 'outdate') {
             return (
               <BoxStatus
                 style={{
@@ -76,6 +69,7 @@ export default class TableFilterTime extends Component {
               </BoxStatus>
             )
           }
+
           return (
             <BoxStatus
               style={{
@@ -119,6 +113,22 @@ export default class TableFilterTime extends Component {
     ]
   }
 
+  getDataSourceProcessing = () => {
+    const { dataSource } = this.props
+    const dataSourceProcessing = dataSource.map(filterTimeItem => {
+      const { conditions, ...data } = filterTimeItem
+      const isApply = conditions.some(conditionItem =>
+        moment(conditionItem.endAt).isSameOrAfter(moment().endOf('day'))
+      )
+      return {
+        ...data,
+        conditions,
+        status: isApply ? 'apply' : 'outdate',
+      }
+    })
+    return dataSourceProcessing
+  }
+
   render() {
     const {
       onCreateFilterTime,
@@ -126,6 +136,8 @@ export default class TableFilterTime extends Component {
       dataSource,
       ...otherProps
     } = this.props
+
+    const dataSourceProcessing = this.getDataSourceProcessing()
 
     return (
       <div style={{ opacity: !isDisable && '0.5' }}>
@@ -137,7 +149,7 @@ export default class TableFilterTime extends Component {
             maxHeight: '1000px',
             overflow: 'scroll',
           }}
-          dataSource={dataSource}
+          dataSource={dataSourceProcessing}
           {...otherProps}
           pagination={false}
           footer={() => (
