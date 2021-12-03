@@ -76,8 +76,8 @@ const timeLang = {
   },
   tw: {
     day: day => `${day} 日`,
-    hour: hour => `${hour} 分钟`,
-    minute: minute => `${minute} 分钟`,
+    hour: hour => `${hour} 小時`,
+    minute: minute => `${minute} 分鐘`,
   },
 }
 
