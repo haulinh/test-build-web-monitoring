@@ -1,7 +1,64 @@
 import { Button } from 'antd'
-import { Flex } from 'components/layouts/styles'
+import { Clearfix, Flex } from 'components/layouts/styles'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
+
+const Error = () => {
+  return (
+    <div
+      style={{
+        borderRadius: '24px',
+        display: 'flex',
+        background: '#fff',
+        boxShadow: '0px 12px 32px -12px rgba(0, 0, 0, 0.25)',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '60vw',
+        height: '60vh',
+      }}
+    >
+      <div
+        style={{
+          fontSize: '38px',
+          fontWeight: '700',
+          color: '#262626',
+        }}
+      >
+        Something went wrong.
+      </div>
+
+      <div
+        style={{
+          marginBottom: '16px',
+          textAlign: 'center',
+          fontSize: '16px',
+          color: '#545454',
+          marginTop: '24px',
+        }}
+      >
+        We are sorry for the inconvenience.
+      </div>
+
+      <div style={{ marginTop: '48px' }}>
+        <img
+          src="/images/PageNotFound.svg"
+          alt="not-found"
+          style={{ width: 570, height: 164 }}
+        />
+      </div>
+
+      <Clearfix height={48} />
+      <Button
+        onClick={() => (window.location.href = '/')}
+        size="large"
+        type="primary"
+      >
+        Back Home
+      </Button>
+    </div>
+  )
+}
 
 export default class ErrorBoundary extends Component {
   constructor(props) {
@@ -23,11 +80,8 @@ export default class ErrorBoundary extends Component {
       // Error path
       return (
         <Flex justifyContent="center">
-          <div style={{ marginTop: 16 }}>
-            <h2>Something went wrong.</h2>
-            <Button onClick={() => (window.location.href = '/')} type="primary">
-              Go Home Page
-            </Button>
+          <div style={{ marginTop: 48 }}>
+            <Error />
             <details style={{ whiteSpace: 'pre-wrap' }}>
               {this.state.error && this.state.error.toString()}
               <br />
