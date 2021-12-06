@@ -120,8 +120,12 @@ export default {
 
   //#region qa-qc
   getQaqcConfigs: param => {
-    const url = calc(`qaqc-config`)
+    const url = calc('qaqc-config')
     return getFetch(url, param)
+  },
+  getQaqcConfig: id => {
+    const url = calc(`qaqc-config/${id}`)
+    return getFetch(url)
   },
   createQaqcConfig: param => {
     const url = calc(`qaqc-config`)

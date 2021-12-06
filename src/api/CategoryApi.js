@@ -94,6 +94,10 @@ export function toggleQaqcConfig(param) {
   return pathFetch(getConfigSysUrl(), param)
 }
 
+export function getValueToggleQaqcConfig() {
+  return getFetch(getConfigSysUrl())
+}
+
 /* #endregion */
 /* #region NOTE  aqi-list-config */
 export function getListConfigAqi() {
