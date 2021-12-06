@@ -1,7 +1,7 @@
 import { Button, Modal, Row } from 'antd'
 import React from 'react'
 
-class ModalConfirmDelete extends React.Component {
+class ModalConfirmCancel extends React.Component {
   render() {
     const { onCancelOut, onConfirmCancel, type, ...otherProps } = this.props
 
@@ -40,4 +40,4 @@ class ModalConfirmDelete extends React.Component {
   }
 }
 
-export default ModalConfirmDelete
+export default ModalConfirmCancel

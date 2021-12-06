@@ -139,5 +139,9 @@ export default {
     const url = calc(`qaqc-config/${id}`)
     return getFetch(url)
   },
+  updateQaqcConfigById: (id, params) => {
+    const url = calc(`qaqc-config/${id}`)
+    return pathFetch(url, params)
+  },
   //#endregion
 }

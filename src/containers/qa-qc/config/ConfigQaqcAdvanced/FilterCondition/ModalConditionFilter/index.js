@@ -1,17 +1,24 @@
-import { Button, Col, Form, Input, message, Modal, Row } from 'antd'
-import CalculateApi from 'api/CalculateApi'
+import { Button, Col, Form, Input, Modal, Row, message } from 'antd'
 import SelectStationAuto from 'components/elements/select-station-auto'
 import SelectStationType from 'components/elements/select-station-type'
-import { Clearfix } from 'components/layouts/styles'
-import { getMeasuringListFromStationAutos } from 'containers/api-sharing/util'
-import { ModalConfirmCancel } from 'containers/qa-qc/config/ConfigQaqcAdvanced/components'
+import { Clearfix, FormItem } from 'components/layouts/styles'
+import {
+  ModalConfirmCancel,
+  ModalConfirmDelete,
+} from 'containers/qa-qc/config/ConfigQaqcAdvanced/components'
+import _, { get } from 'lodash'
 import React from 'react'
+import { connect } from 'react-redux'
+import styled from 'styled-components'
 import { FIELDS } from '../index'
 import FormTableMeasureCondition from './FormTableMeasureCondition'
-import { FormItem } from 'components/layouts/styles'
-import { ModalConfirmDelete } from 'containers/qa-qc/config/ConfigQaqcAdvanced/components'
-import { connect } from 'react-redux'
-import _ from 'lodash'
+import CalculateApi from 'api/CalculateApi'
+
+const StyledRow = styled(Row)`
+  .ant-btn {
+    border-color: transparent;
+  }
+`
 
 const mapStateToProp = state => {
   const stationAutoById = _.keyBy(state.stationAuto.list, '_id')
@@ -25,6 +32,8 @@ const mapStateToProp = state => {
 class ModalConditionFilter extends React.Component {
   constructor(props) {
     super(props)
+    this.tableRef = React.createRef()
+
     this.state = {
       loading: false,
       measures: [],
@@ -35,29 +44,25 @@ class ModalConditionFilter extends React.Component {
     }
   }
 
-  componentDidMount() {
-    const { type, form, conditionItemSelected } = this.props
-    if (type === 'edit') {
-      form.setFieldsValue({
-        [FIELDS.FILTER_NAME]: conditionItemSelected.name,
-        [FIELDS.STATION_TYPE]: conditionItemSelected.station.stationType._id,
-        [FIELDS.STATION]: conditionItemSelected.station._id,
-      })
-    }
-  }
+  componentDidUpdate(prevProps) {
+    const { form, conditionItemSelected } = this.props
 
-  componentDidUpdate(prevProps, prevState) {
-    const { type, form, conditionItemSelected } = this.props
     if (
-      type === 'edit' &&
-      prevProps.conditionItemSelected._id !== conditionItemSelected._id
+      get(conditionItemSelected, '_id') !==
+      get(prevProps, 'conditionItemSelected._id')
     ) {
+      this.tableRef.current.setInitData(
+        get(conditionItemSelected, 'conditions', [])
+      )
+
       form.setFieldsValue({
-        [FIELDS.FILTER_NAME]: conditionItemSelected.name,
-        [FIELDS.STATION_TYPE]: conditionItemSelected.station.stationType._id,
-        [FIELDS.STATION]: conditionItemSelected.station._id,
+        [FIELDS.FILTER_NAME]: get(conditionItemSelected, 'name'),
+        [FIELDS.STATION_TYPE]: get(
+          conditionItemSelected,
+          'station.stationType._id'
+        ),
+        [FIELDS.STATION]: get(conditionItemSelected, 'station._id'),
       })
-      return false
     }
   }
 
@@ -69,32 +74,33 @@ class ModalConditionFilter extends React.Component {
 
   onChangeStationType = () => {
     const { form } = this.props
-    form.resetFields(FIELDS.STATION)
-    form.resetFields(FIELDS.CONDITIONS)
+    form.resetFields([FIELDS.STATION, FIELDS.CONDITIONS])
   }
 
   onChangeStation = () => {
     const { form } = this.props
-    form.resetFields(FIELDS.CONDITIONS)
+    form.resetFields([FIELDS.CONDITIONS, FIELDS.STATION])
   }
 
-  getMeasureList = () => {
-    const { form } = this.props
+  getMeasureList = stationId => {
     const { stationAutos } = this.state
-    const stationAutoValue = form.getFieldValue(FIELDS.STATION)
-    if (!stationAutoValue) return []
-
     const stationAuto = stationAutos.find(
-      stationAuto => stationAutoValue === stationAuto._id
+      stationAuto => stationId === stationAuto._id
     )
-    const measureList = getMeasuringListFromStationAutos([stationAuto])
-    return measureList
+    return get(stationAuto, 'measuringList', [])
   }
 
   onSubmit = async e => {
     e.preventDefault()
-    const { form, onCancel, showModalConditionFilter } = this.props
+    const {
+      form,
+      onCancel,
+      showModalConditionFilter,
+      type,
+      conditionItemSelected,
+    } = this.props
     const { stationAutos } = this.state
+    //Chua validate duoc khi type la edit
     const values = await form.validateFields()
     this.setState({ loading: true })
 
@@ -104,35 +110,51 @@ class ModalConditionFilter extends React.Component {
       stationAuto => stationAutoValue === stationAuto._id
     )
 
-    console.log(values.conditions)
-
     const param = {
       stationId: stationAuto._id,
       name: values.filterName,
       type: 'value',
-      conditions: values.conditions,
+      conditions: Object.values(values.conditions),
     }
 
-    // try {
-    //   await CalculateApi.createQaqcConfig(param)
-    //   this.setState({ loading: false })
-    //   message.success('Tạo thành công')
-    // } catch (error) {
-    //   this.setState({ loading: false })
-    //   console.log(error)
-    // }
-    // onCancel()
-    // form.resetFields()
-    // showModalConditionFilter(false)
+    try {
+      if (type === 'create') {
+        await CalculateApi.createQaqcConfig(param)
+        this.setState({ loading: false })
+        message.success('Tạo thành công')
+      } else {
+        await CalculateApi.updateQaqcConfigById(
+          get(conditionItemSelected, '_id'),
+          param
+        )
+        this.setState({ loading: false })
+        message.success('Cập nhật thành công')
+      }
+    } catch (error) {
+      this.setState({ loading: false })
+      console.log(error)
+    }
+    onCancel()
+    form.resetFields()
+    showModalConditionFilter(false)
   }
 
   handleResetFields = () => {
-    const { form } = this.props
-    form.resetFields()
+    const { form, type } = this.props
+    if (type === 'create') form.resetFields()
+    else form.resetFields([FIELDS.CONDITIONS, FIELDS.FILTER_NAME])
   }
 
   showModalConfirmCancel = () => {
-    this.setState({ isShowModalConfirmCancel: true })
+    const { form, onCancel, type } = this.props
+    if (form.isFieldsTouched() && type === 'create') {
+      this.setState({ isShowModalConfirmCancel: true })
+      return
+    } else if (type === 'edit') {
+      this.setState({ isShowModalConfirmCancel: true })
+      return
+    }
+    onCancel()
   }
 
   handleContinueCreate = () => {
@@ -155,15 +177,11 @@ class ModalConditionFilter extends React.Component {
   }
 
   handleDeleteConditionFilter = () => {
-    this.setState({
-      isShowModalConfirmDelete: true,
-    })
+    this.setState({ isShowModalConfirmDelete: true })
   }
 
   onCancelModalConfirmDelete = () => {
-    this.setState({
-      isShowModalConfirmDelete: false,
-    })
+    this.setState({ isShowModalConfirmDelete: false })
   }
 
   render() {
@@ -182,21 +200,21 @@ class ModalConditionFilter extends React.Component {
       isShowModalConfirmDelete,
     } = this.state
     const stationType = form.getFieldValue(FIELDS.STATION_TYPE)
-    const measureList =
-      type === 'edit'
-        ? _.get(
-            stationAutoById,
-            `${conditionItemSelected.stationId}.measuringList`,
-            []
-          )
-        : this.getMeasureList()
+    const stationAutoId = form.getFieldValue(FIELDS.STATION)
+
+    const measureList = stationAutoId ? this.getMeasureList(stationAutoId) : []
     const stationAutosExcludeList = this.getStationAutosExcludeList()
 
-    console.log(conditionItemSelected)
     const Footer = {
       create: (
-        <Row type="flex" justify="end">
-          <Button key="back" onClick={this.handleResetFields}>
+        <StyledRow type="flex" justify="end">
+          <Button
+            onClick={this.handleResetFields}
+            style={{
+              backgroundColor: '#E1EDFB',
+              color: '#1890FF',
+            }}
+          >
             Nhập lại
           </Button>
           <Button
@@ -208,25 +226,34 @@ class ModalConditionFilter extends React.Component {
             Tạo mới
           </Button>
           <Clearfix width={9} />
-        </Row>
+        </StyledRow>
       ),
       edit: (
         <Row type="flex" justify="space-between">
           <Col span={3}>
-            <Row type="flex" justify="start">
+            <StyledRow type="flex" justify="start">
               <Clearfix width={9} />
               <Button
-                type="danger"
+                style={{
+                  backgroundColor: '#FDF3F2',
+                  color: '#E64D3D',
+                }}
                 key="delete"
                 onClick={this.handleDeleteConditionFilter}
               >
                 Xóa bộ lọc
               </Button>
-            </Row>
+            </StyledRow>
           </Col>
           <Col span={5}>
-            <Row type="flex" justify="end">
-              <Button key="back" onClick={this.handleResetFields}>
+            <StyledRow type="flex" justify="end">
+              <Button
+                onClick={this.handleResetFields}
+                style={{
+                  backgroundColor: '#E1EDFB',
+                  color: '#1890FF',
+                }}
+              >
                 Nhập lại
               </Button>
               <Button
@@ -238,7 +265,7 @@ class ModalConditionFilter extends React.Component {
                 Cập nhật
               </Button>
               <Clearfix width={9} />
-            </Row>
+            </StyledRow>
           </Col>
         </Row>
       ),
@@ -270,7 +297,7 @@ class ModalConditionFilter extends React.Component {
                     message: 'Vui lòng nhập dữ liệu',
                   },
                 ],
-              })(<Input placeholder="Tên bộ lọc" />)}
+              })(<Input style={{}} placeholder="Tên bộ lọc" />)}
             </FormItem>
           </Col>
           <Col span={8}>
@@ -319,10 +346,11 @@ class ModalConditionFilter extends React.Component {
         </Row>
         <Row>
           <FormTableMeasureCondition
+            ref={this.tableRef}
             form={form}
             measureList={measureList}
-            data={conditionItemSelected.conditions}
             type={type}
+            conditionItemSelected={conditionItemSelected}
           />
         </Row>
         <ModalConfirmCancel

@@ -1,10 +1,9 @@
 import { Button, Col, Form, Icon, message, Row, Switch } from 'antd'
 import CalculateApi from 'api/CalculateApi'
-import { toggleQaqcConfig } from 'api/CategoryApi'
-import SelectStationAuto from 'components/elements/select-station-auto'
+import { getValueToggleQaqcConfig, toggleQaqcConfig } from 'api/CategoryApi'
 import { Clearfix } from 'components/layouts/styles'
 import { ModalConfirmDelete } from 'containers/qa-qc/config/ConfigQaqcAdvanced/components'
-import _ from 'lodash'
+import SelectStationAuto from 'containers/search/common/select-station-auto'
 import React from 'react'
 import ModalConditionFilter from './ModalConditionFilter'
 import TableConditionFilter from './TableConditionFilter'
@@ -17,6 +16,9 @@ export const FIELDS = {
   CONDITIONS: 'conditions',
 }
 
+const i18n = {
+  title: 'Thêm điều kiện bộ lọc mới',
+}
 @Form.create()
 class FilterConditionContainer extends React.Component {
   state = {
@@ -33,20 +35,26 @@ class FilterConditionContainer extends React.Component {
 
   async componentDidMount() {
     await this.getData()
+    try {
+      const response = await getValueToggleQaqcConfig()
+      this.setState({
+        isApplyConditionFilter: response.data.value.excludeParametersByValue,
+      })
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   getData = async () => {
     try {
       this.setState({ loading: true })
       const response = await CalculateApi.getQaqcConfigs({
+        type: 'value',
         limit: Number.MAX_SAFE_INTEGER,
         offset: 0,
       })
-      const conditionFilterData = response.results.filter(
-        item => item.type === 'value'
-      )
       this.setState({
-        data: conditionFilterData,
+        data: response.results,
         loading: false,
       })
     } catch (error) {
@@ -67,35 +75,34 @@ class FilterConditionContainer extends React.Component {
       condition => condition._id === conditionItemSelected._id
     )
 
-    this.setState({
-      modalType: 'edit',
-      isShowModalConditionFilter: true,
-      conditionItemSelected: dataEdit,
-    })
+    this.setState(
+      {
+        modalType: 'edit',
+        isShowModalConditionFilter: true,
+      },
+      () => {
+        this.setState({ conditionItemSelected: dataEdit })
+      }
+    )
   }
 
   showModalConfirmDelete = () => {
-    this.setState({
-      isShowModalConfirmDelete: true,
-    })
+    this.setState({ isShowModalConfirmDelete: true })
   }
 
   onCancelModalConfirmDelete = () => {
-    this.setState({
-      isShowModalConfirmDelete: false,
-    })
+    this.setState({ isShowModalConfirmDelete: false })
   }
 
   onCancelModalConditionFilter = () => {
     this.setState({
       isShowModalConditionFilter: false,
+      conditionItemSelected: null,
     })
   }
 
   handleChangeStationAuto = stationKey => {
-    this.setState({
-      stationKey,
-    })
+    this.setState({ stationKey })
   }
 
   setDeleteItem = conditionItemSelected => {
@@ -136,45 +143,32 @@ class FilterConditionContainer extends React.Component {
     }
   }
 
-  handleSearchConditionFilter = async () => {
-    this.setState({
-      loading: true,
-    })
+  handleSearch = async () => {
+    this.setState({ loading: true })
+
     const { form } = this.props
     const stationKeyList = form.getFieldValue(FIELDS.STATION)
     let params = {
-      ...{
-        limit: Number.MAX_SAFE_INTEGER,
-        offset: 0,
-      },
+      type: 'value',
+      offset: 0,
+      limit: Number.MAX_SAFE_INTEGER,
+      stationKeys:
+        stationKeyList.length > 0 ? stationKeyList.join(',') : undefined,
     }
-    if (!_.isEmpty(stationKeyList)) {
-      const stationKeysStr = _.join(stationKeyList, ',')
-      params = {
-        stationKeys: stationKeysStr,
-        ...params,
-      }
-    }
+
     try {
       const response = await CalculateApi.getQaqcConfigs(params)
-      const conditionFilterData = response.results.filter(
-        item => item.type === 'value'
-      )
       this.setState({
-        data: conditionFilterData,
+        data: response.results,
         loading: false,
       })
     } catch (error) {
-      this.setState({
-        loading: false,
-      })
+      this.setState({ loading: false })
     }
   }
 
   onCreated = isShowModalConditionFilter => {
-    this.setState({
-      isShowModalConditionFilter,
-    })
+    this.setState({ isShowModalConditionFilter })
     this.getData()
   }
 
@@ -186,7 +180,6 @@ class FilterConditionContainer extends React.Component {
       isApplyConditionFilter,
       loading,
       modalType,
-      conditionItemKeySelected,
       conditionItemSelected,
     } = this.state
     const { form } = this.props
@@ -196,6 +189,7 @@ class FilterConditionContainer extends React.Component {
         <ModalConditionFilter
           title="Thêm điều kiện bộ lọc mới"
           visible={isShowModalConditionFilter}
+          conditionItemSelected={conditionItemSelected}
           onCancel={this.onCancelModalConditionFilter}
           showConfirmDelete={this.showModalConfirmDelete}
           dataWithConditionFilter={data}
@@ -227,7 +221,7 @@ class FilterConditionContainer extends React.Component {
           >
             {form.getFieldDecorator(FIELDS.STATION)(
               <SelectStationAuto
-                fieldValue="_id"
+                fieldValue
                 placeholder="Chọn trạm quan trắc"
                 mode="multiple"
                 style={{ width: '100%' }}
@@ -239,14 +233,17 @@ class FilterConditionContainer extends React.Component {
               icon="search"
               size="small"
               loading={loading}
-              onClick={this.handleSearchConditionFilter}
+              onClick={this.handleSearch}
             />
           </Col>
 
           <Col span={6}>
             <Row type="flex" justify="end" align="middle">
               <Col>
-                <Switch defaultChecked onClick={this.onChangeSwitchFilter} />
+                <Switch
+                  checked={isApplyConditionFilter}
+                  onClick={this.onChangeSwitchFilter}
+                />
               </Col>
               <Col>
                 <span
@@ -271,24 +268,16 @@ class FilterConditionContainer extends React.Component {
           setDeleteItemKey={this.setDeleteItem}
           isDisabled={isApplyConditionFilter}
           footer={() => (
-            <Button type="link" onClick={this.showModalCreate}>
-              <Row type="flex" align="middle">
-                <Col style={{ marginRight: '8px', marginTop: '2px' }}>
-                  <Icon type="plus" style={{ color: '#1890FF' }} />
-                </Col>
-                <Col>
-                  <span
-                    style={{
-                      fontSize: '16px',
-                      fontWeight: '500',
-                      color: '#1890FF',
-                    }}
-                  >
-                    Thêm điều kiện lọc
-                  </span>
-                </Col>
-              </Row>
-            </Button>
+            <Row type="flex" style={{ color: '#1890FF' }} align="middle">
+              <Button
+                type="link"
+                style={{ fontWeight: 500, fontSize: '16px' }}
+                onClick={this.showModalCreate}
+              >
+                <Icon type="plus" style={{ marginRight: 5 }} />
+                Thêm điều kiện lọc
+              </Button>
+            </Row>
           )}
         />
         {DynamicModalConditionFilter[modalType]}

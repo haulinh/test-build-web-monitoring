@@ -17,45 +17,51 @@ export default class FormTableMeasureCondition extends Component {
   state = {
     isShowModalConfirmDelete: false,
     conditions: [{ id: uuidv4() }],
+    conditionsEdit: [],
     excludeMeasureList: [],
   }
 
-  componentDidMount() {
-    const { type, form, data } = this.props
-    if (type === 'edit') {
-      this.setState({ conditions: data.conditions }, () => {
-        form.setFieldsValue({ [FIELDS.CONDITIONS]: data.conditions })
-      })
-    }
-    console.log({ didMount: data.conditions })
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    const { type, form, data } = this.props
-    if (type === 'edit' && prevProps.data._id !== data._id) {
-      this.setState({ conditions: data.conditions }, () => {
-        form.setFieldsValue({ [FIELDS.CONDITIONS]: data.conditions })
-      })
-      console.log({ didUpdate: data.conditions })
-    }
+  setInitData = conditions => {
+    this.setState(
+      { conditionsEdit: conditions.map(item => ({ id: uuidv4(), ...item })) },
+      () => {
+        const { conditionsEdit } = this.state
+        const { form } = this.props
+        conditionsEdit.forEach(item => {
+          form.setFieldsValue({
+            [`${FIELDS.CONDITIONS}.${item.id}.measure`]: item.measure,
+            [`${FIELDS.CONDITIONS}.${item.id}.operator`]: item.operator,
+            [`${FIELDS.CONDITIONS}.${item.id}.value`]: item.value,
+            [`${FIELDS.CONDITIONS}.${item.id}.excludeMeasures`]: item.excludeMeasures,
+          })
+        })
+      }
+    )
   }
 
   addCondition = () => {
-    const { conditions } = this.state
+    const { conditions, conditionsEdit } = this.state
     const newData = {
       id: uuidv4(),
     }
     const newConditions = [...conditions, newData]
+    const newConditionsEdit = [...conditionsEdit, newData]
 
-    this.setState({ conditions: newConditions })
+    this.setState({
+      conditions: newConditions,
+      conditionsEdit: newConditionsEdit,
+    })
   }
 
   deleteCondition = id => {
-    const { conditions } = this.state
-    const newConditions = conditions.filter(
-      conditionItem => conditionItem.id !== id
-    )
-    this.setState({ conditions: newConditions })
+    const { conditions, conditionsEdit } = this.state
+    const newConditions = conditions.filter(item => item.id !== id)
+    const newConditionsEdit = conditionsEdit.filter(item => item.id !== id)
+
+    this.setState({
+      conditions: newConditions,
+      conditionsEdit: newConditionsEdit,
+    })
   }
 
   handleConditionMeasureChange = (value, excludeMeasuresField) => {
@@ -72,14 +78,14 @@ export default class FormTableMeasureCondition extends Component {
         width: 402,
         render: (value, record, index) => {
           const { form, measureList } = this.props
-          const excludeMeasuresField = `${FIELDS.CONDITIONS}.${index}.excludeMeasures`
+          const excludeMeasuresField = `${FIELDS.CONDITIONS}.${record.id}.excludeMeasures`
 
           return (
             <Row type="flex" align="middle" gutter={12}>
               <Col span={12}>
                 <FormItem required={false} marginBottom="12px">
                   {form.getFieldDecorator(
-                    `${FIELDS.CONDITIONS}.${index}.measure`,
+                    `${FIELDS.CONDITIONS}.${record.id}.measure`,
                     {
                       onChange: value => {
                         this.handleConditionMeasureChange(
@@ -106,7 +112,7 @@ export default class FormTableMeasureCondition extends Component {
               <Col span={6}>
                 <FormItem required={false} marginBottom="12px">
                   {form.getFieldDecorator(
-                    `${FIELDS.CONDITIONS}.${index}.operator`,
+                    `${FIELDS.CONDITIONS}.${record.id}.operator`,
                     {
                       initialValue: 'eq',
                     }
@@ -116,7 +122,7 @@ export default class FormTableMeasureCondition extends Component {
               <Col span={6}>
                 <FormItem required={false} marginBottom="12px">
                   {form.getFieldDecorator(
-                    `${FIELDS.CONDITIONS}.${index}.value`,
+                    `${FIELDS.CONDITIONS}.${record.id}.value`,
                     {
                       rules: [
                         {
@@ -138,10 +144,14 @@ export default class FormTableMeasureCondition extends Component {
         render: (value, record, index) => {
           const { form } = this.props
           const { excludeMeasureList } = this.state
+
+          const measureValue = form.getFieldValue(
+            `${FIELDS.CONDITIONS}.${record.id}.measure`
+          )
           return (
             <FormItem required={false} marginBottom="12px">
               {form.getFieldDecorator(
-                `${FIELDS.CONDITIONS}.${index}.excludeMeasures`,
+                `${FIELDS.CONDITIONS}.${record.id}.excludeMeasures`,
                 {
                   rules: [
                     {
@@ -152,7 +162,7 @@ export default class FormTableMeasureCondition extends Component {
                 }
               )(
                 <SelectMeasureParameter
-                  measuringList={excludeMeasureList}
+                  measuringList={measureValue ? excludeMeasureList : []}
                   mode="multiple"
                   style={{ width: '100%' }}
                   placeholder="Lựa chọn thông số sẽ loại bỏ"
@@ -167,7 +177,9 @@ export default class FormTableMeasureCondition extends Component {
         align: 'center',
         render: (value, record, index) => {
           const { conditions } = this.state
-          const isDisabled = conditions.length > 1
+          const { type } = this.props
+          const isDisabled =
+            type === 'create' ? conditions.length > 1 : index > 0
           return (
             <Button
               type="link"
@@ -189,37 +201,27 @@ export default class FormTableMeasureCondition extends Component {
   }
 
   render() {
-    const { conditions } = this.state
-    console.log({ conditions })
+    const { conditions, conditionsEdit } = this.state
     const { type, data, form, ...otherProps } = this.props
 
-    console.log({ formValue: form.getFieldsValue() })
     return (
       <TableCondition
         columns={this.getColumns()}
-        dataSource={conditions}
+        dataSource={type === 'create' ? conditions : conditionsEdit}
         bordered
         pagination={false}
         scroll={{ y: 300 }}
         footer={() => (
-          <Button type="link" onClick={this.addCondition}>
-            <Row type="flex" align="middle">
-              <Col style={{ marginRight: '8px', marginTop: '2px' }}>
-                <Icon type="plus" style={{ color: '#1890FF' }} />
-              </Col>
-              <Col>
-                <span
-                  style={{
-                    fontSize: '16px',
-                    fontWeight: '500',
-                    color: '#1890FF',
-                  }}
-                >
-                  Thêm điều kiện lọc
-                </span>
-              </Col>
-            </Row>
-          </Button>
+          <Row type="flex" style={{ color: '#1890FF' }} align="middle">
+            <Button
+              type="link"
+              style={{ fontWeight: 500, fontSize: '16px' }}
+              onClick={this.addCondition}
+            >
+              <Icon type="plus" style={{ marginRight: 5 }} />
+              Thêm điều kiện lọc
+            </Button>
+          </Row>
         )}
       />
     )
