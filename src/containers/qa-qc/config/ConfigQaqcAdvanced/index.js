@@ -8,7 +8,14 @@ const { Panel } = Collapse
 
 class ConfigQaqcAdvancedTab extends React.Component {
   render() {
-    const { setActiveKeyPanel, activeKeyPanel } = this.props
+    const {
+      setActiveKeyPanel,
+      activeKeyPanel,
+      toggleExcludeParametersByTime,
+      toggleExcludeParametersByValue,
+      excludeParametersByTime,
+      excludeParametersByValue,
+    } = this.props
     return (
       <Collapse
         defaultActiveKey={activeKeyPanel}
@@ -32,10 +39,16 @@ class ConfigQaqcAdvancedTab extends React.Component {
         >
           <Tabs defaultActiveKey="filterRangeTime">
             <TabPane tab="Lọc theo khoảng thời gian" key="filterRangeTime">
-              <FilterTimeContainer />
+              <FilterTimeContainer
+                toggleExcludeParametersByTime={toggleExcludeParametersByTime}
+                excludeParametersByTime={excludeParametersByTime}
+              />
             </TabPane>
             <TabPane tab="Lọc theo điều kiện giá trị" key="filterMeasureValue">
-              <FilterConditionContainer />
+              <FilterConditionContainer
+                toggleExcludeParametersByValue={toggleExcludeParametersByValue}
+                excludeParametersByValue={excludeParametersByValue}
+              />
             </TabPane>
           </Tabs>
         </Panel>

@@ -173,9 +173,8 @@ const TableConditionFilter = ({
   return (
     <div
       style={{
-        ...(!isDisabled && {
+        ...(isDisabled && {
           pointerEvents: 'none',
-
           opacity: 0.5,
         }),
       }}

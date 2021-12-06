@@ -8,7 +8,7 @@ import ModalFilterTime from './ModalFilterTime'
 import TableFilterTime from './TableFilterTime'
 import _ from 'lodash'
 import { translate as t } from 'hoc/create-lang'
-import { toggleQaqcConfig, getValueToggleQaqcConfig } from 'api/CategoryApi'
+import { toggleQaqcConfig } from 'api/CategoryApi'
 
 export const FIELDS = {
   STATION_TYPE: 'stationType',
@@ -26,7 +26,6 @@ export default class FilterTimeContainer extends Component {
       isModalConfirmDelete: false,
       isModalConfirmCancel: false,
       isLoading: false,
-      hasApplyFilterTime: true,
       filterItemId: '',
       modalType: '',
       dataFilterTime: [],
@@ -37,13 +36,6 @@ export default class FilterTimeContainer extends Component {
 
   componentDidMount = async () => {
     this.getData()
-    try {
-      const response = await getValueToggleQaqcConfig()
-      this.setState({
-        hasApplyFilterTime: response.data.value.excludeParametersByTime,
-      })
-      console.log(response.data.value.excludeParametersByTime)
-    } catch (error) {}
   }
 
   showModalCreate = () => {
@@ -216,18 +208,17 @@ export default class FilterTimeContainer extends Component {
   }
 
   handleToggleFilter = async value => {
+    const { toggleExcludeParametersByTime } = this.props
     const param = {
       excludeParametersByTime: value,
     }
 
     await toggleQaqcConfig(param)
-    this.setState({
-      hasApplyFilterTime: value,
-    })
+    toggleExcludeParametersByTime(value)
   }
 
   render() {
-    const { form } = this.props
+    const { form, excludeParametersByTime } = this.props
 
     const {
       isModalFilterTime,
@@ -237,7 +228,6 @@ export default class FilterTimeContainer extends Component {
       dataFilterTime,
       isLoading,
       dataItemFilterTimeSelected,
-      hasApplyFilterTime,
     } = this.state
 
     const DynamicModalFilterTime = {
@@ -290,7 +280,7 @@ export default class FilterTimeContainer extends Component {
 
           <Col style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
             <Switch
-              checked={hasApplyFilterTime}
+              checked={excludeParametersByTime}
               onClick={this.handleToggleFilter}
             />
             <div
@@ -306,7 +296,7 @@ export default class FilterTimeContainer extends Component {
         <TableFilterTime
           status={this.handleStatus}
           loading={isLoading}
-          isDisable={hasApplyFilterTime}
+          isDisable={!excludeParametersByTime}
           onEditFilterTime={this.setItemEdit}
           dataSource={dataFilterTime}
           onDeleteFilterTime={this.setItemDelete}
