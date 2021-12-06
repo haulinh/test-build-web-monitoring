@@ -45,7 +45,6 @@ export default class MeasuringEdit extends React.PureComponent {
     this.setState({
       dataSource: data,
     })
-    console.log({ data })
     this.props.onUpdateItem(data)
     updateMeasure(data)
   }

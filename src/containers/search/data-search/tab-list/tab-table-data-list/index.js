@@ -157,7 +157,7 @@ export default class TableDataList extends React.PureComponent {
   getDataSources() {
     return [
       ...this.props.dataSource,
-      ...this.props.qcvns.map(qc => ({ ...qc, isQCVN: true })),
+      // ...this.props.qcvns.map(qc => ({ ...qc, isQCVN: true })),
     ]
   }
 
@@ -174,7 +174,7 @@ export default class TableDataList extends React.PureComponent {
           {...otherProps}
           pagination={{
             ...otherProps.pagination,
-            pageSize: this.props.qcvns.length + 50,
+            // pageSize: this.props.qcvns.length + 50,
           }}
           dataSource={this.getDataSources()}
           locale={{ emptyText: translate('dataSearchFrom.table.emptyText') }}

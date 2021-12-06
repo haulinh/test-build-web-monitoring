@@ -1,26 +1,31 @@
 import React from 'react'
 import { autobind } from 'core-decorators'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
+import Heading from 'components/elements/heading'
 import DataStationAutoApi from 'api/DataStationAutoApi'
 import Clearfix from 'components/elements/clearfix/index'
-import { translate } from 'hoc/create-lang'
+import createLang, { translate } from 'hoc/create-lang'
 import TabList from './tab-list'
 import Breadcrumb from './breadcrumb'
 import SearchFrom from './search-form'
 import DataAnalyze from './tab-list/tab-table-data-list/data-analyze'
-import { message, Spin } from 'antd'
+import { Col, message, Row, Spin, Button } from 'antd'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 import queryFormDataBrowser from 'hoc/query-formdata-browser'
 import swal from 'sweetalert2'
 import { isEqual as _isEqual } from 'lodash'
 import { connect } from 'react-redux'
+import DataInsight from 'api/DataInsight'
+import SelectQCVN from 'components/elements/select-qcvn-v2'
+import BoxShadowStyle from 'components/elements/box-shadow'
 
 @protectRole(ROLE.DATA_SEARCH.VIEW)
 @queryFormDataBrowser(['submit'])
 @connect(state => ({
   locale: state.language.locale,
 }))
+@createLang
 @autobind
 export default class MinutesDataSearch extends React.Component {
   state = {
@@ -48,6 +53,29 @@ export default class MinutesDataSearch extends React.Component {
     )
   }
 
+  getQueryParam = searchFormData => {
+    const {
+      fromDate,
+      toDate,
+      key,
+      isExceeded,
+      queryType,
+      qcvnList,
+      measuringList,
+    } = searchFormData
+
+    const params = {
+      stationKey: key,
+      from: fromDate,
+      to: toDate,
+      isExceeded,
+      dataType: queryType,
+      filterBy: qcvnList,
+      measuringList: measuringList.join(','),
+    }
+    return params
+  }
+
   async loadData(pagination, searchFormData) {
     // console.log("LOad data ...")
     // console.log(this.state.measuringList, '==mealist')
@@ -63,14 +91,24 @@ export default class MinutesDataSearch extends React.Component {
       }
     }
 
-    // console.log("CAll api with data " + JSON.stringify(searchFormData, null, 2))
     let dataStationAuto = await DataStationAutoApi.getDataStationAutos(
       {
         page: paginationQuery.current,
         itemPerPage: paginationQuery.pageSize,
       },
-      searchFormData
+      {
+        ...searchFormData,
+        queryType: 'RAW',
+      }
     )
+
+    const { stationKey, ...queryParams } = this.getQueryParam(searchFormData)
+
+    const dataOriginal = await DataInsight.getDataOriginal(stationKey, {
+      ...queryParams,
+      page: paginationQuery.current,
+      itemPerPage: paginationQuery.pageSize,
+    })
 
     if (
       dataStationAuto &&
@@ -156,21 +194,11 @@ export default class MinutesDataSearch extends React.Component {
   }
 
   onChangeQcvn = keys => {
-    this.setState(
-      prev => ({
-        ...prev,
-        searchFormData: {
-          ...prev.searchFormData,
-          standardsVN: keys,
-        },
-      }),
-      () => {
-        this.loadData(this.state.pagination, this.state.searchFormData)
-      }
-    )
+    console.log({ keys })
   }
 
   render() {
+    // const t = this.props.lang.createNameSpace('dataSearchFrom.form')
     return (
       <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
         <Spin
@@ -180,40 +208,74 @@ export default class MinutesDataSearch extends React.Component {
         >
           <Breadcrumb items={['list']} />
           <Clearfix height={16} />
-          <SearchFrom
-            standardsVN={this.state.searchFormData.standardsVN}
-            initialValues={this.props.formData}
-            measuringData={this.props.formData.measuringData}
-            onSubmit={this.handleSubmitSearch}
-            searchNow={this.props.formData.searchNow}
-            formDataSearch={this.props.formData}
+          <BoxShadowStyle>
+            <Heading
+              rightChildren={
+                <Button
+                  type="primary"
+                  icon="search"
+                  size="small"
+                  // onClick={this.handleOnSearch}
+                >
+                  {this.props.lang.t('addon.search')}
+                </Button>
+              }
+              textColor="#ffffff"
+              isBackground
+              fontSize={14}
+              style={{ padding: '8px 16px' }}
+            >
+              {this.props.lang.t('addon.search')}
+            </Heading>
+            <SearchFrom />
+          </BoxShadowStyle>
+          <Clearfix height={16} />
+          <DataAnalyze
+            dataAnalyzeStationAuto={this.state.dataAnalyzeStationAuto}
+            locale={{
+              emptyText: translate('dataSearchFrom.table.emptyText'),
+            }}
           />
           <Clearfix height={16} />
-          {this.state.isHaveData ? (
-            <DataAnalyze
-              dataAnalyzeStationAuto={this.state.dataAnalyzeStationAuto}
-              locale={{
-                emptyText: translate('dataSearchFrom.table.emptyText'),
-              }}
-            />
-          ) : null}
-          <Clearfix height={16} />
 
-          {this.state.isHaveData ? (
-            <TabList
-              isLoading={this.state.isLoading}
-              dataAnalyzeStationAuto={this.state.dataAnalyzeStationAuto}
-              measuringData={this.state.measuringData}
-              measuringList={this.state.measuringList}
-              dataStationAuto={this.state.dataStationAuto}
-              pagination={this.state.pagination}
-              onChangePage={this.handleChangePage}
-              onExportExcel={this.handleExportExcel}
-              nameChart={this.state.searchFormData.name}
-              isExporting={this.state.isExporting}
-              onChangeQcvn={this.onChangeQcvn}
-            />
-          ) : null}
+          <Row
+            gutter={12}
+            style={{ marginLeft: 16 }}
+            type="flex"
+            align="middle"
+          >
+            <span
+              style={{
+                fontSize: '14px',
+                fontWeight: 600,
+              }}
+            >
+              {translate('dataAnalytics.standardViews')}
+            </span>
+            <Col span={8}>
+              <SelectQCVN
+                fieldValue="key"
+                mode="multiple"
+                maxTagCount={3}
+                maxTagTextLength={18}
+                onChange={this.onChangeQcvn}
+              />
+            </Col>
+          </Row>
+
+          <TabList
+            isLoading={this.state.isLoading}
+            dataAnalyzeStationAuto={this.state.dataAnalyzeStationAuto}
+            measuringData={this.state.measuringData}
+            measuringList={this.state.measuringList}
+            dataStationAuto={this.state.dataStationAuto}
+            pagination={this.state.pagination}
+            onChangePage={this.handleChangePage}
+            onExportExcel={this.handleExportExcel}
+            nameChart={this.state.searchFormData.name}
+            isExporting={this.state.isExporting}
+            onChangeQcvn={this.onChangeQcvn}
+          />
         </Spin>
       </PageContainer>
     )

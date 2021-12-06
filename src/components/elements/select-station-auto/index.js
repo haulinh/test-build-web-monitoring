@@ -98,7 +98,7 @@ export default class SelectStationAuto extends React.PureComponent {
 
     const { stationAutoSelects } = this.state
     const { mode, onChange, onChangeObject, fieldValue } = this.props
-    let stationType = stationAutoSelects.find(
+    let stationAutoObj = stationAutoSelects.find(
       s => s[fieldValue || 'key'] === list
     )
     let stationKeys = list
@@ -108,13 +108,13 @@ export default class SelectStationAuto extends React.PureComponent {
         stationAutoSelects.map(item => [item[fieldValue || 'key'], item.name])
       )
       stationKeys = list.filter(key => stationAutoMaps.has(key))
-      stationType = stationAutoSelects.filter(item => {
+      stationAutoObj = stationAutoSelects.filter(item => {
         return stationKeys.includes(item[fieldValue || 'key'])
       })
     }
 
     onChange(stationKeys)
-    if (onChangeObject) onChangeObject(stationType)
+    if (onChangeObject) onChangeObject(stationAutoObj)
   }
 
   handleSearch = value => {
@@ -150,12 +150,12 @@ export default class SelectStationAuto extends React.PureComponent {
         style={{ width: '100%' }}
         allowClear
         showSearch
-        onChange={this.handleChange}
         value={!value ? value : selectValue}
         onSearch={this.handleSearch}
         filterOption={false}
         disabled={disabled}
         {...this.props}
+        onChange={this.handleChange}
       >
         {stationAutos.map(item => (
           <Select.Option key={item.key} value={item[fieldValue || 'key']}>
