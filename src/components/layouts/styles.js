@@ -19,8 +19,8 @@ export const BoxShadow = styled.div`
 export const FormItem = styled(Form.Item)`
   margin-bottom: ${props => props.marginBottom || '16px'};
   font-size: 14;
-  font-weight: 600;
   .ant-form-item-label {
+    font-weight: 600;
     line-height: unset;
     label {
       margin: 0;
