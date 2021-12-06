@@ -1,25 +1,68 @@
-import { Button, Col, Form, Input, message, Modal, Row } from 'antd'
-import CalculateApi from 'api/CalculateApi'
+import { Button, Col, Form, Input, Modal, Row, message } from 'antd'
 import SelectStationAuto from 'components/elements/select-station-auto'
 import SelectStationType from 'components/elements/select-station-type'
-import { Clearfix } from 'components/layouts/styles'
-import { getMeasuringListFromStationAutos } from 'containers/api-sharing/util'
-import { ModalConfirmCancel } from 'containers/qa-qc/config/ConfigQaqcAdvanced/components'
+import { Clearfix, FormItem } from 'components/layouts/styles'
+import {
+  ModalConfirmCancel,
+  ModalConfirmDelete,
+} from 'containers/qa-qc/config/ConfigQaqcAdvanced/components'
+import _, { get } from 'lodash'
 import React from 'react'
+import { connect } from 'react-redux'
+import styled from 'styled-components'
 import { FIELDS } from '../index'
 import FormTableMeasureCondition from './FormTableMeasureCondition'
-import { FormItem } from 'components/layouts/styles'
+import CalculateApi from 'api/CalculateApi'
+
+const StyledRow = styled(Row)`
+  .ant-btn {
+    border-color: transparent;
+  }
+`
+
+const mapStateToProp = state => {
+  const stationAutoById = _.keyBy(state.stationAuto.list, '_id')
+  return {
+    stationAutoById,
+  }
+}
 
 @Form.create()
+@connect(mapStateToProp)
 class ModalConditionFilter extends React.Component {
   constructor(props) {
     super(props)
+    this.tableRef = React.createRef()
+
     this.state = {
       loading: false,
       measures: [],
       stationAutos: [],
       isShowModalConditionFilter: true,
       isShowModalConfirmCancel: false,
+      isShowModalConfirmDelete: false,
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const { form, conditionItemSelected } = this.props
+
+    if (
+      get(conditionItemSelected, '_id') !==
+      get(prevProps, 'conditionItemSelected._id')
+    ) {
+      this.tableRef.current.setInitData(
+        get(conditionItemSelected, 'conditions', [])
+      )
+
+      form.setFieldsValue({
+        [FIELDS.FILTER_NAME]: get(conditionItemSelected, 'name'),
+        [FIELDS.STATION_TYPE]: get(
+          conditionItemSelected,
+          'station.stationType._id'
+        ),
+        [FIELDS.STATION]: get(conditionItemSelected, 'station._id'),
+      })
     }
   }
 
@@ -31,33 +74,33 @@ class ModalConditionFilter extends React.Component {
 
   onChangeStationType = () => {
     const { form } = this.props
-    form.resetFields(FIELDS.STATION)
-    form.resetFields(FIELDS.CONDITIONS)
+    form.resetFields([FIELDS.STATION, FIELDS.CONDITIONS])
   }
 
   onChangeStation = () => {
     const { form } = this.props
-    form.resetFields(FIELDS.CONDITIONS)
+    form.resetFields([FIELDS.CONDITIONS, FIELDS.STATION])
   }
 
-  getMeasureList = () => {
-    const { form } = this.props
+  getMeasureList = stationId => {
     const { stationAutos } = this.state
-    const stationAutoValue = form.getFieldValue(FIELDS.STATION)
-    if (!stationAutoValue) return []
-
     const stationAuto = stationAutos.find(
-      stationAuto => stationAutoValue === stationAuto._id
+      stationAuto => stationId === stationAuto._id
     )
-
-    const measureList = getMeasuringListFromStationAutos([stationAuto])
-    return measureList
+    return get(stationAuto, 'measuringList', [])
   }
 
   onSubmit = async e => {
     e.preventDefault()
-    const { form, onCancel, showModalConditionFilter } = this.props
+    const {
+      form,
+      onCancel,
+      showModalConditionFilter,
+      type,
+      conditionItemSelected,
+    } = this.props
     const { stationAutos } = this.state
+    //Chua validate duoc khi type la edit
     const values = await form.validateFields()
     this.setState({ loading: true })
 
@@ -71,13 +114,22 @@ class ModalConditionFilter extends React.Component {
       stationId: stationAuto._id,
       name: values.filterName,
       type: 'value',
-      conditions: values.conditions,
+      conditions: Object.values(values.conditions),
     }
 
     try {
-      await CalculateApi.createQaqcConfig(param)
-      this.setState({ loading: false })
-      message.success('Tạo thành công')
+      if (type === 'create') {
+        await CalculateApi.createQaqcConfig(param)
+        this.setState({ loading: false })
+        message.success('Tạo thành công')
+      } else {
+        await CalculateApi.updateQaqcConfigById(
+          get(conditionItemSelected, '_id'),
+          param
+        )
+        this.setState({ loading: false })
+        message.success('Cập nhật thành công')
+      }
     } catch (error) {
       this.setState({ loading: false })
       console.log(error)
@@ -88,12 +140,21 @@ class ModalConditionFilter extends React.Component {
   }
 
   handleResetFields = () => {
-    const { form } = this.props
-    form.resetFields()
+    const { form, type } = this.props
+    if (type === 'create') form.resetFields()
+    else form.resetFields([FIELDS.CONDITIONS, FIELDS.FILTER_NAME])
   }
 
   showModalConfirmCancel = () => {
-    this.setState({ isShowModalConfirmCancel: true })
+    const { form, onCancel, type } = this.props
+    if (form.isFieldsTouched() && type === 'create') {
+      this.setState({ isShowModalConfirmCancel: true })
+      return
+    } else if (type === 'edit') {
+      this.setState({ isShowModalConfirmCancel: true })
+      return
+    }
+    onCancel()
   }
 
   handleContinueCreate = () => {
@@ -115,36 +176,108 @@ class ModalConditionFilter extends React.Component {
     return stationAutosExcludeList
   }
 
+  handleDeleteConditionFilter = () => {
+    this.setState({ isShowModalConfirmDelete: true })
+  }
+
+  onCancelModalConfirmDelete = () => {
+    this.setState({ isShowModalConfirmDelete: false })
+  }
+
   render() {
-    const { form, onCancel, ...otherProps } = this.props
-    const { loading, isShowModalConfirmCancel } = this.state
+    const {
+      form,
+      onCancel,
+      type,
+      conditionItemSelected,
+      stationAutoById,
+      dataWithConditionFilter,
+      ...otherProps
+    } = this.props
+    const {
+      loading,
+      isShowModalConfirmCancel,
+      isShowModalConfirmDelete,
+    } = this.state
     const stationType = form.getFieldValue(FIELDS.STATION_TYPE)
-    const measureList = this.getMeasureList()
+    const stationAutoId = form.getFieldValue(FIELDS.STATION)
+
+    const measureList = stationAutoId ? this.getMeasureList(stationAutoId) : []
     const stationAutosExcludeList = this.getStationAutosExcludeList()
+
+    const Footer = {
+      create: (
+        <StyledRow type="flex" justify="end">
+          <Button
+            onClick={this.handleResetFields}
+            style={{
+              backgroundColor: '#E1EDFB',
+              color: '#1890FF',
+            }}
+          >
+            Nhập lại
+          </Button>
+          <Button
+            key="submit"
+            type="primary"
+            loading={loading}
+            onClick={this.onSubmit}
+          >
+            Tạo mới
+          </Button>
+          <Clearfix width={9} />
+        </StyledRow>
+      ),
+      edit: (
+        <Row type="flex" justify="space-between">
+          <Col span={3}>
+            <StyledRow type="flex" justify="start">
+              <Clearfix width={9} />
+              <Button
+                style={{
+                  backgroundColor: '#FDF3F2',
+                  color: '#E64D3D',
+                }}
+                key="delete"
+                onClick={this.handleDeleteConditionFilter}
+              >
+                Xóa bộ lọc
+              </Button>
+            </StyledRow>
+          </Col>
+          <Col span={5}>
+            <StyledRow type="flex" justify="end">
+              <Button
+                onClick={this.handleResetFields}
+                style={{
+                  backgroundColor: '#E1EDFB',
+                  color: '#1890FF',
+                }}
+              >
+                Nhập lại
+              </Button>
+              <Button
+                key="submit"
+                type="primary"
+                loading={loading}
+                onClick={this.onSubmit}
+              >
+                Cập nhật
+              </Button>
+              <Clearfix width={9} />
+            </StyledRow>
+          </Col>
+        </Row>
+      ),
+    }
 
     return (
       <Modal
-        title="Thêm điều kiện bộ lọc mới"
         {...otherProps}
         onCancel={this.showModalConfirmCancel}
         centered
         width={1060}
-        footer={[
-          <Row type="flex" justify="end">
-            <Button key="back" onClick={this.handleResetFields}>
-              Nhập lại
-            </Button>
-            <Button
-              key="submit"
-              type="primary"
-              loading={loading}
-              onClick={this.onSubmit}
-            >
-              Tạo mới
-            </Button>
-            <Clearfix width={9} />
-          </Row>,
-        ]}
+        footer={[Footer[type]]}
       >
         <Row gutter={24}>
           <Col span={8}>
@@ -164,7 +297,7 @@ class ModalConditionFilter extends React.Component {
                     message: 'Vui lòng nhập dữ liệu',
                   },
                 ],
-              })(<Input placeholder="Tên bộ lọc" />)}
+              })(<Input style={{}} placeholder="Tên bộ lọc" />)}
             </FormItem>
           </Col>
           <Col span={8}>
@@ -179,6 +312,7 @@ class ModalConditionFilter extends React.Component {
                 ],
               })(
                 <SelectStationType
+                  disabled={type === 'edit' ? true : false}
                   fieldValue="_id"
                   placeholder="Chọn loại trạm"
                 />
@@ -197,26 +331,42 @@ class ModalConditionFilter extends React.Component {
                 ],
               })(
                 <SelectStationAuto
-                  disabled={!stationType}
+                  disabled={type === 'edit' ? true : !stationType}
                   fieldValue="_id"
                   placeholder="Chọn trạm quan trắc"
                   stationType={stationType}
                   onFetchSuccess={this.onStationAutosFetchSuccess}
-                  stationAutosExclude={stationAutosExcludeList}
+                  stationAutosExclude={
+                    type === 'create' ? stationAutosExcludeList : []
+                  }
                 />
               )}
             </FormItem>
           </Col>
         </Row>
         <Row>
-          <FormTableMeasureCondition form={form} measureList={measureList} />
+          <FormTableMeasureCondition
+            ref={this.tableRef}
+            form={form}
+            measureList={measureList}
+            type={type}
+            conditionItemSelected={conditionItemSelected}
+          />
         </Row>
         <ModalConfirmCancel
+          type={type}
           visible={isShowModalConfirmCancel}
           closable={false}
           footer={false}
           onCancelOut={this.handleContinueCreate}
           onConfirmCancel={this.handleCancelCreate}
+        />
+        <ModalConfirmDelete
+          visible={isShowModalConfirmDelete}
+          closable={false}
+          footer={false}
+          // onConfirmDelete={this.deleteConditionFilterItem}
+          onCancelDelete={this.onCancelModalConfirmDelete}
         />
       </Modal>
     )
