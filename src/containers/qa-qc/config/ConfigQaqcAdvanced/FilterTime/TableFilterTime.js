@@ -93,13 +93,11 @@ export default class TableFilterTime extends Component {
                 onClick={() => {
                   onEditFilterTime(value._id)
                 }}
-                disabled={!this.props.isDisable}
               >
                 <Icon type="edit" style={{ color: '#1890FF' }} />
               </Button>
 
               <Button
-                disabled={!this.props.isDisable}
                 type="link"
                 onClick={() => {
                   onDeleteFilterTime(value._id)
@@ -139,9 +137,14 @@ export default class TableFilterTime extends Component {
     } = this.props
 
     const dataSourceProcessing = this.getDataSourceProcessing()
+    console.log({ isDisable })
 
     return (
-      <div style={{ opacity: !isDisable && '0.5' }}>
+      <div
+        style={{
+          ...(isDisable && { opacity: 0.5, pointerEvents: 'none' }),
+        }}
+      >
         <Table
           rowKey={record => record._id}
           columns={this.columns}
@@ -159,7 +162,6 @@ export default class TableFilterTime extends Component {
                 type="link"
                 style={{ fontWeight: 500, fontSize: '16px' }}
                 onClick={onCreateFilterTime}
-                disabled={!isDisable}
               >
                 <Icon type="plus" style={{ marginRight: 5 }} />
                 Thêm điều kiện lọc

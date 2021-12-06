@@ -202,7 +202,7 @@ export default class FormTableMeasureCondition extends Component {
 
   render() {
     const { conditions, conditionsEdit } = this.state
-    const { type, data, form, ...otherProps } = this.props
+    const { type } = this.props
 
     return (
       <TableCondition
