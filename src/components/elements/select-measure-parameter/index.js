@@ -24,7 +24,7 @@ const SelectMeasureParameter = ({
       onChange={handleChange}
       optionFilterProp="children"
       filterOption={(input, option) =>
-        _.get(option, 'props.children', '')
+        _.get(option, 'props.value', '')
           .toLowerCase()
           .indexOf((input || '').toLowerCase()) >= 0
       }
