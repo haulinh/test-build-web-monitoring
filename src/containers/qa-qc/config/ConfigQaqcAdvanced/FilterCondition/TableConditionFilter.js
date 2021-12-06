@@ -1,11 +1,15 @@
 import { Icon, Row, Table, Button } from 'antd'
 import React from 'react'
 import moment from 'moment'
+import { connect } from 'react-redux'
+import { get } from 'lodash'
+
 const TableConditionFilter = ({
-  onEditRecord,
-  setConditionFilterItemKey,
+  setEditItemKey,
+  setDeleteItemKey,
   dataSource,
   isDisabled,
+  measuresObj,
   ...otherProps
 }) => {
   const operators = {
@@ -24,7 +28,8 @@ const TableConditionFilter = ({
         _id: current._id,
         name: current.name,
         station: current.station,
-        conditionMeasureItem: `${dataItem.measure} ${
+        key: `${current._id}_${dataItem.measure}`,
+        conditionMeasureItem: `${get(measuresObj[dataItem.measure], 'name')} ${
           operators[dataItem.operator]
         } ${dataItem.value}`,
         ...(index === 0 && {
@@ -40,13 +45,12 @@ const TableConditionFilter = ({
   const columns = [
     {
       title: '#',
+      width: 50,
       align: 'center',
       render: (value, record, index) => {
         const obj = {
           children: (
-            <div
-              style={{ fontWeight: 500, fontSize: '14px', color: '#111827' }}
-            >
+            <div style={{ fontWeight: 500, fontSize: '14px' }}>
               {record.indexMerge ? (count += 1) : (count += 0)}
             </div>
           ),
@@ -65,14 +69,11 @@ const TableConditionFilter = ({
     {
       title: 'Tên điều kiện',
       dataIndex: 'name',
+      width: 200,
       render: (value, record, index) => {
         const obj = {
           children: (
-            <div
-              style={{ fontWeight: 500, fontSize: '14px', color: '#111827' }}
-            >
-              {value}
-            </div>
+            <div style={{ fontWeight: 500, fontSize: '14px' }}>{value}</div>
           ),
           props: {},
         }
@@ -88,15 +89,12 @@ const TableConditionFilter = ({
     },
     {
       title: 'Trạm áp dụng',
+      width: 300,
       dataIndex: 'station.name',
       render: (value, record, index) => {
         const obj = {
           children: (
-            <div
-              style={{ fontWeight: 500, fontSize: '14px', color: '#111827' }}
-            >
-              {value}
-            </div>
+            <div style={{ fontWeight: 500, fontSize: '14px' }}>{value}</div>
           ),
           props: {},
         }
@@ -112,18 +110,23 @@ const TableConditionFilter = ({
     },
     {
       title: 'Thông số điều kiện',
+      width: 171,
       dataIndex: 'conditionMeasureItem',
       render: value => {
-        return <div style={{ color: '#1890ff', fontWeight: 500 }}>{value}</div>
+        return <div style={{ color: '#1890ff' }}>{value}</div>
       },
     },
     {
       title: 'Thông số loại bỏ',
+      width: 245,
       dataIndex: 'excludeMeasures',
       render: value => {
+        const measureExcludeListName = value.map(
+          excludeMeasure => measuresObj[excludeMeasure].name
+        )
         return (
-          <div style={{ color: '#1890ff', fontWeight: 500 }}>
-            {value.join(', ')}
+          <div style={{ color: '#1890ff' }}>
+            {measureExcludeListName.join(', ')}
           </div>
         )
       },
@@ -131,17 +134,18 @@ const TableConditionFilter = ({
     {
       title: '',
       align: 'center',
+      width: 150,
       render: (value, record, index) => {
         const obj = {
           children: (
             <Row>
-              <Button type="link" onClick={onEditRecord}>
+              <Button type="link" onClick={() => setEditItemKey(value)}>
                 <Icon type="edit" style={{ color: '#1890FF' }} />
               </Button>
               <Button
                 type="link"
                 onClick={() => {
-                  setConditionFilterItemKey(value._id)
+                  setDeleteItemKey(value)
                 }}
               >
                 <Icon type="delete" style={{ color: '#E64D3D' }} />
@@ -177,6 +181,7 @@ const TableConditionFilter = ({
       }}
     >
       <Table
+        rowKey={record => record.key}
         columns={columns}
         dataSource={dataSort}
         pagination={false}
@@ -187,4 +192,8 @@ const TableConditionFilter = ({
   )
 }
 
-export default TableConditionFilter
+const mapStateToProps = state => ({
+  measuresObj: state.global.measuresObj,
+})
+
+export default connect(mapStateToProps)(TableConditionFilter)

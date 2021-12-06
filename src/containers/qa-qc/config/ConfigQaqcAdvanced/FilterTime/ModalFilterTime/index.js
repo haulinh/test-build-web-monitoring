@@ -21,6 +21,8 @@ export default class ModalFilterTime extends Component {
       isVisible: false,
       measureKeyListSelected: [],
       isDisable: true,
+      stationType: '',
+      measuringList: [],
     }
   }
 
@@ -30,7 +32,7 @@ export default class ModalFilterTime extends Component {
     })
   }
 
-  getMeasuringList = () => {
+  getDataSourceCreate = () => {
     const { form } = this.props
     const { stationAutoList } = this.state
     const stationAutoValue = form.getFieldValue(FIELDS.STATION_AUTO_ID)
@@ -40,18 +42,23 @@ export default class ModalFilterTime extends Component {
     const stationAuto = stationAutoList.find(
       stationAuto => stationAuto._id === stationAutoValue
     )
-
     const measureList = getMeasuringListFromStationAutos([stationAuto])
-    return measureList
+    const dataSourceCreate = measureList.map(measure => ({
+      measure: measure.key,
+      startAt: null,
+      endAt: null,
+    }))
+    return dataSourceCreate
   }
 
   getConditionParam = () => {
     const { form } = this.props
     const { conditions } = form.getFieldsValue()
+    console.log({ conditions })
 
     //convert condition array to condition object
     const conditionList = Object.entries(conditions)
-      .filter(([key, value]) => value.length > 0)
+      .filter(([, value]) => Array.isArray(value) && value.length > 0)
       .map(([key, value]) => {
         return {
           measure: key,
@@ -61,6 +68,35 @@ export default class ModalFilterTime extends Component {
       })
 
     return conditionList
+  }
+
+  setInitValues = () => {
+    const { form, dataItemFilterTime } = this.props
+    const stationAutoId = _.get(dataItemFilterTime, 'station._id')
+    const stationTypeId = _.get(dataItemFilterTime, 'station.stationType._id')
+
+    form.setFieldsValue({
+      [FIELDS.STATION_TYPE]: stationTypeId,
+      [FIELDS.STATION_AUTO_ID]: stationAutoId,
+    })
+  }
+
+  componentDidMount = () => {
+    const { modalType } = this.props
+    if (modalType === 'edit') {
+      this.setInitValues()
+    }
+  }
+
+  componentDidUpdate = prevProps => {
+    const { modalType } = this.props
+
+    if (modalType === 'edit') {
+      const { dataItemFilterTime } = this.props
+      const prevId = _.get(prevProps, 'dataItemFilterTime._id')
+      const id = _.get(dataItemFilterTime, '_id')
+      if (prevId !== id) this.setInitValues()
+    }
   }
 
   getParams = () => {
@@ -92,6 +128,8 @@ export default class ModalFilterTime extends Component {
     await form.validateFields()
     const params = this.getParams()
 
+    // console.log({ params })
+
     try {
       await CalculateApi.createQaqcConfig(params)
       message.success(t('addon.onSave.add.success'))
@@ -113,7 +151,7 @@ export default class ModalFilterTime extends Component {
     form.resetFields([FIELDS.STATION_AUTO_ID])
   }
 
-  handleChangeStationAuto = () => {
+  handleChangeStationAuto = async () => {
     this.setState({
       measureKeyListSelected: [],
     })
@@ -131,14 +169,18 @@ export default class ModalFilterTime extends Component {
       onShowModalConfirmDelete,
       modalType,
       modalTitle,
+      dataItemFilterTime,
       ...otherProps
     } = this.props
-
     const { measureKeyListSelected } = this.state
 
     const stationType = form.getFieldValue(FIELDS.STATION_TYPE)
-    const measureList = this.getMeasuringList()
     const stationAuto = form.getFieldValue(FIELDS.STATION_AUTO_ID)
+    const isEdit = modalType === 'edit'
+
+    const dataSource = isEdit
+      ? dataItemFilterTime.conditions
+      : this.getDataSourceCreate()
 
     const DynamicButtonSubmit = {
       edit: (
@@ -165,7 +207,7 @@ export default class ModalFilterTime extends Component {
         centered
         footer={[
           <Row type="flex" justify="space-between">
-            {modalType === 'edit' ? (
+            {isEdit ? (
               <Col>
                 <Button type="danger" onClick={onShowModalConfirmDelete}>
                   Xoá bộ lọc
@@ -175,7 +217,12 @@ export default class ModalFilterTime extends Component {
               <Col></Col>
             )}
             <Col>
-              <Button onClick={this.handleResetModal}>Nhập lại</Button>
+              <Button
+                onClick={this.handleResetModal}
+                style={{ backgroundColor: '#E1EDFB', color: '#1890FF' }}
+              >
+                Nhập lại
+              </Button>
               {DynamicButtonSubmit[modalType]}
             </Col>
           </Row>,
@@ -194,6 +241,7 @@ export default class ModalFilterTime extends Component {
                 ],
               })(
                 <SelectStationType
+                  disabled={isEdit}
                   placeholder="Chọn loại trạm"
                   fieldValue="_id"
                 />
@@ -213,10 +261,10 @@ export default class ModalFilterTime extends Component {
                 ],
               })(
                 <SelectStationAuto
-                  disabled={!stationType}
-                  placeholder="Chọn trạm quan trắc"
-                  stationType={stationType}
+                  disabled={!stationType || isEdit}
                   fieldValue="_id"
+                  stationType={stationType}
+                  placeholder="Chọn trạm quan trắc"
                   onFetchSuccess={this.onStationAutosFetchSuccess}
                 />
               )}
@@ -225,12 +273,13 @@ export default class ModalFilterTime extends Component {
         </Row>
         <Row span={24}>
           <FormTableMeasureTime
+            dataSource={dataSource}
             form={form}
             stationAuto={stationAuto}
             setMeasureKeyListSelected={this.setMeasureKeyListSelected}
-            measureList={measureList}
-            modalType={modalType}
+            isEdit={isEdit}
             measureKeyListSelected={measureKeyListSelected}
+            id={_.get(dataItemFilterTime, '_id')}
           />
         </Row>
       </Modal>

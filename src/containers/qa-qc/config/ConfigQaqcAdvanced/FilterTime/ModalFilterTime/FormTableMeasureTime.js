@@ -1,44 +1,45 @@
 import { DatePicker, Table } from 'antd'
 import { FormItem } from 'components/layouts/styles'
+import moment from 'moment-timezone'
 import React, { Component } from 'react'
 
 const { RangePicker } = DatePicker
 
 export default class FormTableMeasureTime extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      keyListSelect: [],
-    }
-  }
-
   getColumns = () => {
-    const { measureKeyListSelected } = this.props
+    const { measureKeyListSelected, isEdit } = this.props
 
     const { form } = this.props
 
     return [
       {
         title: 'Thông số',
-        dataIndex: 'name',
-        render: value => <div style={{ fontWeight: 500 }}>{value}</div>,
+        dataIndex: 'measure',
+        key: 'measure',
+        render: value => {
+          // const measureKey = measure.map(measure => measure.measure)
+          return <div style={{ fontWeight: 500 }}>{value}</div>
+        },
       },
       {
-        title: 'Thời gian',
+        title: 'Khoảng thời gian',
+        key: 'time',
         render: (value, record, index) => {
           return (
             <FormItem style={{ marginBottom: 0 }}>
-              {form.getFieldDecorator(`conditions[${value.key}]`, {
-                initialValue: [],
+              {form.getFieldDecorator(`conditions[${value.measure}]`, {
+                ...(isEdit && {
+                  initialValue: [moment(value.startAt), moment(value.endAt)],
+                }),
                 rules: [
                   {
-                    required: measureKeyListSelected.includes(value.key),
+                    required: measureKeyListSelected.includes(value.measure),
                     message: 'Vui lòng chọn thời gian',
                   },
                 ],
               })(
                 <RangePicker
-                  disabled={!measureKeyListSelected.includes(value.key)}
+                  disabled={!measureKeyListSelected.includes(value.measure)}
                   style={{ width: '100%', padding: 0 }}
                   format={['DD/MM/YYYY']}
                 />
@@ -50,10 +51,13 @@ export default class FormTableMeasureTime extends Component {
     ]
   }
 
-  handleSelectChange = keyListSelect => {
-    const { form, measureList, setMeasureKeyListSelected } = this.props
+  handleSelectChange = (selectedRowKeys, selectedRows) => {
+    const keyListSelect = selectedRows.map(selectedRow => selectedRow.measure)
+    const { form, dataSource, setMeasureKeyListSelected } = this.props
 
-    const measureKeyList = measureList.map(measure => measure.key)
+    const measureKeyList = dataSource.map(
+      dataSourceItem => dataSourceItem.measure
+    )
 
     const measureListNotSelect = measureKeyList.filter(
       measure => !keyListSelect.includes(measure)
@@ -65,13 +69,11 @@ export default class FormTableMeasureTime extends Component {
 
     form.resetFields(conditionFields)
 
-    this.setState({ keyListSelect })
-
     setMeasureKeyListSelected(keyListSelect)
   }
 
   render() {
-    const { measureList, stationAuto } = this.props
+    const { dataSource, stationAuto } = this.props
     const rowSelection = {
       onChange: this.handleSelectChange,
     }
@@ -79,8 +81,8 @@ export default class FormTableMeasureTime extends Component {
     return (
       <Table
         key={stationAuto}
-        columns={this.getColumns()}
-        dataSource={measureList}
+        columns={[...this.getColumns()]}
+        dataSource={dataSource}
         bordered
         rowSelection={rowSelection}
         pagination={false}

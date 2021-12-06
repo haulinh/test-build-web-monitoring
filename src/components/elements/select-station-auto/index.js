@@ -26,7 +26,7 @@ export default class SelectStationAuto extends React.PureComponent {
     searchString: '',
   }
 
-  async componentWillMount() {
+  async componentDidMount() {
     const res = await StationAutoApi.getStationAutoAll({
       page: 1,
       itemPerPage: Number.MAX_SAFE_INTEGER,
@@ -49,12 +49,7 @@ export default class SelectStationAuto extends React.PureComponent {
   }
 
   getStationAutos = () => {
-    const {
-      province,
-      stationType,
-      fieldValue,
-      stationAutosExclude,
-    } = this.props
+    const { province, stationType, fieldValue } = this.props
     let stationAutos = this.state.stationAutoSelects
     if (this.state.searchString) {
       const searchString = replaceVietnameseStr(this.state.searchString)
@@ -80,13 +75,6 @@ export default class SelectStationAuto extends React.PureComponent {
     if (stationType) {
       stationAutos = stationAutos.filter(
         stationAuto => stationAuto.stationType[fieldValueName] === stationType
-      )
-    }
-
-    if (stationAutosExclude) {
-      stationAutos = stationAutos.filter(
-        stationAuto =>
-          !stationAutosExclude.includes(stationAuto[fieldValueName])
       )
     }
 
@@ -119,6 +107,13 @@ export default class SelectStationAuto extends React.PureComponent {
 
   handleSearch = value => {
     this.setState({ searchString: value })
+  }
+
+  isDisabledOption = item => {
+    const { stationAutosExclude } = this.props
+    if (!stationAutosExclude) return false
+
+    return stationAutosExclude.includes(item)
   }
 
   render() {
@@ -158,7 +153,11 @@ export default class SelectStationAuto extends React.PureComponent {
         onChange={this.handleChange}
       >
         {stationAutos.map(item => (
-          <Select.Option key={item.key} value={item[fieldValue || 'key']}>
+          <Select.Option
+            key={item.key}
+            disabled={this.isDisabledOption(item[fieldValue || 'key'])}
+            value={item[fieldValue || 'key']}
+          >
             {removeAccents(language, item.name)}
           </Select.Option>
         ))}
