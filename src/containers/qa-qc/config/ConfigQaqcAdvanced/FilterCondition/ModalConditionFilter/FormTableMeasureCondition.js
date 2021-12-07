@@ -17,18 +17,30 @@ export default class FormTableMeasureCondition extends Component {
   state = {
     isShowModalConfirmDelete: false,
     conditions: [{ id: uuidv4() }],
-    conditionsEdit: [],
+  }
+
+  componentDidUpdate(prevProps) {
+    const { type } = this.props
+
+    if (type !== prevProps.type && type === 'edit') {
+      this.setState({ conditions: [] })
+      return
+    }
+    if (type !== prevProps.type && type === 'create') {
+      this.setState({ conditions: [{ id: uuidv4() }] })
+      return
+    }
   }
 
   setInitData = conditions => {
     this.setState(
       {
-        conditionsEdit: conditions.map(item => ({ id: uuidv4(), ...item })),
+        conditions: conditions.map(item => ({ id: uuidv4(), ...item })),
       },
       () => {
-        const { conditionsEdit } = this.state
+        const { conditions } = this.state
         const { form } = this.props
-        conditionsEdit.forEach(item => {
+        conditions.forEach(item => {
           form.setFieldsValue({
             [`${FIELDS.CONDITIONS}.${item.id}.measure`]: item.measure,
             [`${FIELDS.CONDITIONS}.${item.id}.operator`]: item.operator,
@@ -41,28 +53,20 @@ export default class FormTableMeasureCondition extends Component {
   }
 
   addCondition = () => {
-    const { conditions, conditionsEdit } = this.state
+    const { conditions } = this.state
     const newData = {
       id: uuidv4(),
     }
     const newConditions = [...conditions, newData]
-    const newConditionsEdit = [...conditionsEdit, newData]
 
-    this.setState({
-      conditions: newConditions,
-      conditionsEdit: newConditionsEdit,
-    })
+    this.setState({ conditions: newConditions })
   }
 
   deleteCondition = id => {
-    const { conditions, conditionsEdit } = this.state
+    const { conditions } = this.state
     const newConditions = conditions.filter(item => item.id !== id)
-    const newConditionsEdit = conditionsEdit.filter(item => item.id !== id)
 
-    this.setState({
-      conditions: newConditions,
-      conditionsEdit: newConditionsEdit,
-    })
+    this.setState({ conditions: newConditions })
   }
 
   handleConditionMeasureChange = excludeMeasuresField => {
@@ -209,14 +213,13 @@ export default class FormTableMeasureCondition extends Component {
   }
 
   render() {
-    const { conditions, conditionsEdit } = this.state
-    const { type } = this.props
+    const { conditions } = this.state
 
     return (
       <TableCondition
         columns={this.getColumns()}
         rowKey={record => record.id}
-        dataSource={type === 'create' ? conditions : conditionsEdit}
+        dataSource={conditions}
         bordered
         pagination={false}
         scroll={{ y: 300 }}
