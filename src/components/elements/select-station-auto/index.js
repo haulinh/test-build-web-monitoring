@@ -112,6 +112,7 @@ export default class SelectStationAuto extends React.PureComponent {
   isDisabledOption = item => {
     const { stationAutosExclude } = this.props
 
+    if (!stationAutosExclude) return false
     return stationAutosExclude.includes(item)
   }
 
