@@ -18,12 +18,13 @@ export default class FormTableMeasureCondition extends Component {
     isShowModalConfirmDelete: false,
     conditions: [{ id: uuidv4() }],
     conditionsEdit: [],
-    excludeMeasureList: [],
   }
 
   setInitData = conditions => {
     this.setState(
-      { conditionsEdit: conditions.map(item => ({ id: uuidv4(), ...item })) },
+      {
+        conditionsEdit: conditions.map(item => ({ id: uuidv4(), ...item })),
+      },
       () => {
         const { conditionsEdit } = this.state
         const { form } = this.props
@@ -64,11 +65,19 @@ export default class FormTableMeasureCondition extends Component {
     })
   }
 
-  handleConditionMeasureChange = (value, excludeMeasuresField) => {
-    const { measureList, form } = this.props
+  handleConditionMeasureChange = excludeMeasuresField => {
+    const { form } = this.props
     form.resetFields(excludeMeasuresField)
-    const newMeasureList = measureList.filter(measure => measure.key !== value)
-    this.setState({ excludeMeasureList: newMeasureList })
+  }
+
+  getExcludeMeasureList = (measureField, measure) => {
+    const { measureList, form } = this.props
+    if (!measure) {
+      return []
+    }
+    return measureList.filter(
+      measure => measure.key !== form.getFieldValue(measureField)
+    )
   }
 
   getColumns = () => {
@@ -87,11 +96,8 @@ export default class FormTableMeasureCondition extends Component {
                   {form.getFieldDecorator(
                     `${FIELDS.CONDITIONS}.${record.id}.measure`,
                     {
-                      onChange: value => {
-                        this.handleConditionMeasureChange(
-                          value,
-                          excludeMeasuresField
-                        )
+                      onChange: () => {
+                        this.handleConditionMeasureChange(excludeMeasuresField)
                       },
                       rules: [
                         {
@@ -143,7 +149,6 @@ export default class FormTableMeasureCondition extends Component {
         width: 528,
         render: (value, record, index) => {
           const { form } = this.props
-          const { excludeMeasureList } = this.state
 
           const measureValue = form.getFieldValue(
             `${FIELDS.CONDITIONS}.${record.id}.measure`
@@ -162,7 +167,10 @@ export default class FormTableMeasureCondition extends Component {
                 }
               )(
                 <SelectMeasureParameter
-                  measuringList={measureValue ? excludeMeasureList : []}
+                  measuringList={this.getExcludeMeasureList(
+                    `${FIELDS.CONDITIONS}.${record.id}.measure`,
+                    measureValue
+                  )}
                   mode="multiple"
                   style={{ width: '100%' }}
                   placeholder="Lựa chọn thông số sẽ loại bỏ"
@@ -207,6 +215,7 @@ export default class FormTableMeasureCondition extends Component {
     return (
       <TableCondition
         columns={this.getColumns()}
+        rowKey={record => record.id}
         dataSource={type === 'create' ? conditions : conditionsEdit}
         bordered
         pagination={false}

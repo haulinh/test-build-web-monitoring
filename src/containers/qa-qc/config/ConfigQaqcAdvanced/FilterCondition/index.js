@@ -7,6 +7,7 @@ import SelectStationAuto from 'containers/search/common/select-station-auto'
 import React from 'react'
 import ModalConditionFilter from './ModalConditionFilter'
 import TableConditionFilter from './TableConditionFilter'
+import { isEmpty } from 'lodash'
 
 export const FIELDS = {
   FILTER_NAME: 'filterName',
@@ -139,11 +140,14 @@ class FilterConditionContainer extends React.Component {
     const { form } = this.props
     const stationKeyList = form.getFieldValue(FIELDS.STATION)
     let params = {
-      type: 'value',
-      offset: 0,
-      limit: Number.MAX_SAFE_INTEGER,
-      stationKeys:
-        stationKeyList.length > 0 ? stationKeyList.join(',') : undefined,
+      ...{ type: 'value', offset: 0, limit: Number.MAX_SAFE_INTEGER },
+    }
+
+    if (!isEmpty(stationKeyList)) {
+      params = {
+        stationKeys: stationKeyList.join(','),
+        ...params,
+      }
     }
 
     try {
@@ -157,7 +161,7 @@ class FilterConditionContainer extends React.Component {
     }
   }
 
-  onCreated = isShowModalConditionFilter => {
+  onSubmitted = isShowModalConditionFilter => {
     this.setState({ isShowModalConditionFilter })
     this.getData()
   }
@@ -182,7 +186,7 @@ class FilterConditionContainer extends React.Component {
           onCancel={this.onCancelModalConditionFilter}
           showConfirmDelete={this.showModalConfirmDelete}
           dataWithConditionFilter={data}
-          showModalConditionFilter={this.onCreated}
+          showModalConditionFilter={this.onSubmitted}
           type={modalType}
         />
       ),
@@ -194,7 +198,7 @@ class FilterConditionContainer extends React.Component {
           onCancel={this.onCancelModalConditionFilter}
           showConfirmDelete={this.showModalConfirmDelete}
           dataWithConditionFilter={data}
-          showModalConditionFilter={this.onCreated}
+          showModalConditionFilter={this.onSubmitted}
           type={modalType}
         />
       ),
@@ -210,7 +214,6 @@ class FilterConditionContainer extends React.Component {
           >
             {form.getFieldDecorator(FIELDS.STATION)(
               <SelectStationAuto
-                fieldValue
                 placeholder="Chọn trạm quan trắc"
                 mode="multiple"
                 style={{ width: '100%' }}

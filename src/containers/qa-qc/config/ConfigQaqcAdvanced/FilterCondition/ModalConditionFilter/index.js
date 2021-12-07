@@ -6,13 +6,14 @@ import {
   ModalConfirmCancel,
   ModalConfirmDelete,
 } from 'containers/qa-qc/config/ConfigQaqcAdvanced/components'
-import _, { get } from 'lodash'
+import { get, keyBy } from 'lodash'
 import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { FIELDS } from '../index'
 import FormTableMeasureCondition from './FormTableMeasureCondition'
 import CalculateApi from 'api/CalculateApi'
+import { v4 as uuidv4 } from 'uuid'
 
 const StyledRow = styled(Row)`
   .ant-btn {
@@ -21,7 +22,7 @@ const StyledRow = styled(Row)`
 `
 
 const mapStateToProp = state => {
-  const stationAutoById = _.keyBy(state.stationAuto.list, '_id')
+  const stationAutoById = keyBy(state.stationAuto.list, '_id')
   return {
     stationAutoById,
   }
@@ -67,9 +68,7 @@ class ModalConditionFilter extends React.Component {
   }
 
   onStationAutosFetchSuccess = stationAutos => {
-    this.setState({
-      stationAutos,
-    })
+    this.setState({ stationAutos })
   }
 
   onChangeStationType = () => {
@@ -154,6 +153,7 @@ class ModalConditionFilter extends React.Component {
       this.setState({ isShowModalConfirmCancel: true })
       return
     }
+    this.tableRef.current.state.conditions = [{ id: uuidv4() }]
     onCancel()
   }
 
@@ -163,7 +163,11 @@ class ModalConditionFilter extends React.Component {
 
   handleCancelCreate = () => {
     const { form, onCancel } = this.props
-    this.setState({ isShowModalConfirmCancel: false })
+    this.setState({
+      isShowModalConfirmCancel: false,
+      isShowModalConditionFilter: false,
+    })
+    this.tableRef.current.state.conditions = [{ id: uuidv4() }]
     onCancel()
     form.resetFields()
   }
@@ -331,7 +335,7 @@ class ModalConditionFilter extends React.Component {
                 ],
               })(
                 <SelectStationAuto
-                  disabled={type === 'edit' ? true : !stationType}
+                  disabled={type === 'edit' || !stationType}
                   fieldValue="_id"
                   placeholder="Chọn trạm quan trắc"
                   stationType={stationType}
