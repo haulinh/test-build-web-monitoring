@@ -99,7 +99,6 @@ class ModalConditionFilter extends React.Component {
       conditionItemSelected,
     } = this.props
     const { stationAutos } = this.state
-    //Chua validate duoc khi type la edit
     const values = await form.validateFields()
     this.setState({ loading: true })
 
@@ -133,6 +132,7 @@ class ModalConditionFilter extends React.Component {
       this.setState({ loading: false })
       console.log(error)
     }
+    this.tableRef.current.state.conditions = [{ id: uuidv4() }]
     onCancel()
     form.resetFields()
     showModalConditionFilter(false)
@@ -165,7 +165,6 @@ class ModalConditionFilter extends React.Component {
     const { form, onCancel } = this.props
     this.setState({
       isShowModalConfirmCancel: false,
-      isShowModalConditionFilter: false,
     })
     this.tableRef.current.state.conditions = [{ id: uuidv4() }]
     onCancel()
@@ -188,6 +187,25 @@ class ModalConditionFilter extends React.Component {
     this.setState({ isShowModalConfirmDelete: false })
   }
 
+  deleteConditionFilterItem = async () => {
+    const { conditionItemSelected, afterDelete } = this.props
+
+    try {
+      await CalculateApi.deleteQaqcConfig(conditionItemSelected._id)
+      this.setState({
+        isShowModalConfirmDelete: false,
+      })
+      afterDelete(false)
+      message.success('Xóa thành công')
+    } catch (error) {
+      this.setState({
+        isShowModalConfirmDelete: false,
+      })
+      afterDelete(false)
+      message.error('Xóa không thành công')
+    }
+  }
+
   render() {
     const {
       form,
@@ -203,6 +221,7 @@ class ModalConditionFilter extends React.Component {
       isShowModalConfirmCancel,
       isShowModalConfirmDelete,
     } = this.state
+
     const stationType = form.getFieldValue(FIELDS.STATION_TYPE)
     const stationAutoId = form.getFieldValue(FIELDS.STATION)
 
@@ -369,7 +388,7 @@ class ModalConditionFilter extends React.Component {
           visible={isShowModalConfirmDelete}
           closable={false}
           footer={false}
-          // onConfirmDelete={this.deleteConditionFilterItem}
+          onConfirmDelete={this.deleteConditionFilterItem}
           onCancelDelete={this.onCancelModalConfirmDelete}
         />
       </Modal>
