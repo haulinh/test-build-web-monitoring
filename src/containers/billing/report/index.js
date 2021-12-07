@@ -18,6 +18,7 @@ import TableQuarter from './result/TableQuarter'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 import moment from 'moment'
+import ModalLangExport from 'components/elements/modal-lang-export'
 
 export const Fields = {
   stationType: 'stationType',
@@ -57,6 +58,8 @@ export default class BillingReport extends Component {
   state = {
     resultReport: {},
     loading: false,
+    visableModal: false,
+    langExport: 'vi'
   }
 
   getQueryParams = async () => {
@@ -139,10 +142,31 @@ export default class BillingReport extends Component {
     const params = await this.getQueryParams()
     const result = await CalculateApi.exportReportBilling({
       ...params,
-      lang: getLanguage(),
+      lang: this.state.langExport,
     })
     const { from, to } = this.getTimes()
     downFileExcel(result.data, `${t('billing.title.name')} ${from} - ${to}`)
+    this.setState({
+      visableModal: false
+    });
+  }
+
+  handleOkModal = e => {
+    this.setState({
+      visableModal: true
+    });
+  };
+
+  handleCancelModal = e => {
+    this.setState({
+      visableModal: false
+    });
+  };
+
+  onChangeModal = e => {
+    this.setState({
+      langExport: e.target.value,
+    });
   }
 
   handleOnSearch = async () => {
@@ -253,7 +277,7 @@ export default class BillingReport extends Component {
         {protectRole(ROLE.BILLING_REPORT.EXPORT)(
           <Row type="flex" justify="end">
             <Col>
-              <Button onClick={this.handleExportBilling} type="primary">
+              <Button onClick={this.handleOkModal} type="primary">
                 {t('billing.button.exportReport')}
               </Button>
             </Col>
@@ -281,6 +305,7 @@ export default class BillingReport extends Component {
           )}
         </Row>
         <Clearfix height={16} />
+        <ModalLangExport showModal={this.state.visableModal} handleOkModal={this.handleExportBilling} handleCancelModal={this.handleCancelModal} onChangeModal={this.onChangeModal} langExport={this.state.langExport} />
         {_.isEmpty(resultReport.data) ? (
           <Empty
             style={{ margin: '0 auto', padding: '8px 16px' }}

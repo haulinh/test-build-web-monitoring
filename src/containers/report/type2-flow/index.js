@@ -13,10 +13,10 @@ import DataInsight from 'api/DataInsight'
 import { TableAnyYears, TableDate, TableYear } from './TableData'
 import TableMonth from './TableData/TableMonth'
 import { translate as t } from 'hoc/create-lang'
-import { getLanguage } from 'utils/localStorage'
 import { downFileExcel } from 'utils/downFile'
 import protectRole from 'hoc/protect-role/forMenu'
 import ROLE from 'constants/role'
+import ModalLangExport from 'components/elements/modal-lang-export'
 
 export const FIELDS = {
   REPORT_TYPE: 'reportType',
@@ -35,6 +35,8 @@ export default class ReportFlow extends React.Component {
     data: [],
     loading: false,
     time: [],
+    visableModal: false,
+    langExport: 'vi'
   }
   getQueryParamsGeneral = () => {
     const { form } = this.props
@@ -251,7 +253,7 @@ export default class ReportFlow extends React.Component {
     await form.validateFields()
     const params = await this.getQueryParams()
     const { from, to, reportType } = params
-    const newParams = { ...params, lang: getLanguage() }
+    const newParams = { ...params, lang: this.state.langExport }
     const results = await DataInsight.exportDataFlow(newParams)
     const titleName = t('report.type2_flow.nameFileExel')
 
@@ -265,12 +267,33 @@ export default class ReportFlow extends React.Component {
         'YYYY'
       )}`,
     }
+    this.setState({
+      visableModal: false
+    });
     downFileExcel(results.data, dynamicNameFile[reportType])
+  }
+
+  handleOkModal = e => {
+    this.setState({
+      visableModal: true
+    });
+  };
+
+  handleCancelModal = e => {
+    this.setState({
+      visableModal: false
+    });
+  };
+
+  onChangeModal = e => {
+    this.setState({
+      langExport: e.target.value,
+    });
   }
 
   render() {
     const { form } = this.props
-    const { loading, data, time } = this.state
+    const { loading, data, time, visableModal, langExport } = this.state
 
     const Report = {
       custom: <TableDate data={data} loading={loading} />,
@@ -325,7 +348,7 @@ export default class ReportFlow extends React.Component {
             {protectRole(ROLE.REPORT_FLOW.EXPORT)(
               <Col align="end" span={4}>
                 <Button
-                  onClick={this.exportExcel}
+                  onClick={this.handleOkModal}
                   icon="file-excel"
                   type="primary"
                 >
@@ -337,6 +360,7 @@ export default class ReportFlow extends React.Component {
           {Report[type]}
         </div>
         <Clearfix height={50} />
+        <ModalLangExport showModal={visableModal} handleOkModal={this.exportExcel} handleCancelModal={this.handleCancelModal} onChangeModal={this.onChangeModal} langExport={langExport} />
       </PageContainer>
     )
   }

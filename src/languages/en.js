@@ -4156,4 +4156,17 @@ export default {
       notUpdate: 'Not updated',
     },
   },
+  modalExportLang: {
+    title: 'Export excel',
+    content: 'Select language to export',
+    language: {
+      en: 'English',
+      vi: 'Vietnamese',
+      tw: 'Taiwan'
+    },
+    button: {
+      ok: 'Confirm',
+      cancel: 'Cancel'
+    }
+  }
 }
