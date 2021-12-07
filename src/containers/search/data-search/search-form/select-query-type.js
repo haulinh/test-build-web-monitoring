@@ -8,11 +8,11 @@ import createValidateComponent from 'components/elements/redux-form-validate'
 
 const options = [
   {
-    key: 'RAW',
+    key: 'original',
     label: () => translate('qaqc.originalData'),
   },
-  { key: 'QCVN', label: () => translate('qaqc.validData') },
-  { key: 'ANTI_QCVN', label: () => translate('qaqc.inValidData') },
+  { key: 'valid', label: () => translate('qaqc.validData') },
+  { key: 'invalid', label: () => translate('qaqc.inValidData') },
 ]
 @autobind
 class SelectQueryType extends PureComponent {
@@ -22,7 +22,7 @@ class SelectQueryType extends PureComponent {
   }
 
   state = {
-    value: 'RAW',
+    value: 'original',
   }
 
   onChange = value => {

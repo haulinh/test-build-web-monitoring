@@ -480,6 +480,8 @@ export default {
     deviceCalibration: 'Thiết bị hiệu chuẩn',
     zero: 'Giá trị 0',
     negative: 'Giá trị Âm',
+    timeRange: 'Khoảng thời gian',
+    valueRange: 'Điều kiện giá trị',
     basic: {
       title: 'Bộ lọc cơ bản',
       useBasicConfig: 'Giá trị 0, âm và lặp lại',

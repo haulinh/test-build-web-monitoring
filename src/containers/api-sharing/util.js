@@ -21,6 +21,8 @@ export function generateGetUrl(url) {
 }
 
 export const getMeasuringListFromStationAutos = stationAutos => {
+  if (_.isEmpty(stationAutos[0])) return []
+
   const measureList = stationAutos.reduce(
     (base, current) => [...base, ...current.measuringList],
     []

@@ -456,6 +456,8 @@ export default {
     originalData: 'Original data',
     validData: 'Valid data',
     inValidData: 'Invalid data',
+    timeRange: 'Time Range',
+    valueRange: 'Value Condition',
     ok: 'OK',
     province: {
       label: 'Select Site',

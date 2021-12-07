@@ -1,220 +1,203 @@
-import React from 'react'
-import { autobind } from 'core-decorators'
-import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import DataStationAutoApi from 'api/DataStationAutoApi'
+import { Button, Col, Row } from 'antd'
+import DataInsight from 'api/DataInsight'
+import BoxShadowStyle from 'components/elements/box-shadow'
 import Clearfix from 'components/elements/clearfix/index'
-import { translate } from 'hoc/create-lang'
-import TabList from './tab-list'
-import Breadcrumb from './breadcrumb'
-import SearchFrom from './search-form'
-import DataAnalyze from './tab-list/tab-table-data-list/data-analyze'
-import { message, Spin } from 'antd'
+import Heading from 'components/elements/heading'
+import SelectQCVN from 'components/elements/select-qcvn-v2'
 import ROLE from 'constants/role'
+import createLang, { translate } from 'hoc/create-lang'
 import protectRole from 'hoc/protect-role'
 import queryFormDataBrowser from 'hoc/query-formdata-browser'
-import swal from 'sweetalert2'
-import { isEqual as _isEqual } from 'lodash'
+import PageContainer from 'layout/default-sidebar-layout/PageContainer'
+import moment from 'moment-timezone'
+import React from 'react'
 import { connect } from 'react-redux'
+import { getTimes, getTimesUTC } from 'utils/datetime'
+import { getParamArray } from 'utils/params'
+import Breadcrumb from './breadcrumb'
+import SearchFrom from './search-form'
+import TabList from './tab-list'
+import DataAnalyze from './tab-list/tab-table-data-list/data-analyze'
+
+export const fields = {
+  stationKey: 'stationKey',
+  stationType: 'stationType',
+  rangesDate: 'rangesDate',
+  dataType: 'dataType',
+  filterBy: 'filterBy',
+  isExceeded: 'isExceeded',
+  province: 'province',
+  measuringList: 'measuringList',
+  facetFields: 'facetFields',
+}
 
 @protectRole(ROLE.DATA_SEARCH.VIEW)
 @queryFormDataBrowser(['submit'])
 @connect(state => ({
   locale: state.language.locale,
 }))
-@autobind
+@createLang
 export default class MinutesDataSearch extends React.Component {
   state = {
-    dataStationAuto: [],
-    dataAnalyzeStationAuto: [],
-    measuringList: [],
-    measuringData: [],
-    searchFormData: {},
-    lines: [],
-    isLoading: false,
-    isHaveData: false,
-    isExporting: false,
-    pagination: {
-      current: 1,
-      pageSize: 50,
-    },
+    summary: [],
+    data: [],
+    pagination: {},
+    standards: [],
+    loadingData: false,
+    loadingSummary: false,
   }
+  searchFormRef = React.createRef()
 
-  handleSubmitSearch(searchFormData) {
-    this.setState(
-      {
-        measuringList: [...(searchFormData.measuringList || [])],
-      },
-      () => this.loadData(this.state.pagination, searchFormData)
-    )
-  }
+  getQueryParam = () => {
+    const values = this.searchFormRef.current.getFieldsValue()
+    const { standards } = this.state
 
-  async loadData(pagination, searchFormData) {
-    // console.log("LOad data ...")
-    // console.log(this.state.measuringList, '==mealist')
-    this.setState({
-      isLoading: true,
-      isHaveData: true,
-    })
-    let paginationQuery = pagination
-    if (!_isEqual(searchFormData, this.state.searchFormData)) {
-      paginationQuery = {
-        ...paginationQuery,
-        current: 1,
-      }
+    const times = getTimes(values[fields.rangesDate])
+    const { from, to } = getTimesUTC(times)
+    const params = {
+      ...values,
+      from,
+      to,
+      [fields.measuringList]: getParamArray(values[fields.measuringList]),
+      [fields.filterBy]: getParamArray(values[fields.filterBy]),
+      page: 1,
+      itemPerPage: 50,
+      standards: getParamArray(standards),
     }
+    return params
+  }
 
-    // console.log("CAll api with data " + JSON.stringify(searchFormData, null, 2))
-    let dataStationAuto = await DataStationAutoApi.getDataStationAutos(
-      {
-        page: paginationQuery.current,
-        itemPerPage: paginationQuery.pageSize,
-      },
-      searchFormData
-    )
+  handleOnSearch = async () => {
+    const { stationKey, ...queryParams } = this.getQueryParam()
+    this.setState({ loadingData: true, loadingSummary: true })
 
-    if (
-      dataStationAuto &&
-      Array.isArray(dataStationAuto.data) &&
-      dataStationAuto.data.length === 0
-    ) {
-      swal({
-        type: 'success',
-        title: translate('dataSearchFrom.table.emptyText'),
+    const over1Year =
+      moment(queryParams.to).diff(moment(queryParams.from), 'year') > 1
+    if (over1Year) {
+      DataInsight.getDataOriginal(stationKey, {
+        ...queryParams,
+        [fields.facetFields]: 'summary,pagination',
       })
+        .then(res => {
+          this.setState({
+            summary: res.summary,
+            pagination: res.pagination,
+            loadingSummary: false,
+          })
+        })
+        .catch(e => {
+          this.setState({ loadingSummary: false })
+        })
+
+      DataInsight.getDataOriginal(stationKey, {
+        ...queryParams,
+        [fields.facetFields]: 'data',
+      })
+        .then(res => this.setState({ data: res.data, loadingData: false }))
+        .catch(e => this.setState({ loadingData: false }))
+      return
     }
 
-    let dataAnalyzeStationAuto = await DataStationAutoApi.getDataAnalyzeStationAutos(
-      searchFormData
-    )
+    try {
+      const res = await DataInsight.getDataOriginal(stationKey, {
+        ...queryParams,
+      })
 
-    this.setState(
-      {
-        isLoading: false,
-        dataAnalyzeStationAuto: dataAnalyzeStationAuto.success
-          ? dataAnalyzeStationAuto.data
-          : [],
-        dataStationAuto: dataStationAuto.data,
-        measuringData: searchFormData.measuringData,
-        measuringList: searchFormData.measuringList,
-        searchFormData: searchFormData,
-        pagination: {
-          ...paginationQuery,
-          total:
-            dataStationAuto && dataStationAuto.pagination
-              ? dataStationAuto.pagination.totalItem
-              : 0,
-        },
-      },
-      () => {
-        const listMeaHaveData = this.state.dataAnalyzeStationAuto.map(
-          mea => mea.key
-        )
-        // console.log(this.state.dataAnalyzeStationAuto, '==data founed')
-        const meaDonHaveData = this.state.measuringList.filter(
-          mea => !listMeaHaveData.includes(mea)
-        )
-
-        // console.log(meaDonHaveData, '==meaDonHaveData==')
-        this.setState({
-          dataAnalyzeStationAuto: [
-            ...this.state.dataAnalyzeStationAuto,
-            ...meaDonHaveData.map(mea => {
-              return {
-                key: mea,
-                avg: { data: [] },
-                min: { data: [] },
-                max: { data: [] },
-              }
-            }),
-          ],
-        })
-      }
-    )
+      this.setState({
+        summary: res.summary,
+        pagination: res.pagination,
+        data: res.data,
+        loadingData: false,
+        loadingSummary: false,
+      })
+    } catch (error) {
+      this.setState({ loadingData: false, loadingSummary: false })
+    }
   }
 
-  handleChangePage(pagination) {
-    this.loadData({ ...pagination, pageSize: 50 }, this.state.searchFormData)
-  }
-
-  async handleExportExcel() {
-    this.setState({
-      isExporting: true,
-    })
-    let res = await DataStationAutoApi.getExportData({
-      ...this.state.searchFormData,
-      language: this.props.locale || 'EN',
-    })
-    if (res && res.success) {
-      // window.location.href =  res.data
-      window.open(res.data, '_blank')
-      // return
-    } else message.error('Export Error') //message.error(res.message)
-
-    this.setState({
-      isExporting: false,
+  onChangeQcvn = standards => {
+    this.setState({ standards }, () => {
+      this.handleOnSearch()
     })
   }
 
-  onChangeQcvn = keys => {
-    this.setState(
-      prev => ({
-        ...prev,
-        searchFormData: {
-          ...prev.searchFormData,
-          standardsVN: keys,
-        },
-      }),
-      () => {
-        this.loadData(this.state.pagination, this.state.searchFormData)
-      }
+  getMeasuringList = () => {
+    const measuringList = this.searchFormRef.current.getFieldValue(
+      fields.measuringList
     )
+
+    return measuringList || []
   }
 
   render() {
+    const { data, summary, loadingData, loadingSummary } = this.state
+
+    const measuringList = this.searchFormRef.current
+      ? this.getMeasuringList()
+      : []
+
     return (
       <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
-        <Spin
-          size="large"
-          tip={translate('dataSearchFrom.tab.statusExport')}
-          spinning={this.state.isExporting}
-        >
-          <Breadcrumb items={['list']} />
-          <Clearfix height={16} />
-          <SearchFrom
-            standardsVN={this.state.searchFormData.standardsVN}
-            initialValues={this.props.formData}
-            measuringData={this.props.formData.measuringData}
-            onSubmit={this.handleSubmitSearch}
-            searchNow={this.props.formData.searchNow}
-            formDataSearch={this.props.formData}
-          />
-          <Clearfix height={16} />
-          {this.state.isHaveData ? (
-            <DataAnalyze
-              dataAnalyzeStationAuto={this.state.dataAnalyzeStationAuto}
-              locale={{
-                emptyText: translate('dataSearchFrom.table.emptyText'),
-              }}
-            />
-          ) : null}
-          <Clearfix height={16} />
+        <Breadcrumb items={['list']} />
 
-          {this.state.isHaveData ? (
-            <TabList
-              isLoading={this.state.isLoading}
-              dataAnalyzeStationAuto={this.state.dataAnalyzeStationAuto}
-              measuringData={this.state.measuringData}
-              measuringList={this.state.measuringList}
-              dataStationAuto={this.state.dataStationAuto}
-              pagination={this.state.pagination}
-              onChangePage={this.handleChangePage}
-              onExportExcel={this.handleExportExcel}
-              nameChart={this.state.searchFormData.name}
-              isExporting={this.state.isExporting}
-              onChangeQcvn={this.onChangeQcvn}
+        <Clearfix height={16} />
+        <BoxShadowStyle>
+          <Heading
+            rightChildren={
+              <Button
+                type="primary"
+                icon="search"
+                size="small"
+                onClick={this.handleOnSearch}
+              >
+                {this.props.lang.t('addon.search')}
+              </Button>
+            }
+            textColor="#ffffff"
+            isBackground
+            fontSize={14}
+            style={{ padding: '8px 16px' }}
+          >
+            {this.props.lang.t('addon.search')}
+          </Heading>
+          <SearchFrom ref={this.searchFormRef} />
+        </BoxShadowStyle>
+
+        <Clearfix height={16} />
+        <DataAnalyze
+          loading={loadingSummary}
+          dataAnalyzeStationAuto={summary}
+          locale={{
+            emptyText: translate('dataSearchFrom.table.emptyText'),
+          }}
+        />
+
+        <Clearfix height={16} />
+        <Row gutter={12} style={{ marginLeft: 16 }} type="flex" align="middle">
+          <span
+            style={{
+              fontSize: '14px',
+              fontWeight: 600,
+            }}
+          >
+            {translate('dataAnalytics.standardViews')}
+          </span>
+          <Col span={8}>
+            <SelectQCVN
+              fieldValue="key"
+              mode="multiple"
+              maxTagCount={3}
+              maxTagTextLength={18}
+              onChange={this.onChangeQcvn}
             />
-          ) : null}
-        </Spin>
+          </Col>
+        </Row>
+
+        <TabList
+          loading={loadingData}
+          dataStationAuto={data}
+          measuringList={measuringList}
+        />
       </PageContainer>
     )
   }
