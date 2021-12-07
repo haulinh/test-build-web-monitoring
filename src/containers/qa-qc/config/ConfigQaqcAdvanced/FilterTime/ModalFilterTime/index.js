@@ -54,7 +54,7 @@ export default class ModalFilterTime extends Component {
   getConditionParam = () => {
     const { form } = this.props
     const { conditions } = form.getFieldsValue()
-    console.log({ conditions })
+    // console.log({ conditions })
 
     //convert condition array to condition object
     const conditionList = Object.entries(conditions)

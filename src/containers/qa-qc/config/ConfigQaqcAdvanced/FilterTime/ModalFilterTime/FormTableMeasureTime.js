@@ -2,13 +2,17 @@ import { DatePicker, Table } from 'antd'
 import { FormItem } from 'components/layouts/styles'
 import moment from 'moment-timezone'
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
 const { RangePicker } = DatePicker
 
+@connect(state => ({
+  measuresObj: state.global.measuresObj,
+}))
 export default class FormTableMeasureTime extends Component {
   getColumns = () => {
-    const { measureKeyListSelected, isEdit } = this.props
-
+    const { measureKeyListSelected, isEdit, measuresObj } = this.props
+    // console.log({ measuresObj })
     const { form } = this.props
 
     return [
@@ -18,7 +22,9 @@ export default class FormTableMeasureTime extends Component {
         key: 'measure',
         render: value => {
           // const measureKey = measure.map(measure => measure.measure)
-          return <div style={{ fontWeight: 500 }}>{value}</div>
+          return (
+            <div style={{ fontWeight: 500 }}>{measuresObj[value].name}</div>
+          )
         },
       },
       {
@@ -41,7 +47,9 @@ export default class FormTableMeasureTime extends Component {
                 <RangePicker
                   disabled={!measureKeyListSelected.includes(value.measure)}
                   style={{ width: '100%', padding: 0 }}
-                  format={['DD/MM/YYYY']}
+                  showTime={{ format: 'HH:mm' }}
+                  format="HH:mm DD-MM-YYYY"
+                  placeholder={['Thời gian bắt đầu', 'Thời gian kết thúc']}
                 />
               )}
             </FormItem>
