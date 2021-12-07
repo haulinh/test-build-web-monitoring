@@ -3,6 +3,7 @@ import React from 'react'
 import moment from 'moment'
 import { connect } from 'react-redux'
 import { get } from 'lodash'
+import { v4 as uuidv4 } from 'uuid'
 
 const TableConditionFilter = ({
   setEditItemKey,
@@ -28,7 +29,7 @@ const TableConditionFilter = ({
         _id: current._id,
         name: current.name,
         station: current.station,
-        key: `${current._id}_${dataItem.measure}`,
+        key: `${current._id}_${dataItem.measure}_${uuidv4()}`,
         conditionMeasureItem: `${get(measuresObj[dataItem.measure], 'name')} ${
           operators[dataItem.operator]
         } ${dataItem.value}`,
