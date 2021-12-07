@@ -86,8 +86,8 @@ const TableDataDate = ({ data, loading, ...props }) => {
         title: i18n().over_value,
         width: 90,
         align: 'right',
-        dataIndex: `data.${column - 1}-over-value`,
-        key: `data.${column - 1}`,
+        key: `data.${column - 1}-over-value`,
+        dataIndex: `data.${column - 1}`,
         render: value => {
           return (
             <div>
@@ -140,7 +140,7 @@ const TableDataDate = ({ data, loading, ...props }) => {
       align: 'right',
       dataIndex: 'config',
       render: value => {
-        if (!value.maxLimit) return <div>{'-'}</div>
+        if (!_.isNumber(value.maxLimit)) return <div>{'-'}</div>
 
         if (_.isNumber(value.maxLimit) && !_.isNumber(value.minLimit))
           return <div>{value.maxLimit}</div>
@@ -157,14 +157,14 @@ const TableDataDate = ({ data, loading, ...props }) => {
           width: 80,
           align: 'right',
           dataIndex: 'avg',
-          render: value => <div>{!_.isEmpty(value) ? value : '-'}</div>,
+          render: value => <div>{!_.isNumber(value) ? value : '-'}</div>,
         },
         {
           title: i18n().max_value,
           width: 120,
           align: 'right',
           dataIndex: 'max',
-          render: value => <div>{!_.isEmpty(value) ? value : '-'}</div>,
+          render: value => <div>{!_.isNumber(value) ? value : '-'}</div>,
         },
       ],
     },

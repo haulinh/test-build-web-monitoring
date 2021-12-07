@@ -111,7 +111,7 @@ const TableYear = ({ data, loading, ...props }) => {
       width: 90,
       align: 'right',
       render: qcvn => {
-        if (!qcvn || !qcvn.maxLimit) return '-'
+        if (!qcvn || !_.isNumber(qcvn.maxLimit)) return '-'
 
         if (_.isNumber(qcvn.maxLimit) && !_.isNumber(qcvn.minLimit))
           return <div>{qcvn.maxLimit}</div>

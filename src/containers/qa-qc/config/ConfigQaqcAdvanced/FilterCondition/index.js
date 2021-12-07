@@ -1,6 +1,6 @@
 import { Button, Col, Form, Icon, message, Row, Switch } from 'antd'
 import CalculateApi from 'api/CalculateApi'
-import { getValueToggleQaqcConfig, toggleQaqcConfig } from 'api/CategoryApi'
+import { toggleQaqcConfig } from 'api/CategoryApi'
 import { Clearfix } from 'components/layouts/styles'
 import { ModalConfirmDelete } from 'containers/qa-qc/config/ConfigQaqcAdvanced/components'
 import SelectStationAuto from 'containers/search/common/select-station-auto'
@@ -20,7 +20,6 @@ export const FIELDS = {
 // const i18n = {
 //   title: 'Thêm điều kiện bộ lọc mới',
 // }
-
 @Form.create()
 class FilterConditionContainer extends React.Component {
   state = {
@@ -31,20 +30,11 @@ class FilterConditionContainer extends React.Component {
     conditionItemSelected: {},
     data: [],
     loading: false,
-    isApplyConditionFilter: true,
     modalType: '',
   }
 
   async componentDidMount() {
     await this.getData()
-    try {
-      const response = await getValueToggleQaqcConfig()
-      this.setState({
-        isApplyConditionFilter: response.data.value.excludeParametersByValue,
-      })
-    } catch (error) {
-      console.log(error)
-    }
   }
 
   getData = async () => {
@@ -132,14 +122,13 @@ class FilterConditionContainer extends React.Component {
   }
 
   onChangeSwitchFilter = async value => {
+    const { toggleExcludeParametersByValue } = this.props
     const param = {
       excludeParametersByValue: value,
     }
     try {
       await toggleQaqcConfig(param)
-      this.setState({
-        isApplyConditionFilter: value,
-      })
+      toggleExcludeParametersByValue(value)
     } catch (error) {
       console.log(error)
     }
@@ -182,12 +171,11 @@ class FilterConditionContainer extends React.Component {
       isShowModalConditionFilter,
       isShowModalConfirmDelete,
       data,
-      isApplyConditionFilter,
       loading,
       modalType,
       conditionItemSelected,
     } = this.state
-    const { form } = this.props
+    const { form, excludeParametersByValue } = this.props
 
     const DynamicModalConditionFilter = {
       create: (
@@ -245,7 +233,7 @@ class FilterConditionContainer extends React.Component {
             <Row type="flex" justify="end" align="middle">
               <Col>
                 <Switch
-                  checked={isApplyConditionFilter}
+                  checked={excludeParametersByValue}
                   onClick={this.onChangeSwitchFilter}
                 />
               </Col>
@@ -270,7 +258,7 @@ class FilterConditionContainer extends React.Component {
           dataSource={data}
           loading={loading}
           setDeleteItemKey={this.setDeleteItem}
-          isDisabled={!isApplyConditionFilter}
+          isDisabled={!excludeParametersByValue}
           footer={() => (
             <Row type="flex" style={{ color: '#1890FF' }} align="middle">
               <Button

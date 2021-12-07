@@ -176,7 +176,6 @@ const TableConditionFilter = ({
       style={{
         ...(isDisabled && {
           pointerEvents: 'none',
-
           opacity: 0.5,
         }),
       }}
