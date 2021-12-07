@@ -20,6 +20,7 @@ import moment from 'moment-timezone'
 import protectRole from 'hoc/protect-role'
 import ROLE from 'constants/role'
 import { connect } from 'react-redux'
+import ModalLangExport from 'components/elements/modal-lang-export'
 
 // import axios from 'axios'
 
@@ -51,6 +52,8 @@ export default class ReportType11 extends React.Component {
       stationName: '',
       dayFormat: '',
       measuringList: [],
+      visableModal: false,
+      langExport: 'VI'
     }
   }
 
@@ -145,13 +148,34 @@ export default class ReportType11 extends React.Component {
   handleExcel = async () => {
     let res = await downloadExcel_DataStationAutov1({
       ...this.state.dataSearch,
-      language: this.props.locale || 'EN',
+      language: this.state.langExport.toUpperCase() || 'EN',
       name: this.state.stationName,
     })
+    this.setState({
+      visableModal: false
+    });
     // console.log(url, '==url==')
     // console.log('this.state.dataSearch', res.data)
     window.location.href = res.data
     // window.open(url, '_blank')
+  }
+
+  handleOkModal = e => {
+    this.setState({
+      visableModal: true
+    });
+  };
+
+  handleCancelModal = e => {
+    this.setState({
+      visableModal: false
+    });
+  };
+
+  onChangeModal = e => {
+    this.setState({
+      langExport: e.target.value,
+    });
   }
 
   render() {
@@ -183,7 +207,7 @@ export default class ReportType11 extends React.Component {
                   type="primary"
                   icon="file-excel"
                   loading={this.state.isLoadingExcel}
-                  onClick={this.handleExcel}
+                  onClick={this.handleOkModal}
                 >
                   {translate('avgSearchFrom.tab.exportExcel')}
                 </Button>
@@ -203,6 +227,7 @@ export default class ReportType11 extends React.Component {
             pagination={false}
           />
         </Spin>
+        <ModalLangExport showModal={this.state.visableModal} handleOkModal={this.handleExcel} handleCancelModal={this.handleCancelModal} onChangeModal={this.onChangeModal} langExport={this.state.langExport} />
       </PageContainer>
     )
   }

@@ -18,6 +18,7 @@ import protectRole from 'hoc/protect-role'
 import ROLE from 'constants/role'
 
 import { connect } from 'react-redux'
+import ModalLangExport from 'components/elements/modal-lang-export'
 
 // import axios from 'axios'
 
@@ -50,6 +51,8 @@ export default class ReportType2 extends React.Component {
       stationName: '',
       monthYear: '',
       measuringList: [],
+      visableModal: false,
+      langExport: 'VI'
     }
   }
 
@@ -136,14 +139,35 @@ export default class ReportType2 extends React.Component {
       this.state.dataSearch.measuringListStr,
       this.state.dataSearch.measuringListUnitStr,
       this.state.isFilter,
-      this.props.locale
+      this.state.langExport.toUpperCase()
     )
     if (res && res.success) window.location = res.data
     else message.error('Export Error') //message.error(res.message)
+    this.setState({
+      visableModal: false
+    });
 
     // console.log("getUrlReportType1", url);
     // window.location.href = url
     // window.open(url, '_blank')
+  }
+
+  handleOkModal = e => {
+    this.setState({
+      visableModal: true
+    });
+  };
+
+  handleCancelModal = e => {
+    this.setState({
+      visableModal: false
+    });
+  };
+
+  onChangeModal = e => {
+    this.setState({
+      langExport: e.target.value,
+    });
   }
 
   render() {
@@ -175,7 +199,7 @@ export default class ReportType2 extends React.Component {
                   type="primary"
                   icon="file-excel"
                   loading={this.state.isLoadingExcel}
-                  onClick={this.handleExcel}
+                  onClick={this.handleOkModal}
                 >
                   {translate('avgSearchFrom.tab.exportExcel')}
                 </Button>
@@ -195,6 +219,7 @@ export default class ReportType2 extends React.Component {
             pagination={false}
           />
         </Spin>
+        <ModalLangExport showModal={this.state.visableModal} handleOkModal={this.handleExcel} handleCancelModal={this.handleCancelModal} onChangeModal={this.onChangeModal} langExport={this.state.langExport} />
       </PageContainer>
     )
   }
