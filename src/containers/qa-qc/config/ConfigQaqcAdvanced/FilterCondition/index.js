@@ -17,9 +17,6 @@ export const FIELDS = {
   CONDITIONS: 'conditions',
 }
 
-// const i18n = {
-//   title: 'Thêm điều kiện bộ lọc mới',
-// }
 @Form.create()
 class FilterConditionContainer extends React.Component {
   state = {
@@ -166,6 +163,11 @@ class FilterConditionContainer extends React.Component {
     this.getData()
   }
 
+  onDeleted = isShowModalConditionFilter => {
+    this.setState({ isShowModalConditionFilter })
+    this.getData()
+  }
+
   render() {
     const {
       isShowModalConditionFilter,
@@ -199,6 +201,7 @@ class FilterConditionContainer extends React.Component {
           showConfirmDelete={this.showModalConfirmDelete}
           dataWithConditionFilter={data}
           showModalConditionFilter={this.onSubmitted}
+          afterDelete={this.onDeleted}
           type={modalType}
         />
       ),
