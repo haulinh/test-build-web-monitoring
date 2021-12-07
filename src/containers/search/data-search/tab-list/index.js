@@ -1,16 +1,14 @@
-import React from 'react'
-import { autobind } from 'core-decorators'
-import { Tabs, Button, Row, Col } from 'antd'
-import PropTypes from 'prop-types'
-import { translate } from 'hoc/create-lang'
-import styled from 'styled-components'
-import BoxShadow from 'components/elements/box-shadow/index'
-import TabTableDataList from './tab-table-data-list/index'
-import TabChart from './tab-chart/index'
-import ROLE from 'constants/role'
-import protectRole from 'hoc/protect-role'
-import * as _ from 'lodash'
+import { Button, Tabs } from 'antd'
 import { Clearfix } from 'components/elements'
+import BoxShadow from 'components/elements/box-shadow/index'
+import ROLE from 'constants/role'
+import { autobind } from 'core-decorators'
+import { translate } from 'hoc/create-lang'
+import protectRole from 'hoc/protect-role'
+import React from 'react'
+import styled from 'styled-components'
+import TabChart from './tab-chart/index'
+import TabTableDataList from './tab-table-data-list/index'
 
 const TabeListWrapper = styled(BoxShadow)`
   padding: 0px 16px 16px 16px;
@@ -25,20 +23,8 @@ const ButtonAbsolute = styled.div`
 
 @autobind
 export default class TabeList extends React.PureComponent {
-  static propTypes = {
-    isLoading: PropTypes.bool,
-    measuringList: PropTypes.array,
-    measuringData: PropTypes.array,
-    dataStationAuto: PropTypes.array,
-    pagination: PropTypes.object,
-    onChangePage: PropTypes.func,
-    onExportExcel: PropTypes.func,
-    nameChart: PropTypes.string,
-    isExporting: PropTypes.bool,
-    onChangeQcvn: PropTypes.func,
-  }
-
   render() {
+    const { loading, measuringList, dataStationAuto } = this.props
     return (
       <TabeListWrapper>
         <Clearfix height={16} />
@@ -58,23 +44,16 @@ export default class TabeList extends React.PureComponent {
         <Tabs defaultActiveKey="1">
           <Tabs.TabPane tab={translate('dataSearchFrom.tab.data')} key="1">
             <TabTableDataList
-              // qcvns={this.state.qcvns}
-              loading={this.props.isLoading}
-              measuringList={this.props.measuringList}
-              dataAnalyzeStationAuto={this.props.dataAnalyzeStationAuto}
-              measuringData={this.props.measuringData}
-              dataSource={this.props.dataStationAuto}
-              pagination={this.props.pagination}
-              onChange={this.props.onChangePage}
+              loading={loading}
+              dataSource={dataStationAuto}
+              measuringList={measuringList}
             />
           </Tabs.TabPane>
           <Tabs.TabPane tab={translate('dataSearchFrom.tab.chart')} key="2">
             <TabChart
-              dataStationAuto={this.props.dataStationAuto || []}
-              measuringData={_.filter(this.props.measuringData, ({ key }) =>
-                _.includes(this.props.measuringList || [], key)
-              )}
-              nameChart={this.props.nameChart}
+              measuringList={measuringList}
+              dataStationAuto={dataStationAuto}
+              nameChart={'ga'}
             />
           </Tabs.TabPane>
         </Tabs>

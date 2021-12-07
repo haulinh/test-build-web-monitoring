@@ -1,6 +1,4 @@
-import { Button, Col, Form, Row, Switch } from 'antd'
-import { default as BoxShadowStyle } from 'components/elements/box-shadow'
-import Heading from 'components/elements/heading'
+import { Col, Form, Row, Switch } from 'antd'
 import OptionsTimeRange from 'components/elements/options-time-range'
 import SelectAnt from 'components/elements/select-ant'
 import SelectProvince from 'components/elements/select-province'
@@ -11,11 +9,10 @@ import { FormItem } from 'components/layouts/styles'
 import { getMeasuringListFromStationAutos } from 'containers/api-sharing/util'
 import { autobind } from 'core-decorators'
 import createLang, { translate } from 'hoc/create-lang'
-import * as _ from 'lodash'
 import React from 'react'
 import styled from 'styled-components'
+import { fields } from '../index'
 
-const SearchFormContainer = styled(BoxShadowStyle)``
 const Container = styled.div`
   padding: 16px 16px;
 `
@@ -84,17 +81,6 @@ const qaqcOptions = [
 //   return errors
 // }
 
-const fields = {
-  stationAuto: 'stationAuto',
-  stationType: 'stationType',
-  rangesDate: 'rangesDate',
-  queryType: 'queryType',
-  qcvnOptions: 'qcvnOptions',
-  isExceeded: 'isExceeded',
-  province: 'province',
-  measuringList: 'measuringList',
-}
-
 @Form.create()
 @createLang
 @autobind
@@ -132,7 +118,7 @@ export default class SearchFormHistoryData extends React.Component {
     const {
       [fields.province]: province,
       [fields.stationType]: stationType,
-      [fields.queryType]: queryType,
+      [fields.dataType]: dataType,
     } = form.getFieldsValue()
     const measureOptions = this.getMeasureOptions()
 
@@ -159,7 +145,7 @@ export default class SearchFormHistoryData extends React.Component {
           </Col>
           <Col span={6}>
             <FormItem label={t('stationAuto.label')}>
-              {form.getFieldDecorator(fields.stationAuto, {
+              {form.getFieldDecorator(fields.stationKey, {
                 rules: [
                   {
                     required: true,
@@ -199,24 +185,24 @@ export default class SearchFormHistoryData extends React.Component {
           </Col>
           <Col span={3}>
             <FormItem label={t('isExceeded.label')}>
-              {form.getFieldDecorator(fields.isExceeded)(
-                <Switch size="large" />
-              )}
+              {form.getFieldDecorator(fields.isExceeded, {
+                valuePropName: 'checked',
+              })(<Switch size="large" />)}
             </FormItem>
           </Col>
         </Row>
         <Row gutter={16}>
           <Col span={6}>
             <FormItem label={translate('dataSearchFrom.queryType')}>
-              {form.getFieldDecorator(fields.queryType, {
+              {form.getFieldDecorator(fields.dataType, {
                 initialValue: 'origin',
               })(<SelectQueryType size="large" isShowAll />)}
             </FormItem>
           </Col>
-          {queryType === 'invalid' && (
+          {dataType === 'invalid' && (
             <Col span={12}>
               <FormItem label={translate('dataSearchFrom.filterDataBy')}>
-                {form.getFieldDecorator(fields.qcvnOptions)(
+                {form.getFieldDecorator(fields.filterBy)(
                   <SelectAnt
                     style={{ width: '100%' }}
                     options={qaqcOptions}
