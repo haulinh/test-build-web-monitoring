@@ -317,6 +317,7 @@ export default class FilterTimeContainer extends Component {
               isModalConfirmCancel: false,
             })
           }
+          type={modalType}
           onConfirmCancel={this.handleConfirmCancel}
           visible={isModalConfirmCancel}
           onCancelOut={this.closeModalConfirmCancel}
