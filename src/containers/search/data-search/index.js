@@ -7,7 +7,6 @@ import SelectQCVN from 'components/elements/select-qcvn-v2'
 import ROLE from 'constants/role'
 import createLang, { translate } from 'hoc/create-lang'
 import protectRole from 'hoc/protect-role'
-import queryFormDataBrowser from 'hoc/query-formdata-browser'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import moment from 'moment-timezone'
 import React from 'react'
@@ -29,12 +28,13 @@ export const fields = {
   province: 'province',
   measuringList: 'measuringList',
   facetFields: 'facetFields',
+  from: 'from',
+  to: 'to',
 }
 
 export const ITEM_PER_PAGE = 50
 
 @protectRole(ROLE.DATA_SEARCH.VIEW)
-@queryFormDataBrowser(['submit'])
 @connect(state => ({
   locale: state.language.locale,
 }))
@@ -51,8 +51,15 @@ export default class MinutesDataSearch extends React.Component {
   }
   searchFormRef = React.createRef()
 
-  getQueryParam = () => {
-    const values = this.searchFormRef.current.getFieldsValue()
+  getValuesForm = e => {
+    if (!e) return null
+    if (e.hasOwnProperty('valuesForm')) return e.valuesForm
+    return null
+  }
+
+  getQueryParam = e => {
+    const valuesForm = this.getValuesForm(e)
+    const values = valuesForm || this.searchFormRef.current.getFieldsValue()
     const { standards, page } = this.state
 
     const times = getTimes(values[fields.rangesDate])
@@ -70,8 +77,10 @@ export default class MinutesDataSearch extends React.Component {
     return params
   }
 
-  handleOnSearch = async () => {
-    const { stationKey, rangesDate, ...queryParams } = this.getQueryParam()
+  handleOnSearch = async valuesForm => {
+    const { stationKey, rangesDate, ...queryParams } = this.getQueryParam(
+      valuesForm
+    )
     this.setState({ loadingData: true, loadingSummary: true })
 
     const over1Year =
@@ -103,6 +112,7 @@ export default class MinutesDataSearch extends React.Component {
           })
         )
         .catch(e => this.setState({ loadingData: false }))
+
       return
     }
 
@@ -110,7 +120,6 @@ export default class MinutesDataSearch extends React.Component {
       const res = await DataInsight.getDataOriginal(stationKey, {
         ...queryParams,
       })
-
       this.setState({
         summary: res.summary,
         data: res.data,
@@ -162,6 +171,7 @@ export default class MinutesDataSearch extends React.Component {
           <Heading
             rightChildren={
               <Button
+                loading={loadingData || loadingSummary}
                 type="primary"
                 icon="search"
                 size="small"
@@ -177,7 +187,7 @@ export default class MinutesDataSearch extends React.Component {
           >
             {this.props.lang.t('addon.search')}
           </Heading>
-          <SearchFrom ref={this.searchFormRef} />
+          <SearchFrom ref={this.searchFormRef} onSearch={this.handleOnSearch} />
         </BoxShadowStyle>
 
         <Clearfix height={16} />
