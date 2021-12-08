@@ -18,6 +18,8 @@ import {
   FORMAT_VALUE_MEASURING,
   getFormatNumber,
 } from 'constants/format-number'
+import { ITEM_PER_PAGE } from '../../index'
+import { v4 as uuidV4 } from 'uuid'
 
 const COLOR = {
   EXCEEDED_PREPARING: colorLevels.EXCEEDED_TENDENCY,
@@ -33,7 +35,7 @@ export default class TableDataList extends React.Component {
   static displayName = 'TableDataList'
 
   getColumns = () => {
-    const { measuringList, measuresObj } = this.props
+    const { measuringList, measuresObj, page } = this.props
 
     const columnsMeasure = measuringList.map(measure => ({
       title: `${measuresObj[measure].name} (${measuresObj[measure].unit})`,
@@ -84,7 +86,7 @@ export default class TableDataList extends React.Component {
         title: translate('dataSearchFrom.table.numericalOrder'),
         key: 'Index',
         render: (value, record, index) => {
-          return <div>{index}</div>
+          return <div>{(page - 1) * ITEM_PER_PAGE + (index + 1)}</div>
         },
       },
       {
@@ -232,16 +234,28 @@ export default class TableDataList extends React.Component {
   //   return [columnIndex, columnReceivedAt, ...columnsMeasurings]
   // }
 
+  handleOnPageChange = page => {
+    const { setPage } = this.props
+    console.log({ page })
+    setPage(page)
+  }
+
   render() {
-    const { dataSource, loading, ...otherProps } = this.props
+    const { dataSource, loading, page, totalItem, ...otherProps } = this.props
 
     return (
       <div>
         <Table
           loading={loading}
+          pagination={{
+            current: page,
+            pageSize: ITEM_PER_PAGE,
+            onChange: this.handleOnPageChange,
+            total: totalItem,
+          }}
           bordered
           size="small"
-          rowKey={row => `${row._id}_${row.receivedAt}`}
+          rowKey={row => `${row._id}_${row.receivedAt}_${uuidV4()}`}
           columns={this.getColumns()}
           {...otherProps}
           dataSource={dataSource}

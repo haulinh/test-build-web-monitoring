@@ -24,7 +24,14 @@ const ButtonAbsolute = styled.div`
 @autobind
 export default class TabeList extends React.PureComponent {
   render() {
-    const { loading, measuringList, dataStationAuto } = this.props
+    const {
+      loading,
+      measuringList,
+      dataStationAuto,
+      setPage,
+      page,
+      totalItem,
+    } = this.props
     return (
       <TabeListWrapper>
         <Clearfix height={16} />
@@ -44,6 +51,9 @@ export default class TabeList extends React.PureComponent {
         <Tabs defaultActiveKey="1">
           <Tabs.TabPane tab={translate('dataSearchFrom.tab.data')} key="1">
             <TabTableDataList
+              totalItem={totalItem}
+              page={page}
+              setPage={setPage}
               loading={loading}
               dataSource={dataStationAuto}
               measuringList={measuringList}
