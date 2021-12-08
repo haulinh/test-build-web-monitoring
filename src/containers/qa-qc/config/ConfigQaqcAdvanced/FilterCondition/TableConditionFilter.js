@@ -4,6 +4,7 @@ import moment from 'moment'
 import { connect } from 'react-redux'
 import { get } from 'lodash'
 import { v4 as uuidv4 } from 'uuid'
+import { i18n } from './index'
 
 const TableConditionFilter = ({
   setEditItemKey,
@@ -68,13 +69,17 @@ const TableConditionFilter = ({
       },
     },
     {
-      title: 'Tên điều kiện',
+      title: i18n().list.table.conditionName,
       dataIndex: 'name',
       width: 200,
       render: (value, record, index) => {
         const obj = {
           children: (
-            <div style={{ fontWeight: 500, fontSize: '14px' }}>{value}</div>
+            <div
+              style={{ fontWeight: 500, fontSize: '14px', whiteSpace: 'pre' }}
+            >
+              {value}
+            </div>
           ),
           props: {},
         }
@@ -89,7 +94,7 @@ const TableConditionFilter = ({
       },
     },
     {
-      title: 'Trạm áp dụng',
+      title: i18n().list.table.applicableStation,
       width: 300,
       dataIndex: 'station.name',
       render: (value, record, index) => {
@@ -110,7 +115,7 @@ const TableConditionFilter = ({
       },
     },
     {
-      title: 'Thông số điều kiện',
+      title: i18n().list.table.conditionParameter,
       width: 171,
       dataIndex: 'conditionMeasureItem',
       render: value => {
@@ -118,7 +123,7 @@ const TableConditionFilter = ({
       },
     },
     {
-      title: 'Thông số loại bỏ',
+      title: i18n().list.table.excludeParameter,
       width: 245,
       dataIndex: 'excludeMeasures',
       render: value => {
