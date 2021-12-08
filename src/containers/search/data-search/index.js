@@ -31,6 +31,8 @@ export const fields = {
   facetFields: 'facetFields',
 }
 
+export const ITEM_PER_PAGE = 50
+
 @protectRole(ROLE.DATA_SEARCH.VIEW)
 @queryFormDataBrowser(['submit'])
 @connect(state => ({
@@ -41,7 +43,8 @@ export default class MinutesDataSearch extends React.Component {
   state = {
     summary: [],
     data: [],
-    pagination: {},
+    page: 1,
+    totalItem: null,
     standards: [],
     loadingData: false,
     loadingSummary: false,
@@ -50,7 +53,7 @@ export default class MinutesDataSearch extends React.Component {
 
   getQueryParam = () => {
     const values = this.searchFormRef.current.getFieldsValue()
-    const { standards } = this.state
+    const { standards, page } = this.state
 
     const times = getTimes(values[fields.rangesDate])
     const { from, to } = getTimesUTC(times)
@@ -60,15 +63,15 @@ export default class MinutesDataSearch extends React.Component {
       to,
       [fields.measuringList]: getParamArray(values[fields.measuringList]),
       [fields.filterBy]: getParamArray(values[fields.filterBy]),
-      page: 1,
-      itemPerPage: 50,
+      page,
+      itemPerPage: ITEM_PER_PAGE,
       standards: getParamArray(standards),
     }
     return params
   }
 
   handleOnSearch = async () => {
-    const { stationKey, ...queryParams } = this.getQueryParam()
+    const { stationKey, rangesDate, ...queryParams } = this.getQueryParam()
     this.setState({ loadingData: true, loadingSummary: true })
 
     const over1Year =
@@ -81,7 +84,7 @@ export default class MinutesDataSearch extends React.Component {
         .then(res => {
           this.setState({
             summary: res.summary,
-            pagination: res.pagination,
+            totalItem: res.pagination.totalItem,
             loadingSummary: false,
           })
         })
@@ -93,7 +96,12 @@ export default class MinutesDataSearch extends React.Component {
         ...queryParams,
         [fields.facetFields]: 'data',
       })
-        .then(res => this.setState({ data: res.data, loadingData: false }))
+        .then(res =>
+          this.setState({
+            data: res.data,
+            loadingData: false,
+          })
+        )
         .catch(e => this.setState({ loadingData: false }))
       return
     }
@@ -105,8 +113,8 @@ export default class MinutesDataSearch extends React.Component {
 
       this.setState({
         summary: res.summary,
-        pagination: res.pagination,
         data: res.data,
+        totalItem: res.pagination.totalItem,
         loadingData: false,
         loadingSummary: false,
       })
@@ -129,8 +137,17 @@ export default class MinutesDataSearch extends React.Component {
     return measuringList || []
   }
 
+  setPage = page => this.setState({ page }, () => this.handleOnSearch())
+
   render() {
-    const { data, summary, loadingData, loadingSummary } = this.state
+    const {
+      data,
+      summary,
+      loadingData,
+      loadingSummary,
+      page,
+      totalItem,
+    } = this.state
 
     const measuringList = this.searchFormRef.current
       ? this.getMeasuringList()
@@ -194,6 +211,9 @@ export default class MinutesDataSearch extends React.Component {
         </Row>
 
         <TabList
+          totalItem={totalItem}
+          page={page}
+          setPage={this.setPage}
           loading={loadingData}
           dataStationAuto={data}
           measuringList={measuringList}

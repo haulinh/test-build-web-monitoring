@@ -1,24 +1,25 @@
 import { Button, Col, Empty, Form, Row } from 'antd'
 import CalculateApi from 'api/CalculateApi'
 import Clearfix from 'components/elements/clearfix'
+import ModalLangExport from 'components/elements/modal-lang-export'
 import { Search } from 'components/layouts/styles'
 import { DD_MM_YYYY } from 'constants/format-date'
+import ROLE from 'constants/role'
 import { BoxShadow } from 'containers/api-sharing/layout/styles'
 import { translate as t } from 'hoc/create-lang'
-import createProtectRole from 'hoc/protect-role'
+import {
+  default as createProtectRole,
+  default as protectRole,
+} from 'hoc/protect-role'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import _ from 'lodash'
+import moment from 'moment'
 import React, { Component } from 'react'
 import { downFileExcel } from 'utils/downFile'
-import { getLanguage } from 'utils/localStorage'
 import Breadcrumb from '../breadcrumb'
 import Filter from './Filter'
 import TableMonth from './result/TableMonth'
 import TableQuarter from './result/TableQuarter'
-import ROLE from 'constants/role'
-import protectRole from 'hoc/protect-role'
-import moment from 'moment'
-import ModalLangExport from 'components/elements/modal-lang-export'
 
 export const Fields = {
   stationType: 'stationType',
@@ -59,7 +60,7 @@ export default class BillingReport extends Component {
     resultReport: {},
     loading: false,
     visableModal: false,
-    langExport: 'vi'
+    langExport: 'vi',
   }
 
   getQueryParams = async () => {
@@ -147,26 +148,26 @@ export default class BillingReport extends Component {
     const { from, to } = this.getTimes()
     downFileExcel(result.data, `${t('billing.title.name')} ${from} - ${to}`)
     this.setState({
-      visableModal: false
-    });
+      visableModal: false,
+    })
   }
 
   handleOkModal = e => {
     this.setState({
-      visableModal: true
-    });
-  };
+      visableModal: true,
+    })
+  }
 
   handleCancelModal = e => {
     this.setState({
-      visableModal: false
-    });
-  };
+      visableModal: false,
+    })
+  }
 
   onChangeModal = e => {
     this.setState({
       langExport: e.target.value,
-    });
+    })
   }
 
   handleOnSearch = async () => {
@@ -305,7 +306,13 @@ export default class BillingReport extends Component {
           )}
         </Row>
         <Clearfix height={16} />
-        <ModalLangExport showModal={this.state.visableModal} handleOkModal={this.handleExportBilling} handleCancelModal={this.handleCancelModal} onChangeModal={this.onChangeModal} langExport={this.state.langExport} />
+        <ModalLangExport
+          showModal={this.state.visableModal}
+          handleOkModal={this.handleExportBilling}
+          handleCancelModal={this.handleCancelModal}
+          onChangeModal={this.onChangeModal}
+          langExport={this.state.langExport}
+        />
         {_.isEmpty(resultReport.data) ? (
           <Empty
             style={{ margin: '0 auto', padding: '8px 16px' }}
