@@ -12,7 +12,6 @@ const { RangePicker } = DatePicker
 export default class FormTableMeasureTime extends Component {
   getColumns = () => {
     const { measureKeyListSelected, isEdit, measuresObj } = this.props
-    // console.log({ measuresObj })
     const { form } = this.props
 
     return [

@@ -8,6 +8,7 @@ import ROLE from 'constants/role'
 import createLang, { translate } from 'hoc/create-lang'
 import protectRole from 'hoc/protect-role'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
+import _ from 'lodash'
 import moment from 'moment-timezone'
 import React from 'react'
 import { connect } from 'react-redux'
@@ -98,6 +99,7 @@ export default class MinutesDataSearch extends React.Component {
           })
         })
         .catch(e => {
+          console.log({ e })
           this.setState({ loadingSummary: false })
         })
 
@@ -105,13 +107,16 @@ export default class MinutesDataSearch extends React.Component {
         ...queryParams,
         [fields.facetFields]: 'data',
       })
-        .then(res =>
+        .then(res => {
           this.setState({
             data: res.data,
             loadingData: false,
           })
-        )
-        .catch(e => this.setState({ loadingData: false }))
+        })
+        .catch(e => {
+          console.log({ e })
+          this.setState({ loadingData: false })
+        })
 
       return
     }
@@ -123,11 +128,12 @@ export default class MinutesDataSearch extends React.Component {
       this.setState({
         summary: res.summary,
         data: res.data,
-        totalItem: res.pagination.totalItem,
+        totalItem: _.get(res, 'pagination.totalItem'),
         loadingData: false,
         loadingSummary: false,
       })
     } catch (error) {
+      console.log({ error })
       this.setState({ loadingData: false, loadingSummary: false })
     }
   }

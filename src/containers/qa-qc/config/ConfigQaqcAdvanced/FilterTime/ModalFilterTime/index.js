@@ -54,7 +54,6 @@ export default class ModalFilterTime extends Component {
   getConditionParam = () => {
     const { form } = this.props
     const { conditions } = form.getFieldsValue()
-    // console.log({ conditions })
 
     //convert condition array to condition object
     const conditionList = Object.entries(conditions)
@@ -127,8 +126,6 @@ export default class ModalFilterTime extends Component {
     const { form, showModal } = this.props
     await form.validateFields()
     const params = this.getParams()
-
-    // console.log({ params })
 
     try {
       await CalculateApi.createQaqcConfig(params)
