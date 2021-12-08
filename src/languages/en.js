@@ -496,6 +496,10 @@ export default {
     },
     advanced: {
       title: 'Advanced Filter',
+      tab: {
+        time: 'Filter by time',
+        value: 'Filter by value',
+      },
       placeholder: {
         station: 'Choose station',
       },
@@ -504,6 +508,10 @@ export default {
         create: 'Create',
         delete: 'Delete filter',
         update: 'Update',
+        cancel: 'Cancel',
+        continueCreate: 'Continue Creating',
+        continueEdit: 'Continue Editing',
+        close: 'Close',
       },
       message: {
         create: {
@@ -517,6 +525,24 @@ export default {
         delete: {
           success: 'Delete Successfully',
           error: 'Delete Unsuccessfully',
+        },
+      },
+      modal: {
+        delete: {
+          title: 'Confirm filter deletion',
+          message:
+            'Be sure to delete the data filter, all data of reports and statistics will no longer apply the filter to calculate',
+        },
+        cancel: {
+          create: {
+            title: 'Cancel creating',
+            message: `Filter data has not been created. If the window is closed, the filter's data entered will not be saved.`,
+          },
+          edit: {
+            title: 'Cancel editing',
+            message:
+              'Filter data has not been saved. If the window is closed, the filter edits entered will not be saved.',
+          },
         },
       },
       conditionFilter: {
@@ -564,6 +590,9 @@ export default {
         modal: {
           create: {
             title: 'Add filter condition',
+          },
+          edit: {
+            title: 'Edit filter condition',
           },
         },
       },
@@ -4235,11 +4264,11 @@ export default {
     language: {
       en: 'English',
       vi: 'Vietnamese',
-      tw: 'Taiwan'
+      tw: 'Taiwan',
     },
     button: {
       ok: 'Confirm',
-      cancel: 'Cancel'
-    }
-  }
+      cancel: 'Cancel',
+    },
+  },
 }

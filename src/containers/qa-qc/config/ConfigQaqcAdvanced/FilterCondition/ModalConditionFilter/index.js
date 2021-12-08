@@ -58,7 +58,7 @@ class ModalConditionFilter extends React.Component {
       )
 
       form.setFieldsValue({
-        [FIELDS.FILTER_NAME]: get(conditionItemSelected, 'name', '').trim(),
+        [FIELDS.FILTER_NAME]: get(conditionItemSelected, 'name'),
         [FIELDS.STATION_TYPE]: get(
           conditionItemSelected,
           'station.stationType._id'
@@ -111,7 +111,7 @@ class ModalConditionFilter extends React.Component {
 
     const param = {
       stationId: stationAuto._id,
-      name: values.filterName,
+      name: values.filterName.trim(),
       type: 'value',
       conditions: Object.values(values.conditions),
     }

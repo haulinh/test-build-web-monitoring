@@ -102,6 +102,9 @@ export const i18n = () => ({
     create: {
       title: t('qaqcConfig.advanced.conditionFilter.modal.create.title'),
     },
+    edit: {
+      title: t('qaqcConfig.advanced.conditionFilter.modal.edit.title'),
+    },
   },
   button: {
     reset: t('qaqcConfig.advanced.button.reset'),
@@ -302,7 +305,7 @@ class FilterConditionContainer extends React.Component {
       ),
       edit: (
         <ModalConditionFilter
-          title="Chỉnh sửa bộ lọc"
+          title={i18n().modal.edit.title}
           visible={isShowModalConditionFilter}
           conditionItemSelected={conditionItemSelected}
           onCancel={this.onCancelModalConditionFilter}

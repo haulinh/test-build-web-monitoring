@@ -495,6 +495,10 @@ export default {
     },
     advanced: {
       title: 'Bộ lọc nâng cao',
+      tab: {
+        time: 'Lọc theo khoảng thời gian',
+        value: 'Lọc theo điều kiện giá trị',
+      },
       placeholder: {
         station: 'Chọn trạm quan trắc',
       },
@@ -503,6 +507,10 @@ export default {
         create: 'Tạo mới',
         delete: 'Xóa bộ lọc',
         update: 'Cập nhật',
+        cancel: 'Hủy bỏ',
+        continueCreate: 'Tiếp tục tạo',
+        continueEdit: 'Tiếp tục chỉnh sửa',
+        close: 'Đóng',
       },
       message: {
         create: {
@@ -516,6 +524,25 @@ export default {
         delete: {
           success: 'Xóa thành công',
           error: 'Xóa không thành công',
+        },
+      },
+      modal: {
+        delete: {
+          title: 'Xác nhận xóa bộ lọc',
+          message:
+            'Hãy chắc chắn xóa bộ lọc dữ liệu, tất cả dữ liệu của báo cáo, thống kê sẽ không còn áp dụng bộ lọc để tính toán',
+        },
+        cancel: {
+          create: {
+            title: 'Hủy tạo mới',
+            message:
+              'Bộ lọc dữ liệu chưa được tạo. Nếu đóng cửa sổ, dữ liệu bộ lọc đã nhập sẽ không được lưu lại',
+          },
+          edit: {
+            title: 'Hủy chỉnh sửa',
+            message:
+              'Bộ lọc dữ liệu chưa được lưu. Nếu đóng cửa sổ, những chỉnh sửa bộ lọc đã nhập sẽ không được lưu lại',
+          },
         },
       },
       conditionFilter: {
@@ -563,6 +590,9 @@ export default {
         modal: {
           create: {
             title: 'Thêm điều kiện bộ lọc mới',
+          },
+          edit: {
+            title: 'Chỉnh sửa bộ lọc',
           },
         },
       },

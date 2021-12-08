@@ -75,7 +75,11 @@ const TableConditionFilter = ({
       render: (value, record, index) => {
         const obj = {
           children: (
-            <div style={{ fontWeight: 500, fontSize: '14px' }}>{value}</div>
+            <div
+              style={{ fontWeight: 500, fontSize: '14px', whiteSpace: 'pre' }}
+            >
+              {value}
+            </div>
           ),
           props: {},
         }
