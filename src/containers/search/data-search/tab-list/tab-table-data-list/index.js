@@ -236,7 +236,6 @@ export default class TableDataList extends React.Component {
 
   handleOnPageChange = page => {
     const { setPage } = this.props
-    console.log({ page })
     setPage(page)
   }
 
