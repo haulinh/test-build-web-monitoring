@@ -99,7 +99,7 @@ export default class TableDataList extends React.PureComponent {
         <Table
           loading={loading}
           size="small"
-          rowKey="_id"
+          rowKey={(_, index) => index}
           columns={this.columns}
           dataSource={dataAnalyzeStationAuto}
           pagination={false}

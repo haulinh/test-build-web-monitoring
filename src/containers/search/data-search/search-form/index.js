@@ -9,6 +9,8 @@ import { FormItem } from 'components/layouts/styles'
 import { getMeasuringListFromStationAutos } from 'containers/api-sharing/util'
 import { autobind } from 'core-decorators'
 import createLang, { translate } from 'hoc/create-lang'
+import createQueryFormDataBrowser from 'hoc/query-formdata-browser'
+import _ from 'lodash'
 import React from 'react'
 import styled from 'styled-components'
 import { fields } from '../index'
@@ -83,14 +85,45 @@ const qaqcOptions = [
 
 @Form.create()
 @createLang
+@createQueryFormDataBrowser()
 @autobind
 export default class SearchFormHistoryData extends React.Component {
   state = {
     stationAutoSelected: {},
+    stationAutos: [],
   }
 
-  getMeasureOptions = () => {
-    const { stationAutoSelected } = this.state
+  componentDidMount() {
+    const { form, onSearch, formData } = this.props
+    if (_.isEmpty(formData)) return
+
+    const initValues = this.getInitValuesFormData()
+    form.setFieldsValue(initValues)
+    const values = form.getFieldsValue()
+    onSearch({ valuesForm: values })
+  }
+
+  getInitValuesFormData = () => {
+    const { formData } = this.props
+    const initValues = {
+      [fields.rangesDate]: 1,
+      [fields.stationKey]: formData.stationAuto,
+      [fields.stationType]: formData.stationType,
+      [fields.measuringList]: formData.measuringList,
+    }
+    return initValues
+  }
+
+  getMeasureOptions = stationAutoValue => {
+    const { stationAutos } = this.state
+    const { form } = this.props
+
+    const stationAutoKeySelected =
+      stationAutoValue || form.getFieldValue(fields.stationKey)
+    const stationAutoSelected = stationAutos.find(
+      stationAuto => stationAuto.key === stationAutoKeySelected
+    )
+
     const measuringList = getMeasuringListFromStationAutos([
       stationAutoSelected,
     ])
@@ -98,6 +131,7 @@ export default class SearchFormHistoryData extends React.Component {
       value: measure.key,
       name: measure.name,
     }))
+
     return measureOptions
   }
 
@@ -105,10 +139,53 @@ export default class SearchFormHistoryData extends React.Component {
     this.setState({ stationAutoSelected })
   }
 
-  handleOnSearch = () => {
+  onFetchSuccessStationType = stationTypes => {
+    const { form, formData } = this.props
+    if (!_.isEmpty(formData)) return
+    const stationTypeInit = stationTypes[0].key
+    form.setFieldsValue({ [fields.stationType]: stationTypeInit })
+  }
+
+  onFetchSuccessStationAuto = stationAutos => {
+    this.setState({ stationAutos })
+    const { onSearch, formData } = this.props
+    if (!_.isEmpty(formData)) return
+    const success = this.setInitValues(stationAutos)
+
+    if (success) onSearch()
+  }
+
+  setInitValues = stationAutos => {
     const { form } = this.props
-    const values = form.getFieldsValue()
-    console.log({ values })
+    const stationTypeSelected = form.getFieldValue(fields.stationType)
+    if (!stationTypeSelected) return false
+
+    const stationAutosBelongStationTypeSelect =
+      stationAutos.find(
+        stationAuto =>
+          _.get(stationAuto, 'stationType.key') === stationTypeSelected
+      ) || {}
+
+    form.setFieldsValue({
+      [fields.stationKey]: stationAutosBelongStationTypeSelect.key,
+    })
+
+    const measuringOptions = this.getMeasureOptions()
+    const measuringOptionsKey = measuringOptions.map(measure => measure.value)
+    form.setFieldsValue({
+      [fields.measuringList]: measuringOptionsKey,
+    })
+
+    return true
+  }
+
+  handleOnChangeStationAuto = stationAutoValue => {
+    const { form } = this.props
+    const measuringOptions = this.getMeasureOptions(stationAutoValue)
+    const measuringOptionsKey = measuringOptions.map(measure => measure.value)
+    form.setFieldsValue({
+      [fields.measuringList]: measuringOptionsKey,
+    })
   }
 
   render() {
@@ -139,7 +216,11 @@ export default class SearchFormHistoryData extends React.Component {
           <Col span={3}>
             <FormItem label={t('stationType.label')}>
               {form.getFieldDecorator(fields.stationType)(
-                <SelectStationType style={{ width: '100%' }} size="large" />
+                <SelectStationType
+                  onFetchSuccess={this.onFetchSuccessStationType}
+                  style={{ width: '100%' }}
+                  size="large"
+                />
               )}
             </FormItem>
           </Col>
@@ -152,8 +233,11 @@ export default class SearchFormHistoryData extends React.Component {
                     message: translate('avgSearchFrom.form.stationAuto.error'),
                   },
                 ],
+                onChange: this.handleOnChangeStationAuto,
               })(
                 <SelectStationAuto
+                  allowClear={false}
+                  onFetchSuccess={this.onFetchSuccessStationAuto}
                   isShowAll
                   onChangeObject={this.setStationAutoSelected}
                   size="large"
@@ -165,14 +249,23 @@ export default class SearchFormHistoryData extends React.Component {
           </Col>
           <Col span={9}>
             <FormItem label={t('time')}>
-              {form.getFieldDecorator(fields.rangesDate, { initialValue: 1 })(
+              {form.getFieldDecorator(fields.rangesDate, { initialValue: 30 })(
                 <OptionsTimeRange style={{ width: '100%' }} size="large" />
               )}
             </FormItem>
           </Col>
           <Col span={18}>
             <FormItem label={t('measuringList.label')}>
-              {form.getFieldDecorator(fields.measuringList)(
+              {form.getFieldDecorator(fields.measuringList, {
+                rules: [
+                  {
+                    required: true,
+                    message: translate(
+                      'avgSearchFrom.form.measuringList.require'
+                    ),
+                  },
+                ],
+              })(
                 <SelectAnt
                   mode="multiple"
                   options={measureOptions}
