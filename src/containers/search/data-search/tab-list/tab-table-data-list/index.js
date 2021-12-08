@@ -2,7 +2,7 @@ import React from 'react'
 import { translate } from 'hoc/create-lang'
 import { autobind } from 'core-decorators'
 import { Table, Tooltip } from 'antd'
-import { get as _get } from 'lodash'
+import _, { get as _get } from 'lodash'
 import moment from 'moment/moment'
 // import { SHAPE } from 'themes/color'
 import {
@@ -34,6 +34,16 @@ const COLOR = {
 export default class TableDataList extends React.Component {
   static displayName = 'TableDataList'
 
+  getMeasuringValue = (list, key) => {
+    const measure = list.find(item => item.key === key)
+    const { minLimit, maxLimit } = measure || {}
+    if ((minLimit || minLimit === 0) && (maxLimit || maxLimit === 0))
+      return [minLimit, maxLimit].join('-')
+    if (minLimit || minLimit === 0) return `≥ ${minLimit}`
+    if (maxLimit || maxLimit === 0) return `≤ ${maxLimit}`
+    return '-'
+  }
+
   getColumns = () => {
     const { measuringList, measuresObj, page } = this.props
 
@@ -41,7 +51,13 @@ export default class TableDataList extends React.Component {
       title: `${measuresObj[measure].name} (${measuresObj[measure].unit})`,
       dataIndex: `measuringLogs.${measure}`,
       align: 'right',
-      render: value => {
+      render: (value, item) => {
+        if (item.isQCVN) {
+          return (
+            <div>{this.getMeasuringValue(item.measuringList, measure)}</div>
+          )
+        }
+
         if (value === null || value === undefined) return <div />
 
         const colorDevice = getColorStatusDevice(value.statusDevice)
@@ -86,6 +102,7 @@ export default class TableDataList extends React.Component {
         title: translate('dataSearchFrom.table.numericalOrder'),
         key: 'Index',
         render: (value, record, index) => {
+          if (record.isQCVN) return <React.Fragment />
           return <div>{(page - 1) * ITEM_PER_PAGE + (index + 1)}</div>
         },
       },
@@ -97,6 +114,21 @@ export default class TableDataList extends React.Component {
           const {
             timeZone: { offset = '' },
           } = this.props
+
+          if (item.isQCVN) {
+            let startTime = item.begin
+              ? moment(item.begin).format('DD/MM/YYYY') + ' - '
+              : ''
+            let endTime = item.expired
+              ? moment(item.expired).format('DD/MM/YYYY')
+              : translate('qcvn.form.expired.isApplying')
+            return (
+              <Tooltip title={startTime + endTime}>
+                <div style={{ color: 'rgba(0,0,0,.8)' }}>{item.name}</div>
+              </Tooltip>
+            )
+          }
+
           return (
             <div>
               {moment(value)
@@ -240,7 +272,22 @@ export default class TableDataList extends React.Component {
   }
 
   render() {
-    const { dataSource, loading, page, totalItem, ...otherProps } = this.props
+    const {
+      dataSource,
+      loading,
+      page,
+      totalItem,
+      standards,
+      standardObjectList,
+      ...otherProps
+    } = this.props
+
+    const standardObjectListKey = _.keyBy(standardObjectList, 'key')
+    const standardsObjectSelected = standards.map(standard => ({
+      ...standardObjectListKey[standard],
+      isQCVN: true,
+    }))
+    const dataSourceMerged = [...dataSource, ...standardsObjectSelected]
 
     return (
       <div>
@@ -248,7 +295,7 @@ export default class TableDataList extends React.Component {
           loading={loading}
           pagination={{
             current: page,
-            pageSize: ITEM_PER_PAGE,
+            pageSize: ITEM_PER_PAGE + standards.length,
             onChange: this.handleOnPageChange,
             total: totalItem,
           }}
@@ -257,7 +304,7 @@ export default class TableDataList extends React.Component {
           rowKey={row => `${row._id}_${row.receivedAt}_${uuidV4()}`}
           columns={this.getColumns()}
           {...otherProps}
-          dataSource={dataSource}
+          dataSource={dataSourceMerged}
           locale={{ emptyText: translate('dataSearchFrom.table.emptyText') }}
         />
       </div>
