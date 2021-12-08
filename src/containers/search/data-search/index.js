@@ -18,6 +18,7 @@ import Breadcrumb from './breadcrumb'
 import SearchFrom from './search-form'
 import TabList from './tab-list'
 import DataAnalyze from './tab-list/tab-table-data-list/data-analyze'
+import { downFileExcel } from 'utils/downFile'
 
 export const fields = {
   stationKey: 'stationKey',
@@ -47,8 +48,10 @@ export default class MinutesDataSearch extends React.Component {
     page: 1,
     totalItem: null,
     standards: [],
+    standardObjectList: [],
     loadingData: false,
     loadingSummary: false,
+    loadingExport: false,
   }
   searchFormRef = React.createRef()
 
@@ -76,6 +79,14 @@ export default class MinutesDataSearch extends React.Component {
       standards: getParamArray(standards),
     }
     return params
+  }
+
+  getMeasuringList = () => {
+    const measuringList = this.searchFormRef.current.getFieldValue(
+      fields.measuringList
+    )
+
+    return measuringList || []
   }
 
   handleOnSearch = async valuesForm => {
@@ -138,18 +149,31 @@ export default class MinutesDataSearch extends React.Component {
     }
   }
 
+  exportExcel = async () => {
+    const { locale } = this.props
+    const { stationKey, rangesDate, ...queryParams } = this.getQueryParam()
+    this.setState({ loadingExport: true })
+    try {
+      const result = await DataInsight.exportDataOriginal(stationKey, {
+        ...queryParams,
+        lang: locale,
+      })
+      this.setState({ loadingExport: false })
+      downFileExcel(result.data, stationKey)
+    } catch (error) {
+      this.setState({ loadingExport: true })
+      console.log({ error })
+    }
+  }
+
   onChangeQcvn = standards => {
     this.setState({ standards }, () => {
       this.handleOnSearch()
     })
   }
 
-  getMeasuringList = () => {
-    const measuringList = this.searchFormRef.current.getFieldValue(
-      fields.measuringList
-    )
-
-    return measuringList || []
+  handleOnFetchSuccessQCVN = standardObjectList => {
+    this.setState({ standardObjectList })
   }
 
   setPage = page => this.setState({ page }, () => this.handleOnSearch())
@@ -162,6 +186,9 @@ export default class MinutesDataSearch extends React.Component {
       loadingSummary,
       page,
       totalItem,
+      loadingExport,
+      standards,
+      standardObjectList,
     } = this.state
 
     const measuringList = this.searchFormRef.current
@@ -217,6 +244,7 @@ export default class MinutesDataSearch extends React.Component {
           </span>
           <Col span={8}>
             <SelectQCVN
+              onFetchSuccess={this.handleOnFetchSuccessQCVN}
               fieldValue="key"
               mode="multiple"
               maxTagCount={3}
@@ -227,8 +255,12 @@ export default class MinutesDataSearch extends React.Component {
         </Row>
 
         <TabList
+          loadingExport={loadingExport}
+          exportExcel={this.exportExcel}
           totalItem={totalItem}
           page={page}
+          standards={standards}
+          standardObjectList={standardObjectList}
           setPage={this.setPage}
           loading={loadingData}
           dataStationAuto={data}
