@@ -1,27 +1,32 @@
 import { Button, Modal, Row } from 'antd'
 import React from 'react'
+import { i18n } from './index'
 
 class ModalConfirmCancel extends React.Component {
   render() {
     const { onCancelOut, onConfirmCancel, type, ...otherProps } = this.props
 
     const message = {
-      create:
-        'Bộ lọc dữ liệu chưa được tạo. Nếu đóng cửa sổ, dữ liệu bộ lọc đã nhập sẽ không được lưu lại',
-      edit:
-        'Bộ lọc dữ liệu chưa được lưu. Nếu đóng cửa sổ, những chỉnh sửa bộ lọc đã nhập sẽ không được lưu lại',
+      create: i18n().modal.cancel.create.message,
+      edit: i18n().modal.cancel.edit.message,
     }
 
     return (
       <Modal
-        title={type === 'create' ? 'Hủy tạo mới' : 'Hủy chỉnh sửa'}
+        title={
+          type === 'create'
+            ? i18n().modal.cancel.create.title
+            : i18n().modal.cancel.edit.title
+        }
         width={554}
         centered
         {...otherProps}
         footer={[
           <Row type="flex" justify="end">
             <Button key="back" onClick={onCancelOut}>
-              {type === 'create' ? 'Tiếp tục tạo' : 'Tiếp tục chỉnh sửa'}
+              {type === 'create'
+                ? i18n().button.continueCreate
+                : i18n().button.continueEdit}
             </Button>
             <Button
               key="submit"
@@ -29,7 +34,7 @@ class ModalConfirmCancel extends React.Component {
               onClick={onConfirmCancel}
               style={{ marginLeft: 10 }}
             >
-              Đóng
+              {i18n().button.close}
             </Button>
           </Row>,
         ]}

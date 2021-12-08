@@ -6,6 +6,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import { v4 as uuidv4 } from 'uuid'
 import { FIELDS } from '../index'
+import { i18n } from '../index'
 
 const TableCondition = styled(Table)`
   .ant-table-tbody > tr > td {
@@ -17,18 +18,30 @@ export default class FormTableMeasureCondition extends Component {
   state = {
     isShowModalConfirmDelete: false,
     conditions: [{ id: uuidv4() }],
-    conditionsEdit: [],
+  }
+
+  componentDidUpdate(prevProps) {
+    const { type } = this.props
+
+    if (type !== prevProps.type && type === 'edit') {
+      this.setState({ conditions: [] })
+      return
+    }
+    if (type !== prevProps.type && type === 'create') {
+      this.setState({ conditions: [{ id: uuidv4() }] })
+      return
+    }
   }
 
   setInitData = conditions => {
     this.setState(
       {
-        conditionsEdit: conditions.map(item => ({ id: uuidv4(), ...item })),
+        conditions: conditions.map(item => ({ id: uuidv4(), ...item })),
       },
       () => {
-        const { conditionsEdit } = this.state
+        const { conditions } = this.state
         const { form } = this.props
-        conditionsEdit.forEach(item => {
+        conditions.forEach(item => {
           form.setFieldsValue({
             [`${FIELDS.CONDITIONS}.${item.id}.measure`]: item.measure,
             [`${FIELDS.CONDITIONS}.${item.id}.operator`]: item.operator,
@@ -41,28 +54,20 @@ export default class FormTableMeasureCondition extends Component {
   }
 
   addCondition = () => {
-    const { conditions, conditionsEdit } = this.state
+    const { conditions } = this.state
     const newData = {
       id: uuidv4(),
     }
     const newConditions = [...conditions, newData]
-    const newConditionsEdit = [...conditionsEdit, newData]
 
-    this.setState({
-      conditions: newConditions,
-      conditionsEdit: newConditionsEdit,
-    })
+    this.setState({ conditions: newConditions })
   }
 
   deleteCondition = id => {
-    const { conditions, conditionsEdit } = this.state
+    const { conditions } = this.state
     const newConditions = conditions.filter(item => item.id !== id)
-    const newConditionsEdit = conditionsEdit.filter(item => item.id !== id)
 
-    this.setState({
-      conditions: newConditions,
-      conditionsEdit: newConditionsEdit,
-    })
+    this.setState({ conditions: newConditions })
   }
 
   handleConditionMeasureChange = excludeMeasuresField => {
@@ -83,7 +88,7 @@ export default class FormTableMeasureCondition extends Component {
   getColumns = () => {
     return [
       {
-        title: 'Thông số điều kiện',
+        title: i18n().form.table.conditionParameter,
         width: 402,
         render: (value, record, index) => {
           const { form, measureList } = this.props
@@ -102,13 +107,13 @@ export default class FormTableMeasureCondition extends Component {
                       rules: [
                         {
                           required: true,
-                          message: 'Vui lòng chọn thông số',
+                          message: i18n().form.error.conditionParameter,
                         },
                       ],
                     }
                   )(
                     <SelectMeasureParameter
-                      placeholder="Chọn thông số"
+                      placeholder={i18n().form.placeholder.conditionParameter}
                       measuringList={measureList}
                       mode="single"
                     />
@@ -133,7 +138,7 @@ export default class FormTableMeasureCondition extends Component {
                       rules: [
                         {
                           required: true,
-                          message: 'Vui lòng nhập giá trị',
+                          message: i18n().form.error.value,
                         },
                       ],
                     }
@@ -145,7 +150,7 @@ export default class FormTableMeasureCondition extends Component {
         },
       },
       {
-        title: 'Thông số loại bỏ',
+        title: i18n().form.table.excludeParameter,
         width: 528,
         render: (value, record, index) => {
           const { form } = this.props
@@ -161,7 +166,7 @@ export default class FormTableMeasureCondition extends Component {
                   rules: [
                     {
                       required: true,
-                      message: 'Vui lòng chọn ít nhất 1 thông số',
+                      message: i18n().form.error.excludeParameter,
                     },
                   ],
                 }
@@ -173,7 +178,7 @@ export default class FormTableMeasureCondition extends Component {
                   )}
                   mode="multiple"
                   style={{ width: '100%' }}
-                  placeholder="Lựa chọn thông số sẽ loại bỏ"
+                  placeholder={i18n().form.placeholder.excludeParameter}
                 />
               )}
             </FormItem>
@@ -209,14 +214,13 @@ export default class FormTableMeasureCondition extends Component {
   }
 
   render() {
-    const { conditions, conditionsEdit } = this.state
-    const { type } = this.props
+    const { conditions } = this.state
 
     return (
       <TableCondition
         columns={this.getColumns()}
         rowKey={record => record.id}
-        dataSource={type === 'create' ? conditions : conditionsEdit}
+        dataSource={conditions}
         bordered
         pagination={false}
         scroll={{ y: 300 }}
@@ -228,7 +232,7 @@ export default class FormTableMeasureCondition extends Component {
               onClick={this.addCondition}
             >
               <Icon type="plus" style={{ marginRight: 5 }} />
-              Thêm điều kiện lọc
+              {i18n().form.table.footer}
             </Button>
           </Row>
         )}

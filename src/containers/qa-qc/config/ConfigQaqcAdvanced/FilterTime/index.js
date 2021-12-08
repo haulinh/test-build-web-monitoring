@@ -1,14 +1,14 @@
-import { Button, Col, Form, Row, Switch, message } from 'antd'
+import { Button, Col, Form, message, Row, Switch } from 'antd'
 import CalculateApi from 'api/CalculateApi'
+import { toggleQaqcConfig } from 'api/CategoryApi'
 import { Clearfix } from 'components/layouts/styles'
 import SelectStationAuto from 'containers/search/common/select-station-auto'
+import { translate as t } from 'hoc/create-lang'
+import _ from 'lodash'
 import React, { Component } from 'react'
-import { ModalConfirmDelete, ModalConfirmCancel } from '../components/index'
+import { ModalConfirmDelete } from '../components/index'
 import ModalFilterTime from './ModalFilterTime'
 import TableFilterTime from './TableFilterTime'
-import _ from 'lodash'
-import { translate as t } from 'hoc/create-lang'
-import { toggleQaqcConfig } from 'api/CategoryApi'
 
 export const FIELDS = {
   STATION_TYPE: 'stationType',
@@ -30,15 +30,16 @@ export default class FilterTimeContainer extends Component {
       modalType: '',
       dataFilterTime: [],
       dataItemFilterTimeSelected: {},
-      dataSource: [],
     }
   }
 
-  componentDidMount = async () => {
+  componentDidMount = () => {
     this.getData()
   }
 
   showModalCreate = () => {
+    const { form } = this.props
+    form.resetFields([FIELDS.STATION_TYPE, FIELDS.STATION_AUTO_ID])
     this.setState({
       modalType: 'create',
       isModalFilterTime: true,
@@ -57,43 +58,6 @@ export default class FilterTimeContainer extends Component {
     })
   }
 
-  closeModalFilterTime = () => {
-    const { form } = this.props
-    const values = form.getFieldsValue([
-      FIELDS.STATION_TYPE,
-      FIELDS.STATION_AUTO_ID,
-    ])
-
-    //check has value
-    const isValue = Object.values(values).some(value => value)
-    if (isValue) {
-      this.setState({
-        isModalConfirmCancel: true,
-      })
-      return
-    }
-
-    this.setState({
-      isModalFilterTime: false,
-    })
-  }
-
-  closeModalConfirmCancel = () => {
-    this.setState({
-      isModalConfirmCancel: false,
-    })
-  }
-
-  handleConfirmCancel = () => {
-    const { form } = this.props
-    form.resetFields([FIELDS.STATION_TYPE, FIELDS.STATION_AUTO_ID])
-
-    this.setState({
-      isModalFilterTime: false,
-      isModalConfirmCancel: false,
-    })
-  }
-
   setItemDelete = filterItemId => {
     this.setState({
       isModalConfirmDelete: true,
@@ -107,6 +71,7 @@ export default class FilterTimeContainer extends Component {
     const dataItemFilterTimeSelected = dataFilterTime.find(
       data => data._id === filterItemId
     )
+    // form.resetFields(['conditions'])
 
     this.setState({
       filterItemId,
@@ -123,16 +88,14 @@ export default class FilterTimeContainer extends Component {
 
     const params = {
       ...this.pagination,
+      type: 'time',
     }
 
     try {
       const response = await CalculateApi.getQaqcConfigs(params)
-      const dataFilterTime = response.results.filter(
-        result => result.type === 'time'
-      )
 
       this.setState({
-        dataFilterTime,
+        dataFilterTime: response.results,
         isLoading: false,
       })
     } catch (error) {
@@ -200,7 +163,7 @@ export default class FilterTimeContainer extends Component {
     }
   }
 
-  handleFinishCreate = isModalFilterTime => {
+  handleFinishSubmit = isModalFilterTime => {
     this.setState({
       isModalFilterTime,
     })
@@ -217,13 +180,22 @@ export default class FilterTimeContainer extends Component {
     toggleExcludeParametersByTime(value)
   }
 
+  handleConfirmCancel = value => {
+    this.setState({
+      isModalFilterTime: value,
+    })
+  }
+
+  clearDataItemFilterTime = () => {
+    this.setState({ dataItemFilterTimeSelected: {} })
+  }
+
   render() {
     const { form, excludeParametersByTime } = this.props
 
     const {
       isModalFilterTime,
       isModalConfirmDelete,
-      isModalConfirmCancel,
       modalType,
       dataFilterTime,
       isLoading,
@@ -235,9 +207,10 @@ export default class FilterTimeContainer extends Component {
         <ModalFilterTime
           modalTitle="Thêm bộ lọc điều kiện mới"
           visible={isModalFilterTime}
-          showModal={this.handleFinishCreate}
+          showModal={this.handleFinishSubmit}
           form={form}
-          onCancel={this.closeModalFilterTime}
+          confirmCancel={this.handleConfirmCancel}
+          clearDataItemFilterTime={this.clearDataItemFilterTime}
           modalType={modalType}
         />
       ),
@@ -245,9 +218,13 @@ export default class FilterTimeContainer extends Component {
         <ModalFilterTime
           modalTitle="Chỉnh sửa bộ lọc"
           visible={isModalFilterTime}
-          onCancel={this.closeModalFilterTime}
+          showModal={this.handleFinishSubmit}
+          // onCancel={this.closeModalFilterTime}
           modalType={modalType}
+          form={form}
+          clearDataItemFilterTime={this.clearDataItemFilterTime}
           setMeasureList={this.setMeasureList}
+          confirmCancel={this.handleConfirmCancel}
           dataItemFilterTime={dataItemFilterTimeSelected}
           onShowModalConfirmDelete={this.showModalConfirmDelete}
         />
@@ -309,17 +286,6 @@ export default class FilterTimeContainer extends Component {
           footer={false}
           onConfirmDelete={this.handleDeleteFilterItem}
           onCancelDelete={this.closeModalConfirmDelete}
-        />
-
-        <ModalConfirmCancel
-          onCancel={() =>
-            this.setState({
-              isModalConfirmCancel: false,
-            })
-          }
-          onConfirmCancel={this.handleConfirmCancel}
-          visible={isModalConfirmCancel}
-          onCancelOut={this.closeModalConfirmCancel}
         />
 
         {DynamicModalFilterTime[modalType]}

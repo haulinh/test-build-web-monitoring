@@ -1,6 +1,7 @@
 import { Button, Typography } from 'antd'
 import DataInsight from 'api/DataInsight'
 import Clearfix from 'components/elements/clearfix'
+import ModalLangExport from 'components/elements/modal-lang-export'
 import { DD_MM_YYYY, MM_YYYY } from 'constants/format-date.js'
 import ROLE from 'constants/role'
 import { translate } from 'hoc/create-lang'
@@ -55,6 +56,8 @@ export default class ReportType10 extends React.Component {
       from: '',
       to: '',
       stationAutos: [],
+      visableModal: false,
+      langExport: 'vi'
     }
     this.tabStationRef = React.createRef()
   }
@@ -108,15 +111,14 @@ export default class ReportType10 extends React.Component {
           params[FIELDS.TIME_TYPE] === 'month' ? MM_YYYY : DD_MM_YYYY
         ),
       })
-    } catch (error) {}
+    } catch (error) { }
   }
 
   getDetailTitle = () => {
     const { dataSearch, from, to } = this.state
     const type = dataSearch[FIELDS.TIME_TYPE]
     const title = translate(
-      `avgSearchFrom.table.${
-        type === 'month' ? 'descriptionRatioMonth' : 'descriptionRatioDate'
+      `avgSearchFrom.table.${type === 'month' ? 'descriptionRatioMonth' : 'descriptionRatioDate'
       }`,
       {
         from,
@@ -136,11 +138,12 @@ export default class ReportType10 extends React.Component {
     try {
       let res = await DataInsight.exportDataRatio(timeType, {
         ...param,
-        lang: this.props.locale,
+        lang: this.state.langExport,
       })
 
       this.setState({
         isLoadingExcel: false,
+        visableModal: false
       })
 
       const fromFormat =
@@ -158,14 +161,33 @@ export default class ReportType10 extends React.Component {
           time: `${fromFormat}_${toFormat}`,
         })
       )
-    } catch (error) {}
+    } catch (error) { }
+  }
+
+  handleOkModal = e => {
+    this.setState({
+      visableModal: true
+    });
+  };
+
+  handleCancelModal = e => {
+    this.setState({
+      isLoadingExcel: false,
+      visableModal: false
+    });
+  };
+
+  onChangeModal = e => {
+    this.setState({
+      langExport: e.target.value,
+    });
   }
 
   resetData = () => this.setState({ dataSource: [] })
   setStationAutos = stationAutos => this.setState({ stationAutos })
 
   render() {
-    const { dataSource, isLoading, dataSearch, stationAutos } = this.state
+    const { dataSource, isLoading, dataSearch, stationAutos, visableModal, langExport } = this.state
     const stationKeys = dataSearch.stationKeys
       ? dataSearch.stationKeys.split(',')
       : []
@@ -201,7 +223,7 @@ export default class ReportType10 extends React.Component {
                   type="primary"
                   icon="file-excel"
                   loading={this.state.isLoadingExcel}
-                  onClick={this.hanldeExcel}
+                  onClick={this.handleOkModal}
                 >
                   {translate('avgSearchFrom.tab.exportExcel')}
                 </Button>
@@ -210,6 +232,7 @@ export default class ReportType10 extends React.Component {
           )}
         </div>
         <Clearfix height={8} />
+        <ModalLangExport showModal={visableModal} handleOkModal={this.hanldeExcel} handleCancelModal={this.handleCancelModal} onChangeModal={this.onChangeModal} langExport={langExport} />
         <TableMonth
           hidden={type !== 'month'}
           dataSource={dataSource}

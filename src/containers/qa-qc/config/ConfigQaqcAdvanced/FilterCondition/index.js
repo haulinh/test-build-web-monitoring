@@ -8,6 +8,7 @@ import React from 'react'
 import ModalConditionFilter from './ModalConditionFilter'
 import TableConditionFilter from './TableConditionFilter'
 import { isEmpty } from 'lodash'
+import { translate as t } from 'hoc/create-lang'
 
 export const FIELDS = {
   FILTER_NAME: 'filterName',
@@ -17,9 +18,116 @@ export const FIELDS = {
   CONDITIONS: 'conditions',
 }
 
-// const i18n = {
-//   title: 'Thêm điều kiện bộ lọc mới',
-// }
+export const i18n = () => ({
+  list: {
+    placeholder: {
+      station: t('qaqcConfig.advanced.placeholder.station'),
+    },
+    toggle: t('qaqcConfig.advanced.conditionFilter.toggle'),
+    table: {
+      conditionName: t(
+        'qaqcConfig.advanced.conditionFilter.table.title.conditionName'
+      ),
+      applicableStation: t(
+        'qaqcConfig.advanced.conditionFilter.table.title.conditionName'
+      ),
+      conditionParameter: t(
+        'qaqcConfig.advanced.conditionFilter.table.title.conditionParameter'
+      ),
+      excludeParameter: t(
+        'qaqcConfig.advanced.conditionFilter.table.title.excludeParameter'
+      ),
+      footer: t('qaqcConfig.advanced.conditionFilter.table.footer'),
+    },
+  },
+  form: {
+    label: {
+      filterName: t(
+        'qaqcConfig.advanced.conditionFilter.form.label.filterName'
+      ),
+      stationType: t(
+        'qaqcConfig.advanced.conditionFilter.form.label.stationType'
+      ),
+      station: t('qaqcConfig.advanced.conditionFilter.form.label.station'),
+    },
+    table: {
+      conditionParameter: t(
+        'qaqcConfig.advanced.conditionFilter.form.table.title.conditionParameter'
+      ),
+      excludeParameter: t(
+        'qaqcConfig.advanced.conditionFilter.form.table.title.excludeParameter'
+      ),
+      footer: t('qaqcConfig.advanced.conditionFilter.form.table.footer'),
+    },
+    placeholder: {
+      filterName: t(
+        'qaqcConfig.advanced.conditionFilter.form.placeholder.filterName'
+      ),
+      stationType: t(
+        'qaqcConfig.advanced.conditionFilter.form.placeholder.stationType'
+      ),
+      station: t(
+        'qaqcConfig.advanced.conditionFilter.form.placeholder.station'
+      ),
+      conditionParameter: t(
+        'qaqcConfig.advanced.conditionFilter.form.placeholder.conditionParameter'
+      ),
+      value: t('qaqcConfig.advanced.conditionFilter.form.placeholder.value'),
+      excludeParameter: t(
+        'qaqcConfig.advanced.conditionFilter.form.placeholder.excludeParameter'
+      ),
+    },
+    error: {
+      filterName: t(
+        'qaqcConfig.advanced.conditionFilter.form.error.filterName'
+      ),
+      stationType: t(
+        'qaqcConfig.advanced.conditionFilter.form.error.stationType'
+      ),
+      station: t('qaqcConfig.advanced.conditionFilter.form.error.station'),
+      conditionParameter: t(
+        'qaqcConfig.advanced.conditionFilter.form.error.conditionParameter'
+      ),
+      value: t('qaqcConfig.advanced.conditionFilter.form.error.value'),
+      excludeParameter: t(
+        'qaqcConfig.advanced.conditionFilter.form.error.excludeParameter'
+      ),
+      maxInput: t('qaqcConfig.advanced.conditionFilter.form.error.maxInput'),
+      whitespace: t(
+        'qaqcConfig.advanced.conditionFilter.form.error.whitespace'
+      ),
+    },
+  },
+  modal: {
+    create: {
+      title: t('qaqcConfig.advanced.conditionFilter.modal.create.title'),
+    },
+    edit: {
+      title: t('qaqcConfig.advanced.conditionFilter.modal.edit.title'),
+    },
+  },
+  button: {
+    reset: t('qaqcConfig.advanced.button.reset'),
+    create: t('qaqcConfig.advanced.button.create'),
+    delete: t('qaqcConfig.advanced.button.delete'),
+    update: t('qaqcConfig.advanced.button.update'),
+  },
+  message: {
+    create: {
+      success: t('qaqcConfig.advanced.message.create.success'),
+      error: t('qaqcConfig.advanced.message.create.error'),
+    },
+    update: {
+      success: t('qaqcConfig.advanced.message.update.success'),
+      error: t('qaqcConfig.advanced.message.update.success'),
+    },
+    delete: {
+      success: t('qaqcConfig.advanced.message.delete.success'),
+      error: t('qaqcConfig.advanced.message.delete.success'),
+    },
+  },
+})
+
 @Form.create()
 class FilterConditionContainer extends React.Component {
   state = {
@@ -166,6 +274,11 @@ class FilterConditionContainer extends React.Component {
     this.getData()
   }
 
+  onDeleted = isShowModalConditionFilter => {
+    this.setState({ isShowModalConditionFilter })
+    this.getData()
+  }
+
   render() {
     const {
       isShowModalConditionFilter,
@@ -180,7 +293,7 @@ class FilterConditionContainer extends React.Component {
     const DynamicModalConditionFilter = {
       create: (
         <ModalConditionFilter
-          title="Thêm điều kiện bộ lọc mới"
+          title={i18n().modal.create.title}
           visible={isShowModalConditionFilter}
           conditionItemSelected={conditionItemSelected}
           onCancel={this.onCancelModalConditionFilter}
@@ -192,13 +305,14 @@ class FilterConditionContainer extends React.Component {
       ),
       edit: (
         <ModalConditionFilter
-          title="Chỉnh sửa bộ lọc"
+          title={i18n().modal.edit.title}
           visible={isShowModalConditionFilter}
           conditionItemSelected={conditionItemSelected}
           onCancel={this.onCancelModalConditionFilter}
           showConfirmDelete={this.showModalConfirmDelete}
           dataWithConditionFilter={data}
           showModalConditionFilter={this.onSubmitted}
+          afterDelete={this.onDeleted}
           type={modalType}
         />
       ),
@@ -214,7 +328,7 @@ class FilterConditionContainer extends React.Component {
           >
             {form.getFieldDecorator(FIELDS.STATION)(
               <SelectStationAuto
-                placeholder="Chọn trạm quan trắc"
+                placeholder={i18n().list.placeholder.station}
                 mode="multiple"
                 style={{ width: '100%' }}
                 maxTagCount={3}
@@ -246,7 +360,7 @@ class FilterConditionContainer extends React.Component {
                     fontWeight: '500',
                   }}
                 >
-                  Bộ lọc điều kiện giá trị
+                  {i18n().list.toggle}
                 </span>
               </Col>
             </Row>
@@ -267,7 +381,7 @@ class FilterConditionContainer extends React.Component {
                 onClick={this.showModalCreate}
               >
                 <Icon type="plus" style={{ marginRight: 5 }} />
-                Thêm điều kiện lọc
+                {i18n().list.table.footer}
               </Button>
             </Row>
           )}

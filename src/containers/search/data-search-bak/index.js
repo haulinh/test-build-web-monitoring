@@ -63,7 +63,6 @@ export default class MinutesDataSearch extends React.Component {
       }
     }
 
-    // console.log("CAll api with data " + JSON.stringify(searchFormData, null, 2))
     let dataStationAuto = await DataStationAutoApi.getDataStationAutos(
       {
         page: paginationQuery.current,

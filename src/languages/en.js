@@ -456,6 +456,8 @@ export default {
     originalData: 'Original data',
     validData: 'Valid data',
     inValidData: 'Invalid data',
+    timeRange: 'Time Range',
+    valueRange: 'Value Condition',
     ok: 'OK',
     province: {
       label: 'Select Site',
@@ -494,6 +496,106 @@ export default {
     },
     advanced: {
       title: 'Advanced Filter',
+      tab: {
+        time: 'Filter by time',
+        value: 'Filter by value',
+      },
+      placeholder: {
+        station: 'Choose station',
+      },
+      button: {
+        reset: 'Reset',
+        create: 'Create',
+        delete: 'Delete filter',
+        update: 'Update',
+        cancel: 'Cancel',
+        continueCreate: 'Continue Creating',
+        continueEdit: 'Continue Editing',
+        close: 'Close',
+      },
+      message: {
+        create: {
+          success: 'Create Successfully',
+          error: 'Create Unsuccessfully',
+        },
+        update: {
+          success: 'Update Successfully',
+          error: 'Update Unsuccessfully',
+        },
+        delete: {
+          success: 'Delete Successfully',
+          error: 'Delete Unsuccessfully',
+        },
+      },
+      modal: {
+        delete: {
+          title: 'Confirm filter deletion',
+          message:
+            'Be sure to delete the data filter, all data of reports and statistics will no longer apply the filter to calculate',
+        },
+        cancel: {
+          create: {
+            title: 'Cancel creating',
+            message: `Filter data has not been created. If the window is closed, the filter's data entered will not be saved.`,
+          },
+          edit: {
+            title: 'Cancel editing',
+            message:
+              'Filter data has not been saved. If the window is closed, the filter edits entered will not be saved.',
+          },
+        },
+      },
+      conditionFilter: {
+        toggle: 'Value condition filter',
+        table: {
+          title: {
+            conditionName: `Condition's Name`,
+            applicableStation: 'Applicable Station',
+            conditionParameter: 'Condition Parameter',
+            excludeParameter: 'Exclude Parameters',
+          },
+          footer: 'Add filter condition',
+        },
+        form: {
+          label: {
+            filterName: 'Name Of Filter',
+            stationType: 'Types Of Station',
+            station: 'Station Name',
+          },
+          placeholder: {
+            filterName: 'Name Of Filter',
+            stationType: 'Choose Type Of Station',
+            station: 'Choose Station',
+            conditionParameter: 'Choose parameter',
+            excludeParameter: 'Choose parameters which will be exclude',
+          },
+          error: {
+            filterName: 'Please type name of filter',
+            stationType: 'Please choose type of station',
+            station: 'Please choose station',
+            conditionParameter: 'Please choose parameter',
+            value: 'Please type value',
+            excludeParameter: 'Please choose at least one parameter',
+            maxInput: 'No more than 64 characters',
+            whitespace: 'Please type data',
+          },
+          table: {
+            title: {
+              conditionParameter: 'Condition parameter',
+              excludeParameter: 'Exclude parameters',
+            },
+            footer: 'Add filter condition',
+          },
+        },
+        modal: {
+          create: {
+            title: 'Add filter condition',
+          },
+          edit: {
+            title: 'Edit filter condition',
+          },
+        },
+      },
     },
   },
   controlStation: {
@@ -4154,6 +4256,19 @@ export default {
     typeRatio: {
       titleExport: 'Report__Percentage Of Obtained Data_{{=it.time}}',
       notUpdate: 'Not updated',
+    },
+  },
+  modalExportLang: {
+    title: 'Export excel',
+    content: 'Select language to export',
+    language: {
+      en: 'English',
+      vi: 'Vietnamese',
+      tw: 'Taiwan',
+    },
+    button: {
+      ok: 'Confirm',
+      cancel: 'Cancel',
     },
   },
 }

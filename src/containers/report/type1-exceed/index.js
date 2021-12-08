@@ -14,10 +14,10 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import { getTimeUTC } from 'utils/datetime'
 import { downFileExcel } from 'utils/downFile'
-import { getLanguage } from 'utils/localStorage'
 import Breadcrumb from '../breadcrumb'
 import Filter from './Filter'
 import { TableDate, TableYear } from './TableData'
+import ModalLangExport from 'components/elements/modal-lang-export'
 
 export const FIELDS = {
   REPORT_TYPE: 'reportType',
@@ -66,6 +66,8 @@ export default class ReportExceed extends Component {
     data: [],
     loading: false,
     isLoadingExcel: false,
+    visableModal: false,
+    langExport: 'vi'
   }
 
   getQueryParams = async () => {
@@ -162,11 +164,12 @@ export default class ReportExceed extends Component {
   handleExportExceed = async () => {
     this.setState({
       isLoadingExcel: true,
+      visableModal: false
     })
     const params = await this.getQueryParams()
     const result = await DataInsight.getExportReportExceed(params.reportType, {
       ...params,
-      lang: getLanguage(),
+      lang: this.state.langExport,
     })
     this.setState({
       isLoadingExcel: false,
@@ -180,11 +183,30 @@ export default class ReportExceed extends Component {
     )
   }
 
+  handleOkModal = e => {
+    this.setState({
+      visableModal: true
+    });
+  };
+
+  handleCancelModal = e => {
+    this.setState({
+      isLoadingExcel: false,
+      visableModal: false
+    });
+  };
+
+  onChangeModal = e => {
+    this.setState({
+      langExport: e.target.value,
+    });
+  }
+
   resetData = () => this.setState({ data: [] })
 
   render() {
     const { form } = this.props
-    const { loading, data } = this.state
+    const { loading, data, visableModal, langExport } = this.state
     const { time: { type } = {} } = form.getFieldsValue() || {}
 
     const Report = {
@@ -236,17 +258,19 @@ export default class ReportExceed extends Component {
                 <Button
                   style={{ marginRight: '12px' }}
                   type="primary"
-                  onClick={this.handleExportExceed}
+                  onClick={this.handleOkModal}
                   icon="file-excel"
                   loading={this.state.isLoadingExcel}
                 >
                   {t('report.exportExcel')}
                 </Button>
               )}
+
             </Row>
           </Col>
         </Row>
         <Clearfix height={31} />
+        <ModalLangExport showModal={visableModal} handleOkModal={this.handleExportExceed} handleCancelModal={this.handleCancelModal} onChangeModal={this.onChangeModal} langExport={langExport} />
         <Spin spinning={this.state.loading}>{Report[type]}</Spin>
         <Clearfix height={50} />
       </PageContainer>

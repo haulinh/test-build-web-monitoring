@@ -85,6 +85,7 @@ export default class SelectQCVN extends PureComponent {
   render() {
     const listQCVN = this.getListQCVN()
     // console.log(listQCVN, this.state.searchString, '--listQCVN--')
+    const { fieldValue } = this.props
     return (
       <Select
         {...this.props}
@@ -102,7 +103,10 @@ export default class SelectQCVN extends PureComponent {
           </Select.Option>
         )}
         {listQCVN.map(standardVN => (
-          <Select.Option key={standardVN._id} value={standardVN._id}>
+          <Select.Option
+            key={standardVN._id}
+            value={standardVN[fieldValue || '_id']}
+          >
             {standardVN.name}
           </Select.Option>
         ))}

@@ -1,14 +1,53 @@
 import { DatePicker, Table } from 'antd'
 import { FormItem } from 'components/layouts/styles'
-import moment from 'moment-timezone'
+import moment from 'moment'
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
 const { RangePicker } = DatePicker
 
+@connect(state => ({
+  measuresObj: state.global.measuresObj,
+}))
 export default class FormTableMeasureTime extends Component {
-  getColumns = () => {
-    const { measureKeyListSelected, isEdit } = this.props
+  state = {
+    keyListSelect: [],
+  }
+  setInitValues = () => {
+    const { form } = this.props
+    // this.setInitialSelected()
+    const conditionFields = this.getFieldsConditionsValue()
+    form.setFieldsValue({ conditions: conditionFields })
+  }
 
+  componentDidUpdate = prevProps => {
+    const { isEdit } = this.props
+    if (isEdit) {
+      const { id, form } = this.props
+      if (prevProps.id !== id) {
+        const conditionFields = this.getFieldsConditionsValue()
+        form.setFieldsValue({ conditions: conditionFields })
+      }
+    }
+  }
+
+  getFieldsConditionsValue = () => {
+    const { conditions } = this.props
+    if (!conditions) return
+    const conditionFields = conditions.reduce((prevValue, currentValue) => {
+      return {
+        ...prevValue,
+        [currentValue.measure]: [
+          moment(currentValue.startAt),
+          moment(currentValue.endAt),
+        ],
+      }
+    }, {})
+    return conditionFields
+  }
+
+  getColumns = () => {
+    const { measureKeyListSelected, isEdit, measuresObj } = this.props
     const { form } = this.props
 
     return [
@@ -18,7 +57,9 @@ export default class FormTableMeasureTime extends Component {
         key: 'measure',
         render: value => {
           // const measureKey = measure.map(measure => measure.measure)
-          return <div style={{ fontWeight: 500 }}>{value}</div>
+          return (
+            <div style={{ fontWeight: 500 }}>{measuresObj[value].name}</div>
+          )
         },
       },
       {
@@ -27,10 +68,7 @@ export default class FormTableMeasureTime extends Component {
         render: (value, record, index) => {
           return (
             <FormItem style={{ marginBottom: 0 }}>
-              {form.getFieldDecorator(`conditions[${value.measure}]`, {
-                ...(isEdit && {
-                  initialValue: [moment(value.startAt), moment(value.endAt)],
-                }),
+              {form.getFieldDecorator(`conditions.${value.measure}`, {
                 rules: [
                   {
                     required: measureKeyListSelected.includes(value.measure),
@@ -41,7 +79,9 @@ export default class FormTableMeasureTime extends Component {
                 <RangePicker
                   disabled={!measureKeyListSelected.includes(value.measure)}
                   style={{ width: '100%', padding: 0 }}
-                  format={['DD/MM/YYYY']}
+                  showTime={{ format: 'HH:mm' }}
+                  format="HH:mm DD-MM-YYYY"
+                  placeholder={['Thời gian bắt đầu', 'Thời gian kết thúc']}
                 />
               )}
             </FormItem>
@@ -64,7 +104,7 @@ export default class FormTableMeasureTime extends Component {
     )
 
     const conditionFields = measureListNotSelect.map(
-      measure => `conditions[${measure}]`
+      measure => `conditions.${measure}`
     )
 
     form.resetFields(conditionFields)
@@ -73,15 +113,17 @@ export default class FormTableMeasureTime extends Component {
   }
 
   render() {
-    const { dataSource, stationAuto } = this.props
+    const { dataSource, stationAuto, measureKeyListSelected } = this.props
+
     const rowSelection = {
+      selectedRowKeys: measureKeyListSelected,
       onChange: this.handleSelectChange,
     }
-
     return (
       <Table
         key={stationAuto}
-        columns={[...this.getColumns()]}
+        rowKey={row => row.measure}
+        columns={this.getColumns()}
         dataSource={dataSource}
         bordered
         rowSelection={rowSelection}
