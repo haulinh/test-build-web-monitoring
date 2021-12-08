@@ -49,7 +49,7 @@ class ConfigQaqcAdvancedTab extends React.Component {
               />
             </TabPane>
             <TabPane
-              tab={t('qaqcConfig.advanced.tab.time')}
+              tab={t('qaqcConfig.advanced.tab.value')}
               key="filterMeasureValue"
             >
               <FilterConditionContainer

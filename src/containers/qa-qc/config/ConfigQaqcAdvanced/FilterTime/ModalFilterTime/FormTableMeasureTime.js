@@ -3,6 +3,7 @@ import { FormItem } from 'components/layouts/styles'
 import moment from 'moment-timezone'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { i18n } from '../index'
 
 const { RangePicker } = DatePicker
 
@@ -16,7 +17,7 @@ export default class FormTableMeasureTime extends Component {
 
     return [
       {
-        title: 'Thông số',
+        title: i18n().form.table.parameter,
         dataIndex: 'measure',
         key: 'measure',
         render: value => {
@@ -27,7 +28,7 @@ export default class FormTableMeasureTime extends Component {
         },
       },
       {
-        title: 'Khoảng thời gian',
+        title: i18n().form.table.timeRange,
         key: 'time',
         render: (value, record, index) => {
           return (
@@ -39,7 +40,7 @@ export default class FormTableMeasureTime extends Component {
                 rules: [
                   {
                     required: measureKeyListSelected.includes(value.measure),
-                    message: 'Vui lòng chọn thời gian',
+                    message: i18n().form.error.time,
                   },
                 ],
               })(
@@ -48,7 +49,10 @@ export default class FormTableMeasureTime extends Component {
                   style={{ width: '100%', padding: 0 }}
                   showTime={{ format: 'HH:mm' }}
                   format="HH:mm DD-MM-YYYY"
-                  placeholder={['Thời gian bắt đầu', 'Thời gian kết thúc']}
+                  placeholder={[
+                    i18n().form.placeholder.timeRange.startTime,
+                    i18n().form.placeholder.timeRange.endTime,
+                  ]}
                 />
               )}
             </FormItem>

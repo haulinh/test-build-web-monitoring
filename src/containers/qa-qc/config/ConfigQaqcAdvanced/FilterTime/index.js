@@ -17,6 +17,60 @@ export const FIELDS = {
   STATION_AUTO_ID: 'stationId',
 }
 
+export const i18n = () => ({
+  list: {
+    placeholder: {
+      station: t('qaqcConfig.advanced.placeholder.station'),
+    },
+    toggle: t('qaqcConfig.advanced.timeFilter.toggle'),
+    table: {
+      station: t('qaqcConfig.advanced.timeFilter.table.title.station'),
+      parameter: t('qaqcConfig.advanced.timeFilter.table.title.parameter'),
+      status: t('qaqcConfig.advanced.timeFilter.table.title.status'),
+      expire: t('qaqcConfig.advanced.timeFilter.table.expire'),
+      inUse: t('qaqcConfig.advanced.timeFilter.table.inUse'),
+      footer: t('qaqcConfig.advanced.timeFilter.table.footer'),
+    },
+  },
+  form: {
+    label: {
+      stationType: t('qaqcConfig.advanced.label.stationType'),
+      station: t('qaqcConfig.advanced.label.station'),
+    },
+    table: {
+      parameter: t('qaqcConfig.advanced.timeFilter.form.table.title.parameter'),
+      timeRange: t('qaqcConfig.advanced.timeFilter.form.table.title.timeRange'),
+    },
+    placeholder: {
+      stationType: t('qaqcConfig.advanced.placeholder.stationType'),
+      station: t('qaqcConfig.advanced.placeholder.station'),
+      timeRange: {
+        startTime: t(
+          'qaqcConfig.advanced.timeFilter.form.placeholder.startTime'
+        ),
+        endTime: t('qaqcConfig.advanced.timeFilter.form.placeholder.endTime'),
+      },
+    },
+    error: {
+      time: t('qaqcConfig.advanced.timeFilter.form.error.time'),
+    },
+  },
+  modal: {
+    create: {
+      title: t('qaqcConfig.advanced.modal.create.title'),
+    },
+    edit: {
+      title: t('qaqcConfig.advanced.modal.edit.title'),
+    },
+  },
+  button: {
+    reset: t('qaqcConfig.advanced.button.reset'),
+    create: t('qaqcConfig.advanced.button.create'),
+    delete: t('qaqcConfig.advanced.button.delete'),
+    update: t('qaqcConfig.advanced.button.update'),
+  },
+})
+
 @Form.create()
 export default class FilterTimeContainer extends Component {
   constructor(props) {
@@ -233,7 +287,7 @@ export default class FilterTimeContainer extends Component {
     const DynamicModalFilterTime = {
       create: (
         <ModalFilterTime
-          modalTitle="Thêm bộ lọc điều kiện mới"
+          modalTitle={i18n().modal.create.title}
           visible={isModalFilterTime}
           showModal={this.handleFinishCreate}
           form={form}
@@ -243,7 +297,7 @@ export default class FilterTimeContainer extends Component {
       ),
       edit: (
         <ModalFilterTime
-          modalTitle="Chỉnh sửa bộ lọc"
+          modalTitle={i18n().modal.edit.title}
           visible={isModalFilterTime}
           onCancel={this.closeModalFilterTime}
           modalType={modalType}
@@ -263,7 +317,7 @@ export default class FilterTimeContainer extends Component {
           >
             {form.getFieldDecorator(FIELDS.STATION_AUTO)(
               <SelectStationAuto
-                placeholder="Chọn trạm quan trắc"
+                placeholder={i18n().list.placeholder.station}
                 mode="multiple"
                 style={{ width: '100%' }}
                 maxTagCount={3}
@@ -286,7 +340,7 @@ export default class FilterTimeContainer extends Component {
             <div
               style={{ fontWeight: 500, fontSize: '16px', color: '#111827' }}
             >
-              Bộ lọc khoảng thời gian
+              {i18n().list.toggle}
             </div>
           </Col>
         </Row>

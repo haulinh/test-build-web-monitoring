@@ -5,8 +5,7 @@ import { FormItem } from 'components/layouts/styles'
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { v4 as uuidv4 } from 'uuid'
-import { FIELDS } from '../index'
-import { i18n } from '../index'
+import { FIELDS, i18n } from '../index'
 
 const TableCondition = styled(Table)`
   .ant-table-tbody > tr > td {

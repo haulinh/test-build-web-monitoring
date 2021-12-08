@@ -501,6 +501,7 @@ export default {
       },
       placeholder: {
         station: 'Chọn trạm quan trắc',
+        stationType: 'Chọn loại trạm',
       },
       button: {
         reset: 'Nhập lại',
@@ -527,6 +528,12 @@ export default {
         },
       },
       modal: {
+        create: {
+          title: 'Thêm điều kiện bộ lọc mới',
+        },
+        edit: {
+          title: 'Chỉnh sửa bộ lọc',
+        },
         delete: {
           title: 'Xác nhận xóa bộ lọc',
           message:
@@ -545,6 +552,10 @@ export default {
           },
         },
       },
+      label: {
+        stationType: 'Loại trạm',
+        station: 'Trạm quan trắc',
+      },
       conditionFilter: {
         toggle: 'Bộ lọc điều kiện giá trị',
         table: {
@@ -559,13 +570,9 @@ export default {
         form: {
           label: {
             filterName: 'Tên bộ lọc',
-            stationType: 'Loại trạm',
-            station: 'Trạm quan trắc',
           },
           placeholder: {
             filterName: 'Tên bộ lọc',
-            stationType: 'Chọn loại trạm',
-            station: 'Chọn trạm quan trắc',
             conditionParameter: 'Chọn thông số',
             excludeParameter: 'Lựa chọn thông số sẽ loại bỏ',
           },
@@ -587,12 +594,35 @@ export default {
             footer: 'Thêm điều kiện lọc',
           },
         },
-        modal: {
-          create: {
-            title: 'Thêm điều kiện bộ lọc mới',
+      },
+      timeFilter: {
+        toggle: 'Bộ lọc khoảng thời gian',
+        table: {
+          title: {
+            station: 'Trạm quan trắc',
+            parameter: 'Thông số',
+            status: 'Trạng thái',
           },
-          edit: {
-            title: 'Chỉnh sửa bộ lọc',
+          footer: 'Thêm điều kiện lọc',
+          expire: 'Quá hạn',
+          inUse: 'Áp dụng',
+        },
+        form: {
+          // label: {
+          //   filterName: 'Tên bộ lọc',
+          // },
+          placeholder: {
+            startTime: 'Thời gian bắt đầu',
+            endTime: 'Thời gian kết thúc',
+          },
+          error: {
+            time: 'Vui lòng chọn thời gian',
+          },
+          table: {
+            title: {
+              parameter: 'Thông số',
+              timeRange: 'Khoảng thời gian',
+            },
           },
         },
       },
