@@ -14,6 +14,7 @@ import { FIELDS } from '../index'
 import FormTableMeasureCondition from './FormTableMeasureCondition'
 import CalculateApi from 'api/CalculateApi'
 import { v4 as uuidv4 } from 'uuid'
+import { i18n } from '../index'
 
 const StyledRow = styled(Row)`
   .ant-btn {
@@ -57,7 +58,7 @@ class ModalConditionFilter extends React.Component {
       )
 
       form.setFieldsValue({
-        [FIELDS.FILTER_NAME]: get(conditionItemSelected, 'name'),
+        [FIELDS.FILTER_NAME]: get(conditionItemSelected, 'name', '').trim(),
         [FIELDS.STATION_TYPE]: get(
           conditionItemSelected,
           'station.stationType._id'
@@ -119,18 +120,20 @@ class ModalConditionFilter extends React.Component {
       if (type === 'create') {
         await CalculateApi.createQaqcConfig(param)
         this.setState({ loading: false })
-        message.success('Tạo thành công')
+        message.success(i18n().message.create.success)
       } else {
         await CalculateApi.updateQaqcConfigById(
           get(conditionItemSelected, '_id'),
           param
         )
         this.setState({ loading: false })
-        message.success('Cập nhật thành công')
+        message.success(i18n().message.update.success)
       }
     } catch (error) {
       this.setState({ loading: false })
       console.log(error)
+      if (type === 'create') message.error(i18n().message.create.error)
+      message.error(i18n().message.update.error)
     }
     this.tableRef.current.state.conditions = [{ id: uuidv4() }]
     onCancel()
@@ -196,13 +199,13 @@ class ModalConditionFilter extends React.Component {
         isShowModalConfirmDelete: false,
       })
       afterDelete(false)
-      message.success('Xóa thành công')
+      message.success(i18n().message.delete.success)
     } catch (error) {
       this.setState({
         isShowModalConfirmDelete: false,
       })
       afterDelete(false)
-      message.error('Xóa không thành công')
+      message.error(i18n().message.delete.error)
     }
   }
 
@@ -238,7 +241,7 @@ class ModalConditionFilter extends React.Component {
               color: '#1890FF',
             }}
           >
-            Nhập lại
+            {i18n().button.reset}
           </Button>
           <Button
             key="submit"
@@ -246,7 +249,7 @@ class ModalConditionFilter extends React.Component {
             loading={loading}
             onClick={this.onSubmit}
           >
-            Tạo mới
+            {i18n().button.create}
           </Button>
           <Clearfix width={9} />
         </StyledRow>
@@ -264,7 +267,7 @@ class ModalConditionFilter extends React.Component {
                 key="delete"
                 onClick={this.handleDeleteConditionFilter}
               >
-                Xóa bộ lọc
+                {i18n().button.delete}
               </Button>
             </StyledRow>
           </Col>
@@ -277,7 +280,7 @@ class ModalConditionFilter extends React.Component {
                   color: '#1890FF',
                 }}
               >
-                Nhập lại
+                {i18n().button.reset}
               </Button>
               <Button
                 key="submit"
@@ -285,7 +288,7 @@ class ModalConditionFilter extends React.Component {
                 loading={loading}
                 onClick={this.onSubmit}
               >
-                Cập nhật
+                {i18n().button.update}
               </Button>
               <Clearfix width={9} />
             </StyledRow>
@@ -304,59 +307,64 @@ class ModalConditionFilter extends React.Component {
       >
         <Row gutter={24}>
           <Col span={8}>
-            <FormItem label="Tên bộ lọc">
+            <FormItem label={i18n().form.label.filterName}>
               {form.getFieldDecorator(FIELDS.FILTER_NAME, {
                 rules: [
                   {
                     required: true,
-                    message: 'Vui lòng nhập tên bộ lọc',
+                    message: i18n().form.error.filterName,
                   },
                   {
                     max: 64,
-                    message: 'Không được nhập quá 64 ký tự',
+                    message: i18n().form.error.maxInput,
                   },
                   {
                     whitespace: true,
-                    message: 'Vui lòng nhập dữ liệu',
+                    message: i18n().form.error.whitespace,
                   },
                 ],
-              })(<Input style={{}} placeholder="Tên bộ lọc" />)}
+              })(
+                <Input
+                  style={{}}
+                  placeholder={i18n().form.placeholder.filterName}
+                />
+              )}
             </FormItem>
           </Col>
           <Col span={8}>
-            <FormItem label="Loại trạm">
+            <FormItem label={i18n().form.label.stationType}>
               {form.getFieldDecorator(FIELDS.STATION_TYPE, {
                 onChange: this.onChangeStationType,
                 rules: [
                   {
                     required: true,
-                    message: 'Vui lòng chọn loại trạm',
+                    message: i18n().form.error.stationType,
                   },
                 ],
               })(
                 <SelectStationType
                   disabled={type === 'edit' ? true : false}
                   fieldValue="_id"
-                  placeholder="Chọn loại trạm"
+                  placeholder={i18n().form.placeholder.stationType}
                 />
               )}
             </FormItem>
           </Col>
           <Col span={8}>
-            <FormItem label="Trạm quan trắc">
+            <FormItem label={i18n().form.label.station}>
               {form.getFieldDecorator(FIELDS.STATION, {
                 onChange: this.onChangeStation,
                 rules: [
                   {
                     required: true,
-                    message: 'Vui lòng chọn trạm quan trắc',
+                    message: i18n().form.error.station,
                   },
                 ],
               })(
                 <SelectStationAuto
                   disabled={type === 'edit' || !stationType}
                   fieldValue="_id"
-                  placeholder="Chọn trạm quan trắc"
+                  placeholder={i18n().form.placeholder.station}
                   stationType={stationType}
                   onFetchSuccess={this.onStationAutosFetchSuccess}
                   stationAutosExclude={

@@ -496,6 +496,77 @@ export default {
     },
     advanced: {
       title: 'Advanced Filter',
+      placeholder: {
+        station: 'Choose station',
+      },
+      button: {
+        reset: 'Reset',
+        create: 'Create',
+        delete: 'Delete filter',
+        update: 'Update',
+      },
+      message: {
+        create: {
+          success: 'Create Successfully',
+          error: 'Create Unsuccessfully',
+        },
+        update: {
+          success: 'Update Successfully',
+          error: 'Update Unsuccessfully',
+        },
+        delete: {
+          success: 'Delete Successfully',
+          error: 'Delete Unsuccessfully',
+        },
+      },
+      conditionFilter: {
+        toggle: 'Value condition filter',
+        table: {
+          title: {
+            conditionName: `Condition's Name`,
+            applicableStation: 'Applicable Station',
+            conditionParameter: 'Condition Parameter',
+            excludeParameter: 'Exclude Parameters',
+          },
+          footer: 'Add filter condition',
+        },
+        form: {
+          label: {
+            filterName: 'Name Of Filter',
+            stationType: 'Types Of Station',
+            station: 'Station Name',
+          },
+          placeholder: {
+            filterName: 'Name Of Filter',
+            stationType: 'Choose Type Of Station',
+            station: 'Choose Station',
+            conditionParameter: 'Choose parameter',
+            excludeParameter: 'Choose parameters which will be exclude',
+          },
+          error: {
+            filterName: 'Please type name of filter',
+            stationType: 'Please choose type of station',
+            station: 'Please choose station',
+            conditionParameter: 'Please choose parameter',
+            value: 'Please type value',
+            excludeParameter: 'Please choose at least one parameter',
+            maxInput: 'No more than 64 characters',
+            whitespace: 'Please type data',
+          },
+          table: {
+            title: {
+              conditionParameter: 'Condition parameter',
+              excludeParameter: 'Exclude parameters',
+            },
+            footer: 'Add filter condition',
+          },
+        },
+        modal: {
+          create: {
+            title: 'Add filter condition',
+          },
+        },
+      },
     },
   },
   controlStation: {

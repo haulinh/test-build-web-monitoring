@@ -495,6 +495,77 @@ export default {
     },
     advanced: {
       title: 'Bộ lọc nâng cao',
+      placeholder: {
+        station: 'Chọn trạm quan trắc',
+      },
+      button: {
+        reset: 'Nhập lại',
+        create: 'Tạo mới',
+        delete: 'Xóa bộ lọc',
+        update: 'Cập nhật',
+      },
+      message: {
+        create: {
+          success: 'Tạo thành công',
+          error: 'Tạo không thành công',
+        },
+        update: {
+          success: 'Cập nhật thành công',
+          error: 'Cập nhật không thành công',
+        },
+        delete: {
+          success: 'Xóa thành công',
+          error: 'Xóa không thành công',
+        },
+      },
+      conditionFilter: {
+        toggle: 'Bộ lọc điều kiện giá trị',
+        table: {
+          title: {
+            conditionName: 'Tên điều kiện',
+            applicableStation: 'Trạm áp dụng',
+            conditionParameter: 'Thông số điều kiện',
+            excludeParameter: 'Thông số loại bỏ',
+          },
+          footer: 'Thêm điều kiện lọc',
+        },
+        form: {
+          label: {
+            filterName: 'Tên bộ lọc',
+            stationType: 'Loại trạm',
+            station: 'Trạm quan trắc',
+          },
+          placeholder: {
+            filterName: 'Tên bộ lọc',
+            stationType: 'Chọn loại trạm',
+            station: 'Chọn trạm quan trắc',
+            conditionParameter: 'Chọn thông số',
+            excludeParameter: 'Lựa chọn thông số sẽ loại bỏ',
+          },
+          error: {
+            filterName: 'Vui lòng nhập tên bộ lọc',
+            stationType: 'Vui lòng chọn loại trạm',
+            station: 'Vui lòng chọn trạm quan trắc',
+            conditionParameter: 'Vui lòng chọn thông số',
+            value: 'Vui lòng nhập giá trị',
+            excludeParameter: 'Vui lòng chọn ít nhất một thông số',
+            maxInput: 'Không được nhập quá 64 ký tự',
+            whitespace: 'Vui lòng nhập dữ liệu',
+          },
+          table: {
+            title: {
+              conditionParameter: 'Thông số điều kiện',
+              excludeParameter: 'Thông số loại bỏ',
+            },
+            footer: 'Thêm điều kiện lọc',
+          },
+        },
+        modal: {
+          create: {
+            title: 'Thêm điều kiện bộ lọc mới',
+          },
+        },
+      },
     },
   },
   controlStation: {

@@ -24,13 +24,13 @@ const SelectMeasureParameter = ({
       onChange={handleChange}
       optionFilterProp="children"
       filterOption={(input, option) =>
-        _.get(option, 'props.value', '')
+        _.get(option, 'props.name', '')
           .toLowerCase()
           .indexOf((input || '').toLowerCase()) >= 0
       }
     >
       {measuringList.map(item => (
-        <Select.Option key={item.key} value={item.key}>
+        <Select.Option key={item.key} value={item.key} name={item.name}>
           <Tooltip title={item.name}>{item.name}</Tooltip>
         </Select.Option>
       ))}
