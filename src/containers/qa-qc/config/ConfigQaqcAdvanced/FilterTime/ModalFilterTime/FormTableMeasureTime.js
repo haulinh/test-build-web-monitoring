@@ -2,20 +2,12 @@ import { DatePicker, Table } from 'antd'
 import { FormItem } from 'components/layouts/styles'
 import moment from 'moment'
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 
 const { RangePicker } = DatePicker
 
-@connect(state => ({
-  measuresObj: state.global.measuresObj,
-}))
 export default class FormTableMeasureTime extends Component {
-  state = {
-    keyListSelect: [],
-  }
   setInitValues = () => {
     const { form } = this.props
-    // this.setInitialSelected()
     const conditionFields = this.getFieldsConditionsValue()
     form.setFieldsValue({ conditions: conditionFields })
   }
@@ -47,8 +39,7 @@ export default class FormTableMeasureTime extends Component {
   }
 
   getColumns = () => {
-    const { measureKeyListSelected, isEdit, measuresObj } = this.props
-    const { form } = this.props
+    const { measureKeyListSelected, measuresObj, form } = this.props
 
     return [
       {
@@ -56,7 +47,6 @@ export default class FormTableMeasureTime extends Component {
         dataIndex: 'measure',
         key: 'measure',
         render: value => {
-          // const measureKey = measure.map(measure => measure.measure)
           return (
             <div style={{ fontWeight: 500 }}>{measuresObj[value].name}</div>
           )

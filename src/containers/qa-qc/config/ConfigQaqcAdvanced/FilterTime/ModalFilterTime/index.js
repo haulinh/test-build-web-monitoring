@@ -12,7 +12,11 @@ import { getTimeUTC } from 'utils/datetime'
 import { ModalConfirmCancel } from '../../components/index'
 import CalculateApi from 'api/CalculateApi'
 import moment from 'moment'
+import { connect } from 'react-redux'
 
+@connect(state => ({
+  measuresObj: state.global.measuresObj,
+}))
 @Form.create()
 export default class ModalFilterTime extends Component {
   constructor(props) {
@@ -75,7 +79,6 @@ export default class ModalFilterTime extends Component {
     const stationAuto = stationAutoList.find(
       stationAuto => stationAuto._id === stationAutoValueField
     )
-    // if (!stationAuto) return []
 
     const measureList = getMeasuringListFromStationAutos([stationAuto])
     const dataSource = measureList.map(measure => ({
@@ -206,7 +209,6 @@ export default class ModalFilterTime extends Component {
       try {
         await CalculateApi.createQaqcConfig(params)
         message.success(t('addon.onSave.add.success'))
-        console.log('create')
       } catch (error) {
         message.success(t('addon.onSave.add.error'))
       }
@@ -214,7 +216,6 @@ export default class ModalFilterTime extends Component {
       try {
         await CalculateApi.updateQaqcConfigById(idFilterTime, params)
         message.success(t('dataSearchFilterForm.update.success'))
-        console.log('update')
       } catch (error) {
         message.success(t('addon.onSave.add.error'))
       }
@@ -270,6 +271,7 @@ export default class ModalFilterTime extends Component {
       modalType,
       modalTitle,
       dataItemFilterTime,
+      measuresObj,
       ...otherProps
     } = this.props
 
@@ -309,7 +311,6 @@ export default class ModalFilterTime extends Component {
                 >
                   Nhập lại
                 </Button>
-                {/* {DynamicButtonSubmit[modalType]} */}
                 <Button
                   type="primary"
                   onClick={this.handleSubmitForm}
@@ -368,6 +369,7 @@ export default class ModalFilterTime extends Component {
             <FormTableMeasureTime
               ref={this.tableRef}
               dataSource={dataSource}
+              measuresObj={measuresObj}
               dataItemFilterTime={dataItemFilterTime}
               conditions={_.get(dataItemFilterTime, 'conditions')}
               form={form}
