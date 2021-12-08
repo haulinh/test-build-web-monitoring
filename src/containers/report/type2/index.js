@@ -52,7 +52,7 @@ export default class ReportType2 extends React.Component {
       monthYear: '',
       measuringList: [],
       visableModal: false,
-      langExport: 'VI'
+      langExport: 'vi'
     }
   }
 

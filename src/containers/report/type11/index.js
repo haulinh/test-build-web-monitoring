@@ -53,7 +53,7 @@ export default class ReportType11 extends React.Component {
       dayFormat: '',
       measuringList: [],
       visableModal: false,
-      langExport: 'VI'
+      langExport: 'vi'
     }
   }
 
