@@ -29,7 +29,7 @@ export const i18n = () => ({
         'qaqcConfig.advanced.conditionFilter.table.title.conditionName'
       ),
       applicableStation: t(
-        'qaqcConfig.advanced.conditionFilter.table.title.conditionName'
+        'qaqcConfig.advanced.conditionFilter.table.title.applicableStation'
       ),
       conditionParameter: t(
         'qaqcConfig.advanced.conditionFilter.table.title.conditionParameter'
@@ -45,10 +45,8 @@ export const i18n = () => ({
       filterName: t(
         'qaqcConfig.advanced.conditionFilter.form.label.filterName'
       ),
-      stationType: t(
-        'qaqcConfig.advanced.conditionFilter.form.label.stationType'
-      ),
-      station: t('qaqcConfig.advanced.conditionFilter.form.label.station'),
+      stationType: t('qaqcConfig.advanced.label.stationType'),
+      station: t('qaqcConfig.advanced.label.station'),
     },
     table: {
       conditionParameter: t(
@@ -63,12 +61,8 @@ export const i18n = () => ({
       filterName: t(
         'qaqcConfig.advanced.conditionFilter.form.placeholder.filterName'
       ),
-      stationType: t(
-        'qaqcConfig.advanced.conditionFilter.form.placeholder.stationType'
-      ),
-      station: t(
-        'qaqcConfig.advanced.conditionFilter.form.placeholder.station'
-      ),
+      stationType: t('qaqcConfig.advanced.placeholder.stationType'),
+      station: t('qaqcConfig.advanced.placeholder.station'),
       conditionParameter: t(
         'qaqcConfig.advanced.conditionFilter.form.placeholder.conditionParameter'
       ),
@@ -100,10 +94,10 @@ export const i18n = () => ({
   },
   modal: {
     create: {
-      title: t('qaqcConfig.advanced.conditionFilter.modal.create.title'),
+      title: t('qaqcConfig.advanced.modal.create.title'),
     },
     edit: {
-      title: t('qaqcConfig.advanced.conditionFilter.modal.edit.title'),
+      title: t('qaqcConfig.advanced.modal.edit.title'),
     },
   },
   button: {
@@ -219,12 +213,12 @@ class FilterConditionContainer extends React.Component {
       this.setState({
         isShowModalConfirmDelete: false,
       })
-      message.success('Xóa thành công')
+      message.success(i18n().message.delete.success)
     } catch (error) {
       this.setState({
         isShowModalConfirmDelete: false,
       })
-      message.error('Xóa không thành công')
+      message.error(i18n().message.delete.error)
     }
     this.getData()
   }

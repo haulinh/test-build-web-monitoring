@@ -3,6 +3,7 @@ import { Table, Row, Icon, Button } from 'antd'
 import moment from 'moment'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
+import { i18n } from './index'
 
 const BoxStatus = styled.div`
   text-align: center;
@@ -27,14 +28,14 @@ export default class TableFilterTime extends Component {
         ),
       },
       {
-        title: 'Trạm quan trắc',
+        title: i18n().list.table.station,
         dataIndex: 'station.name',
         width: 350,
         render: value => <div style={{ fontWeight: 500 }}>{value}</div>,
       },
 
       {
-        title: 'Thông số',
+        title: i18n().list.table.parameter,
         dataIndex: 'conditions',
         key: 'measure',
         align: 'left',
@@ -49,7 +50,7 @@ export default class TableFilterTime extends Component {
         },
       },
       {
-        title: 'Trạng thái',
+        title: i18n().list.table.status,
         dataIndex: 'status',
         key: 'status',
         sorter: (a, b) => a.status.localeCompare(b.status),
@@ -64,7 +65,7 @@ export default class TableFilterTime extends Component {
                   color: '#6B7280',
                 }}
               >
-                Quá hạn
+                {i18n().list.table.expire}
               </BoxStatus>
             )
           }
@@ -76,7 +77,7 @@ export default class TableFilterTime extends Component {
                 color: '#1890FF',
               }}
             >
-              Áp dụng
+              {i18n().list.table.inUse}
             </BoxStatus>
           )
         },
@@ -164,7 +165,7 @@ export default class TableFilterTime extends Component {
                 onClick={onCreateFilterTime}
               >
                 <Icon type="plus" style={{ marginRight: 5 }} />
-                Thêm điều kiện lọc
+                {i18n().list.table.footer}
               </Button>
             </Row>
           )}

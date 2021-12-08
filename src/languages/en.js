@@ -501,7 +501,8 @@ export default {
         value: 'Filter by value',
       },
       placeholder: {
-        station: 'Choose station',
+        stationType: 'Choose Type Of Station',
+        station: 'Choose Station',
       },
       button: {
         reset: 'Reset',
@@ -528,6 +529,12 @@ export default {
         },
       },
       modal: {
+        create: {
+          title: 'Add filter condition',
+        },
+        edit: {
+          title: 'Edit filter condition',
+        },
         delete: {
           title: 'Confirm filter deletion',
           message:
@@ -545,6 +552,10 @@ export default {
           },
         },
       },
+      label: {
+        stationType: 'Types of Station',
+        station: 'Station Name',
+      },
       conditionFilter: {
         toggle: 'Value condition filter',
         table: {
@@ -559,13 +570,9 @@ export default {
         form: {
           label: {
             filterName: 'Name Of Filter',
-            stationType: 'Types Of Station',
-            station: 'Station Name',
           },
           placeholder: {
             filterName: 'Name Of Filter',
-            stationType: 'Choose Type Of Station',
-            station: 'Choose Station',
             conditionParameter: 'Choose parameter',
             excludeParameter: 'Choose parameters which will be exclude',
           },
@@ -587,12 +594,35 @@ export default {
             footer: 'Add filter condition',
           },
         },
-        modal: {
-          create: {
-            title: 'Add filter condition',
+      },
+      timeFilter: {
+        toggle: 'Time range filter',
+        table: {
+          title: {
+            station: 'Station Name',
+            parameter: 'Parameter',
+            status: 'Status',
           },
-          edit: {
-            title: 'Edit filter condition',
+          footer: 'Add filter condition',
+          expire: 'Expire',
+          inUse: 'In use',
+        },
+        form: {
+          // label: {
+          //   filterName: 'Tên bộ lọc',
+          // },
+          placeholder: {
+            startTime: 'Start time',
+            endTime: 'End time',
+          },
+          error: {
+            time: 'Please choose time range',
+          },
+          table: {
+            title: {
+              parameter: 'Parameters',
+              timeRange: 'Time Range',
+            },
           },
         },
       },
