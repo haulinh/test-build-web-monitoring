@@ -4,6 +4,7 @@ import { translate } from 'hoc/create-lang'
 import * as _ from 'lodash'
 import PropTypes from 'prop-types'
 import React from 'react'
+import styled from 'styled-components'
 
 function i18n() {
   return {
@@ -19,6 +20,12 @@ const OPTION = {
   ZERO: 'zero',
   NEGATIVE: 'negative',
 }
+
+const InputNumberNoHandler = styled(InputNumber)`
+  .ant-input-number-handler-wrap {
+    display: none;
+  }
+`
 
 class TableConfig extends React.Component {
   static propTypes = {
@@ -199,7 +206,7 @@ class TableConfig extends React.Component {
                   },
                 ],
               })(
-                <InputNumber
+                <InputNumberNoHandler
                   placeholder={translate('qaqcConfig.basic.placeholderRepeat')}
                   pattern="[0-9]*"
                   style={{ width: '100%' }}
