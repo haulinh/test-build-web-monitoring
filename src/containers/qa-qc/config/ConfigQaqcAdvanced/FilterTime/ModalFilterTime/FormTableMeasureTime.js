@@ -72,7 +72,10 @@ export default class FormTableMeasureTime extends Component {
                   style={{ width: '100%', padding: 0 }}
                   showTime={{ format: 'HH:mm' }}
                   format="HH:mm DD-MM-YYYY"
-                  placeholder={['Thời gian bắt đầu', 'Thời gian kết thúc']}
+                  placeholder={[
+                    i18n().form.placeholder.timeRange.startTime,
+                    i18n().form.placeholder.timeRange.endTime,
+                  ]}
                 />
               )}
             </FormItem>

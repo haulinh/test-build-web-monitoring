@@ -12,6 +12,7 @@ import { connect } from 'react-redux'
 import { getTimeUTC } from 'utils/datetime'
 import { ModalConfirmCancel } from '../../components/index'
 import { FIELDS } from '../index'
+import { i18n } from '../index'
 import FormTableMeasureTime from './FormTableMeasureTime'
 
 @connect(state => ({
@@ -99,11 +100,10 @@ export default class ModalFilterTime extends Component {
       .map(([key, value]) => {
         return {
           measure: key,
-          startAt: getTimeUTC(moment(value[0]).startOf('day')),
-          endAt: getTimeUTC(moment(value[1]).endOf('day')),
+          startAt: getTimeUTC(moment(value[0]).utc()),
+          endAt: getTimeUTC(moment(value[1]).utc()),
         }
       })
-
     return conditionList
   }
 
@@ -298,7 +298,7 @@ export default class ModalFilterTime extends Component {
               {isEdit ? (
                 <Col>
                   <Button type="danger" onClick={onShowModalConfirmDelete}>
-                    Xoá bộ lọc
+                    {i18n().button.delete}
                   </Button>
                 </Col>
               ) : (
@@ -309,14 +309,14 @@ export default class ModalFilterTime extends Component {
                   onClick={this.handleResetModal}
                   style={{ backgroundColor: '#E1EDFB', color: '#1890FF' }}
                 >
-                  Nhập lại
+                  {i18n().button.reset}
                 </Button>
                 <Button
                   type="primary"
                   onClick={this.handleSubmitForm}
                   disabled={measureKeyListSelected.length === 0}
                 >
-                  {isEdit ? 'Cập nhật' : 'Tạo mới'}
+                  {isEdit ? i18n().button.update : i18n().button.create}
                 </Button>
               </Col>
             </Row>,
@@ -324,7 +324,7 @@ export default class ModalFilterTime extends Component {
         >
           <Row gutter={16}>
             <Col span={8}>
-              <FormItem label="Loại trạm">
+              <FormItem label={i18n().form.label.stationType}>
                 {form.getFieldDecorator(FIELDS.STATION_TYPE, {
                   onChange: this.handleChangeStationType,
                   rules: [
@@ -336,7 +336,7 @@ export default class ModalFilterTime extends Component {
                 })(
                   <SelectStationType
                     disabled={isEdit}
-                    placeholder="Chọn loại trạm"
+                    placeholder={i18n().form.placeholder.stationType}
                     fieldValue="_id"
                   />
                 )}
@@ -344,7 +344,7 @@ export default class ModalFilterTime extends Component {
             </Col>
 
             <Col span={8}>
-              <FormItem label="Trạm quan trắc">
+              <FormItem label={i18n().form.label.station}>
                 {form.getFieldDecorator(FIELDS.STATION_AUTO_ID, {
                   onChange: this.handleOnStationAutoChange,
                   rules: [
@@ -358,7 +358,7 @@ export default class ModalFilterTime extends Component {
                     disabled={!stationType || isEdit}
                     fieldValue="_id"
                     stationType={stationType}
-                    placeholder="Chọn trạm quan trắc"
+                    placeholder={i18n().form.placeholder.station}
                     onFetchSuccess={this.onStationAutosFetchSuccess}
                   />
                 )}
