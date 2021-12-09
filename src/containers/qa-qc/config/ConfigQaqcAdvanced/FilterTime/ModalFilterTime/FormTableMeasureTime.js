@@ -2,6 +2,7 @@ import { DatePicker, Table } from 'antd'
 import { FormItem } from 'components/layouts/styles'
 import moment from 'moment'
 import React, { Component } from 'react'
+import { i18n } from '../index'
 
 const { RangePicker } = DatePicker
 
@@ -43,7 +44,7 @@ export default class FormTableMeasureTime extends Component {
 
     return [
       {
-        title: 'Thông số',
+        title: i18n().form.table.parameter,
         dataIndex: 'measure',
         key: 'measure',
         render: value => {
@@ -53,7 +54,7 @@ export default class FormTableMeasureTime extends Component {
         },
       },
       {
-        title: 'Khoảng thời gian',
+        title: i18n().form.table.timeRange,
         key: 'time',
         render: (value, record, index) => {
           return (
@@ -62,7 +63,7 @@ export default class FormTableMeasureTime extends Component {
                 rules: [
                   {
                     required: measureKeyListSelected.includes(value.measure),
-                    message: 'Vui lòng chọn thời gian',
+                    message: i18n().form.error.time,
                   },
                 ],
               })(
