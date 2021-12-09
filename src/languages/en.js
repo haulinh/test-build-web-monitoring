@@ -483,6 +483,8 @@ export default {
     deviceCalibration: 'Sensor Calibration',
     zero: 'Zero value',
     negative: 'Negative value',
+    timeRange: 'Time Range',
+    valueRange: 'Value Condition',
     basic: {
       title: 'Basic Filter',
       useBasicConfig: 'Value 0, negative and repeat',
@@ -789,6 +791,9 @@ export default {
       advanced: {
         label: 'Advanced',
         reset: 'Reset',
+      },
+      filterDataBy: {
+        require: 'Please choose at least 1 condition',
       },
     },
     table: {

@@ -793,6 +793,9 @@ export default {
         label: 'Nâng cao',
         reset: 'Đặt lại',
       },
+      filterDataBy: {
+        require: 'Vui lòng chọn ít nhất 1 điều kiện',
+      },
     },
     table: {
       emptyText: 'Không có dữ liệu',
