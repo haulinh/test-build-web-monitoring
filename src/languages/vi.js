@@ -3051,6 +3051,7 @@ export default {
       user: 'Tài khoản',
       dataLogger: 'Xem nhật ký',
       service: 'Cấu hình dịch vụ',
+      qaqc: 'Kiểm duyệt dữ liệu',
       ConfigNotify: {
         titleTable: {
           status: 'Trạng thái',
