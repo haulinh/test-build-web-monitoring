@@ -4305,11 +4305,11 @@ export default {
     language: {
       en: 'Tiếng Anh',
       vi: 'Tiếng Việt',
-      tw: 'Tiếng Đài'
+      tw: 'Tiếng Đài',
     },
     button: {
       ok: 'Xác nhận',
-      cancel: 'Hủy'
-    }
-  }
+      cancel: 'Hủy',
+    },
+  },
 }
