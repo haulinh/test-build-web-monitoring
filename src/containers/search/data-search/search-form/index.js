@@ -188,7 +188,7 @@ export default class SearchFormHistoryData extends React.Component {
     })
   }
 
-  setInitValueFilterBy = () => {
+  getConditionsFilter = () => {
     const conditions = qaqcOptions.map(condition => condition.value)
     return conditions
   }
@@ -302,7 +302,7 @@ export default class SearchFormHistoryData extends React.Component {
             <Col span={12}>
               <FormItem label={translate('dataSearchFrom.filterDataBy')}>
                 {form.getFieldDecorator(fields.filterBy, {
-                  initialValue: this.setInitValueFilterBy(),
+                  initialValue: this.getConditionsFilter(),
                   rules: [
                     {
                       required: true,
