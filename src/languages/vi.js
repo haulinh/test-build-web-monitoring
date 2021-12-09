@@ -4299,4 +4299,17 @@ export default {
       notUpdate: 'Chưa cập nhật',
     },
   },
+  modalExportLang: {
+    title: 'Xuất báo cáo',
+    content: 'Chọn ngôn ngữ của báo cáo tải xuống',
+    language: {
+      en: 'Tiếng Anh',
+      vi: 'Tiếng Việt',
+      tw: 'Tiếng Đài',
+    },
+    button: {
+      ok: 'Xác nhận',
+      cancel: 'Hủy',
+    },
+  },
 }
