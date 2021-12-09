@@ -195,10 +195,7 @@ export default {
             props.selectMenu(slug.qaqc.configNew)
           }}
         >
-          <Tooltip
-            placement="right"
-            title={listTooltipMenu().processData.approveData}
-          >
+          <Tooltip placement="right" title={listTooltipMenu().config.qaqc}>
             <Link to={slug.qaqc.configNew}>
               {listMenuName().processData.approveData}
             </Link>

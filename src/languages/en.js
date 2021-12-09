@@ -3237,6 +3237,7 @@ export default {
       role: 'Add new Roles groups to manage in the system',
       user: 'Add new and Assign Roles accounts in the system',
       dataLogger: 'The user history of operations in the system',
+      qaqc: 'Configuration of removing invalid data',
     },
     billing: {
       dataLookup: 'Tra cứu dữ liệu',
