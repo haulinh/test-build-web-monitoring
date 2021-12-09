@@ -44,6 +44,18 @@ export default class TableDataList extends React.Component {
     return '-'
   }
 
+  getTooltip = qcvn => {
+    const { standardObjectList } = this.props
+    const standardObjectListKey = _.keyBy(standardObjectList, 'key')
+    if (Array.isArray(qcvn)) {
+      const qcvnTooltip = qcvn
+        .map(qcvnItem => _.get(standardObjectListKey, [qcvnItem, 'name'], ''))
+        .join(',')
+      return qcvnTooltip
+    }
+    return _.get(standardObjectListKey, [qcvn, 'name'], '')
+  }
+
   getColumns = () => {
     const { measuringList, measuresObj, page } = this.props
 
@@ -65,7 +77,7 @@ export default class TableDataList extends React.Component {
         return (
           <div
             style={{
-              display: 'flex',
+              display: 'f lex',
               justifyContent: 'flex-end',
               alignItems: 'center',
             }}
@@ -80,7 +92,11 @@ export default class TableDataList extends React.Component {
               }}
             ></div>
             <Tooltip
-              title={value.isMerged ? translate('qcvn.invalid') : value.qcvn}
+              title={
+                value.isMerged
+                  ? translate('qcvn.invalid')
+                  : this.getTooltip(value.qcvn)
+              }
             >
               <div
                 style={{
@@ -153,118 +169,6 @@ export default class TableDataList extends React.Component {
     if (maxLimit || maxLimit === 0) return `≤ ${maxLimit}`
     return '-'
   }
-
-  // getColumnsBak() {
-  //   // let me = this
-  //   const columnIndex = {
-  //     title: translate('dataSearchFrom.table.numericalOrder'),
-  //     dataIndex: 'Index',
-  //     key: 'Index',
-  //     render(value, record, index) {
-  //       // const current = me.props.pagination.current
-  //       // const pageSize = me.props.pagination.pageSize
-  //       // if (record.isQCVN) return <React.Fragment />
-  //       // return <div>{(current - 1) * pageSize + index + 1}</div>
-  //     },
-  //   }
-
-  //   const columnReceivedAt = {
-  //     title: translate('dataSearchFrom.table.receivedAt'),
-  //     dataIndex: 'receivedAt',
-  //     key: 'receivedAt',
-  //     render: (value, item) => {
-  //       // if (item.isQCVN) {
-  //       //   let startTime = item.begin
-  //       //     ? moment(item.begin).format('DD/MM/YYYY') + ' - '
-  //       //     : ''
-  //       //   let endTime = item.expired
-  //       //     ? moment(item.expired).format('DD/MM/YYYY')
-  //       //     : translate('qcvn.form.expired.isApplying')
-  //       //   return (
-  //       //     <Tooltip title={startTime + endTime}>
-  //       //       <div style={{ color: 'rgba(0,0,0,.8)' }}>{item.name}</div>
-  //       //     </Tooltip>
-  //       //   )
-  //       // }
-  //       return <div>{moment(value).format(DD_MM_YYYY_HH_MM)}</div>
-  //     },
-  //   }
-
-  //   const getMeasuringValue = (list, key) => {
-  //     const measure = list.find(item => item.key === key)
-  //     const { minLimit, maxLimit } = measure || {}
-  //     if ((minLimit || minLimit === 0) && (maxLimit || maxLimit === 0))
-  //       return [minLimit, maxLimit].join('-')
-  //     if (minLimit || minLimit === 0) return `≥ ${minLimit}`
-  //     if (maxLimit || maxLimit === 0) return `≤ ${maxLimit}`
-  //     return '-'
-  //   }
-
-  //   const columnsMeasurings = this.props.measuringData
-  //     .filter(measuring => this.props.measuringList.includes(measuring.key))
-  //     .map(measuring => ({
-  //       title: `${measuring.name} (${measuring.unit})`,
-  //       dataIndex: `measuringLogs.${measuring.key}`,
-  //       key: measuring.key,
-  //       align: 'right',
-  //       render: (value, item) => {
-  //         if (item.isQCVN) {
-  //           return (
-  //             <div>{getMeasuringValue(item.measuringList, measuring.key)}</div>
-  //           )
-  //         }
-
-  //         if (value === null || value === undefined) return <div />
-  //         /* #region  MARK tạm thời k sử dụng thời điểm đó */
-
-  //         // let color = SHAPE.BLACK
-  //         // if (
-  //         //   value.warningLevel &&
-  //         //   value.warningLevels !== warningLevels.GOOD
-  //         // ) {
-  //         //   color = colorLevels[value.warningLevel]
-  //         // }
-
-  //         /* #endregion */
-
-  //         const colorDevice = getColorStatusDevice(value.statusDevice)
-
-  //         return (
-  //           <div
-  //             style={{
-  //               display: 'flex',
-  //               justifyContent: 'flex-end',
-  //               alignItems: 'center',
-  //             }}
-  //           >
-  //             <div
-  //               style={{
-  //                 backgroundColor: colorDevice,
-  //                 width: '15px',
-  //                 height: '15px',
-  //                 borderRadius: '50%',
-  //                 marginRight: '10px',
-  //               }}
-  //             ></div>
-  //             <Tooltip
-  //               title={value.isMerged ? translate('qcvn.invalid') : value.qcvn}
-  //             >
-  //               <div
-  //                 style={{
-  //                   fontWeight: value.isMerged ? 700 : 400,
-  //                   color: COLOR[value.warningLevel],
-  //                   minWidth: '50px',
-  //                 }}
-  //               >
-  //                 {getFormatNumber(value.value, FORMAT_VALUE_MEASURING)}
-  //               </div>
-  //             </Tooltip>
-  //           </div>
-  //         )
-  //       },
-  //     }))
-  //   return [columnIndex, columnReceivedAt, ...columnsMeasurings]
-  // }
 
   handleOnPageChange = page => {
     const { setPage } = this.props
