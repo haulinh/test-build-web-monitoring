@@ -29,9 +29,13 @@ export default class SelectQCVN extends PureComponent {
 
   async componentDidMount() {
     let query = {}
+    const { onFetchSuccess } = this.props
     const result = await QCVNApi.getQCVN({}, query)
     if (get(result, 'success', false)) {
       const data = get(result, 'data', [])
+      if (onFetchSuccess) {
+        onFetchSuccess(data)
+      }
       this.setState({
         lstQCVN: data,
         value: this.getValue(data),

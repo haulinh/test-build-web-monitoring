@@ -138,7 +138,6 @@ export default class TableFilterTime extends Component {
     } = this.props
 
     const dataSourceProcessing = this.getDataSourceProcessing()
-    console.log({ isDisable })
 
     return (
       <div

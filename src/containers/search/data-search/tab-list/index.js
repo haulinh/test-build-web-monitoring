@@ -31,6 +31,10 @@ export default class TabeList extends React.PureComponent {
       setPage,
       page,
       totalItem,
+      exportExcel,
+      loadingExport,
+      standards,
+      standardObjectList,
     } = this.props
     return (
       <TabeListWrapper>
@@ -41,8 +45,8 @@ export default class TabeList extends React.PureComponent {
               type="primary"
               icon="file-excel"
               style={{ float: 'right', margin: '5px' }}
-              onClick={this.props.onExportExcel}
-              loading={this.props.isExporting}
+              onClick={exportExcel}
+              loading={loadingExport}
             >
               {translate('dataSearchFrom.tab.exportExcel')}
             </Button>
@@ -57,6 +61,8 @@ export default class TabeList extends React.PureComponent {
               loading={loading}
               dataSource={dataStationAuto}
               measuringList={measuringList}
+              standards={standards}
+              standardObjectList={standardObjectList}
             />
           </Tabs.TabPane>
           <Tabs.TabPane tab={translate('dataSearchFrom.tab.chart')} key="2">

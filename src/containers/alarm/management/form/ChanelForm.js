@@ -1,4 +1,4 @@
-import { Col, Collapse, Icon, Row, Switch, Tooltip } from 'antd'
+import { Col, Collapse, Icon, Input, Row, Switch, Tooltip } from 'antd'
 import TextArea from 'antd/lib/input/TextArea'
 import { Clearfix } from 'components/layouts/styles'
 import { translate } from 'hoc/create-lang'
@@ -25,6 +25,12 @@ const channels = {
     active: false,
     template: true,
     label: 'Mobile',
+  },
+  webhook: {
+    type: 'webhook',
+    active: false,
+    template: true,
+    label: 'Webhook',
   },
 }
 
@@ -84,7 +90,7 @@ export class ChanelForm extends React.Component {
         >
           {translate('alarm.title.chanel')}
         </div>
-        <Collapse defaultActiveKey={['email', 'sms', 'mobile']}>
+        <Collapse defaultActiveKey={['email', 'sms', 'mobile', 'webhook']}>
           {Object.values(channels).map(channel => (
             <Panel
               key={channel.type}
@@ -92,6 +98,26 @@ export class ChanelForm extends React.Component {
               extra={this.genExtra(channel.type)}
             >
               <React.Fragment>
+                {channel.type === 'webhook' && (
+                  <Row>
+                    <Row>
+                      {form.getFieldDecorator(
+                        `${FIELDS.CHANNELS}.${channel.type}.config.method`,
+                        { initialValue: 'POST' }
+                      )(
+                        <span>URL (POST)</span>
+                      )}
+                    </Row>
+                    <Row>
+                      {form.getFieldDecorator(
+                        `${FIELDS.CHANNELS}.${channel.type}.config.endpoint`,
+                      )(
+                        <Input disabled={typeAlarm === alarmType.advance.value} />
+                      )}
+                    </Row>
+                  </Row>
+                )}
+                <Clearfix height={4} />
                 <Row type="flex" gutter={6}>
                   <Col>
                     <span>Template</span>

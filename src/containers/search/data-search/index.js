@@ -7,8 +7,8 @@ import SelectQCVN from 'components/elements/select-qcvn-v2'
 import ROLE from 'constants/role'
 import createLang, { translate } from 'hoc/create-lang'
 import protectRole from 'hoc/protect-role'
-import queryFormDataBrowser from 'hoc/query-formdata-browser'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
+import _ from 'lodash'
 import moment from 'moment-timezone'
 import React from 'react'
 import { connect } from 'react-redux'
@@ -18,6 +18,7 @@ import Breadcrumb from './breadcrumb'
 import SearchFrom from './search-form'
 import TabList from './tab-list'
 import DataAnalyze from './tab-list/tab-table-data-list/data-analyze'
+import { downFileExcel } from 'utils/downFile'
 
 export const fields = {
   stationKey: 'stationKey',
@@ -29,12 +30,13 @@ export const fields = {
   province: 'province',
   measuringList: 'measuringList',
   facetFields: 'facetFields',
+  from: 'from',
+  to: 'to',
 }
 
 export const ITEM_PER_PAGE = 50
 
 @protectRole(ROLE.DATA_SEARCH.VIEW)
-@queryFormDataBrowser(['submit'])
 @connect(state => ({
   locale: state.language.locale,
 }))
@@ -46,13 +48,22 @@ export default class MinutesDataSearch extends React.Component {
     page: 1,
     totalItem: null,
     standards: [],
+    standardObjectList: [],
     loadingData: false,
     loadingSummary: false,
+    loadingExport: false,
   }
   searchFormRef = React.createRef()
 
-  getQueryParam = () => {
-    const values = this.searchFormRef.current.getFieldsValue()
+  getValuesForm = e => {
+    if (!e) return null
+    if (e.hasOwnProperty('valuesForm')) return e.valuesForm
+    return null
+  }
+
+  getQueryParam = e => {
+    const valuesForm = this.getValuesForm(e)
+    const values = valuesForm || this.searchFormRef.current.getFieldsValue()
     const { standards, page } = this.state
 
     const times = getTimes(values[fields.rangesDate])
@@ -70,8 +81,18 @@ export default class MinutesDataSearch extends React.Component {
     return params
   }
 
-  handleOnSearch = async () => {
-    const { stationKey, rangesDate, ...queryParams } = this.getQueryParam()
+  getMeasuringList = () => {
+    const measuringList = this.searchFormRef.current.getFieldValue(
+      fields.measuringList
+    )
+
+    return measuringList || []
+  }
+
+  handleOnSearch = async valuesForm => {
+    const { stationKey, rangesDate, ...queryParams } = this.getQueryParam(
+      valuesForm
+    )
     this.setState({ loadingData: true, loadingSummary: true })
 
     const over1Year =
@@ -89,6 +110,7 @@ export default class MinutesDataSearch extends React.Component {
           })
         })
         .catch(e => {
+          console.log({ e })
           this.setState({ loadingSummary: false })
         })
 
@@ -96,13 +118,17 @@ export default class MinutesDataSearch extends React.Component {
         ...queryParams,
         [fields.facetFields]: 'data',
       })
-        .then(res =>
+        .then(res => {
           this.setState({
             data: res.data,
             loadingData: false,
           })
-        )
-        .catch(e => this.setState({ loadingData: false }))
+        })
+        .catch(e => {
+          console.log({ e })
+          this.setState({ loadingData: false })
+        })
+
       return
     }
 
@@ -110,16 +136,33 @@ export default class MinutesDataSearch extends React.Component {
       const res = await DataInsight.getDataOriginal(stationKey, {
         ...queryParams,
       })
-
       this.setState({
         summary: res.summary,
         data: res.data,
-        totalItem: res.pagination.totalItem,
+        totalItem: _.get(res, 'pagination.totalItem'),
         loadingData: false,
         loadingSummary: false,
       })
     } catch (error) {
+      console.log({ error })
       this.setState({ loadingData: false, loadingSummary: false })
+    }
+  }
+
+  exportExcel = async () => {
+    const { locale } = this.props
+    const { stationKey, rangesDate, ...queryParams } = this.getQueryParam()
+    this.setState({ loadingExport: true })
+    try {
+      const result = await DataInsight.exportDataOriginal(stationKey, {
+        ...queryParams,
+        lang: locale,
+      })
+      this.setState({ loadingExport: false })
+      downFileExcel(result.data, stationKey)
+    } catch (error) {
+      this.setState({ loadingExport: true })
+      console.log({ error })
     }
   }
 
@@ -129,12 +172,8 @@ export default class MinutesDataSearch extends React.Component {
     })
   }
 
-  getMeasuringList = () => {
-    const measuringList = this.searchFormRef.current.getFieldValue(
-      fields.measuringList
-    )
-
-    return measuringList || []
+  handleOnFetchSuccessQCVN = standardObjectList => {
+    this.setState({ standardObjectList })
   }
 
   setPage = page => this.setState({ page }, () => this.handleOnSearch())
@@ -147,6 +186,9 @@ export default class MinutesDataSearch extends React.Component {
       loadingSummary,
       page,
       totalItem,
+      loadingExport,
+      standards,
+      standardObjectList,
     } = this.state
 
     const measuringList = this.searchFormRef.current
@@ -162,6 +204,7 @@ export default class MinutesDataSearch extends React.Component {
           <Heading
             rightChildren={
               <Button
+                loading={loadingData || loadingSummary}
                 type="primary"
                 icon="search"
                 size="small"
@@ -177,7 +220,7 @@ export default class MinutesDataSearch extends React.Component {
           >
             {this.props.lang.t('addon.search')}
           </Heading>
-          <SearchFrom ref={this.searchFormRef} />
+          <SearchFrom ref={this.searchFormRef} onSearch={this.handleOnSearch} />
         </BoxShadowStyle>
 
         <Clearfix height={16} />
@@ -201,6 +244,7 @@ export default class MinutesDataSearch extends React.Component {
           </span>
           <Col span={8}>
             <SelectQCVN
+              onFetchSuccess={this.handleOnFetchSuccessQCVN}
               fieldValue="key"
               mode="multiple"
               maxTagCount={3}
@@ -211,8 +255,12 @@ export default class MinutesDataSearch extends React.Component {
         </Row>
 
         <TabList
+          loadingExport={loadingExport}
+          exportExcel={this.exportExcel}
           totalItem={totalItem}
           page={page}
+          standards={standards}
+          standardObjectList={standardObjectList}
           setPage={this.setPage}
           loading={loadingData}
           dataStationAuto={data}
