@@ -208,7 +208,7 @@ export default class ModalFilterTime extends Component {
     if (modalType === 'create') {
       try {
         await CalculateApi.createQaqcConfig(params)
-        message.success(t('addon.onSave.add.success'))
+        message.success(t('qaqcConfig.advanced.message.create.success'))
       } catch (error) {
         message.success(t('addon.onSave.add.error'))
       }
