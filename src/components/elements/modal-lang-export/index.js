@@ -1,6 +1,7 @@
 import { Button, Modal, Radio, Row } from 'antd';
 import React from 'react';
 import { translate as t } from 'hoc/create-lang'
+import styled from 'styled-components'
 
 function i18n() {
   return {
@@ -24,20 +25,23 @@ const radioOption = [
   { value: 'tw', label: i18n().language.tw },
 ]
 
+const ModalStyle = styled(Modal)`
+  .ant-modal-content {
+    overflow: auto;
+    border-radius: 16px
+}
+`
 
 export default class ModalLangExport extends React.Component {
   render() {
     const { showModal, handleOkModal, handleCancelModal, onChangeModal, langExport } = this.props
     return (
-      <Modal
-        width="360px"
+      <ModalStyle
+        width="380px"
         closable={false}
         footer={false}
         visible={showModal}
-        onOk={handleOkModal}
         onCancel={handleCancelModal}
-        okText={i18n().button.ok}
-        cancelText={i18n().button.cancel}
         centered
       >
         <h4>{i18n().title}</h4>
@@ -49,10 +53,10 @@ export default class ModalLangExport extends React.Component {
         ))}
 
         <Row type="flex" justify="end" style={{ gap: 13, marginTop: 20 }}>
-          <Button type="primary">{i18n().button.ok}</Button>
-          <Button>{i18n().button.cancel}</Button>
+          <Button onClick={handleOkModal} type="primary">{i18n().button.ok}</Button>
+          <Button onClick={handleCancelModal}>{i18n().button.cancel}</Button>
         </Row>
-      </Modal >
+      </ModalStyle >
     )
   }
 }
