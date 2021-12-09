@@ -651,6 +651,7 @@ export function listMenuName() {
       user: translate('menuApp.config.user'),
       dataLogger: translate('menuApp.config.dataLogger'),
       service: translate('menuApp.config.service'),
+      qaqc: translate('menuApp.config.qaqc'),
     },
     billing: translate('menuApp.billing'),
     ticket: translate('menuApp.ticket'),

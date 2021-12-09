@@ -477,7 +477,7 @@ export default {
     outOfRange: 'Out of range',
   },
   qaqcConfig: {
-    title: 'QAQC Config',
+    title: 'Data Processing',
     beyondMeasuringRange: 'Out of range',
     deviceError: 'Sensor error',
     deviceCalibration: 'Sensor Calibration',
@@ -608,9 +608,6 @@ export default {
           inUse: 'In use',
         },
         form: {
-          // label: {
-          //   filterName: 'Tên bộ lọc',
-          // },
           placeholder: {
             startTime: 'Start time',
             endTime: 'End time',
@@ -3052,6 +3049,7 @@ export default {
       user: 'Users',
       dataLogger: 'System Logs',
       service: 'Service configuration',
+      qaqc: 'Data Processing',
       ConfigNotify: {
         titleTable: {
           status: 'Status',
