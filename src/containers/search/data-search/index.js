@@ -39,6 +39,7 @@ export const ITEM_PER_PAGE = 50
 @protectRole(ROLE.DATA_SEARCH.VIEW)
 @connect(state => ({
   locale: state.language.locale,
+  stationAutoByKey: _.keyBy(state.stationAuto.list, 'key'),
 }))
 @createLang
 export default class MinutesDataSearch extends React.Component {
@@ -150,7 +151,7 @@ export default class MinutesDataSearch extends React.Component {
   }
 
   exportExcel = async () => {
-    const { locale } = this.props
+    const { locale, stationAutoByKey } = this.props
     const { stationKey, rangesDate, ...queryParams } = this.getQueryParam()
     this.setState({ loadingExport: true })
     try {
@@ -159,7 +160,7 @@ export default class MinutesDataSearch extends React.Component {
         lang: locale,
       })
       this.setState({ loadingExport: false })
-      downFileExcel(result.data, stationKey)
+      downFileExcel(result.data, stationAutoByKey[stationKey].name)
     } catch (error) {
       this.setState({ loadingExport: true })
       console.log({ error })

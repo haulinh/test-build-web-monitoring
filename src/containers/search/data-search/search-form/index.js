@@ -188,10 +188,16 @@ export default class SearchFormHistoryData extends React.Component {
     })
   }
 
+  getConditionsFilter = () => {
+    const conditions = qaqcOptions.map(condition => condition.value)
+    return conditions
+  }
+
   render() {
     const t = this.props.lang.createNameSpace('dataSearchFrom.form')
     const { form } = this.props
 
+    // this.setInitValueFilterBy()
     const {
       [fields.province]: province,
       [fields.stationType]: stationType,
@@ -295,7 +301,17 @@ export default class SearchFormHistoryData extends React.Component {
           {dataType === 'invalid' && (
             <Col span={12}>
               <FormItem label={translate('dataSearchFrom.filterDataBy')}>
-                {form.getFieldDecorator(fields.filterBy)(
+                {form.getFieldDecorator(fields.filterBy, {
+                  initialValue: this.getConditionsFilter(),
+                  rules: [
+                    {
+                      required: true,
+                      message: translate(
+                        'dataSearchFrom.form.filterDataBy.require'
+                      ),
+                    },
+                  ],
+                })(
                   <SelectAnt
                     style={{ width: '100%' }}
                     options={qaqcOptions}
