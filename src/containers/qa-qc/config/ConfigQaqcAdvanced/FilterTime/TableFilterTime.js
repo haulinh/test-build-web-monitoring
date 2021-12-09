@@ -118,7 +118,7 @@ export default class TableFilterTime extends Component {
     const dataSourceProcessing = dataSource.map(filterTimeItem => {
       const { conditions, ...data } = filterTimeItem
       const isApply = conditions.some(conditionItem =>
-        moment(conditionItem.endAt).isSameOrAfter(moment().endOf('day'))
+        moment(conditionItem.endAt).isSameOrAfter(moment())
       )
       return {
         ...data,
