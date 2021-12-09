@@ -478,11 +478,13 @@ export default {
   },
   qaqcConfig: {
     title: 'Data Processing',
-    beyondMeasuringRange: 'Out Of Range',
-    deviceError: 'Device Error',
-    deviceCalibration: 'Device Calibration',
-    zero: 'Zero Value',
-    negative: 'Negative Value',
+    beyondMeasuringRange: 'Out of range',
+    deviceError: 'Sensor error',
+    deviceCalibration: 'Sensor Calibration',
+    zero: 'Zero value',
+    negative: 'Negative value',
+    timeRange: 'Time Range',
+    valueRange: 'Value Condition',
     basic: {
       title: 'Basic Filter',
       useBasicConfig: 'Zero Value, Negative And Repeat',
@@ -789,6 +791,9 @@ export default {
       advanced: {
         label: 'Advanced',
         reset: 'Reset',
+      },
+      filterDataBy: {
+        require: 'Please choose at least 1 condition',
       },
     },
     table: {

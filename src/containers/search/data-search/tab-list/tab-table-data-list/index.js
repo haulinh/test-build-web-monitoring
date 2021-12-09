@@ -77,7 +77,7 @@ export default class TableDataList extends React.Component {
         return (
           <div
             style={{
-              display: 'f lex',
+              display: 'flex',
               justifyContent: 'flex-end',
               alignItems: 'center',
             }}
