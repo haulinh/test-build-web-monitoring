@@ -477,28 +477,28 @@ export default {
     outOfRange: 'Out of range',
   },
   qaqcConfig: {
-    title: 'QAQC Config',
-    beyondMeasuringRange: 'Out of range',
-    deviceError: 'Sensor error',
-    deviceCalibration: 'Sensor Calibration',
-    zero: 'Zero value',
-    negative: 'Negative value',
+    title: 'Data Processing',
+    beyondMeasuringRange: 'Out Of Range',
+    deviceError: 'Device Error',
+    deviceCalibration: 'Device Calibration',
+    zero: 'Zero Value',
+    negative: 'Negative Value',
     basic: {
       title: 'Basic Filter',
-      useBasicConfig: 'Value 0, negative and repeat',
+      useBasicConfig: 'Zero Value, Negative And Repeat',
       repeat: 'Repeat',
-      tooltipRepeat: 'Set discard value based on number of repetitions',
+      tooltipRepeat: 'Set to remove value based on number of repetitions',
       placeholderRepeat: 'Number of repetitions',
       removeValues: 'Remove Values:',
       error: {
-        repeat: 'Please set repetitions greater than 1',
+        repeat: 'Please set the number of repetitions greater than 1',
       },
     },
     advanced: {
       title: 'Advanced Filter',
       tab: {
-        time: 'Filter by time',
-        value: 'Filter by value',
+        time: 'Filter By Time Range',
+        value: 'Filter By Value Condition',
       },
       placeholder: {
         stationType: 'Choose Type Of Station',
@@ -507,7 +507,7 @@ export default {
       button: {
         reset: 'Reset',
         create: 'Create',
-        delete: 'Delete filter',
+        delete: 'Delete Filter',
         update: 'Update',
         cancel: 'Cancel',
         continueCreate: 'Continue Creating',
@@ -530,34 +530,34 @@ export default {
       },
       modal: {
         create: {
-          title: 'Add filter condition',
+          title: 'Add Filter Condition',
         },
         edit: {
-          title: 'Edit filter condition',
+          title: 'Edit Filter Condition',
         },
         delete: {
-          title: 'Confirm filter deletion',
+          title: 'Confirm Filter Deletion',
           message:
             'Be sure to delete the data filter, all data of reports and statistics will no longer apply the filter to calculate',
         },
         cancel: {
           create: {
-            title: 'Cancel creating',
+            title: 'Cancel Creating',
             message: `Filter data has not been created. If the window is closed, the filter's data entered will not be saved.`,
           },
           edit: {
-            title: 'Cancel editing',
+            title: 'Cancel Editing',
             message:
               'Filter data has not been saved. If the window is closed, the filter edits entered will not be saved.',
           },
         },
       },
       label: {
-        stationType: 'Types of Station',
+        stationType: 'Types Of Station',
         station: 'Station Name',
       },
       conditionFilter: {
-        toggle: 'Value condition filter',
+        toggle: 'Value Condition Filter',
         table: {
           title: {
             conditionName: `Condition's Name`,
@@ -565,7 +565,7 @@ export default {
             conditionParameter: 'Condition Parameter',
             excludeParameter: 'Exclude Parameters',
           },
-          footer: 'Add filter condition',
+          footer: 'Add Filter Condition',
         },
         form: {
           label: {
@@ -588,29 +588,26 @@ export default {
           },
           table: {
             title: {
-              conditionParameter: 'Condition parameter',
-              excludeParameter: 'Exclude parameters',
+              conditionParameter: 'Condition Parameter',
+              excludeParameter: 'Exclude Parameters',
             },
-            footer: 'Add filter condition',
+            footer: 'Add Filter Condition',
           },
         },
       },
       timeFilter: {
-        toggle: 'Time range filter',
+        toggle: 'Time Range Filter',
         table: {
           title: {
             station: 'Station Name',
             parameter: 'Parameter',
             status: 'Status',
           },
-          footer: 'Add filter condition',
+          footer: 'Add Filter Condition',
           expire: 'Expire',
           inUse: 'In use',
         },
         form: {
-          // label: {
-          //   filterName: 'Tên bộ lọc',
-          // },
           placeholder: {
             startTime: 'Start time',
             endTime: 'End time',
@@ -3052,6 +3049,7 @@ export default {
       user: 'Users',
       dataLogger: 'System Logs',
       service: 'Service configuration',
+      qaqc: 'Data Processing',
       ConfigNotify: {
         titleTable: {
           status: 'Status',
@@ -3237,6 +3235,7 @@ export default {
       role: 'Add new Roles groups to manage in the system',
       user: 'Add new and Assign Roles accounts in the system',
       dataLogger: 'The user history of operations in the system',
+      qaqc: 'Configuration of removing invalid data',
     },
     billing: {
       dataLookup: 'Tra cứu dữ liệu',

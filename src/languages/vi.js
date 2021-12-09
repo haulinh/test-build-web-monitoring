@@ -3051,6 +3051,7 @@ export default {
       user: 'Tài khoản',
       dataLogger: 'Xem nhật ký',
       service: 'Cấu hình dịch vụ',
+      qaqc: 'Kiểm duyệt dữ liệu',
       ConfigNotify: {
         titleTable: {
           status: 'Trạng thái',
@@ -3231,6 +3232,7 @@ export default {
       role: 'Thêm mới những nhóm quyền cần quản lý trong hệ thống',
       user: 'Thêm mới và phân quyền tài khoản trong hệ thống',
       dataLogger: 'Lịch sử người dùng thao tác trong hệ thống',
+      qaqc: 'Cấu hình loại bỏ dữ liệu không hợp lệ',
     },
     monitoring: {
       base:

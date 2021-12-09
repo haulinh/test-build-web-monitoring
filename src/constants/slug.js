@@ -530,6 +530,7 @@ export const TOOLTIP_MENU = {
     role: translate('tooltipMenuApp.config.role'),
     user: translate('tooltipMenuApp.config.user'),
     dataLogger: translate('tooltipMenuApp.config.dataLogger'),
+    qaqc: translate('tooltipMenuApp.config.qaqc'),
   },
   periodicalForecast: {
     periodical: translate('periodicalForecast.toolTipMenu.periodical'),
@@ -650,6 +651,7 @@ export function listMenuName() {
       user: translate('menuApp.config.user'),
       dataLogger: translate('menuApp.config.dataLogger'),
       service: translate('menuApp.config.service'),
+      qaqc: translate('menuApp.config.qaqc'),
     },
     billing: translate('menuApp.billing'),
     ticket: translate('menuApp.ticket'),
@@ -735,6 +737,7 @@ export function listTooltipMenu() {
       role: translate('tooltipMenuApp.config.role'),
       user: translate('tooltipMenuApp.config.user'),
       dataLogger: translate('tooltipMenuApp.config.dataLogger'),
+      qaqc: translate('tooltipMenuApp.config.qaqc'),
     },
     periodicalForecast: {
       periodical: translate('periodicalForecast.toolTipMenu.periodical'),
