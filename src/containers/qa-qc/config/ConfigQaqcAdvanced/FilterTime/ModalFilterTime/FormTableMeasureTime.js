@@ -70,7 +70,13 @@ export default class FormTableMeasureTime extends Component {
                 <RangePicker
                   disabled={!measureKeyListSelected.includes(value.measure)}
                   style={{ width: '100%', padding: 0 }}
-                  showTime={{ format: 'HH:mm' }}
+                  showTime={{
+                    format: 'HH:mm',
+                    defaultValue: [
+                      moment('00:00:00', 'HH:mm:ss'),
+                      moment('23:59:59', 'HH:mm:ss'),
+                    ],
+                  }}
                   format="HH:mm DD-MM-YYYY"
                   placeholder={[
                     i18n().form.placeholder.timeRange.startTime,
