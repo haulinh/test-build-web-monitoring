@@ -12,6 +12,7 @@ function getDataInsightUrl(prefix = '') {
 }
 
 export default {
+  //#region data-search
   getDataInsight: params => {
     const url = getDataInsightUrl('analyze-data')
     return getFetch(url, params)
@@ -24,6 +25,10 @@ export default {
     const url = getDataInsightUrl('get-receive-time')
     return getFetch(url, params)
   },
+
+  //#endregion data-search
+
+  //#region billing
   createConfigBilling: params => {
     const url = getDataInsightUrl('billing-config')
     return postFetch(url, params)
@@ -44,6 +49,7 @@ export default {
     const url = getDataInsightUrl(`billing-config/${id}`)
     return getFetch(url)
   },
+  //#endregion Billing
 
   //#region report
   getDataFlow: params => {
@@ -72,6 +78,13 @@ export default {
     const url = getDataInsightUrl(`report/data-ratio/${type}/export`)
     return getFetchDownFile(url, param)
   },
-
+  getDataOriginal: (stationKey, params) => {
+    const url = getDataInsightUrl(`report/data-original/${stationKey}`)
+    return getFetch(url, params)
+  },
+  exportDataOriginal: (stationKey, params) => {
+    const url = getDataInsightUrl(`report/data-original/${stationKey}/export`)
+    return getFetchDownFile(url, params)
+  },
   //#endregion
 }

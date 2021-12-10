@@ -26,7 +26,7 @@ export default class SelectStationAuto extends React.PureComponent {
     searchString: '',
   }
 
-  async componentWillMount() {
+  async componentDidMount() {
     const res = await StationAutoApi.getStationAutoAll({
       page: 1,
       itemPerPage: Number.MAX_SAFE_INTEGER,
@@ -49,12 +49,7 @@ export default class SelectStationAuto extends React.PureComponent {
   }
 
   getStationAutos = () => {
-    const {
-      province,
-      stationType,
-      fieldValue,
-      stationAutosExclude,
-    } = this.props
+    const { province, stationType, fieldValue } = this.props
     let stationAutos = this.state.stationAutoSelects
     if (this.state.searchString) {
       const searchString = replaceVietnameseStr(this.state.searchString)
@@ -83,13 +78,6 @@ export default class SelectStationAuto extends React.PureComponent {
       )
     }
 
-    if (stationAutosExclude) {
-      stationAutos = stationAutos.filter(
-        stationAuto =>
-          !stationAutosExclude.includes(stationAuto[fieldValueName])
-      )
-    }
-
     return stationAutos
   }
 
@@ -98,7 +86,7 @@ export default class SelectStationAuto extends React.PureComponent {
 
     const { stationAutoSelects } = this.state
     const { mode, onChange, onChangeObject, fieldValue } = this.props
-    let stationType = stationAutoSelects.find(
+    let stationAutoObj = stationAutoSelects.find(
       s => s[fieldValue || 'key'] === list
     )
     let stationKeys = list
@@ -108,17 +96,25 @@ export default class SelectStationAuto extends React.PureComponent {
         stationAutoSelects.map(item => [item[fieldValue || 'key'], item.name])
       )
       stationKeys = list.filter(key => stationAutoMaps.has(key))
-      stationType = stationAutoSelects.filter(item => {
+      stationAutoObj = stationAutoSelects.filter(item => {
         return stationKeys.includes(item[fieldValue || 'key'])
       })
     }
 
     onChange(stationKeys)
-    if (onChangeObject) onChangeObject(stationType)
+    if (onChangeObject) onChangeObject(stationAutoObj)
   }
 
   handleSearch = value => {
     this.setState({ searchString: value })
+  }
+
+  isDisabledOption = item => {
+    const { stationAutosExclude } = this.props
+    if (!stationAutosExclude) return false
+
+    if (!stationAutosExclude) return false
+    return stationAutosExclude.includes(item)
   }
 
   render() {
@@ -150,15 +146,19 @@ export default class SelectStationAuto extends React.PureComponent {
         style={{ width: '100%' }}
         allowClear
         showSearch
-        onChange={this.handleChange}
         value={!value ? value : selectValue}
         onSearch={this.handleSearch}
         filterOption={false}
         disabled={disabled}
         {...this.props}
+        onChange={this.handleChange}
       >
         {stationAutos.map(item => (
-          <Select.Option key={item.key} value={item[fieldValue || 'key']}>
+          <Select.Option
+            key={item.key}
+            disabled={this.isDisabledOption(item[fieldValue || 'key'])}
+            value={item[fieldValue || 'key']}
+          >
             {removeAccents(language, item.name)}
           </Select.Option>
         ))}

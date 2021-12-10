@@ -12,7 +12,6 @@ import {
 } from 'constants/format-number'
 import { DATETIME_LABEL_FORMAT } from 'constants/chart-format'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date.js'
-import { connect } from 'react-redux'
 
 const TabChartWrapper = styled.div`
   justify-content: center;
@@ -80,9 +79,6 @@ ReactHighcharts.Highcharts.setOptions({
 })
 
 @autobind
-@connect(state => ({
-  measuresObj: state.global.measuresObj,
-}))
 export default class TabChart extends React.PureComponent {
   static propTypes = {
     getChart: PropTypes.func,
@@ -97,24 +93,22 @@ export default class TabChart extends React.PureComponent {
   }
 
   initData = (props, isInit = false) => {
-    const { measuringList, measuresObj } = props
     const seriesData = {}
-    const mesureList = measuringList.map((measure, index) => {
-      const { name, key, minLimit, maxLimit } = measuresObj[measure]
+    const mesureList = _.map(_.clone(props.measuringData), (item, index) => {
       const color = _.get(colors, [index], 'yellow')
-      seriesData[key] = {
-        name,
+      seriesData[item.key] = {
+        name: item.name,
         data: [],
         tooltip: { valueDecimals: FORMAT_VALUE_MEASURING },
-        minLimit: minLimit,
-        maxLimit: maxLimit,
-        threshold: _.isNumber(maxLimit) ? maxLimit : 10000000,
+        minLimit: item.minLimit,
+        maxLimit: item.maxLimit,
+        threshold: _.isNumber(item.maxLimit) ? item.maxLimit : 10000000,
         negativeColor: color,
         color: 'red',
       }
       return {
-        code: key,
-        ...measuresObj[measure],
+        code: item.key,
+        ...item,
         color,
       }
     })

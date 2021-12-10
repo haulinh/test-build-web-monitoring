@@ -2,10 +2,13 @@ import { Icon, Row, Table, Button } from 'antd'
 import React from 'react'
 import moment from 'moment'
 import { connect } from 'react-redux'
+import { get } from 'lodash'
+import { v4 as uuidv4 } from 'uuid'
+import { i18n } from './index'
 
 const TableConditionFilter = ({
-  onEditRecord,
-  setConditionFilterItemKey,
+  setEditItemKey,
+  setDeleteItemKey,
   dataSource,
   isDisabled,
   measuresObj,
@@ -27,7 +30,8 @@ const TableConditionFilter = ({
         _id: current._id,
         name: current.name,
         station: current.station,
-        conditionMeasureItem: `${measuresObj[dataItem.measure].name} ${
+        key: `${current._id}_${dataItem.measure}_${uuidv4()}`,
+        conditionMeasureItem: `${get(measuresObj[dataItem.measure], 'name')} ${
           operators[dataItem.operator]
         } ${dataItem.value}`,
         ...(index === 0 && {
@@ -43,13 +47,12 @@ const TableConditionFilter = ({
   const columns = [
     {
       title: '#',
+      width: 50,
       align: 'center',
       render: (value, record, index) => {
         const obj = {
           children: (
-            <div
-              style={{ fontWeight: 500, fontSize: '14px', color: '#111827' }}
-            >
+            <div style={{ fontWeight: 500, fontSize: '14px' }}>
               {record.indexMerge ? (count += 1) : (count += 0)}
             </div>
           ),
@@ -66,13 +69,14 @@ const TableConditionFilter = ({
       },
     },
     {
-      title: 'Tên điều kiện',
+      title: i18n().list.table.conditionName,
       dataIndex: 'name',
+      width: 200,
       render: (value, record, index) => {
         const obj = {
           children: (
             <div
-              style={{ fontWeight: 500, fontSize: '14px', color: '#111827' }}
+              style={{ fontWeight: 500, fontSize: '14px', whiteSpace: 'pre' }}
             >
               {value}
             </div>
@@ -90,16 +94,13 @@ const TableConditionFilter = ({
       },
     },
     {
-      title: 'Trạm áp dụng',
+      title: i18n().list.table.applicableStation,
+      width: 300,
       dataIndex: 'station.name',
       render: (value, record, index) => {
         const obj = {
           children: (
-            <div
-              style={{ fontWeight: 500, fontSize: '14px', color: '#111827' }}
-            >
-              {value}
-            </div>
+            <div style={{ fontWeight: 500, fontSize: '14px' }}>{value}</div>
           ),
           props: {},
         }
@@ -114,21 +115,23 @@ const TableConditionFilter = ({
       },
     },
     {
-      title: 'Thông số điều kiện',
+      title: i18n().list.table.conditionParameter,
+      width: 171,
       dataIndex: 'conditionMeasureItem',
       render: value => {
-        return <div style={{ color: '#1890ff', fontWeight: 500 }}>{value}</div>
+        return <div style={{ color: '#1890ff' }}>{value}</div>
       },
     },
     {
-      title: 'Thông số loại bỏ',
+      title: i18n().list.table.excludeParameter,
+      width: 245,
       dataIndex: 'excludeMeasures',
       render: value => {
         const measureExcludeListName = value.map(
           excludeMeasure => measuresObj[excludeMeasure].name
         )
         return (
-          <div style={{ color: '#1890ff', fontWeight: 500 }}>
+          <div style={{ color: '#1890ff' }}>
             {measureExcludeListName.join(', ')}
           </div>
         )
@@ -137,17 +140,18 @@ const TableConditionFilter = ({
     {
       title: '',
       align: 'center',
+      width: 150,
       render: (value, record, index) => {
         const obj = {
           children: (
             <Row>
-              <Button type="link" onClick={onEditRecord}>
+              <Button type="link" onClick={() => setEditItemKey(value)}>
                 <Icon type="edit" style={{ color: '#1890FF' }} />
               </Button>
               <Button
                 type="link"
                 onClick={() => {
-                  setConditionFilterItemKey(value._id)
+                  setDeleteItemKey(value)
                 }}
               >
                 <Icon type="delete" style={{ color: '#E64D3D' }} />
@@ -175,15 +179,14 @@ const TableConditionFilter = ({
   return (
     <div
       style={{
-        ...(!isDisabled && {
+        ...(isDisabled && {
           pointerEvents: 'none',
-
           opacity: 0.5,
         }),
       }}
     >
       <Table
-        rowKey={record => record._id}
+        rowKey={record => record.key}
         columns={columns}
         dataSource={dataSort}
         pagination={false}

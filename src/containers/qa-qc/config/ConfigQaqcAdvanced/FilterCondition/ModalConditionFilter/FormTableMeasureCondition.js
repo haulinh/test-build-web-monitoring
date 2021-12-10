@@ -5,7 +5,7 @@ import { FormItem } from 'components/layouts/styles'
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { v4 as uuidv4 } from 'uuid'
-import { FIELDS } from '../index'
+import { FIELDS, i18n } from '../index'
 
 const TableCondition = styled(Table)`
   .ant-table-tbody > tr > td {
@@ -17,7 +17,39 @@ export default class FormTableMeasureCondition extends Component {
   state = {
     isShowModalConfirmDelete: false,
     conditions: [{ id: uuidv4() }],
-    excludeMeasureList: [],
+  }
+
+  componentDidUpdate(prevProps) {
+    const { type } = this.props
+
+    if (type !== prevProps.type && type === 'edit') {
+      this.setState({ conditions: [] })
+      return
+    }
+    if (type !== prevProps.type && type === 'create') {
+      this.setState({ conditions: [{ id: uuidv4() }] })
+      return
+    }
+  }
+
+  setInitData = conditions => {
+    this.setState(
+      {
+        conditions: conditions.map(item => ({ id: uuidv4(), ...item })),
+      },
+      () => {
+        const { conditions } = this.state
+        const { form } = this.props
+        conditions.forEach(item => {
+          form.setFieldsValue({
+            [`${FIELDS.CONDITIONS}.${item.id}.measure`]: item.measure,
+            [`${FIELDS.CONDITIONS}.${item.id}.operator`]: item.operator,
+            [`${FIELDS.CONDITIONS}.${item.id}.value`]: item.value,
+            [`${FIELDS.CONDITIONS}.${item.id}.excludeMeasures`]: item.excludeMeasures,
+          })
+        })
+      }
+    )
   }
 
   addCondition = () => {
@@ -32,164 +64,176 @@ export default class FormTableMeasureCondition extends Component {
 
   deleteCondition = id => {
     const { conditions } = this.state
-    const newConditions = conditions.filter(
-      conditionItem => conditionItem.id !== id
-    )
+    const newConditions = conditions.filter(item => item.id !== id)
+
     this.setState({ conditions: newConditions })
   }
 
-  handleConditionMeasureChange = (value, excludeMeasuresField) => {
-    const { measureList, form } = this.props
+  handleConditionMeasureChange = excludeMeasuresField => {
+    const { form } = this.props
     form.resetFields(excludeMeasuresField)
-    const newMeasureList = measureList.filter(measure => measure.key !== value)
-    this.setState({ excludeMeasureList: newMeasureList })
   }
 
-  columns = [
-    {
-      title: 'Thông số điều kiện',
-      width: 402,
-      render: (value, record, index) => {
-        const { form, measureList } = this.props
-        const excludeMeasuresField = `${FIELDS.CONDITIONS}.${index}.excludeMeasures`
-        return (
-          <Row type="flex" align="middle" gutter={12}>
-            <Col span={12}>
-              <FormItem required={false} marginBottom="12px">
-                {form.getFieldDecorator(
-                  `${FIELDS.CONDITIONS}.${index}.measure`,
-                  {
-                    onChange: value => {
-                      this.handleConditionMeasureChange(
-                        value,
-                        excludeMeasuresField
-                      )
-                    },
-                    rules: [
-                      {
-                        required: true,
-                        message: 'Vui lòng chọn thông số',
+  getExcludeMeasureList = (measureField, measure) => {
+    const { measureList, form } = this.props
+    if (!measure) {
+      return []
+    }
+    return measureList.filter(
+      measure => measure.key !== form.getFieldValue(measureField)
+    )
+  }
+
+  getColumns = () => {
+    return [
+      {
+        title: i18n().form.table.conditionParameter,
+        width: 402,
+        render: (value, record, index) => {
+          const { form, measureList } = this.props
+          const excludeMeasuresField = `${FIELDS.CONDITIONS}.${record.id}.excludeMeasures`
+
+          return (
+            <Row type="flex" align="middle" gutter={12}>
+              <Col span={12}>
+                <FormItem required={false} marginBottom="12px">
+                  {form.getFieldDecorator(
+                    `${FIELDS.CONDITIONS}.${record.id}.measure`,
+                    {
+                      onChange: () => {
+                        this.handleConditionMeasureChange(excludeMeasuresField)
                       },
-                    ],
-                  }
-                )(
-                  <SelectMeasureParameter
-                    placeholder="Chọn thông số"
-                    measuringList={measureList}
-                    mode="single"
-                  />
-                )}
-              </FormItem>
-            </Col>
-            <Col span={6}>
-              <FormItem required={false} marginBottom="12px">
-                {form.getFieldDecorator(
-                  `${FIELDS.CONDITIONS}.${index}.operator`,
-                  {
-                    initialValue: 'eq',
-                  }
-                )(<SelectOperator />)}
-              </FormItem>
-            </Col>
-            <Col span={6}>
-              <FormItem required={false} marginBottom="12px">
-                {form.getFieldDecorator(`${FIELDS.CONDITIONS}.${index}.value`, {
+                      rules: [
+                        {
+                          required: true,
+                          message: i18n().form.error.conditionParameter,
+                        },
+                      ],
+                    }
+                  )(
+                    <SelectMeasureParameter
+                      placeholder={i18n().form.placeholder.conditionParameter}
+                      measuringList={measureList}
+                      mode="single"
+                    />
+                  )}
+                </FormItem>
+              </Col>
+              <Col span={6}>
+                <FormItem required={false} marginBottom="12px">
+                  {form.getFieldDecorator(
+                    `${FIELDS.CONDITIONS}.${record.id}.operator`,
+                    {
+                      initialValue: 'eq',
+                    }
+                  )(<SelectOperator />)}
+                </FormItem>
+              </Col>
+              <Col span={6}>
+                <FormItem required={false} marginBottom="12px">
+                  {form.getFieldDecorator(
+                    `${FIELDS.CONDITIONS}.${record.id}.value`,
+                    {
+                      rules: [
+                        {
+                          required: true,
+                          message: i18n().form.error.value,
+                        },
+                      ],
+                    }
+                  )(<InputNumber placeholder="00" style={{ width: '100%' }} />)}
+                </FormItem>
+              </Col>
+            </Row>
+          )
+        },
+      },
+      {
+        title: i18n().form.table.excludeParameter,
+        width: 528,
+        render: (value, record, index) => {
+          const { form } = this.props
+
+          const measureValue = form.getFieldValue(
+            `${FIELDS.CONDITIONS}.${record.id}.measure`
+          )
+          return (
+            <FormItem required={false} marginBottom="12px">
+              {form.getFieldDecorator(
+                `${FIELDS.CONDITIONS}.${record.id}.excludeMeasures`,
+                {
                   rules: [
                     {
                       required: true,
-                      message: 'Vui lòng nhập giá trị',
+                      message: i18n().form.error.excludeParameter,
                     },
                   ],
-                })(<InputNumber placeholder="00" style={{ width: '100%' }} />)}
-              </FormItem>
-            </Col>
-          </Row>
-        )
+                }
+              )(
+                <SelectMeasureParameter
+                  measuringList={this.getExcludeMeasureList(
+                    `${FIELDS.CONDITIONS}.${record.id}.measure`,
+                    measureValue
+                  )}
+                  mode="multiple"
+                  style={{ width: '100%' }}
+                  placeholder={i18n().form.placeholder.excludeParameter}
+                />
+              )}
+            </FormItem>
+          )
+        },
       },
-    },
-    {
-      title: 'Thông số loại bỏ',
-      width: 528,
-      render: (value, record, index) => {
-        const { form } = this.props
-        const { excludeMeasureList } = this.state
-        return (
-          <FormItem required={false} marginBottom="12px">
-            {form.getFieldDecorator(
-              `${FIELDS.CONDITIONS}.${index}.excludeMeasures`,
-              {
-                rules: [
-                  {
-                    required: true,
-                    message: 'Vui lòng chọn ít nhất 1 thông số',
-                  },
-                ],
-              }
-            )(
-              <SelectMeasureParameter
-                measuringList={excludeMeasureList}
-                mode="multiple"
-                style={{ width: '100%' }}
-                placeholder="Lựa chọn thông số sẽ loại bỏ"
+      {
+        title: '',
+        align: 'center',
+        render: (value, record, index) => {
+          const { conditions } = this.state
+          const { type } = this.props
+          const isDisabled =
+            type === 'create' ? conditions.length > 1 : index > 0
+          return (
+            <Button
+              type="link"
+              disabled={!isDisabled}
+              onClick={() => this.deleteCondition(record.id)}
+              style={{ marginBottom: '10px' }}
+            >
+              <Icon
+                style={{
+                  color: isDisabled ? '#E64D3D' : '#A2A7B3',
+                }}
+                type="delete"
               />
-            )}
-          </FormItem>
-        )
+            </Button>
+          )
+        },
       },
-    },
-    {
-      title: '',
-      align: 'center',
-      render: (value, record, index) => {
-        const { conditions } = this.state
-        const isDisabled = conditions.length > 1
-        return (
-          <Button
-            type="link"
-            disabled={!isDisabled}
-            onClick={() => this.deleteCondition(record.id)}
-            style={{ marginBottom: '10px' }}
-          >
-            <Icon
-              style={{
-                color: isDisabled ? '#E64D3D' : '#A2A7B3',
-              }}
-              type="delete"
-            />
-          </Button>
-        )
-      },
-    },
-  ]
+    ]
+  }
 
   render() {
     const { conditions } = this.state
+
     return (
       <TableCondition
-        columns={this.columns}
+        columns={this.getColumns()}
+        rowKey={record => record.id}
         dataSource={conditions}
         bordered
         pagination={false}
         scroll={{ y: 300 }}
         footer={() => (
-          <Button type="link" onClick={this.addCondition}>
-            <Row type="flex" align="middle">
-              <Col style={{ marginRight: '8px', marginTop: '2px' }}>
-                <Icon type="plus" style={{ color: '#1890FF' }} />
-              </Col>
-              <Col>
-                <span
-                  style={{
-                    fontSize: '16px',
-                    fontWeight: '500',
-                    color: '#1890FF',
-                  }}
-                >
-                  Thêm điều kiện lọc
-                </span>
-              </Col>
-            </Row>
-          </Button>
+          <Row type="flex" style={{ color: '#1890FF' }} align="middle">
+            <Button
+              type="link"
+              style={{ fontWeight: 500, fontSize: '16px' }}
+              onClick={this.addCondition}
+            >
+              <Icon type="plus" style={{ marginRight: 5 }} />
+              {i18n().form.table.footer}
+            </Button>
+          </Row>
         )}
       />
     )

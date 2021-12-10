@@ -480,6 +480,8 @@ export default {
     deviceCalibration: 'Thiết bị hiệu chuẩn',
     zero: 'Giá trị 0',
     negative: 'Giá trị Âm',
+    timeRange: 'Khoảng thời gian',
+    valueRange: 'Điều kiện giá trị',
     basic: {
       title: 'Bộ lọc cơ bản',
       useBasicConfig: 'Giá trị 0, âm và lặp lại',
@@ -493,6 +495,137 @@ export default {
     },
     advanced: {
       title: 'Bộ lọc nâng cao',
+      tab: {
+        time: 'Lọc theo khoảng thời gian',
+        value: 'Lọc theo điều kiện giá trị',
+      },
+      placeholder: {
+        station: 'Chọn trạm quan trắc',
+        stationType: 'Chọn loại trạm',
+      },
+      button: {
+        reset: 'Nhập lại',
+        create: 'Tạo mới',
+        delete: 'Xóa bộ lọc',
+        update: 'Cập nhật',
+        cancel: 'Hủy bỏ',
+        continueCreate: 'Tiếp tục tạo',
+        continueEdit: 'Tiếp tục chỉnh sửa',
+        close: 'Đóng',
+      },
+      message: {
+        create: {
+          success: 'Tạo thành công',
+          error: 'Tạo không thành công',
+        },
+        update: {
+          success: 'Cập nhật thành công',
+          error: 'Cập nhật không thành công',
+        },
+        delete: {
+          success: 'Xóa thành công',
+          error: 'Xóa không thành công',
+        },
+      },
+      modal: {
+        create: {
+          title: 'Thêm điều kiện bộ lọc mới',
+        },
+        edit: {
+          title: 'Chỉnh sửa bộ lọc',
+        },
+        delete: {
+          title: 'Xác nhận xóa bộ lọc',
+          message:
+            'Hãy chắc chắn xóa bộ lọc dữ liệu, tất cả dữ liệu của báo cáo, thống kê sẽ không còn áp dụng bộ lọc để tính toán',
+        },
+        cancel: {
+          create: {
+            title: 'Hủy tạo mới',
+            message:
+              'Bộ lọc dữ liệu chưa được tạo. Nếu đóng cửa sổ, dữ liệu bộ lọc đã nhập sẽ không được lưu lại',
+          },
+          edit: {
+            title: 'Hủy chỉnh sửa',
+            message:
+              'Bộ lọc dữ liệu chưa được lưu. Nếu đóng cửa sổ, những chỉnh sửa bộ lọc đã nhập sẽ không được lưu lại',
+          },
+        },
+      },
+      label: {
+        stationType: 'Loại trạm',
+        station: 'Trạm quan trắc',
+      },
+      conditionFilter: {
+        toggle: 'Bộ lọc điều kiện giá trị',
+        table: {
+          title: {
+            conditionName: 'Tên điều kiện',
+            applicableStation: 'Trạm áp dụng',
+            conditionParameter: 'Thông số điều kiện',
+            excludeParameter: 'Thông số loại bỏ',
+          },
+          footer: 'Thêm điều kiện lọc',
+        },
+        form: {
+          label: {
+            filterName: 'Tên bộ lọc',
+          },
+          placeholder: {
+            filterName: 'Tên bộ lọc',
+            conditionParameter: 'Chọn thông số',
+            excludeParameter: 'Lựa chọn thông số sẽ loại bỏ',
+          },
+          error: {
+            filterName: 'Vui lòng nhập tên bộ lọc',
+            stationType: 'Vui lòng chọn loại trạm',
+            station: 'Vui lòng chọn trạm quan trắc',
+            conditionParameter: 'Vui lòng chọn thông số',
+            value: 'Vui lòng nhập giá trị',
+            excludeParameter: 'Vui lòng chọn ít nhất một thông số',
+            maxInput: 'Không được nhập quá 64 ký tự',
+            whitespace: 'Vui lòng nhập dữ liệu',
+          },
+          table: {
+            title: {
+              conditionParameter: 'Thông số điều kiện',
+              excludeParameter: 'Thông số loại bỏ',
+            },
+            footer: 'Thêm điều kiện lọc',
+          },
+        },
+      },
+      timeFilter: {
+        toggle: 'Bộ lọc khoảng thời gian',
+        table: {
+          title: {
+            station: 'Trạm quan trắc',
+            parameter: 'Thông số',
+            status: 'Trạng thái',
+          },
+          footer: 'Thêm điều kiện lọc',
+          expire: 'Quá hạn',
+          inUse: 'Áp dụng',
+        },
+        form: {
+          // label: {
+          //   filterName: 'Tên bộ lọc',
+          // },
+          placeholder: {
+            startTime: 'Thời gian bắt đầu',
+            endTime: 'Thời gian kết thúc',
+          },
+          error: {
+            time: 'Vui lòng chọn thời gian',
+          },
+          table: {
+            title: {
+              parameter: 'Thông số',
+              timeRange: 'Khoảng thời gian',
+            },
+          },
+        },
+      },
     },
   },
   controlStation: {
@@ -659,6 +792,9 @@ export default {
       advanced: {
         label: 'Nâng cao',
         reset: 'Đặt lại',
+      },
+      filterDataBy: {
+        require: 'Vui lòng chọn ít nhất 1 điều kiện',
       },
     },
     table: {
@@ -2918,6 +3054,7 @@ export default {
       user: 'Tài khoản',
       dataLogger: 'Xem nhật ký',
       service: 'Cấu hình dịch vụ',
+      qaqc: 'Kiểm duyệt dữ liệu',
       ConfigNotify: {
         titleTable: {
           status: 'Trạng thái',
@@ -3098,6 +3235,7 @@ export default {
       role: 'Thêm mới những nhóm quyền cần quản lý trong hệ thống',
       user: 'Thêm mới và phân quyền tài khoản trong hệ thống',
       dataLogger: 'Lịch sử người dùng thao tác trong hệ thống',
+      qaqc: 'Cấu hình loại bỏ dữ liệu không hợp lệ',
     },
     monitoring: {
       base:
@@ -4172,11 +4310,11 @@ export default {
     language: {
       en: 'Tiếng Anh',
       vi: 'Tiếng Việt',
-      tw: 'Tiếng Đài'
+      tw: 'Tiếng Đài',
     },
     button: {
       ok: 'Xác nhận',
-      cancel: 'Hủy'
-    }
-  }
+      cancel: 'Hủy',
+    },
+  },
 }

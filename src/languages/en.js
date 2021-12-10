@@ -456,6 +456,8 @@ export default {
     originalData: 'Original data',
     validData: 'Valid data',
     inValidData: 'Invalid data',
+    timeRange: 'Time Range',
+    valueRange: 'Value Condition',
     ok: 'OK',
     province: {
       label: 'Select Site',
@@ -475,25 +477,154 @@ export default {
     outOfRange: 'Out of range',
   },
   qaqcConfig: {
-    title: 'QAQC Config',
+    title: 'Data Processing',
     beyondMeasuringRange: 'Out of range',
     deviceError: 'Sensor error',
     deviceCalibration: 'Sensor Calibration',
     zero: 'Zero value',
     negative: 'Negative value',
+    timeRange: 'Time Range',
+    valueRange: 'Value Condition',
     basic: {
       title: 'Basic Filter',
-      useBasicConfig: 'Value 0, negative and repeat',
+      useBasicConfig: 'Zero Value, Negative And Repeat',
       repeat: 'Repeat',
-      tooltipRepeat: 'Set discard value based on number of repetitions',
+      tooltipRepeat: 'Set to remove value based on number of repetitions',
       placeholderRepeat: 'Number of repetitions',
       removeValues: 'Remove Values:',
       error: {
-        repeat: 'Please set repetitions greater than 1',
+        repeat: 'Please set the number of repetitions greater than 1',
       },
     },
     advanced: {
       title: 'Advanced Filter',
+      tab: {
+        time: 'Filter By Time Range',
+        value: 'Filter By Value Condition',
+      },
+      placeholder: {
+        stationType: 'Choose Type Of Station',
+        station: 'Choose Station',
+      },
+      button: {
+        reset: 'Reset',
+        create: 'Create',
+        delete: 'Delete Filter',
+        update: 'Update',
+        cancel: 'Cancel',
+        continueCreate: 'Continue Creating',
+        continueEdit: 'Continue Editing',
+        close: 'Close',
+      },
+      message: {
+        create: {
+          success: 'Create Successfully',
+          error: 'Create Unsuccessfully',
+        },
+        update: {
+          success: 'Update Successfully',
+          error: 'Update Unsuccessfully',
+        },
+        delete: {
+          success: 'Delete Successfully',
+          error: 'Delete Unsuccessfully',
+        },
+      },
+      modal: {
+        create: {
+          title: 'Add Filter Condition',
+        },
+        edit: {
+          title: 'Edit Filter Condition',
+        },
+        delete: {
+          title: 'Confirm Filter Deletion',
+          message:
+            'Be sure to delete the data filter, all data of reports and statistics will no longer apply the filter to calculate',
+        },
+        cancel: {
+          create: {
+            title: 'Cancel Creating',
+            message: `Filter data has not been created. If the window is closed, the filter's data entered will not be saved.`,
+          },
+          edit: {
+            title: 'Cancel Editing',
+            message:
+              'Filter data has not been saved. If the window is closed, the filter edits entered will not be saved.',
+          },
+        },
+      },
+      label: {
+        stationType: 'Types Of Station',
+        station: 'Station Name',
+      },
+      conditionFilter: {
+        toggle: 'Value Condition Filter',
+        table: {
+          title: {
+            conditionName: `Condition's Name`,
+            applicableStation: 'Applicable Station',
+            conditionParameter: 'Condition Parameter',
+            excludeParameter: 'Exclude Parameters',
+          },
+          footer: 'Add Filter Condition',
+        },
+        form: {
+          label: {
+            filterName: 'Name Of Filter',
+          },
+          placeholder: {
+            filterName: 'Name Of Filter',
+            conditionParameter: 'Choose parameter',
+            excludeParameter: 'Choose parameters which will be exclude',
+          },
+          error: {
+            filterName: 'Please type name of filter',
+            stationType: 'Please choose type of station',
+            station: 'Please choose station',
+            conditionParameter: 'Please choose parameter',
+            value: 'Please type value',
+            excludeParameter: 'Please choose at least one parameter',
+            maxInput: 'No more than 64 characters',
+            whitespace: 'Please type data',
+          },
+          table: {
+            title: {
+              conditionParameter: 'Condition Parameter',
+              excludeParameter: 'Exclude Parameters',
+            },
+            footer: 'Add Filter Condition',
+          },
+        },
+      },
+      timeFilter: {
+        toggle: 'Time Range Filter',
+        table: {
+          title: {
+            station: 'Station Name',
+            parameter: 'Parameter',
+            status: 'Status',
+          },
+          footer: 'Add Filter Condition',
+          expire: 'Expire',
+          inUse: 'In use',
+        },
+        form: {
+          placeholder: {
+            startTime: 'Start time',
+            endTime: 'End time',
+          },
+          error: {
+            time: 'Please choose time range',
+          },
+          table: {
+            title: {
+              parameter: 'Parameters',
+              timeRange: 'Time Range',
+            },
+          },
+        },
+      },
     },
   },
   controlStation: {
@@ -660,6 +791,9 @@ export default {
       advanced: {
         label: 'Advanced',
         reset: 'Reset',
+      },
+      filterDataBy: {
+        require: 'Please choose at least 1 condition',
       },
     },
     table: {
@@ -2920,6 +3054,7 @@ export default {
       user: 'Users',
       dataLogger: 'System Logs',
       service: 'Service configuration',
+      qaqc: 'Data Processing',
       ConfigNotify: {
         titleTable: {
           status: 'Status',
@@ -3105,6 +3240,7 @@ export default {
       role: 'Add new Roles groups to manage in the system',
       user: 'Add new and Assign Roles accounts in the system',
       dataLogger: 'The user history of operations in the system',
+      qaqc: 'Configuration of removing invalid data',
     },
     billing: {
       dataLookup: 'Tra cứu dữ liệu',
@@ -4162,11 +4298,11 @@ export default {
     language: {
       en: 'English',
       vi: 'Vietnamese',
-      tw: 'Taiwan'
+      tw: 'Taiwan',
     },
     button: {
       ok: 'Confirm',
-      cancel: 'Cancel'
-    }
-  }
+      cancel: 'Cancel',
+    },
+  },
 }

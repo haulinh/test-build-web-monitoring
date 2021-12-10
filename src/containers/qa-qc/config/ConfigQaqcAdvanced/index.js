@@ -1,14 +1,22 @@
 import React from 'react'
 import { Collapse, Tabs } from 'antd'
 import FilterConditionContainer from './FilterCondition'
-
+import { translate as t } from 'hoc/create-lang'
 import FilterTimeContainer from './FilterTime'
+
 const { TabPane } = Tabs
 const { Panel } = Collapse
 
 class ConfigQaqcAdvancedTab extends React.Component {
   render() {
-    const { setActiveKeyPanel, activeKeyPanel } = this.props
+    const {
+      setActiveKeyPanel,
+      activeKeyPanel,
+      toggleExcludeParametersByTime,
+      toggleExcludeParametersByValue,
+      excludeParametersByTime,
+      excludeParametersByValue,
+    } = this.props
     return (
       <Collapse
         defaultActiveKey={activeKeyPanel}
@@ -25,17 +33,29 @@ class ConfigQaqcAdvancedTab extends React.Component {
                 color: '#111827',
               }}
             >
-              Bộ lọc nâng cao
+              {t('qaqcConfig.advanced.title')}
             </div>
           }
           key="advanced"
         >
           <Tabs defaultActiveKey="filterRangeTime">
-            <TabPane tab="Lọc theo khoảng thời gian" key="filterRangeTime">
-              <FilterTimeContainer />
+            <TabPane
+              tab={t('qaqcConfig.advanced.tab.time')}
+              key="filterRangeTime"
+            >
+              <FilterTimeContainer
+                toggleExcludeParametersByTime={toggleExcludeParametersByTime}
+                excludeParametersByTime={excludeParametersByTime}
+              />
             </TabPane>
-            <TabPane tab="Lọc theo điều kiện giá trị" key="filterMeasureValue">
-              <FilterConditionContainer />
+            <TabPane
+              tab={t('qaqcConfig.advanced.tab.value')}
+              key="filterMeasureValue"
+            >
+              <FilterConditionContainer
+                toggleExcludeParametersByValue={toggleExcludeParametersByValue}
+                excludeParametersByValue={excludeParametersByValue}
+              />
             </TabPane>
           </Tabs>
         </Panel>

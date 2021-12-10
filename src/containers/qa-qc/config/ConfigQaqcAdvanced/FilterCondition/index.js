@@ -1,13 +1,14 @@
 import { Button, Col, Form, Icon, message, Row, Switch } from 'antd'
 import CalculateApi from 'api/CalculateApi'
 import { toggleQaqcConfig } from 'api/CategoryApi'
-import SelectStationAuto from 'components/elements/select-station-auto'
 import { Clearfix } from 'components/layouts/styles'
 import { ModalConfirmDelete } from 'containers/qa-qc/config/ConfigQaqcAdvanced/components'
-import _ from 'lodash'
+import SelectStationAuto from 'containers/search/common/select-station-auto'
 import React from 'react'
 import ModalConditionFilter from './ModalConditionFilter'
 import TableConditionFilter from './TableConditionFilter'
+import { isEmpty } from 'lodash'
+import { translate as t } from 'hoc/create-lang'
 
 export const FIELDS = {
   FILTER_NAME: 'filterName',
@@ -17,6 +18,110 @@ export const FIELDS = {
   CONDITIONS: 'conditions',
 }
 
+export const i18n = () => ({
+  list: {
+    placeholder: {
+      station: t('qaqcConfig.advanced.placeholder.station'),
+    },
+    toggle: t('qaqcConfig.advanced.conditionFilter.toggle'),
+    table: {
+      conditionName: t(
+        'qaqcConfig.advanced.conditionFilter.table.title.conditionName'
+      ),
+      applicableStation: t(
+        'qaqcConfig.advanced.conditionFilter.table.title.applicableStation'
+      ),
+      conditionParameter: t(
+        'qaqcConfig.advanced.conditionFilter.table.title.conditionParameter'
+      ),
+      excludeParameter: t(
+        'qaqcConfig.advanced.conditionFilter.table.title.excludeParameter'
+      ),
+      footer: t('qaqcConfig.advanced.conditionFilter.table.footer'),
+    },
+  },
+  form: {
+    label: {
+      filterName: t(
+        'qaqcConfig.advanced.conditionFilter.form.label.filterName'
+      ),
+      stationType: t('qaqcConfig.advanced.label.stationType'),
+      station: t('qaqcConfig.advanced.label.station'),
+    },
+    table: {
+      conditionParameter: t(
+        'qaqcConfig.advanced.conditionFilter.form.table.title.conditionParameter'
+      ),
+      excludeParameter: t(
+        'qaqcConfig.advanced.conditionFilter.form.table.title.excludeParameter'
+      ),
+      footer: t('qaqcConfig.advanced.conditionFilter.form.table.footer'),
+    },
+    placeholder: {
+      filterName: t(
+        'qaqcConfig.advanced.conditionFilter.form.placeholder.filterName'
+      ),
+      stationType: t('qaqcConfig.advanced.placeholder.stationType'),
+      station: t('qaqcConfig.advanced.placeholder.station'),
+      conditionParameter: t(
+        'qaqcConfig.advanced.conditionFilter.form.placeholder.conditionParameter'
+      ),
+      value: t('qaqcConfig.advanced.conditionFilter.form.placeholder.value'),
+      excludeParameter: t(
+        'qaqcConfig.advanced.conditionFilter.form.placeholder.excludeParameter'
+      ),
+    },
+    error: {
+      filterName: t(
+        'qaqcConfig.advanced.conditionFilter.form.error.filterName'
+      ),
+      stationType: t(
+        'qaqcConfig.advanced.conditionFilter.form.error.stationType'
+      ),
+      station: t('qaqcConfig.advanced.conditionFilter.form.error.station'),
+      conditionParameter: t(
+        'qaqcConfig.advanced.conditionFilter.form.error.conditionParameter'
+      ),
+      value: t('qaqcConfig.advanced.conditionFilter.form.error.value'),
+      excludeParameter: t(
+        'qaqcConfig.advanced.conditionFilter.form.error.excludeParameter'
+      ),
+      maxInput: t('qaqcConfig.advanced.conditionFilter.form.error.maxInput'),
+      whitespace: t(
+        'qaqcConfig.advanced.conditionFilter.form.error.whitespace'
+      ),
+    },
+  },
+  modal: {
+    create: {
+      title: t('qaqcConfig.advanced.modal.create.title'),
+    },
+    edit: {
+      title: t('qaqcConfig.advanced.modal.edit.title'),
+    },
+  },
+  button: {
+    reset: t('qaqcConfig.advanced.button.reset'),
+    create: t('qaqcConfig.advanced.button.create'),
+    delete: t('qaqcConfig.advanced.button.delete'),
+    update: t('qaqcConfig.advanced.button.update'),
+  },
+  message: {
+    create: {
+      success: t('qaqcConfig.advanced.message.create.success'),
+      error: t('qaqcConfig.advanced.message.create.error'),
+    },
+    update: {
+      success: t('qaqcConfig.advanced.message.update.success'),
+      error: t('qaqcConfig.advanced.message.update.success'),
+    },
+    delete: {
+      success: t('qaqcConfig.advanced.message.delete.success'),
+      error: t('qaqcConfig.advanced.message.delete.success'),
+    },
+  },
+})
+
 @Form.create()
 class FilterConditionContainer extends React.Component {
   state = {
@@ -24,9 +129,10 @@ class FilterConditionContainer extends React.Component {
     isShowModalConditionFilter: false,
     isShowModalConfirmDelete: false,
     conditionItemKeySelected: '',
+    conditionItemSelected: {},
     data: [],
     loading: false,
-    isApplyConditionFilter: true,
+    modalType: '',
   }
 
   async componentDidMount() {
@@ -37,14 +143,12 @@ class FilterConditionContainer extends React.Component {
     try {
       this.setState({ loading: true })
       const response = await CalculateApi.getQaqcConfigs({
-        limit: 999999,
+        type: 'value',
+        limit: Number.MAX_SAFE_INTEGER,
         offset: 0,
       })
-      const conditionFilterData = response.results.filter(
-        item => item.type === 'value'
-      )
       this.setState({
-        data: conditionFilterData,
+        data: response.results,
         loading: false,
       })
     } catch (error) {
@@ -52,40 +156,53 @@ class FilterConditionContainer extends React.Component {
     }
   }
 
-  showModalConditionFilter = () => {
+  showModalCreate = () => {
     this.setState({
+      modalType: 'create',
       isShowModalConditionFilter: true,
     })
   }
 
+  showModalEdit = conditionItemSelected => {
+    const { data } = this.state
+    const dataEdit = data.find(
+      condition => condition._id === conditionItemSelected._id
+    )
+
+    this.setState(
+      {
+        modalType: 'edit',
+        isShowModalConditionFilter: true,
+      },
+      () => {
+        this.setState({ conditionItemSelected: dataEdit })
+      }
+    )
+  }
+
   showModalConfirmDelete = () => {
-    this.setState({
-      isShowModalConfirmDelete: true,
-    })
+    this.setState({ isShowModalConfirmDelete: true })
   }
 
   onCancelModalConfirmDelete = () => {
-    this.setState({
-      isShowModalConfirmDelete: false,
-    })
+    this.setState({ isShowModalConfirmDelete: false })
   }
 
   onCancelModalConditionFilter = () => {
     this.setState({
       isShowModalConditionFilter: false,
+      conditionItemSelected: null,
     })
   }
 
   handleChangeStationAuto = stationKey => {
-    this.setState({
-      stationKey,
-    })
+    this.setState({ stationKey })
   }
 
-  setConditionFilterItem = conditionItemKeySelected => {
+  setDeleteItem = conditionItemSelected => {
     this.setState({
       isShowModalConfirmDelete: true,
-      conditionItemKeySelected,
+      conditionItemKeySelected: conditionItemSelected._id,
     })
   }
 
@@ -96,69 +213,63 @@ class FilterConditionContainer extends React.Component {
       this.setState({
         isShowModalConfirmDelete: false,
       })
-      message.success('Xóa thành công')
+      message.success(i18n().message.delete.success)
     } catch (error) {
       this.setState({
         isShowModalConfirmDelete: false,
       })
-      message.error('Xóa không thành công')
+      message.error(i18n().message.delete.error)
     }
     this.getData()
   }
 
   onChangeSwitchFilter = async value => {
+    const { toggleExcludeParametersByValue } = this.props
     const param = {
       excludeParametersByValue: value,
     }
     try {
       await toggleQaqcConfig(param)
-      this.setState({
-        isApplyConditionFilter: value,
-      })
+      toggleExcludeParametersByValue(value)
     } catch (error) {
       console.log(error)
     }
   }
 
-  handleSearchConditionFilter = async () => {
-    this.setState({
-      loading: true,
-    })
+  handleSearch = async () => {
+    this.setState({ loading: true })
+
     const { form } = this.props
     const stationKeyList = form.getFieldValue(FIELDS.STATION)
     let params = {
-      ...{
-        limit: 999999,
-        offset: 0,
-      },
+      ...{ type: 'value', offset: 0, limit: Number.MAX_SAFE_INTEGER },
     }
-    if (!_.isEmpty(stationKeyList)) {
-      const stationKeysStr = _.join(stationKeyList, ',')
+
+    if (!isEmpty(stationKeyList)) {
       params = {
-        stationKeys: stationKeysStr,
+        stationKeys: stationKeyList.join(','),
         ...params,
       }
     }
+
     try {
       const response = await CalculateApi.getQaqcConfigs(params)
-      const conditionFilterData = response.results.filter(
-        item => item.type === 'value'
-      )
       this.setState({
-        data: conditionFilterData,
+        data: response.results,
         loading: false,
       })
     } catch (error) {
-      this.setState({
-        loading: false,
-      })
+      this.setState({ loading: false })
     }
   }
 
-  onCreated = isShowModalConditionFilter => {
-    this.setState({
-      isShowModalConditionFilter,
-    })
+  onSubmitted = isShowModalConditionFilter => {
+    this.setState({ isShowModalConditionFilter })
+    this.getData()
+  }
+
+  onDeleted = isShowModalConditionFilter => {
+    this.setState({ isShowModalConditionFilter })
     this.getData()
   }
 
@@ -167,10 +278,40 @@ class FilterConditionContainer extends React.Component {
       isShowModalConditionFilter,
       isShowModalConfirmDelete,
       data,
-      isApplyConditionFilter,
       loading,
+      modalType,
+      conditionItemSelected,
     } = this.state
-    const { form } = this.props
+    const { form, excludeParametersByValue } = this.props
+
+    const DynamicModalConditionFilter = {
+      create: (
+        <ModalConditionFilter
+          title={i18n().modal.create.title}
+          visible={isShowModalConditionFilter}
+          conditionItemSelected={conditionItemSelected}
+          onCancel={this.onCancelModalConditionFilter}
+          showConfirmDelete={this.showModalConfirmDelete}
+          dataWithConditionFilter={data}
+          showModalConditionFilter={this.onSubmitted}
+          type={modalType}
+        />
+      ),
+      edit: (
+        <ModalConditionFilter
+          title={i18n().modal.edit.title}
+          visible={isShowModalConditionFilter}
+          conditionItemSelected={conditionItemSelected}
+          onCancel={this.onCancelModalConditionFilter}
+          showConfirmDelete={this.showModalConfirmDelete}
+          dataWithConditionFilter={data}
+          showModalConditionFilter={this.onSubmitted}
+          afterDelete={this.onDeleted}
+          type={modalType}
+        />
+      ),
+    }
+
     return (
       <React.Fragment>
         <Row type="flex" justify="space-between" align="middle">
@@ -181,8 +322,7 @@ class FilterConditionContainer extends React.Component {
           >
             {form.getFieldDecorator(FIELDS.STATION)(
               <SelectStationAuto
-                fieldValue="key"
-                placeholder="Chọn trạm quan trắc"
+                placeholder={i18n().list.placeholder.station}
                 mode="multiple"
                 style={{ width: '100%' }}
                 maxTagCount={3}
@@ -193,14 +333,17 @@ class FilterConditionContainer extends React.Component {
               icon="search"
               size="small"
               loading={loading}
-              onClick={this.handleSearchConditionFilter}
+              onClick={this.handleSearch}
             />
           </Col>
 
           <Col span={6}>
             <Row type="flex" justify="end" align="middle">
               <Col>
-                <Switch defaultChecked onClick={this.onChangeSwitchFilter} />
+                <Switch
+                  checked={excludeParametersByValue}
+                  onClick={this.onChangeSwitchFilter}
+                />
               </Col>
               <Col>
                 <span
@@ -211,7 +354,7 @@ class FilterConditionContainer extends React.Component {
                     fontWeight: '500',
                   }}
                 >
-                  Bộ lọc điều kiện giá trị
+                  {i18n().list.toggle}
                 </span>
               </Col>
             </Row>
@@ -219,39 +362,25 @@ class FilterConditionContainer extends React.Component {
         </Row>
         <Clearfix height={12} />
         <TableConditionFilter
-          editRecord={this.showModalConditionFilter}
+          setEditItemKey={this.showModalEdit}
           dataSource={data}
           loading={loading}
-          setConditionFilterItemKey={this.setConditionFilterItem}
-          isDisabled={isApplyConditionFilter}
+          setDeleteItemKey={this.setDeleteItem}
+          isDisabled={!excludeParametersByValue}
           footer={() => (
-            <Button type="link" onClick={this.showModalConditionFilter}>
-              <Row type="flex" align="middle">
-                <Col style={{ marginRight: '8px', marginTop: '2px' }}>
-                  <Icon type="plus" style={{ color: '#1890FF' }} />
-                </Col>
-                <Col>
-                  <span
-                    style={{
-                      fontSize: '16px',
-                      fontWeight: '500',
-                      color: '#1890FF',
-                    }}
-                  >
-                    Thêm điều kiện lọc
-                  </span>
-                </Col>
-              </Row>
-            </Button>
+            <Row type="flex" style={{ color: '#1890FF' }} align="middle">
+              <Button
+                type="link"
+                style={{ fontWeight: 500, fontSize: '16px' }}
+                onClick={this.showModalCreate}
+              >
+                <Icon type="plus" style={{ marginRight: 5 }} />
+                {i18n().list.table.footer}
+              </Button>
+            </Row>
           )}
         />
-        <ModalConditionFilter
-          visible={isShowModalConditionFilter}
-          onCancel={this.onCancelModalConditionFilter}
-          showConfirmDelete={this.showModalConfirmDelete}
-          dataWithConditionFilter={data}
-          showModalConditionFilter={this.onCreated}
-        />
+        {DynamicModalConditionFilter[modalType]}
         <ModalConfirmDelete
           visible={isShowModalConfirmDelete}
           closable={false}

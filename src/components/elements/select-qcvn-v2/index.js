@@ -29,9 +29,13 @@ export default class SelectQCVN extends PureComponent {
 
   async componentDidMount() {
     let query = {}
+    const { onFetchSuccess } = this.props
     const result = await QCVNApi.getQCVN({}, query)
     if (get(result, 'success', false)) {
       const data = get(result, 'data', [])
+      if (onFetchSuccess) {
+        onFetchSuccess(data)
+      }
       this.setState({
         lstQCVN: data,
         value: this.getValue(data),
@@ -85,6 +89,7 @@ export default class SelectQCVN extends PureComponent {
   render() {
     const listQCVN = this.getListQCVN()
     // console.log(listQCVN, this.state.searchString, '--listQCVN--')
+    const { fieldValue } = this.props
     return (
       <Select
         {...this.props}
@@ -102,7 +107,10 @@ export default class SelectQCVN extends PureComponent {
           </Select.Option>
         )}
         {listQCVN.map(standardVN => (
-          <Select.Option key={standardVN._id} value={standardVN._id}>
+          <Select.Option
+            key={standardVN._id}
+            value={standardVN[fieldValue || '_id']}
+          >
             {standardVN.name}
           </Select.Option>
         ))}

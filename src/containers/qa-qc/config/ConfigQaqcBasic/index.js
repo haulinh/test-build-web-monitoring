@@ -108,7 +108,11 @@ class ConfigQaqcBasic extends React.Component {
   }
 
   handleSubmit = async () => {
-    const { form } = this.props
+    const {
+      form,
+      excludeParametersByTime,
+      excludeParametersByValue,
+    } = this.props
     const values = form.getFieldsValue()
 
     const validateMeasureValues = this.refTableConfigs.map(
@@ -133,6 +137,8 @@ class ConfigQaqcBasic extends React.Component {
           ...measureValuesObject,
         },
         ...values,
+        excludeParametersByTime,
+        excludeParametersByValue,
       })
     } else {
       response = await postConfigQAQC({
@@ -188,6 +194,12 @@ class ConfigQaqcBasic extends React.Component {
       // console.log("response,", response)
       if (response.success) {
         const data = _.get(response, 'data.value', null)
+        const {
+          toggleExcludeParametersByTime,
+          toggleExcludeParametersByValue,
+        } = this.props
+        toggleExcludeParametersByTime(data[fields.excludeParametersByTime])
+        toggleExcludeParametersByValue(data[fields.excludeParametersByValue])
         if (data) {
           dataForm = {
             beyondMeasuringRange: data.beyondMeasuringRange,
@@ -200,6 +212,7 @@ class ConfigQaqcBasic extends React.Component {
             [fields.excludeParametersByValue]:
               data[fields.excludeParametersByValue],
           }
+
           this.setState({
             configQAQC: data,
             configId: _.get(response, 'data._id', null),
@@ -378,12 +391,6 @@ class ConfigQaqcBasic extends React.Component {
                         </React.Fragment>
                       </Col>
                     </Row>
-                    {getFieldDecorator(fields.excludeParametersByTime, {
-                      initialValue: false,
-                    })(<div />)}
-                    {getFieldDecorator(fields.excludeParametersByValue, {
-                      initialValue: false,
-                    })(<div />)}
                   </React.Fragment>
                 )}
                 <div

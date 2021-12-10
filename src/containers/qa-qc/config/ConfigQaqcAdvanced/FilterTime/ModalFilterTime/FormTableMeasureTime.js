@@ -1,46 +1,87 @@
 import { DatePicker, Table } from 'antd'
 import { FormItem } from 'components/layouts/styles'
+import moment from 'moment'
 import React, { Component } from 'react'
+import { i18n } from '../index'
 
 const { RangePicker } = DatePicker
 
 export default class FormTableMeasureTime extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      keyListSelect: [],
+  setInitValues = () => {
+    const { form } = this.props
+    const conditionFields = this.getFieldsConditionsValue()
+    form.setFieldsValue({ conditions: conditionFields })
+  }
+
+  componentDidUpdate = prevProps => {
+    const { isEdit } = this.props
+    if (isEdit) {
+      const { id, form } = this.props
+      if (prevProps.id !== id) {
+        const conditionFields = this.getFieldsConditionsValue()
+        form.setFieldsValue({ conditions: conditionFields })
+      }
     }
   }
 
-  getColumns = () => {
-    const { measureKeyListSelected } = this.props
+  getFieldsConditionsValue = () => {
+    const { conditions } = this.props
+    if (!conditions) return
+    const conditionFields = conditions.reduce((prevValue, currentValue) => {
+      return {
+        ...prevValue,
+        [currentValue.measure]: [
+          moment(currentValue.startAt),
+          moment(currentValue.endAt),
+        ],
+      }
+    }, {})
+    return conditionFields
+  }
 
-    const { form } = this.props
+  getColumns = () => {
+    const { measureKeyListSelected, measuresObj, form } = this.props
 
     return [
       {
-        title: 'Thông số',
-        dataIndex: 'name',
-        render: value => <div style={{ fontWeight: 500 }}>{value}</div>,
+        title: i18n().form.table.parameter,
+        dataIndex: 'measure',
+        key: 'measure',
+        render: value => {
+          return (
+            <div style={{ fontWeight: 500 }}>{measuresObj[value].name}</div>
+          )
+        },
       },
       {
-        title: 'Khoảng thời gian',
+        title: i18n().form.table.timeRange,
+        key: 'time',
         render: (value, record, index) => {
           return (
             <FormItem style={{ marginBottom: 0 }}>
-              {form.getFieldDecorator(`conditions[${value.key}]`, {
-                initialValue: [],
+              {form.getFieldDecorator(`conditions.${value.measure}`, {
                 rules: [
                   {
-                    required: measureKeyListSelected.includes(value.key),
-                    message: 'Vui lòng chọn thời gian',
+                    required: measureKeyListSelected.includes(value.measure),
+                    message: i18n().form.error.time,
                   },
                 ],
               })(
                 <RangePicker
-                  disabled={!measureKeyListSelected.includes(value.key)}
+                  disabled={!measureKeyListSelected.includes(value.measure)}
                   style={{ width: '100%', padding: 0 }}
-                  format={['DD/MM/YYYY']}
+                  showTime={{
+                    format: 'HH:mm',
+                    defaultValue: [
+                      moment('00:00:00', 'HH:mm:ss'),
+                      moment('23:59:59', 'HH:mm:ss'),
+                    ],
+                  }}
+                  format="HH:mm DD-MM-YYYY"
+                  placeholder={[
+                    i18n().form.placeholder.timeRange.startTime,
+                    i18n().form.placeholder.timeRange.endTime,
+                  ]}
                 />
               )}
             </FormItem>
@@ -50,37 +91,40 @@ export default class FormTableMeasureTime extends Component {
     ]
   }
 
-  handleSelectChange = keyListSelect => {
-    const { form, measureList, setMeasureKeyListSelected } = this.props
+  handleSelectChange = (selectedRowKeys, selectedRows) => {
+    const keyListSelect = selectedRows.map(selectedRow => selectedRow.measure)
+    const { form, dataSource, setMeasureKeyListSelected } = this.props
 
-    const measureKeyList = measureList.map(measure => measure.key)
+    const measureKeyList = dataSource.map(
+      dataSourceItem => dataSourceItem.measure
+    )
 
     const measureListNotSelect = measureKeyList.filter(
       measure => !keyListSelect.includes(measure)
     )
 
     const conditionFields = measureListNotSelect.map(
-      measure => `conditions[${measure}]`
+      measure => `conditions.${measure}`
     )
 
     form.resetFields(conditionFields)
-
-    this.setState({ keyListSelect })
 
     setMeasureKeyListSelected(keyListSelect)
   }
 
   render() {
-    const { measureList, stationAuto } = this.props
+    const { dataSource, stationAuto, measureKeyListSelected } = this.props
+
     const rowSelection = {
+      selectedRowKeys: measureKeyListSelected,
       onChange: this.handleSelectChange,
     }
-
     return (
       <Table
         key={stationAuto}
+        rowKey={row => row.measure}
         columns={this.getColumns()}
-        dataSource={measureList}
+        dataSource={dataSource}
         bordered
         rowSelection={rowSelection}
         pagination={false}

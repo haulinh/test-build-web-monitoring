@@ -8,6 +8,16 @@ import ConfigQaqcBasic from './ConfigQaqcBasic'
 export default class QAQC_Config extends React.Component {
   state = {
     activeKeyPanel: 'basic',
+    excludeParametersByTime: false,
+    excludeParametersByValue: false,
+  }
+
+  toggleExcludeParametersByTime = value => {
+    this.setState({ excludeParametersByTime: value })
+  }
+
+  toggleExcludeParametersByValue = value => {
+    this.setState({ excludeParametersByValue: value })
   }
 
   setActiveKeyPanel = activeKeyPanel => {
@@ -19,17 +29,30 @@ export default class QAQC_Config extends React.Component {
   }
 
   render() {
-    const { activeKeyPanel } = this.state
+    const {
+      activeKeyPanel,
+      excludeParametersByTime,
+      excludeParametersByValue,
+    } = this.state
+
     return (
       <PageContainer backgroundColor={'#fafbfb'}>
         <Breadcrumb items={['configNew']} />
         <Clearfix height={24} />
         <ConfigQaqcBasic
+          excludeParametersByTime={excludeParametersByTime}
+          excludeParametersByValue={excludeParametersByValue}
+          toggleExcludeParametersByTime={this.toggleExcludeParametersByTime}
+          toggleExcludeParametersByValue={this.toggleExcludeParametersByValue}
           activeKeyPanel={activeKeyPanel}
           setActiveKeyPanel={this.setActiveKeyPanel}
         />
         <Clearfix height={24} />
         <ConfigQaqcAdvancedTab
+          toggleExcludeParametersByTime={this.toggleExcludeParametersByTime}
+          excludeParametersByTime={excludeParametersByTime}
+          toggleExcludeParametersByValue={this.toggleExcludeParametersByValue}
+          excludeParametersByValue={excludeParametersByValue}
           setActiveKeyPanel={this.setActiveKeyPanel}
           activeKeyPanel={activeKeyPanel}
         />
