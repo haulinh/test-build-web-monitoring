@@ -478,11 +478,11 @@ export default {
   },
   qaqcConfig: {
     title: 'Data Processing',
-    beyondMeasuringRange: 'Out of range',
-    deviceError: 'Sensor error',
-    deviceCalibration: 'Sensor Calibration',
-    zero: 'Zero value',
-    negative: 'Negative value',
+    beyondMeasuringRange: 'Out Of Range',
+    deviceError: 'Device Error',
+    deviceCalibration: 'Device Calibration',
+    zero: 'Zero Value',
+    negative: 'Negative Value',
     timeRange: 'Time Range',
     valueRange: 'Value Condition',
     basic: {
@@ -4133,7 +4133,7 @@ export default {
     placeholder: {
       management: {
         name: 'Type Alarm Name',
-        webhook: 'Enter webhook URL'
+        webhook: 'Enter webhook URL',
       },
     },
     message: {
