@@ -20,6 +20,7 @@ import Breadcrumb from '../breadcrumb'
 import Filter from './Filter'
 import TableMonth from './result/TableMonth'
 import TableQuarter from './result/TableQuarter'
+import createLanguage from 'hoc/create-lang'
 
 export const Fields = {
   stationType: 'stationType',
@@ -55,6 +56,7 @@ export function i18n() {
 }
 @createProtectRole(ROLE.BILLING_REPORT.VIEW)
 @Form.create()
+@createLanguage
 export default class BillingReport extends Component {
   state = {
     resultReport: {},
@@ -140,13 +142,14 @@ export default class BillingReport extends Component {
   }
 
   handleExportBilling = async () => {
+    const { lang: { translateManual } } = this.props
     const params = await this.getQueryParams()
     const result = await CalculateApi.exportReportBilling({
       ...params,
       lang: this.state.langExport,
     })
     const { from, to } = this.getTimes()
-    downFileExcel(result.data, `${t('billing.title.name')} ${from} - ${to}`)
+    downFileExcel(result.data, `${translateManual('billing.title.name', null, null, this.state.langExport)} ${from} - ${to}`)
     this.setState({
       visableModal: false,
     })

@@ -66,6 +66,7 @@ export function translate(key, params = {}, isParse = true) {
 const createLanguageHoc = Component => {
   @connectAutoDispatch(
     state => ({
+      languageRaw: state.language.dataInitial,
       languageData: state.language.dataInitial[state.language.locale],
       languageLocale: state.language.locale,
     }),
@@ -85,6 +86,14 @@ const createLanguageHoc = Component => {
       } else return translated ? translated : ''
     }
 
+    translateManual(key, params = {}, isParse = true, locale) {
+      let translated = objectPath.get(this.props.languageRaw[locale], key)
+      if (translated && isParse) {
+        const tempFn = dot.template(translated)
+        return tempFn(params)
+      } else return translated ? translated : ''
+    }
+
     changeLanguage(lang) {
       this.props.changeLanguage(lang)
     }
@@ -98,6 +107,7 @@ const createLanguageHoc = Component => {
     render() {
       const langProps = {
         t: this.translate,
+        translateManual: this.translateManual,
         createNameSpace: this.createNameSpace,
         locale: this.props.languageLocale,
         changeLanguage: this.changeLanguage,
