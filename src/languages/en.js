@@ -4133,6 +4133,7 @@ export default {
     placeholder: {
       management: {
         name: 'Type Alarm Name',
+        webhook: 'Enter webhook URL'
       },
     },
     message: {

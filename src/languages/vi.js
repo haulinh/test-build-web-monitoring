@@ -4145,6 +4145,7 @@ export default {
     placeholder: {
       management: {
         name: 'Nhập tên cảnh báo',
+        webhook: 'Nhập webhook URL'
       },
     },
     message: {
