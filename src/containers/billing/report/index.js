@@ -20,10 +20,6 @@ import Breadcrumb from '../breadcrumb'
 import Filter from './Filter'
 import TableMonth from './result/TableMonth'
 import TableQuarter from './result/TableQuarter'
-import ROLE from 'constants/role'
-import protectRole from 'hoc/protect-role'
-import moment from 'moment'
-import ModalLangExport from 'components/elements/modal-lang-export'
 import createLanguage from 'hoc/create-lang'
 
 export const Fields = {
