@@ -112,7 +112,7 @@ export class ChanelForm extends React.Component {
                       {form.getFieldDecorator(
                         `${FIELDS.CHANNELS}.${channel.type}.config.endpoint`,
                       )(
-                        <Input disabled={typeAlarm === alarmType.advance.value} />
+                        <Input placeholder={translate('alarm.placeholder.management.webhook')} disabled={typeAlarm === alarmType.advance.value} />
                       )}
                     </Row>
                   </Row>
