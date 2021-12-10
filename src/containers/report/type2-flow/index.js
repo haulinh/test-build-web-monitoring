@@ -17,6 +17,8 @@ import { downFileExcel } from 'utils/downFile'
 import protectRole from 'hoc/protect-role/forMenu'
 import ROLE from 'constants/role'
 import ModalLangExport from 'components/elements/modal-lang-export'
+import createLanguage from 'hoc/create-lang'
+
 
 export const FIELDS = {
   REPORT_TYPE: 'reportType',
@@ -30,6 +32,7 @@ export const FIELDS = {
 }
 @Form.create()
 @protectRole(ROLE.REPORT_FLOW.VIEW)
+@createLanguage
 export default class ReportFlow extends React.Component {
   state = {
     data: [],
@@ -226,6 +229,7 @@ export default class ReportFlow extends React.Component {
       }
     }
   }
+
   handleOnSearch = async () => {
     const params = await this.getQueryParams()
     const time = this.getTime()
@@ -249,13 +253,13 @@ export default class ReportFlow extends React.Component {
   }
 
   exportExcel = async () => {
-    const { form } = this.props
+    const { form, lang: { translateManual } } = this.props
     await form.validateFields()
     const params = await this.getQueryParams()
     const { from, to, reportType } = params
     const newParams = { ...params, lang: this.state.langExport }
     const results = await DataInsight.exportDataFlow(newParams)
-    const titleName = t('report.type2_flow.nameFileExel')
+    const titleName = translateManual('report.type2_flow.nameFileExel', null, null, this.state.langExport)
 
     const dynamicNameFile = {
       custom: `${titleName}${moment(from).format('DDMMYYYY')}_${moment(

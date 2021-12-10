@@ -16,6 +16,7 @@ import { downFileExcel } from 'utils/downFile'
 import Breadcrumb from '../breadcrumb'
 import SearchForm from './Form'
 import { TableMonth, TabStation } from './TableData'
+import createLanguage from 'hoc/create-lang'
 
 const { Title, Text } = Typography
 
@@ -44,6 +45,7 @@ export function i18n() {
   timeZone: _get(state, 'auth.userInfo.organization.timeZone', null),
   locale: state.language.locale,
 }))
+@createLanguage
 export default class ReportType10 extends React.Component {
   constructor(props) {
     super(props)
@@ -130,6 +132,7 @@ export default class ReportType10 extends React.Component {
   }
 
   hanldeExcel = async () => {
+    const { lang: { translateManual } } = this.props
     this.setState({
       isLoadingExcel: true,
     })
@@ -157,9 +160,9 @@ export default class ReportType10 extends React.Component {
           : moment(param.to).format('DDMMYYYY')
       downFileExcel(
         res.data,
-        translate('report.typeRatio.titleExport', {
+        translateManual('report.typeRatio.titleExport', {
           time: `${fromFormat}_${toFormat}`,
-        })
+        }, null, this.state.langExport)
       )
     } catch (error) { }
   }

@@ -6,6 +6,7 @@ import { DD_MM_YYYY, YYYY } from 'constants/format-date'
 import ROLE from 'constants/role'
 import { BoxShadow } from 'containers/api-sharing/layout/styles'
 import { translate as t } from 'hoc/create-lang'
+import translateManual from 'hoc/create-lang'
 import protectRole from 'hoc/protect-role/forMenu'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import _ from 'lodash'
@@ -18,6 +19,7 @@ import Breadcrumb from '../breadcrumb'
 import Filter from './Filter'
 import { TableDate, TableYear } from './TableData'
 import ModalLangExport from 'components/elements/modal-lang-export'
+import createLanguage from 'hoc/create-lang'
 
 export const FIELDS = {
   REPORT_TYPE: 'reportType',
@@ -54,12 +56,13 @@ export function i18n() {
       required: t('report.required.station'),
     },
     excel: {
-      title: value => t(`report.type1_exceed.excel.${value}`),
+      title: (value, lang) => translateManual(`report.type1_exceed.excel.${value}`, null, null, lang),
     },
   }
 }
 
 @protectRole(ROLE.REPORT_EXCEED.VIEW)
+@createLanguage
 @Form.create()
 export default class ReportExceed extends Component {
   state = {
@@ -162,6 +165,7 @@ export default class ReportExceed extends Component {
   }
 
   handleExportExceed = async () => {
+    const {lang: { translateManual }} = this.props
     this.setState({
       isLoadingExcel: true,
       visableModal: false
@@ -176,7 +180,7 @@ export default class ReportExceed extends Component {
     })
     downFileExcel(
       result.data,
-      `${i18n().excel.title(params.reportType)} ${params.reportType === 'date'
+      `${translateManual(`report.type1_exceed.excel.${params.reportType}`, null, null, this.state.langExport)} ${params.reportType === 'date'
         ? moment(params.time).format('DDMMYYYY')
         : moment(params.time).format('YYYY')
       }`
