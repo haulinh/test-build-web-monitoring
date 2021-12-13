@@ -255,7 +255,7 @@ export default class SearchFormHistoryData extends React.Component {
           </Col>
           <Col span={9}>
             <FormItem label={t('time')}>
-              {form.getFieldDecorator(fields.rangesDate, { initialValue: 30 })(
+              {form.getFieldDecorator(fields.rangesDate, { initialValue: 1 })(
                 <OptionsTimeRange style={{ width: '100%' }} size="large" />
               )}
             </FormItem>
