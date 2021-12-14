@@ -83,7 +83,7 @@ export default class TableDataList extends React.PureComponent {
             </Tooltip>
           )
         }
-        return <div>{moment(record.date_utc).format(formatDate)}</div>
+        return <div>{moment(record.receivedAt).format(formatDate)}</div>
       },
     }
 
