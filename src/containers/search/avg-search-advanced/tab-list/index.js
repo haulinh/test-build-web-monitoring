@@ -94,9 +94,7 @@ export default class TableList extends React.PureComponent {
       <Tabs.TabPane tab={translate('avgSearchFrom.tab.chart')} key="2">
         <TabChart
           dataStationAuto={this.props.dataStationAuto}
-          measuringData={(this.props.measuringData || []).filter(item =>
-            (this.props.measuringList || []).includes(item.key)
-          )}
+          measuringData={(this.props.measuringData || [])}
           nameChart={this.props.nameChart}
           typeReport={this.props.typeReport}
         />

@@ -89,27 +89,14 @@ export default class TableList extends React.PureComponent {
   }
 
   renderOneStation(station) {
-    const newMeasuringData = []
-    const newMeasuringList = []
-
-    this.state.orderedMeaKey.forEach(meaKey => {
-      const indexMatched = station.measuringList.findIndex(
-        key => key === meaKey
-      )
-      if (indexMatched !== -1) {
-        newMeasuringData.push(station.measuringData[indexMatched])
-        newMeasuringList.push(station.measuringList[indexMatched])
-      }
-    })
-
     return (
       <Tabs.TabPane tab={station.name} key={station.key}>
         <TabList
           qcvns={this.props.qcvns}
           isActive={this.state.tabKey === station.key}
           isLoading={this.state.isLoading}
-          measuringData={newMeasuringData}
-          measuringList={newMeasuringList}
+          measuringData={station.measuringData}
+          measuringList={station.measuringList}
           dataStationAuto={this.state.dataStationAuto}
           pagination={this.state.pagination}
           onChangePage={this.handleChangePage}
