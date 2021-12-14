@@ -219,7 +219,7 @@ export default class TableList extends React.PureComponent {
       isFilter: searchFormData.isFilter,
       status: dataStatus.length === 0 ? defaultStatus : dataStatus,
       groupType: ['month', 'year'].includes(searchFormData.type) ? searchFormData.type : 'custom' ,
-      timeInterval: searchFormData.type,
+      timeInterval: Number(searchFormData.type) ? searchFormData.type : 0
     }
 
     return params
@@ -311,7 +311,6 @@ export default class TableList extends React.PureComponent {
       downFileExcel(result.data, searchFormData.key)
       this.setState({isExporting: false})
     } catch (e) {
-
       this.setState({isExporting: false})
     }
   }
