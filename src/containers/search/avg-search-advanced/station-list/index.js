@@ -208,7 +208,7 @@ export default class TableList extends React.PureComponent {
   }
 
   getQueryParams(searchFormData){
-    const dataStatus = searchFormData.dataStatus
+    const dataStatus = searchFormData.dataStatus.join(',')
     const defaultStatus = dataStatusOptions.map(item => item.value).join(',')
 
     const params = {
