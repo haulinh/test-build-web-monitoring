@@ -86,5 +86,13 @@ export default {
     const url = getDataInsightUrl(`report/data-original/${stationKey}/export`)
     return getFetchDownFile(url, params)
   },
+  getDataAverage: (stationKey, params) => {
+    const url = getDataInsightUrl(`report/data-average/${stationKey}`)
+    return getFetch(url, params)
+  },
+  exportDataAverage: (stationKey, params) => {
+    const url = getDataInsightUrl(`report/data-average/${stationKey}/export`)
+    return getFetchDownFile(url, params)
+  },
   //#endregion
 }
