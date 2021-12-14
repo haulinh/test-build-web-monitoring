@@ -65,9 +65,8 @@ export default class TableDataList extends React.PureComponent {
 
     const columnReceivedAt = {
       title: translate('avgSearchFrom.table.receivedAt'),
-      dataIndex: 'date_utc',
-      key: 'date_utc',
-      width: 170,
+      dataIndex: 'receivedAt',
+      key: 'receivedAt',
       fixed: 'left',
       render(value, record) {
         if (record.isQCVN) {
@@ -150,7 +149,7 @@ export default class TableDataList extends React.PureComponent {
       <TableDataListWrapper>
         <Table
           size="large"
-          rowKey="date_utc"
+          rowKey="receivedAt"
           columns={this.getColumns()}
           {...otherProps}
           dataSource={this.getDataSource(dataSource)}
