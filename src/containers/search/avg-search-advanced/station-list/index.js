@@ -307,7 +307,7 @@ export default class TableList extends React.PureComponent {
     )
     this.setState({isExporting: true})
     try {
-      const result = await DataInsight.exportDataOriginal(searchFormData.key, params)
+      const result = await DataInsight.exportDataAverage(searchFormData.key, params)
       downFileExcel(result.data, searchFormData.key)
       this.setState({isExporting: false})
     } catch (e) {
