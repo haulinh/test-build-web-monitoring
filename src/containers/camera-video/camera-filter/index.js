@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { mapPropsToFields } from 'utils/form'
 import SelectStationCamera from 'components/elements/select-station-camera'
 import SelectStationType from 'components/elements/select-station-type'
-import createLanguageHoc, { langPropTypes } from 'hoc/create-lang'
+import createLanguageHoc, { langPropTypes, translate } from 'hoc/create-lang'
 
 const Form = styled(FormStyle)`
   display: flex;
@@ -107,25 +107,24 @@ export default class CameraFilter extends React.PureComponent {
   }
 
   render() {
-    const { t } = this.props.lang
     return (
       <Form className="fadeIn animated" onSubmit={this.changeSearch}>
         <SelectWrapper>
-          <Label>{t('cameraControl.stationType.label')}</Label>
+          <Label>{translate('cameraControl.stationType.label')}</Label>
           <SelectStationType
             isShowAll
             onChange={this.changeStationType}
             value={this.state.stationType}
-            placeholder={t('cameraControl.stationType.placeholder')}
+            placeholder={translate('cameraControl.stationType.placeholder')}
           />
         </SelectWrapper>
         <SelectWrapper>
-          <Label>{t('cameraControl.station.label')}</Label>
+          <Label>{translate('cameraControl.station.label')}</Label>
           <SelectStationCamera
             onChange={this.changeStation}
             stationType={this.state.stationType}
             value={this.state.station}
-            placeholder={t('cameraControl.station.placeholder')}
+            placeholder={translate('cameraControl.station.placeholder')}
           />
         </SelectWrapper>
       </Form>

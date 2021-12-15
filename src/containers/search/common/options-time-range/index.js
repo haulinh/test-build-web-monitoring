@@ -149,6 +149,7 @@ export default class OptionsTimeRange extends React.Component {
     ]
     // console.log("Time range com " + this.state.defaultValue || this.props.value)
     const locale = this.locale.default
+    // console.log(options, ':---options--')
     return (
       <div>
         <Select

@@ -95,7 +95,7 @@ export default class CameraList extends React.Component {
     return (
       <PageContainer center={this.renderSearch()} right={<div />}>
         <Breadcrumb items={['list']} />
-        <Wrapper>
+        {/* <Wrapper>
           {this.state.cameraList.map((item, index) => {
             return [
               <CameraItem
@@ -111,7 +111,7 @@ export default class CameraList extends React.Component {
               <Clearfix width={15} />,
             ]
           })}
-        </Wrapper>
+        </Wrapper> */}
       </PageContainer>
     )
   }

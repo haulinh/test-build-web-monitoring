@@ -11,6 +11,7 @@ import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 const LOCALE = {
   vi: { lib: 'vi_VN', moment: 'vi' },
   en: { lib: 'en_US', moment: 'en-sg' },
+  tw: { lib: 'en_US', moment: 'en-sg' },
 }
 
 const Container = styled.div``

@@ -3310,7 +3310,7 @@ export default {
   },
   cameraControl: {
     station: {
-      label: 'Tên trạm quan trắc',
+      label: 'Tên trạm quan trắc: ',
       placeholder: 'Lựa chọn trạm quan trắc',
     },
     stationType: {

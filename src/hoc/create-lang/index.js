@@ -54,6 +54,11 @@ export function translate(key, params = {}, isParse = true) {
         : global.currentLanguage
 
     let translated = objectPath.get(languageData, key)
+
+    if (key === 'dataSearchFrom.options.byDayDetail') {
+      console.log(params, translated, '---params--')
+    }
+
     if (translated && isParse) {
       const tempFn = dot.template(translated)
       return tempFn(params)
