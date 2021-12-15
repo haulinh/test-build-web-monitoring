@@ -6,7 +6,6 @@ import styled from 'styled-components'
 import moment from 'moment/moment'
 import { translate } from 'hoc/create-lang'
 import { DD_MM_YYYY_HH_MM, DD_MM_YYYY } from 'constants/format-date'
-// import { SHAPE } from 'themes/color'
 import { get as _get } from 'lodash'
 import {
   getFormatNumber,
@@ -65,9 +64,8 @@ export default class TableDataList extends React.PureComponent {
 
     const columnReceivedAt = {
       title: translate('avgSearchFrom.table.receivedAt'),
-      dataIndex: 'date_utc',
-      key: 'date_utc',
-      width: 170,
+      dataIndex: 'receivedAt',
+      key: 'receivedAt',
       fixed: 'left',
       render(value, record) {
         if (record.isQCVN) {
@@ -83,16 +81,11 @@ export default class TableDataList extends React.PureComponent {
             </Tooltip>
           )
         }
-        return <div>{moment(record.date_utc).format(formatDate)}</div>
+        return <div>{moment(record.receivedAt).format(formatDate)}</div>
       },
     }
 
-    // const cuongtest = this.props.measuringData
-    //   .filter(measuring => this.props.measuringList.includes(measuring.key))
-    // console.log(JSON.stringify(cuongtest, null, 2), '==cuongtest==')
-
     const columnsMeasuring = this.props.measuringData
-      .filter(measuring => this.props.measuringList.includes(measuring.key))
       .map(measuring => ({
         title: (
           <strong>
@@ -150,7 +143,7 @@ export default class TableDataList extends React.PureComponent {
       <TableDataListWrapper>
         <Table
           size="large"
-          rowKey="date_utc"
+          rowKey="receivedAt"
           columns={this.getColumns()}
           {...otherProps}
           dataSource={this.getDataSource(dataSource)}

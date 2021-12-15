@@ -6,11 +6,13 @@ import _ from 'lodash'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import BoxShadow from 'components/elements/box-shadow'
-import DataStationAutoApi from 'api/DataStationAutoApi'
 import TabList from '../tab-list'
 import { translate } from 'hoc/create-lang'
 import { exportExcelMultipleStation } from 'api/DataStationAutoApi'
 import { getMe } from 'api/AuthApi'
+import DataInsight from 'api/DataInsight'
+import {dataStatusOptions} from 'constants/dataStatus'
+import {downFileExcel} from 'utils/downFile'
 
 const TableListWrapper = styled(BoxShadow)`
   padding: 0px 16px 16px 16px;
@@ -87,27 +89,14 @@ export default class TableList extends React.PureComponent {
   }
 
   renderOneStation(station) {
-    const newMeasuringData = []
-    const newMeasuringList = []
-
-    this.state.orderedMeaKey.forEach(meaKey => {
-      const indexMatched = station.measuringList.findIndex(
-        key => key === meaKey
-      )
-      if (indexMatched !== -1) {
-        newMeasuringData.push(station.measuringData[indexMatched])
-        newMeasuringList.push(station.measuringList[indexMatched])
-      }
-    })
-
     return (
       <Tabs.TabPane tab={station.name} key={station.key}>
         <TabList
           qcvns={this.props.qcvns}
           isActive={this.state.tabKey === station.key}
           isLoading={this.state.isLoading}
-          measuringData={newMeasuringData}
-          measuringList={newMeasuringList}
+          measuringData={station.measuringData}
+          measuringList={station.measuringList}
           dataStationAuto={this.state.dataStationAuto}
           pagination={this.state.pagination}
           onChangePage={this.handleChangePage}
@@ -205,18 +194,39 @@ export default class TableList extends React.PureComponent {
     }
   }
 
+  getQueryParams(searchFormData){
+    const dataStatus = searchFormData.dataStatus.join(',')
+    const defaultStatus = dataStatusOptions.map(item => item.value).join(',')
+
+    const params = {
+      from: searchFormData.fromDate,
+      to: searchFormData.toDate,
+      measuringList: searchFormData.measuringList.join(','),
+      standards: searchFormData.standardsVN.join(','),
+      isFilter: searchFormData.isFilter,
+      status: dataStatus.length === 0 ? defaultStatus : dataStatus,
+      groupType: ['month', 'year'].includes(searchFormData.type) ? searchFormData.type : 'custom' ,
+      timeInterval: Number(searchFormData.type) ? searchFormData.type : 0
+    }
+
+    return params
+  }
+
   async loadData(pagination, searchFormData) {
     let paginationQuery = pagination
+    const params = Object.assign(
+      this.getQueryParams(searchFormData),
+      {
+        page: paginationQuery.current,
+        itemPerPage: paginationQuery.pageSize,
+      }
+    )
+
     this.setState({ isLoading: true }, async () => {
-      const dataStationAuto = await DataStationAutoApi.getDataStationAutoAvg_v2(
-        {
-          page: paginationQuery.current,
-          itemPerPage: paginationQuery.pageSize,
-        },
-        searchFormData
+      const dataStationAuto = await DataInsight.getDataAverage(
+        searchFormData.key,
+        params
       )
-      // console.log(JSON.stringify(searchFormData, null, 2), 'searchFormData')
-      // console.log(JSON.stringify(dataStationAuto, null, 2), 'dataStationAuto from api')
       if (dataStationAuto.error) {
         message.error('ERROR')
         return
@@ -276,24 +286,20 @@ export default class TableList extends React.PureComponent {
     })
   }
 
-  handleExportExcel = () => {
+  async handleExportExcel(){
     const searchFormData = this.getSearchFormData(this.state.tabKey)
-    this.setState({ isExporting: true }, async () => {
-      let res = await DataStationAutoApi.getDataStationAutoExportAvg({
-        ...searchFormData,
-        language: this.props.locale || 'EN',
-      })
-      if (res.success) window.open(res.data, '_blank')
-      else if (res.code === 16945) {
-        message.error(translate('avgSearchFrom.error.dataTooMuch'))
-      } else {
-        message.error(res.message)
-      }
-
-      this.setState({
-        isExporting: false,
-      })
-    })
+    const params = Object.assign(
+      this.getQueryParams(searchFormData),
+      {lang: this.props.locale || 'en' }
+    )
+    this.setState({isExporting: true})
+    try {
+      const result = await DataInsight.exportDataAverage(searchFormData.key, params)
+      downFileExcel(result.data, searchFormData.name)
+      this.setState({isExporting: false})
+    } catch (e) {
+      this.setState({isExporting: false})
+    }
   }
 
   async handleExportAllStation() {
