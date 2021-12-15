@@ -55,10 +55,6 @@ export function translate(key, params = {}, isParse = true) {
 
     let translated = objectPath.get(languageData, key)
 
-    if (key === 'dataSearchFrom.options.byDayDetail') {
-      console.log(params, translated, '---params--')
-    }
-
     if (translated && isParse) {
       const tempFn = dot.template(translated)
       return tempFn(params)
@@ -72,7 +68,9 @@ const createLanguageHoc = Component => {
   @connectAutoDispatch(
     state => ({
       languageRaw: state.language.dataInitial,
-      languageData: state.language.dataInitial[state.language.locale],
+      languageData: state.language.dataSource[state.language.locale]
+        ? state.language.dataSource[state.language.locale]
+        : state.language.dataInitial[state.language.locale],
       languageLocale: state.language.locale,
     }),
     { changeLanguage }
