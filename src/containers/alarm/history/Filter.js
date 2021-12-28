@@ -14,12 +14,12 @@ const i18n = () => ({
   station: t('alarm.label.history.station'),
   requiredStation: t('alarm.required.station'),
   requiredProvince: t('alarm.required.province'),
-  isHappen: t('alarm.label.history.isHappen')
+  isHappen: t('alarm.label.history.isHappen'),
 })
 
 export default class Filter extends Component {
   state = {
-    stationAutos: []
+    stationAutos: [],
   }
 
   onStationAutosFetchSuccess = stationAutos => {
@@ -56,7 +56,7 @@ export default class Filter extends Component {
     const province = form.getFieldValue(FIELDS.PROVINCE)
 
     return (
-      <Row gutter={32} >
+      <Row gutter={32}>
         <Col span={8}>
           <FormItem label={i18n().time}>
             {form.getFieldDecorator(FIELDS.TIME, {
@@ -67,8 +67,11 @@ export default class Filter extends Component {
         <Col span={4}>
           <FormItem label={i18n().province}>
             {form.getFieldDecorator(FIELDS.PROVINCE, {
-              onChange: this.handleOnFieldChange
-            })(<SelectProvince fieldValue='_id' isShowAll allowClear={false} />)}
+              initialValue: '',
+              onChange: this.handleOnFieldChange,
+            })(
+              <SelectProvince fieldValue="_id" isShowAll allowClear={false} />
+            )}
           </FormItem>
         </Col>
         <Col span={9}>
@@ -79,19 +82,20 @@ export default class Filter extends Component {
                   required: true,
                   message: i18n().requiredStation,
                 },
-              ]
+              ],
             })(
               <SelectStationAuto
                 fieldValue="_id"
                 province={province}
                 mode="multiple"
-                onFetchSuccess={this.onStationAutosFetchSuccess} />
+                onFetchSuccess={this.onStationAutosFetchSuccess}
+              />
             )}
           </FormItem>
         </Col>
         <Col span={2}>
           <FormItem label={i18n().isHappen}>
-            {form.getFieldDecorator(FIELDS.IS_HAPPEN, {initialValue: false})(
+            {form.getFieldDecorator(FIELDS.IS_HAPPEN, { initialValue: false })(
               <Switch defaultChecked={false} />
             )}
           </FormItem>

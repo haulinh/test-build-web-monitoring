@@ -66,14 +66,13 @@ export default class SearchForm extends React.Component {
 
   autoSubmit(listKey) {
     this.props.form.setFieldsValue({
-      stationAutos: [...listKey]
+      stationAutos: [...listKey],
     })
 
     this.submit()
   }
 
   render() {
-
     const {
       getFieldDecorator,
       // getFieldValue,
@@ -90,10 +89,9 @@ export default class SearchForm extends React.Component {
               style={{ float: 'right' }}
               onClick={this.submit}
               size="small"
-            // loading={this.props.isExporting}
+              // loading={this.props.isExporting}
             >
               {translate('dataSearchFrom.form.search')}
-
             </Button>
           }
           textColor="#ffffff"
@@ -108,6 +106,7 @@ export default class SearchForm extends React.Component {
             <Col span={12}>
               <Item label={translate('qaqc.province.label')}>
                 {getFieldDecorator('province', {
+                  initialValue: '',
                   onChange: val => {
                     setFieldsValue({ stationAuto: null })
                   },
@@ -124,14 +123,13 @@ export default class SearchForm extends React.Component {
                       required: true,
                       message: translate('avgSearchFrom.selectTimeRange.error'),
                     },
-
                   ],
                   initialValue: [
                     moment('00:00:00', 'HH:mm:ss'),
-                    moment('23:59:59', 'HH:mm:ss')]
+                    moment('23:59:59', 'HH:mm:ss'),
+                  ],
                 })(
                   <RangePicker
-
                     disabledDate={current => {
                       return current && current > moment().endOf('day')
                     }}
@@ -170,7 +168,12 @@ export default class SearchForm extends React.Component {
                       ),
                     },
                   ],
-                })(<SelectStationTreeView setFieldsValue={setFieldsValue} onAutoSubmit={this.autoSubmit.bind(this)} />)}
+                })(
+                  <SelectStationTreeView
+                    setFieldsValue={setFieldsValue}
+                    onAutoSubmit={this.autoSubmit.bind(this)}
+                  />
+                )}
               </Item>
             </Col>
           </Row>
