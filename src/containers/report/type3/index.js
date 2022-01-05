@@ -2,14 +2,10 @@ import React from 'react'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import Breadcrumb from '../breadcrumb'
 import { translate } from 'hoc/create-lang'
-// import SearchForm from "../search-form";
-import { Table, Typography, Button, Spin, message } from 'antd'
+import { Table, Typography, Button, Spin } from 'antd'
 import { map as _map, get as _get } from 'lodash'
 import SearchForm from '../search-form/search-form-3'
-import {
-  getUrlReportType3,
-  getUrlReportType3Excel,
-} from 'api/DataStationAutoApi'
+import DataInsight from 'api/DataInsight'
 import { connect } from 'react-redux'
 import Clearfix from 'components/elements/clearfix'
 import { getFormatNumber, ROUND_DIGIT } from 'constants/format-number'
@@ -17,6 +13,7 @@ import { DD_MM_YYYY, MM_YYYY } from 'constants/format-date'
 import moment from 'moment-timezone'
 import protectRole from 'hoc/protect-role'
 import ROLE from 'constants/role'
+import { downFileExcel } from 'utils/downFile'
 
 const { Title, Text } = Typography
 
@@ -55,17 +52,21 @@ export default class ReportType3 extends React.Component {
       return {
         key: item.key,
         title: `${item.name} (${_get(item, 'unit', '')})`,
-        dataIndex: item.key,
+        dataIndex: `measuringLogs.${item.key}`,
         align: 'right',
         render: value => {
-          return <div>{getFormatNumber(value, ROUND_DIGIT)}</div>
+          if (!value) {
+            return "-"
+          } else {
+            return <div>{getFormatNumber(value.value, ROUND_DIGIT)}</div>
+          }
         },
       }
     })
     return [
       {
         title: i18n().header,
-        dataIndex: '_id',
+        dataIndex: 'receivedAt',
         render: value => {
           return <span>{moment(value, 'YYYY-MM-DD').format(DD_MM_YYYY)}</span>
         },
@@ -96,18 +97,17 @@ export default class ReportType3 extends React.Component {
     this.setState({
       isFilter: values.isFilter,
     })
-    let res = await getUrlReportType3(
-      values.stationAuto,
-      values.time.format('MM-YYYY'),
-      measuringListStr,
-      measuringListUnitStr,
-      values.isFilter || false
-    )
-
-    if (res.success) {
-      console.log(res.data)
+    const params = {
+      from: moment(values.time, 'MM-YYYY').startOf('month').toDate(),
+      to: moment(values.time, 'MM-YYYY').endOf('month').toDate(),
+      isFilter: values.isFilter || false,
+      timeInterval: 60
+    }
+    
+    let res = await DataInsight.getDataAverageMax(values.stationAuto, params)
+    try {
       this.setState({
-        dataSource: res.data,
+        dataSource: res.maxData,
         isHaveData: true,
         isLoading: false,
         dataSearch: {
@@ -120,6 +120,8 @@ export default class ReportType3 extends React.Component {
         stationName: values.stationName,
         monthYear: moment(values.time).format(MM_YYYY),
       })
+    } catch (err) {
+      console.log(err)
     }
   }
   getLanguage = lang => {
@@ -133,19 +135,28 @@ export default class ReportType3 extends React.Component {
     }
   }
   handleExcel = async () => {
-    const language = this.getLanguage(this.props.locale)
-    let res = await getUrlReportType3Excel(
-      null,
-      this.state.dataSearch.stationAuto,
-      this.state.dataSearch.time,
-      this.state.dataSearch.measuringListStr,
-      this.state.dataSearch.measuringListUnitStr,
-      language,
-      this.state.isFilter
-    )
-
-    if (res && res.success) window.location = res.data
-    else message.error('Export Error') //message.error(res.message)
+    const language = this.getLanguage(this.props.locale).toLowerCase()
+    const { dataSearch, isFilter, stationName } = this.state
+    const params = {
+      from: moment(dataSearch.time, 'MM-YYYY').startOf('month').toDate(),
+      to: moment(dataSearch.time, 'MM-YYYY').endOf('month').toDate(),
+      isFilter: isFilter || false,
+      timeInterval: 60,
+      lang: language 
+    }
+    try {
+      const res = await DataInsight.exportDataAverageMax(
+        dataSearch.stationAuto,
+        params
+      )
+      const dynamicFileName = {
+        vi: 'Bao_cao_1hMax',
+        en: 'Report_1hMax'
+      }
+      downFileExcel(res.data, `${dynamicFileName[language]}_${dataSearch.time}_${stationName}`)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   render() {

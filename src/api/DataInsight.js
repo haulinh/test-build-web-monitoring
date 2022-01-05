@@ -25,7 +25,6 @@ export default {
     const url = getDataInsightUrl('get-receive-time')
     return getFetch(url, params)
   },
-
   //#endregion data-search
 
   //#region billing
@@ -56,7 +55,6 @@ export default {
     const url = getDataInsightUrl(`report/data-flow`)
     return getFetch(url, params)
   },
-
   exportDataFlow: params => {
     const url = getDataInsightUrl(`report/data-flow/export`)
     return getFetchDownFile(url, params)
@@ -97,6 +95,16 @@ export default {
   exportDataAverageDetail: (stationKey, params) => {
     const url = getDataInsightUrl(
       `report/data-average/${stationKey}/export-detail`
+    )
+    return getFetchDownFile(url, params)
+  },
+  getDataAverageMax: (stationKey, params) => {
+    const url = getDataInsightUrl(`report/data-average/${stationKey}/max`)
+    return getFetch(url, params)
+  },
+  exportDataAverageMax: (stationKey, params) => {
+    const url = getDataInsightUrl(
+      `report/data-average/${stationKey}/export-max`
     )
     return getFetchDownFile(url, params)
   },
