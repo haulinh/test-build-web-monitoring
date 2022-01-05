@@ -1,24 +1,21 @@
-import React from 'react'
+import { Button, Form, Spin, Table, Typography } from 'antd'
+import DataInsight from 'api/DataInsight'
+import Clearfix from 'components/elements/clearfix'
+import ModalLangExport from 'components/elements/modal-lang-export'
+import { DD_MM_YYYY, MM_YYYY } from 'constants/format-date'
+import { getFormatNumber, ROUND_DIGIT } from 'constants/format-number'
+import ROLE from 'constants/role'
+import createLanguage, { translate } from 'hoc/create-lang'
+import protectRole from 'hoc/protect-role'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import { translate } from 'hoc/create-lang'
+import { get as _get, map as _map } from 'lodash'
+import moment from 'moment-timezone'
+import React from 'react'
+import { connect } from 'react-redux'
+import { getTimeUTC } from 'utils/datetime'
+import { downFileExcel } from 'utils/downFile'
 import Breadcrumb from '../breadcrumb'
 import SearchForm from '../search-form/search-form-3'
-import {
-  getUrlReportType2,
-  getUrlReportType2Excel,
-} from 'api/DataStationAutoApi'
-import { Table, Typography, Button, Spin, message } from 'antd'
-import { map as _map, get as _get } from 'lodash'
-import Clearfix from 'components/elements/clearfix'
-import { getFormatNumber, ROUND_DIGIT } from 'constants/format-number'
-import { MM_YYYY, DD_MM_YYYY } from 'constants/format-date'
-import moment from 'moment-timezone'
-
-import protectRole from 'hoc/protect-role'
-import ROLE from 'constants/role'
-
-import { connect } from 'react-redux'
-import ModalLangExport from 'components/elements/modal-lang-export'
 
 // import axios from 'axios'
 
@@ -31,7 +28,9 @@ function i18n() {
   }
 }
 
+@Form.create()
 @protectRole(ROLE.TB24H.VIEW)
+@createLanguage
 @connect(state => ({
   token: state.auth.token,
   timeZone: _get(state, 'auth.userInfo.organization.timeZone', null),
@@ -51,8 +50,8 @@ export default class ReportType2 extends React.Component {
       stationName: '',
       monthYear: '',
       measuringList: [],
-      visableModal: false,
-      langExport: 'vi'
+      visibleModal: false,
+      langExport: 'vi',
     }
   }
 
@@ -61,17 +60,22 @@ export default class ReportType2 extends React.Component {
       return {
         key: item.key,
         title: `${item.name} (${_get(item, 'unit', '')})`,
-        dataIndex: item.key,
+        dataIndex: `measuringLogs.${item.name}`,
         align: 'right',
+        width: 120,
         render: value => {
-          return <div>{getFormatNumber(value, ROUND_DIGIT)}</div>
+          if (!value) {
+            return '-'
+          } else {
+            return <div>{getFormatNumber(value.value, ROUND_DIGIT)}</div>
+          }
         },
       }
     })
     return [
       {
         title: i18n().header7,
-        dataIndex: 'date_utc',
+        dataIndex: 'receivedAt',
         render: value => {
           return (
             <div>
@@ -86,9 +90,27 @@ export default class ReportType2 extends React.Component {
     ]
   }
 
+  getParams = () => {
+    const { form } = this.props
+    const values = form.getFieldsValue()
+    const time = {
+      from: getTimeUTC(moment(values.time).startOf('month')),
+      to: getTimeUTC(moment(values.time).endOf('month')),
+    }
+    const params = {
+      stationKey: values.stationAuto,
+      from: time.from,
+      to: time.to,
+      isFilter: values.isFilter,
+      groupType: 'custom',
+      timeInterval: 24 * 60,
+    }
+    return params
+  }
+
   handleSubmit = async values => {
-    console.log(values, 'handleSubmit')
     let measuringListUnitStr = ''
+
     if (values.measuringList) {
       this.setState({
         isHaveData: false,
@@ -104,15 +126,16 @@ export default class ReportType2 extends React.Component {
         .map(item => encodeURIComponent(item.key))
         .join(',')
 
-      let res = await getUrlReportType2(
-        values.stationAuto,
-        values.time.format('MM-YYYY'),
-        measuringListStr,
-        measuringListUnitStr,
-        values.isFilter
-      )
+      let params = this.getParams()
 
-      if (res.success) {
+      params = {
+        ...params,
+        measuringList: measuringListStr,
+      }
+
+      try {
+        const res = await DataInsight.getDataAverage(params.stationKey, params)
+
         this.setState({
           dataSource: res.data,
           isHaveData: true,
@@ -123,59 +146,85 @@ export default class ReportType2 extends React.Component {
             measuringListStr,
             measuringListUnitStr,
           },
+
           measuringList: values.measuringList,
           stationName: values.stationName,
           monthYear: moment(values.time).format(MM_YYYY),
+        })
+      } catch (error) {
+        this.setState({
+          isLoading: false,
         })
       }
     }
   }
 
   handleExcel = async () => {
-    let res = await getUrlReportType2Excel(
-      this.props.token,
-      this.state.dataSearch.stationAuto,
-      this.state.dataSearch.time,
-      this.state.dataSearch.measuringListStr,
-      this.state.dataSearch.measuringListUnitStr,
-      this.state.isFilter,
-      this.state.langExport.toUpperCase()
-    )
-    if (res && res.success) window.location = res.data
-    else message.error('Export Error') //message.error(res.message)
-    this.setState({
-      visableModal: false
-    });
+    const { form } = this.props
+    const time = form.getFieldValue('time')
 
-    // console.log("getUrlReportType1", url);
-    // window.location.href = url
-    // window.open(url, '_blank')
+    const {
+      lang: { translateManual },
+    } = this.props
+    let params = this.getParams()
+
+    const { groupType, ...newParams } = params
+
+    params = {
+      ...newParams,
+      lang: this.state.langExport,
+    }
+
+    const titleName = translateManual(
+      'report.type2.fileNameExel',
+      null,
+      null,
+      this.state.langExport
+    )
+    const fileNameExcel = `${titleName}${time.format('MMYYYY')}`
+
+    try {
+      const res = await DataInsight.exportDataAverageDetail(
+        params.stationKey,
+        params
+      )
+
+      downFileExcel(res.data, fileNameExcel)
+      this.setState({
+        visibleModal: false,
+      })
+    } catch (error) {}
+
+    this.setState({
+      visibleModal: false,
+    })
   }
 
   handleOkModal = e => {
     this.setState({
-      visableModal: true
-    });
-  };
+      visibleModal: true,
+    })
+  }
 
   handleCancelModal = e => {
     this.setState({
-      visableModal: false
-    });
-  };
+      visibleModal: false,
+    })
+  }
 
   onChangeModal = e => {
     this.setState({
       langExport: e.target.value,
-    });
+    })
   }
 
   render() {
+    const { form } = this.props
     return (
       <PageContainer>
         <Breadcrumb items={['type2']} />
         <Clearfix height={16} />
-        <SearchForm cbSubmit={this.handleSubmit} />
+        <SearchForm form={form} cbSubmit={this.handleSubmit} />
         <Clearfix height={16} />
         <div style={{ position: 'relative', textAlign: 'center' }}>
           <Title level={4}>{i18n().title}</Title>
@@ -219,7 +268,13 @@ export default class ReportType2 extends React.Component {
             pagination={false}
           />
         </Spin>
-        <ModalLangExport showModal={this.state.visableModal} handleOkModal={this.handleExcel} handleCancelModal={this.handleCancelModal} onChangeModal={this.onChangeModal} langExport={this.state.langExport} />
+        <ModalLangExport
+          showModal={this.state.visibleModal}
+          handleOkModal={this.handleExcel}
+          handleCancelModal={this.handleCancelModal}
+          onChangeModal={this.onChangeModal}
+          langExport={this.state.langExport}
+        />
       </PageContainer>
     )
   }

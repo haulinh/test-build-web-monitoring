@@ -49,7 +49,6 @@ function i18n() {
   }
 }
 
-@Form.create()
 @createLang
 export default class SearchForm extends React.Component {
   static propTypes = {
@@ -59,7 +58,7 @@ export default class SearchForm extends React.Component {
 
   constructor(props) {
     super(props)
-    // this.submit = this.submit.bind(this);
+
     this.state = {
       measuringList: [],
       stationName: '',
@@ -70,7 +69,6 @@ export default class SearchForm extends React.Component {
     // let me = this;
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        // console.log('Received values of form: ', values)
         if (this.props.cbSubmit) {
           const measuringListStr = this.state.measuringList.map(item =>
             encodeURIComponent(item.key)
@@ -79,7 +77,7 @@ export default class SearchForm extends React.Component {
           const measuringListUnitStr = this.state.measuringList.map(item =>
             encodeURIComponent(item.unit)
           )
-          // .join(",");
+
           this.props.cbSubmit({
             ...values,
             measuringListStr,
@@ -144,6 +142,7 @@ export default class SearchForm extends React.Component {
             <Col span={6}>
               <Item label={i18n().label.province}>
                 {getFieldDecorator('province', {
+                  initialValue: '',
                   onChange: val => {
                     setFieldsValue({ stationAuto: null })
                   },
