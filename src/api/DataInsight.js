@@ -92,12 +92,20 @@ export default {
     const url = getDataInsightUrl(`report/data-average/${stationKey}/export`)
     return getFetchDownFile(url, params)
   },
+  exportDataAverageDetail: (stationKey, params) => {
+    const url = getDataInsightUrl(
+      `report/data-average/${stationKey}/export-detail`
+    )
+    return getFetchDownFile(url, params)
+  },
   getDataAverageMax: (stationKey, params) => {
     const url = getDataInsightUrl(`report/data-average/${stationKey}/max`)
     return getFetch(url, params)
   },
   exportDataAverageMax: (stationKey, params) => {
-    const url = getDataInsightUrl(`report/data-average/${stationKey}/export-max`)
+    const url = getDataInsightUrl(
+      `report/data-average/${stationKey}/export-max`
+    )
     return getFetchDownFile(url, params)
   },
   //#endregion

@@ -4145,7 +4145,7 @@ export default {
     placeholder: {
       management: {
         name: 'Nhập tên cảnh báo',
-        webhook: 'Nhập webhook URL'
+        webhook: 'Nhập webhook URL',
       },
     },
     message: {
@@ -4303,6 +4303,12 @@ export default {
     typeRatio: {
       titleExport: 'Bao Cao Ty Le Du Lieu Thu Duoc_{{=it.time}}',
       notUpdate: 'Chưa cập nhật',
+    },
+    type2: {
+      fileNameExcel: 'Bao Cao Trung Binh 24h_',
+    },
+    type11: {
+      fileNameExcel: 'Bao Cao Trung Binh 1h_',
     },
   },
   modalExportLang: {

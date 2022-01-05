@@ -11,8 +11,8 @@ import { translate } from 'hoc/create-lang'
 import { exportExcelMultipleStation } from 'api/DataStationAutoApi'
 import { getMe } from 'api/AuthApi'
 import DataInsight from 'api/DataInsight'
-import {dataStatusOptions} from 'constants/dataStatus'
-import {downFileExcel} from 'utils/downFile'
+import { dataStatusOptions } from 'constants/dataStatus'
+import { downFileExcel } from 'utils/downFile'
 
 const TableListWrapper = styled(BoxShadow)`
   padding: 0px 16px 16px 16px;
@@ -194,7 +194,7 @@ export default class TableList extends React.PureComponent {
     }
   }
 
-  getQueryParams(searchFormData){
+  getQueryParams(searchFormData) {
     const dataStatus = searchFormData.dataStatus.join(',')
     const defaultStatus = dataStatusOptions.map(item => item.value).join(',')
 
@@ -205,8 +205,10 @@ export default class TableList extends React.PureComponent {
       standards: searchFormData.standardsVN.join(','),
       isFilter: searchFormData.isFilter,
       status: dataStatus.length === 0 ? defaultStatus : dataStatus,
-      groupType: ['month', 'year'].includes(searchFormData.type) ? searchFormData.type : 'custom' ,
-      timeInterval: Number(searchFormData.type) ? searchFormData.type : 0
+      groupType: ['month', 'year'].includes(searchFormData.type)
+        ? searchFormData.type
+        : 'custom',
+      timeInterval: Number(searchFormData.type) ? searchFormData.type : 0,
     }
 
     return params
@@ -214,13 +216,10 @@ export default class TableList extends React.PureComponent {
 
   async loadData(pagination, searchFormData) {
     let paginationQuery = pagination
-    const params = Object.assign(
-      this.getQueryParams(searchFormData),
-      {
-        page: paginationQuery.current,
-        itemPerPage: paginationQuery.pageSize,
-      }
-    )
+    const params = Object.assign(this.getQueryParams(searchFormData), {
+      page: paginationQuery.current,
+      itemPerPage: paginationQuery.pageSize,
+    })
 
     this.setState({ isLoading: true }, async () => {
       const dataStationAuto = await DataInsight.getDataAverage(
@@ -286,19 +285,22 @@ export default class TableList extends React.PureComponent {
     })
   }
 
-  async handleExportExcel(){
+  async handleExportExcel() {
     const searchFormData = this.getSearchFormData(this.state.tabKey)
-    const params = Object.assign(
-      this.getQueryParams(searchFormData),
-      {lang: this.props.locale || 'en' }
-    )
-    this.setState({isExporting: true})
+    console.log({ searchFormData })
+    const params = Object.assign(this.getQueryParams(searchFormData), {
+      lang: this.props.locale || 'en',
+    })
+    this.setState({ isExporting: true })
     try {
-      const result = await DataInsight.exportDataAverage(searchFormData.key, params)
+      const result = await DataInsight.exportDataAverage(
+        searchFormData.key,
+        params
+      )
       downFileExcel(result.data, searchFormData.name)
-      this.setState({isExporting: false})
+      this.setState({ isExporting: false })
     } catch (e) {
-      this.setState({isExporting: false})
+      this.setState({ isExporting: false })
     }
   }
 
