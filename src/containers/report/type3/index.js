@@ -50,6 +50,7 @@ export default class ReportType3 extends React.Component {
   getColumns = () => {
     const columns = _map(this.state.measuringList, item => {
       return {
+        width: 120,
         key: item.key,
         title: `${item.name} (${_get(item, 'unit', '')})`,
         dataIndex: `measuringLogs.${item.key}`,
@@ -65,8 +66,9 @@ export default class ReportType3 extends React.Component {
     })
     return [
       {
+        width: 120,
         title: i18n().header,
-        dataIndex: 'receivedAt',
+        dataIndex: 'timeLocal',
         render: value => {
           return <span>{moment(value, 'YYYY-MM-DD').format(DD_MM_YYYY)}</span>
         },
@@ -78,10 +80,6 @@ export default class ReportType3 extends React.Component {
   handleSubmit = async values => {
     let measuringListUnitStr = ''
     if (values.measuringList) {
-      this.setState({
-        isHaveData: false,
-        isLoading: true,
-      })
       measuringListUnitStr = values.measuringList
         .map(item => encodeURIComponent(item.unit))
         .join(',')
@@ -93,7 +91,6 @@ export default class ReportType3 extends React.Component {
         .map(item => encodeURIComponent(item.key))
         .join(',')
     }
-    // console.log(JSON.stringify(values, null, 2))
     this.setState({
       isFilter: values.isFilter,
     })
@@ -103,7 +100,7 @@ export default class ReportType3 extends React.Component {
       isFilter: values.isFilter || false,
       timeInterval: 60
     }
-    
+
     let res = await DataInsight.getDataAverageMax(values.stationAuto, params)
     try {
       this.setState({
@@ -142,7 +139,7 @@ export default class ReportType3 extends React.Component {
       to: moment(dataSearch.time, 'MM-YYYY').endOf('month').toDate(),
       isFilter: isFilter || false,
       timeInterval: 60,
-      lang: language 
+      lang: language
     }
     try {
       const res = await DataInsight.exportDataAverageMax(
@@ -169,7 +166,6 @@ export default class ReportType3 extends React.Component {
         <div style={{ position: 'relative', textAlign: 'center' }}>
           <Title level={4}>{i18n().title}</Title>
           <Text>
-            {' '}
             {translate('avgSearchFrom.table.description3', {
               stationName: this.state.stationName,
               monthYear: this.state.monthYear,
