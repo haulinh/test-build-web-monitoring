@@ -50,6 +50,7 @@ function i18n() {
 }
 
 @createLang
+@Form.create()
 export default class SearchForm extends React.Component {
   static propTypes = {
     cbSubmit: PropTypes.func,
@@ -146,7 +147,6 @@ export default class SearchForm extends React.Component {
                   onChange: val => {
                     setFieldsValue({ stationAuto: null })
                   },
-                  initialValue: ''
                 })(<SelectProvince isShowAll size="large" />)}
               </Item>
             </Col>
