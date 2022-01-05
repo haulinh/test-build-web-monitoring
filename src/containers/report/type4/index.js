@@ -2,13 +2,9 @@ import React from 'react'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import { translate } from 'hoc/create-lang'
 import Breadcrumb from '../breadcrumb'
-// import SearchForm from "../search-form";
 import SearchForm from '../search-form/search-form-3'
-import { Table, Typography, Button, Spin, message } from 'antd'
-import {
-  getUrlReportType4,
-  getUrlReportType4Excel,
-} from 'api/DataStationAutoApi'
+import { Table, Typography, Button, Spin } from 'antd'
+import DataInsight from 'api/DataInsight'
 import { map as _map, get as _get } from 'lodash'
 import { getFormatNumber, ROUND_DIGIT } from 'constants/format-number'
 import Clearfix from 'components/elements/clearfix'
@@ -17,6 +13,7 @@ import { DD_MM_YYYY, MM_YYYY } from 'constants/format-date'
 import moment from 'moment-timezone'
 import protectRole from 'hoc/protect-role'
 import ROLE from 'constants/role'
+import { downFileExcel } from 'utils/downFile'
 
 const { Title, Text } = Typography
 
@@ -55,17 +52,21 @@ export default class ReportType1 extends React.Component {
       return {
         key: item.key,
         title: `${item.name} (${_get(item, 'unit', '')})`,
-        dataIndex: item.key,
+        dataIndex: `measuringLogs.${item.key}`,
         align: 'right',
         render: value => {
-          return <div>{getFormatNumber(value, ROUND_DIGIT)}</div>
+          if (!value) {
+            return "-"
+          } else {
+            return <div>{getFormatNumber(value.value, ROUND_DIGIT)}</div>
+          }
         },
       }
     })
     return [
       {
         title: i18n().header,
-        dataIndex: '_id',
+        dataIndex: 'receivedAt',
         render: value => {
           return <span>{moment(value, 'YYYY-MM-DD').format(DD_MM_YYYY)}</span>
         },
@@ -92,17 +93,16 @@ export default class ReportType1 extends React.Component {
       this.setState({
         isFilter: values.isFilter || false,
       })
-      let res = await getUrlReportType4(
-        values.stationAuto,
-        values.time.format('MM-YYYY'),
-        measuringListStr,
-        measuringListUnitStr,
-        values.isFilter || false
-      )
-
-      if (res.success) {
+      const params = {
+        from: moment(values.time, 'MM-YYYY').startOf('month').toDate(),
+        to: moment(values.time, 'MM-YYYY').endOf('month').toDate(),
+        isFilter: values.isFilter || false,
+        timeInterval: 60 * 8
+      }
+      let res = await DataInsight.getDataAverageMax(values.stationAuto, params)
+      try {
         this.setState({
-          dataSource: res.data,
+          dataSource: res.maxData,
           isHaveData: true,
           isLoading: false,
           dataSearch: {
@@ -115,6 +115,8 @@ export default class ReportType1 extends React.Component {
           stationName: values.stationName,
           monthYear: moment(values.time).format(MM_YYYY),
         })
+      } catch (err) {
+        console.log(err)
       }
     }
   }
@@ -131,18 +133,28 @@ export default class ReportType1 extends React.Component {
   }
 
   handleExcel = async () => {
-    const language = this.getLanguage(this.props.locale)
-    let res = await getUrlReportType4Excel(
-      this.props.token,
-      this.state.dataSearch.stationAuto,
-      this.state.dataSearch.time,
-      this.state.dataSearch.measuringListStr,
-      this.state.dataSearch.measuringListUnitStr,
-      language,
-      this.state.isFilter || false
-    )
-    if (res && res.success) window.location = res.data
-    else message.error('Export Error') //message.error(res.message)
+    const language = this.getLanguage(this.props.locale).toLowerCase()
+    const { dataSearch, isFilter, stationName } = this.state
+    const params = {
+      from: moment(dataSearch.time, 'MM-YYYY').startOf('month').toDate(),
+      to: moment(dataSearch.time, 'MM-YYYY').endOf('month').toDate(),
+      isFilter: isFilter || false,
+      timeInterval: 60 * 8,
+      lang: language 
+    }
+    try {
+      const res = await DataInsight.exportDataAverageMax(
+        dataSearch.stationAuto,
+        params
+      )
+      const dynamicFileName = {
+        vi: 'Bao_cao_8hMax',
+        en: 'Report_8hMax'
+      }
+      downFileExcel(res.data, `${dynamicFileName[language]}_${dataSearch.time}_${stationName}`)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   render() {
@@ -155,7 +167,6 @@ export default class ReportType1 extends React.Component {
         <div style={{ position: 'relative', textAlign: 'center' }}>
           <Title level={4}>{i18n().title}</Title>
           <Text>
-            {' '}
             {translate('avgSearchFrom.table.description5', {
               stationName: this.state.stationName,
               monthYear: this.state.monthYear,
