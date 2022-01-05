@@ -472,7 +472,7 @@ export default class ChartRowToChart extends React.Component {
             {this.state.current.length > 0 && (
               <Tabs
                 style={{
-                  width: 900,
+                  width: '100%',
                   paddingLeft: 8,
                   paddingRight: 8,
                 }}
