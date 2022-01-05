@@ -78,7 +78,7 @@ export default class ReportType11 extends React.Component {
       return {
         key: item.key,
         title: `${item.name} (${_get(item, 'unit', '')})`,
-        dataIndex: `measuringLogs.${item.name}`,
+        dataIndex: `measuringLogs.${item.key}`,
         align: 'right',
         width: 120,
         render: value => {
