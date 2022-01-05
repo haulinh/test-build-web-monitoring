@@ -50,6 +50,7 @@ export default class ReportType1 extends React.Component {
   getColumns = () => {
     const columns = _map(this.state.measuringList, item => {
       return {
+        width: 120,
         key: item.key,
         title: `${item.name} (${_get(item, 'unit', '')})`,
         dataIndex: `measuringLogs.${item.key}`,
@@ -65,8 +66,9 @@ export default class ReportType1 extends React.Component {
     })
     return [
       {
+        width: 120,
         title: i18n().header,
-        dataIndex: 'receivedAt',
+        dataIndex: 'timeLocal',
         render: value => {
           return <span>{moment(value, 'YYYY-MM-DD').format(DD_MM_YYYY)}</span>
         },
@@ -78,10 +80,6 @@ export default class ReportType1 extends React.Component {
   handleSubmit = async values => {
     let measuringListUnitStr = ''
     if (values.measuringList) {
-      this.setState({
-        isHaveData: false,
-        isLoading: true,
-      })
       measuringListUnitStr = values.measuringList
         .map(item => encodeURIComponent(item.unit))
         .join(',')
