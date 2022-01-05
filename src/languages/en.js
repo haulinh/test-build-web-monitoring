@@ -4292,6 +4292,12 @@ export default {
       titleExport: 'Report__Percentage Of Obtained Data_{{=it.time}}',
       notUpdate: 'Not updated',
     },
+    type2: {
+      fileNameExcel: 'Report_24 hour average_',
+    },
+    type11: {
+      fileNameExcel: 'Report_1 hour average_',
+    },
   },
   modalExportLang: {
     title: 'Export excel',
