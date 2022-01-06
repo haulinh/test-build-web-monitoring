@@ -287,7 +287,6 @@ export default class TableList extends React.PureComponent {
 
   async handleExportExcel() {
     const searchFormData = this.getSearchFormData(this.state.tabKey)
-    console.log({ searchFormData })
     const params = Object.assign(this.getQueryParams(searchFormData), {
       lang: this.props.locale || 'en',
     })
