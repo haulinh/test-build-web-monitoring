@@ -5,9 +5,12 @@ import SelectProvince from 'components/elements/select-province'
 const SelectProvinceForm = ({ label, form, fetchPoints }) => {
   return (
     <FormItemStyled label={label}>
-      {form.getFieldDecorator(FIELDS.PROVINCES)(
+      {form.getFieldDecorator(FIELDS.PROVINCES, {
+        initialValue: '',
+      })(
         <SelectProvince
           isShowAll
+          fieldValue="_id"
           onSelect={() => {
             form.setFieldsValue({
               [FIELDS.PHASE]: undefined,

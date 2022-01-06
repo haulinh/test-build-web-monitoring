@@ -156,6 +156,7 @@ export default class SearchForm extends React.Component {
             <Col span={12}>
               <Item label={i18n().label.province}>
                 {getFieldDecorator('province', {
+                  initialValue: '',
                   onChange: val => {
                     setFieldsValue({ stationAuto: null })
                   },

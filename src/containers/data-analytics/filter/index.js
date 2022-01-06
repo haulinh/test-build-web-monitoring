@@ -247,6 +247,7 @@ class FilterForm extends Component {
             <Col md={6} lg={6} sm={12}>
               <FormItem label={i18n().provinceLabel}>
                 {form.getFieldDecorator(FIELDS.PROVINCE, {
+                  initialValue: '',
                   onChange: this.onChange,
                 })(<SelectProvince isShowAll />)}
               </FormItem>
