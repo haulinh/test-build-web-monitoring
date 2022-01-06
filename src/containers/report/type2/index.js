@@ -75,7 +75,8 @@ export default class ReportType2 extends React.Component {
     return [
       {
         title: i18n().header7,
-        dataIndex: 'receivedAt',
+        dataIndex: 'timeLocal',
+        width: 120,
         render: value => {
           return (
             <div>

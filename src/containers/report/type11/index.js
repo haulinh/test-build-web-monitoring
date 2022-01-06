@@ -94,8 +94,9 @@ export default class ReportType11 extends React.Component {
     return [
       {
         title: i18n().header8,
-        dataIndex: 'receivedAt',
+        dataIndex: 'timeLocal',
         align: 'left',
+        width: 120,
         render: value => {
           return (
             <div style={{ textAlign: 'left' }}>
