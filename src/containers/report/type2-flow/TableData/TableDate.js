@@ -18,7 +18,8 @@ function TableDate({ data, loading, form, measuresObj }) {
 
   const getUnitMeasure = () => {
     const measureSelected = form.getFieldValue(FIELDS.MEASURING_LIST)
-    const unitMeasure = measuresObj[measureSelected].unit
+
+    const unitMeasure = _.get(measuresObj[measureSelected], 'unit')
     return unitMeasure
   }
 
