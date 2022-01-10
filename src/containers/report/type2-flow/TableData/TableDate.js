@@ -23,7 +23,6 @@ function TableDate({ data, loading, form, measuresObj }) {
   }
 
   const dataFlat = dataSortByProvince.reduce((base, current) => {
-    getUnitMeasure()
     if (_.isEmpty(current.data)) return base
 
     const dataStation = current.data.map(dataStationItem => {
@@ -61,6 +60,8 @@ function TableDate({ data, loading, form, measuresObj }) {
     []
   )
 
+  const unitMeasure = getUnitMeasure()
+
   const columns = [
     {
       title: t('report.type2_flow.time'),
@@ -91,7 +92,9 @@ function TableDate({ data, loading, form, measuresObj }) {
     //   render: value => (_.isNumber(value) ? value : '-'),
     // },
     {
-      title: `${t('report.type2_flow.value')} (${getUnitMeasure()})`,
+      title: `${t('report.type2_flow.value')} ${
+        unitMeasure ? `(${unitMeasure})` : ''
+      }`,
       dataIndex: 'value',
       align: 'right',
       render: value => <div>{!value ? '-' : value}</div>,
