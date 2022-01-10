@@ -60,7 +60,12 @@ function TableDate({ data, loading, form, measuresObj }) {
     []
   )
 
-  const unitMeasure = getUnitMeasure()
+  const getTitleValue = () => {
+    const unitMeasure = getUnitMeasure()
+    if (!unitMeasure) return t('report.type2_flow.value')
+
+    return `${t('report.type2_flow.value')} (${unitMeasure})`
+  }
 
   const columns = [
     {
@@ -92,9 +97,7 @@ function TableDate({ data, loading, form, measuresObj }) {
     //   render: value => (_.isNumber(value) ? value : '-'),
     // },
     {
-      title: `${t('report.type2_flow.value')} ${
-        unitMeasure ? `(${unitMeasure})` : ''
-      }`,
+      title: getTitleValue(),
       dataIndex: 'value',
       align: 'right',
       render: value => <div>{!value ? '-' : value}</div>,
