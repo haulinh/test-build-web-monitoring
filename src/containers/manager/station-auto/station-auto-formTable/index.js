@@ -1,4 +1,4 @@
-import { Button, Form, Icon, Input, Popconfirm, Select, Table } from 'antd'
+import { Button, Form, Icon, Input, Popconfirm, Select, Table, Row } from 'antd'
 import AutoCompleteCell from 'components/elements/auto-complete-cell'
 import { autobind } from 'core-decorators'
 import { translate } from 'hoc/create-lang'
@@ -473,13 +473,6 @@ export default class StationAutoFormTable extends React.Component {
     // console.log('---form-this.state.isLoaded--', this.state.isLoaded)
     return (
       <div>
-        <Button
-          style={{ right: '0', marginBottom: '16px' }}
-          type="primary"
-          onClick={this.handleAddRow}
-        >
-          {t('stationAutoManager.addMeasuring.label')}
-        </Button>
         {this.state.isLoaded && (
           <Table
             bordered
@@ -490,6 +483,18 @@ export default class StationAutoFormTable extends React.Component {
               pageSize: 1000,
               hideOnSinglePage: true,
             }}
+            footer={() => (
+              <Row type="flex" style={{ color: '#1890FF' }} align="middle">
+                <Button
+                  type="link"
+                  style={{ fontWeight: 500, fontSize: '16px' }}
+                  onClick={this.handleAddRow}
+                >
+                  <Icon type="plus" style={{ marginRight: 5 }} />
+                  Thêm thông số
+                </Button>
+              </Row>
+            )}
           />
         )}
       </div>
