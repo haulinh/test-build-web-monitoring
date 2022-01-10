@@ -39,12 +39,13 @@ function TableAnyYears({ data, loading }) {
       dataIndex: 'station.name',
       width: 500,
     },
-    {
-      title: t('report.type2_flow.diameter'),
-      dataIndex: 'station.diameter',
-      align: 'right',
-      render: value => <div>{_.isNumber(value) ? value : '-'}</div>,
-    },
+    //remove diameter
+    // {
+    //   title: t('report.type2_flow.diameter'),
+    //   dataIndex: 'station.diameter',
+    //   align: 'right',
+    //   render: value => <div>{_.isNumber(value) ? value : '-'}</div>,
+    // },
     ...columnsYear,
   ]
 
