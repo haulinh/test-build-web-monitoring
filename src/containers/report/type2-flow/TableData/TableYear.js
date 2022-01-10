@@ -39,14 +39,15 @@ function TableYear({ data, loading }) {
       width: 200,
       fixed: 'left',
     },
-    {
-      title: t('report.type2_flow.diameter'),
-      dataIndex: 'station.diameter',
-      align: 'right',
-      width: 120,
-      fixed: 'left',
-      render: value => <div>{_.isNumber(value) ? value : '-'}</div>,
-    },
+    //remove diameter
+    // {
+    //   title: t('report.type2_flow.diameter'),
+    //   dataIndex: 'station.diameter',
+    //   align: 'right',
+    //   width: 120,
+    //   fixed: 'left',
+    //   render: value => <div>{_.isNumber(value) ? value : '-'}</div>,
+    // },
     ...columnsYear,
   ]
 

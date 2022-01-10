@@ -39,18 +39,19 @@ function TableMonth({ data, loading }) {
       width: 200,
       fixed: 'left',
     },
-    {
-      title: t('report.type2_flow.diameter'),
-      dataIndex: 'station.diameter',
-      width: 120,
-      align: 'right',
-      fixed: 'left',
+    //remove diameter
+    // {
+    //   title: t('report.type2_flow.diameter'),
+    //   dataIndex: 'station.diameter',
+    //   width: 120,
+    //   align: 'right',
+    //   fixed: 'left',
 
-      render: value => {
-        if (!value) return '-'
-        return value
-      },
-    },
+    //   render: value => {
+    //     if (!value) return '-'
+    //     return value
+    //   },
+    // },
     ...columnsMonth,
   ]
 

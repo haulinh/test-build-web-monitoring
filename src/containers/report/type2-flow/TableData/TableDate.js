@@ -3,8 +3,9 @@ import React from 'react'
 import _ from 'lodash'
 import { translate as t } from 'hoc/create-lang'
 import moment from 'moment-timezone'
+import { FIELDS } from '../index'
 
-function TableDate({ data, loading }) {
+function TableDate({ data, loading, form, measuresObj }) {
   if (_.isEmpty(data)) {
     return null
   }
@@ -15,13 +16,21 @@ function TableDate({ data, loading }) {
     )
   )
 
+  const getUnitMeasure = () => {
+    const measureSelected = form.getFieldValue(FIELDS.MEASURING_LIST)
+    const unitMeasure = measuresObj[measureSelected].unit
+    return unitMeasure
+  }
+
   const dataFlat = dataSortByProvince.reduce((base, current) => {
     if (_.isEmpty(current.data)) return base
 
-    const dataStation = current.data.map(dataStationItem => ({
-      ...dataStationItem,
-      station: current.station,
-    }))
+    const dataStation = current.data.map(dataStationItem => {
+      return {
+        ...dataStationItem,
+        station: current.station,
+      }
+    })
     return [...base, ...dataStation]
   }, [])
 
@@ -51,6 +60,13 @@ function TableDate({ data, loading }) {
     []
   )
 
+  const getTitleValue = () => {
+    const unitMeasure = getUnitMeasure()
+    if (!unitMeasure) return t('report.type2_flow.value')
+
+    return `${t('report.type2_flow.value')} (${unitMeasure})`
+  }
+
   const columns = [
     {
       title: t('report.type2_flow.time'),
@@ -73,14 +89,15 @@ function TableDate({ data, loading }) {
       title: t('report.type2_flow.stationName'),
       dataIndex: 'station.name',
     },
+    //remove diameter
+    // {
+    //   title: t('report.type2_flow.diameter'),
+    //   dataIndex: 'station.diameter',
+    //   align: 'right',
+    //   render: value => (_.isNumber(value) ? value : '-'),
+    // },
     {
-      title: t('report.type2_flow.diameter'),
-      dataIndex: 'station.diameter',
-      align: 'right',
-      render: value => (_.isNumber(value) ? value : '-'),
-    },
-    {
-      title: t('report.type2_flow.value'),
+      title: getTitleValue(),
       dataIndex: 'value',
       align: 'right',
       render: value => <div>{!value ? '-' : value}</div>,

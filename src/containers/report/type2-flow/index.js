@@ -18,7 +18,7 @@ import protectRole from 'hoc/protect-role/forMenu'
 import ROLE from 'constants/role'
 import ModalLangExport from 'components/elements/modal-lang-export'
 import createLanguage from 'hoc/create-lang'
-
+import { connect } from 'react-redux'
 
 export const FIELDS = {
   REPORT_TYPE: 'reportType',
@@ -33,13 +33,16 @@ export const FIELDS = {
 @Form.create()
 @protectRole(ROLE.REPORT_FLOW.VIEW)
 @createLanguage
+@connect(state => ({
+  measuresObj: state.global.measuresObj,
+}))
 export default class ReportFlow extends React.Component {
   state = {
     data: [],
     loading: false,
     time: [],
     visableModal: false,
-    langExport: 'vi'
+    langExport: 'vi',
   }
   getQueryParamsGeneral = () => {
     const { form } = this.props
@@ -253,13 +256,21 @@ export default class ReportFlow extends React.Component {
   }
 
   exportExcel = async () => {
-    const { form, lang: { translateManual } } = this.props
+    const {
+      form,
+      lang: { translateManual },
+    } = this.props
     await form.validateFields()
     const params = await this.getQueryParams()
     const { from, to, reportType } = params
     const newParams = { ...params, lang: this.state.langExport }
     const results = await DataInsight.exportDataFlow(newParams)
-    const titleName = translateManual('report.type2_flow.nameFileExel', null, null, this.state.langExport)
+    const titleName = translateManual(
+      'report.type2_flow.nameFileExel',
+      null,
+      null,
+      this.state.langExport
+    )
 
     const dynamicNameFile = {
       custom: `${titleName}${moment(from).format('DDMMYYYY')}_${moment(
@@ -272,35 +283,42 @@ export default class ReportFlow extends React.Component {
       )}`,
     }
     this.setState({
-      visableModal: false
-    });
+      visableModal: false,
+    })
     downFileExcel(results.data, dynamicNameFile[reportType])
   }
 
   handleOkModal = e => {
     this.setState({
-      visableModal: true
-    });
-  };
+      visableModal: true,
+    })
+  }
 
   handleCancelModal = e => {
     this.setState({
-      visableModal: false
-    });
-  };
+      visableModal: false,
+    })
+  }
 
   onChangeModal = e => {
     this.setState({
       langExport: e.target.value,
-    });
+    })
   }
 
   render() {
-    const { form } = this.props
+    const { form, measuresObj } = this.props
     const { loading, data, time, visableModal, langExport } = this.state
 
     const Report = {
-      custom: <TableDate data={data} loading={loading} />,
+      custom: (
+        <TableDate
+          data={data}
+          loading={loading}
+          form={form}
+          measuresObj={measuresObj}
+        />
+      ),
       year: <TableYear data={data} loading={loading} />,
       month: <TableMonth data={data} loading={loading} />,
       anyYear: <TableAnyYears data={data} loading={loading} />,
@@ -364,7 +382,13 @@ export default class ReportFlow extends React.Component {
           {Report[type]}
         </div>
         <Clearfix height={50} />
-        <ModalLangExport showModal={visableModal} handleOkModal={this.exportExcel} handleCancelModal={this.handleCancelModal} onChangeModal={this.onChangeModal} langExport={langExport} />
+        <ModalLangExport
+          showModal={visableModal}
+          handleOkModal={this.exportExcel}
+          handleCancelModal={this.handleCancelModal}
+          onChangeModal={this.onChangeModal}
+          langExport={langExport}
+        />
       </PageContainer>
     )
   }
