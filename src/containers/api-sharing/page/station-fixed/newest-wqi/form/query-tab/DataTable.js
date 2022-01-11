@@ -4,7 +4,7 @@ import { translate as t } from 'hoc/create-lang'
 import styled from 'styled-components'
 import { get } from 'lodash-es'
 
-const i18n = {
+const i18n = () => ({
   order: t('wqiStationFix.order'),
   pointName: t('wqiStationFix.pointName'),
   avgTime: t('wqiStationFix.avgTime'),
@@ -12,7 +12,7 @@ const i18n = {
   wqiLevel: t('wqiStationFix.wqiLevel'),
   lat: t('wqiStationFix.lat'),
   lng: t('wqiStationFix.lng'),
-}
+})
 
 const TableCustom = styled(Table)`
   tr > td {
