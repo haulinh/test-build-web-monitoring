@@ -51,6 +51,7 @@ export default class MinutesDataSearch extends React.Component {
     standards: [],
     standardObjectList: [],
     loadingData: false,
+    qcvnSelected: [],
     loadingSummary: false,
     loadingExport: false,
   }
@@ -167,8 +168,15 @@ export default class MinutesDataSearch extends React.Component {
     }
   }
 
-  onChangeQcvn = standards => {
-    this.setState({ standards }, () => {
+  onChangeQcvn = (standards, listQcvn) => {
+    // const { onChangeQcvn } = this.props
+    const qcvnSelected = standards.map(key => {
+      return {
+        ...listQcvn.find(qcvn => qcvn.key === key),
+      }
+    })
+
+    this.setState({ standards, qcvnSelected }, () => {
       this.handleOnSearch()
     })
   }
@@ -189,6 +197,7 @@ export default class MinutesDataSearch extends React.Component {
       totalItem,
       loadingExport,
       standards,
+      qcvnSelected,
       standardObjectList,
     } = this.state
 
@@ -256,6 +265,7 @@ export default class MinutesDataSearch extends React.Component {
         </Row>
 
         <TabList
+          qcvnSelected={qcvnSelected}
           loadingExport={loadingExport}
           exportExcel={this.exportExcel}
           totalItem={totalItem}

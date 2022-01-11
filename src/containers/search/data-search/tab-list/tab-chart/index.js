@@ -1,18 +1,19 @@
-import React from 'react'
-import { autobind } from 'core-decorators'
-import styled from 'styled-components'
-import ReactHighcharts from 'react-highcharts/ReactHighstock'
-import * as _ from 'lodash'
-import PropTypes from 'prop-types'
-import { translate } from 'hoc/create-lang'
-import moment from 'moment-timezone'
+import { DATETIME_LABEL_FORMAT } from 'constants/chart-format'
+import { DD_MM_YYYY_HH_MM } from 'constants/format-date.js'
 import {
   FORMAT_VALUE_MEASURING,
   getFormatNumber,
 } from 'constants/format-number'
-import { DATETIME_LABEL_FORMAT } from 'constants/chart-format'
-import { DD_MM_YYYY_HH_MM } from 'constants/format-date.js'
+import { autobind } from 'core-decorators'
+import Highcharts from 'highcharts'
+import { translate } from 'hoc/create-lang'
+import * as _ from 'lodash'
+import moment from 'moment-timezone'
+import PropTypes from 'prop-types'
+import React from 'react'
+import ReactHighcharts from 'react-highcharts/ReactHighstock'
 import { connect } from 'react-redux'
+import styled from 'styled-components'
 
 const TabChartWrapper = styled.div`
   justify-content: center;
@@ -96,6 +97,12 @@ export default class TabChart extends React.PureComponent {
     this.initData(props, true)
   }
 
+  state = {
+    measureCurrent: '',
+  }
+
+  chartInstance
+
   initData = (props, isInit = false) => {
     const { measuringList, measuresObj } = props
     const seriesData = {}
@@ -118,6 +125,8 @@ export default class TabChart extends React.PureComponent {
         color,
       }
     })
+
+    // console.log({ mesureList })
 
     let heightChart = {}
     _.forEachRight(props.dataStationAuto, ({ measuringLogs, receivedAt }) => {
@@ -183,20 +192,63 @@ export default class TabChart extends React.PureComponent {
     }
   }
 
-  hanldleMeasureChange = measureCurrent => {
+  //convert data measuringList[] to measuringList{}
+  convertDataQcvn = () => {
+    const { qcvnSelected } = this.props
+
+    const newDataQcvn = qcvnSelected.map(qcvn => {
+      const measureObj = qcvn.measuringList.reduce((base, current) => {
+        return {
+          ...base,
+          [current.key]: current,
+        }
+      }, {})
+
+      return {
+        ...qcvn,
+        measuringList: measureObj,
+      }
+    })
+    return newDataQcvn
+  }
+
+  //get data qcvn measure selected
+  getDataQcvn = measureCurrent => {
+    let qcvnList = this.convertDataQcvn()
+
+    qcvnList = qcvnList.map(qcvn => {
+      const measuringList = qcvn.measuringList[measureCurrent]
+      if (!measuringList) return null
+
+      return {
+        name: qcvn.name,
+        id: qcvn._id,
+        maxLimit: _.get(measuringList, 'maxLimit'),
+        minLimit: _.get(measuringList, 'minLimit'),
+      }
+    })
+
+    qcvnList = qcvnList.filter(qcvn => qcvn)
+
+    return qcvnList
+  }
+
+  handleMeasureChange = measureCurrent => {
     let series = []
     let plotLines = []
     let minChart = undefined
     let maxChart = undefined
     let nameChart = ''
+
     if (measureCurrent === '__ALL__') {
       series = _.values(this.state.seriesData)
       nameChart = this.props.nameChart
     } else {
       let dataSeries = _.get(this.state.seriesData, [measureCurrent], {})
-      // dataSeries.negativeColor = '#058DC7'
+
       const minLimit = _.get(dataSeries, 'minLimit')
       series = [dataSeries]
+
       if (_.isNumber(minLimit)) {
         let data = _.clone(dataSeries) //_.get(this.state.seriesData, [measureCurrent], {})
         _.update(data, 'threshold', () => minLimit)
@@ -204,6 +256,41 @@ export default class TabChart extends React.PureComponent {
         _.update(data, 'negativeColor', () => 'red')
         series.push(data)
       }
+
+      // draw line qcvn
+      const qcvnList = this.getDataQcvn(measureCurrent)
+
+      const lineQcvn = {
+        type: 'line',
+        marker: {
+          enabled: false,
+        },
+        enableMouseTracking: false,
+        dataLabels: {
+          enabled: false,
+        },
+      }
+
+      qcvnList.forEach(qcvn => {
+        const data = dataSeries.data
+
+        if (qcvn.maxLimit || qcvn.maxLimit === 0)
+          series.push({
+            ...dataSeries,
+            ...lineQcvn,
+            id: qcvn.id,
+            name: qcvn.name,
+            data: data.map(dataItem => [dataItem[0], qcvn.maxLimit]),
+          })
+        if (qcvn.minLimit || qcvn.minLimit === 0)
+          series.push({
+            ...dataSeries,
+            ...lineQcvn,
+            id: qcvn.id,
+            name: qcvn.name,
+            data: data.map(dataItem => [dataItem[0], qcvn.minLimit]),
+          })
+      })
 
       minChart = _.get(this.state.heightChart, [measureCurrent, 'minChart'])
       maxChart = _.get(this.state.heightChart, [measureCurrent, 'maxChart']) //_.get(dataSeries,'minLimit', undefined)
@@ -252,7 +339,6 @@ export default class TabChart extends React.PureComponent {
     nameChart,
     maxChart
   ) => {
-    console.log(series, '--series--')
     return {
       chart: {
         type: 'line',
@@ -282,7 +368,19 @@ export default class TabChart extends React.PureComponent {
       yAxis: {
         min: minChart,
         max: maxChart,
-        plotLines,
+        // plotLines,
+        plotLines: [
+          {
+            dashStyle: 'solid', // Style of the plot line. Default to solid
+            value: 3, // Value of where the line will appear
+            width: 2, // Width of the line
+          },
+          {
+            dashStyle: 'solid', // Style of the plot line. Default to solid
+            value: 8, // Value of where the line will appear
+            width: 2, // Width of the line
+          },
+        ],
         title: {
           text: '',
         },
@@ -320,12 +418,21 @@ export default class TabChart extends React.PureComponent {
     this.setState({
       width: this.chartWrapper.offsetWidth,
     })
+    // this.chartInstance = ReactHighcharts.Highcharts
+    this.chartInstance = Highcharts
   }
 
   render() {
+    // console.log({ seriesData: this.state.series })
+    const { qcvnSelected } = this.props
+    // console.log({ qcvnSelected })
+
     return (
       <TabChartWrapper>
-        <ChartWrapper innerRef={ref => (this.chartWrapper = ref)}>
+        <ChartWrapper
+          id="data-search"
+          innerRef={ref => (this.chartWrapper = ref)}
+        >
           {this.state.width > 160 && (
             <ReactHighcharts
               config={this.configChart(
@@ -341,7 +448,7 @@ export default class TabChart extends React.PureComponent {
           <Thumbnail>
             {this.state.mesureList.map(({ name, code, color, unit }) => (
               <ThumbnailItem
-                onClick={() => this.hanldleMeasureChange(code)}
+                onClick={() => this.handleMeasureChange(code)}
                 selected={this.state.measureCurrent === code}
                 color={color}
                 key={code}
