@@ -99,7 +99,7 @@ class FilterForm extends Component {
           .utc()
           .format(),
         isFilter: values.isFilter || false,
-        standards: standardsVN,
+        standards: standardsVN.join(),
       }
 
       setParamFilter({
