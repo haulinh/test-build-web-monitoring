@@ -88,9 +88,8 @@ class FilterForm extends Component {
       const times = getTimes(values[FIELDS.RANGE_TIME])
       // console.log(times.to.format(), '==times==')
       const params = {
-        stationAutoKeys: values[FIELDS.STATION_AUTO].join(','),
+        stationKeys: values[FIELDS.STATION_AUTO].join(','),
         measuringList: values[FIELDS.MEASURING_LIST].join(','),
-        stationType: values[FIELDS.STATION_TYPE],
         from: times.from
           .clone()
           .utc()
@@ -99,8 +98,8 @@ class FilterForm extends Component {
           .clone()
           .utc()
           .format(),
-        isFilterQcvn: values.isFilter || false,
-        standardsVN,
+        isFilter: values.isFilter || false,
+        standards: standardsVN,
       }
 
       setParamFilter({

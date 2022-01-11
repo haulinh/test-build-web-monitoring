@@ -14,7 +14,7 @@ function getDataInsightUrl(prefix = '') {
 export default {
   //#region data-search
   getDataInsight: params => {
-    const url = getDataInsightUrl('analyze-data')
+    const url = getDataInsightUrl('report/data-analyze')
     return getFetch(url, params)
   },
   exportDataInsight: (params, lang) => {
