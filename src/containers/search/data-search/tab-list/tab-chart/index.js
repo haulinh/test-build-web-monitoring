@@ -170,6 +170,7 @@ export default class TabChart extends React.PureComponent {
         nameChart: '',
         series: _.values(seriesData),
         measureCurrent: '__ALL__',
+        measure: '__ALL__',
         heightChart,
       }
     } else {
@@ -240,6 +241,13 @@ export default class TabChart extends React.PureComponent {
     let maxChart = undefined
     let nameChart = ''
 
+    this.setState(
+      {
+        measureCurrent,
+      },
+      () => this.drawLineQcvn()
+    )
+
     if (measureCurrent === '__ALL__') {
       series = _.values(this.state.seriesData)
       nameChart = this.props.nameChart
@@ -258,6 +266,7 @@ export default class TabChart extends React.PureComponent {
       }
 
       // draw line qcvn
+
       const qcvnList = this.getDataQcvn(measureCurrent)
 
       const lineQcvn = {
@@ -321,7 +330,6 @@ export default class TabChart extends React.PureComponent {
       ]
     }
     this.setState({
-      measureCurrent,
       series,
       plotLines,
       minChart,
@@ -412,6 +420,11 @@ export default class TabChart extends React.PureComponent {
         },
       },
     }
+  }
+
+  drawLineQcvn = () => {
+    const { measure } = this.state
+    console.log({ measure })
   }
 
   componentDidMount() {
