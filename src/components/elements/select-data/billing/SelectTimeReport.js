@@ -220,6 +220,7 @@ class TimePicker extends React.Component {
     if (reportType === 'month') {
       return (
         <DatePicker.MonthPicker
+          format="MM-YYYY"
           style={this.style}
           onChange={this.handleOnChange}
           value={valuePicker.value}

@@ -65,5 +65,5 @@ export function isContainSpecialCharacter(str) {
 }
 
 export function formatCurrency(currency) {
-  return new Intl.NumberFormat('vi-VN', { maximumFractionDigits: 4, minimumFractionDigits: 4 }).format(currency)
+  return new Intl.NumberFormat('vi-VN', { maximumFractionDigits: 4, minimumFractionDigits: 0 }).format(currency)
 }
