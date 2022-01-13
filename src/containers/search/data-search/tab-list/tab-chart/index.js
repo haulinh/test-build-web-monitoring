@@ -241,12 +241,9 @@ export default class TabChart extends React.PureComponent {
     let maxChart = undefined
     let nameChart = ''
 
-    this.setState(
-      {
-        measureCurrent,
-      },
-      () => this.drawLineQcvn()
-    )
+    this.setState({
+      measureCurrent,
+    })
 
     if (measureCurrent === '__ALL__') {
       series = _.values(this.state.seriesData)
@@ -282,10 +279,11 @@ export default class TabChart extends React.PureComponent {
 
       qcvnList.forEach(qcvn => {
         const data = dataSeries.data
+        const { negativeColor, color, ...dataChart } = dataSeries
 
         if (qcvn.maxLimit || qcvn.maxLimit === 0)
           series.push({
-            ...dataSeries,
+            ...dataChart,
             ...lineQcvn,
             id: qcvn.id,
             name: qcvn.name,
@@ -293,7 +291,7 @@ export default class TabChart extends React.PureComponent {
           })
         if (qcvn.minLimit || qcvn.minLimit === 0)
           series.push({
-            ...dataSeries,
+            ...dataChart,
             ...lineQcvn,
             id: qcvn.id,
             name: qcvn.name,
@@ -422,10 +420,51 @@ export default class TabChart extends React.PureComponent {
     }
   }
 
-  drawLineQcvn = () => {
-    const { measure } = this.state
-    console.log({ measure })
-  }
+  // drawLineQcvn = () => {
+  //   const { measureCurrent, series } = this.state
+
+  //   if (measureCurrent !== '__ALL__') {
+  //     const qcvnList = this.getDataQcvn(measureCurrent)
+
+  //     console.log({ qcvnList })
+
+  //     let dataSeries = _.get(this.state.seriesData, [measureCurrent], {})
+
+  //     const lineQcvn = {
+  //       type: 'line',
+  //       marker: {
+  //         enabled: false,
+  //       },
+  //       enableMouseTracking: false,
+  //       dataLabels: {
+  //         enabled: false,
+  //       },
+  //     }
+
+  //     qcvnList.forEach(qcvn => {
+  //       const data = dataSeries.data
+
+  //       if (qcvn.maxLimit || qcvn.maxLimit === 0)
+  //         series.push({
+  //           ...dataSeries,
+  //           ...lineQcvn,
+  //           id: qcvn.id,
+  //           name: qcvn.name,
+  //           data: data.map(dataItem => [dataItem[0], qcvn.maxLimit]),
+  //         })
+  //       if (qcvn.minLimit || qcvn.minLimit === 0)
+  //         series.push({
+  //           ...dataSeries,
+  //           ...lineQcvn,
+  //           id: qcvn.id,
+  //           name: qcvn.name,
+  //           data: data.map(dataItem => [dataItem[0], qcvn.minLimit]),
+  //         })
+  //     })
+  //     console.log({ series })
+  //   }
+  //   return
+  // }
 
   componentDidMount() {
     this.setState({
@@ -436,8 +475,8 @@ export default class TabChart extends React.PureComponent {
   }
 
   render() {
-    // console.log({ seriesData: this.state.series })
     const { qcvnSelected } = this.props
+    console.log({ dataSeries: this.state.series })
     // console.log({ qcvnSelected })
 
     return (
