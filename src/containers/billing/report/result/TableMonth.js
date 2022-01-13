@@ -51,7 +51,7 @@ export default function TableMonth({ resultReport = {} }) {
           const valueMeasure = _.get(value, `${measure.key}.value`)
           return (
             <div>
-              {valueMeasure && formatCurrency(Number(valueMeasure.toFixed(3)))}
+              {valueMeasure && formatCurrency(Number(valueMeasure))}
             </div>
           )
         },
