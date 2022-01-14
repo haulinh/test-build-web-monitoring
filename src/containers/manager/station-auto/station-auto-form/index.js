@@ -879,7 +879,10 @@ export default class StationAutoForm extends React.PureComponent {
                 </FormItem>
               </Col> */}
             </Row>
-            <Row gutter={8}>
+
+            {/* remove config diameter */}
+
+            {/* <Row gutter={8}>
               <Col span={12}>
                 <FormItem
                   {...formItemLayout}
@@ -901,7 +904,7 @@ export default class StationAutoForm extends React.PureComponent {
                   )}
                 </FormItem>
               </Col>
-            </Row>
+            </Row> */}
             <ConnectionStatusWrapper>
               <div style={{ width: '44em' }}>
                 <FormItem

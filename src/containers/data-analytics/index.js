@@ -158,7 +158,7 @@ class DataAnalytics extends Component {
   }
 
   onFetchReceiveTime = async measure => {
-    const { data, dataType, from, to } = this.state
+    const { data, dataType, from, to, paramFilter } = this.state
     this.setState({ measure })
 
     this.onReDrawChart({ measure })
@@ -175,6 +175,7 @@ class DataAnalytics extends Component {
       measure,
       stations: data[measure].map(item => item.stationKey).join(','),
       values: data[measure].map(item => item.analyzeData[dataType]).join(','),
+      isFilter: paramFilter.isFilter
     })
 
     const chart = this.chart.getChartSeries('mainChart')
