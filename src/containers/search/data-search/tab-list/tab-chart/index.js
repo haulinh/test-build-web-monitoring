@@ -142,13 +142,13 @@ export default class TabChart extends React.PureComponent {
     }
   }
 
-  componentDidUpdate(nextProps) {
+  componentDidUpdate(prevProps) {
     if (
-      !_.isEqual(this.props.dataStationAuto, nextProps.dataStationAuto) ||
-      !_.isEqual(this.props.measuringData, nextProps.measuringData) ||
-      !_.isEqual(this.props.qcvnSelected, nextProps.qcvnSelected)
+      !_.isEqual(this.props.dataStationAuto, prevProps.dataStationAuto) ||
+      !_.isEqual(this.props.measuringData, prevProps.measuringData) ||
+      !_.isEqual(this.props.qcvnSelected, prevProps.qcvnSelected)
     ) {
-      this.initData(nextProps)
+      this.initData(this.props)
       this.setState({
         measureCurrent: 'all',
       })
