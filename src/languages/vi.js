@@ -1953,6 +1953,13 @@ export default {
       errorMinTend:
         'Giới hạn chuẩn bị vượt ngưỡng tối thiểu phải lớn hơn giới hạn vượt ngưỡng tối thiếu',
       errorMinMax: 'Giới hạn tối thiểu phải nhỏ hơn giới hạn tối đa',
+      measuringNameCalculate: {
+        label: 'Tên thông số tính toán',
+      },
+      functionCalculate: {
+        label: 'Hàm tính toán',
+      },
+      popConfirm: 'Bạn chắc chắn xóa dữ liệu?',
     },
     range: {
       label: 'Dải đo',

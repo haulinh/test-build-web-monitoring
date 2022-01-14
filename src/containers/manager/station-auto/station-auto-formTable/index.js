@@ -120,6 +120,17 @@ export default class StationAutoFormTable extends React.Component {
     return measuringList
   }
 
+  isDisableDeleteButton = keyMeasure => {
+    let measuringSelected
+    if (this.props.measuringListAdvanced) {
+      this.props.measuringListAdvanced.map(element => {
+        if (element.key === keyMeasure) measuringSelected = element
+      })
+      return this.props.measuringListAdvanced.includes(measuringSelected)
+    }
+    return false
+  }
+
   getColumns = () => {
     const { t } = this.props.lang
     const { getFieldDecorator } = this.props.form
@@ -262,13 +273,34 @@ export default class StationAutoFormTable extends React.Component {
                   <Popconfirm
                     title={t('stationAutoManager.delete.require')}
                     onConfirm={() => this.removeMeasuring(index)}
+                    disabled={this.isDisableDeleteButton(
+                      this.props.form.getFieldValue(
+                        `measuringList[${index}].key`
+                      )
+                    )}
                   >
-                    <a>
+                    <Button
+                      disabled={this.isDisableDeleteButton(
+                        this.props.form.getFieldValue(
+                          `measuringList[${index}].key`
+                        )
+                      )}
+                      type="link"
+                    >
                       <Icon
                         type="delete"
-                        style={{ marginLeft: '5px', color: 'red' }}
+                        style={{
+                          marginLeft: '5px',
+                          color: this.isDisableDeleteButton(
+                            this.props.form.getFieldValue(
+                              `measuringList[${index}].key`
+                            )
+                          )
+                            ? '#A2A7B3'
+                            : 'red',
+                        }}
                       />
-                    </a>
+                    </Button>
                   </Popconfirm>
                 </span>
               )}
@@ -491,7 +523,7 @@ export default class StationAutoFormTable extends React.Component {
                   onClick={this.handleAddRow}
                 >
                   <Icon type="plus" style={{ marginRight: 5 }} />
-                  Thêm thông số
+                  {translate('stationAutoManager.addMeasuring.label')}
                 </Button>
               </Row>
             )}

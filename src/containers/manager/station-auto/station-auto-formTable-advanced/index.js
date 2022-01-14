@@ -11,19 +11,39 @@ import {
 } from 'antd'
 import ExportIcon from 'assets/svg-icons/Export.svg'
 import AutoCompleteCell from 'components/elements/auto-complete-cell'
+import { PATTERN_NAME } from 'constants/format-string'
 import { autobind } from 'core-decorators'
+import { translate } from 'hoc/create-lang'
 import update from 'immutability-helper'
 import * as _ from 'lodash'
 import PropTypes from 'prop-types'
 import React from 'react'
+import { langPropTypes } from '../../../../hoc/create-lang'
 
 const FormItem = Form.Item
 const { Option } = Select
+
+function i18n() {
+  return {
+    measureKey: translate('stationAutoManager.form.measuringKey.label'),
+    measureName: translate('stationAutoManager.form.measuringName.label'),
+    measureNameCalculate: translate(
+      'stationAutoManager.form.measuringNameCalculate.label'
+    ),
+    functionCalculate: translate(
+      'stationAutoManager.form.functionCalculate.label'
+    ),
+    unit: translate('stationAutoManager.form.measuringUnit.label'),
+    popConfirm: translate('stationAutoManager.form.popConfirm'),
+    addMeasuring: translate('stationAutoManager.addMeasuring.label'),
+  }
+}
 
 @autobind
 export default class StationAutoFormTableAdvanced extends React.Component {
   static propTypes = {
     form: PropTypes.object,
+    lang: langPropTypes,
     dataSource: PropTypes.array,
     measuringListSource: PropTypes.array,
     standardsVN: PropTypes.array,
@@ -50,9 +70,6 @@ export default class StationAutoFormTableAdvanced extends React.Component {
       }
     })
     if (this.props.isStandardsVN) {
-      measuringListAdvanced = this.updateMinMaxOfMeasuring(
-        measuringListAdvanced
-      )
       if (this.props.onChangeMeasuring) {
         this.setState({
           measuringListAdvanced: measuringListAdvanced,
@@ -83,20 +100,6 @@ export default class StationAutoFormTableAdvanced extends React.Component {
     return data
   }
 
-  updateMinMaxOfMeasuring = dataSource => {
-    const measuringListAdvanced = _.map(dataSource, (item, index) => {
-      let itemQCVN = this.props.standardsVN.find(obj => obj.key === item.key)
-
-      return {
-        ...item,
-        id: (index + 1).toString(),
-        maxLimit: itemQCVN ? itemQCVN.maxLimit : item.maxLimit,
-        minLimit: itemQCVN ? itemQCVN.minLimit : item.minLimit,
-      }
-    })
-    return measuringListAdvanced
-  }
-
   getColumns = () => {
     const { getFieldDecorator } = this.props.form
 
@@ -104,30 +107,32 @@ export default class StationAutoFormTableAdvanced extends React.Component {
       {
         dataIndex: 'key',
         align: 'center',
-        title: 'Mã thông số',
-        width: 100,
+        title: i18n().measureKey,
+        width: 130,
         render: (text, record, index) => (
           <FormItem style={{ marginBottom: 0 }}>
-            {this.props.form.getFieldDecorator(`measuringList[${index}].key`, {
-              initialValue: text,
-            })(<span>{text}</span>)}
+            {this.props.form.getFieldDecorator(
+              `measuringListAdvanced[${index}].key`,
+              {
+                initialValue: text,
+              }
+            )(<span>{text}</span>)}
           </FormItem>
         ),
       },
       {
         dataIndex: 'name',
         align: 'center',
-        title: 'Tên thông số',
+        title: i18n().measureName,
         width: 130,
         render: (text, record, index) => {
           return (
             <FormItem style={{ marginBottom: 0 }}>
-              {getFieldDecorator(
-                `measuringListAdvanced[${index}].name`,
-                {}
-              )(
+              {getFieldDecorator(`measuringListAdvanced[${index}].name`, {
+                initialValue: record.name,
+              })(
                 <AutoCompleteCell
-                  style={{ width: 150 }}
+                  style={{ width: '100%' }}
                   editable={this._isEnableEditMeasure(record.key)}
                   onChange={value => this.handleChangeMeasuring(value, index)}
                   options={this.state.measuringOptionsAdvanced}
@@ -138,52 +143,93 @@ export default class StationAutoFormTableAdvanced extends React.Component {
         },
       },
       {
-        dataIndex: 'name',
-        title: 'Tên thông số tính toán',
+        dataIndex: 'nameCalculate',
+        title: i18n().measureNameCalculate,
         align: 'center',
-        width: 100,
-        render: (text, record, index) => (
-          <FormItem style={{ marginBottom: 0 }}>
-            {getFieldDecorator(
-              `measuringListAdvanced[${index}].nameCacl`,
-              {}
-            )(<Input style={{ width: 120 }} />)}
-          </FormItem>
-        ),
+        width: 150,
+        render: (text, record, index) => {
+          return (
+            <FormItem style={{ marginBottom: 0 }}>
+              {getFieldDecorator(
+                `measuringListAdvanced[${index}].nameCalculate`,
+                {
+                  initialValue: text,
+                  rules: [
+                    {
+                      required: true,
+                      whitespace: true,
+                      message: translate(
+                        'stationAutoManager.form.name.required'
+                      ),
+                    },
+                    {
+                      pattern: PATTERN_NAME,
+                      message: translate(
+                        'stationAutoManager.form.name.pattern'
+                      ),
+                    },
+                    {
+                      max: 64,
+                      message: translate('stationAutoManager.form.name.max'),
+                    },
+                  ],
+                }
+              )(
+                <Input
+                  onChange={value =>
+                    this.handleOnChangeNameCalculate(value, index)
+                  }
+                  style={{ width: '100%' }}
+                />
+              )}
+            </FormItem>
+          )
+        },
       },
       {
-        dataIndex: 'cacl',
+        dataIndex: 'functionCalculate',
         align: 'center',
-        title: 'Hàm tính toán',
-        width: 130,
+        title: i18n().functionCalculate,
+        width: 160,
         render: (text, record, index) => (
-          <Row type="flex" justify="center" align="middle" gutter={12}>
-            <Col span={20}>
+          <Row type="flex" justify="center" align="middle" gutter={2}>
+            <Col span={18}>
               <FormItem style={{ marginBottom: 0 }}>
-                {getFieldDecorator(`measuringListAdvanced[${index}].cacl`, {
-                  initialValue: 'cacl',
-                })(
-                  <Select style={{ width: 140 }} defaultValue={'cacl'}>
-                    <Option value="cacl">Tính toán chỉ số</Option>
+                {getFieldDecorator(
+                  `measuringListAdvanced[${index}].functionCalculate`,
+                  {
+                    initialValue: 'indexCalculation',
+                  }
+                )(
+                  <Select
+                    style={{ width: '100%' }}
+                    defaultValue={'indexCalculation'}
+                  >
+                    <Option value="indexCalculation">Tính toán chỉ số</Option>
                   </Select>
                 )}
               </FormItem>
             </Col>
             <Col span={4}>
-              <img
-                src={ExportIcon}
-                alt="exportIcon"
-                style={{ marginRight: '8px', width: '20px' }}
-              />
+              <Button
+                type="link"
+                href="https://global-docs.ilotusland.com/docs/references/t%C3%ADnh-to%C3%A1n-d%E1%BB%AF-li%E1%BB%87u/"
+              >
+                <img
+                  src={ExportIcon}
+                  alt="exportIcon"
+                  style={{ marginRight: '8px', width: '20px' }}
+                />
+              </Button>
             </Col>
           </Row>
         ),
       },
       {
         dataIndex: 'unit',
-        title: 'Đơn vị',
+        title: i18n().unit,
         align: 'center',
-        width: 150,
+        width: 100,
         render: (text, record, index) => (
           <FormItem style={{ marginBottom: 0 }}>
             {getFieldDecorator(`measuringListAdvanced[${index}].unit`, {
@@ -191,7 +237,7 @@ export default class StationAutoFormTableAdvanced extends React.Component {
               rule: {
                 whitespace: true,
               },
-            })(<Input style={{ width: 200 }} />)}
+            })(<Input style={{ width: '100%' }} />)}
           </FormItem>
         ),
       },
@@ -199,9 +245,6 @@ export default class StationAutoFormTableAdvanced extends React.Component {
         title: '',
         width: 50,
         render: (text, record, index) => {
-          const total = this.state.measuringListAdvanced
-            ? this.state.measuringListAdvanced.length
-            : 0
           return (
             <div
               style={{
@@ -211,7 +254,7 @@ export default class StationAutoFormTableAdvanced extends React.Component {
             >
               <span>
                 <Popconfirm
-                  title="Bạn chắc chắn xóa dữ liệu?"
+                  title={i18n().popConfirm}
                   onConfirm={() => this.removeMeasuring(index)}
                 >
                   <a>
@@ -234,28 +277,16 @@ export default class StationAutoFormTableAdvanced extends React.Component {
       id: (this.state.measuringListAdvanced.length + 1).toString(),
       key: '',
       name: '',
+      functionCalculate: 'indexCalculation',
       unit: '',
     }
-    let rows = this.state.measuringListAdvanced.slice()
-    rows = update(rows, { $push: [newRow] })
+    let rows = update(this.state.measuringListAdvanced, { $push: [newRow] })
     this.setState({ measuringListAdvanced: rows })
     this.setState({
       measuringOptionsAdvanced: this.getOptions(
         this.state.measuringListAdvanced
       ),
     })
-  }
-
-  getValueStandardVN = (record, field) => {
-    const value = _.get(
-      _.get(this.props.standardsVN, _.get(record, 'measuringKey'), {}),
-      field,
-      undefined
-    )
-    if (!_.isUndefined(value)) {
-      return value
-    }
-    return ''
   }
 
   removeMeasuring(index) {
@@ -282,14 +313,13 @@ export default class StationAutoFormTableAdvanced extends React.Component {
       return false
     }
 
-    const index = _.findIndex(arr, i => {
-      return i.key !== meaKey
-    })
-    if (index > -1) {
-      return false
-    }
+    let measuringSelected
 
-    return true
+    arr.map(element => {
+      if (element.key === meaKey) measuringSelected = element
+    })
+
+    return arr.includes(measuringSelected)
   }
 
   render() {
@@ -313,7 +343,7 @@ export default class StationAutoFormTableAdvanced extends React.Component {
                   onClick={this.handleAddRow}
                 >
                   <Icon type="plus" style={{ marginRight: 5 }} />
-                  Thêm thông số
+                  {i18n().addMeasuring}
                 </Button>
               </Row>
             )}
@@ -339,5 +369,38 @@ export default class StationAutoFormTableAdvanced extends React.Component {
         },
       })
     )
+  }
+
+  handleOnChangeNameCalculate = (value, index) => {
+    this.setState(
+      update(this.state, {
+        measuringListAdvanced: {
+          [index]: {
+            nameCalculate: { $set: value },
+          },
+        },
+      })
+    )
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.isLoaded) {
+      let measuringListAdvanced =
+        this.props.form.getFieldValue('measuringListAdvanced') || []
+      let measuringListAdvancedFilter = _.values(measuringListAdvanced).filter(
+        (element, index) => element !== undefined
+      )
+      if (
+        JSON.stringify(prevState.measuringListAdvanced) !==
+        JSON.stringify(this.state.measuringListAdvanced)
+      ) {
+        if (this.props.onChangeMeasuring) {
+          this.setState({
+            measuringListAdvanced: measuringListAdvancedFilter,
+          })
+          this.props.onChangeMeasuring(measuringListAdvancedFilter)
+        }
+      }
+    }
   }
 }

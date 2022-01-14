@@ -264,12 +264,7 @@ export default class StationAutoForm extends React.PureComponent {
 
       let measuringList = this.state.measuringList
       let measuringListAdvanced = this.state.measuringListAdvanced
-      if (
-        !measuringList ||
-        !measuringList[0].key ||
-        !measuringListAdvanced ||
-        !measuringListAdvanced[0].key
-      ) {
+      if (!measuringList || !measuringList[0].key) {
         const { t } = this.props.lang
         swal({
           title: t('stationAutoManager.addMeasuring.error'),
@@ -279,36 +274,39 @@ export default class StationAutoForm extends React.PureComponent {
           tabKey: ['3'],
         })
         return
-      } else {
-        measuringList = _.map(this.state.measuringList, item => {
-          const dtFind = _.find(this.state.measuringListSource, obj => {
-            return obj.key === item.key
-          })
-          if (dtFind) {
-            return {
-              ...item,
-              name: dtFind.name,
-            }
-          }
-        })
-        measuringListAdvanced = _.map(
-          this.state.measuringListAdvanced,
-          item => {
-            const dtFind = _.find(
-              this.state.measuringListSourceAdvanced,
-              obj => {
-                return obj.key === item.key
-              }
-            )
-            if (dtFind) {
-              return {
-                ...item,
-                name: dtFind.name,
-              }
-            }
-          }
-        )
       }
+      //   measuringList = _.map(this.state.measuringList, item => {
+      //     const dtFind = _.find(this.state.measuringListSource, obj => {
+      //       return obj.key === item.key
+      //     })
+      //     console.log('measuringListSource', this.state.measuringListSource)
+      //     console.log('--dtFind--', dtFind)
+      //     if (dtFind) {
+      //       console.log('---Not submit yet---')
+      //       return {
+      //         ...item,
+      //         name: dtFind.name,
+      //       }
+      //     }
+      //   })
+      //   measuringListAdvanced = _.map(
+      //     this.state.measuringListAdvanced,
+      //     item => {
+      //       const dtFind = _.find(
+      //         this.state.measuringListSourceAdvanced,
+      //         obj => {
+      //           return obj.key === item.key
+      //         }
+      //       )
+      //       if (dtFind) {
+      //         return {
+      //           ...item,
+      //           name: dtFind.name,
+      //         }
+      //       }
+      //     }
+      //   )
+      // }
 
       if (!values.linkedStation) {
         values.linkedStation = ''
@@ -500,7 +498,13 @@ export default class StationAutoForm extends React.PureComponent {
     // console.log(dataMeasuring, '--handleOnChangeMeasuring')
     this.setState({
       measuringList: dataMeasuring,
-      measuringListAdvanced: dataMeasuring,
+    })
+  }
+
+  handleOnChangeMeasuringAdvanced = dataMeasuringAdvanced => {
+    // console.log(dataMeasuring, '--handleOnChangeMeasuring')
+    this.setState({
+      measuringListAdvanced: dataMeasuringAdvanced,
     })
   }
 
@@ -513,11 +517,14 @@ export default class StationAutoForm extends React.PureComponent {
   getMeasuringListAdvanced = () => {
     const { measuringList, measuringListSource } = this.state
 
-    const a = measuringListSource.filter(measure =>
-      measuringList.some(e => e.key === measure.key)
-    )
+    if (measuringList) {
+      const measuringListAdvanced = measuringListSource.filter(measure =>
+        measuringList.some(measuring => measuring.key === measure.key)
+      )
 
-    return a
+      return measuringListAdvanced
+    }
+    return []
   }
   render() {
     const { getFieldDecorator } = this.props.form
@@ -1096,6 +1103,7 @@ export default class StationAutoForm extends React.PureComponent {
                   form={this.props.form}
                   isStandardsVN={this.state.isStandardsVN}
                   onChangeStandardsVN={this.onChangeStandardsVN}
+                  measuringListAdvanced={this.state.measuringListAdvanced}
                   standardsVN={get(
                     this.state.standardsVNObject,
                     'measuringList',
@@ -1118,7 +1126,7 @@ export default class StationAutoForm extends React.PureComponent {
           </Panel>
           <Panel header="Thông số nâng cao" key="4">
             <MeasuringTableAdvanced
-              // onChangeMeasuring={this.handleOnChangeMeasuring}
+              onChangeMeasuring={this.handleOnChangeMeasuringAdvanced}
               isEdit={this.props.isEdit}
               lang={this.props.lang}
               form={this.props.form}
@@ -1126,10 +1134,14 @@ export default class StationAutoForm extends React.PureComponent {
               onChangeStandardsVN={this.onChangeStandardsVN}
               standardsVN={get(
                 this.state.standardsVNObject,
-                'measuringList',
+                'measuringListAdvanced',
                 []
               )}
-              dataSource={[]}
+              dataSource={
+                this.state.measuringListAdvanced
+                  ? this.state.measuringListAdvanced
+                  : []
+              }
               measuringListSource={this.getMeasuringListAdvanced()}
             />
           </Panel>
