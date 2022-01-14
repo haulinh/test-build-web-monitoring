@@ -51,6 +51,7 @@ export default class MinutesDataSearch extends React.Component {
     standards: [],
     standardObjectList: [],
     loadingData: false,
+    qcvnSelected: [],
     loadingSummary: false,
     loadingExport: false,
   }
@@ -94,7 +95,10 @@ export default class MinutesDataSearch extends React.Component {
     const { stationKey, rangesDate, ...queryParams } = this.getQueryParam(
       valuesForm
     )
-    this.setState({ loadingData: true, loadingSummary: true })
+    this.setState({
+      loadingData: true,
+      loadingSummary: true,
+    })
 
     const over1Year =
       moment(queryParams.to).diff(moment(queryParams.from), 'year') > 1
@@ -167,10 +171,15 @@ export default class MinutesDataSearch extends React.Component {
     }
   }
 
-  onChangeQcvn = standards => {
-    this.setState({ standards }, () => {
-      this.handleOnSearch()
+  onChangeQcvn = (standards, listQcvn) => {
+    // const { onChangeQcvn } = this.props
+    const qcvnSelected = standards.map(key => {
+      return {
+        ...listQcvn.find(qcvn => qcvn.key === key),
+      }
     })
+
+    this.setState({ standards, qcvnSelected })
   }
 
   handleOnFetchSuccessQCVN = standardObjectList => {
@@ -189,6 +198,7 @@ export default class MinutesDataSearch extends React.Component {
       totalItem,
       loadingExport,
       standards,
+      qcvnSelected,
       standardObjectList,
     } = this.state
 
@@ -256,6 +266,7 @@ export default class MinutesDataSearch extends React.Component {
         </Row>
 
         <TabList
+          qcvnSelected={qcvnSelected}
           loadingExport={loadingExport}
           exportExcel={this.exportExcel}
           totalItem={totalItem}

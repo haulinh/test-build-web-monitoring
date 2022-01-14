@@ -34,6 +34,7 @@ export default class TabeList extends React.PureComponent {
       exportExcel,
       loadingExport,
       standards,
+      qcvnSelected,
       standardObjectList,
     } = this.props
     return (
@@ -67,6 +68,7 @@ export default class TabeList extends React.PureComponent {
           </Tabs.TabPane>
           <Tabs.TabPane tab={translate('dataSearchFrom.tab.chart')} key="2">
             <TabChart
+              qcvnSelected={qcvnSelected}
               measuringList={measuringList}
               dataStationAuto={dataStationAuto}
               nameChart={'ga'}

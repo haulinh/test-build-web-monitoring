@@ -1,18 +1,21 @@
-import React from 'react'
-import { autobind } from 'core-decorators'
-import styled from 'styled-components'
-import ReactHighcharts from 'react-highcharts/ReactHighstock'
-import * as _ from 'lodash'
-import PropTypes from 'prop-types'
-import { translate } from 'hoc/create-lang'
-import moment from 'moment-timezone'
+import { Tabs } from 'antd'
+import { DATETIME_LABEL_FORMAT } from 'constants/chart-format'
+import { DD_MM_YYYY_HH_MM } from 'constants/format-date.js'
 import {
   FORMAT_VALUE_MEASURING,
   getFormatNumber,
 } from 'constants/format-number'
-import { DATETIME_LABEL_FORMAT } from 'constants/chart-format'
-import { DD_MM_YYYY_HH_MM } from 'constants/format-date.js'
+import { autobind } from 'core-decorators'
+import { translate } from 'hoc/create-lang'
+import * as _ from 'lodash'
+import moment from 'moment-timezone'
+import PropTypes from 'prop-types'
+import React from 'react'
+import ReactHighcharts from 'react-highcharts/ReactHighstock'
 import { connect } from 'react-redux'
+import styled from 'styled-components'
+
+const TabPane = Tabs.TabPane
 
 const TabChartWrapper = styled.div`
   justify-content: center;
@@ -27,38 +30,6 @@ const ChartWrapper = styled.div`
   flex-direction: column;
 `
 
-const Thumbnail = styled.div`
-  display: flex;
-  flex-direction: row;
-`
-
-const ThumbnailItem = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 8px 16px;
-  border-bottom: ${props => (props.selected ? 2 : 0)}px solid blue;
-`
-
-const Line = styled.div`
-  height: 2px;
-  width: 7px;
-  margin-right: 4px;
-  background-color: ${props => props.color || 'transparent'};
-`
-
-const colors = [
-  '#058DC0',
-  '#50B432',
-  '#7D5611',
-  '#DDDF00',
-  '#24CBE8',
-  '#64E572',
-  '#FF9655',
-  '#FFF26f',
-  '#6AF9C0',
-]
 ReactHighcharts.Highcharts.wrap(
   ReactHighcharts.Highcharts.RangeSelector.prototype,
   'drawInput',
@@ -101,7 +72,6 @@ export default class TabChart extends React.PureComponent {
     const seriesData = {}
     const mesureList = measuringList.map((measure, index) => {
       const { name, key, minLimit, maxLimit } = measuresObj[measure]
-      const color = _.get(colors, [index], 'yellow')
       seriesData[key] = {
         name,
         data: [],
@@ -109,13 +79,10 @@ export default class TabChart extends React.PureComponent {
         minLimit: minLimit,
         maxLimit: maxLimit,
         threshold: _.isNumber(maxLimit) ? maxLimit : 10000000,
-        negativeColor: color,
-        color: 'red',
       }
       return {
         code: key,
         ...measuresObj[measure],
-        color,
       }
     })
 
@@ -150,17 +117,18 @@ export default class TabChart extends React.PureComponent {
       })
     })
 
-    mesureList.unshift({ code: '__ALL__', name: translate('chart.all') })
+    mesureList.unshift({ code: 'all', name: translate('chart.all') })
     if (isInit) {
       this.state = {
         seriesData,
         mesureList,
+        seriesMeasure: [],
         plotLines: [],
         minChart: undefined,
         maxChart: undefined,
         nameChart: '',
         series: _.values(seriesData),
-        measureCurrent: '__ALL__',
+        measureCurrent: 'all',
         heightChart,
       }
     } else {
@@ -174,29 +142,86 @@ export default class TabChart extends React.PureComponent {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentDidUpdate(prevProps) {
     if (
-      !_.isEqual(this.props.dataStationAuto, nextProps.dataStationAuto) ||
-      !_.isEqual(this.props.measuringData, nextProps.measuringData)
+      !_.isEqual(this.props.dataStationAuto, prevProps.dataStationAuto) ||
+      !_.isEqual(this.props.measuringData, prevProps.measuringData) ||
+      !_.isEqual(this.props.qcvnSelected, prevProps.qcvnSelected)
     ) {
-      this.initData(nextProps)
+      this.initData(this.props)
+      this.setState({
+        measureCurrent: 'all',
+      })
     }
   }
 
-  hanldleMeasureChange = measureCurrent => {
+  //convert data measuringList[] to measuringList{}
+  convertDataQcvn = () => {
+    const { qcvnSelected } = this.props
+
+    const newDataQcvn = qcvnSelected.map(qcvn => {
+      const measureObj = qcvn.measuringList.reduce((base, current) => {
+        return {
+          ...base,
+          [current.key]: current,
+        }
+      }, {})
+
+      return {
+        ...qcvn,
+        measuringList: measureObj,
+      }
+    })
+    return newDataQcvn
+  }
+
+  //get data qcvn measure selected
+  getDataQcvn = measureCurrent => {
+    let qcvnList = this.convertDataQcvn()
+
+    qcvnList = qcvnList.map(qcvn => {
+      const measuringList = qcvn.measuringList[measureCurrent]
+      if (!measuringList) return null
+
+      return {
+        name: qcvn.name,
+        id: qcvn._id,
+        maxLimit: _.get(measuringList, 'maxLimit'),
+        minLimit: _.get(measuringList, 'minLimit'),
+      }
+    })
+
+    qcvnList = qcvnList.filter(qcvn => qcvn)
+
+    return qcvnList
+  }
+
+  handleMeasureChange = measureCurrent => {
     let series = []
     let plotLines = []
     let minChart = undefined
     let maxChart = undefined
     let nameChart = ''
-    if (measureCurrent === '__ALL__') {
+
+    this.setState({
+      measureCurrent,
+    })
+
+    if (measureCurrent === 'all') {
       series = _.values(this.state.seriesData)
       nameChart = this.props.nameChart
     } else {
       let dataSeries = _.get(this.state.seriesData, [measureCurrent], {})
-      // dataSeries.negativeColor = '#058DC7'
+      dataSeries = {
+        ...dataSeries,
+        marker: {
+          enabled: true,
+        },
+      }
+
       const minLimit = _.get(dataSeries, 'minLimit')
       series = [dataSeries]
+
       if (_.isNumber(minLimit)) {
         let data = _.clone(dataSeries) //_.get(this.state.seriesData, [measureCurrent], {})
         _.update(data, 'threshold', () => minLimit)
@@ -204,6 +229,48 @@ export default class TabChart extends React.PureComponent {
         _.update(data, 'negativeColor', () => 'red')
         series.push(data)
       }
+
+      // draw line qcvn
+      const qcvnList = this.getDataQcvn(measureCurrent)
+
+      //type line qcvn
+      const lineQcvn = {
+        type: 'line',
+        marker: {
+          enabled: false,
+        },
+        enableMouseTracking: false,
+        dataLabels: {
+          enabled: false,
+        },
+      }
+
+      qcvnList.forEach(qcvn => {
+        const data = dataSeries.data
+
+        //add line qcvn minLimit & maxLimit
+        if (qcvn.maxLimit || qcvn.maxLimit === 0)
+          series = [
+            ...series,
+            {
+              ...lineQcvn,
+              id: qcvn.id,
+              name: qcvn.name,
+              data: data.map(dataItem => [dataItem[0], qcvn.maxLimit]),
+            },
+          ]
+
+        if (qcvn.minLimit || qcvn.minLimit === 0)
+          series = [
+            ...series,
+            {
+              ...lineQcvn,
+              id: qcvn.id,
+              name: qcvn.name,
+              data: data.map(dataItem => [dataItem[0], qcvn.minLimit]),
+            },
+          ]
+      })
 
       minChart = _.get(this.state.heightChart, [measureCurrent, 'minChart'])
       maxChart = _.get(this.state.heightChart, [measureCurrent, 'maxChart']) //_.get(dataSeries,'minLimit', undefined)
@@ -234,7 +301,6 @@ export default class TabChart extends React.PureComponent {
       ]
     }
     this.setState({
-      measureCurrent,
       series,
       plotLines,
       minChart,
@@ -252,16 +318,17 @@ export default class TabChart extends React.PureComponent {
     nameChart,
     maxChart
   ) => {
-    console.log(series, '--series--')
     return {
       chart: {
         type: 'line',
         width: width - 160,
         zoomType: 'x',
       },
+
       credits: {
         enabled: false,
       },
+
       rangeSelector: {
         enabled: true,
         buttons: [],
@@ -271,22 +338,35 @@ export default class TabChart extends React.PureComponent {
         inputDateFormat: '%d/%m/%Y %k:%M',
         inputBoxWidth: 120,
       },
+
+      //change color chart zoom
+      plotOptions: {
+        series: {
+          fillColor: 'red',
+        },
+      },
+
       navigation: {
         buttonOptions: {
           enabled: false,
         },
       },
+
       title: {
         text: nameChart, //this.props.nameChart
       },
+
       yAxis: {
         min: minChart,
         max: maxChart,
         plotLines,
-        title: {
-          text: '',
-        },
       },
+
+      //add legend chart
+      legend: {
+        enabled: true,
+      },
+
       // dùng để custom hiển thị
       tooltip: {
         formatter: function() {
@@ -304,10 +384,13 @@ export default class TabChart extends React.PureComponent {
         },
         split: true,
       },
+
       series,
+
       xAxis: {
         dateTimeLabelFormats: DATETIME_LABEL_FORMAT,
       },
+
       navigator: {
         xAxis: {
           dateTimeLabelFormats: DATETIME_LABEL_FORMAT,
@@ -323,6 +406,8 @@ export default class TabChart extends React.PureComponent {
   }
 
   render() {
+    const { measureCurrent, mesureList } = this.state
+
     return (
       <TabChartWrapper>
         <ChartWrapper innerRef={ref => (this.chartWrapper = ref)}>
@@ -338,22 +423,16 @@ export default class TabChart extends React.PureComponent {
               )}
             />
           )}
-          <Thumbnail>
-            {this.state.mesureList.map(({ name, code, color, unit }) => (
-              <ThumbnailItem
-                onClick={() => this.hanldleMeasureChange(code)}
-                selected={this.state.measureCurrent === code}
-                color={color}
-                key={code}
-                code={code}
-              >
-                <Line color={color} />
-                {unit !== '' && code !== '__ALL__'
-                  ? `${name} (${unit})`
-                  : `${name}`}
-              </ThumbnailItem>
+
+          <Tabs
+            onChange={this.handleMeasureChange}
+            activeKey={measureCurrent}
+            style={{ width: '90%' }}
+          >
+            {mesureList.map(({ name, code, unit }) => (
+              <TabPane tab={`${name} ${unit ? `(${unit})` : ''}`} key={code} />
             ))}
-          </Thumbnail>
+          </Tabs>
         </ChartWrapper>
       </TabChartWrapper>
     )
