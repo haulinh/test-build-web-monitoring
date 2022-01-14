@@ -214,7 +214,6 @@ export default class TabChart extends React.PureComponent {
       let dataSeries = _.get(this.state.seriesData, [measureCurrent], {})
       dataSeries = {
         ...dataSeries,
-        fillColor: 'red',
         marker: {
           enabled: true,
         },
@@ -251,19 +250,26 @@ export default class TabChart extends React.PureComponent {
 
         //add line qcvn minLimit & maxLimit
         if (qcvn.maxLimit || qcvn.maxLimit === 0)
-          series.push({
-            ...lineQcvn,
-            id: qcvn.id,
-            name: qcvn.name,
-            data: data.map(dataItem => [dataItem[0], qcvn.maxLimit]),
-          })
+          series = [
+            ...series,
+            {
+              ...lineQcvn,
+              id: qcvn.id,
+              name: qcvn.name,
+              data: data.map(dataItem => [dataItem[0], qcvn.maxLimit]),
+            },
+          ]
+
         if (qcvn.minLimit || qcvn.minLimit === 0)
-          series.push({
-            ...lineQcvn,
-            id: qcvn.id,
-            name: qcvn.name,
-            data: data.map(dataItem => [dataItem[0], qcvn.minLimit]),
-          })
+          series = [
+            ...series,
+            {
+              ...lineQcvn,
+              id: qcvn.id,
+              name: qcvn.name,
+              data: data.map(dataItem => [dataItem[0], qcvn.minLimit]),
+            },
+          ]
       })
 
       minChart = _.get(this.state.heightChart, [measureCurrent, 'minChart'])
