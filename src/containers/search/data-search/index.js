@@ -179,7 +179,7 @@ export default class MinutesDataSearch extends React.Component {
       }
     })
 
-    this.setState({ standards, qcvnSelected, selectAllMeasure: true })
+    this.setState({ standards, qcvnSelected })
   }
 
   handleOnFetchSuccessQCVN = standardObjectList => {
@@ -200,7 +200,6 @@ export default class MinutesDataSearch extends React.Component {
       standards,
       qcvnSelected,
       standardObjectList,
-      selectAllMeasure,
     } = this.state
 
     const measuringList = this.searchFormRef.current
@@ -267,7 +266,6 @@ export default class MinutesDataSearch extends React.Component {
         </Row>
 
         <TabList
-          selectAll={selectAllMeasure}
           qcvnSelected={qcvnSelected}
           loadingExport={loadingExport}
           exportExcel={this.exportExcel}

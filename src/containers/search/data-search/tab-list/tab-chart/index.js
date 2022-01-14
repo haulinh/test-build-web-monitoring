@@ -30,17 +30,6 @@ const ChartWrapper = styled.div`
   flex-direction: column;
 `
 
-const colors = [
-  '#058DC0',
-  '#50B432',
-  '#7D5611',
-  '#DDDF00',
-  '#24CBE8',
-  '#64E572',
-  '#FF9655',
-  '#FFF26f',
-  '#6AF9C0',
-]
 ReactHighcharts.Highcharts.wrap(
   ReactHighcharts.Highcharts.RangeSelector.prototype,
   'drawInput',
