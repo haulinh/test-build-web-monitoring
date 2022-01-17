@@ -9,7 +9,7 @@ export function getFormatNumber(value, numberToFixed = FORMAT_VALUE_MEASURING) {
       minimumFractionDigits: numberToFixed,
       maximumFractionDigits: numberToFixed,
     })
-    return value === 0 ? '0' : tempNumber
+    return tempNumber
   } else {
     return '-'
   }
