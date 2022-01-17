@@ -9,6 +9,7 @@ import React from 'react'
 import styled from 'styled-components'
 import TabChart from './tab-chart/index'
 import TabTableDataList from './tab-table-data-list/index'
+import { connect } from 'react-redux'
 
 const TabeListWrapper = styled(BoxShadow)`
   padding: 0px 16px 16px 16px;
@@ -22,7 +23,20 @@ const ButtonAbsolute = styled.div`
 `
 
 @autobind
+@connect(state => ({
+  stationAutoList: state.stationAuto.list,
+}))
 export default class TabeList extends React.PureComponent {
+  getStationCurrent = () => {
+    const { stationKey, stationAutoList } = this.props
+    if (!stationKey) return
+
+    const stationAutoCurrent = stationAutoList.find(
+      station => station.key === stationKey
+    )
+    return stationAutoCurrent
+  }
+
   render() {
     const {
       loading,
@@ -34,9 +48,13 @@ export default class TabeList extends React.PureComponent {
       exportExcel,
       loadingExport,
       standards,
+      stationKey,
       qcvnSelected,
       standardObjectList,
     } = this.props
+
+    const stationAutoCurrent = this.getStationCurrent()
+
     return (
       <TabeListWrapper>
         <Clearfix height={16} />
@@ -68,10 +86,11 @@ export default class TabeList extends React.PureComponent {
           </Tabs.TabPane>
           <Tabs.TabPane tab={translate('dataSearchFrom.tab.chart')} key="2">
             <TabChart
+              stationKey={stationKey}
               qcvnSelected={qcvnSelected}
               measuringList={measuringList}
               dataStationAuto={dataStationAuto}
-              nameChart={'ga'}
+              stationAutoCurrent={stationAutoCurrent}
             />
           </Tabs.TabPane>
         </Tabs>
