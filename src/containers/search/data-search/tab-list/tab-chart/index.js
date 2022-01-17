@@ -323,7 +323,7 @@ export default class TabChart extends React.PureComponent {
           plotLines = []
         }
       })
-      nameChart = `${stationAutoCurrent.name} - ${measureCurrent}`
+      nameChart = `${stationAutoCurrent.name} - ${measure.name}`
       minChart = _.get(this.state.heightChart, [measureCurrent, 'minChart'])
       maxChart = _.get(this.state.heightChart, [measureCurrent, 'maxChart']) //_.get(dataSeries,'minLimit', undefined)
     } else {
