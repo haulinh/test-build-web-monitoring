@@ -59,7 +59,7 @@ export default class TabChart extends React.PureComponent {
     getChart: PropTypes.func,
     dataStationAuto: PropTypes.array,
     measuringData: PropTypes.array,
-    nameChart: PropTypes.string,
+    stationAutoCurrent: PropTypes.object,
   }
 
   constructor(props) {
@@ -119,17 +119,21 @@ export default class TabChart extends React.PureComponent {
 
     mesureList.unshift({ code: 'all', name: translate('chart.all') })
     if (isInit) {
+      const { stationAutoCurrent } = this.props
+
       this.state = {
         seriesData,
         mesureList,
         seriesMeasure: [],
         plotLines: [],
+        nameChart: stationAutoCurrent.name,
         minChart: undefined,
         maxChart: undefined,
-        nameChart: '',
         series: _.values(seriesData),
         measureCurrent: 'all',
         heightChart,
+        dataQcvn: [],
+        stationAutoCurrent: {},
       }
     } else {
       this.setState({
@@ -143,15 +147,19 @@ export default class TabChart extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps) {
+    const { stationAutoCurrent } = this.props
     if (
       !_.isEqual(this.props.dataStationAuto, prevProps.dataStationAuto) ||
-      !_.isEqual(this.props.measuringData, prevProps.measuringData) ||
-      !_.isEqual(this.props.qcvnSelected, prevProps.qcvnSelected)
+      !_.isEqual(this.props.measuringData, prevProps.measuringData)
     ) {
       this.initData(this.props)
       this.setState({
         measureCurrent: 'all',
+        nameChart: stationAutoCurrent.name,
       })
+    }
+    if (!_.isEqual(this.props.qcvnSelected, prevProps.qcvnSelected)) {
+      this.handleDrawChart()
     }
   }
 
@@ -196,21 +204,29 @@ export default class TabChart extends React.PureComponent {
     return qcvnList
   }
 
-  handleMeasureChange = measureCurrent => {
+  // getPilotLine = measure => {
+  //   const { qcvnSelected } = this.props
+
+  //   let plotLines = []
+
+  //   if (_.isEmpty(qcvnSelected)) {
+
+  //   }
+
+  //   return plotLines
+  // }
+
+  handleDrawChart = () => {
+    const { stationAutoCurrent } = this.props
+    const { measureCurrent } = this.state
+
     let series = []
-    let plotLines = []
     let minChart = undefined
     let maxChart = undefined
-    let nameChart = ''
+    let plotLines = []
+    let nameChart = stationAutoCurrent.name
 
-    this.setState({
-      measureCurrent,
-    })
-
-    if (measureCurrent === 'all') {
-      series = _.values(this.state.seriesData)
-      nameChart = this.props.nameChart
-    } else {
+    if (measureCurrent !== 'all') {
       let dataSeries = _.get(this.state.seriesData, [measureCurrent], {})
       dataSeries = {
         ...dataSeries,
@@ -218,6 +234,10 @@ export default class TabChart extends React.PureComponent {
           enabled: true,
         },
       }
+
+      const measure = stationAutoCurrent.measuringList.find(
+        measure => measure.key === measureCurrent
+      )
 
       const minLimit = _.get(dataSeries, 'minLimit')
       series = [dataSeries]
@@ -245,11 +265,39 @@ export default class TabChart extends React.PureComponent {
         },
       }
 
+      plotLines = [
+        {
+          value: _.get(measure, 'minLimit', undefined),
+          color: '#ff6666',
+          dashStyle: 'shortDot',
+          width: 1,
+          zIndex: 100,
+          label: {
+            text: translate(`dashboard.chartStatus.min`, {
+              min: _.get(measure, 'minLimit', ''),
+            }),
+            y: 13,
+          },
+        },
+        {
+          value: _.get(measure, 'maxLimit', undefined),
+          color: '#ff6666',
+          dashStyle: 'shortDot',
+          width: 1,
+          zIndex: 100,
+          label: {
+            text: translate(`dashboard.chartStatus.max`, {
+              max: _.get(measure, 'maxLimit', ''),
+            }),
+          },
+        },
+      ]
+
       qcvnList.forEach(qcvn => {
         const data = dataSeries.data
 
         //add line qcvn minLimit & maxLimit
-        if (qcvn.maxLimit || qcvn.maxLimit === 0)
+        if (qcvn.maxLimit || qcvn.maxLimit === 0) {
           series = [
             ...series,
             {
@@ -259,8 +307,10 @@ export default class TabChart extends React.PureComponent {
               data: data.map(dataItem => [dataItem[0], qcvn.maxLimit]),
             },
           ]
+          plotLines = []
+        }
 
-        if (qcvn.minLimit || qcvn.minLimit === 0)
+        if (qcvn.minLimit || qcvn.minLimit === 0) {
           series = [
             ...series,
             {
@@ -270,42 +320,22 @@ export default class TabChart extends React.PureComponent {
               data: data.map(dataItem => [dataItem[0], qcvn.minLimit]),
             },
           ]
+          plotLines = []
+        }
       })
-
+      nameChart = `${stationAutoCurrent.name} - ${measureCurrent}`
       minChart = _.get(this.state.heightChart, [measureCurrent, 'minChart'])
       maxChart = _.get(this.state.heightChart, [measureCurrent, 'maxChart']) //_.get(dataSeries,'minLimit', undefined)
-      nameChart = `${this.props.nameChart} - ${measureCurrent}`
-      plotLines = [
-        {
-          value: _.get(dataSeries, 'minLimit', undefined),
-          color: 'red',
-          dashStyle: 'shortdash',
-          width: 2,
-          label: {
-            text: translate(`dashboard.chartStatus.min`, {
-              min: _.get(dataSeries, 'minLimit', ''),
-            }),
-          },
-        },
-        {
-          value: _.get(dataSeries, 'maxLimit', undefined),
-          color: 'red',
-          dashStyle: 'shortdash',
-          width: 1,
-          label: {
-            text: translate(`dashboard.chartStatus.max`, {
-              max: _.get(dataSeries, 'maxLimit', ''),
-            }),
-          },
-        },
-      ]
+    } else {
+      series = _.values(this.state.seriesData)
+      nameChart = stationAutoCurrent.name
     }
     this.setState({
       series,
-      plotLines,
-      minChart,
       nameChart,
+      minChart,
       maxChart,
+      plotLines,
     })
   }
 
@@ -340,11 +370,6 @@ export default class TabChart extends React.PureComponent {
       },
 
       //change color chart zoom
-      plotOptions: {
-        series: {
-          fillColor: 'red',
-        },
-      },
 
       navigation: {
         buttonOptions: {
@@ -397,6 +422,15 @@ export default class TabChart extends React.PureComponent {
         },
       },
     }
+  }
+
+  handleMeasureChange = measureCurrent => {
+    this.setState(
+      {
+        measureCurrent,
+      },
+      () => this.handleDrawChart()
+    )
   }
 
   componentDidMount() {

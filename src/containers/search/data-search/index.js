@@ -91,6 +91,14 @@ export default class MinutesDataSearch extends React.Component {
     return measuringList || []
   }
 
+  getStationAuto = () => {
+    const stationKey = this.searchFormRef.current.getFieldValue(
+      fields.stationKey
+    )
+
+    return stationKey || ''
+  }
+
   handleOnSearch = async valuesForm => {
     const { stationKey, rangesDate, ...queryParams } = this.getQueryParam(
       valuesForm
@@ -172,7 +180,6 @@ export default class MinutesDataSearch extends React.Component {
   }
 
   onChangeQcvn = (standards, listQcvn) => {
-    // const { onChangeQcvn } = this.props
     const qcvnSelected = standards.map(key => {
       return {
         ...listQcvn.find(qcvn => qcvn.key === key),
@@ -205,6 +212,7 @@ export default class MinutesDataSearch extends React.Component {
     const measuringList = this.searchFormRef.current
       ? this.getMeasuringList()
       : []
+    const stationKey = this.searchFormRef.current ? this.getStationAuto() : ''
 
     return (
       <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
@@ -271,6 +279,7 @@ export default class MinutesDataSearch extends React.Component {
           exportExcel={this.exportExcel}
           totalItem={totalItem}
           page={page}
+          stationKey={stationKey}
           standards={standards}
           standardObjectList={standardObjectList}
           setPage={this.setPage}
