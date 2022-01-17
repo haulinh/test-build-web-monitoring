@@ -7,7 +7,6 @@ import { PATH_FOLDER } from 'constants/media'
 import { removeAccents, translate } from 'hoc/create-lang'
 import { get as _get } from 'lodash'
 import moment from 'moment'
-import PropTypes from 'prop-types'
 import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
@@ -16,6 +15,7 @@ import swal from 'sweetalert2'
 import { isContainSpecialCharacter } from 'utils/string'
 import { v4 as uuidV4 } from 'uuid'
 import { isLimitSize } from 'utils'
+import { updateLastImageStation } from 'api/StationAuto'
 
 const Wrapper = styled(Row)`
   /* min-height: 500px; */
@@ -97,12 +97,6 @@ const uploadProps = {
   userInfo: state.auth.userInfo,
 }))
 export default class ImageMoreInfo extends React.Component {
-  static propTypes = {
-    stationID: PropTypes.string,
-    language: PropTypes.string,
-  }
-  static defaultProps = {}
-
   state = {
     visible: false,
     station: {},
@@ -157,11 +151,11 @@ export default class ImageMoreInfo extends React.Component {
 
   getUrlImage(imageName) {
     const { userInfo, stationKey } = this.props
-    const databaseName = userInfo.organization.databaseInfo.name.replace(
-      /_/g,
-      ''
-    )
-    return `${MediaApi.getUrlImage()}/${databaseName}/${stationKey}/${imageName}`
+    const databaseName = userInfo.organization.databaseInfo.name
+      .replace(/_/g, '')
+      .toLowerCase()
+
+    return `${MediaApi.getUrlImage()}/${databaseName}/${stationKey}/Photos/${imageName}`
   }
 
   handleViewGalleryClick = index => () => {
@@ -201,7 +195,7 @@ export default class ImageMoreInfo extends React.Component {
     )
   }
 
-  customRequest = ({
+  customRequest = async ({
     action,
     data,
     file,
@@ -214,8 +208,8 @@ export default class ImageMoreInfo extends React.Component {
   }) => {
     // console.log('DEBUG filename', file.name)
     // console.log('DEBUG file type', file.type)
+    const { stationID } = this.props
 
-    console.log(file.name)
     const databaseName = getDatabaseName(
       this.props.userInfo.organization.databaseInfo.name
     )
@@ -236,23 +230,22 @@ export default class ImageMoreInfo extends React.Component {
       },
     }
 
-    axios.get(generatePutUrl, options).then(res => {
-      const { data: putURL } = res
-      axios
-        .put(putURL, file, {
-          headers: {
-            'Content-Type': file.type,
-          },
-        })
-        .then(res => {
-          onSuccess(res, file)
-          this.fetchData()
-        })
-        .catch(err => {
-          onError()
-          console.log('err', err)
-        })
-    })
+    const { data: putURL } = await axios.get(generatePutUrl, options)
+    try {
+      const res = await axios.put(putURL, file, {
+        headers: {
+          'Content-Type': file.type,
+        },
+      })
+      onSuccess(res, file)
+      this.fetchData()
+
+      const urlImage = this.getUrlImage(fileNameUpload)
+      await updateLastImageStation(stationID, urlImage)
+    } catch (error) {
+      onError()
+      console.log('err', error)
+    }
   }
 
   renderHeader = () => (
@@ -289,6 +282,8 @@ export default class ImageMoreInfo extends React.Component {
 
   render() {
     const images = this.state.newItems
+    const { stationID } = this.props
+    console.log({ stationID })
     return (
       <React.Fragment>
         {this.renderHeader()}
