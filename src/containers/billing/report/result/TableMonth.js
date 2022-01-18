@@ -5,6 +5,7 @@ import moment from 'moment'
 import React from 'react'
 import { translate as t } from 'hoc/create-lang'
 import { formatCurrency } from 'utils/string'
+import { getFormatNumber } from 'constants/format-number'
 
 const i18n = () => ({
   stt: t('billing.table.month.stt'),
@@ -35,9 +36,7 @@ export default function TableMonth({ resultReport = {} }) {
     {
       title: i18n().flow,
       dataIndex: 'total',
-      render: value => (
-        <div>{value && formatCurrency(Number(value.flow.toFixed(3)))}</div>
-      ),
+      render: value => <div>{value && getFormatNumber(value.flow, 2)}</div>,
       align: 'center',
     },
     {
@@ -49,11 +48,8 @@ export default function TableMonth({ resultReport = {} }) {
         align: 'center',
         render: value => {
           const valueMeasure = _.get(value, `${measure.key}.value`)
-          return (
-            <div>
-              {valueMeasure && formatCurrency(Number(valueMeasure))}
-            </div>
-          )
+          console.log({ valueMeasure })
+          return <div>{getFormatNumber(valueMeasure, 2)}</div>
         },
       })),
     },
@@ -87,7 +83,7 @@ export default function TableMonth({ resultReport = {} }) {
               <b>{i18n().sum}</b>
             </td>
             <td style={{ textAlign: 'center' }}>
-              <b>{totalFlow && formatCurrency(Number(totalFlow.toFixed(3)))}</b>
+              <b>{totalFlow && getFormatNumber(totalFlow, 2)}</b>
             </td>
             {[...Array(measuringList.length * 2).keys()].map(() => (
               <td></td>

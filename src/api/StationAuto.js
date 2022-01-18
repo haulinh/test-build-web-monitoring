@@ -140,6 +140,11 @@ export function getDashboardInfo(params) {
   return getFetch(getConfigApi().mobile + '/stations-dashboard', params)
 }
 
+export const updateLastImageStation = (stationId, image) => {
+  const url = `${getConfigApi().mobile}/stations/${stationId}`
+  return postFetch(url, { image })
+}
+
 export default {
   transferFtp,
   getCamera,
@@ -161,4 +166,5 @@ export default {
   updateStationAutoOptions,
   tranferBonusFTP,
   getTotalCount_by_province,
+  updateLastImageStation,
 }

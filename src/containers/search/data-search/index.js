@@ -51,6 +51,7 @@ export default class MinutesDataSearch extends React.Component {
     standards: [],
     standardObjectList: [],
     loadingData: false,
+    qcvnSelected: [],
     loadingSummary: false,
     loadingExport: false,
   }
@@ -90,11 +91,22 @@ export default class MinutesDataSearch extends React.Component {
     return measuringList || []
   }
 
+  getStationAuto = () => {
+    const stationKey = this.searchFormRef.current.getFieldValue(
+      fields.stationKey
+    )
+
+    return stationKey || ''
+  }
+
   handleOnSearch = async valuesForm => {
     const { stationKey, rangesDate, ...queryParams } = this.getQueryParam(
       valuesForm
     )
-    this.setState({ loadingData: true, loadingSummary: true })
+    this.setState({
+      loadingData: true,
+      loadingSummary: true,
+    })
 
     const over1Year =
       moment(queryParams.to).diff(moment(queryParams.from), 'year') > 1
@@ -167,10 +179,14 @@ export default class MinutesDataSearch extends React.Component {
     }
   }
 
-  onChangeQcvn = standards => {
-    this.setState({ standards }, () => {
-      this.handleOnSearch()
+  onChangeQcvn = (standards, listQcvn) => {
+    const qcvnSelected = standards.map(key => {
+      return {
+        ...listQcvn.find(qcvn => qcvn.key === key),
+      }
     })
+
+    this.setState({ standards, qcvnSelected })
   }
 
   handleOnFetchSuccessQCVN = standardObjectList => {
@@ -189,12 +205,14 @@ export default class MinutesDataSearch extends React.Component {
       totalItem,
       loadingExport,
       standards,
+      qcvnSelected,
       standardObjectList,
     } = this.state
 
     const measuringList = this.searchFormRef.current
       ? this.getMeasuringList()
       : []
+    const stationKey = this.searchFormRef.current ? this.getStationAuto() : ''
 
     return (
       <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
@@ -256,10 +274,12 @@ export default class MinutesDataSearch extends React.Component {
         </Row>
 
         <TabList
+          qcvnSelected={qcvnSelected}
           loadingExport={loadingExport}
           exportExcel={this.exportExcel}
           totalItem={totalItem}
           page={page}
+          stationKey={stationKey}
           standards={standards}
           standardObjectList={standardObjectList}
           setPage={this.setPage}

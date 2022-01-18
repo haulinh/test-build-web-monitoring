@@ -82,20 +82,14 @@ class ReportData extends Component {
 
   async onClickExport() {
     this.setState({ isLoadingExport: true })
-    const { qcvns, paramFilter } = this.props
+    const { language, paramFilter } = this.props
     const paramExport = {
       ...paramFilter,
-      qcvnKeys: qcvns.map(qcvn => qcvn._id).join(','),
-      name: `${moment(paramFilter.from).format(DD_MM_YYYY_HH_MM)} - ${moment(
-        paramFilter.to
-      ).format(DD_MM_YYYY_HH_MM)}`,
+      lang: language
     }
 
     try {
-      const result = await dataInsightApi.exportDataInsight(
-        paramExport,
-        this.props.language
-      )
+      const result = await dataInsightApi.exportDataInsight(paramExport)
       downFileExcel(result.data, 'data-insight')
       this.setState({ isLoadingExport: false })
     } catch (error) {
@@ -193,11 +187,10 @@ class ReportData extends Component {
               <Tabs onChange={this.onChangeMeasure} activeKey={measure}>
                 {this.getMeasures().sort((a,b) => a.localeCompare(b)).map(measure => (
                   <TabPane
-                    tab={`${measuringList[measure].name} ${
-                      measuringList[measure].unit
-                        ? `(${measuringList[measure].unit})`
-                        : ''
-                    }`}
+                    tab={`${measuringList[measure].name} ${measuringList[measure].unit
+                      ? `(${measuringList[measure].unit})`
+                      : ''
+                      }`}
                     key={measure}
                   />
                 ))}

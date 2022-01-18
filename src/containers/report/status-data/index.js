@@ -10,7 +10,7 @@ import {
 import moment from 'moment-timezone'
 import { DD_MM_YYYY, DD_MM_YYYY_HH_MM, HH_MM } from 'constants/format-date.js'
 import { Typography, Spin, Table, Divider, Button } from 'antd'
-import { get as _get } from 'lodash'
+import _, { get as _get } from 'lodash'
 import Clearfix from 'components/elements/clearfix'
 import { getFormatNumber, ROUND_DIGIT } from 'constants/format-number'
 import { connect } from 'react-redux'
@@ -362,7 +362,7 @@ export default class StatusDataReport extends React.Component {
                 <div style={{ textAlign: 'center' }}>
                   {analyze.map((item, index) => (
                     <div key={item.key}>
-                      <span>{!isNaN(item.count) ? item.count : '-'}</span>
+                      <span>{getFormatNumber(item.count, 2)}</span>
                       {index !== analyze.length - 1 && (
                         <Divider style={{ margin: 0 }} />
                       )}
@@ -414,8 +414,8 @@ export default class StatusDataReport extends React.Component {
                   {value.map((item, index) => (
                     <div key={item.key}>
                       <span>
-                        {!isNaN(item.totalVuotNguong)
-                          ? item.totalVuotNguong
+                        {_.isNumber(item.totalVuotNguong)
+                          ? getFormatNumber(item.totalVuotNguong, 2)
                           : '-'}
                       </span>
                       {index !== value.length - 1 && (

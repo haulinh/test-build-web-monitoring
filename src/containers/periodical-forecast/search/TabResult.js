@@ -6,6 +6,7 @@ import React from 'react'
 import { translate as t } from 'hoc/create-lang'
 import protectRole from 'hoc/protect-role'
 import ROLE from 'constants/role'
+import { getFormatNumber } from 'constants/format-number'
 
 const { TabPane } = Tabs
 
@@ -67,7 +68,7 @@ const TableStation = ({ data, station, loading }) => {
       align: 'center',
       dataIndex: 'measureValue',
       render: value => {
-        return <div>{value}</div>
+        return <div>{getFormatNumber(value, 2)}</div>
       },
     },
     {
@@ -75,7 +76,7 @@ const TableStation = ({ data, station, loading }) => {
       align: 'center',
       dataIndex: 'alarmLevelI',
       render: value => {
-        return <div>{value}</div>
+        return <div>{getFormatNumber(value, 2)}</div>
       },
     },
     {
@@ -83,7 +84,7 @@ const TableStation = ({ data, station, loading }) => {
       align: 'center',
       dataIndex: 'alarmLevelII',
       render: value => {
-        return <div>{value}</div>
+        return <div>{getFormatNumber(value, 2)}</div>
       },
     },
     {
@@ -91,7 +92,7 @@ const TableStation = ({ data, station, loading }) => {
       align: 'center',
       dataIndex: 'alarmLevelIII',
       render: value => {
-        return <div>{value}</div>
+        return <div>{getFormatNumber(value, 2)}</div>
       },
     },
     {
