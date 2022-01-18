@@ -89,11 +89,9 @@ const TableDataDate = ({ data, loading, ...props }) => {
         key: `data.${column - 1}-over-value`,
         dataIndex: `data.${column - 1}`,
         render: value => {
-          return (
-            <div>
-              {getFormatNumber(_.get(value, '[0].value', '-'), ROUND_DIGIT)}
-            </div>
-          )
+          if (_.isEmpty(value)) return <div>-</div>
+
+          return <div>{getFormatNumber(_.get(value, '[0].value', '-'), 2)}</div>
         },
       },
     ],
@@ -157,14 +155,14 @@ const TableDataDate = ({ data, loading, ...props }) => {
           width: 80,
           align: 'right',
           dataIndex: 'avg',
-          render: value => <div>{!_.isNumber(value) ? value : '-'}</div>,
+          render: value => <div>{getFormatNumber(value, 2)}</div>,
         },
         {
           title: i18n().max_value,
           width: 120,
           align: 'right',
           dataIndex: 'max',
-          render: value => <div>{!_.isNumber(value) ? value : '-'}</div>,
+          render: value => <div>{getFormatNumber(value, 2)}</div>,
         },
       ],
     },

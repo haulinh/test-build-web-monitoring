@@ -1,4 +1,5 @@
 import { Empty, Table } from 'antd'
+import { getFormatNumber } from 'constants/format-number'
 import { translate as t } from 'hoc/create-lang'
 import _ from 'lodash'
 import React from 'react'
@@ -49,15 +50,15 @@ const TableYear = ({ data, loading, ...props }) => {
       dataStation.length > 0
         ? dataStation
         : [
-          {
-            stationTypeKey: _.get(current.station, 'stationType.key'),
-            station: current.station,
-            key: `${current.station.key}`,
-            measure: emptySign,
-            spanMerge: 1,
-            indexMerge: true,
-          },
-        ]
+            {
+              stationTypeKey: _.get(current.station, 'stationType.key'),
+              station: current.station,
+              key: `${current.station.key}`,
+              measure: emptySign,
+              spanMerge: 1,
+              indexMerge: true,
+            },
+          ]
 
     return [...base, ...dataStation]
   }, [])
@@ -83,9 +84,11 @@ const TableYear = ({ data, loading, ...props }) => {
       },
     },
     {
-      title: i18n().param, width: 90, render: (value, record) => {
+      title: i18n().param,
+      width: 90,
+      render: (value, record) => {
         return _.get(record, 'qcvn.name', '-')
-      }
+      },
     },
     {
       title: i18n().qcvn,
@@ -124,33 +127,35 @@ const TableYear = ({ data, loading, ...props }) => {
       align: 'right',
       width: 120,
       dataIndex: 'numDay24hExceed',
-      render: value => <div>{_.isNumber(value) ? value : '-'}</div>,
+      render: value => <div>{getFormatNumber(value, 2)}</div>,
     },
     {
       title: i18n().numday1h,
       align: 'right',
       width: 120,
       dataIndex: 'numDay1hExceed',
-      render: value => <div>{_.isNumber(value) ? value : '-'}</div>,
+      render: value => <div>{getFormatNumber(value, 2)}</div>,
     },
     {
       title: i18n().numrecord1h,
       align: 'right',
       dataIndex: 'numRecord1hExceed',
       width: 110,
-      render: value => <div>{_.isNumber(value) ? value : '-'}</div>,
+      render: value => <div>{getFormatNumber(value, 2)}</div>,
     },
     {
       title: i18n().rate,
       align: 'right',
       width: 120,
       dataIndex: 'rate',
-      render: value => <div>{value ? value : '-'}</div>,
+      render: value => <div>{getFormatNumber(value, 2)}</div>,
     },
     // ...columnsExceed,
   ]
 
-  const dataSourceSort = dataSource.sort((a, b) => a.stationTypeKey.localeCompare(b.stationTypeKey))
+  const dataSourceSort = dataSource.sort((a, b) =>
+    a.stationTypeKey.localeCompare(b.stationTypeKey)
+  )
 
   return (
     <Table

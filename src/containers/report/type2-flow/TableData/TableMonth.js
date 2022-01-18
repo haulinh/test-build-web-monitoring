@@ -2,6 +2,7 @@ import React from 'react'
 import { Table } from 'antd'
 import { translate as t } from 'hoc/create-lang'
 import _ from 'lodash'
+import { getFormatNumber } from 'constants/format-number'
 
 function TableMonth({ data, loading }) {
   if (_.isEmpty(data)) {
@@ -27,8 +28,8 @@ function TableMonth({ data, loading }) {
     render: value => {
       const dataDay = _.keyBy(value, '_id')
       const data = dataDay[day]
-      if (_.isEmpty(data.value)) return '-'
-      return data.value
+
+      return <div>{getFormatNumber(data.value, 2)}</div>
     },
   }))
 

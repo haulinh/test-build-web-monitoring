@@ -4,6 +4,7 @@ import _ from 'lodash'
 import { translate as t } from 'hoc/create-lang'
 import moment from 'moment-timezone'
 import { FIELDS } from '../index'
+import { getFormatNumber } from 'constants/format-number'
 
 function TableDate({ data, loading, form, measuresObj }) {
   if (_.isEmpty(data)) {
@@ -101,7 +102,7 @@ function TableDate({ data, loading, form, measuresObj }) {
       title: getTitleValue(),
       dataIndex: 'value',
       align: 'right',
-      render: value => <div>{!value ? '-' : value}</div>,
+      render: value => <div>{getFormatNumber(value, 2)}</div>,
     },
   ]
 
