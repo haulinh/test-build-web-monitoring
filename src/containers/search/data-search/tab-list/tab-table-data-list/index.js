@@ -70,7 +70,7 @@ export default class TableDataList extends React.Component {
           )
         }
 
-        if (value === null || value === undefined) return <div />
+        if (value === null || value === undefined) return <div>-</div>
 
         const colorDevice = getColorStatusDevice(value.statusDevice)
 
@@ -105,7 +105,7 @@ export default class TableDataList extends React.Component {
                   minWidth: '50px',
                 }}
               >
-                {getFormatNumber(value.value, FORMAT_VALUE_MEASURING)}
+                {getFormatNumber(value.value, 2)}
               </div>
             </Tooltip>
           </div>
