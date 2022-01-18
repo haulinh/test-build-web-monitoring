@@ -191,7 +191,7 @@ class ReportData extends Component {
               <Loading />
               <Chart />
               <Tabs onChange={this.onChangeMeasure} activeKey={measure}>
-                {this.getMeasures().map(measure => (
+                {this.getMeasures().sort((a,b) => a.localeCompare(b)).map(measure => (
                   <TabPane
                     tab={`${measuringList[measure].name} ${
                       measuringList[measure].unit
