@@ -1,6 +1,6 @@
 import { Table } from 'antd'
 import { DD_MM_YYYY } from 'constants/format-date'
-import { formatNumber, getFormatNumber } from 'constants/format-number'
+import { getFormatNumber } from 'constants/format-number'
 import { translate } from 'hoc/create-lang'
 import _ from 'lodash'
 import get from 'lodash/get'
@@ -76,9 +76,7 @@ export default function TableMonth({
       align: 'center',
       render: value => {
         return (
-          <div style={{ textAlign: 'right' }}>
-            {_.isNumber(value) ? getFormatNumber(value, 2) : '-'}
-          </div>
+          <div style={{ textAlign: 'right' }}>{getFormatNumber(value, 2)}</div>
         )
       },
     },
@@ -88,9 +86,7 @@ export default function TableMonth({
       align: 'right',
       render: value => {
         return (
-          <div style={{ textAlign: 'right' }}>
-            {_.isNumber(value) ? getFormatNumber(value, 2) : '-'}
-          </div>
+          <div style={{ textAlign: 'right' }}>{getFormatNumber(value, 2)}</div>
         )
       },
     },

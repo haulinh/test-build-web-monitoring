@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { translate as t } from 'hoc/create-lang'
 import moment from 'moment'
 import { colorLevels } from 'constants/warningLevels'
+import { getFormatNumber } from 'constants/format-number'
 
 class DataTable extends Component {
   columns = lenght => [
@@ -101,7 +102,10 @@ class DataTable extends Component {
                         : undefined,
                   }}
                 >
-                  {record.data[key] ? record.data[key][dataType] : '-'}
+                  {/* {record.data[key] ? record.data[key][dataType] : '-'} */}
+                  {record.data[key]
+                    ? getFormatNumber(record.data[key][dataType], 2)
+                    : '-'}
                 </div>
               </Tooltip>
             )
