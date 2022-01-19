@@ -1,9 +1,6 @@
-import React from 'react'
-import { translate } from 'hoc/create-lang'
-import { autobind } from 'core-decorators'
 import { Table, Tooltip } from 'antd'
-import _, { get as _get } from 'lodash'
-import moment from 'moment/moment'
+import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
+import { getFormatNumber } from 'constants/format-number'
 // import { SHAPE } from 'themes/color'
 import {
   colorLevels,
@@ -12,14 +9,14 @@ import {
   // getcolorMeasure,
   getColorStatusDevice,
 } from 'constants/warningLevels'
-import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
+import { autobind } from 'core-decorators'
+import { translate } from 'hoc/create-lang'
+import _, { get as _get } from 'lodash'
+import moment from 'moment/moment'
+import React from 'react'
 import { connect } from 'react-redux'
-import {
-  FORMAT_VALUE_MEASURING,
-  getFormatNumber,
-} from 'constants/format-number'
-import { ITEM_PER_PAGE } from '../../index'
 import { v4 as uuidV4 } from 'uuid'
+import { ITEM_PER_PAGE } from '../../index'
 
 const COLOR = {
   EXCEEDED_PREPARING: colorLevels.EXCEEDED_TENDENCY,

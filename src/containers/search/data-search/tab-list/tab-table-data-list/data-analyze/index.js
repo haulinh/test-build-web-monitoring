@@ -6,7 +6,6 @@ import {
   getFormatNumber,
 } from 'constants/format-number'
 import { translate } from 'hoc/create-lang'
-import _ from 'lodash'
 import moment from 'moment/moment'
 import React from 'react'
 import { connect } from 'react-redux'
