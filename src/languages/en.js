@@ -4289,7 +4289,7 @@ export default {
       time: 'Time',
     },
     typeRatio: {
-      titleExport: 'Report__Percentage Of Obtained Data_{{=it.time}}',
+      titleExport: 'Report__Percentage Of Obtained Data_',
       notUpdate: 'Not updated',
     },
     type2: {
