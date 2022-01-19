@@ -265,33 +265,34 @@ export default class TabChart extends React.PureComponent {
         },
       }
 
-      plotLines = [
-        {
-          value: _.get(measure, 'minLimit', undefined),
-          color: '#ff6666',
-          dashStyle: 'shortDot',
-          width: 1,
-          zIndex: 100,
-          label: {
-            text: translate(`dashboard.chartStatus.min`, {
-              min: _.get(measure, 'minLimit', ''),
-            }),
-            y: 13,
-          },
-        },
-        {
-          value: _.get(measure, 'maxLimit', undefined),
-          color: '#ff6666',
-          dashStyle: 'shortDot',
-          width: 1,
-          zIndex: 100,
-          label: {
-            text: translate(`dashboard.chartStatus.max`, {
-              max: _.get(measure, 'maxLimit', ''),
-            }),
-          },
-        },
-      ]
+      //draw line maxLimit minLimit
+      // plotLines = [
+      //   {
+      //     value: _.get(measure, 'minLimit', undefined),
+      //     color: '#ff6666',
+      //     dashStyle: 'shortDot',
+      //     width: 1,
+      //     zIndex: 100,
+      //     label: {
+      //       text: translate(`dashboard.chartStatus.min`, {
+      //         min: _.get(measure, 'minLimit', ''),
+      //       }),
+      //       y: 13,
+      //     },
+      //   },
+      //   {
+      //     value: _.get(measure, 'maxLimit', undefined),
+      //     color: '#ff6666',
+      //     dashStyle: 'shortDot',
+      //     width: 1,
+      //     zIndex: 100,
+      //     label: {
+      //       text: translate(`dashboard.chartStatus.max`, {
+      //         max: _.get(measure, 'maxLimit', ''),
+      //       }),
+      //     },
+      //   },
+      // ]
 
       qcvnList.forEach(qcvn => {
         const data = dataSeries.data
@@ -323,7 +324,7 @@ export default class TabChart extends React.PureComponent {
           plotLines = []
         }
       })
-      nameChart = `${stationAutoCurrent.name} - ${measureCurrent}`
+      nameChart = `${stationAutoCurrent.name} - ${measure.name}`
       minChart = _.get(this.state.heightChart, [measureCurrent, 'minChart'])
       maxChart = _.get(this.state.heightChart, [measureCurrent, 'maxChart']) //_.get(dataSeries,'minLimit', undefined)
     } else {
@@ -369,7 +370,12 @@ export default class TabChart extends React.PureComponent {
         inputBoxWidth: 120,
       },
 
-      //change color chart zoom
+      // change color chart zoom
+      plotOptions: {
+        series: {
+          fillColor: 'red',
+        },
+      },
 
       navigation: {
         buttonOptions: {
