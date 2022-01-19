@@ -1,12 +1,12 @@
 import { Empty, Table } from 'antd'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
+import { getFormatNumber } from 'constants/format-number'
+import { translate as t } from 'hoc/create-lang'
+import _ from 'lodash'
 import moment from 'moment-timezone'
 import React from 'react'
-import _ from 'lodash'
 import { connect } from 'react-redux'
 import { getDurationTime } from 'utils/datetime'
-import { translate as t } from 'hoc/create-lang'
-import { getFormatNumber, ROUND_DIGIT } from 'constants/format-number'
 
 const i18n = () => ({
   station: t('report.type1_exceed.table.station'),
