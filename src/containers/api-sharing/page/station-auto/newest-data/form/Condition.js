@@ -189,7 +189,7 @@ export default class Condition extends React.Component {
                 <SelectStationAuto
                   disabled={this.isDisable(FIELDS.STATION_AUTO)}
                   mode="multiple"
-                  fieldValue="_id"
+                  fieldFilter="_id"
                   province={province}
                   stationType={stationType}
                   onChangeObject={this.setStationAutoSelected}
