@@ -117,7 +117,13 @@ class TableDate extends React.Component {
       title: i18n().header2,
       align: 'right',
       render: () => {
-        return <div>{getFormatNumber(this.props.dataFrequency, 2)}</div>
+        return (
+          <div>
+            {_.isNumber(this.props.dataFrequency)
+              ? this.props.dataFrequency
+              : '-'}
+          </div>
+        )
       },
     },
     {
@@ -125,7 +131,7 @@ class TableDate extends React.Component {
       dataIndex: 'totalDesign',
       align: 'right',
       render: value => {
-        return <div>{getFormatNumber(value, 2)}</div>
+        return <div>{_.isNumber(value) ? value : '-'}</div>
       },
     },
     {
@@ -133,7 +139,7 @@ class TableDate extends React.Component {
       dataIndex: 'totalFact',
       align: 'right',
       render: value => {
-        return <div>{getFormatNumber(value, 2)}</div>
+        return <div>{_.isNumber(value) ? value : '-'}</div>
       },
     },
     {
