@@ -156,7 +156,7 @@ export default class ReportType10 extends React.Component {
         timeType === 'month'
           ? moment(param.from).format('MMYYYY')
           : moment(param.from).format('DDMMYYYY')
-      console.log({ fromFormat })
+
       const toFormat =
         timeType === 'month'
           ? moment(param.to).format('MMYYYY')
