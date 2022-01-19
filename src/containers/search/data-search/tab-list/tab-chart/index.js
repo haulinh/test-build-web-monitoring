@@ -266,33 +266,33 @@ export default class TabChart extends React.PureComponent {
       }
 
       //draw line maxLimit minLimit
-      // plotLines = [
-      //   {
-      //     value: _.get(measure, 'minLimit', undefined),
-      //     color: '#ff6666',
-      //     dashStyle: 'shortDot',
-      //     width: 1,
-      //     zIndex: 100,
-      //     label: {
-      //       text: translate(`dashboard.chartStatus.min`, {
-      //         min: _.get(measure, 'minLimit', ''),
-      //       }),
-      //       y: 13,
-      //     },
-      //   },
-      //   {
-      //     value: _.get(measure, 'maxLimit', undefined),
-      //     color: '#ff6666',
-      //     dashStyle: 'shortDot',
-      //     width: 1,
-      //     zIndex: 100,
-      //     label: {
-      //       text: translate(`dashboard.chartStatus.max`, {
-      //         max: _.get(measure, 'maxLimit', ''),
-      //       }),
-      //     },
-      //   },
-      // ]
+      plotLines = [
+        {
+          value: _.get(measure, 'minLimit', undefined),
+          color: '#ff6666',
+          dashStyle: 'shortDot',
+          width: 1,
+          zIndex: 100,
+          label: {
+            text: translate(`dashboard.chartStatus.min`, {
+              min: _.get(measure, 'minLimit', ''),
+            }),
+            y: 13,
+          },
+        },
+        {
+          value: _.get(measure, 'maxLimit', undefined),
+          color: '#ff6666',
+          dashStyle: 'shortDot',
+          width: 1,
+          zIndex: 100,
+          label: {
+            text: translate(`dashboard.chartStatus.max`, {
+              max: _.get(measure, 'maxLimit', ''),
+            }),
+          },
+        },
+      ]
 
       qcvnList.forEach(qcvn => {
         const data = dataSeries.data
