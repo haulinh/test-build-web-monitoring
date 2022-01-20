@@ -237,7 +237,7 @@ export default class StationAutoFormTableAdvanced extends React.Component {
               rule: {
                 whitespace: true,
               },
-            })(<Input style={{ width: '100%' }} />)}
+            })(<Input disabled={true} style={{ width: '100%' }} />)}
           </FormItem>
         ),
       },
@@ -339,10 +339,10 @@ export default class StationAutoFormTableAdvanced extends React.Component {
               <Row type="flex" style={{ color: '#1890FF' }} align="middle">
                 <Button
                   type="link"
-                  style={{ fontWeight: 500, fontSize: '16px' }}
+                  style={{ fontWeight: 500, fontSize: '14px' }}
                   onClick={this.handleAddRow}
                 >
-                  <Icon type="plus" style={{ marginRight: 5 }} />
+                  <Icon type="plus" />
                   {i18n().addMeasuring}
                 </Button>
               </Row>
@@ -397,9 +397,22 @@ export default class StationAutoFormTableAdvanced extends React.Component {
         if (this.props.onChangeMeasuring) {
           this.setState({
             measuringListAdvanced: measuringListAdvancedFilter,
+            measuringOptionsAdvanced: this.getOptions(
+              this.state.measuringListAdvanced
+            ),
           })
           this.props.onChangeMeasuring(measuringListAdvancedFilter)
         }
+      }
+      if (
+        JSON.stringify(prevProps.measuringListSource) !==
+        JSON.stringify(this.props.measuringListSource)
+      ) {
+        this.setState({
+          measuringOptionsAdvanced: this.getOptions(
+            this.state.measuringListAdvanced
+          ),
+        })
       }
     }
   }

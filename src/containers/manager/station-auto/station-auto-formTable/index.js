@@ -1,4 +1,4 @@
-import { Button, Form, Icon, Input, Popconfirm, Select, Table, Row } from 'antd'
+import { Button, Form, Icon, Input, Popconfirm, Row, Select, Table } from 'antd'
 import AutoCompleteCell from 'components/elements/auto-complete-cell'
 import { autobind } from 'core-decorators'
 import { translate } from 'hoc/create-lang'
@@ -121,12 +121,13 @@ export default class StationAutoFormTable extends React.Component {
   }
 
   isDisableDeleteButton = keyMeasure => {
+    const { measuringListAdvanced } = this.props
     let measuringSelected
-    if (this.props.measuringListAdvanced) {
-      this.props.measuringListAdvanced.map(element => {
+    if (measuringListAdvanced) {
+      measuringListAdvanced.map(element => {
         if (element.key === keyMeasure) measuringSelected = element
       })
-      return this.props.measuringListAdvanced.includes(measuringSelected)
+      return measuringListAdvanced.includes(measuringSelected)
     }
     return false
   }
@@ -519,10 +520,10 @@ export default class StationAutoFormTable extends React.Component {
               <Row type="flex" style={{ color: '#1890FF' }} align="middle">
                 <Button
                   type="link"
-                  style={{ fontWeight: 500, fontSize: '16px' }}
+                  style={{ fontWeight: 500, fontSize: '14px' }}
                   onClick={this.handleAddRow}
                 >
-                  <Icon type="plus" style={{ marginRight: 5 }} />
+                  <Icon type="plus" />
                   {translate('stationAutoManager.addMeasuring.label')}
                 </Button>
               </Row>
@@ -538,8 +539,6 @@ export default class StationAutoFormTable extends React.Component {
       item => item.key === value
     )
 
-    let itemQCVN = this.props.standardsVN.find(item => item.key === value)
-
     this.setState(
       update(this.state, {
         measuringList: {
@@ -547,11 +546,51 @@ export default class StationAutoFormTable extends React.Component {
             key: { $set: value },
             name: { $set: measure.name },
             unit: { $set: measure.unit },
-            maxLimit: { $set: itemQCVN ? itemQCVN.maxLimit : null },
-            minLimit: { $set: itemQCVN ? itemQCVN.minLimit : null },
           },
         },
-      })
+      }),
+      () => {
+        let indexChange
+        let measuringListAdvancedChanged
+
+        const { measuringListAdvanced, form, measuringListSource } = this.props
+        const { measuringList } = this.state
+
+        const measuringListSourceAdvanced = measuringListSource.filter(
+          measure =>
+            measuringList.some(measuring => measuring.key === measure.key)
+        )
+
+        if (measuringListAdvanced) {
+          measuringListAdvancedChanged = measuringListAdvanced.filter(
+            measuringAdvanced => {
+              return measuringList.every(
+                measuring => measuring.key !== measuringAdvanced.key
+              )
+            }
+          )
+
+          measuringListAdvancedChanged.forEach(value => {
+            const index = measuringListAdvanced.indexOf(value)
+            indexChange = index
+            measuringListAdvanced[index].key = undefined
+            measuringListAdvanced[index].unit = undefined
+          })
+        }
+        setTimeout(() => {
+          form.setFieldsValue({
+            [`measuringListAdvanced[${indexChange}]`]: {
+              name: undefined,
+              nameCalculate: undefined,
+            },
+          })
+        })
+
+        this.props.onChangeMeasuring(
+          this.props.form.getFieldValue('measuringList'),
+          measuringListSourceAdvanced
+        )
+      }
     )
   }
 
@@ -576,6 +615,7 @@ export default class StationAutoFormTable extends React.Component {
           this.setState({
             measuringList: A,
           })
+
           this.props.onChangeMeasuring(A)
         }
       }
