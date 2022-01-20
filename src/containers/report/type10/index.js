@@ -59,7 +59,7 @@ export default class ReportType10 extends React.Component {
       to: '',
       stationAutos: [],
       visableModal: false,
-      langExport: 'vi'
+      langExport: 'vi',
     }
     this.tabStationRef = React.createRef()
   }
@@ -113,14 +113,15 @@ export default class ReportType10 extends React.Component {
           params[FIELDS.TIME_TYPE] === 'month' ? MM_YYYY : DD_MM_YYYY
         ),
       })
-    } catch (error) { }
+    } catch (error) {}
   }
 
   getDetailTitle = () => {
     const { dataSearch, from, to } = this.state
     const type = dataSearch[FIELDS.TIME_TYPE]
     const title = translate(
-      `avgSearchFrom.table.${type === 'month' ? 'descriptionRatioMonth' : 'descriptionRatioDate'
+      `avgSearchFrom.table.${
+        type === 'month' ? 'descriptionRatioMonth' : 'descriptionRatioDate'
       }`,
       {
         from,
@@ -132,7 +133,9 @@ export default class ReportType10 extends React.Component {
   }
 
   hanldeExcel = async () => {
-    const { lang: { translateManual } } = this.props
+    const {
+      lang: { translateManual },
+    } = this.props
     this.setState({
       isLoadingExcel: true,
     })
@@ -146,7 +149,7 @@ export default class ReportType10 extends React.Component {
 
       this.setState({
         isLoadingExcel: false,
-        visableModal: false
+        visableModal: false,
       })
 
       const fromFormat =
@@ -158,39 +161,49 @@ export default class ReportType10 extends React.Component {
         timeType === 'month'
           ? moment(param.to).format('MMYYYY')
           : moment(param.to).format('DDMMYYYY')
-      downFileExcel(
-        res.data,
-        translateManual('report.typeRatio.titleExport', {
-          time: `${fromFormat}_${toFormat}`,
-        }, null, this.state.langExport)
+
+      const titleName = translateManual(
+        'report.typeRatio.titleExport',
+        null,
+        null,
+        this.state.langExport
       )
-    } catch (error) { }
+
+      downFileExcel(res.data, `${titleName}${fromFormat}_${toFormat}`)
+    } catch (error) {}
   }
 
   handleOkModal = e => {
     this.setState({
-      visableModal: true
-    });
-  };
+      visableModal: true,
+    })
+  }
 
   handleCancelModal = e => {
     this.setState({
       isLoadingExcel: false,
-      visableModal: false
-    });
-  };
+      visableModal: false,
+    })
+  }
 
   onChangeModal = e => {
     this.setState({
       langExport: e.target.value,
-    });
+    })
   }
 
   resetData = () => this.setState({ dataSource: [] })
   setStationAutos = stationAutos => this.setState({ stationAutos })
 
   render() {
-    const { dataSource, isLoading, dataSearch, stationAutos, visableModal, langExport } = this.state
+    const {
+      dataSource,
+      isLoading,
+      dataSearch,
+      stationAutos,
+      visableModal,
+      langExport,
+    } = this.state
     const stationKeys = dataSearch.stationKeys
       ? dataSearch.stationKeys.split(',')
       : []
@@ -235,7 +248,13 @@ export default class ReportType10 extends React.Component {
           )}
         </div>
         <Clearfix height={8} />
-        <ModalLangExport showModal={visableModal} handleOkModal={this.hanldeExcel} handleCancelModal={this.handleCancelModal} onChangeModal={this.onChangeModal} langExport={langExport} />
+        <ModalLangExport
+          showModal={visableModal}
+          handleOkModal={this.hanldeExcel}
+          handleCancelModal={this.handleCancelModal}
+          onChangeModal={this.onChangeModal}
+          langExport={langExport}
+        />
         <TableMonth
           hidden={type !== 'month'}
           dataSource={dataSource}

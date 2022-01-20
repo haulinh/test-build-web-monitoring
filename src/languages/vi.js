@@ -4301,7 +4301,7 @@ export default {
       time: 'Thời gian',
     },
     typeRatio: {
-      titleExport: 'Bao Cao Ty Le Du Lieu Thu Duoc_{{=it.time}}',
+      titleExport: 'Bao Cao Ty Le Du Lieu Thu Duoc_',
       notUpdate: 'Chưa cập nhật',
     },
     type2: {
