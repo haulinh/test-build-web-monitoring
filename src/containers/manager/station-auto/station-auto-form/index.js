@@ -417,10 +417,27 @@ export default class StationAutoForm extends React.PureComponent {
         return false
       })
 
+      const isDisableSaveAdvanced = data.measuringListAdvanced.some(
+        measuringAdvanced => {
+          if (measuringAdvanced.name === '') {
+            message.error('Bạn chưa chọn thông số nâng cao')
+            return true
+          }
+          return false
+        }
+      )
+
       // Callback submit form Container Component
       console.log('--onSubmit---', data)
-      if (!isDisableSave && this.props.onSubmit) {
+      if (!isDisableSave && !isDisableSaveAdvanced && this.props.onSubmit) {
         this.props.onSubmit(data)
+        data.measuringListAdvanced.forEach((measuringAdvanced, index) => {
+          this.props.form.setFieldsValue({
+            [`measuringListAdvanced[${index}]`]: {
+              nameCalculate: measuringAdvanced.nameCalculate.trim(),
+            },
+          })
+        })
       }
     })
   }
@@ -566,7 +583,10 @@ export default class StationAutoForm extends React.PureComponent {
       },
     }
 
-    console.log('activeKey---------->', this.state.tabKey)
+    console.log(
+      'measuringListAdvanced---------->',
+      this.state.measuringListAdvanced
+    )
 
     return (
       <Form onSubmit={this.handleSubmit}>

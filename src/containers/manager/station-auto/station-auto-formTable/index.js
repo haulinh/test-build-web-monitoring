@@ -343,9 +343,25 @@ export default class StationAutoFormTable extends React.Component {
 
   removeMeasuring(index) {
     this.state.measuringList.splice(index, 1)
-    this.setState({
-      measuringOptions: this.getOptions(this.state.measuringList),
-    })
+    this.setState(
+      {
+        measuringOptions: this.getOptions(this.state.measuringList),
+      },
+      () => {
+        const { measuringListSource } = this.props
+        const { measuringList } = this.state
+
+        const measuringListSourceAdvanced = measuringListSource.filter(
+          measure =>
+            measuringList.some(measuring => measuring.key === measure.key)
+        )
+
+        this.props.onChangeMeasuring(
+          this.props.form.getFieldValue('measuringList'),
+          measuringListSourceAdvanced
+        )
+      }
+    )
     this.forceUpdate()
   }
 
