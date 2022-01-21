@@ -120,7 +120,7 @@ export default class ImageMoreInfo extends React.Component {
     }))
   }
 
-  fetchData = async () => {
+  fetchData = async callback => {
     const { userInfo, stationKey } = this.props
     const databaseName = getDatabaseName(
       userInfo.organization.databaseInfo.name
@@ -141,11 +141,14 @@ export default class ImageMoreInfo extends React.Component {
       )
       .sort((a, b) => moment(b.lastModified) - moment(a.lastModified))
 
-    this.setState({
-      newImages: data,
-      newItems: this.getNewImages(dataSorted),
-      loading: false,
-    })
+    this.setState(
+      {
+        newImages: data,
+        newItems: this.getNewImages(dataSorted),
+        loading: false,
+      },
+      () => callback && callback()
+    )
   }
 
   getUrlImage(imageName) {
@@ -167,13 +170,22 @@ export default class ImageMoreInfo extends React.Component {
   }
 
   handleDeleteImage = name => async () => {
-    const { userInfo, stationKey } = this.props
+    const { userInfo, stationKey, stationID } = this.props
 
     const databaseName = getDatabaseName(
       userInfo.organization.databaseInfo.name
     )
-    await deleteImage(databaseName, stationKey, name)
-    this.fetchData()
+
+    console.log({ name })
+
+    try {
+      await deleteImage(databaseName, stationKey, name)
+      await this.fetchData(() => {
+        const { newItems } = this.state
+        const urlImage = _.get(newItems, [0, 'original'])
+        updateLastImageStation(stationID, urlImage)
+      })
+    } catch (error) {}
   }
 
   beforeUpload = file => {
