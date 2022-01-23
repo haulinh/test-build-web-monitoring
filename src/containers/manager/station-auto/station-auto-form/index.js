@@ -533,7 +533,17 @@ export default class StationAutoForm extends React.PureComponent {
     })
   }
 
-  handleOnChangeMeasuring = (dataMeasuring, dataMeasuringSource) => {
+  handleOnChangeMeasuring = (
+    dataMeasuring,
+    dataMeasuringSource,
+    dataMeasuringAdvanced
+  ) => {
+    if (dataMeasuringAdvanced) {
+      this.setState({
+        measuringList: dataMeasuring,
+        measuringListAdvanced: dataMeasuringAdvanced,
+      })
+    }
     if (dataMeasuringSource) {
       this.setState({
         measuringList: dataMeasuring,

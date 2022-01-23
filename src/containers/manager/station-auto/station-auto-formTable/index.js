@@ -250,7 +250,12 @@ export default class StationAutoFormTable extends React.Component {
               rule: {
                 whitespace: true,
               },
-            })(<Input style={{ width: 120 }} />)}
+            })(
+              <Input
+                onChange={value => this.handleOnChangeUnit(value, index)}
+                style={{ width: 120 }}
+              />
+            )}
           </FormItem>
         ),
       },
@@ -608,6 +613,42 @@ export default class StationAutoFormTable extends React.Component {
         )
       }
     )
+  }
+
+  handleOnChangeUnit = (value, index) => {
+    let indexOfUnitChange
+    let measuringUnitChange
+    if (this.props.measuringListAdvanced.length > 0) {
+      measuringUnitChange = this.props.measuringListAdvanced.filter(
+        measuringAdvanced =>
+          measuringAdvanced.key === this.state.measuringList[index].key
+      )
+
+      this.props.measuringListAdvanced.forEach((measuringAdvanced, index) => {
+        if (
+          measuringUnitChange.some(value => value.key === measuringAdvanced.key)
+        ) {
+          indexOfUnitChange = index
+        }
+      })
+    }
+
+    setTimeout(() => {
+      this.props.measuringListAdvanced[
+        indexOfUnitChange
+      ].unit = this.props.form.getFieldValue(`measuringList[${index}].unit`)
+    })
+    console.log(
+      'measuringListAdvanced----------->',
+      this.props.measuringListAdvanced
+    )
+    this.props.onChangeMeasuring(
+      this.props.form.getFieldValue('measuringList'),
+      this.props.measuringListAdvanced
+    )
+    // this.props.form.setFieldsValue({
+    //   [`measuringListAdvanced[${indexOfUnitChange}].unit`]: value,
+    // })
   }
 
   componentDidUpdate(prevProps, prevState) {
