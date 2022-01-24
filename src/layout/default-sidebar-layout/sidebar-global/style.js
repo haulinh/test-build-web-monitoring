@@ -15,7 +15,7 @@ export const SidebarGlobal = {
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    height: 100%;
+    height: calc(100vh - ${props => props.height || 0}px);
     position: fixed;
     left: 0px;
     right: 0px;
