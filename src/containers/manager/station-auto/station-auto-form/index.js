@@ -420,7 +420,7 @@ export default class StationAutoForm extends React.PureComponent {
       const isDisableSaveAdvanced = data.measuringListAdvanced.some(
         measuringAdvanced => {
           if (measuringAdvanced.name === '') {
-            message.error('Bạn chưa chọn thông số nâng cao')
+            message.error(t('stationAutoManager.form.errorAdvancedParameter'))
             return true
           }
           return false
@@ -592,11 +592,6 @@ export default class StationAutoForm extends React.PureComponent {
         sm: { span: 17, offset: 0 },
       },
     }
-
-    console.log(
-      'measuringListAdvanced---------->',
-      this.state.measuringListAdvanced
-    )
 
     return (
       <Form onSubmit={this.handleSubmit}>
@@ -1173,7 +1168,7 @@ export default class StationAutoForm extends React.PureComponent {
                 />
               )}
           </Panel>
-          <Panel header="Thông số nâng cao" key="4">
+          <Panel header={t('stationAutoManager.form.panel4')} key="4">
             <MeasuringTableAdvanced
               onChangeMeasuring={this.handleOnChangeMeasuringAdvanced}
               isEdit={this.props.isEdit}

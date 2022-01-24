@@ -1738,6 +1738,7 @@ export default {
       panel1: 'Station Information',
       panel2: 'Other Information',
       panel3: 'Monitoring parameters',
+      panel4: 'Advanced Parameters',
       website: {
         label: 'Website',
         placeholder: 'Website',
@@ -1960,6 +1961,8 @@ export default {
         label: 'Calculation Function',
       },
       popConfirm: 'Please Confirm To Delete',
+      indexCalculation: 'Index calculation',
+      errorAdvancedParameter: "You haven't selected advanced parameters yet",
     },
     range: {
       label: 'Station Range',

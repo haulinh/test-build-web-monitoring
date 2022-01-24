@@ -1738,6 +1738,7 @@ export default {
       panel1: 'Thông tin trạm',
       panel2: 'Thông tin khác',
       panel3: 'Thông số quan trắc',
+      panel4: 'Thông số nâng cao',
       website: {
         label: 'Website',
         placeholder: 'Website',
@@ -1960,6 +1961,8 @@ export default {
         label: 'Hàm tính toán',
       },
       popConfirm: 'Bạn chắc chắn xóa dữ liệu?',
+      indexCalculation: 'Tính toán chỉ số',
+      errorAdvancedParameter: 'Bạn chưa chọn thông số nâng cao',
     },
     range: {
       label: 'Dải đo',
