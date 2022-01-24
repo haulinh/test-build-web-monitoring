@@ -189,9 +189,7 @@ export default class FormTableMeasureCondition extends Component {
         align: 'center',
         render: (value, record, index) => {
           const { conditions } = this.state
-          const { type } = this.props
-          const isDisabled =
-            type === 'create' ? conditions.length > 1 : index > 0
+          const isDisabled = conditions.length > 1
           return (
             <Button
               type="link"

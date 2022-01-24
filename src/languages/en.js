@@ -1738,6 +1738,7 @@ export default {
       panel1: 'Station Information',
       panel2: 'Other Information',
       panel3: 'Monitoring parameters',
+      panel4: 'Advanced Parameters',
       website: {
         label: 'Website',
         placeholder: 'Website',
@@ -1900,7 +1901,7 @@ export default {
         label: 'Measuring Device Limit',
       },
       measuringKey: {
-        label: 'Parameter code',
+        label: 'Parameter Code',
         placeholder: 'Input Parameter Code',
         error: 'Please Input Parameter Code',
       },
@@ -1953,6 +1954,15 @@ export default {
       errorMinTend:
         'Tend To Exceed Min Limit Must Be Larger Than Exceeded Min Limit',
       errorMinMax: 'Min Limit Must Be Less Than Max Limit',
+      measuringNameCalculate: {
+        label: 'Calculation Parameter Name',
+      },
+      functionCalculate: {
+        label: 'Calculation Function',
+      },
+      popConfirm: 'Please Confirm To Delete',
+      indexCalculation: 'Index calculation',
+      errorAdvancedParameter: "You haven't selected advanced parameters yet",
     },
     range: {
       label: 'Station Range',

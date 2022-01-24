@@ -1738,6 +1738,7 @@ export default {
       panel1: 'Thông tin trạm',
       panel2: 'Thông tin khác',
       panel3: 'Thông số quan trắc',
+      panel4: 'Thông số nâng cao',
       website: {
         label: 'Website',
         placeholder: 'Website',
@@ -1953,6 +1954,15 @@ export default {
       errorMinTend:
         'Giới hạn chuẩn bị vượt ngưỡng tối thiểu phải lớn hơn giới hạn vượt ngưỡng tối thiếu',
       errorMinMax: 'Giới hạn tối thiểu phải nhỏ hơn giới hạn tối đa',
+      measuringNameCalculate: {
+        label: 'Tên thông số tính toán',
+      },
+      functionCalculate: {
+        label: 'Hàm tính toán',
+      },
+      popConfirm: 'Bạn chắc chắn xóa dữ liệu?',
+      indexCalculation: 'Tính toán chỉ số',
+      errorAdvancedParameter: 'Bạn chưa chọn thông số nâng cao',
     },
     range: {
       label: 'Dải đo',
