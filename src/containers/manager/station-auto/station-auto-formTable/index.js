@@ -520,7 +520,6 @@ export default class StationAutoFormTable extends React.Component {
   render() {
     const { t } = this.props.lang
     const { measuringList, isLoaded } = this.state
-
     return (
       <div>
         {isLoaded && (
@@ -552,13 +551,7 @@ export default class StationAutoFormTable extends React.Component {
   }
 
   handleChangeMeasuring = (value, index) => {
-    const {
-      measuringListSource,
-      measuringListAdvanced,
-      form,
-      onChangeMeasuring,
-    } = this.props
-    const { measuringList } = this.state
+    const { measuringListSource } = this.props
     const measure = measuringListSource.find(item => item.key === value)
 
     this.setState(
@@ -574,6 +567,14 @@ export default class StationAutoFormTable extends React.Component {
       () => {
         let indexChange
         let measuringListAdvancedChanged
+
+        const {
+          measuringListAdvanced,
+          form,
+          measuringListSource,
+          onChangeMeasuring,
+        } = this.props
+        const { measuringList } = this.state
 
         const measuringListSourceAdvanced = measuringListSource.filter(
           measure =>
@@ -596,7 +597,6 @@ export default class StationAutoFormTable extends React.Component {
             measuringListAdvanced[index].unit = undefined
           })
         }
-
         setTimeout(() => {
           form.setFieldsValue({
             [`measuringListAdvanced[${indexChange}]`]: {
@@ -615,7 +615,7 @@ export default class StationAutoFormTable extends React.Component {
   }
 
   handleOnChangeUnit = (value, index) => {
-    const { measuringListAdvanced, form, onChangeMeasuring } = this.props
+    const { measuringListAdvanced, onChangeMeasuring, form } = this.props
     const { measuringList } = this.state
     let indexOfUnitChange
     let measuringUnitChange
@@ -647,7 +647,8 @@ export default class StationAutoFormTable extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     const { isLoaded, measuringList } = this.state
-    const { form, onChangeMeasuring } = this.props
+    const { onChangeMeasuring, form } = this.props
+
     if (isLoaded) {
       let measuringListForm = form.getFieldValue('measuringList')
       if (
