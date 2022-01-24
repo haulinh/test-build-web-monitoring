@@ -53,7 +53,7 @@ class SidebarGlobalLayout extends React.PureComponent {
     ]
 
     return (
-      <SidebarGlobal.Wrapper>
+      <SidebarGlobal.Wrapper height={this.props.heightWarning}>
         <SidebarGlobal.SidebarTop>
           <a className="logo" href="/">
             <img alt="iLotusLand" src="/images/logo/logo-icon.png" />

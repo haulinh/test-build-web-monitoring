@@ -2535,6 +2535,12 @@ export default {
     totalStation: 'Tổng số trạm',
   },
   infoLicense: {
+    expireWarning: {
+      openWarning:
+        'Bản quyền iLotusland sắp hết hạn. Vui lòng gia hạn trong vòng',
+      middleWarning: '{{=it.total}} ngày',
+      endWarning: 'để quá trình sử dụng không bị gián đoạn',
+    },
     breadCrumb: 'Thông tin gói',
     title1: 'Thời gian đăng ký',
     title2: 'Số lượng tối đa để sử dụng',
@@ -2547,6 +2553,17 @@ export default {
     text6: 'Số điện thoại',
     text7: 'Email',
     dateUnlimited: 'Không giới hạn',
+    extendLicense: 'Gia hạn',
+    modal: {
+      title: 'Hỗ trợ, gia hạn sử dụng',
+      button: 'Đã hiểu',
+      body: {
+        notification:
+          'Vui lòng liên hệ thông tin dưới đây để được hỗ trợ gia hạn',
+        phone: 'Số điện thoại:',
+        email: 'Email:',
+      },
+    },
   },
   expLicenseInfo: {
     title: 'Chúng tôi rất xin lỗi',
