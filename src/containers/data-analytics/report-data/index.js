@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { Row, Col, Tabs, Spin, Button } from 'antd'
 import styled from 'styled-components'
-import moment from 'moment'
 
 import ROLE from 'constants/role'
 import dataInsightApi from 'api/DataInsight'
@@ -16,7 +15,6 @@ import ChartType, { CHART_TYPE } from './chart-type'
 import AnalyzeDataContext from '../context'
 import { downFileExcel } from 'utils/downFile'
 import { Clearfix } from 'components/elements'
-import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import { PermissionPopover } from 'hoc/protect-role'
 
 function i18n() {
@@ -82,20 +80,14 @@ class ReportData extends Component {
 
   async onClickExport() {
     this.setState({ isLoadingExport: true })
-    const { qcvns, paramFilter } = this.props
+    const { language, paramFilter } = this.props
     const paramExport = {
       ...paramFilter,
-      qcvnKeys: qcvns.map(qcvn => qcvn._id).join(','),
-      name: `${moment(paramFilter.from).format(DD_MM_YYYY_HH_MM)} - ${moment(
-        paramFilter.to
-      ).format(DD_MM_YYYY_HH_MM)}`,
+      lang: language
     }
 
     try {
-      const result = await dataInsightApi.exportDataInsight(
-        paramExport,
-        this.props.language
-      )
+      const result = await dataInsightApi.exportDataInsight(paramExport)
       downFileExcel(result.data, 'data-insight')
       this.setState({ isLoadingExport: false })
     } catch (error) {
@@ -191,13 +183,12 @@ class ReportData extends Component {
               <Loading />
               <Chart />
               <Tabs onChange={this.onChangeMeasure} activeKey={measure}>
-                {this.getMeasures().map(measure => (
+                {this.getMeasures().sort((a,b) => a.localeCompare(b)).map(measure => (
                   <TabPane
-                    tab={`${measuringList[measure].name} ${
-                      measuringList[measure].unit
-                        ? `(${measuringList[measure].unit})`
-                        : ''
-                    }`}
+                    tab={`${measuringList[measure].name} ${measuringList[measure].unit
+                      ? `(${measuringList[measure].unit})`
+                      : ''
+                      }`}
                     key={measure}
                   />
                 ))}

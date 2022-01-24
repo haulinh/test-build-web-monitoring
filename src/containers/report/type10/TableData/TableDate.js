@@ -3,6 +3,7 @@ import DataInsight from 'api/DataInsight'
 import { Clearfix } from 'components/layouts/styles'
 import { DD_MM_YYYY } from 'constants/format-date'
 import { translate } from 'hoc/create-lang'
+import { getFormatNumber } from 'constants/format-number'
 import moment from 'moment'
 import React from 'react'
 import { i18n, FIELDS } from '../index'
@@ -117,7 +118,11 @@ class TableDate extends React.Component {
       align: 'right',
       render: () => {
         return (
-          <div>{this.props.dataFrequency ? this.props.dataFrequency : '-'}</div>
+          <div>
+            {_.isNumber(this.props.dataFrequency)
+              ? this.props.dataFrequency
+              : '-'}
+          </div>
         )
       },
     },
@@ -126,7 +131,7 @@ class TableDate extends React.Component {
       dataIndex: 'totalDesign',
       align: 'right',
       render: value => {
-        return <div>{value ? value : '-'}</div>
+        return <div>{_.isNumber(value) ? value : '-'}</div>
       },
     },
     {
@@ -134,7 +139,7 @@ class TableDate extends React.Component {
       dataIndex: 'totalFact',
       align: 'right',
       render: value => {
-        return <div>{value ? value : '-'}</div>
+        return <div>{_.isNumber(value) ? value : '-'}</div>
       },
     },
     {
@@ -142,7 +147,7 @@ class TableDate extends React.Component {
       dataIndex: 'ratio',
       align: 'right',
       render: value => {
-        return <div>{value ? value : '-'}</div>
+        return <div>{getFormatNumber(value, 2)}</div>
       },
     },
   ]

@@ -9,15 +9,18 @@ import { updateNotificationOnMessage } from 'redux/actions/notification'
 import { autobind } from 'core-decorators'
 import { linkToken2Email } from 'api/NotificationApi'
 import { notification } from 'antd'
-import { deepParseJson } from 'utils/string'
+// import { deepParseJson } from 'utils/string'
 import { NOTIFY_TYPE } from 'constants/notification'
 import { translate as t } from 'hoc/create-lang'
 
-// import { deepParseJson } from 'deep-parse-json'
+import * as _ from 'lodash'
+import moment from 'moment-timezone'
+import { connect } from 'react-redux'
 
-// import { TAB_KEYS } from 'constants/notification'
-// import slug from 'constants/slug'
-// import _ from 'lodash'
+import { deepParseJson } from 'utils/string'
+import ModalContactExtend from './ModalContactExtend'
+import WarningExpiredLicense from './WarningExpiredLicense'
+
 import { setFcmToken } from 'redux/actions/authAction'
 import SidebarGlobal, { SIDEBAR_GLOBAL_WIDTH } from './sidebar-global'
 import SidebarMenu, {
@@ -98,17 +101,26 @@ const getNotificationInfo = status => {
     setFcmToken,
   }
 )
+@connect(state => ({
+  organization: _.get(state, 'auth.userInfo.organization', {}),
+}))
 @withRouter
 @autobind
 export default class DefaultSidebarLayoutContainer extends Component {
   static propTypes = {
     isShowSidebarMenu: PropTypes.bool,
+    organization: PropTypes.object,
   }
 
   constructor(props) {
     super(props)
     this.state = {
       navigationWidth: 320,
+      isWarning: true,
+      totalDays: 0,
+      phone: '',
+      email: '',
+      isShowModalExtend: false,
     }
   }
 
@@ -162,6 +174,7 @@ export default class DefaultSidebarLayoutContainer extends Component {
             this.props.stationAuto
           )
         })
+        this.handleExpireDays()
       } catch (e) {
         console.error('Notification only start witl https')
       }
@@ -205,6 +218,55 @@ export default class DefaultSidebarLayoutContainer extends Component {
       : SIDEBAR_GLOBAL_WIDTH + SIDEBAR_MENU_MINIMAL_WIDTH
   }
 
+  onClickExtend = () => {
+    this.setState({ isShowModalExtend: true })
+  }
+
+  onCloseWarning = () => {
+    this.setState({ isWarning: false })
+  }
+
+  handleCancelModalContact = () => {
+    this.setState({
+      isShowModalExtend: false,
+    })
+  }
+
+  closeModalContact = () => {
+    this.setState({
+      isShowModalExtend: false,
+    })
+  }
+
+  handleExpireDays = () => {
+    const { organization } = this.props
+    let totalDays, phone, email
+
+    if (organization) {
+      const expirationDate = _.get(
+        organization,
+        'packageInfo.contractExpiredDate'
+      )
+        ? moment(_.get(organization, 'packageInfo.contractExpiredDate'))
+        : ''
+
+      if (expirationDate) {
+        moment(expirationDate).diff(moment(), 'days') > 0
+          ? (totalDays = moment(expirationDate).diff(moment(), 'days'))
+          : (totalDays = 0)
+      }
+      phone = _.get(organization, [
+        'packageInfo',
+        'saler',
+        'phone',
+        'phoneNumber',
+      ])
+      email = _.get(organization, ['packageInfo', 'saler', 'email'])
+    }
+    const isWarning = totalDays <= 90
+    this.setState({ totalDays, isWarning, phone, email })
+  }
+
   render() {
     // const payload = {
     //   notification: {
@@ -217,18 +279,42 @@ export default class DefaultSidebarLayoutContainer extends Component {
     //     status: "SENSOR_GOOD"
     //   }
     // }
+    const HEIGHT_WARNING = 56
+    const { isWarning, totalDays, phone, email, isShowModalExtend } = this.state
+    const { organization } = this.props
+    const isShowWarningLicense =
+      isWarning && organization.packageInfo.organizationType === 'CLOUD'
     return (
-      <Wrapper allSidebarWidth={this.getAllSidebarWidth()}>
-        {/* <button onClick={() => this._showNotification(payload)}>click me</button> */}
-        <SidebarGlobal />
-        {this.props.isShowSidebarMenu && (
-          <SidebarMenu
-            onToggle={this.handleToggleSidebar}
-            isShow={this.props.navigationIsOpen}
+      <div>
+        {isShowWarningLicense && (
+          <WarningExpiredLicense
+            days={totalDays}
+            heightWarning={HEIGHT_WARNING}
+            onClick={this.onClickExtend}
+            onClose={this.onCloseWarning}
           />
         )}
-        {this.props.children}
-      </Wrapper>
+        <Wrapper allSidebarWidth={this.getAllSidebarWidth()}>
+          <SidebarGlobal
+            heightWarning={isShowWarningLicense ? HEIGHT_WARNING : 0}
+          />
+
+          {this.props.isShowSidebarMenu && (
+            <SidebarMenu
+              onToggle={this.handleToggleSidebar}
+              isShow={this.props.navigationIsOpen}
+            />
+          )}
+          {this.props.children}
+        </Wrapper>
+        <ModalContactExtend
+          isShowModalExtend={isShowModalExtend}
+          confirmContinue={this.closeModalContact}
+          handleCancel={this.handleCancelModalContact}
+          phone={phone}
+          email={email}
+        />
+      </div>
     )
   }
 }
