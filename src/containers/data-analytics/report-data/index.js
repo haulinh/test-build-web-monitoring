@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { Row, Col, Tabs, Spin, Button } from 'antd'
 import styled from 'styled-components'
-import moment from 'moment'
 
 import ROLE from 'constants/role'
 import dataInsightApi from 'api/DataInsight'
@@ -16,7 +15,6 @@ import ChartType, { CHART_TYPE } from './chart-type'
 import AnalyzeDataContext from '../context'
 import { downFileExcel } from 'utils/downFile'
 import { Clearfix } from 'components/elements'
-import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import { PermissionPopover } from 'hoc/protect-role'
 
 function i18n() {
