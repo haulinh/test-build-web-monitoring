@@ -193,6 +193,25 @@ export default class StationAutoForm extends React.PureComponent {
     } = this._convertMinutesToTimeRange(minuteCount)
 
     // vi dung state de luu nen phai gan gia tri initialValus vao state
+    let indexMeasuring
+    if (initialValues.measuringListAdvanced) {
+      initialValues.measuringListAdvanced.map(
+        (measuringAdvanced, indexMeasuringAdvanced) => {
+          if (
+            initialValues.measuringList.some((measuring, index) => {
+              if (measuring.key === measuringAdvanced.key) {
+                indexMeasuring = index
+                return true
+              }
+              return false
+            })
+          ) {
+            initialValues.measuringListAdvanced[indexMeasuringAdvanced].unit =
+              initialValues.measuringList[indexMeasuring].unit
+          }
+        }
+      )
+    }
     this.setState({
       emails: initialValues.emails,
       phones: initialValues.phones,

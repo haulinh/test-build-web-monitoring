@@ -19,8 +19,6 @@ import * as _ from 'lodash'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { langPropTypes } from '../../../../hoc/create-lang'
-import { get as _get } from 'lodash'
-import { connect } from 'react-redux'
 
 const FormItem = Form.Item
 const { Option } = Select
@@ -42,9 +40,6 @@ function i18n() {
   }
 }
 
-@connect(state => ({
-  measuresObj: _get(state, 'global.measuresObj'),
-}))
 @autobind
 export default class StationAutoFormTableAdvanced extends React.Component {
   static propTypes = {
@@ -246,18 +241,10 @@ export default class StationAutoFormTableAdvanced extends React.Component {
         align: 'center',
         width: 100,
         render: (text, record, index) => {
-          const { measuresObj, isOnChangeMeasuringUnit } = this.props
-          const measureAdvancedUnit = _.get(
-            measuresObj,
-            `${record.key}.unit`,
-            text
-          )
           return (
             <FormItem style={{ marginBottom: 0 }}>
               {getFieldDecorator(`measuringListAdvanced[${index}].unit`, {
-                initialValue: isOnChangeMeasuringUnit
-                  ? text
-                  : measureAdvancedUnit,
+                initialValue: text,
                 rule: {
                   whitespace: true,
                 },
