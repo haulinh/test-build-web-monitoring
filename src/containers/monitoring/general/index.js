@@ -6,7 +6,7 @@ import Clearfix from 'components/elements/clearfix'
 import HeaderFilter from 'components/monitoring/filter'
 import {
   GROUP_OPTIONS,
-  ORDER_OPTIONS
+  ORDER_OPTIONS,
 } from 'components/monitoring/filter/options'
 import Header from 'components/monitoring/head'
 import StationTypeList from 'components/monitoring/station-type-group/station-type-list'
@@ -29,7 +29,6 @@ import styled from 'styled-components'
 import { getMonitoringFilter } from 'utils/localStorage'
 import { replaceVietnameseStr } from 'utils/string'
 import HeaderView from '../../../components/monitoring/header-view'
-
 
 const { Link } = Anchor
 
@@ -231,9 +230,13 @@ export default class MonitoringGeneral extends React.Component {
       // MARK  old:  return _.orderBy(data, [key, 'statusAnalytic'], [asc ? 'asc' : 'desc', 'desc'])
       return _.orderBy(data, ['statusAnalytic'], ['asc'])
     }
-   
+
     if (key === 'name') {
-      return _.orderBy(data, [item =>  removeAccents(this.props.language, item.name.toLowerCase())], [asc ? 'asc' : 'desc'])
+      return _.orderBy(
+        data,
+        [item => removeAccents(this.props.language, item.name.toLowerCase())],
+        [asc ? 'asc' : 'desc']
+      )
     }
     return _.orderBy(data, [key], [asc ? 'asc' : 'desc'])
   }
@@ -286,7 +289,8 @@ export default class MonitoringGeneral extends React.Component {
                 ))
             if (hasStation) {
               total = total + 1
-              countGood = countGood + (_.isEqual(status, 'DATA_CONNECTED') ? 1 : 0)
+              countGood =
+                countGood + (_.isEqual(status, 'DATA_CONNECTED') ? 1 : 0)
             }
 
             return hasStation
