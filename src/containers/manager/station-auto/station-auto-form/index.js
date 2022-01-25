@@ -192,12 +192,27 @@ export default class StationAutoForm extends React.PureComponent {
       connectionStatusNumber,
     } = this._convertMinutesToTimeRange(minuteCount)
 
-    // vi dung state de luu nen phai gan gia tri initialValus vao state
+    let measuringListAdvancedMapped = []
+    if (initialValues.measuringListAdvanced) {
+      measuringListAdvancedMapped = initialValues.measuringListAdvanced.map(
+        measuringAdvanced => {
+          const measuring = initialValues.measuringList.find(
+            measuring => measuring.key === measuringAdvanced.key
+          )
+          const unitInMeasuring = measuring.unit
+          return {
+            ...measuringAdvanced,
+            unit: unitInMeasuring,
+          }
+        }
+      )
+    }
+
     this.setState({
       emails: initialValues.emails,
       phones: initialValues.phones,
       measuringList: initialValues.measuringList,
-      measuringListAdvanced: initialValues.measuringListAdvanced,
+      measuringListAdvanced: measuringListAdvancedMapped,
       linkedStation: initialValues.linkedStation,
       stationType: initialValues.stationType,
       stationTypeObject: initialValues.stationTypeObject,
