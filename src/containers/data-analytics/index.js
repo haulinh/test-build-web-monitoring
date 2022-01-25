@@ -114,7 +114,7 @@ class DataAnalytics extends Component {
         data: series,
         type: chartType,
         name: i18n().measuredValue,
-        enableMouseTracking: dataType !== OPERATOR.AVG,
+        enableMouseTracking: [OPERATOR.MIN, OPERATOR.MAX].includes(dataType)
       },
       true
     )

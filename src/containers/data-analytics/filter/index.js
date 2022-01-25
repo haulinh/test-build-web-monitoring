@@ -29,6 +29,8 @@ function i18n() {
       t('dataAnalytics.filterForm.stationAutoLabel.label', { count }),
     parameterLabel: count =>
       t('dataAnalytics.filterForm.parameterLabel.label', { count }),
+    parameterAdvLabel: count =>
+      t('dataAnalytics.filterForm.parameterAdvLabel.label', { count }),
     stationAuto: t('dataAnalytics.filterForm.stationAuto'),
     parameter: t('dataAnalytics.filterForm.parameter'),
     isProcessData: t('dataSearchFrom.processData'),
@@ -84,9 +86,7 @@ class FilterForm extends Component {
     try {
       setLoading(true)
       const values = await form.validateFields()
-      // console.log(JSON.stringify(values, null, 2), '==searching ....')
       const times = getTimes(values[FIELDS.RANGE_TIME])
-      // console.log(times.to.format(), '==times==')
       const params = {
         stationKeys: values[FIELDS.STATION_AUTO].join(','),
         measuringList: values[FIELDS.MEASURING_LIST].join(','),
@@ -100,13 +100,10 @@ class FilterForm extends Component {
           .format(),
         isFilter: values.isFilter || false,
         standards: standardsVN.join(),
+        operator: values[FIELDS.OPERATOR],
       }
 
-      setParamFilter({
-        ...params,
-        operator: values[FIELDS.OPERATOR],
-      })
-      // console.log(params, '==params==')
+      setParamFilter(params)
       const result = await dataInsightApi.getDataInsight(params)
       setLoading(false)
       onData(result, {
@@ -121,8 +118,6 @@ class FilterForm extends Component {
 
   async componentDidUpdate(prevProps) {
     if (prevProps.standardsVN.length !== this.props.standardsVN.length) {
-      // this.handleSearch()
-      console.log('TRIGGER')
       await this.handleSearch()
     }
   }
@@ -134,10 +129,12 @@ class FilterForm extends Component {
       .map(item => get(item, '1.key'))
   }
 
-  getMeasuringList = stationAutoKeys =>
+  getMeasuringList = (stationAutoKeys, operateType) =>
     (stationAutoKeys || []).reduce((map, key) => {
       const stationAuto = this.stationAutos.get(key) || {}
-      const measuringList = stationAuto.measuringList || []
+      const measuringList = operateType === OPERATOR.SUM
+        ? (stationAuto.measuringListAdvanced || [])
+        : (stationAuto.measuringList || [])
       measuringList.forEach(measure => map.set(measure.key, measure))
       return map
     }, new Map())
@@ -147,7 +144,8 @@ class FilterForm extends Component {
 
   updateForm = ({ stationAutoKeys }) => {
     const { form } = this.props
-    const measuringList = this.getMeasuringList(stationAutoKeys)
+    const operateType = form.getFieldValue(FIELDS.OPERATOR)
+    const measuringList = this.getMeasuringList(stationAutoKeys, operateType)
     const getMap = (map, order) => [...map].map(item => item[order])
 
     this.setState({ measuringList: getMap(measuringList, 1) })
@@ -215,11 +213,14 @@ class FilterForm extends Component {
     const values = form.getFieldsValue([
       FIELDS.STATION_AUTO,
       FIELDS.MEASURING_LIST,
+      FIELDS.OPERATOR,
     ])
-
     const numberStation = (values[FIELDS.STATION_AUTO] || []).length
     const numberMeasuringList = (values[FIELDS.MEASURING_LIST] || []).length
 
+    const measureLable = values[FIELDS.OPERATOR] === OPERATOR.SUM
+      ? i18n().parameterAdvLabel(numberMeasuringList)
+      : i18n().parameterLabel(numberMeasuringList)
     return (
       <SearchFormContainer>
         <Heading
@@ -266,6 +267,7 @@ class FilterForm extends Component {
               <FormItem label={i18n().operatorLabel}>
                 {form.getFieldDecorator(FIELDS.OPERATOR, {
                   initialValue: OPERATOR.AVG,
+                  onChange: this.onChange
                 })(<SelectOperator />)}
               </FormItem>
             </Col>
@@ -297,7 +299,9 @@ class FilterForm extends Component {
               </FormItem>
             </Col>
             <Col sm={24} md={24} lg={24}>
-              <FormItem label={i18n().parameterLabel(numberMeasuringList)}>
+              <FormItem label={
+                measureLable
+              }>
                 {form.getFieldDecorator(FIELDS.MEASURING_LIST, {
                   rules: [requiredFieldRule(i18n().parameter)],
                 })(<SelectMeasureParameter options={measuringList} />)}

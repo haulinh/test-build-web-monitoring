@@ -3595,6 +3595,7 @@ export default {
         avg: 'Average',
         min: 'Min',
         max: 'Max',
+        sum: 'Sum',
       },
       time: {
         label: 'Times',
@@ -3604,6 +3605,9 @@ export default {
       },
       parameterLabel: {
         label: 'Measure Parameter ({{=it.count}} measures)',
+      },
+      parameterAdvLabel: {
+        label: 'Advance Measure Parameter ({{=it.count}} measures)',
       },
       stationAuto: 'Stations',
       parameter: 'Measure parameter',

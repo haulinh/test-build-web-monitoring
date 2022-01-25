@@ -3608,6 +3608,7 @@ export default {
         avg: 'Trung bình',
         min: 'Giá trị nhỏ nhất',
         max: 'Giá trị lớn nhất',
+        sum: 'Tổng',
       },
       time: {
         label: 'Thời gian',
@@ -3617,6 +3618,9 @@ export default {
       },
       parameterLabel: {
         label: 'Các thông số quan trắc ({{=it.count}} thông số)',
+      },
+      parameterAdvLabel: {
+        label: 'Các thông số nâng cao ({{=it.count}} thông số)',
       },
       stationAuto: 'trạm quan trắc',
       parameter: 'thông số',

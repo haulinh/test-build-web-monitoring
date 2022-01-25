@@ -7,6 +7,7 @@ export const OPERATOR = {
   AVG: 'avg',
   MIN: 'min',
   MAX: 'max',
+  SUM: 'sum',
 }
 
 const OPERATOR_OPTIONS = [
@@ -21,6 +22,10 @@ const OPERATOR_OPTIONS = [
   {
     text: 'dataAnalytics.filterForm.operator.max',
     value: OPERATOR.MAX,
+  },
+  {
+    text: 'dataAnalytics.filterForm.operator.sum',
+    value: OPERATOR.SUM,
   },
 ]
 
