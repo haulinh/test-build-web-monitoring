@@ -100,8 +100,8 @@ export function getConfigApi() {
     mobile: c('mobile2'),
     // mobile: 'http://localhost:3000',
 
-    // dataInsight: c('data-insight'),
-    dataInsight: 'http://localhost:5022',
+    dataInsight: c('data-insight'),
+    // dataInsight: 'http://localhost:5022',
 
     admin: c('admin'),
     // admin: 'http://localhost:5005',
