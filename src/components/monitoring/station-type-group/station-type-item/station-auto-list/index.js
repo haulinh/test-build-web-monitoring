@@ -20,7 +20,6 @@ export default class StationAutoList extends React.Component {
   }
 
   render() {
-    // console.log(this.props.stationAutoList,"this.props.stationAutoList")
     return (
       <StationListWrapper>
         {this.props.stationAutoList
