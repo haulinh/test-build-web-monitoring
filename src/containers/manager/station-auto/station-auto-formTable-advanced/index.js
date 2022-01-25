@@ -246,7 +246,7 @@ export default class StationAutoFormTableAdvanced extends React.Component {
         align: 'center',
         width: 100,
         render: (text, record, index) => {
-          const { measuresObj } = this.props
+          const { measuresObj, isOnChangeMeasuringUnit } = this.props
           const measureAdvancedUnit = _.get(
             measuresObj,
             `${record.key}.unit`,
@@ -255,7 +255,9 @@ export default class StationAutoFormTableAdvanced extends React.Component {
           return (
             <FormItem style={{ marginBottom: 0 }}>
               {getFieldDecorator(`measuringListAdvanced[${index}].unit`, {
-                initialValue: measureAdvancedUnit,
+                initialValue: isOnChangeMeasuringUnit
+                  ? text
+                  : measureAdvancedUnit,
                 rule: {
                   whitespace: true,
                 },
@@ -346,6 +348,7 @@ export default class StationAutoFormTableAdvanced extends React.Component {
 
   render() {
     const { isLoaded, measuringListAdvanced } = this.state
+
     return (
       <div>
         {isLoaded && (
