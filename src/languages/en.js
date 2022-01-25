@@ -1738,6 +1738,7 @@ export default {
       panel1: 'Station Information',
       panel2: 'Other Information',
       panel3: 'Monitoring parameters',
+      panel4: 'Advanced Parameters',
       website: {
         label: 'Website',
         placeholder: 'Website',
@@ -1900,7 +1901,7 @@ export default {
         label: 'Measuring Device Limit',
       },
       measuringKey: {
-        label: 'Parameter code',
+        label: 'Parameter Code',
         placeholder: 'Input Parameter Code',
         error: 'Please Input Parameter Code',
       },
@@ -1953,6 +1954,15 @@ export default {
       errorMinTend:
         'Tend To Exceed Min Limit Must Be Larger Than Exceeded Min Limit',
       errorMinMax: 'Min Limit Must Be Less Than Max Limit',
+      measuringNameCalculate: {
+        label: 'Calculation Parameter Name',
+      },
+      functionCalculate: {
+        label: 'Calculation Function',
+      },
+      popConfirm: 'Please Confirm To Delete',
+      indexCalculation: 'Index calculation',
+      errorAdvancedParameter: "You haven't selected advanced parameters yet",
     },
     range: {
       label: 'Station Range',
@@ -2534,6 +2544,12 @@ export default {
     totalStation: 'Total No. Of Station',
   },
   infoLicense: {
+    expireWarning: {
+      openWarning:
+        'The copyright of Ilotusland is about to expire. Please extend within',
+      middleWarning: '{{=it.total}} days',
+      endWarning: 'so that the proccess of use is not interrupted',
+    },
     breadCrumb: 'Subscription Information',
     title1: 'Registered at',
     title2: 'Maximum quantity to use',
@@ -2546,6 +2562,17 @@ export default {
     text6: 'Phone number',
     text7: 'Email',
     dateUnlimited: 'Unlimited',
+    extendLicense: 'Extend',
+    modal: {
+      title: 'Support, renewal of use',
+      button: 'Understood',
+      body: {
+        notification:
+          'Please contact the information below for renewal assistance',
+        phone: 'Phone:',
+        email: 'Email:',
+      },
+    },
   },
   expLicenseInfo: {
     title: 'We are very sorry',

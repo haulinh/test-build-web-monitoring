@@ -1,4 +1,4 @@
-import { Button, Form, Icon, Input, Popconfirm, Select, Table } from 'antd'
+import { Button, Form, Icon, Input, Popconfirm, Row, Select, Table } from 'antd'
 import AutoCompleteCell from 'components/elements/auto-complete-cell'
 import { autobind } from 'core-decorators'
 import { translate } from 'hoc/create-lang'
@@ -57,15 +57,21 @@ export default class StationAutoFormTable extends React.Component {
   }
 
   async componentDidMount() {
+    const {
+      dataSource,
+      isStandardsVN,
+      onChangeMeasuring,
+      onChangeStandardsVN,
+    } = this.props
     let measuringList = []
 
-    measuringList = _.map(this.props.dataSource, (item, index) => {
+    measuringList = _.map(dataSource, (item, index) => {
       return {
         ...item,
         id: (index + 1).toString(),
       }
     })
-    if (this.props.isStandardsVN) {
+    if (isStandardsVN) {
       // console.log(this.props.standardsVN, '---standardsVN--')
 
       measuringList = this.updateMinMaxOfMeasuring(measuringList)
@@ -73,15 +79,15 @@ export default class StationAutoFormTable extends React.Component {
       //   isLoaded: false,
       // })
       // console.log(measuringList, '---componentDidUpdate--2')
-      if (this.props.onChangeMeasuring) {
+      if (onChangeMeasuring) {
         this.setState({
           measuringList: measuringList,
           // isLoaded: true,
         })
         // this.props.onChangeMeasuring(measuringList)
       }
-      if (this.props.onChangeStandardsVN) {
-        this.props.onChangeStandardsVN(false)
+      if (onChangeStandardsVN) {
+        onChangeStandardsVN(false)
       }
     }
 
@@ -120,10 +126,21 @@ export default class StationAutoFormTable extends React.Component {
     return measuringList
   }
 
+  isDisableDeleteButton = keyMeasure => {
+    const { measuringListAdvanced } = this.props
+    let measuringSelected
+    if (measuringListAdvanced) {
+      measuringListAdvanced.map(element => {
+        if (element.key === keyMeasure) measuringSelected = element
+      })
+      return measuringListAdvanced.includes(measuringSelected)
+    }
+    return false
+  }
+
   getColumns = () => {
     const { t } = this.props.lang
     const { getFieldDecorator } = this.props.form
-    // console.log("---getColumns--")
 
     return [
       {
@@ -238,7 +255,12 @@ export default class StationAutoFormTable extends React.Component {
               rule: {
                 whitespace: true,
               },
-            })(<Input style={{ width: 120 }} />)}
+            })(
+              <Input
+                onChange={value => this.handleOnChangeUnit(value, index)}
+                style={{ width: 120 }}
+              />
+            )}
           </FormItem>
         ),
       },
@@ -247,9 +269,9 @@ export default class StationAutoFormTable extends React.Component {
         title: '', //Action
         width: 50,
         render: (text, record, index) => {
-          const total = this.state.measuringList
-            ? this.state.measuringList.length
-            : 0
+          const { form } = this.props
+          const { measuringList } = this.state
+          const total = measuringList ? measuringList.length : 0
           return (
             <div
               style={{
@@ -262,13 +284,28 @@ export default class StationAutoFormTable extends React.Component {
                   <Popconfirm
                     title={t('stationAutoManager.delete.require')}
                     onConfirm={() => this.removeMeasuring(index)}
+                    disabled={this.isDisableDeleteButton(
+                      form.getFieldValue(`measuringList[${index}].key`)
+                    )}
                   >
-                    <a>
+                    <Button
+                      disabled={this.isDisableDeleteButton(
+                        form.getFieldValue(`measuringList[${index}].key`)
+                      )}
+                      type="link"
+                    >
                       <Icon
                         type="delete"
-                        style={{ marginLeft: '5px', color: 'red' }}
+                        style={{
+                          marginLeft: '5px',
+                          color: this.isDisableDeleteButton(
+                            form.getFieldValue(`measuringList[${index}].key`)
+                          )
+                            ? '#A2A7B3'
+                            : 'red',
+                        }}
                       />
-                    </a>
+                    </Button>
                   </Popconfirm>
                 </span>
               )}
@@ -309,10 +346,25 @@ export default class StationAutoFormTable extends React.Component {
   }
 
   removeMeasuring(index) {
-    this.state.measuringList.splice(index, 1)
-    this.setState({
-      measuringOptions: this.getOptions(this.state.measuringList),
-    })
+    const { measuringList } = this.state
+    const { measuringListSource, form, onChangeMeasuring } = this.props
+    measuringList.splice(index, 1)
+    this.setState(
+      {
+        measuringOptions: this.getOptions(measuringList),
+      },
+      () => {
+        const measuringListSourceAdvanced = measuringListSource.filter(
+          measure =>
+            measuringList.some(measuring => measuring.key === measure.key)
+        )
+
+        onChangeMeasuring(
+          form.getFieldValue('measuringList'),
+          measuringListSourceAdvanced
+        )
+      }
+    )
     this.forceUpdate()
   }
 
@@ -467,29 +519,31 @@ export default class StationAutoFormTable extends React.Component {
 
   render() {
     const { t } = this.props.lang
-    // const { getFieldValue } = this.props.form
-
-    // console.log('---form---', getFieldValue('measuringList'))
-    // console.log('---form-this.state.isLoaded--', this.state.isLoaded)
+    const { measuringList, isLoaded } = this.state
     return (
       <div>
-        <Button
-          style={{ right: '0', marginBottom: '16px' }}
-          type="primary"
-          onClick={this.handleAddRow}
-        >
-          {t('stationAutoManager.addMeasuring.label')}
-        </Button>
-        {this.state.isLoaded && (
+        {isLoaded && (
           <Table
             bordered
             rowKey="id"
-            dataSource={this.state.measuringList}
+            dataSource={measuringList}
             columns={this.getColumns()}
             pagination={{
               pageSize: 1000,
               hideOnSinglePage: true,
             }}
+            footer={() => (
+              <Row type="flex" style={{ color: '#1890FF' }} align="middle">
+                <Button
+                  type="link"
+                  style={{ fontWeight: 500, fontSize: '14px' }}
+                  onClick={this.handleAddRow}
+                >
+                  <Icon type="plus" />
+                  {translate('stationAutoManager.addMeasuring.label')}
+                </Button>
+              </Row>
+            )}
           />
         )}
       </div>
@@ -497,11 +551,8 @@ export default class StationAutoFormTable extends React.Component {
   }
 
   handleChangeMeasuring = (value, index) => {
-    const measure = this.props.measuringListSource.find(
-      item => item.key === value
-    )
-
-    let itemQCVN = this.props.standardsVN.find(item => item.key === value)
+    const { measuringListSource } = this.props
+    const measure = measuringListSource.find(item => item.key === value)
 
     this.setState(
       update(this.state, {
@@ -510,36 +561,108 @@ export default class StationAutoFormTable extends React.Component {
             key: { $set: value },
             name: { $set: measure.name },
             unit: { $set: measure.unit },
-            maxLimit: { $set: itemQCVN ? itemQCVN.maxLimit : null },
-            minLimit: { $set: itemQCVN ? itemQCVN.minLimit : null },
           },
         },
+      }),
+      () => {
+        let indexChange
+        let measuringListAdvancedChanged
+
+        const {
+          measuringListAdvanced,
+          form,
+          measuringListSource,
+          onChangeMeasuring,
+        } = this.props
+        const { measuringList } = this.state
+
+        const measuringListSourceAdvanced = measuringListSource.filter(
+          measure =>
+            measuringList.some(measuring => measuring.key === measure.key)
+        )
+
+        if (measuringListAdvanced) {
+          measuringListAdvancedChanged = measuringListAdvanced.filter(
+            measuringAdvanced => {
+              return measuringList.every(
+                measuring => measuring.key !== measuringAdvanced.key
+              )
+            }
+          )
+
+          measuringListAdvancedChanged.forEach(value => {
+            const index = measuringListAdvanced.indexOf(value)
+            indexChange = index
+            measuringListAdvanced[index].key = undefined
+            measuringListAdvanced[index].unit = undefined
+          })
+        }
+        setTimeout(() => {
+          form.setFieldsValue({
+            [`measuringListAdvanced[${indexChange}]`]: {
+              name: undefined,
+              nameCalculate: undefined,
+            },
+          })
+        })
+
+        onChangeMeasuring(
+          form.getFieldValue('measuringList'),
+          measuringListSourceAdvanced
+        )
+      }
+    )
+  }
+
+  handleOnChangeUnit = (value, index) => {
+    const { measuringListAdvanced, onChangeMeasuring, form } = this.props
+    const { measuringList } = this.state
+    let indexOfUnitChange
+    let measuringUnitChange
+    if (measuringListAdvanced.length > 0) {
+      measuringUnitChange = measuringListAdvanced.filter(
+        measuringAdvanced => measuringAdvanced.key === measuringList[index].key
+      )
+
+      measuringListAdvanced.forEach((measuringAdvanced, index) => {
+        if (
+          measuringUnitChange.some(value => value.key === measuringAdvanced.key)
+        ) {
+          indexOfUnitChange = index
+        }
       })
+    }
+
+    setTimeout(() => {
+      measuringListAdvanced[indexOfUnitChange].unit = form.getFieldValue(
+        `measuringList[${index}].unit`
+      )
+    })
+
+    onChangeMeasuring(
+      form.getFieldValue('measuringList'),
+      measuringListAdvanced
     )
   }
 
   componentDidUpdate(prevProps, prevState) {
-    // standardsVNObject
-    // console.log(this.props.standardsVN, '---standardsVN--')
-    // console.log(prevProps.standardsVN, '---standardsVN--1--')
+    const { isLoaded, measuringList } = this.state
+    const { onChangeMeasuring, form } = this.props
 
-    if (this.state.isLoaded) {
-      let A = this.props.form.getFieldValue('measuringList')
-      // const B = prevProps.form.getFieldValue('measuringList')
-      // console.log('--1-',  A)
-      // console.log('-2--',  this.state.measuringList)
-      // console.log('-3--',  prevState.measuringList)
+    if (isLoaded) {
+      let measuringListForm = form.getFieldValue('measuringList')
       if (
-        JSON.stringify(A) !== JSON.stringify(this.state.measuringList) ||
+        JSON.stringify(measuringListForm) !== JSON.stringify(measuringList) ||
         JSON.stringify(prevState.measuringList) !==
-          JSON.stringify(this.state.measuringList)
+          JSON.stringify(measuringList)
       ) {
         // console.log('Đã cập nhật', A)
-        if (this.props.onChangeMeasuring) {
+        if (onChangeMeasuring) {
           this.setState({
-            measuringList: A,
+            measuringList: measuringListForm,
           })
-          this.props.onChangeMeasuring(A)
+
+          onChangeMeasuring(measuringListForm)
         }
       }
     }

@@ -44,12 +44,11 @@ export const LEFT_SIDEBAR_HIDE = -(
 const SidebarWrapper = styled.div`
   left: ${props => (props.isShow ? LEFT_SIDEBAR_SHOW : LEFT_SIDEBAR_HIDE)}px;
   position: fixed;
-  top: 0px;
-  bottom: 0px;
   transition: all 0.3s linear;
   width: ${SIDEBAR_MENU_WIDTH}px;
   z-index: 99;
   display: flex;
+  height: 100vh;
   flex-direction: column;
   background-color: rgb(244, 245, 247);
   #logoBrandName {
