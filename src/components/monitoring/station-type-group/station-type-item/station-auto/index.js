@@ -10,10 +10,11 @@ import MoreContent from './more-content'
 import slug from 'constants/slug'
 import { STATUS_STATION } from 'constants/stationStatus'
 import { translate } from 'hoc/create-lang'
-import { get, map as _map, isEqual } from 'lodash'
+import _, { get, map as _map, isEqual } from 'lodash'
 import queryFormDataBrowser from 'hoc/query-formdata-browser'
 
 import CameraListView from './camera-list'
+import MeasuringAdvancedList from './measuring/measuring-adnvanced'
 
 const StationAutoWrapper = styled.div`
   background-color: #fff;
@@ -181,6 +182,18 @@ export default class StationAutoItem extends React.PureComponent {
     }
   }
 
+  getLastLogMeasureListAdvanced = () => {
+    const { lastLogMeasureAdvanced } = this.props
+    if (!lastLogMeasureAdvanced) return
+
+    const measuringAdvancedLogs = _.get(lastLogMeasureAdvanced, [
+      'measuringLogs',
+    ])
+
+    const lastLogMeasureAdvancedArr = Object.values(measuringAdvancedLogs)
+    return lastLogMeasureAdvancedArr
+  }
+
   render() {
     // console.log(this.props,"StationAutoWrapper")
     let {
@@ -207,6 +220,8 @@ export default class StationAutoItem extends React.PureComponent {
       receivedAt = translate('monitoring.notUse')
     }
 
+    const lastLogMeasureAdvancedList = this.getLastLogMeasureListAdvanced()
+
     return (
       <StationAutoWrapper className="stationAutoWrapper">
         <StationAutoHead
@@ -230,6 +245,12 @@ export default class StationAutoItem extends React.PureComponent {
           onClickItem={this.handleClickDataSearchWithMeasuring}
           data={this.measuringLastLog()}
           receivedAt={receivedAt}
+        />
+
+        <MeasuringAdvancedList
+          receivedAt={receivedAt}
+          statusStation={status}
+          lastLogMeasureAdvancedList={lastLogMeasureAdvancedList}
         />
 
         <MoreContent

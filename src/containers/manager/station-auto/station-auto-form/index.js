@@ -101,6 +101,7 @@ export default class StationAutoForm extends React.PureComponent {
       tabKey: ['1'],
       isStandardsVN: false,
       stationAutoSelects: [],
+      isOnChangeMeasuringUnit: false,
     }
   }
 
@@ -191,12 +192,27 @@ export default class StationAutoForm extends React.PureComponent {
       connectionStatusNumber,
     } = this._convertMinutesToTimeRange(minuteCount)
 
-    // vi dung state de luu nen phai gan gia tri initialValus vao state
+    let measuringListAdvancedMapped = []
+    if (initialValues.measuringListAdvanced) {
+      measuringListAdvancedMapped = initialValues.measuringListAdvanced.map(
+        measuringAdvanced => {
+          const measuring = initialValues.measuringList.find(
+            measuring => measuring.key === measuringAdvanced.key
+          )
+          const unitInMeasuring = measuring.unit
+          return {
+            ...measuringAdvanced,
+            unit: unitInMeasuring,
+          }
+        }
+      )
+    }
+
     this.setState({
       emails: initialValues.emails,
       phones: initialValues.phones,
       measuringList: initialValues.measuringList,
-      measuringListAdvanced: initialValues.measuringListAdvanced,
+      measuringListAdvanced: measuringListAdvancedMapped,
       linkedStation: initialValues.linkedStation,
       stationType: initialValues.stationType,
       stationTypeObject: initialValues.stationTypeObject,
@@ -297,38 +313,6 @@ export default class StationAutoForm extends React.PureComponent {
         })
         return
       }
-      //   measuringList = _.map(this.state.measuringList, item => {
-      //     const dtFind = _.find(this.state.measuringListSource, obj => {
-      //       return obj.key === item.key
-      //     })
-      //     console.log('measuringListSource', this.state.measuringListSource)
-      //     console.log('--dtFind--', dtFind)
-      //     if (dtFind) {
-      //       console.log('---Not submit yet---')
-      //       return {
-      //         ...item,
-      //         name: dtFind.name,
-      //       }
-      //     }
-      //   })
-      //   measuringListAdvanced = _.map(
-      //     this.state.measuringListAdvanced,
-      //     item => {
-      //       const dtFind = _.find(
-      //         this.state.measuringListSourceAdvanced,
-      //         obj => {
-      //           return obj.key === item.key
-      //         }
-      //       )
-      //       if (dtFind) {
-      //         return {
-      //           ...item,
-      //           name: dtFind.name,
-      //         }
-      //       }
-      //     }
-      //   )
-      // }
 
       if (!values.linkedStation) {
         values.linkedStation = ''
@@ -543,17 +527,25 @@ export default class StationAutoForm extends React.PureComponent {
         measuringList: dataMeasuring,
         measuringListAdvanced: dataMeasuringAdvanced,
       })
+      return
     }
     if (dataMeasuringSource) {
       this.setState({
         measuringList: dataMeasuring,
         measuringListSourceAdvanced: dataMeasuringSource,
       })
+      return
     } else {
       this.setState({
         measuringList: dataMeasuring,
       })
     }
+  }
+
+  handleOnChangeMeasuringUnit = isOnChangeMeasuringUnit => {
+    this.setState({
+      isOnChangeMeasuringUnit: isOnChangeMeasuringUnit,
+    })
   }
 
   handleOnChangeMeasuringAdvanced = dataMeasuringAdvanced => {
@@ -1142,6 +1134,7 @@ export default class StationAutoForm extends React.PureComponent {
               this.state.tabKey.indexOf('3') >= 0 && (
                 <MeasuringTable
                   onChangeMeasuring={this.handleOnChangeMeasuring}
+                  onChangeMeasuringUnit={this.handleOnChangeMeasuringUnit}
                   isEdit={this.props.isEdit}
                   lang={this.props.lang}
                   form={this.props.form}
@@ -1187,6 +1180,7 @@ export default class StationAutoForm extends React.PureComponent {
                   : []
               }
               measuringListSource={this.state.measuringListSourceAdvanced}
+              isOnChangeMeasuringUnit={this.state.isOnChangeMeasuringUnit}
             />
           </Panel>
           <Panel header={t('stationAutoManager.form.panel2')} key="2">
