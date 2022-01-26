@@ -26,7 +26,7 @@ export default class SelectMeasureParameter extends React.Component {
       >
         {options.map(item => (
           <Select.Option key={item.key} value={item.key}>
-            {item.name}
+            {item.nameCalculate || item.name}
           </Select.Option>
         ))}
       </Select>
