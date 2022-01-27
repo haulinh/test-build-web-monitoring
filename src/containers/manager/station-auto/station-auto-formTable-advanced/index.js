@@ -241,10 +241,13 @@ export default class StationAutoFormTableAdvanced extends React.Component {
         align: 'center',
         width: 100,
         render: (text, record, index) => {
+          const measuring = this.props.measuringList.find(
+            measuring => measuring.key === record.key
+          )
           return (
             <FormItem style={{ marginBottom: 0 }}>
               {getFieldDecorator(`measuringListAdvanced[${index}].unit`, {
-                initialValue: text,
+                initialValue: measuring ? measuring.unit : text,
                 rule: {
                   whitespace: true,
                 },

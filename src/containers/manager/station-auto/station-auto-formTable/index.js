@@ -361,6 +361,7 @@ export default class StationAutoFormTable extends React.Component {
 
         onChangeMeasuring(
           form.getFieldValue('measuringList'),
+          this.props.measuringListAdvanced,
           measuringListSourceAdvanced
         )
       }
@@ -619,6 +620,7 @@ export default class StationAutoFormTable extends React.Component {
 
         onChangeMeasuring(
           form.getFieldValue('measuringList'),
+          measuringListAdvanced,
           measuringListSourceAdvanced
         )
       }
@@ -652,9 +654,17 @@ export default class StationAutoFormTable extends React.Component {
       }
     })
 
+    const measuringListSourceAdvanced = this.props.measuringListSource.filter(
+      measure =>
+        this.state.measuringList.some(
+          measuring => measuring.key === measure.key
+        )
+    )
+
     this.props.onChangeMeasuring(
       this.props.form.getFieldValue('measuringList'),
-      this.props.measuringListAdvanced
+      this.props.measuringListAdvanced,
+      measuringListSourceAdvanced
     )
     // this.props.form.setFieldsValue({
     //   [`measuringListAdvanced[${indexOfUnitChange}].unit`]: value,
