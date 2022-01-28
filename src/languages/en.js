@@ -1956,6 +1956,7 @@ export default {
       errorMinMax: 'Min Limit Must Be Less Than Max Limit',
       measuringNameCalculate: {
         label: 'Calculation Parameter Name',
+        required: 'Please input parameter name',
       },
       functionCalculate: {
         label: 'Calculation Function',

@@ -199,7 +199,7 @@ export default class StationAutoForm extends React.PureComponent {
           const measuring = initialValues.measuringList.find(
             measuring => measuring.key === measuringAdvanced.key
           )
-          const unitInMeasuring = measuring.unit
+          const unitInMeasuring = _.get(measuring, 'unit')
           return {
             ...measuringAdvanced,
             unit: unitInMeasuring,
