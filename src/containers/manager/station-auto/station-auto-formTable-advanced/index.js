@@ -167,7 +167,7 @@ export default class StationAutoFormTableAdvanced extends React.Component {
                       required: true,
                       whitespace: true,
                       message: translate(
-                        'stationAutoManager.form.name.required'
+                        'stationAutoManager.form.measuringNameCalculate.required'
                       ),
                     },
                     {

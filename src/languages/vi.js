@@ -1956,6 +1956,7 @@ export default {
       errorMinMax: 'Giới hạn tối thiểu phải nhỏ hơn giới hạn tối đa',
       measuringNameCalculate: {
         label: 'Tên thông số tính toán',
+        required: 'Vui lòng nhập tên thông số',
       },
       functionCalculate: {
         label: 'Hàm tính toán',
