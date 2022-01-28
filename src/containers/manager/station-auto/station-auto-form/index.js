@@ -519,22 +519,15 @@ export default class StationAutoForm extends React.PureComponent {
 
   handleOnChangeMeasuring = (
     dataMeasuring,
-    dataMeasuringSource,
-    dataMeasuringAdvanced
+    dataMeasuringAdvanced,
+    dataMeasuringSource
   ) => {
     if (dataMeasuringAdvanced) {
       this.setState({
         measuringList: dataMeasuring,
         measuringListAdvanced: dataMeasuringAdvanced,
-      })
-      return
-    }
-    if (dataMeasuringSource) {
-      this.setState({
-        measuringList: dataMeasuring,
         measuringListSourceAdvanced: dataMeasuringSource,
       })
-      return
     } else {
       this.setState({
         measuringList: dataMeasuring,
@@ -1169,6 +1162,7 @@ export default class StationAutoForm extends React.PureComponent {
               form={this.props.form}
               isStandardsVN={this.state.isStandardsVN}
               onChangeStandardsVN={this.onChangeStandardsVN}
+              measuringList={this.state.measuringList}
               standardsVN={get(
                 this.state.standardsVNObject,
                 'measuringListAdvanced',
