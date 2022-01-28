@@ -41,6 +41,7 @@ class DataAnalytics extends Component {
     dataType: OPERATOR.AVG,
     chartType: CHART_TYPE.COLUMN,
     isLoadingData: false,
+    isShowQcvn: true,
     paramFilter: {},
   }
 
@@ -227,6 +228,10 @@ class DataAnalytics extends Component {
     })
   }
 
+  toogleSelectQcvns = toogle => {
+    this.setState({isShowQcvn: toogle})
+  }
+
   render() {
     const {
       data,
@@ -237,6 +242,7 @@ class DataAnalytics extends Component {
       paramFilter,
       measuringList,
       measure,
+      isShowQcvn
     } = this.state
 
     return (
@@ -255,8 +261,10 @@ class DataAnalytics extends Component {
             onReDrawChart={this.onReDrawChart}
             setLoading={this.setLoading}
             setParamFilter={this.setParamFilter}
+            toogleSelectQcvns={this.toogleSelectQcvns}
           />
           <ReportData
+            isShowQcvn={isShowQcvn}
             measure={measure}
             measuringList={measuringList}
             paramFilter={paramFilter}

@@ -191,11 +191,15 @@ class FilterForm extends Component {
     })
   }
 
-  onChange = () => {
+  onChange = (field) => {
+    const { form, toogleSelectQcvns} = this.props
     setTimeout(() => {
-      const { form } = this.props
       const province = form.getFieldValue(FIELDS.PROVINCE)
       const stationType = form.getFieldValue(FIELDS.STATION_TYPE)
+      const type = form.getFieldValue(FIELDS.OPERATOR)
+      if (field === FIELDS.OPERATOR) {
+        toogleSelectQcvns(type !== OPERATOR.SUM)
+      }
       this.updateForm({
         stationAutoKeys: this.getStationAutoKeys({ stationType, province }),
       })
@@ -267,7 +271,7 @@ class FilterForm extends Component {
               <FormItem label={i18n().operatorLabel}>
                 {form.getFieldDecorator(FIELDS.OPERATOR, {
                   initialValue: OPERATOR.AVG,
-                  onChange: this.onChange
+                  onChange: () =>this.onChange(FIELDS.OPERATOR)
                 })(<SelectOperator />)}
               </FormItem>
             </Col>

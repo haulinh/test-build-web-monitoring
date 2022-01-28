@@ -105,6 +105,7 @@ class ReportData extends Component {
       paramFilter,
       measuringList,
       measure,
+      isShowQcvn,
     } = this.props
 
     const Loading = () =>
@@ -127,27 +128,30 @@ class ReportData extends Component {
             {hasPermission => (
               <Fragment>
                 <Col span={!hasPermission ? 16 : 12}>
-                  <Row type="flex" align="middle">
-                    <Col
-                      span={3}
-                      style={{
-                        textAlign: 'right',
-                        paddingRight: '8px',
-                        fontSize: '14px',
-                        fontWeight: 600,
-                      }}
-                    >
-                      {i18n().standard}
-                    </Col>
-                    <Col span={21}>
-                      <SelectQCVN
-                        mode="multiple"
-                        maxTagCount={3}
-                        maxTagTextLength={18}
-                        onChange={this.onChangeQcvn}
-                      />
-                    </Col>
-                  </Row>
+                  {isShowQcvn &&
+                    <Row type="flex" align="middle">
+                      <Col
+                        span={3}
+                        style={{
+                          textAlign: 'right',
+                          paddingRight: '8px',
+                          fontSize: '14px',
+                          fontWeight: 600,
+                        }}
+                      >
+                        {i18n().standard}
+                      </Col>
+                      <Col span={21}>
+                        <SelectQCVN
+                          mode="multiple"
+                          maxTagCount={3}
+                          maxTagTextLength={18}
+                          onChange={this.onChangeQcvn}
+                        />
+                      </Col>
+                    </Row>
+                  }
+
                 </Col>
                 {hasPermission && (
                   <Col span={3}>
