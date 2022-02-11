@@ -92,12 +92,12 @@ const MeasuringName = styled.span`
   line-height: 16px;
 `
 
-const NoDataText = styled.span`
-  color: #e-1e0e0;
-  font-size: 15px;
-  font-style: normal;
-  font-weight: normal;
-`
+// const NoDataText = styled.span`
+//   color: #e-1e0e0;
+//   font-size: 15px;
+//   font-style: normal;
+//   font-weight: normal;
+// `
 
 @connect(state => ({
   navigationIsOpen: state.theme.navigation.isOpen,
@@ -118,7 +118,6 @@ export default class MeasuringAdvancedList extends React.PureComponent {
           lastLogMeasureAdvancedList.map(measure => {
             return (
               <MeasuringItemWrapper
-                onClick={() => this.props.onClickItem(measure)}
                 navigationIsOpen={this.props.navigationIsOpen}
                 key={measure.key}
               >
@@ -184,11 +183,13 @@ class MeasuringItem extends React.PureComponent {
   }
 
   render() {
-    const { measure } = this.props
+    const { measure, statusStation } = this.props
     const colorStatus = this.getColorLevel()
 
+    console.log({ statusStation, name: measure.nameCalculate })
+
     let colorDeviceStatus =
-      COLOR_DEVICE_STATUS[_.get(this.props, 'statusDevice', '')]
+      COLOR_DEVICE_STATUS[_.get(measure, 'statusDevice', '')]
     if (
       this.props.statusStation &&
       this.props.statusStation === STATUS_STATION.HIGHTGEST
@@ -213,7 +214,7 @@ class MeasuringItem extends React.PureComponent {
                   </MeasuringUnit>
                 </React.Fragment>
               ) : (
-                <NoDataText>{translate('monitoring.noData')}</NoDataText>
+                '-'
               )}
             </MeasuringValue>
           </LeftContainer>
