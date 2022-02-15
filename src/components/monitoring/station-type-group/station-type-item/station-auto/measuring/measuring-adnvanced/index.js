@@ -10,6 +10,7 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { COLOR_DEVICE_STATUS, DATA_COLOR } from 'themes/color'
 
+//#region style
 const MeasuringListWrapper = styled.div`
   width: 100%;
   padding: 8px 0 0px 0px;
@@ -91,13 +92,7 @@ const MeasuringName = styled.span`
   font-size: 13px;
   line-height: 16px;
 `
-
-// const NoDataText = styled.span`
-//   color: #e-1e0e0;
-//   font-size: 15px;
-//   font-style: normal;
-//   font-weight: normal;
-// `
+//#endregion style
 
 @connect(state => ({
   navigationIsOpen: state.theme.navigation.isOpen,
@@ -147,15 +142,10 @@ class MeasuringItem extends React.PureComponent {
   }
 
   getColorLevel() {
-    if (
-      this.props.statusStation &&
-      this.props.statusStation === STATUS_STATION.DATA_LOSS
-    )
+    const { statusStation } = this.props
+    if (statusStation && statusStation === STATUS_STATION.DATA_LOSS)
       return DATA_COLOR[STATUS_STATION.DATA_LOSS]
 
-    const { warningLevel } = this.props
-    if (warningLevel && DATA_COLOR[warningLevel])
-      return DATA_COLOR[warningLevel]
     return DATA_COLOR.GOOD
   }
 
@@ -183,10 +173,8 @@ class MeasuringItem extends React.PureComponent {
   }
 
   render() {
-    const { measure, statusStation } = this.props
+    const { measure } = this.props
     const colorStatus = this.getColorLevel()
-
-    console.log({ statusStation, name: measure.nameCalculate })
 
     let colorDeviceStatus =
       COLOR_DEVICE_STATUS[_.get(measure, 'statusDevice', '')]
@@ -197,7 +185,7 @@ class MeasuringItem extends React.PureComponent {
       colorDeviceStatus = DATA_COLOR[STATUS_STATION.HIGHTGEST]
 
     return (
-      <MeasuringItemContainer onClick={this.props.onClick} color={colorStatus}>
+      <MeasuringItemContainer color={colorStatus}>
         <Tooltip title={measure.nameCalculate}>
           <MeasuringName color={colorStatus}>
             {measure.nameCalculate}
