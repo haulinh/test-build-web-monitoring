@@ -18,6 +18,7 @@ const DEVICE_STATUS = {
   '2': { src: '/images/sensor3.png', text: 'monitoring.deviceStatus.broken' },
 }
 
+//#region style
 const MeasuringItemWrapper = styled.div`
   padding: 8px 8px;
   border-radius: 8px;
@@ -72,7 +73,7 @@ const RightContainer = styled.div`
 const Dot = styled.div`
   height: 20px;
   width: 20px;
-  background-color: #A4A6B5;
+  background-color: #a4a6b5;
   border-radius: 10px;
   display: inline-block;
   margin-right: 8px;
@@ -101,7 +102,7 @@ const NoDataText = styled.span`
 const LimitContainer = styled.div`
   position: relative;
 `
-
+//#endregion style
 @autobind
 export default class MeasuringItem extends React.PureComponent {
   static propTypes = {
@@ -144,9 +145,7 @@ export default class MeasuringItem extends React.PureComponent {
       )
     }
 
-    
     if (maxLimit !== null) {
-     
       // return `${translate('monitoring.limit')}: < ${maxLimit}  ${unit || ''}`
       return (
         <LimitContainer>
@@ -178,7 +177,8 @@ export default class MeasuringItem extends React.PureComponent {
       return DATA_COLOR[STATUS_STATION.DATA_LOSS]
 
     const { warningLevel } = this.props
-    if (warningLevel && DATA_COLOR[warningLevel]) return DATA_COLOR[warningLevel]
+    if (warningLevel && DATA_COLOR[warningLevel])
+      return DATA_COLOR[warningLevel]
     return DATA_COLOR.GOOD
   }
 
