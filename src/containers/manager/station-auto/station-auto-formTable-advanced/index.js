@@ -19,6 +19,7 @@ import * as _ from 'lodash'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { langPropTypes } from '../../../../hoc/create-lang'
+import { v4 as uuidv4 } from 'uuid'
 
 const FormItem = Form.Item
 const { Option } = Select
@@ -73,7 +74,6 @@ export default class StationAutoFormTableAdvanced extends React.Component {
     measuringListAdvanced = _.map(dataSource, (item, index) => {
       return {
         ...item,
-        id: (index + 1).toString(),
       }
     })
     if (isStandardsVN) {
@@ -119,7 +119,7 @@ export default class StationAutoFormTableAdvanced extends React.Component {
         render: (text, record, index) => (
           <FormItem style={{ marginBottom: 0 }}>
             {this.props.form.getFieldDecorator(
-              `measuringListAdvanced[${index}].key`,
+              `measuringListAdvanced.${record.id}.key`,
               {
                 initialValue: text,
               }
@@ -136,13 +136,15 @@ export default class StationAutoFormTableAdvanced extends React.Component {
           const { measuringOptionsAdvanced } = this.state
           return (
             <FormItem style={{ marginBottom: 0 }}>
-              {getFieldDecorator(`measuringListAdvanced[${index}].name`, {
+              {getFieldDecorator(`measuringListAdvanced.${record.id}.name`, {
                 initialValue: record.name,
               })(
                 <AutoCompleteCell
                   style={{ width: '100%' }}
                   editable={this._isEnableEditMeasure(record.key)}
-                  onChange={value => this.handleChangeMeasuring(value, index)}
+                  onChange={value =>
+                    this.handleChangeMeasuring(value, record, index)
+                  }
                   options={measuringOptionsAdvanced}
                 />
               )}
@@ -159,7 +161,7 @@ export default class StationAutoFormTableAdvanced extends React.Component {
           return (
             <FormItem style={{ marginBottom: 0 }}>
               {getFieldDecorator(
-                `measuringListAdvanced[${index}].nameCalculate`,
+                `measuringListAdvanced.${record.id}.nameCalculate`,
                 {
                   initialValue: text,
                   rules: [
@@ -184,8 +186,12 @@ export default class StationAutoFormTableAdvanced extends React.Component {
                 }
               )(
                 <Input
-                  onChange={value =>
-                    this.handleOnChangeNameCalculate(value, index)
+                  onChange={e =>
+                    this.handleOnChangeNameCalculate(
+                      e.target.value,
+                      record,
+                      index
+                    )
                   }
                   style={{ width: '100%' }}
                 />
@@ -204,7 +210,7 @@ export default class StationAutoFormTableAdvanced extends React.Component {
             <Col span={18}>
               <FormItem style={{ marginBottom: 0 }}>
                 {getFieldDecorator(
-                  `measuringListAdvanced[${index}].functionCalculate`,
+                  `measuringListAdvanced.${record.id}.functionCalculate`,
                   {
                     initialValue: 'indexCalculation',
                   }
@@ -241,12 +247,12 @@ export default class StationAutoFormTableAdvanced extends React.Component {
         align: 'center',
         width: 100,
         render: (text, record, index) => {
-          const measuring = this.props.measuringList.find(
+          const measuring = _.get(this.props, 'measuringList', []).find(
             measuring => measuring.key === record.key
           )
           return (
             <FormItem style={{ marginBottom: 0 }}>
-              {getFieldDecorator(`measuringListAdvanced[${index}].unit`, {
+              {getFieldDecorator(`measuringListAdvanced.${record.id}.unit`, {
                 initialValue: measuring ? measuring.unit : text,
                 rule: {
                   whitespace: true,
@@ -270,7 +276,7 @@ export default class StationAutoFormTableAdvanced extends React.Component {
               <span>
                 <Popconfirm
                   title={i18n().popConfirm}
-                  onConfirm={() => this.removeMeasuring(index)}
+                  onConfirm={() => this.removeMeasuring(record.id)}
                 >
                   <a>
                     <Icon
@@ -290,9 +296,10 @@ export default class StationAutoFormTableAdvanced extends React.Component {
   handleAddRow() {
     const { measuringListAdvanced } = this.state
     const newRow = {
-      id: (measuringListAdvanced.length + 1).toString(),
+      id: uuidv4(),
       key: '',
       name: '',
+      nameCalculate: '',
       functionCalculate: 'indexCalculation',
       unit: '',
     }
@@ -303,12 +310,15 @@ export default class StationAutoFormTableAdvanced extends React.Component {
     })
   }
 
-  removeMeasuring(index) {
+  removeMeasuring(id) {
     const { measuringListAdvanced } = this.state
 
-    measuringListAdvanced.splice(index, 1)
+    const newMeasuringListAdvanced = measuringListAdvanced.filter(
+      item => item.id !== id
+    )
     this.setState({
-      measuringOptionsAdvanced: this.getOptions(measuringListAdvanced),
+      measuringListAdvanced: newMeasuringListAdvanced,
+      measuringOptionsAdvanced: this.getOptions(newMeasuringListAdvanced),
     })
     this.forceUpdate()
   }
@@ -329,7 +339,7 @@ export default class StationAutoFormTableAdvanced extends React.Component {
 
     let measuringSelected
 
-    arr.map(element => {
+    arr.forEach(element => {
       if (element.key === meaKey) measuringSelected = element
     })
 
@@ -344,7 +354,7 @@ export default class StationAutoFormTableAdvanced extends React.Component {
         {isLoaded && (
           <Table
             bordered
-            rowKey="id"
+            rowKey={record => record.id}
             dataSource={measuringListAdvanced}
             columns={this.getColumns()}
             pagination={{
@@ -369,59 +379,62 @@ export default class StationAutoFormTableAdvanced extends React.Component {
     )
   }
 
-  handleChangeMeasuring = (value, index) => {
-    const { measuringListSource, form } = this.props
+  handleChangeMeasuring = (value, record, index) => {
+    const { measuringListSource } = this.props
+    const { measuringListAdvanced } = this.state
 
     const measure = measuringListSource.find(item => item.key === value)
 
-    form.setFieldsValue({
-      [`measuringListAdvanced[${index}]`]: { nameCalculate: undefined },
-    })
-
-    this.setState(
-      update(this.state, {
-        measuringListAdvanced: {
-          [index]: {
-            key: { $set: value },
-            name: { $set: measure.name },
-            unit: { $set: measure.unit },
-          },
-        },
-      })
+    const newMeasuringListAdvanced = measuringListAdvanced.map(
+      measuringAdvanced => {
+        return measuringAdvanced.id === record.id
+          ? {
+              id: record.id,
+              key: value,
+              name: measure.name,
+              nameCalculate: '',
+              unit: measure.unit,
+            }
+          : measuringAdvanced
+      }
     )
+
+    this.setState({ measuringListAdvanced: newMeasuringListAdvanced })
   }
 
-  handleOnChangeNameCalculate = (value, index) => {
-    this.setState(
-      update(this.state, {
-        measuringListAdvanced: {
-          [index]: {
-            nameCalculate: { $set: value },
-          },
-        },
-      })
+  handleOnChangeNameCalculate = (value, record, index) => {
+    const { measuringListAdvanced } = this.state
+
+    const newMeasuringListAdvanced = measuringListAdvanced.map(
+      measuringAdvanced => {
+        return measuringAdvanced.id === record.id
+          ? {
+              id: record.id,
+              key: record.key,
+              name: record.name,
+              nameCalculate: value,
+              unit: record.unit,
+            }
+          : measuringAdvanced
+      }
     )
+
+    this.setState({ measuringListAdvanced: newMeasuringListAdvanced })
   }
 
   componentDidUpdate(prevProps, prevState) {
     const { isLoaded, measuringListAdvanced } = this.state
-    const { form, onChangeMeasuring, measuringListSource } = this.props
+    const { onChangeMeasuring, measuringListSource } = this.props
     if (isLoaded) {
-      let measuringListAdvancedForm =
-        form.getFieldValue('measuringListAdvanced') || []
-      let measuringListAdvancedFilter = _.values(
-        measuringListAdvancedForm
-      ).filter((element, index) => element !== undefined)
       if (
         JSON.stringify(prevState.measuringListAdvanced) !==
         JSON.stringify(measuringListAdvanced)
       ) {
         if (onChangeMeasuring) {
           this.setState({
-            measuringListAdvanced: measuringListAdvancedFilter,
             measuringOptionsAdvanced: this.getOptions(measuringListAdvanced),
           })
-          onChangeMeasuring(measuringListAdvancedFilter)
+          onChangeMeasuring(measuringListAdvanced)
         }
       }
       if (

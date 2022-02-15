@@ -130,7 +130,7 @@ export default class StationAutoFormTable extends React.Component {
     const { measuringListAdvanced } = this.props
     let measuringSelected
     if (measuringListAdvanced) {
-      measuringListAdvanced.map(element => {
+      measuringListAdvanced.forEach(element => {
         if (element.key === keyMeasure) measuringSelected = element
       })
       return measuringListAdvanced.includes(measuringSelected)
@@ -519,7 +519,6 @@ export default class StationAutoFormTable extends React.Component {
   }
 
   render() {
-    const { t } = this.props.lang
     const { measuringList, isLoaded } = this.state
 
     return (
@@ -597,20 +596,14 @@ export default class StationAutoFormTable extends React.Component {
             indexChange = [...indexChange, index]
             measuringListAdvanced[index].key = undefined
             measuringListAdvanced[index].unit = undefined
-            setTimeout(() => {
-              form.setFieldsValue({
-                [`measuringListAdvanced[${indexChange}]`]: {
-                  name: undefined,
-                  nameCalculate: undefined,
-                },
-              })
-            })
+            measuringListAdvanced[index].name = undefined
+            measuringListAdvanced[index].nameCalculate = undefined
           })
         }
         indexChange.forEach(index =>
           setTimeout(() => {
             form.setFieldsValue({
-              [`measuringListAdvanced[${index}]`]: {
+              [`measuringListAdvanced.${measuringListAdvanced[index].id}`]: {
                 name: undefined,
                 nameCalculate: undefined,
               },
@@ -666,9 +659,6 @@ export default class StationAutoFormTable extends React.Component {
       this.props.measuringListAdvanced,
       measuringListSourceAdvanced
     )
-    // this.props.form.setFieldsValue({
-    //   [`measuringListAdvanced[${indexOfUnitChange}].unit`]: value,
-    // })
   }
 
   componentDidUpdate(prevProps, prevState) {

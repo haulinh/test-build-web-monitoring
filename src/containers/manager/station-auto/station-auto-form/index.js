@@ -36,6 +36,7 @@ import styled from 'styled-components'
 import swal from 'sweetalert2'
 import MeasuringTableAdvanced from '../station-auto-formTable-advanced/'
 import MeasuringTable from '../station-auto-formTable/'
+import { v4 as uuidv4 } from 'uuid'
 
 const { TextArea } = Input
 const { Panel } = Collapse
@@ -203,6 +204,7 @@ export default class StationAutoForm extends React.PureComponent {
           return {
             ...measuringAdvanced,
             unit: unitInMeasuring,
+            id: uuidv4(),
           }
         }
       )
@@ -296,7 +298,11 @@ export default class StationAutoForm extends React.PureComponent {
       }
 
       let measuringList = this.state.measuringList
-      let measuringListAdvanced = this.state.measuringListAdvanced
+      let measuringListAdvanced = this.state.measuringListAdvanced.map(
+        ({ id, ...restItem }) => {
+          return restItem
+        }
+      )
       if (measuringListAdvanced) {
         measuringListAdvanced.forEach(
           element => (element.nameCalculate = element.nameCalculate.trim())
@@ -417,7 +423,7 @@ export default class StationAutoForm extends React.PureComponent {
         this.props.onSubmit(data)
         data.measuringListAdvanced.forEach((measuringAdvanced, index) => {
           this.props.form.setFieldsValue({
-            [`measuringListAdvanced[${index}]`]: {
+            [`measuringListAdvanced.${this.state.measuringListAdvanced[index].id}`]: {
               nameCalculate: measuringAdvanced.nameCalculate.trim(),
             },
           })
