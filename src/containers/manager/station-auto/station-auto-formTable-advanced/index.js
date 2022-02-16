@@ -247,13 +247,10 @@ export default class StationAutoFormTableAdvanced extends React.Component {
         align: 'center',
         width: 100,
         render: (text, record, index) => {
-          const measuring = _.get(this.props, 'measuringList', []).find(
-            measuring => measuring.key === record.key
-          )
           return (
             <FormItem style={{ marginBottom: 0 }}>
               {getFieldDecorator(`measuringListAdvanced.${record.id}.unit`, {
-                initialValue: measuring ? measuring.unit : text,
+                initialValue: text,
                 rule: {
                   whitespace: true,
                 },
@@ -380,10 +377,12 @@ export default class StationAutoFormTableAdvanced extends React.Component {
   }
 
   handleChangeMeasuring = (value, record, index) => {
-    const { measuringListSource } = this.props
+    const { measuringListSource, form } = this.props
     const { measuringListAdvanced } = this.state
 
     const measure = measuringListSource.find(item => item.key === value)
+
+    form.resetFields([`measuringListAdvanced.${record.id}.nameCalculate`])
 
     const newMeasuringListAdvanced = measuringListAdvanced.map(
       measuringAdvanced => {
@@ -392,7 +391,7 @@ export default class StationAutoFormTableAdvanced extends React.Component {
               id: record.id,
               key: value,
               name: measure.name,
-              nameCalculate: '',
+              nameCalculate: undefined,
               unit: measure.unit,
             }
           : measuringAdvanced

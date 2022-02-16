@@ -194,6 +194,15 @@ export default class StationAutoForm extends React.PureComponent {
     } = this._convertMinutesToTimeRange(minuteCount)
 
     let measuringListAdvancedMapped = []
+    let measuringListMapped = []
+    if (initialValues.measuringList) {
+      measuringListMapped = initialValues.measuringList.map(measuring => {
+        return {
+          ...measuring,
+          id: uuidv4(),
+        }
+      })
+    }
     if (initialValues.measuringListAdvanced) {
       measuringListAdvancedMapped = initialValues.measuringListAdvanced.map(
         measuringAdvanced => {
@@ -213,7 +222,7 @@ export default class StationAutoForm extends React.PureComponent {
     this.setState({
       emails: initialValues.emails,
       phones: initialValues.phones,
-      measuringList: initialValues.measuringList,
+      measuringList: measuringListMapped,
       measuringListAdvanced: measuringListAdvancedMapped,
       linkedStation: initialValues.linkedStation,
       stationType: initialValues.stationType,
@@ -297,7 +306,11 @@ export default class StationAutoForm extends React.PureComponent {
         }
       }
 
-      let measuringList = this.state.measuringList
+      let measuringList = this.state.measuringList.map(
+        ({ id, ...restItem }) => {
+          return restItem
+        }
+      )
       let measuringListAdvanced = this.state.measuringListAdvanced.map(
         ({ id, ...restItem }) => {
           return restItem
@@ -1153,6 +1166,7 @@ export default class StationAutoForm extends React.PureComponent {
                             key: '',
                             name: '',
                             unit: '',
+                            id: uuidv4(),
                           },
                         ]
                   }
