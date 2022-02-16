@@ -100,7 +100,6 @@ export default class StationAutoFormTable extends React.Component {
   }
 
   getOptions(measuringList) {
-    console.log('measuringList in getOptions------------->', measuringList)
     const data = _.get(this.props, 'measuringListSource', []).map(d => (
       <Select.Option
         disabled={!this._isEnableSelectMeasure(d.key, measuringList)}
