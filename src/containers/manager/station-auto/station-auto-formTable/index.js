@@ -616,7 +616,7 @@ export default class StationAutoFormTable extends React.Component {
             maxTend: record.maxTend,
             minLimit: record.minLimit,
             minRange: record.minRange,
-            minTend: record.minRange,
+            minTend: record.minTend,
             name: measure.name,
             unit: measure.unit,
           }
