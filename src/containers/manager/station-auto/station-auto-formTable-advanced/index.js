@@ -413,6 +413,7 @@ export default class StationAutoFormTableAdvanced extends React.Component {
               name: record.name,
               nameCalculate: value,
               unit: record.unit,
+              functionCalculate: 'indexCalculation',
             }
           : measuringAdvanced
       }
