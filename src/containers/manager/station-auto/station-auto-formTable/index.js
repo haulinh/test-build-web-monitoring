@@ -623,57 +623,64 @@ export default class StationAutoFormTable extends React.Component {
         : measuring
     })
 
-    this.setState({ measuringList: newMeasuringList }, () => {
-      let indexChange = []
-      let measuringListAdvancedChanged
+    this.setState(
+      {
+        measuringList: newMeasuringList,
+        measuringOptions: this.getOptions(newMeasuringList),
+      },
+      () => {
+        let indexChange = []
+        let measuringListAdvancedChanged
 
-      const {
-        measuringListAdvanced,
-        form,
-        measuringListSource,
-        onChangeMeasuring,
-      } = this.props
-      const { measuringList } = this.state
+        const {
+          measuringListAdvanced,
+          form,
+          measuringListSource,
+          onChangeMeasuring,
+        } = this.props
+        const { measuringList } = this.state
 
-      const measuringListSourceAdvanced = measuringListSource.filter(measure =>
-        measuringList.some(measuring => measuring.key === measure.key)
-      )
-
-      if (measuringListAdvanced) {
-        measuringListAdvancedChanged = measuringListAdvanced.filter(
-          measuringAdvanced => {
-            return measuringList.every(
-              measuring => measuring.key !== measuringAdvanced.key
-            )
-          }
+        const measuringListSourceAdvanced = measuringListSource.filter(
+          measure =>
+            measuringList.some(measuring => measuring.key === measure.key)
         )
 
-        measuringListAdvancedChanged.forEach(value => {
-          const index = measuringListAdvanced.indexOf(value)
-          indexChange = [...indexChange, index]
-          measuringListAdvanced[index].key = undefined
-          measuringListAdvanced[index].unit = undefined
-          measuringListAdvanced[index].name = undefined
-          measuringListAdvanced[index].nameCalculate = undefined
-        })
-      }
-      indexChange.forEach(index =>
-        setTimeout(() => {
-          form.setFieldsValue({
-            [`measuringListAdvanced.${measuringListAdvanced[index].id}`]: {
-              name: undefined,
-              nameCalculate: undefined,
-            },
-          })
-        })
-      )
+        if (measuringListAdvanced) {
+          measuringListAdvancedChanged = measuringListAdvanced.filter(
+            measuringAdvanced => {
+              return measuringList.every(
+                measuring => measuring.key !== measuringAdvanced.key
+              )
+            }
+          )
 
-      onChangeMeasuring(
-        measuringList,
-        measuringListAdvanced,
-        measuringListSourceAdvanced
-      )
-    })
+          measuringListAdvancedChanged.forEach(value => {
+            const index = measuringListAdvanced.indexOf(value)
+            indexChange = [...indexChange, index]
+            measuringListAdvanced[index].key = undefined
+            measuringListAdvanced[index].unit = undefined
+            measuringListAdvanced[index].name = undefined
+            measuringListAdvanced[index].nameCalculate = undefined
+          })
+        }
+        indexChange.forEach(index =>
+          setTimeout(() => {
+            form.setFieldsValue({
+              [`measuringListAdvanced.${measuringListAdvanced[index].id}`]: {
+                name: undefined,
+                nameCalculate: undefined,
+              },
+            })
+          })
+        )
+
+        onChangeMeasuring(
+          measuringList,
+          measuringListAdvanced,
+          measuringListSourceAdvanced
+        )
+      }
+    )
   }
 
   handleOnChangeUnit = (value, record, index) => {
