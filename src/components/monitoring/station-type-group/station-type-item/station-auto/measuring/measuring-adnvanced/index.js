@@ -202,7 +202,12 @@ class MeasuringItem extends React.PureComponent {
                   </MeasuringUnit>
                 </React.Fragment>
               ) : (
-                '-'
+                <React.Fragment>
+                  -
+                  <MeasuringUnit color={colorStatus} className="unit">
+                    {measure.unit ? measure.unit : ''}
+                  </MeasuringUnit>
+                </React.Fragment>
               )}
             </MeasuringValue>
           </LeftContainer>
