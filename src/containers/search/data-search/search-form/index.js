@@ -198,9 +198,20 @@ export default class SearchFormHistoryData extends React.Component {
     const { stationAutos } = this.state
     const { form } = this.props
 
-    const stationAutoList = stationAutos.filter(
+    let stationAutoList
+
+    const province = form.getFieldValue(fields.province)
+
+    console.log({ province })
+
+    stationAutoList = stationAutos.filter(
       stationAuto => stationAuto.stationType.key === stationType
     )
+
+    if (province !== '')
+      stationAutoList = stationAutoList.filter(
+        stationAuto => _.get(stationAuto, ['province', 'key']) === province
+      )
 
     const firstValue = _.get(stationAutoList, '0.key')
 
