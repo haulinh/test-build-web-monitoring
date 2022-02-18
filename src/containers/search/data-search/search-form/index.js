@@ -296,6 +296,7 @@ export default class SearchFormHistoryData extends React.Component {
               })(
                 <SelectProvince
                   isShowAll
+                  allowClear={false}
                   size="large"
                   style={{ width: '100%' }}
                 />
