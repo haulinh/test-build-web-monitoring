@@ -100,6 +100,9 @@ export default class MinutesDataSearch extends React.Component {
   }
 
   handleOnSearch = async valuesForm => {
+    // const { form } = this.props
+    await this.searchFormRef.current.validateFields()
+
     const { stationKey, rangesDate, ...queryParams } = this.getQueryParam(
       valuesForm
     )
@@ -165,6 +168,9 @@ export default class MinutesDataSearch extends React.Component {
   exportExcel = async () => {
     const { locale, stationAutoByKey } = this.props
     const { stationKey, rangesDate, ...queryParams } = this.getQueryParam()
+
+    await this.searchFormRef.current.validateFields()
+
     this.setState({ loadingExport: true })
     try {
       const result = await DataInsight.exportDataOriginal(stationKey, {

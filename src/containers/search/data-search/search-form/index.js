@@ -305,6 +305,12 @@ export default class SearchFormHistoryData extends React.Component {
           <Col span={3}>
             <FormItem label={t('stationType.label')}>
               {form.getFieldDecorator(fields.stationType, {
+                rules: [
+                  {
+                    required: true,
+                    message: translate('avgSearchFrom.form.stationType.error'),
+                  },
+                ],
                 onChange: this.onStationTypeChange,
               })(
                 <SelectStationType
