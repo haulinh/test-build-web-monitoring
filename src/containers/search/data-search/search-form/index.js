@@ -91,6 +91,7 @@ export default class SearchFormHistoryData extends React.Component {
   state = {
     stationAutoSelected: {},
     stationAutos: [],
+    stationTypes: [],
   }
 
   componentDidMount() {
@@ -141,6 +142,9 @@ export default class SearchFormHistoryData extends React.Component {
   }
 
   onFetchSuccessStationType = stationTypes => {
+    this.setState({
+      stationTypes,
+    })
     const { form, formData } = this.props
     if (!_.isEmpty(formData)) return
     const stationTypeInit = stationTypes[0].key
@@ -223,17 +227,29 @@ export default class SearchFormHistoryData extends React.Component {
     const { form } = this.props
     const { stationAutos } = this.state
 
+    let stationAutoList = stationAutos
+
     const stationTypes = this.getStationTypes(province)
+
+    console.log({ stationTypes })
 
     const stationTypeKeys = stationTypes.map(stationType => stationType.key)
 
     const firstValueStationType = _.get(stationTypes, '0.key')
 
-    const stationAutoList = stationAutos.filter(
+    stationAutoList = stationAutos.filter(
       stationAuto =>
         stationAuto.stationType.key === firstValueStationType &&
         _.get(stationAuto, ['province', 'key']) === province
     )
+
+    if (province === '')
+      stationAutoList = stationAutos.filter(
+        stationAuto =>
+          _.get(stationAuto, ['stationType', 'key']) === firstValueStationType
+      )
+
+    console.log({ stationAutoList })
 
     const firstValue = _.get(stationAutoList, '0.key')
 
