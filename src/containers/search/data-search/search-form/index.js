@@ -105,6 +105,7 @@ export default class SearchFormHistoryData extends React.Component {
 
   getInitValuesFormData = () => {
     const { formData } = this.props
+
     const initValues = {
       [fields.rangesDate]: 1,
       [fields.stationKey]: formData.stationAuto,
@@ -155,6 +156,16 @@ export default class SearchFormHistoryData extends React.Component {
     if (success) onSearch()
   }
 
+  setFieldValueMeasuringOption = stationAuto => {
+    const { form } = this.props
+
+    const measuringOptions = this.getMeasureOptions(stationAuto || '')
+    const measuringOptionsKey = measuringOptions.map(measure => measure.value)
+    form.setFieldsValue({
+      [fields.measuringList]: measuringOptionsKey,
+    })
+  }
+
   setInitValues = stationAutos => {
     const { form } = this.props
     const stationTypeSelected = form.getFieldValue(fields.stationType)
@@ -170,22 +181,67 @@ export default class SearchFormHistoryData extends React.Component {
       [fields.stationKey]: stationAutosBelongStationTypeSelect.key,
     })
 
-    const measuringOptions = this.getMeasureOptions()
-    const measuringOptionsKey = measuringOptions.map(measure => measure.value)
-    form.setFieldsValue({
-      [fields.measuringList]: measuringOptionsKey,
-    })
+    this.setFieldValueMeasuringOption()
 
     return true
   }
 
   handleOnChangeStationAuto = stationAutoValue => {
+    this.setFieldValueMeasuringOption(stationAutoValue)
+  }
+
+  onStationTypeChange = stationType => {
+    const { stationAutos } = this.state
     const { form } = this.props
-    const measuringOptions = this.getMeasureOptions(stationAutoValue)
-    const measuringOptionsKey = measuringOptions.map(measure => measure.value)
+
+    const stationAutoList = stationAutos.filter(
+      stationAuto => stationAuto.stationType.key === stationType
+    )
+
+    const firstValue = _.get(stationAutoList, '0.key')
+
+    form.setFieldsValue({ [fields.stationKey]: firstValue })
+
+    this.setFieldValueMeasuringOption(firstValue)
+  }
+
+  getStationTypes = province => {
+    const stationAutoTypeKeys = this.state.stationAutos
+      .filter(stationAuto => {
+        const provinceValue = _.get(stationAuto, ['province', 'key'], '')
+        return provinceValue === province
+      })
+      .filter(station => station.stationType)
+      .map(station => station.stationType.key)
+
+    return this.state.stationTypes.filter(stationType =>
+      stationAutoTypeKeys.includes(stationType.key)
+    )
+  }
+
+  onProvinceChange = province => {
+    const { form } = this.props
+    const { stationAutos } = this.state
+
+    const stationTypes = this.getStationTypes(province)
+
+    const stationTypeKeys = stationTypes.map(stationType => stationType.key)
+
+    const firstValueStationType = _.get(stationTypes, '0.key')
+
+    const stationAutoList = stationAutos.filter(
+      stationAuto =>
+        stationAuto.stationType.key === firstValueStationType &&
+        _.get(stationAuto, ['province', 'key']) === province
+    )
+
+    const firstValue = _.get(stationAutoList, '0.key')
+
     form.setFieldsValue({
-      [fields.measuringList]: measuringOptionsKey,
+      [fields.stationKey]: firstValue,
+      [fields.stationType]: stationTypeKeys[0],
     })
+    this.setFieldValueMeasuringOption(firstValue)
   }
 
   getConditionsFilter = () => {
@@ -196,13 +252,14 @@ export default class SearchFormHistoryData extends React.Component {
   render() {
     const t = this.props.lang.createNameSpace('dataSearchFrom.form')
     const { form } = this.props
+    const { stationAutos } = this.state
 
-    // this.setInitValueFilterBy()
     const {
       [fields.province]: province,
       [fields.stationType]: stationType,
       [fields.dataType]: dataType,
     } = form.getFieldsValue()
+
     const measureOptions = this.getMeasureOptions()
 
     return (
@@ -210,7 +267,10 @@ export default class SearchFormHistoryData extends React.Component {
         <Row gutter={[16, 24]}>
           <Col span={3}>
             <FormItem label={translate('qaqc.province.label')}>
-              {form.getFieldDecorator(fields.province, { initialValue: '' })(
+              {form.getFieldDecorator(fields.province, {
+                initialValue: '',
+                onChange: this.onProvinceChange,
+              })(
                 <SelectProvince
                   isShowAll
                   size="large"
@@ -221,11 +281,13 @@ export default class SearchFormHistoryData extends React.Component {
           </Col>
           <Col span={3}>
             <FormItem label={t('stationType.label')}>
-              {form.getFieldDecorator(fields.stationType)(
+              {form.getFieldDecorator(fields.stationType, {
+                onChange: this.onStationTypeChange,
+              })(
                 <SelectStationType
+                  province={province}
+                  stationAutos={stationAutos}
                   onFetchSuccess={this.onFetchSuccessStationType}
-                  style={{ width: '100%' }}
-                  size="large"
                 />
               )}
             </FormItem>
