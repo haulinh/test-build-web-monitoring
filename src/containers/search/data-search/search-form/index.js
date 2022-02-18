@@ -231,8 +231,6 @@ export default class SearchFormHistoryData extends React.Component {
 
     const stationTypes = this.getStationTypes(province)
 
-    console.log({ stationTypes })
-
     const stationTypeKeys = stationTypes.map(stationType => stationType.key)
 
     const firstValueStationType = _.get(stationTypes, '0.key')
@@ -248,8 +246,6 @@ export default class SearchFormHistoryData extends React.Component {
         stationAuto =>
           _.get(stationAuto, ['stationType', 'key']) === firstValueStationType
       )
-
-    console.log({ stationAutoList })
 
     const firstValue = _.get(stationAutoList, '0.key')
 
