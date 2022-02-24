@@ -4,6 +4,7 @@ import slug from 'constants/slug'
 import StationFixedList from './station-fixed-list'
 import StationFixedCreate from './station-fixed-create'
 import StationFixedImportData from './station-fixed-import-data'
+import stationFixedDrive from './upload-file'
 import StationFixedImportPoint from './import-multi-point'
 import StationFixedEdit from './station-fixed-edit'
 import StationFixedMap from './station-fixed-map'
@@ -33,6 +34,7 @@ export default props => (
       path={slug.stationFixed.importData}
       component={StationFixedImportData}
     />
+    <Route path={slug.stationFixed.uploadFile} component={stationFixedDrive} />
     <Route path={slug.stationFixed.map} component={StationFixedMap} />
   </Switch>
 )
