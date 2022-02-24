@@ -19,4 +19,9 @@ export default createBreadcrumb({
     href: slug.stationFixed.edit,
     getName: () => translate('stationFixedPoint.edit.label'),
   },
+  drive: {
+    id: 'drive',
+    href: slug.stationFixed.edit,
+    name: 'FILE',
+  },
 })

@@ -3650,6 +3650,22 @@ export default {
       table: 'Table',
     },
   },
+  stationFixedDriver: {
+    title: {
+      search: 'Look up data',
+      station: 'Monitoring station',
+      importData: 'Import Data',
+      historyData: 'Upload history',
+      fileName: 'Filename',
+      FileSize: 'Size',
+      createAt: 'Upload time',
+      user: 'Uploader',
+      preview: 'Preview',
+    },
+    success: 'Upload successful',
+    error: 'Upload failed',
+    deleteSuccess: 'Delete successful',
+  },
   wqiStationFix: {
     order: 'No.',
     viewBy: 'View By',
