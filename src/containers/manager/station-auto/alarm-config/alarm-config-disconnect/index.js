@@ -1,15 +1,7 @@
+import { Button, Checkbox, Icon, Popconfirm, Table } from 'antd'
 import React, { Component } from 'react'
-import {
-  Table,
-  Form,
-  InputNumber,
-  Button,
-  Icon,
-  Popconfirm,
-  Checkbox,
-} from 'antd'
-import { FIELDS } from '../index'
 import { v4 as uuidv4 } from 'uuid'
+import { FIELDS } from '../index'
 import SelectTime from './select-time'
 
 export default class AlarmConfig extends Component {
@@ -97,7 +89,7 @@ export default class AlarmConfig extends Component {
     const { dataSource } = this.state
     const id = uuidv4()
     const newData = {
-      id: id,
+      id,
     }
 
     this.setState({
@@ -105,32 +97,34 @@ export default class AlarmConfig extends Component {
     })
   }
 
+  dataSourceInit = [
+    {
+      id: uuidv4(),
+      address: `London, Park Lane no. `,
+      timeDisconnect: 30,
+      isActive: false,
+    },
+    {
+      id: uuidv4(),
+      address: `London, Park Lane no. `,
+      timeDisconnect: 60,
+      isActive: true,
+    },
+    {
+      id: uuidv4(),
+      address: `London, Park Lane no. `,
+      timeDisconnect: 240,
+      isActive: true,
+    },
+  ]
+
   componentDidMount = () => {
-    const dataSourceInit = [
-      {
-        id: uuidv4(),
-        address: `London, Park Lane no. `,
-        timeDisconnect: 30,
-        isActive: false,
-      },
-      {
-        id: uuidv4(),
-        address: `London, Park Lane no. `,
-        timeDisconnect: 60,
-        isActive: true,
-      },
-      {
-        id: uuidv4(),
-        address: `London, Park Lane no. `,
-        timeDisconnect: 240,
-        isActive: true,
-      },
-    ]
+    //isEdit call api set init dataSource
 
     const { isEdit } = this.props
     if (!isEdit)
       this.setState({
-        dataSource: dataSourceInit,
+        dataSource: this.dataSourceInit,
       })
   }
 
