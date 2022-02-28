@@ -1398,12 +1398,10 @@ export default class StationAutoForm extends React.PureComponent {
           <FormItem
             style={{
               marginTop: '20px',
-              display: 'flex',
-              justifyContent: 'flex-end',
             }}
           >
             <Button
-              style={{ width: '130px' }}
+              style={{ width: '100%' }}
               type="primary"
               loading={this.props.isLoading}
               htmlType="submit"
@@ -1412,7 +1410,7 @@ export default class StationAutoForm extends React.PureComponent {
             </Button>
           </FormItem>
 
-          <AlarmConfig />
+          <AlarmConfig isEdit={this.props.isEdit} />
         </Form>
       </div>
     )

@@ -14,20 +14,7 @@ import SelectTime from './select-time'
 
 export default class AlarmConfig extends Component {
   state = {
-    dataSource: [
-      {
-        id: uuidv4(),
-        address: `London, Park Lane no. `,
-        timeDisconnect: 30,
-        isActive: false,
-      },
-      {
-        id: uuidv4(),
-        address: `London, Park Lane no. `,
-        timeDisconnect: 30,
-        isActive: true,
-      },
-    ],
+    dataSource: [],
   }
 
   onChange = e => {}
@@ -116,6 +103,35 @@ export default class AlarmConfig extends Component {
     this.setState({
       dataSource: [...dataSource, newData],
     })
+  }
+
+  componentDidMount = () => {
+    const dataSourceInit = [
+      {
+        id: uuidv4(),
+        address: `London, Park Lane no. `,
+        timeDisconnect: 30,
+        isActive: false,
+      },
+      {
+        id: uuidv4(),
+        address: `London, Park Lane no. `,
+        timeDisconnect: 60,
+        isActive: true,
+      },
+      {
+        id: uuidv4(),
+        address: `London, Park Lane no. `,
+        timeDisconnect: 240,
+        isActive: true,
+      },
+    ]
+
+    const { isEdit } = this.props
+    if (!isEdit)
+      this.setState({
+        dataSource: dataSourceInit,
+      })
   }
 
   render() {
