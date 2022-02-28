@@ -23,7 +23,11 @@ export default class SelectStatus extends Component {
   }
 
   async componentDidMount() {
-    const data = await CalculateApi.getStatusTicket()
+    let data = await CalculateApi.getStatusTicket()
+    if (data && data.length < 1) {
+      await CalculateApi.getStatusTicketInitial()
+      data = await CalculateApi.getStatusTicket()
+    }
     this.setState({ options: data })
   }
 
