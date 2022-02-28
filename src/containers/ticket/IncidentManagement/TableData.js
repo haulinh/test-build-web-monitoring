@@ -109,11 +109,11 @@ export const TableData = connect(
               style={{
                 ...omit(value, ['_id, name']),
                 textAlign: 'center',
-                border: `1px solid ${value.color}`,
+                border: `1px solid ${value ? value.color : ''}`,
                 borderRadius: '4px',
               }}
             >
-              {value.name}
+              {value && value.name ? value.name : ''}
             </div>
           ),
         },
@@ -143,7 +143,8 @@ export const TableData = connect(
       return (
         <TableStyled
           columns={columns}
-          onRow={(record, rowIndex) => {
+          rowKey={'_id'}
+          onRow={record => {
             return {
               onClick: event => {
                 if (
