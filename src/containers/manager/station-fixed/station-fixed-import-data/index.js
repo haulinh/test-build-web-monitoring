@@ -194,7 +194,7 @@ class StationFixedImportData extends React.Component {
     const values = await form.validateFields()
     const phase = values[FIELDS.PHASE]
     const file = values[FIELDS.FILE]
-    const typeImport = values[FIELDS.STATION_TYPE_ID]
+    const typeImport = values[FIELDS.typeExport]
 
     const formData = new FormData()
     formData.append(FIELDS.FILE, file)
@@ -260,7 +260,7 @@ class StationFixedImportData extends React.Component {
 
     const stationTypeId =
       form.getFieldValue(FIELDS.PHASE) &&
-        form.getFieldValue(FIELDS.PHASE).length === 2
+      form.getFieldValue(FIELDS.PHASE).length === 2
         ? form.getFieldValue(FIELDS.PHASE)[0].stationTypeId
         : null
 
@@ -334,8 +334,9 @@ class StationFixedImportData extends React.Component {
               <Col span={8} className="download-wrapper">
                 {isDownloadingFile && <Spin className="spin" />}
                 <div
-                  className={`ant-upload ant-upload-drag ${countMeasuring < 1 ? 'disabled-download' : ''
-                    }`}
+                  className={`ant-upload ant-upload-drag ${
+                    countMeasuring < 1 ? 'disabled-download' : ''
+                  }`}
                   onClick={this.onDownloadFile}
                 >
                   <Text
