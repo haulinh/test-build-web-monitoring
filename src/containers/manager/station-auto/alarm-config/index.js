@@ -64,26 +64,16 @@ export default class AlarmConfig extends Component {
     const { userList } = this.state
 
     return (
-      <div>
-        <Collapse style={{ marginTop: '10px' }}>
-          <PanelAnt header="Cảnh báo" key="1">
-            <AlarmConfigDisconnect
-              isEdit={isEdit}
-              form={form}
-              userList={userList}
-            />
-            <Clearfix height={24} />
-            <AlarmConfigExceed form={form} userList={userList} />
-          </PanelAnt>
-        </Collapse>
+      <Collapse style={{ marginTop: '10px' }}>
+        <PanelAnt header="Cảnh báo" key="1">
+          <AlarmConfigDisconnect
+            isEdit={isEdit}
+            form={form}
+            userList={userList}
+          />
+          <Clearfix height={24} />
+          <AlarmConfigExceed form={form} userList={userList} />
 
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-            padding: '20px 0',
-          }}
-        >
           <Button
             style={{ width: '100%', marginTop: '10px' }}
             type="primary"
