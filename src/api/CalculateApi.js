@@ -55,8 +55,12 @@ export default {
     return deleteFetch(url)
   },
   getStatusTicket: () => {
-    const url = calc('/ticket-config/status')
+    const url = calc('ticket-config/status')
     return getFetch(url)
+  },
+  getStatusTicketInitial: () => {
+    const url = calc('ticket-config/init')
+    return postFetch(url, {})
   },
   //#endregion
 

@@ -106,6 +106,7 @@ export default {
     editWithKey: '/station-fixed/edit',
     importPoint: '/station-fixed/import-point',
     importData: '/station-fixed/import-data',
+    uploadFile: '/station-fixed/drive',
     map: '/station-fixed/map',
   },
   configWQI: {
@@ -376,6 +377,7 @@ export const MENU_NAME = {
     base: translate('menuApp.stationFixed.base'),
     point: translate('menuApp.stationFixed.stationFixed'),
     importData: translate('menuApp.stationFixed.importData'),
+    uploadFile: '/station-fixed/drive',
     report: translate('menuApp.stationFixed.report'),
     map: translate('menuApp.stationFixed.map'),
   },
@@ -473,6 +475,7 @@ export const TOOLTIP_MENU = {
     base: translate('menuApp.stationFixed.base'),
     point: translate('menuApp.stationFixed.stationFixed'),
     importData: translate('menuApp.stationFixed.importData'),
+    uploadFile: translate('menuApp.stationFixed.uploadFile'),
     report: translate('menuApp.stationFixed.report'),
     map: translate('menuApp.stationFixed.map'),
   },
@@ -576,6 +579,7 @@ export function listMenuName() {
     stationFixed: {
       base: translate('menuApp.stationFixed.base'),
       point: translate('menuApp.stationFixed.stationFixed'),
+      uploadFile: translate('menuApp.stationFixed.uploadFile'),
       importData: translate('menuApp.stationFixed.importData'),
       report: translate('menuApp.stationFixed.report'),
       map: translate('menuApp.stationFixed.map'),

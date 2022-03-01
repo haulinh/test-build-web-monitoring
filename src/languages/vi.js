@@ -3035,6 +3035,7 @@ export default {
     stationFixed: {
       base: 'Quản lý đợt quan trắc',
       stationFixed: 'Quản lý điểm quan trắc',
+      uploadFile: 'Quản lý báo cáo định kì',
       importData: 'Nhập dữ liệu điểm quan trắc',
       report: 'Tra cứu dữ liệu',
       map: 'Bản đồ',
@@ -3662,6 +3663,22 @@ export default {
       line: 'Đường',
       table: 'Bảng',
     },
+  },
+  stationFixedDriver: {
+    title: {
+      search: 'Tra cứu dữ liệu',
+      station: 'Trạm quan trắc',
+      importData: 'Nhập dữ liệu',
+      historyData: 'Lịch sử tải lên',
+      fileName: 'Tên file',
+      FileSize: 'Dung Lượng',
+      createdAt: 'Thời gian tải lên',
+      user: 'Người tải lên',
+      preview: 'Xem trước',
+    },
+    success: 'Tải lên thành công',
+    error: 'Tải lên không thành công',
+    deleteSuccess: 'Xóa thành công',
   },
   wqiStationFix: {
     order: 'STT',

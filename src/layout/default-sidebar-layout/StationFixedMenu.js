@@ -65,6 +65,24 @@ export default {
         </Menu.Item>
       )}
 
+      {protectRole(ROLE.STATION_FIXED.VIEW)(
+        <Menu.Item
+          key={slug.stationFixed.uploadFile}
+          onClick={() => {
+            props.selectMenu(slug.stationFixed.uploadFile)
+          }}
+        >
+          <Tooltip
+            placement="right"
+            title={listTooltipMenu().stationFixed.uploadFile}
+          >
+            <Link to={slug.stationFixed.uploadFile}>
+              {listMenuName().stationFixed.uploadFile}
+            </Link>
+          </Tooltip>
+        </Menu.Item>
+      )}
+
       {/* NOTE  nhập dữ liệu quan trắc */}
       {protectRole(ROLE.STATION_FIXED_INPUT.VIEW)(
         <Menu.Item
