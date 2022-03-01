@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import AlarmConfigDisconnect from './alarm-config-disconnect'
+import AlarmConfigExceed from './alarm-config-exceed'
 import { Collapse, Button, Form } from 'antd'
 import styled from 'styled-components'
 import UserApi from 'api/UserApi'
+import { Clearfix } from 'components/elements'
 
 const { Panel } = Collapse
 
@@ -25,6 +27,9 @@ export const FIELDS = {
   DISCONNECT: 'disconnect',
   TIME_DISCONNECT: 'timeDisconnect',
   ACTIVE: 'active',
+  EXCEED: 'exceed',
+  QCVN_EXCEED: 'qcvnExceed',
+  ACTIVE_EXCEED: 'activeExceed',
 }
 
 @Form.create()
@@ -59,13 +64,26 @@ export default class AlarmConfig extends Component {
     const { userList } = this.state
 
     return (
-      <Collapse style={{ marginTop: '20px' }}>
-        <PanelAnt header="Cảnh báo" key="1">
-          <AlarmConfigDisconnect
-            isEdit={isEdit}
-            form={form}
-            userList={userList}
-          />
+      <div>
+        <Collapse style={{ marginTop: '10px' }}>
+          <PanelAnt header="Cảnh báo" key="1">
+            <AlarmConfigDisconnect
+              isEdit={isEdit}
+              form={form}
+              userList={userList}
+            />
+            <Clearfix height={24} />
+            <AlarmConfigExceed form={form} userList={userList} />
+          </PanelAnt>
+        </Collapse>
+
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            padding: '20px 0',
+          }}
+        >
           <Button
             style={{ width: '100%', marginTop: '10px' }}
             type="primary"
