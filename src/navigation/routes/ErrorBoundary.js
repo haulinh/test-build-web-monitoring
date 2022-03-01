@@ -48,7 +48,7 @@ const Error = () => {
         />
       </div>
 
-      <Clearfix height={48} />
+      <Clearfix height={48}/>
       <Button
         onClick={() => (window.location.href = '/')}
         size="large"
@@ -61,32 +61,44 @@ const Error = () => {
 }
 
 export default class ErrorBoundary extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
+
     this.state = { error: null, errorInfo: null }
   }
 
-  componentDidCatch(error, errorInfo) {
+  componentDidCatch (error, errorInfo) {
     // Catch errors in any components below and re-render with error message
     this.setState({
       error: error,
       errorInfo: errorInfo,
+      numberClick: 0
     })
     // You can also log error messages to an error reporting service here
   }
 
-  render() {
+  handleClickHideView = () => {
+    this.setState(prevState => ({ numberClick: prevState.numberClick + 1 }))
+  }
+
+  render () {
+    const { numberClick } = this.state
+    const isShowDetailError = numberClick > 5
+
     if (this.state.errorInfo) {
       // Error path
       return (
         <Flex justifyContent="center">
           <div style={{ marginTop: 48 }}>
-            <Error />
-            <details style={{ whiteSpace: 'pre-wrap' }}>
-              {this.state.error && this.state.error.toString()}
-              <br />
-              {this.state.errorInfo.componentStack}
-            </details>
+            <Error/>
+            <div style={{ height: 100, width: '100%' }} onClick={this.handleClickHideView}/>
+            {isShowDetailError &&
+              (<details style={{ whiteSpace: 'pre-wrap' }}>
+                {this.state.error && this.state.error.toString()}
+                <br/>
+                {this.state.errorInfo.componentStack}
+              </details>)
+            }
           </div>
         </Flex>
       )
