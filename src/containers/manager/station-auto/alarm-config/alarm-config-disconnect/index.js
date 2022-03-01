@@ -2,7 +2,7 @@ import { Button, Checkbox, Icon, Popconfirm, Table } from 'antd'
 import React, { Component } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { FIELDS } from '../index'
-import SelectTime from './select-time'
+import SelectTime from './SelectTime'
 
 export default class AlarmConfig extends Component {
   state = {
