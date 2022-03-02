@@ -1,24 +1,19 @@
-import React, { PureComponent } from 'react'
 import { Select } from 'antd'
 import PropTypes from 'prop-types'
-import QCVNApi from 'api/QCVNApi'
-// import { autobind } from 'core-decorators'
-import { translate } from 'hoc/create-lang'
-import { get } from 'lodash'
+import React, { PureComponent } from 'react'
 import { replaceVietnameseStr } from 'utils/string'
 
-// @autobind
 export default class SelectQCVNExceed extends PureComponent {
   static propTypes = {
     query: PropTypes.object,
     label: PropTypes.string,
     onChange: PropTypes.func,
+    qcvnList: PropTypes.array,
     value: PropTypes.oneOfType([
       PropTypes.object,
       PropTypes.string,
       PropTypes.array,
     ]),
-    isShowAll: PropTypes.bool,
   }
 
   state = {
@@ -27,15 +22,16 @@ export default class SelectQCVNExceed extends PureComponent {
   }
 
   handleOnChange = value => {
+    const { qcvnList, onHandleChange, onChange } = this.props
     this.setState({ searchString: '' })
-    let res = this.props.qcvnList.find(item => item.key === value)
+    let res = qcvnList.find(item => item.key === value)
 
     if (this.props.mode === 'multiple') {
-      res = this.props.qcvnList.filter(item => value.includes(item.key))
+      res = qcvnList.filter(item => value.includes(item.key))
     }
     this.setState({ value })
-    if (this.props.onHandleChange) this.props.onHandleChange(res, this)
-    if (this.props.onChange) this.props.onChange(value)
+    if (onHandleChange) onHandleChange(res, this)
+    if (onChange) onChange(value)
   }
 
   handleSearch = value => {
@@ -43,14 +39,16 @@ export default class SelectQCVNExceed extends PureComponent {
   }
 
   getListQCVN = () => {
-    if (this.state.searchString) {
-      const searchString = replaceVietnameseStr(this.state.searchString)
-      return this.props.qcvnList.filter(
+    const { searchString } = this.state
+    const { qcvnList } = this.props
+    if (searchString) {
+      const searchStringFormat = replaceVietnameseStr(searchString)
+      return qcvnList.filter(
         standardVN =>
-          replaceVietnameseStr(standardVN.name).indexOf(searchString) > -1
+          replaceVietnameseStr(standardVN.name).indexOf(searchStringFormat) > -1
       )
     }
-    return this.props.qcvnList
+    return qcvnList
   }
 
   isDisabledQCVN = (selectedQCVNList, key) => {
@@ -63,7 +61,6 @@ export default class SelectQCVNExceed extends PureComponent {
   render() {
     const listQCVN = this.getListQCVN()
     const { selectedQCVNList } = this.props
-    // console.log(listQCVN, this.state.searchString, '--listQCVN--')
     return (
       <Select
         {...this.props}
@@ -75,11 +72,6 @@ export default class SelectQCVNExceed extends PureComponent {
         style={{ width: '100%' }}
         onSearch={this.handleSearch}
       >
-        {this.props.isShowAll && (
-          <Select.Option value="ALL">
-            {translate('dataSearchFrom.form.all')}
-          </Select.Option>
-        )}
         {listQCVN.map(standardVN => (
           <Select.Option
             key={standardVN.key}

@@ -1,8 +1,6 @@
 import { Table } from 'antd'
-import { T } from 'antd/lib/upload/utils'
 import _ from 'lodash'
 import React, { Component } from 'react'
-import { v4 as uuidv4 } from 'uuid'
 
 export default class TableExceedQCVN extends Component {
   getColumns = () => {
@@ -54,6 +52,7 @@ export default class TableExceedQCVN extends Component {
 
   render() {
     const { dataSource } = this.props
+
     return (
       <Table
         columns={this.getColumns()}

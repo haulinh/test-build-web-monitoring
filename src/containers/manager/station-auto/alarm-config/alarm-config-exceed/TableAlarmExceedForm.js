@@ -21,9 +21,44 @@ export default class TableAlarmConfigExceed extends Component {
         id: uuidv4(),
       },
     ],
-    standardsVNObject: '',
-    standardsVNObjectId: '',
-    selectedQCVNList: [],
+    qcvnObject: '',
+    qcvnObjectId: '',
+    qcvnListSelected: [],
+  }
+
+  onChangeQCVN = (value, id, indexQCVN) => {
+    const { qcvnList, onChangeQCVN } = this.props
+    const { qcvnListSelected, dataSource } = this.state
+
+    const qcvnSelected = qcvnList.find(qcvn => qcvn.key === value)
+
+    const newQcvnListSelected = [...qcvnListSelected, qcvnSelected]
+    const newDataSource = dataSource.map((element, index) => {
+      if (indexQCVN === index) {
+        return { id: element.id, key: value }
+      }
+      return { id: element.id, key: element.key }
+    })
+
+    this.setState(
+      {
+        qcvnListSelected: newQcvnListSelected,
+        dataSource: newDataSource,
+      },
+      () => {
+        const data = dataSource.reduce((base, current) => {
+          base.push(
+            this.props.form.getFieldsValue([`exceed.${current.id}.qcvnExceed`])
+              .exceed[`${current.id}`].qcvnExceed
+          )
+          return base
+        }, [])
+        const qcvnSort = newQcvnListSelected.filter(qcvn =>
+          data.includes(qcvn.key)
+        )
+        onChangeQCVN(qcvnSort)
+      }
+    )
   }
 
   columns = [
@@ -34,7 +69,7 @@ export default class TableAlarmConfigExceed extends Component {
       align: 'left',
       render: (value, record, index) => {
         const { form, qcvnList } = this.props
-        const { selectedQCVNList } = this.state
+        const { qcvnListSelected } = this.state
         return (
           <React.Fragment>
             {form.getFieldDecorator(
@@ -43,8 +78,9 @@ export default class TableAlarmConfigExceed extends Component {
             )(
               <SelectQCVNExceed
                 placeholder="Chọn ngưỡng"
-                selectedQCVNList={selectedQCVNList}
+                selectedQCVNList={qcvnListSelected}
                 qcvnList={qcvnList}
+                onChange={value => this.onChangeQCVN(value, record.id, index)}
               />
             )}
           </React.Fragment>
@@ -89,7 +125,7 @@ export default class TableAlarmConfigExceed extends Component {
           return (
             <Popconfirm
               title="Sure to delete?"
-              onConfirm={() => this.handleDelete(record.id, record._id)}
+              onConfirm={() => this.handleDelete(record.id, record.key)}
             >
               <div style={{ textAlign: 'center', cursor: 'pointer' }}>
                 <Icon
@@ -104,18 +140,18 @@ export default class TableAlarmConfigExceed extends Component {
     },
   ]
 
-  handleDelete = (id, standardsVNObjectId) => {
-    const { dataSource, selectedQCVNList } = this.state
+  handleDelete = (id, qcvnObjectKey) => {
+    const { dataSource, qcvnListSelected } = this.state
     const { onChangeQCVN } = this.props
 
     const newDataSource = dataSource.filter(item => item.id !== id)
-    const newQcvnList = selectedQCVNList.filter(
-      item => item._id !== standardsVNObjectId
+    const newQcvnListSelected = qcvnListSelected.filter(
+      item => item.key !== qcvnObjectKey
     )
-    onChangeQCVN(newQcvnList)
+    onChangeQCVN(newQcvnListSelected)
     this.setState({
       dataSource: newDataSource,
-      qcvnList: newQcvnList,
+      qcvnListSelected: newQcvnListSelected,
     })
   }
 
@@ -134,7 +170,7 @@ export default class TableAlarmConfigExceed extends Component {
   }
 
   render() {
-    const { dataSource, selectedQCVNList } = this.state
+    const { dataSource } = this.state
 
     return (
       <Table

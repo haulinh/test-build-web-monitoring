@@ -92,8 +92,6 @@ export default class AlarmConfig extends Component {
     const { form, isEdit } = this.props
     const { userList, alarmList } = this.state
 
-    console.log('alarmList ----> ', { alarmList })
-
     return (
       <Collapse style={{ marginTop: '10px' }}>
         <PanelAnt header="Cảnh báo" key="1">

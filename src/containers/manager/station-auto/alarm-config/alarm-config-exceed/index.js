@@ -1,19 +1,20 @@
+import QCVNApi from 'api/QCVNApi'
 import { Clearfix } from 'components/elements'
-import measuring from 'containers/manager/measuring'
+import { getMeasuringListFromStationAutos } from 'containers/api-sharing/util'
+import { get } from 'lodash'
 import PropsTypes from 'prop-types'
 import React, { Component } from 'react'
 import TableAlarmExceedForm from './TableAlarmExceedForm'
 import TableExceedQCVN from './TableExceedQCVN'
-import QCVNApi from 'api/QCVNApi'
-import { get } from 'lodash'
-import { getMeasuringListFromStationAutos } from 'containers/api-sharing/util'
 
 export default class AlarmConfigExceed extends Component {
   static propTypes = {
     initialValues: PropsTypes.object,
   }
+
   state = {
     qcvnList: [],
+    qcvnListSelected: [],
   }
 
   async componentDidMount() {
@@ -27,16 +28,19 @@ export default class AlarmConfigExceed extends Component {
   }
 
   getMeasuringList = () => {
-    const { qcvnList } = this.state
-    const measuringList = getMeasuringListFromStationAutos(qcvnList)
+    const { qcvnListSelected } = this.state
+    const measuringList = getMeasuringListFromStationAutos(qcvnListSelected)
     return measuringList
   }
-  render() {
-    const { dataSource, qcvnList } = this.state
 
-    console.log({ qcvnList })
+  onChangeQCVN = qcvnListSelected => {
+    this.setState({ qcvnListSelected: qcvnListSelected })
+  }
+
+  render() {
+    const { qcvnList, qcvnListSelected } = this.state
+
     const measuringList = this.getMeasuringList()
-    console.log({ measuringList })
     const { form } = this.props
 
     return (
@@ -49,7 +53,10 @@ export default class AlarmConfigExceed extends Component {
           qcvnList={qcvnList}
         />
         <Clearfix height={12} />
-        <TableExceedQCVN qcvnList={qcvnList} dataSource={measuringList} />
+        <TableExceedQCVN
+          qcvnList={qcvnListSelected}
+          dataSource={measuringList}
+        />
       </div>
     )
   }
