@@ -100,9 +100,13 @@ export default {
     const url = calc(prefixAlarm)
     return postFetch(url, param)
   },
-  getAlarms: () => {
+  createBulkAlarm: (param) => {
+    const url = calc(`${prefixAlarm}/bulk`)
+    return postFetch(url, param)
+  },
+  getAlarms: (param) => {
     const url = calc(prefixAlarm)
-    return getFetch(url)
+    return getFetch(url, param)
   },
   getAlarmById: id => {
     const url = calc(`${prefixAlarm}/${id}`)

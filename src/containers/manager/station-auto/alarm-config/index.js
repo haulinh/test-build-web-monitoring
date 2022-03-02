@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
 import AlarmConfigDisconnect from './alarm-config-disconnect'
 import AlarmConfigExceed from './alarm-config-exceed'
-import { Collapse, Button, Form } from 'antd'
+import { Button, Collapse, Form } from 'antd'
 import styled from 'styled-components'
-import UserApi from 'api/UserApi'
 import { Clearfix } from 'components/elements'
-import CalculateApi from 'api/CalculateApi'
 import { withRouter } from 'react-router-dom'
+import { ALARM_LIST_INIT, getHiddenParam } from 'containers/manager/station-auto/alarm-config/constants'
+import CalculateApi from 'api/CalculateApi'
+import { isEmpty } from 'lodash'
+import { v4 as uuidv4 } from 'uuid'
 
 const { Panel } = Collapse
 
@@ -30,89 +32,130 @@ export const FIELDS = {
   TIME_DISCONNECT: 'maxDisconnectionTime',
   STATUS: 'status',
   EXCEED: 'exceed',
+  RECIPIENTS: 'recipients',
   QCVN_EXCEED: 'qcvnExceed',
   ACTIVE_EXCEED: 'activeExceed',
 }
+
+const getStatusAlarm = (status) => {
+  if (status) return 'enable'
+  return 'disable'
+}
+
 @withRouter
 @Form.create()
 export default class AlarmConfig extends Component {
+
+  constructor (props) {
+    super(props)
+    const { match } = props
+    this.stationId = match.params.key
+  }
+
   state = {
-    userList: [],
-    alarmList: [],
-  }
-  onSubmitForm = () => {
-    const { form } = this.props
-    const value = form.getFieldsValue()
-
-    console.log('value---->', { value })
-    this.getParamsDisconnect()
-  }
-
-  getParamsDisconnect = () => {
-    const { form } = this.props
-    const value = form.getFieldsValue()
-    const { disconnect } = value
-  }
-
-  getAlarmByStationAuto = async () => {
-    const { key } = this.props.match.params
-
-    try {
-      const response = await CalculateApi.getAlarms()
-      const alarmsByStationAuto = response.filter(
-        alarm => alarm.stationId === key
-      )
-      this.setState({
-        alarmList: alarmsByStationAuto,
-      })
-    } catch (error) {
-      console.log({ error })
-    }
+    alarmList: ALARM_LIST_INIT,
   }
 
   componentDidMount = () => {
-    const { isEdit } = this.props
-
-    if (isEdit) this.getAlarmByStationAuto()
-    this.getUsers()
+    this.getAlarmByStationId()
   }
 
-  getUsers = async () => {
+  getAlarmByStationId = async () => {
     try {
-      const response = await UserApi.searchUser()
-      this.setState({
-        userList: response.data,
-      })
-    } catch (error) {
-      console.log({ error })
+      const result = await CalculateApi.getAlarms({ stationId: this.stationId })
+      if (!isEmpty(result)) {
+        this.setState({ alarmList: result })
+      }
+    } catch (e) {
+      console.log(e)
     }
   }
 
-  render() {
-    const { form, isEdit } = this.props
-    const { userList, alarmList } = this.state
+  getQueryParamDisconnect = (stationId) => {
+    console.log({ stationId })
+    const { form } = this.props
+    const value = form.getFieldsValue()
 
-    console.log('alarmList ----> ', { alarmList })
+    const paramsForm = Object.values(value[FIELDS.DISCONNECT])
+    const paramHidden = getHiddenParam(FIELDS.DISCONNECT, stationId)
+    const params = paramsForm.map(paramItem => ({
+      ...paramItem,
+      status: getStatusAlarm(paramItem.status),
+      ...paramHidden,
+    }))
+
+    return params
+  }
+
+  getAlarmByType = (type) => {
+    const { alarmList } = this.state
+    return alarmList.filter(alarm => alarm.type === type)
+  }
+
+  handleSubmit = async () => {
+    const paramDisconnect = this.getQueryParamDisconnect(this.stationId)
+    const result = await CalculateApi.createBulkAlarm(paramDisconnect)
+    console.log({ result })
+  }
+
+  //region management state Alarm
+  handleDelete = id => {
+    console.log({ id })
+    const { alarmList } = this.state
+    const { form } = this.props
+    const alarmListDeleted = alarmList.filter(item => item._id !== id)
+    const alarmFormValues = alarmListDeleted.reduce((base, currentAlarm) => ({ [currentAlarm._id]: currentAlarm }), {})
+    this.setState({ alarmList: alarmListDeleted }, () => {
+      form.setFieldsValue(alarmFormValues)
+    })
+  }
+
+  handleAdd = () => {
+    const { alarmList } = this.state
+    const newData = {
+      _id: uuidv4(),
+    }
+
+    this.setState({
+      alarmList: [...alarmList, newData],
+    })
+  }
+
+  //endregion
+
+  render () {
+    const { form } = this.props
+    const { alarmList, isEdit } = this.state
+    console.log({ stationId: this.stationId })
+    console.log({ alarmList })
+
+    console.log({ values: form.getFieldsValue() })
+
+    const alarmDisconnect = this.getAlarmByType(FIELDS.DISCONNECT)
+    const alarmExceed = this.getAlarmByType(FIELDS.EXCEED)
 
     return (
       <Collapse style={{ marginTop: '10px' }}>
         <PanelAnt header="Cảnh báo" key="1">
           <AlarmConfigDisconnect
-            isEdit={isEdit}
             form={form}
-            userList={userList}
-            alarmList={alarmList}
+            alarmList={alarmDisconnect}
+            onAdd={this.handleAdd}
+            onDelete={this.handleDelete}
           />
-          <Clearfix height={24} />
-          <AlarmConfigExceed form={form} userList={userList} />
+
+          <Clearfix height={24}/>
+
+          <AlarmConfigExceed form={form}/>
 
           <Button
             style={{ width: '100%', marginTop: '10px' }}
             type="primary"
-            onClick={this.onSubmitForm}
+            onClick={this.handleSubmit}
           >
             Lưu
           </Button>
+
         </PanelAnt>
       </Collapse>
     )

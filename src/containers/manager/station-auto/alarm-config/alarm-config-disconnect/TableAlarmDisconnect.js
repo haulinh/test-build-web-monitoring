@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Table, Button, Icon, Popconfirm, Checkbox } from 'antd'
+import { Table, Button, Icon, Popconfirm, Checkbox, Select } from 'antd'
 import { FIELDS } from '../index'
 import SelectTime from './SelectTime'
 
@@ -9,7 +9,7 @@ export default class TableAlarmDisconnect extends Component {
       title: 'Thời gian mất tín hiệu (phút)',
       width: '15%',
       align: 'center',
-      render: (value, record, index) => {
+      render: (value, record) => {
         const { form } = this.props
         return (
           <React.Fragment>
@@ -18,16 +18,26 @@ export default class TableAlarmDisconnect extends Component {
               {
                 initialValue: 30,
               }
-            )(<SelectTime />)}
+            )(<SelectTime/>)}
           </React.Fragment>
         )
       },
     },
     {
       title: 'Người nhận',
-      dataIndex: 'address',
+      dataIndex: 'recipients',
       align: 'center',
       width: '40%',
+      render: (value, record) => {
+        const { form } = this.props
+        return (
+          <React.Fragment>
+            {form.getFieldDecorator(`${FIELDS.DISCONNECT}.${record._id}.${FIELDS.RECIPIENTS}`, {
+              initialValue: value
+            })(<Select mode='multiple'/>)}
+          </React.Fragment>
+        )
+      }
     },
     {
       title: 'Cảnh báo',
@@ -44,7 +54,7 @@ export default class TableAlarmDisconnect extends Component {
                 initialValue: false,
                 valuePropName: 'checked',
               }
-            )(<Checkbox />)}
+            )(<Checkbox/>)}
           </React.Fragment>
         )
       },
@@ -65,7 +75,7 @@ export default class TableAlarmDisconnect extends Component {
             onConfirm={() => handleDelete(record._id)}
           >
             <div style={{ textAlign: 'center', cursor: 'pointer' }}>
-              <Icon type="delete" style={{ fontSize: '16px', color: 'red' }} />
+              <Icon type="delete" style={{ fontSize: '16px', color: 'red' }}/>
             </div>
           </Popconfirm>
         )
@@ -73,7 +83,7 @@ export default class TableAlarmDisconnect extends Component {
     },
   ]
 
-  render() {
+  render () {
     const { handleAdd, dataSource } = this.props
     return (
       <Table
@@ -88,7 +98,7 @@ export default class TableAlarmDisconnect extends Component {
             style={{ fontWeight: 'bold' }}
             onClick={handleAdd}
           >
-            <Icon type="plus" />
+            <Icon type="plus"/>
             Thêm
           </Button>
         )}
