@@ -74,9 +74,9 @@ export default class SelectQCVNExceed extends PureComponent {
       >
         {listQCVN.map(standardVN => (
           <Select.Option
-            key={standardVN.key}
-            value={standardVN.key}
-            disabled={this.isDisabledQCVN(selectedQCVNList, standardVN.key)}
+            key={standardVN._id}
+            value={standardVN._id}
+            disabled={this.isDisabledQCVN(selectedQCVNList, standardVN._id)}
           >
             {standardVN.name}
           </Select.Option>

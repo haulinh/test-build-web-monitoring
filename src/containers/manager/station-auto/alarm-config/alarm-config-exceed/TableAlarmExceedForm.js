@@ -1,66 +1,9 @@
 import { Button, Checkbox, Icon, Popconfirm, Table } from 'antd'
-import PropsTypes from 'prop-types'
 import React, { Component } from 'react'
-import { v4 as uuidv4 } from 'uuid'
 import { FIELDS } from '../index'
 import SelectQCVNExceed from './SelectQCVNExeed'
 
 export default class TableAlarmConfigExceed extends Component {
-  static propTypes = {
-    initialValues: PropsTypes.object,
-  }
-  state = {
-    dataSource: [
-      {
-        id: uuidv4(),
-      },
-      {
-        id: uuidv4(),
-      },
-      {
-        id: uuidv4(),
-      },
-    ],
-    qcvnObject: '',
-    qcvnObjectId: '',
-    qcvnListSelected: [],
-  }
-
-  onChangeQCVN = (value, id, indexQCVN) => {
-    const { qcvnList, onChangeQCVN } = this.props
-    const { qcvnListSelected, dataSource } = this.state
-
-    const qcvnSelected = qcvnList.find(qcvn => qcvn.key === value)
-
-    const newQcvnListSelected = [...qcvnListSelected, qcvnSelected]
-    const newDataSource = dataSource.map((element, index) => {
-      if (indexQCVN === index) {
-        return { id: element.id, key: value }
-      }
-      return { id: element.id, key: element.key }
-    })
-
-    this.setState(
-      {
-        qcvnListSelected: newQcvnListSelected,
-        dataSource: newDataSource,
-      },
-      () => {
-        const data = dataSource.reduce((base, current) => {
-          base.push(
-            this.props.form.getFieldsValue([`exceed.${current.id}.qcvnExceed`])
-              .exceed[`${current.id}`].qcvnExceed
-          )
-          return base
-        }, [])
-        const qcvnSort = newQcvnListSelected.filter(qcvn =>
-          data.includes(qcvn.key)
-        )
-        onChangeQCVN(qcvnSort)
-      }
-    )
-  }
-
   columns = [
     {
       title: 'Ngưỡng',
@@ -69,18 +12,15 @@ export default class TableAlarmConfigExceed extends Component {
       align: 'left',
       render: (value, record, index) => {
         const { form, qcvnList } = this.props
-        const { qcvnListSelected } = this.state
         return (
           <React.Fragment>
             {form.getFieldDecorator(
-              `${FIELDS.EXCEED}.${record.id}.${FIELDS.QCVN_EXCEED}`,
+              `${FIELDS.EXCEED}.${record._id}.${FIELDS.STANDARD_ID}`,
               {}
             )(
               <SelectQCVNExceed
                 placeholder="Chọn ngưỡng"
-                selectedQCVNList={qcvnListSelected}
                 qcvnList={qcvnList}
-                onChange={value => this.onChangeQCVN(value, record.id, index)}
               />
             )}
           </React.Fragment>
@@ -103,7 +43,7 @@ export default class TableAlarmConfigExceed extends Component {
         return (
           <React.Fragment>
             {form.getFieldDecorator(
-              `${FIELDS.EXCEED}.${record.id}.${FIELDS.ACTIVE_EXCEED}`,
+              `${FIELDS.EXCEED}.${record._id}.${FIELDS.STATUS}`,
               {
                 initialValue: value,
                 valuePropName: 'checked',
@@ -114,18 +54,17 @@ export default class TableAlarmConfigExceed extends Component {
         )
       },
     },
-
     {
       title: '',
       width: '15%',
       render: (text, record) => {
-        const { dataSource } = this.state
+        const { dataSource, onDelete } = this.props
         const disabled = dataSource.length >= 1
         if (disabled) {
           return (
             <Popconfirm
               title="Sure to delete?"
-              onConfirm={() => this.handleDelete(record.id, record.key)}
+              onConfirm={() => onDelete(record._id)}
             >
               <div style={{ textAlign: 'center', cursor: 'pointer' }}>
                 <Icon
@@ -140,42 +79,13 @@ export default class TableAlarmConfigExceed extends Component {
     },
   ]
 
-  handleDelete = (id, qcvnObjectKey) => {
-    const { dataSource, qcvnListSelected } = this.state
-    const { onChangeQCVN } = this.props
-
-    const newDataSource = dataSource.filter(item => item.id !== id)
-    const newQcvnListSelected = qcvnListSelected.filter(
-      item => item.key !== qcvnObjectKey
-    )
-    onChangeQCVN(newQcvnListSelected)
-    this.setState({
-      dataSource: newDataSource,
-      qcvnListSelected: newQcvnListSelected,
-    })
-  }
-
-  handleAdd = () => {
-    const { dataSource } = this.state
-    const newDataSource = [
-      ...dataSource,
-      {
-        id: uuidv4(),
-      },
-    ]
-
-    this.setState({
-      dataSource: newDataSource,
-    })
-  }
-
   render() {
-    const { dataSource } = this.state
+    const { dataSource, onAdd } = this.props
 
     return (
       <Table
         columns={this.columns}
-        rowKey={record => record.id}
+        rowKey={record => record._id}
         dataSource={dataSource}
         bordered
         pagination={false}
@@ -183,8 +93,8 @@ export default class TableAlarmConfigExceed extends Component {
           <Button
             type="link"
             style={{ fontWeight: 'bold' }}
-            onClick={this.handleAdd}
-            disabled={dataSource.length > 2}
+            onClick={onAdd}
+            // disabled={dataSource.length > 2}
           >
             <Icon type="plus" />
             Thêm

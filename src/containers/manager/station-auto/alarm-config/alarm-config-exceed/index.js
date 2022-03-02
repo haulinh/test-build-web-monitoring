@@ -1,59 +1,70 @@
 import QCVNApi from 'api/QCVNApi'
 import { Clearfix } from 'components/elements'
 import { getMeasuringListFromStationAutos } from 'containers/api-sharing/util'
-import { get } from 'lodash'
-import PropsTypes from 'prop-types'
+import { keyBy } from 'lodash'
 import React, { Component } from 'react'
 import TableAlarmExceedForm from './TableAlarmExceedForm'
-import TableExceedQCVN from './TableExceedQCVN'
+import TableQCVN from './TableQCVN'
+import { FIELDS } from '../index'
 
 export default class AlarmConfigExceed extends Component {
-  static propTypes = {
-    initialValues: PropsTypes.object,
-  }
-
   state = {
     qcvnList: [],
-    qcvnListSelected: [],
   }
 
-  async componentDidMount() {
-    let query = {}
-    const result = await QCVNApi.getQCVN({}, query)
-    if (get(result, 'success', false)) {
-      this.setState({
-        qcvnList: get(result, 'data', []),
-      })
+  async componentDidMount () {
+    try {
+      const result = await QCVNApi.getQCVN({}, {})
+      if (result.success) {
+        this.setState({
+          qcvnList: result.data,
+        })
+      }
+    } catch (e) {
+      console.log(e)
     }
+
   }
 
   getMeasuringList = () => {
-    const { qcvnListSelected } = this.state
-    const measuringList = getMeasuringListFromStationAutos(qcvnListSelected)
-    return measuringList
+    const qcvnsSelected = this.getQcvnSelected()
+
+    const measuringList = getMeasuringListFromStationAutos(qcvnsSelected)
+    return measuringList || []
   }
 
-  onChangeQCVN = qcvnListSelected => {
-    this.setState({ qcvnListSelected: qcvnListSelected })
+  getQcvnSelected = () => {
+    const { form } = this.props
+    const { qcvnList } = this.state
+    const qcvnListObj = keyBy(qcvnList, '_id')
+
+    const values = form.getFieldsValue()
+    const qcvnsForm = Object.values(values[FIELDS.EXCEED] || {})
+    const qcvnsSelected = qcvnsForm.filter(qcvn => qcvn[FIELDS.STANDARD_ID])
+    const qcvnsSelectedMapValue = qcvnsSelected.map(qcvn => ({ ...qcvnListObj[qcvn[FIELDS.STANDARD_ID]] }))
+    return qcvnsSelectedMapValue
   }
 
-  render() {
-    const { qcvnList, qcvnListSelected } = this.state
+  render () {
+    const { qcvnList } = this.state
+    const { alarmList, form, onDelete, onAdd } = this.props
 
     const measuringList = this.getMeasuringList()
-    const { form } = this.props
+    const qcvnListSelected = this.getQcvnSelected()
 
     return (
       <div>
         <div className="title">Cảnh báo vượt ngưỡng</div>
 
         <TableAlarmExceedForm
-          onChangeQCVN={this.onChangeQCVN}
-          form={form}
           qcvnList={qcvnList}
+          form={form}
+          onDelete={onDelete}
+          dataSource={alarmList}
+          onAdd={onAdd}
         />
-        <Clearfix height={12} />
-        <TableExceedQCVN
+        <Clearfix height={12}/>
+        <TableQCVN
           qcvnList={qcvnListSelected}
           dataSource={measuringList}
         />

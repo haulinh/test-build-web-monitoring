@@ -42,6 +42,33 @@ export const ALARM_LIST_INIT = [
     type: 'disconnect',
     maxDisconnectionTime: 240,
   },
+  {
+    _id: uuidv4(),
+    recipients: [
+      "6008e96e6854d4001bc3053c",
+      "5aaf82a2eefc200a2266f9c2",
+      "6193126d315aa0001c4b5959"
+    ],
+    type: 'exceed',
+  },
+  {
+    _id: uuidv4(),
+    recipients: [
+      "6008e96e6854d4001bc3053c",
+      "5aaf82a2eefc200a2266f9c2",
+      "6193126d315aa0001c4b5959"
+    ],
+    type: 'exceed',
+  },
+  {
+    _id: uuidv4(),
+    recipients: [
+      "6008e96e6854d4001bc3053c",
+      "5aaf82a2eefc200a2266f9c2",
+      "6193126d315aa0001c4b5959"
+    ],
+    type: 'exceed',
+  },
 ]
 
 const chanels = ['email', 'mobile', 'sms', 'webhook']

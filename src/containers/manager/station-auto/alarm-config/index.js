@@ -34,6 +34,7 @@ export const FIELDS = {
   EXCEED: 'exceed',
   RECIPIENTS: 'recipients',
   QCVN_EXCEED: 'qcvnExceed',
+  STANDARD_ID: 'standardId',
   ACTIVE_EXCEED: 'activeExceed',
 }
 
@@ -42,8 +43,7 @@ const getStatusAlarm = (status) => {
   return 'disable'
 }
 
-@withRouter
-@Form.create()
+@withRouter @Form.create()
 export default class AlarmConfig extends Component {
 
   constructor (props) {
@@ -57,7 +57,7 @@ export default class AlarmConfig extends Component {
   }
 
   componentDidMount = () => {
-    this.getAlarmByStationId()
+    // this.getAlarmByStationId()
   }
 
   getAlarmByStationId = async () => {
@@ -79,23 +79,31 @@ export default class AlarmConfig extends Component {
     const paramsForm = Object.values(value[FIELDS.DISCONNECT])
     const paramHidden = getHiddenParam(FIELDS.DISCONNECT, stationId)
     const params = paramsForm.map(paramItem => ({
-      ...paramItem,
-      status: getStatusAlarm(paramItem.status),
-      ...paramHidden,
+      ...paramItem, status: getStatusAlarm(paramItem.status), ...paramHidden,
     }))
 
     return params
   }
 
-  getAlarmByType = (type) => {
+  getAlarmGroupByType = (type) => {
     const { alarmList } = this.state
-    return alarmList.filter(alarm => alarm.type === type)
+    const alarmGroupByType = alarmList.reduce((base, current) => {
+      if (current.type === FIELDS.DISCONNECT) {
+        base.alarmDisconnect.push(current)
+      } else {
+        base.alarmExceed.push(current)
+      }
+      return base
+    }, {
+      alarmDisconnect: [], alarmExceed: []
+    })
+
+    return alarmGroupByType
   }
 
   handleSubmit = async () => {
     const paramDisconnect = this.getQueryParamDisconnect(this.stationId)
     const result = await CalculateApi.createBulkAlarm(paramDisconnect)
-    console.log({ result })
   }
 
   //region management state Alarm
@@ -125,39 +133,36 @@ export default class AlarmConfig extends Component {
 
   render () {
     const { form } = this.props
-    const { alarmList, isEdit } = this.state
-    console.log({ stationId: this.stationId })
-    console.log({ alarmList })
+    const { isEdit, alarmList } = this.state
 
-    console.log({ values: form.getFieldsValue() })
+    const { alarmDisconnect, alarmExceed } = this.getAlarmGroupByType()
 
-    const alarmDisconnect = this.getAlarmByType(FIELDS.DISCONNECT)
-    const alarmExceed = this.getAlarmByType(FIELDS.EXCEED)
+    return (<Collapse style={{ marginTop: '10px' }}>
+      <PanelAnt header="Cảnh báo" key="1">
+        <AlarmConfigDisconnect
+          form={form}
+          alarmList={alarmDisconnect}
+          onAdd={this.handleAdd}
+          onDelete={this.handleDelete}
+        />
 
-    return (
-      <Collapse style={{ marginTop: '10px' }}>
-        <PanelAnt header="Cảnh báo" key="1">
-          <AlarmConfigDisconnect
-            form={form}
-            alarmList={alarmDisconnect}
-            onAdd={this.handleAdd}
-            onDelete={this.handleDelete}
-          />
+        <Clearfix height={24}/>
 
-          <Clearfix height={24}/>
+        <AlarmConfigExceed form={form}
+                           alarmList={alarmExceed}
+                           onAdd={this.handleAdd}
+                           onDelete={this.handleDelete}
+        />
 
-          <AlarmConfigExceed form={form}/>
+        <Button
+          style={{ width: '100%', marginTop: '10px' }}
+          type="primary"
+          onClick={this.handleSubmit}
+        >
+          Lưu
+        </Button>
 
-          <Button
-            style={{ width: '100%', marginTop: '10px' }}
-            type="primary"
-            onClick={this.handleSubmit}
-          >
-            Lưu
-          </Button>
-
-        </PanelAnt>
-      </Collapse>
-    )
+      </PanelAnt>
+    </Collapse>)
   }
 }

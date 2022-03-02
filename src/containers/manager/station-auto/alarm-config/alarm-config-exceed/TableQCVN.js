@@ -1,16 +1,19 @@
 import { Table } from 'antd'
 import _ from 'lodash'
 import React, { Component } from 'react'
+import uuid from 'uuid'
 
-export default class TableExceedQCVN extends Component {
+export default class TableQCVN extends Component {
   getColumns = () => {
     const { qcvnList } = this.props
-    const columns = qcvnList.map((qcvn, index) => {
+    const columns = qcvnList.map((qcvn) => {
       const measuringQcvnObj = _.keyBy(qcvn.measuringList, 'key')
+
       return {
         title: qcvn.name,
         children: [
           {
+            key: `minLimit-${qcvn.key}-${uuid()}`,
             title: 'Giới hạn tối thiểu',
             align: 'left',
             dataIndex: 'key',
@@ -24,6 +27,7 @@ export default class TableExceedQCVN extends Component {
             },
           },
           {
+            key: `minLimit-${qcvn.key}-${uuid()}`,
             title: 'Giới hạn tối đa',
             dataIndex: 'key',
             render: measureKey => {
@@ -52,9 +56,11 @@ export default class TableExceedQCVN extends Component {
 
   render() {
     const { dataSource } = this.props
+    console.log({dataSource})
 
     return (
       <Table
+        rowKey={record => record.key}
         columns={this.getColumns()}
         dataSource={dataSource}
         bordered
