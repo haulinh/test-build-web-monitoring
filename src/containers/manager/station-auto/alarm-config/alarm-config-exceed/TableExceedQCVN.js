@@ -1,29 +1,40 @@
 import { Table } from 'antd'
+import _ from 'lodash'
 import React, { Component } from 'react'
-import { v4 as uuidv4 } from 'uuid'
 
 export default class TableExceedQCVN extends Component {
-  onChange = e => {}
-
-  onCheckAllChange = e => {
-    console.log(e.target.checked)
-  }
-
   getColumns = () => {
     const { qcvnList } = this.props
     const columns = qcvnList.map((qcvn, index) => {
+      const measuringQcvnObj = _.keyBy(qcvn.measuringList, 'key')
       return {
         title: qcvn.name,
         children: [
           {
             title: 'Giới hạn tối thiểu',
-            dataIndex: `${qcvn._id}.minLimit`,
-            align: 'center',
+            align: 'left',
+            dataIndex: 'key',
+            render: measureKey => {
+              const measureValue = _.get(measuringQcvnObj, [
+                measureKey,
+                'minLimit',
+              ])
+
+              return <div>{measureValue}</div>
+            },
           },
           {
             title: 'Giới hạn tối đa',
-            dataIndex: `${qcvn._id}.maxLimit`,
-            align: 'center',
+            dataIndex: 'key',
+            render: measureKey => {
+              const measureValue = _.get(measuringQcvnObj, [
+                measureKey,
+                'maxLimit',
+              ])
+
+              return <div>{measureValue}</div>
+            },
+            align: 'left',
           },
         ],
       }
@@ -32,7 +43,8 @@ export default class TableExceedQCVN extends Component {
       {
         title: 'Thông số',
         dataIndex: 'key',
-        align: 'center',
+        align: 'left',
+        width: '10%',
       },
       ...columns,
     ]
@@ -40,6 +52,7 @@ export default class TableExceedQCVN extends Component {
 
   render() {
     const { dataSource } = this.props
+
     return (
       <Table
         columns={this.getColumns()}

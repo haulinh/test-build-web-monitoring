@@ -64,7 +64,6 @@ export default class AlarmConfig extends Component {
     const { form } = this.props
 
     dataSource.forEach(dataItem => {
-      console.log({ dataItem })
       form.setFieldsValue({
         [`${FIELDS.DISCONNECT}.${dataItem._id}.${FIELDS.TIME_DISCONNECT}`]: dataItem.maxDisconnectionTime,
         [`${FIELDS.DISCONNECT}.${dataItem._id}.${FIELDS.STATUS}`]:
@@ -120,7 +119,6 @@ export default class AlarmConfig extends Component {
   render() {
     const { dataSource } = this.state
     const { userList, form } = this.props
-    console.log('dataSource----> ', { dataSource })
 
     return (
       <div>
