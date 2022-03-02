@@ -1,95 +1,91 @@
-import { Button, Checkbox, Icon, Popconfirm, Table } from 'antd'
 import React, { Component } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { FIELDS } from '../index'
-import SelectTime from './SelectTime'
+import TableAlarmDisconnect from './TableAlarmDisconnect'
+
+const dataSourceInit = [
+  {
+    _id: uuidv4(),
+    address: `London, Park Lane no. `,
+    maxDisconnectionTime: 30,
+  },
+  {
+    _id: uuidv4(),
+    address: `London, Park Lane no. `,
+    maxDisconnectionTime: 60,
+  },
+  {
+    _id: uuidv4(),
+    address: `London, Park Lane no. `,
+    maxDisconnectionTime: 240,
+  },
+]
 
 export default class AlarmConfig extends Component {
   state = {
     dataSource: [],
   }
 
-  onChange = e => {}
+  getChannels = () => {
+    const { isEdit } = this.props
 
-  onCheckAllChange = e => {
-    console.log(e.target.checked)
+    const channelCreate = {
+      channels: {
+        email: {
+          status: true,
+          template: 'Station: {{station}} disconnected at {{time}}',
+          type: 'email',
+        },
+        mobile: {
+          status: true,
+          template: 'Station: {{station}} disconnected at {{time}}',
+          type: 'mobile',
+        },
+        sms: {
+          active: true,
+          template: 'Station: {{station}} disconnected at {{time}}',
+          type: 'sms',
+        },
+        webhook: {
+          status: true,
+          config: { method: 'POST' },
+          template: 'Station: {{station}} disconnected at {{time}}',
+          type: 'webhook',
+        },
+      },
+    }
+
+    if (!isEdit) return channelCreate
+    return {}
   }
 
-  columns = [
-    {
-      title: 'Thời gian mất tín hiệu (phút)',
-      dataIndex: 'timeDisconnect',
-      width: '15%',
-      align: 'center',
-      render: (value, record, index) => {
-        const { form } = this.props
-        return (
-          <React.Fragment>
-            {form.getFieldDecorator(
-              `${FIELDS.DISCONNECT}.${record.id}.${FIELDS.TIME_DISCONNECT}`,
-              {
-                initialValue: value || 30,
-              }
-            )(<SelectTime />)}
-          </React.Fragment>
-        )
-      },
-    },
-    {
-      title: 'Người nhận',
-      dataIndex: 'address',
-      align: 'center',
-      width: '40%',
-    },
-    {
-      title: 'Cảnh báo',
-      width: '15%',
-      align: 'center',
-      dataIndex: 'isActive',
-      render: (value, record) => {
-        const { form } = this.props
-        return (
-          <React.Fragment>
-            {form.getFieldDecorator(
-              `${FIELDS.DISCONNECT}.${record.id}.${FIELDS.ACTIVE}`,
-              {
-                initialValue: value || false,
-                valuePropName: 'checked',
-                onChange: this.onChange,
-              }
-            )(<Checkbox />)}
-          </React.Fragment>
-        )
-      },
-    },
+  setInitData = () => {
+    const { dataSource } = this.state
+    const { form } = this.props
 
-    {
-      title: '',
-      width: '15%',
-      render: (text, record) =>
-        this.state.dataSource.length >= 1 ? (
-          <Popconfirm
-            title="Sure to delete?"
-            onConfirm={() => this.handleDelete(record.id)}
-          >
-            <div style={{ textAlign: 'center', cursor: 'pointer' }}>
-              <Icon type="delete" style={{ fontSize: '16px', color: 'red' }} />
-            </div>
-          </Popconfirm>
-        ) : null,
-    },
-  ]
+    dataSource.forEach(dataItem => {
+      console.log({ dataItem })
+      form.setFieldsValue({
+        [`${FIELDS.DISCONNECT}.${dataItem._id}.${FIELDS.TIME_DISCONNECT}`]: dataItem.maxDisconnectionTime,
+        [`${FIELDS.DISCONNECT}.${dataItem._id}.${FIELDS.STATUS}`]:
+          dataItem.status === 'enable' ? true : false,
+      })
+    })
+  }
 
   handleDelete = id => {
-    const dataSource = [...this.state.dataSource]
-    this.setState({ dataSource: dataSource.filter(item => item.id !== id) })
+    console.log(id)
+    const { dataSource } = this.state
+
+    const newDataSourceDeleted = dataSource.filter(item => item.id !== id)
+    this.setState({ dataSource: newDataSourceDeleted })
   }
 
   handleAdd = () => {
     const { dataSource } = this.state
-    const id = uuidv4()
+    const _id = uuidv4()
     const newData = {
-      id,
+      _id,
     }
 
     this.setState({
@@ -97,62 +93,44 @@ export default class AlarmConfig extends Component {
     })
   }
 
-  dataSourceInit = [
-    {
-      id: uuidv4(),
-      address: `London, Park Lane no. `,
-      timeDisconnect: 30,
-      isActive: false,
-    },
-    {
-      id: uuidv4(),
-      address: `London, Park Lane no. `,
-      timeDisconnect: 60,
-      isActive: true,
-    },
-    {
-      id: uuidv4(),
-      address: `London, Park Lane no. `,
-      timeDisconnect: 240,
-      isActive: true,
-    },
-  ]
-
   componentDidMount = () => {
-    //isEdit call api set init dataSource
+    const { isEdit, alarmList } = this.props
 
-    const { isEdit } = this.props
-    if (!isEdit)
-      this.setState({
-        dataSource: this.dataSourceInit,
-      })
+    if (!isEdit || alarmList.length === 0) {
+      this.setState(
+        {
+          dataSource: dataSourceInit,
+        },
+        () => this.setInitData()
+      )
+    } else {
+      const alarmsDisconnect = alarmList.filter(
+        alarm => alarm.type === FIELDS.DISCONNECT
+      )
+
+      this.setState(
+        {
+          dataSource: alarmsDisconnect,
+        },
+        () => this.setInitData()
+      )
+    }
   }
 
   render() {
     const { dataSource } = this.state
-    const { userList } = this.props
-
-    console.log('userList----> ', { userList })
+    const { userList, form } = this.props
+    console.log('dataSource----> ', { dataSource })
 
     return (
       <div>
         <div className="title">Cảnh báo mất tín hiệu</div>
 
-        <Table
-          columns={this.columns}
+        <TableAlarmDisconnect
+          form={form}
+          handleDelete={this.handleDelete}
           dataSource={dataSource}
-          bordered
-          pagination={false}
-          footer={() => (
-            <Button
-              type="link"
-              style={{ fontWeight: 'bold' }}
-              onClick={this.handleAdd}
-            >
-              <Icon type="plus" />
-              Thêm
-            </Button>
-          )}
+          handleAdd={this.handleAdd}
         />
       </div>
     )
