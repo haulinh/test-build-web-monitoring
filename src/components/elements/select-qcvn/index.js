@@ -65,8 +65,16 @@ export default class SelectQCVN extends PureComponent {
     return this.state.lstQCVN
   }
 
+  isDisabledQCVN = (selectedQCVNList, key) => {
+    if (selectedQCVNList) {
+      const isDisabled = selectedQCVNList.some(qcvn => qcvn.key === key)
+      return isDisabled
+    }
+  }
+
   render() {
     const listQCVN = this.getListQCVN()
+    const { selectedQCVNList } = this.props
     // console.log(listQCVN, this.state.searchString, '--listQCVN--')
     return (
       <Select
@@ -85,7 +93,11 @@ export default class SelectQCVN extends PureComponent {
           </Select.Option>
         )}
         {listQCVN.map(standardVN => (
-          <Select.Option key={standardVN.key} value={standardVN.key}>
+          <Select.Option
+            key={standardVN.key}
+            value={standardVN.key}
+            disabled={this.isDisabledQCVN(selectedQCVNList, standardVN.key)}
+          >
             {standardVN.name}
           </Select.Option>
         ))}
