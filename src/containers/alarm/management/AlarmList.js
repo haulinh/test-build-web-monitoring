@@ -48,7 +48,10 @@ const AlarmList = ({
     {
       dataIndex: 'type',
       title: i18n().form.label.type,
-      render: value => <div>{alarmType[value].label()}</div>,
+      render: value => {
+        const labelFn = _.get(alarmType, [value, 'label'], () => "")
+        return <div>{labelFn()}</div>
+      }
     },
     {
       dataIndex: 'status',

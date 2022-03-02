@@ -5,6 +5,7 @@ import { translate } from 'hoc/create-lang'
 import React from 'react'
 import { connect } from 'react-redux'
 import { alarmType, FIELDS } from '../index'
+import _ from 'lodash'
 const { Panel } = Collapse
 
 const channels = {
@@ -68,8 +69,8 @@ export class ChanelForm extends React.Component {
   titleTooltip = () => {
     const { form } = this.props
     const typeAlarm = form.getFieldValue(FIELDS.TYPE)
-    return alarmType[typeAlarm]
-      .template()
+    const templateFn = _.get(alarmType, [typeAlarm, 'template'], () => '')
+    return templateFn()
       .split(',')
       .map(text => <div>{text}</div>)
   }
@@ -77,6 +78,7 @@ export class ChanelForm extends React.Component {
   render() {
     const { form } = this.props
     const typeAlarm = form.getFieldValue(FIELDS.TYPE)
+    const ALARM_TYPE = _.get(alarmType, [typeAlarm], {})
 
     return (
       <React.Fragment>
@@ -135,7 +137,7 @@ export class ChanelForm extends React.Component {
                 <Clearfix height={4} />
                 {form.getFieldDecorator(
                   `${FIELDS.CHANNELS}.${channel.type}.template`,
-                  { initialValue: alarmType[typeAlarm].initialValue }
+                  { initialValue: ALARM_TYPE.initialValue }
                 )(
                   <TextArea
                     style={{ height: 150 }}
