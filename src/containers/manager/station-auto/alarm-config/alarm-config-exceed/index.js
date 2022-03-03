@@ -1,29 +1,41 @@
 import QCVNApi from 'api/QCVNApi'
 import { Clearfix } from 'components/elements'
 import { getMeasuringListFromStationAutos } from 'containers/api-sharing/util'
-import { keyBy } from 'lodash'
+import { get, keyBy } from 'lodash'
 import React, { Component } from 'react'
 import TableAlarmExceedForm from './TableAlarmExceedForm'
 import TableQCVN from './TableQCVN'
 import { FIELDS } from '../index'
+import RoleApi from 'api/RoleApi'
+import UserApi from 'api/UserApi'
 
 export default class AlarmConfigExceed extends Component {
   state = {
     qcvnList: [],
+    users: [],
+    roles: [],
   }
 
-  async componentDidMount () {
+  async componentDidMount() {
     try {
-      const result = await QCVNApi.getQCVN({}, {})
-      if (result.success) {
+      const [responseRoles, responseUser, responseQCVN] = await Promise.all([
+        RoleApi.getRoles(),
+        UserApi.searchUser(),
+        QCVNApi.getQCVN({}, {}),
+      ])
+      const users = get(responseUser, 'data', []).filter(
+        item => !get(item, 'removeStatus.allowed')
+      )
+      if (responseQCVN.success) {
         this.setState({
-          qcvnList: result.data,
+          qcvnList: responseQCVN.data,
+          users,
+          roles: responseRoles.data,
         })
       }
     } catch (e) {
       console.log(e)
     }
-
   }
 
   getMeasuringList = () => {
@@ -41,12 +53,14 @@ export default class AlarmConfigExceed extends Component {
     const values = form.getFieldsValue()
     const qcvnsForm = Object.values(values[FIELDS.EXCEED] || {})
     const qcvnsSelected = qcvnsForm.filter(qcvn => qcvn[FIELDS.STANDARD_ID])
-    const qcvnsSelectedMapValue = qcvnsSelected.map(qcvn => ({ ...qcvnListObj[qcvn[FIELDS.STANDARD_ID]] }))
+    const qcvnsSelectedMapValue = qcvnsSelected.map(qcvn => ({
+      ...qcvnListObj[qcvn[FIELDS.STANDARD_ID]],
+    }))
     return qcvnsSelectedMapValue
   }
 
-  render () {
-    const { qcvnList } = this.state
+  render() {
+    const { qcvnList, users, roles } = this.state
     const { alarmList, form, onDelete, onAdd } = this.props
 
     const measuringList = this.getMeasuringList()
@@ -62,12 +76,12 @@ export default class AlarmConfigExceed extends Component {
           onDelete={onDelete}
           dataSource={alarmList}
           onAdd={onAdd}
+          qcvnListSelected={qcvnListSelected}
+          users={users}
+          roles={roles}
         />
-        <Clearfix height={12}/>
-        <TableQCVN
-          qcvnList={qcvnListSelected}
-          dataSource={measuringList}
-        />
+        <Clearfix height={12} />
+        <TableQCVN qcvnList={qcvnListSelected} dataSource={measuringList} />
       </div>
     )
   }

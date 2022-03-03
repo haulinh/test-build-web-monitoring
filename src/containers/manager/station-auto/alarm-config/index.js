@@ -1,14 +1,17 @@
+import { Button, Collapse, Form } from 'antd'
+import CalculateApi from 'api/CalculateApi'
+import { Clearfix } from 'components/elements'
+import {
+  ALARM_LIST_INIT,
+  getHiddenParam,
+} from 'containers/manager/station-auto/alarm-config/constants'
+import { isEmpty } from 'lodash'
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
+import styled from 'styled-components'
+import { v4 as uuidv4 } from 'uuid'
 import AlarmConfigDisconnect from './alarm-config-disconnect'
 import AlarmConfigExceed from './alarm-config-exceed'
-import { Button, Collapse, Form } from 'antd'
-import styled from 'styled-components'
-import { Clearfix } from 'components/elements'
-import { withRouter } from 'react-router-dom'
-import { ALARM_LIST_INIT, getHiddenParam } from 'containers/manager/station-auto/alarm-config/constants'
-import CalculateApi from 'api/CalculateApi'
-import { isEmpty } from 'lodash'
-import { v4 as uuidv4 } from 'uuid'
 
 const { Panel } = Collapse
 
@@ -36,17 +39,18 @@ export const FIELDS = {
   QCVN_EXCEED: 'qcvnExceed',
   STANDARD_ID: 'standardId',
   ACTIVE_EXCEED: 'activeExceed',
+  USERS: 'users',
 }
 
-const getStatusAlarm = (status) => {
+const getStatusAlarm = status => {
   if (status) return 'enable'
   return 'disable'
 }
 
-@withRouter @Form.create()
+@withRouter
+@Form.create()
 export default class AlarmConfig extends Component {
-
-  constructor (props) {
+  constructor(props) {
     super(props)
     const { match } = props
     this.stationId = match.params.key
@@ -71,7 +75,7 @@ export default class AlarmConfig extends Component {
     }
   }
 
-  getQueryParamDisconnect = (stationId) => {
+  getQueryParamDisconnect = stationId => {
     console.log({ stationId })
     const { form } = this.props
     const value = form.getFieldsValue()
@@ -79,24 +83,30 @@ export default class AlarmConfig extends Component {
     const paramsForm = Object.values(value[FIELDS.DISCONNECT])
     const paramHidden = getHiddenParam(FIELDS.DISCONNECT, stationId)
     const params = paramsForm.map(paramItem => ({
-      ...paramItem, status: getStatusAlarm(paramItem.status), ...paramHidden,
+      ...paramItem,
+      status: getStatusAlarm(paramItem.status),
+      ...paramHidden,
     }))
 
     return params
   }
 
-  getAlarmGroupByType = (type) => {
+  getAlarmGroupByType = type => {
     const { alarmList } = this.state
-    const alarmGroupByType = alarmList.reduce((base, current) => {
-      if (current.type === FIELDS.DISCONNECT) {
-        base.alarmDisconnect.push(current)
-      } else {
-        base.alarmExceed.push(current)
+    const alarmGroupByType = alarmList.reduce(
+      (base, current) => {
+        if (current.type === FIELDS.DISCONNECT) {
+          base.alarmDisconnect.push(current)
+        } else {
+          base.alarmExceed.push(current)
+        }
+        return base
+      },
+      {
+        alarmDisconnect: [],
+        alarmExceed: [],
       }
-      return base
-    }, {
-      alarmDisconnect: [], alarmExceed: []
-    })
+    )
 
     return alarmGroupByType
   }
@@ -112,7 +122,10 @@ export default class AlarmConfig extends Component {
     const { alarmList } = this.state
     const { form } = this.props
     const alarmListDeleted = alarmList.filter(item => item._id !== id)
-    const alarmFormValues = alarmListDeleted.reduce((base, currentAlarm) => ({ [currentAlarm._id]: currentAlarm }), {})
+    const alarmFormValues = alarmListDeleted.reduce(
+      (base, currentAlarm) => ({ [currentAlarm._id]: currentAlarm }),
+      {}
+    )
     this.setState({ alarmList: alarmListDeleted }, () => {
       form.setFieldsValue(alarmFormValues)
     })
@@ -131,38 +144,40 @@ export default class AlarmConfig extends Component {
 
   //endregion
 
-  render () {
+  render() {
     const { form } = this.props
     const { isEdit, alarmList } = this.state
 
     const { alarmDisconnect, alarmExceed } = this.getAlarmGroupByType()
 
-    return (<Collapse style={{ marginTop: '10px' }}>
-      <PanelAnt header="Cảnh báo" key="1">
-        <AlarmConfigDisconnect
-          form={form}
-          alarmList={alarmDisconnect}
-          onAdd={this.handleAdd}
-          onDelete={this.handleDelete}
-        />
+    return (
+      <Collapse style={{ marginTop: '10px' }}>
+        <PanelAnt header="Cảnh báo" key="1">
+          <AlarmConfigDisconnect
+            form={form}
+            alarmList={alarmDisconnect}
+            onAdd={this.handleAdd}
+            onDelete={this.handleDelete}
+          />
 
-        <Clearfix height={24}/>
+          <Clearfix height={24} />
 
-        <AlarmConfigExceed form={form}
-                           alarmList={alarmExceed}
-                           onAdd={this.handleAdd}
-                           onDelete={this.handleDelete}
-        />
+          <AlarmConfigExceed
+            form={form}
+            alarmList={alarmExceed}
+            onAdd={this.handleAdd}
+            onDelete={this.handleDelete}
+          />
 
-        <Button
-          style={{ width: '100%', marginTop: '10px' }}
-          type="primary"
-          onClick={this.handleSubmit}
-        >
-          Lưu
-        </Button>
-
-      </PanelAnt>
-    </Collapse>)
+          <Button
+            style={{ width: '100%', marginTop: '10px' }}
+            type="primary"
+            onClick={this.handleSubmit}
+          >
+            Lưu
+          </Button>
+        </PanelAnt>
+      </Collapse>
+    )
   }
 }

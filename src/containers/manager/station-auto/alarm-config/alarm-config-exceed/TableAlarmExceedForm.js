@@ -1,9 +1,14 @@
 import { Button, Checkbox, Icon, Popconfirm, Table } from 'antd'
+import TreeSelectUser from 'components/elements/select-data/TreeSelectUser'
 import React, { Component } from 'react'
 import { FIELDS } from '../index'
 import SelectQCVNExceed from './SelectQCVNExeed'
 
 export default class TableAlarmConfigExceed extends Component {
+  onChangeSelectUser = value => {
+    console.log('treeValue in Table Alarm Exceed Form-------->', value.flat())
+  }
+
   columns = [
     {
       title: 'Ngưỡng',
@@ -11,7 +16,7 @@ export default class TableAlarmConfigExceed extends Component {
       width: '15%',
       align: 'left',
       render: (value, record, index) => {
-        const { form, qcvnList } = this.props
+        const { form, qcvnList, qcvnListSelected } = this.props
         return (
           <React.Fragment>
             {form.getFieldDecorator(
@@ -21,6 +26,7 @@ export default class TableAlarmConfigExceed extends Component {
               <SelectQCVNExceed
                 placeholder="Chọn ngưỡng"
                 qcvnList={qcvnList}
+                selectedQCVNList={qcvnListSelected}
               />
             )}
           </React.Fragment>
@@ -32,6 +38,23 @@ export default class TableAlarmConfigExceed extends Component {
       dataIndex: 'user',
       align: 'left',
       width: '40%',
+      render: (value, record, index) => {
+        const { form, users, roles } = this.props
+        return (
+          <React.Fragment>
+            {form.getFieldDecorator(
+              `${FIELDS.EXCEED}.${record._id}.${FIELDS.USERS}`,
+              {}
+            )(
+              <TreeSelectUser
+                onChange={value => this.onChangeSelectUser(value)}
+                users={users}
+                roles={roles}
+              />
+            )}
+          </React.Fragment>
+        )
+      },
     },
     {
       title: 'Cảnh báo',
@@ -94,7 +117,7 @@ export default class TableAlarmConfigExceed extends Component {
             type="link"
             style={{ fontWeight: 'bold' }}
             onClick={onAdd}
-            // disabled={dataSource.length > 2}
+            disabled={dataSource.length > 2}
           >
             <Icon type="plus" />
             Thêm
