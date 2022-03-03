@@ -160,7 +160,6 @@ export default class AlarmConfig extends Component {
     const checkValidate = await form.validateFields()
 
     if (!checkValidate) return
-
     const paramsArray = [FIELDS.DISCONNECT, FIELDS.BY_STANDARD].map(
       alarmType => {
         const paramType = this.getQueryParam(alarmType, this.stationId)
@@ -247,7 +246,7 @@ export default class AlarmConfig extends Component {
     console.log({ valuesForm: form.getFieldsValue() })
 
     return (
-      <Collapse style={{ marginTop: '10px' }}>
+      <Collapse style={{ marginTop: '10px' }} defaultActiveKey={'1'}>
         <PanelAnt header="Cảnh báo" key="1">
           <AlarmConfigDisconnect
             form={form}
