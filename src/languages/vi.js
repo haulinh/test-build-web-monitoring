@@ -4176,6 +4176,7 @@ export default {
           value: 'Giá trị thông số',
           device: 'Trạng thái thiết bị',
         },
+        standard: 'Qui chuẩn',
       },
       history: {
         name: 'Tên cảnh báo',
@@ -4243,6 +4244,10 @@ export default {
         {{status}}: Trạng thái của thiết bị,
         {{time}}: Thời gian thỏa điều kiện,
         `,
+      },
+      by_standard: {
+        label: 'Qui chuẩn',
+        value: 'by_standard',
       },
     },
   },

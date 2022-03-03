@@ -23,6 +23,7 @@ export const i18n = () => ({
       type: t('alarm.label.management.type'),
       disconnectionTime: t('alarm.label.management.disconnectionTime'),
       repeatConfig: t('alarm.label.management.repeatConfig'),
+      standard: t('alarm.label.management.standard'),
       station: t('alarm.label.management.station'),
       measure: t('alarm.label.management.measure'),
       device: t('alarm.label.management.device'),
@@ -104,11 +105,13 @@ export default class AlarmForm extends Component {
   }
 
   getParam = type => {
+    console.log({ type })
     const param = {
       disconnect: this.getParamDisconnect,
       advance: this.getParamAdvance,
       exceed: this.getParamExceed,
       device: this.getParamDevice,
+      by_standard: this.processGeneralValue,
       undefined: () => ({}),
     }
     return param[type]()

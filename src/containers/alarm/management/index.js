@@ -40,6 +40,14 @@ export const alarmType = {
 [STATUS_DATA]- {{measure}}: {{value}} {{unit}} ({{sign}} {{config}})
 [STATUS_DEVICE]- {{measure}}: Sensor {{status}}`,
   },
+  by_standard: {
+    label: () => t('alarm.alarmType.by_standard.label'),
+    value: 'by_standard',
+    template: () => t('alarm.alarmType.advance.template', undefined, false),
+    initialValue: `{{station}}: ({{time}})
+    [STATUS_DATA]- {{measure}}: {{value}} {{unit}} ({{sign}} {{config}})
+    [STATUS_DEVICE]- {{measure}}: Sensor {{status}}`,
+  },
 }
 
 export const FIELDS = {
@@ -52,6 +60,7 @@ export const FIELDS = {
   RECIPIENTS: 'recipients',
   CHANNELS: 'channels',
   MAX_DISCONNECTION_TIME: 'maxDisconnectionTime',
+  STANDARD_ID: 'standardId',
 }
 
 export const i18n = () => ({
