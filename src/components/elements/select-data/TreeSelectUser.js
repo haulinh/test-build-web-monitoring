@@ -1,7 +1,6 @@
 import { TreeSelect } from 'antd'
-import { get } from 'lodash-es'
+import { get, isNil } from 'lodash-es'
 import React, { Component } from 'react'
-
 const { SHOW_PARENT } = TreeSelect
 export default class TreeSelectUser extends Component {
   getRoleDependentUser = () => {
@@ -26,7 +25,18 @@ export default class TreeSelectUser extends Component {
         }
       })
       .filter(item => item.children.length !== 0)
-    return roleDependentUser
+    const usersOfOtherRole = users.filter(user => isNil(user.role))
+    const otherRoleIndependentUser = {
+      title: 'Người dùng khác',
+      value: users.filter(user => isNil(user.role)).map(user => user._id),
+      key: '1',
+      children: usersOfOtherRole.map(user => ({
+        title: user.lastName + ' ' + user.firstName,
+        value: user._id,
+        key: user._id,
+      })),
+    }
+    return [...roleDependentUser, otherRoleIndependentUser]
   }
 
   getTreeData = () => {
