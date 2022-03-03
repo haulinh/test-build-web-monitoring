@@ -11,65 +11,39 @@ export const alarmTypeObject = {
   },
 }
 
-export const ALARM_LIST_INIT = [
-  {
-    _id: uuidv4(),
-    recipients: [
-      "6008e96e6854d4001bc3053c",
-      "5aaf82a2eefc200a2266f9c2",
-      "6193126d315aa0001c4b5959"
-    ],
-    type: 'disconnect',
-    maxDisconnectionTime: 30,
-  },
-  {
-    _id: uuidv4(),
-    recipients: [
-      "6008e96e6854d4001bc3053c",
-      "5aaf82a2eefc200a2266f9c2",
-      "6193126d315aa0001c4b5959"
-    ],
-    type: 'disconnect',
-    maxDisconnectionTime: 60,
-  },
-  {
-    _id: uuidv4(),
-    recipients: [
-      "6008e96e6854d4001bc3053c",
-      "5aaf82a2eefc200a2266f9c2",
-      "6193126d315aa0001c4b5959"
-    ],
-    type: 'disconnect',
-    maxDisconnectionTime: 240,
-  },
-  {
-    _id: uuidv4(),
-    recipients: [
-      "6008e96e6854d4001bc3053c",
-      "5aaf82a2eefc200a2266f9c2",
-      "6193126d315aa0001c4b5959"
-    ],
-    type: 'exceed',
-  },
-  {
-    _id: uuidv4(),
-    recipients: [
-      "6008e96e6854d4001bc3053c",
-      "5aaf82a2eefc200a2266f9c2",
-      "6193126d315aa0001c4b5959"
-    ],
-    type: 'exceed',
-  },
-  {
-    _id: uuidv4(),
-    recipients: [
-      "6008e96e6854d4001bc3053c",
-      "5aaf82a2eefc200a2266f9c2",
-      "6193126d315aa0001c4b5959"
-    ],
-    type: 'exceed',
-  },
-]
+export const ALARM_LIST_INIT = {
+  DISCONNECT: [
+    {
+      _id: uuidv4(),
+      type: 'disconnect',
+      maxDisconnectionTime: 30 * 60,
+    },
+    {
+      _id: uuidv4(),
+      type: 'disconnect',
+      maxDisconnectionTime: 60 * 60,
+    },
+    {
+      _id: uuidv4(),
+      type: 'disconnect',
+      maxDisconnectionTime: 2 * 60 * 60,
+    },
+  ],
+  BY_STANDARD: [
+    {
+      _id: uuidv4(),
+      type: 'by_standard',
+    },
+    {
+      _id: uuidv4(),
+      type: 'by_standard',
+    },
+    {
+      _id: uuidv4(),
+      type: 'by_standard',
+    },
+  ],
+}
 
 const chanels = ['email', 'mobile', 'sms', 'webhook']
 export const getHiddenParam = (typeAlarm, stationId) => {
@@ -77,11 +51,11 @@ export const getHiddenParam = (typeAlarm, stationId) => {
     const valueChanel = {
       active: true,
       type: currentChanel,
-      template: alarmTypeObject[typeAlarm]
+      template: alarmTypeObject[typeAlarm],
     }
     return {
       ...base,
-      [currentChanel]: valueChanel
+      [currentChanel]: valueChanel,
     }
   }, {})
 
@@ -89,7 +63,7 @@ export const getHiddenParam = (typeAlarm, stationId) => {
     repeatConfig: { active: true },
     channels: paramChanels,
     stationId,
-    type: typeAlarm
+    type: typeAlarm,
   }
   return paramHidden
 }

@@ -1,7 +1,8 @@
 import { Button, Checkbox, Icon, Popconfirm, Table } from 'antd'
 import React, { Component } from 'react'
+import SelectUser from 'components/elements/select-data/SelectUser'
 import { FIELDS } from '../index'
-import SelectQCVNExceed from './SelectQCVNExeed'
+import { SelectQCVNExceed } from '../components'
 
 export default class TableAlarmConfigExceed extends Component {
   columns = [
@@ -15,10 +16,10 @@ export default class TableAlarmConfigExceed extends Component {
         return (
           <React.Fragment>
             {form.getFieldDecorator(
-              `${FIELDS.EXCEED}.${record._id}.${FIELDS.STANDARD_ID}`,
-              {}
+              `${FIELDS.BY_STANDARD}.${record._id}.${FIELDS.STANDARD_ID}`
             )(
               <SelectQCVNExceed
+                value={value}
                 placeholder="Chọn ngưỡng"
                 qcvnList={qcvnList}
               />
@@ -29,9 +30,22 @@ export default class TableAlarmConfigExceed extends Component {
     },
     {
       title: 'Người nhận',
-      dataIndex: 'user',
-      align: 'left',
+      dataIndex: 'recipients',
+      align: 'center',
       width: '40%',
+      render: (value, record) => {
+        const { form } = this.props
+        return (
+          <React.Fragment>
+            {form.getFieldDecorator(
+              `${FIELDS.BY_STANDARD}.${record._id}.${FIELDS.RECIPIENTS}`,
+              {
+                initialValue: value,
+              }
+            )(<SelectUser mode="multiple" />)}
+          </React.Fragment>
+        )
+      },
     },
     {
       title: 'Cảnh báo',
@@ -43,7 +57,7 @@ export default class TableAlarmConfigExceed extends Component {
         return (
           <React.Fragment>
             {form.getFieldDecorator(
-              `${FIELDS.EXCEED}.${record._id}.${FIELDS.STATUS}`,
+              `${FIELDS.BY_STANDARD}.${record._id}.${FIELDS.STATUS}`,
               {
                 initialValue: value,
                 valuePropName: 'checked',

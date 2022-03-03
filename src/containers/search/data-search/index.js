@@ -126,7 +126,7 @@ export default class MinutesDataSearch extends React.Component {
           })
         })
         .catch(e => {
-          console.log({ e })
+          console.error({ e })
           this.setState({ loadingSummary: false })
         })
 
@@ -141,7 +141,7 @@ export default class MinutesDataSearch extends React.Component {
           })
         })
         .catch(e => {
-          console.log({ e })
+          console.error({ e })
           this.setState({ loadingData: false })
         })
 
@@ -160,7 +160,7 @@ export default class MinutesDataSearch extends React.Component {
         loadingSummary: false,
       })
     } catch (error) {
-      console.log({ error })
+      console.error({ error })
       this.setState({ loadingData: false, loadingSummary: false })
     }
   }
@@ -181,7 +181,7 @@ export default class MinutesDataSearch extends React.Component {
       downFileExcel(result.data, stationAutoByKey[stationKey].name)
     } catch (error) {
       this.setState({ loadingExport: true })
-      console.log({ error })
+      console.error({ error })
     }
   }
 

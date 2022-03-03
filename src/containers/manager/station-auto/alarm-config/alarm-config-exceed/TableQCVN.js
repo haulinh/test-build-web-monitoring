@@ -6,7 +6,7 @@ import uuid from 'uuid'
 export default class TableQCVN extends Component {
   getColumns = () => {
     const { qcvnList } = this.props
-    const columns = qcvnList.map((qcvn) => {
+    const columns = qcvnList.map(qcvn => {
       const measuringQcvnObj = _.keyBy(qcvn.measuringList, 'key')
 
       return {
@@ -56,7 +56,6 @@ export default class TableQCVN extends Component {
 
   render() {
     const { dataSource } = this.props
-    console.log({dataSource})
 
     return (
       <Table

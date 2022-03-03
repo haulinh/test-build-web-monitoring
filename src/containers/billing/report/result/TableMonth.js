@@ -48,7 +48,6 @@ export default function TableMonth({ resultReport = {} }) {
         align: 'center',
         render: value => {
           const valueMeasure = _.get(value, `${measure.key}.value`)
-          console.log({ valueMeasure })
           return <div>{getFormatNumber(valueMeasure, 2)}</div>
         },
       })),

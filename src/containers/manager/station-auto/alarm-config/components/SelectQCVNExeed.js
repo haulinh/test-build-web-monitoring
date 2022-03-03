@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import { replaceVietnameseStr } from 'utils/string'
 
-export default class SelectQCVNExceed extends PureComponent {
+export class SelectQCVNExceed extends PureComponent {
   static propTypes = {
     query: PropTypes.object,
     label: PropTypes.string,

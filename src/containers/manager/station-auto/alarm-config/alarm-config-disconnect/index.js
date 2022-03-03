@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
 import TableAlarmDisconnect from './TableAlarmDisconnect'
 
-export default class AlarmConfig extends Component {
-
-  render () {
+export default class AlarmConfigDisconnect extends Component {
+  render() {
     const { alarmList, form, onDelete, onAdd } = this.props
 
     return (
-      <div>
+      <React.Fragment>
         <div className="title">Cảnh báo mất tín hiệu</div>
 
         <TableAlarmDisconnect
@@ -16,7 +15,7 @@ export default class AlarmConfig extends Component {
           dataSource={alarmList}
           handleAdd={onAdd}
         />
-      </div>
+      </React.Fragment>
     )
   }
 }

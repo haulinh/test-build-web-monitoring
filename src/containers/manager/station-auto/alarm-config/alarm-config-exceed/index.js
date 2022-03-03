@@ -8,23 +8,22 @@ import TableQCVN from './TableQCVN'
 import { FIELDS } from '../index'
 
 export default class AlarmConfigExceed extends Component {
-  state = {
-    qcvnList: [],
-  }
+  // state = {
+  //   qcvnList: [],
+  // }
 
-  async componentDidMount () {
-    try {
-      const result = await QCVNApi.getQCVN({}, {})
-      if (result.success) {
-        this.setState({
-          qcvnList: result.data,
-        })
-      }
-    } catch (e) {
-      console.log(e)
-    }
-
-  }
+  // async componentDidMount() {
+  //   try {
+  //     const result = await QCVNApi.getQCVN({}, {})
+  //     if (result.success) {
+  //       this.setState({
+  //         qcvnList: result.data,
+  //       })
+  //     }
+  //   } catch (e) {
+  //     console.log(e)
+  //   }
+  // }
 
   getMeasuringList = () => {
     const qcvnsSelected = this.getQcvnSelected()
@@ -34,20 +33,22 @@ export default class AlarmConfigExceed extends Component {
   }
 
   getQcvnSelected = () => {
-    const { form } = this.props
-    const { qcvnList } = this.state
+    const { form, qcvnList } = this.props
+    // const { qcvnList } = this.state
     const qcvnListObj = keyBy(qcvnList, '_id')
 
     const values = form.getFieldsValue()
-    const qcvnsForm = Object.values(values[FIELDS.EXCEED] || {})
+    const qcvnsForm = Object.values(values[FIELDS.BY_STANDARD] || {})
     const qcvnsSelected = qcvnsForm.filter(qcvn => qcvn[FIELDS.STANDARD_ID])
-    const qcvnsSelectedMapValue = qcvnsSelected.map(qcvn => ({ ...qcvnListObj[qcvn[FIELDS.STANDARD_ID]] }))
+    const qcvnsSelectedMapValue = qcvnsSelected.map(qcvn => ({
+      ...qcvnListObj[qcvn[FIELDS.STANDARD_ID]],
+    }))
     return qcvnsSelectedMapValue
   }
 
-  render () {
-    const { qcvnList } = this.state
-    const { alarmList, form, onDelete, onAdd } = this.props
+  render() {
+    // const { qcvnList } = this.state
+    const { qcvnList, alarmList, form, onDelete, onAdd } = this.props
 
     const measuringList = this.getMeasuringList()
     const qcvnListSelected = this.getQcvnSelected()
@@ -63,11 +64,8 @@ export default class AlarmConfigExceed extends Component {
           dataSource={alarmList}
           onAdd={onAdd}
         />
-        <Clearfix height={12}/>
-        <TableQCVN
-          qcvnList={qcvnListSelected}
-          dataSource={measuringList}
-        />
+        <Clearfix height={12} />
+        <TableQCVN qcvnList={qcvnListSelected} dataSource={measuringList} />
       </div>
     )
   }
