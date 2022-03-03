@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { Table, Button, Icon, Popconfirm, Checkbox, Select } from 'antd'
+import SelectUser from 'components/elements/select-data/SelectUser'
 import { FIELDS } from '../index'
-import SelectTime from './SelectTime'
+import { SelectTime } from '../components'
 
 export default class TableAlarmDisconnect extends Component {
   columns = [
@@ -9,16 +10,14 @@ export default class TableAlarmDisconnect extends Component {
       title: 'Thời gian mất tín hiệu (phút)',
       width: '15%',
       align: 'center',
+      dataIndex: FIELDS.TIME_DISCONNECT,
       render: (value, record) => {
         const { form } = this.props
         return (
           <React.Fragment>
             {form.getFieldDecorator(
-              `${FIELDS.DISCONNECT}.${record._id}.${FIELDS.TIME_DISCONNECT}`,
-              {
-                initialValue: 30,
-              }
-            )(<SelectTime/>)}
+              `${FIELDS.DISCONNECT}.${record._id}.${FIELDS.TIME_DISCONNECT}`
+            )(<SelectTime />)}
           </React.Fragment>
         )
       },
@@ -32,18 +31,18 @@ export default class TableAlarmDisconnect extends Component {
         const { form } = this.props
         return (
           <React.Fragment>
-            {form.getFieldDecorator(`${FIELDS.DISCONNECT}.${record._id}.${FIELDS.RECIPIENTS}`, {
-              initialValue: value
-            })(<Select mode='multiple'/>)}
+            {form.getFieldDecorator(
+              `${FIELDS.DISCONNECT}.${record._id}.${FIELDS.RECIPIENTS}`
+            )(<SelectUser mode="multiple" />)}
           </React.Fragment>
         )
-      }
+      },
     },
     {
       title: 'Cảnh báo',
       width: '15%',
       align: 'center',
-      dataIndex: 'isActive',
+      dataIndex: 'status',
       render: (value, record) => {
         const { form } = this.props
         return (
@@ -51,15 +50,13 @@ export default class TableAlarmDisconnect extends Component {
             {form.getFieldDecorator(
               `${FIELDS.DISCONNECT}.${record._id}.${FIELDS.STATUS}`,
               {
-                initialValue: false,
                 valuePropName: 'checked',
               }
-            )(<Checkbox/>)}
+            )(<Checkbox />)}
           </React.Fragment>
         )
       },
     },
-
     {
       title: '',
       width: '15%',
@@ -75,7 +72,7 @@ export default class TableAlarmDisconnect extends Component {
             onConfirm={() => handleDelete(record._id)}
           >
             <div style={{ textAlign: 'center', cursor: 'pointer' }}>
-              <Icon type="delete" style={{ fontSize: '16px', color: 'red' }}/>
+              <Icon type="delete" style={{ fontSize: '16px', color: 'red' }} />
             </div>
           </Popconfirm>
         )
@@ -83,7 +80,7 @@ export default class TableAlarmDisconnect extends Component {
     },
   ]
 
-  render () {
+  render() {
     const { handleAdd, dataSource } = this.props
     return (
       <Table
@@ -98,7 +95,7 @@ export default class TableAlarmDisconnect extends Component {
             style={{ fontWeight: 'bold' }}
             onClick={handleAdd}
           >
-            <Icon type="plus"/>
+            <Icon type="plus" />
             Thêm
           </Button>
         )}

@@ -1,12 +1,18 @@
 import { Button, Checkbox, Icon, Popconfirm, Table } from 'antd'
 import TreeSelectUser from 'components/elements/select-data/TreeSelectUser'
 import React, { Component } from 'react'
+import SelectUser from 'components/elements/select-data/SelectUser'
 import { FIELDS } from '../index'
-import SelectQCVNExceed from './SelectQCVNExeed'
+import { SelectQCVNExceed } from '../components'
 
 export default class TableAlarmConfigExceed extends Component {
-  onChangeSelectUser = value => {
-    console.log('treeValue in Table Alarm Exceed Form-------->', value.flat())
+  onChangeSelectUser = (value, id) => {
+    const { form } = this.props
+    console.log('id in onChangeSelectUser------------>', id)
+    console.log({ valuesInOnChange: form.getFieldsValue() })
+    form.setFieldsValue({
+      [`by_standard.${id}.recipients`]: value.flat(),
+    })
   }
 
   columns = [
@@ -20,10 +26,10 @@ export default class TableAlarmConfigExceed extends Component {
         return (
           <React.Fragment>
             {form.getFieldDecorator(
-              `${FIELDS.EXCEED}.${record._id}.${FIELDS.STANDARD_ID}`,
-              {}
+              `${FIELDS.BY_STANDARD}.${record._id}.${FIELDS.STANDARD_ID}`
             )(
               <SelectQCVNExceed
+                value={value}
                 placeholder="Chọn ngưỡng"
                 qcvnList={qcvnList}
                 selectedQCVNList={qcvnListSelected}
@@ -35,19 +41,19 @@ export default class TableAlarmConfigExceed extends Component {
     },
     {
       title: 'Người nhận',
-      dataIndex: 'user',
-      align: 'left',
+      dataIndex: 'recipients',
+      align: 'center',
       width: '40%',
       render: (value, record, index) => {
         const { form, users, roles } = this.props
         return (
           <React.Fragment>
             {form.getFieldDecorator(
-              `${FIELDS.EXCEED}.${record._id}.${FIELDS.USERS}`,
+              `${FIELDS.BY_STANDARD}.${record._id}.${FIELDS.RECIPIENTS}`,
               {}
             )(
               <TreeSelectUser
-                onChange={value => this.onChangeSelectUser(value)}
+                onChange={value => this.onChangeSelectUser(value, record._id)}
                 users={users}
                 roles={roles}
               />
@@ -66,7 +72,7 @@ export default class TableAlarmConfigExceed extends Component {
         return (
           <React.Fragment>
             {form.getFieldDecorator(
-              `${FIELDS.EXCEED}.${record._id}.${FIELDS.STATUS}`,
+              `${FIELDS.BY_STANDARD}.${record._id}.${FIELDS.STATUS}`,
               {
                 initialValue: value,
                 valuePropName: 'checked',

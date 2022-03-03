@@ -202,8 +202,6 @@ export default class SearchFormHistoryData extends React.Component {
 
     const province = form.getFieldValue(fields.province)
 
-    console.log({ province })
-
     stationAutoList = stationAutos.filter(
       stationAuto => stationAuto.stationType.key === stationType
     )

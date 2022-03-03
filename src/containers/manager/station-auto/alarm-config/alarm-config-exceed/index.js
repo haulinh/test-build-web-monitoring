@@ -12,30 +12,6 @@ import UserApi from 'api/UserApi'
 export default class AlarmConfigExceed extends Component {
   state = {
     qcvnList: [],
-    users: [],
-    roles: [],
-  }
-
-  async componentDidMount() {
-    try {
-      const [responseRoles, responseUser, responseQCVN] = await Promise.all([
-        RoleApi.getRoles(),
-        UserApi.searchUser(),
-        QCVNApi.getQCVN({}, {}),
-      ])
-      const users = get(responseUser, 'data', []).filter(
-        item => !get(item, 'removeStatus.allowed')
-      )
-      if (responseQCVN.success) {
-        this.setState({
-          qcvnList: responseQCVN.data,
-          users,
-          roles: responseRoles.data,
-        })
-      }
-    } catch (e) {
-      console.log(e)
-    }
   }
 
   getMeasuringList = () => {
@@ -46,12 +22,12 @@ export default class AlarmConfigExceed extends Component {
   }
 
   getQcvnSelected = () => {
-    const { form } = this.props
-    const { qcvnList } = this.state
+    const { form, qcvnList } = this.props
+    // const { qcvnList } = this.state
     const qcvnListObj = keyBy(qcvnList, '_id')
 
     const values = form.getFieldsValue()
-    const qcvnsForm = Object.values(values[FIELDS.EXCEED] || {})
+    const qcvnsForm = Object.values(values[FIELDS.BY_STANDARD] || {})
     const qcvnsSelected = qcvnsForm.filter(qcvn => qcvn[FIELDS.STANDARD_ID])
     const qcvnsSelectedMapValue = qcvnsSelected.map(qcvn => ({
       ...qcvnListObj[qcvn[FIELDS.STANDARD_ID]],
@@ -60,8 +36,16 @@ export default class AlarmConfigExceed extends Component {
   }
 
   render() {
-    const { qcvnList, users, roles } = this.state
-    const { alarmList, form, onDelete, onAdd } = this.props
+    // const { qcvnList } = this.state
+    const {
+      qcvnList,
+      alarmList,
+      form,
+      onDelete,
+      onAdd,
+      users,
+      roles,
+    } = this.props
 
     const measuringList = this.getMeasuringList()
     const qcvnListSelected = this.getQcvnSelected()

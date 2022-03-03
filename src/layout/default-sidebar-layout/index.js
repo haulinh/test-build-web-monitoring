@@ -154,7 +154,7 @@ export default class DefaultSidebarLayoutContainer extends Component {
             }
           })
           .catch(function(err) {
-            console.log('Unable to get permission to notify.', err)
+            console.error('Unable to get permission to notify.', err)
           })
 
         navigator.serviceWorker.addEventListener('message', message => {
