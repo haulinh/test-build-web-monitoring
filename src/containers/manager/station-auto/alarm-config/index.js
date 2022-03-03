@@ -58,7 +58,7 @@ const getAlarmGroupByType = alarmList => {
   const alarmGroupByType = alarmList.reduce((base, current) => {
     if (current.type === FIELDS.DISCONNECT) {
       base.alarmDisconnect.push(current)
-    } else {
+    } else if (current.type === FIELDS.STANDARD_ID) {
       base.alarmStandard.push(current)
     }
     return base
