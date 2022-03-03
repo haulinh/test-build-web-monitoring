@@ -33,7 +33,7 @@ const fields = {
 const PanelStyled = styled(Panel)`
   .ant-collapse-header {
     padding: 0px 16px;
-    height: 48px;
+    height: 46px;
     display: flex;
     align-items: center;
     justify-content: space-between;

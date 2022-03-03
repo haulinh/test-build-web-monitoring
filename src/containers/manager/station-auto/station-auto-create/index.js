@@ -145,6 +145,7 @@ export default class StationAutoCreate extends React.PureComponent {
           <StationAutoForm
             isLoading={this.state.isLoading}
             onSubmit={this.handleSubmit}
+            isEdit={false}
           />
         )}
         {this.state.isRequiredLicense && <Skeleton />}

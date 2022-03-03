@@ -176,8 +176,6 @@ export default class ImageMoreInfo extends React.Component {
       userInfo.organization.databaseInfo.name
     )
 
-    console.log({ name })
-
     try {
       await deleteImage(databaseName, stationKey, name)
       await this.fetchData(() => {
