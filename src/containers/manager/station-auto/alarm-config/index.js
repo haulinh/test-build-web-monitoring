@@ -246,7 +246,7 @@ export default class AlarmConfig extends Component {
     console.log({ valuesForm: form.getFieldsValue() })
 
     return (
-      <Collapse style={{ marginTop: '10px' }} activeKey="1">
+      <Collapse style={{ marginTop: '10px' }} defaultActiveKey={'1'}>
         <PanelAnt header="Cảnh báo" key="1">
           <AlarmConfigDisconnect
             form={form}
