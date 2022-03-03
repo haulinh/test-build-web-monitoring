@@ -53,6 +53,13 @@ export default class TableAlarmDisconnect extends Component {
                 valuePropName: 'checked',
               }
             )(<Checkbox />)}
+
+            {form.getFieldDecorator(
+              `${FIELDS.DISCONNECT}.${record._id}.${FIELDS.ID}`
+            )(<div />)}
+            {form.getFieldDecorator(
+              `${FIELDS.DISCONNECT}.${record._id}.${FIELDS.IS_CREATE_LOCAL}`
+            )(<div />)}
           </React.Fragment>
         )
       },
@@ -69,7 +76,7 @@ export default class TableAlarmDisconnect extends Component {
         return (
           <Popconfirm
             title="Sure to delete?"
-            onConfirm={() => handleDelete(record._id)}
+            onConfirm={() => handleDelete(FIELDS.DISCONNECT, record._id)}
           >
             <div style={{ textAlign: 'center', cursor: 'pointer' }}>
               <Icon type="delete" style={{ fontSize: '16px', color: 'red' }} />
@@ -93,7 +100,7 @@ export default class TableAlarmDisconnect extends Component {
           <Button
             type="link"
             style={{ fontWeight: 'bold' }}
-            onClick={handleAdd}
+            onClick={() => handleAdd(FIELDS.DISCONNECT)}
           >
             <Icon type="plus" />
             Thêm

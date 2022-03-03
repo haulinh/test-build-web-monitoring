@@ -29,7 +29,6 @@ export default class TableAlarmConfigExceed extends Component {
               `${FIELDS.BY_STANDARD}.${record._id}.${FIELDS.STANDARD_ID}`
             )(
               <SelectQCVNExceed
-                value={value}
                 placeholder="Chọn ngưỡng"
                 qcvnList={qcvnList}
                 selectedQCVNList={qcvnListSelected}
@@ -74,11 +73,16 @@ export default class TableAlarmConfigExceed extends Component {
             {form.getFieldDecorator(
               `${FIELDS.BY_STANDARD}.${record._id}.${FIELDS.STATUS}`,
               {
-                initialValue: value,
                 valuePropName: 'checked',
-                onChange: this.onChange,
               }
             )(<Checkbox />)}
+
+            {form.getFieldDecorator(
+              `${FIELDS.BY_STANDARD}.${record._id}.${FIELDS.ID}`
+            )(<div />)}
+            {form.getFieldDecorator(
+              `${FIELDS.BY_STANDARD}.${record._id}.${FIELDS.IS_CREATE_LOCAL}`
+            )(<div />)}
           </React.Fragment>
         )
       },
@@ -93,7 +97,7 @@ export default class TableAlarmConfigExceed extends Component {
           return (
             <Popconfirm
               title="Sure to delete?"
-              onConfirm={() => onDelete(record._id)}
+              onConfirm={() => onDelete(FIELDS.BY_STANDARD, record._id)}
             >
               <div style={{ textAlign: 'center', cursor: 'pointer' }}>
                 <Icon
@@ -122,7 +126,7 @@ export default class TableAlarmConfigExceed extends Component {
           <Button
             type="link"
             style={{ fontWeight: 'bold' }}
-            onClick={onAdd}
+            onClick={() => onAdd(FIELDS.BY_STANDARD)}
             disabled={dataSource.length > 2}
           >
             <Icon type="plus" />

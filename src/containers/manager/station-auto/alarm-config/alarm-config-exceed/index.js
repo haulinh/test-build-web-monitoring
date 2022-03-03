@@ -1,19 +1,12 @@
-import QCVNApi from 'api/QCVNApi'
 import { Clearfix } from 'components/elements'
 import { getMeasuringListFromStationAutos } from 'containers/api-sharing/util'
-import { get, keyBy } from 'lodash'
+import { keyBy } from 'lodash'
 import React, { Component } from 'react'
+import { FIELDS } from '../index'
 import TableAlarmExceedForm from './TableAlarmExceedForm'
 import TableQCVN from './TableQCVN'
-import { FIELDS } from '../index'
-import RoleApi from 'api/RoleApi'
-import UserApi from 'api/UserApi'
 
 export default class AlarmConfigExceed extends Component {
-  state = {
-    qcvnList: [],
-  }
-
   getMeasuringList = () => {
     const qcvnsSelected = this.getQcvnSelected()
 
@@ -23,7 +16,6 @@ export default class AlarmConfigExceed extends Component {
 
   getQcvnSelected = () => {
     const { form, qcvnList } = this.props
-    // const { qcvnList } = this.state
     const qcvnListObj = keyBy(qcvnList, '_id')
 
     const values = form.getFieldsValue()

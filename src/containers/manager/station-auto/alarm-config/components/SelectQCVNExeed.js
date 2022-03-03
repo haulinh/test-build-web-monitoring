@@ -61,14 +61,14 @@ export class SelectQCVNExceed extends PureComponent {
 
   render() {
     const listQCVN = this.getListQCVN()
-    const { selectedQCVNList } = this.props
+    const { selectedQCVNList, value } = this.props
     return (
       <Select
         {...this.props}
         showSearch
         allowClear
         onChange={this.handleOnChange}
-        value={this.state.value}
+        value={value || this.state.value}
         filterOption={false}
         style={{ width: '100%' }}
         onSearch={this.handleSearch}
