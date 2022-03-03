@@ -1,11 +1,10 @@
-import QCVNApi from 'api/QCVNApi'
 import { Clearfix } from 'components/elements'
 import { getMeasuringListFromStationAutos } from 'containers/api-sharing/util'
 import { keyBy } from 'lodash'
 import React, { Component } from 'react'
+import { FIELDS } from '../index'
 import TableAlarmExceedForm from './TableAlarmExceedForm'
 import TableQCVN from './TableQCVN'
-import { FIELDS } from '../index'
 
 export default class AlarmConfigExceed extends Component {
   getMeasuringList = () => {
@@ -29,7 +28,16 @@ export default class AlarmConfigExceed extends Component {
   }
 
   render() {
-    const { qcvnList, alarmList, form, onDelete, onAdd } = this.props
+    // const { qcvnList } = this.state
+    const {
+      qcvnList,
+      alarmList,
+      form,
+      onDelete,
+      onAdd,
+      users,
+      roles,
+    } = this.props
 
     const measuringList = this.getMeasuringList()
     const qcvnListSelected = this.getQcvnSelected()
@@ -44,6 +52,9 @@ export default class AlarmConfigExceed extends Component {
           onDelete={onDelete}
           dataSource={alarmList}
           onAdd={onAdd}
+          qcvnListSelected={qcvnListSelected}
+          users={users}
+          roles={roles}
         />
         <Clearfix height={12} />
         <TableQCVN qcvnList={qcvnListSelected} dataSource={measuringList} />

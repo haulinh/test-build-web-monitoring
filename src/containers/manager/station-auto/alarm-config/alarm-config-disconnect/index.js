@@ -3,7 +3,7 @@ import TableAlarmDisconnect from './TableAlarmDisconnect'
 
 export default class AlarmConfigDisconnect extends Component {
   render() {
-    const { alarmList, form, onDelete, onAdd } = this.props
+    const { alarmList, form, onDelete, onAdd, users, roles } = this.props
 
     return (
       <React.Fragment>
@@ -14,6 +14,8 @@ export default class AlarmConfigDisconnect extends Component {
           handleDelete={onDelete}
           dataSource={alarmList}
           handleAdd={onAdd}
+          users={users}
+          roles={roles}
         />
       </React.Fragment>
     )
