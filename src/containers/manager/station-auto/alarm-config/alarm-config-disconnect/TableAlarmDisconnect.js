@@ -1,8 +1,8 @@
+import { Button, Checkbox, Icon, Popconfirm, Table } from 'antd'
+import TreeSelectUser from 'components/elements/select-data/TreeSelectUser'
 import React, { Component } from 'react'
-import { Table, Button, Icon, Popconfirm, Checkbox, Select } from 'antd'
-import SelectUser from 'components/elements/select-data/SelectUser'
-import { FIELDS } from '../index'
 import { SelectTime } from '../components'
+import { FIELDS } from '../index'
 
 export default class TableAlarmDisconnect extends Component {
   columns = [
@@ -28,12 +28,12 @@ export default class TableAlarmDisconnect extends Component {
       align: 'center',
       width: '40%',
       render: (value, record) => {
-        const { form } = this.props
+        const { form, users, roles } = this.props
         return (
           <React.Fragment>
             {form.getFieldDecorator(
               `${FIELDS.DISCONNECT}.${record._id}.${FIELDS.RECIPIENTS}`
-            )(<SelectUser mode="multiple" />)}
+            )(<TreeSelectUser users={users} roles={roles} />)}
           </React.Fragment>
         )
       },

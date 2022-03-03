@@ -59,7 +59,6 @@ export default class TreeSelectUser extends Component {
       }
       return [...baseUserIds, current]
     }, [])
-
     if (onChange) {
       onChange(userIds)
     }
