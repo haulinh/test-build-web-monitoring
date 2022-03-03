@@ -4,7 +4,7 @@ export const alarmTypeObject = {
   disconnect: {
     template: `Station: {{station}} disconnected at {{time}}`,
   },
-  advance: {
+  by_standard: {
     template: `{{station}}: ({{time}})
 [STATUS_DATA]- {{measure}}: {{value}} {{unit}} ({{sign}} {{config}})
 [STATUS_DEVICE]- {{measure}}: Sensor {{status}}`,
@@ -16,31 +16,43 @@ export const ALARM_LIST_INIT = {
     {
       _id: uuidv4(),
       type: 'disconnect',
+      isCreateLocal: true,
       maxDisconnectionTime: 30 * 60,
+      status: true,
     },
     {
       _id: uuidv4(),
       type: 'disconnect',
+      isCreateLocal: true,
       maxDisconnectionTime: 60 * 60,
+      status: true,
     },
     {
       _id: uuidv4(),
       type: 'disconnect',
+      isCreateLocal: true,
       maxDisconnectionTime: 2 * 60 * 60,
+      status: true,
     },
   ],
   BY_STANDARD: [
     {
       _id: uuidv4(),
+      isCreateLocal: true,
       type: 'by_standard',
+      status: true,
     },
     {
       _id: uuidv4(),
+      isCreateLocal: true,
       type: 'by_standard',
+      status: true,
     },
     {
       _id: uuidv4(),
+      isCreateLocal: true,
       type: 'by_standard',
+      status: true,
     },
   ],
 }
@@ -51,7 +63,7 @@ export const getHiddenParam = (typeAlarm, stationId) => {
     const valueChanel = {
       active: true,
       type: currentChanel,
-      template: alarmTypeObject[typeAlarm],
+      template: alarmTypeObject[typeAlarm].template,
     }
     return {
       ...base,
@@ -60,7 +72,7 @@ export const getHiddenParam = (typeAlarm, stationId) => {
   }, {})
 
   const paramHidden = {
-    repeatConfig: { active: true },
+    repeatConfig: { active: true, frequency: 60 * 60 },
     channels: paramChanels,
     stationId,
     type: typeAlarm,

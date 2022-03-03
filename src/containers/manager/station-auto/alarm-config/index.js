@@ -33,13 +33,14 @@ const PanelAnt = styled(Panel)`
 
 export const FIELDS = {
   DISCONNECT: 'disconnect',
-  TIME_DISCONNECT: 'maxDisconnectionTime',
   BY_STANDARD: 'by_standard',
+
   STATUS: 'status',
+  TIME_DISCONNECT: 'maxDisconnectionTime',
   RECIPIENTS: 'recipients',
-  QCVN_EXCEED: 'qcvnExceed',
   STANDARD_ID: 'standardId',
-  ACTIVE_EXCEED: 'activeExceed',
+  IS_CREATE_LOCAL: 'isCreateLocal',
+  ID: '_id',
 }
 
 const getStatusAlarm = status => {
@@ -77,7 +78,9 @@ export default class AlarmConfig extends Component {
   state = {
     alarmDisconnect: ALARM_LIST_INIT.DISCONNECT,
     alarmStandard: ALARM_LIST_INIT.BY_STANDARD,
+    alarmList: [],
     qcvnList: [],
+    alarmIdsDeleted: [],
   }
 
   componentDidMount = async () => {
@@ -86,32 +89,18 @@ export default class AlarmConfig extends Component {
       this.getQCVNList(),
     ])
 
-    const { alarmDisconnect, alarmStandard } = getAlarmGroupByType(alarmList)
-
-    if (!isEmpty(alarmDisconnect)) {
-      this.setState({ alarmDisconnect }, () =>
-        this.setFormValues(FIELDS.DISCONNECT, alarmDisconnect)
-      )
-    }
-
-    if (!isEmpty(alarmStandard)) {
-      this.setState({ alarmStandard }, () =>
-        this.setFormValues(FIELDS.BY_STANDARD, alarmStandard)
-      )
-    }
+    this.setInitValues(alarmList, qcvnList)
   }
 
+  //#region get
   getAlarmByStationId = () => {
     return CalculateApi.getAlarms({ stationId: this.stationId })
   }
 
   getQCVNList = async () => {
-    const { alarmStandard } = this.state
     const result = await QCVNApi.getQCVN({}, {})
     if (result.success) {
-      this.setState({ qcvnList: result.data }, () => {
-        this.setFormValues(FIELDS.BY_STANDARD, alarmStandard)
-      })
+      return result.data
     }
   }
 
@@ -121,65 +110,132 @@ export default class AlarmConfig extends Component {
 
     const paramsForm = Object.values(value[alarmType])
     const paramHidden = getHiddenParam(alarmType, stationId)
-    const params = paramsForm.map(paramItem => ({
+    const params = paramsForm.map(({ isCreateLocal, ...paramItem }) => ({
       ...paramItem,
+      _id: !isCreateLocal ? paramItem._id : null,
       status: getStatusAlarm(paramItem.status),
       ...paramHidden,
     }))
 
     return params
   }
+  //#endregion get
+
+  //#region set
+  setInitValues = (alarmList, qcvnList) => {
+    const { alarmDisconnect, alarmStandard } = getAlarmGroupByType(alarmList)
+
+    this.setState({ qcvnList })
+
+    if (!isEmpty(alarmDisconnect)) {
+      this.setState({ alarmDisconnect }, () =>
+        this.setFormValues(FIELDS.DISCONNECT, alarmDisconnect)
+      )
+    } else {
+      this.setFormValues(FIELDS.DISCONNECT, ALARM_LIST_INIT.DISCONNECT)
+    }
+
+    if (!isEmpty(alarmStandard)) {
+      this.setState({ alarmStandard }, () =>
+        this.setFormValues(FIELDS.BY_STANDARD, alarmStandard)
+      )
+    } else {
+      this.setFormValues(FIELDS.BY_STANDARD, ALARM_LIST_INIT.BY_STANDARD)
+    }
+  }
 
   setFormValues = (alarmType, alarmList) => {
     const { form } = this.props
     const alarmFormValues = keyBy(alarmList, '_id')
     const alarmFormValuesType = { [alarmType]: alarmFormValues }
-    console.log({ alarmFormValuesType })
     form.setFieldsValue(alarmFormValuesType)
   }
+  //#endregion set
 
   handleSubmit = async () => {
-    const queryParamsArray = [FIELDS.DISCONNECT, FIELDS.BY_STANDARD].map(
+    const { alarmIdsDeleted } = this.state
+
+    const paramsArray = [FIELDS.DISCONNECT, FIELDS.BY_STANDARD].map(
       alarmType => {
         const paramType = this.getQueryParam(alarmType, this.stationId)
         return paramType
       }
     )
+    const paramsForm = flatten(paramsArray)
+    const paramRequest = {
+      data: paramsForm,
+      deletedIds: alarmIdsDeleted,
+    }
 
-    const queryParams = flatten(queryParamsArray)
-    const result = await CalculateApi.createBulkAlarm(queryParams)
+    try {
+      await CalculateApi.createBulkAlarm(paramRequest)
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   //region management state Alarm
-  handleDelete = id => {
-    const { alarmList } = this.state
-    const alarmListDeleted = alarmList.filter(item => item._id !== id)
+  handleDelete = (alarmType, id) => {
+    const { alarmDisconnect, alarmStandard, alarmIdsDeleted } = this.state
 
-    this.setState({ alarmList: alarmListDeleted }, () => {
-      this.setFormValues(alarmListDeleted)
-    })
-  }
+    const newIdsDeleted = [...alarmIdsDeleted, id]
+    this.setState({ alarmIdsDeleted: newIdsDeleted })
 
-  handleAdd = () => {
-    const { alarmList } = this.state
-    const newData = {
-      _id: uuidv4(),
+    const actionsDelete = {
+      [FIELDS.BY_STANDARD]: () => {
+        const newAlarmList = alarmStandard.filter(item => item._id !== id)
+        this.setState({ alarmStandard: newAlarmList }, () => {
+          this.setFormValues(FIELDS.BY_STANDARD, newAlarmList)
+        })
+      },
+      [FIELDS.DISCONNECT]: () => {
+        const newAlarmList = alarmDisconnect.filter(item => item._id !== id)
+        this.setState({ alarmDisconnect: newAlarmList }, () => {
+          this.setFormValues(FIELDS.DISCONNECT, newAlarmList)
+        })
+      },
     }
 
-    this.setState({
-      alarmList: [...alarmList, newData],
-    })
+    actionsDelete[alarmType]()
   }
 
+  handleAdd = alarmType => {
+    const { alarmDisconnect, alarmStandard } = this.state
+    const newData = {
+      _id: uuidv4(),
+      isCreateLocal: true,
+    }
+
+    const actionsAdd = {
+      [FIELDS.BY_STANDARD]: () => {
+        const newAlarmList = [...alarmStandard, newData]
+        this.setState(
+          {
+            alarmStandard: newAlarmList,
+          },
+          () => this.setFormValues(FIELDS.BY_STANDARD, newAlarmList)
+        )
+      },
+      [FIELDS.DISCONNECT]: () => {
+        const newAlarmList = [...alarmDisconnect, newData]
+        this.setState(
+          {
+            alarmDisconnect: [...alarmDisconnect, newData],
+          },
+          () => this.setFormValues(FIELDS.DISCONNECT, newAlarmList)
+        )
+      },
+    }
+
+    actionsAdd[alarmType]()
+  }
   //endregion
 
   render() {
     const { form } = this.props
     const { alarmDisconnect, alarmStandard, qcvnList } = this.state
 
-    console.log({ values: form.getFieldsValue() })
-
-    // console.log({ alarmDisconnect, alarmStandard }, 'render')
+    console.log({ valuesForm: form.getFieldsValue() })
 
     return (
       <Collapse style={{ marginTop: '10px' }} activeKey="1">

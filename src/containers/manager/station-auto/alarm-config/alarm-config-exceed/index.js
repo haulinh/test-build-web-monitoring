@@ -8,23 +8,6 @@ import TableQCVN from './TableQCVN'
 import { FIELDS } from '../index'
 
 export default class AlarmConfigExceed extends Component {
-  // state = {
-  //   qcvnList: [],
-  // }
-
-  // async componentDidMount() {
-  //   try {
-  //     const result = await QCVNApi.getQCVN({}, {})
-  //     if (result.success) {
-  //       this.setState({
-  //         qcvnList: result.data,
-  //       })
-  //     }
-  //   } catch (e) {
-  //     console.log(e)
-  //   }
-  // }
-
   getMeasuringList = () => {
     const qcvnsSelected = this.getQcvnSelected()
 
@@ -34,7 +17,6 @@ export default class AlarmConfigExceed extends Component {
 
   getQcvnSelected = () => {
     const { form, qcvnList } = this.props
-    // const { qcvnList } = this.state
     const qcvnListObj = keyBy(qcvnList, '_id')
 
     const values = form.getFieldsValue()
@@ -47,7 +29,6 @@ export default class AlarmConfigExceed extends Component {
   }
 
   render() {
-    // const { qcvnList } = this.state
     const { qcvnList, alarmList, form, onDelete, onAdd } = this.props
 
     const measuringList = this.getMeasuringList()
