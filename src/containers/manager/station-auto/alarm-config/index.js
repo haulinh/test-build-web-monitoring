@@ -1,4 +1,4 @@
-import { Button, Collapse, Form } from 'antd'
+import { Button, Collapse, Form, message } from 'antd'
 import CalculateApi from 'api/CalculateApi'
 import { Clearfix } from 'components/elements'
 import {
@@ -16,6 +16,7 @@ import QCVNApi from 'api/QCVNApi'
 import RoleApi from 'api/RoleApi'
 import UserApi from 'api/UserApi'
 import { get } from 'lodash'
+import { translate as t } from 'hoc/create-lang'
 
 const { Panel } = Collapse
 
@@ -132,7 +133,7 @@ export default class AlarmConfig extends Component {
     const { form } = this.props
     const value = form.getFieldsValue()
 
-    const paramsForm = Object.values(value[alarmType])
+    const paramsForm = Object.values(value['disconnect'])
     const paramHidden = getHiddenParam(alarmType, stationId)
     const params = paramsForm.map(({ isCreateLocal, ...paramItem }) => ({
       ...paramItem,
@@ -193,8 +194,10 @@ export default class AlarmConfig extends Component {
 
     try {
       await CalculateApi.createBulkAlarm(paramRequest)
+      message.success(t('global.saveSuccess'))
     } catch (error) {
       console.error(error)
+      message.error(t('ticket.message.notificationError'))
     }
   }
 
@@ -268,7 +271,7 @@ export default class AlarmConfig extends Component {
     console.log({ valuesForm: form.getFieldsValue() })
 
     return (
-      <Collapse style={{ marginTop: '10px' }} activeKey="1">
+      <Collapse style={{ marginTop: '10px' }}>
         <PanelAnt header="Cảnh báo" key="1">
           <AlarmConfigDisconnect
             form={form}
