@@ -1,18 +1,12 @@
-import { Button, Checkbox, Icon, Popconfirm, Table } from 'antd'
-import TreeSelectUser from 'components/elements/select-data/TreeSelectUser'
+import { Button, Checkbox, Icon, Popconfirm, Table, Form } from 'antd'
 import React, { Component } from 'react'
-import SelectUser from 'components/elements/select-data/SelectUser'
-import { FIELDS } from '../index'
 import { SelectQCVNExceed } from '../components'
+import { FIELDS } from '../index'
+import SelectUser from 'components/elements/select-data/SelectUser'
 
 export default class TableAlarmConfigExceed extends Component {
   onChangeSelectUser = (value, id) => {
-    const { form } = this.props
-    console.log('id in onChangeSelectUser------------>', id)
-    console.log({ valuesInOnChange: form.getFieldsValue() })
-    form.setFieldsValue({
-      [`by_standard.${id}.recipients`]: value.flat(),
-    })
+    return
   }
 
   columns = [
@@ -24,9 +18,17 @@ export default class TableAlarmConfigExceed extends Component {
       render: (value, record, index) => {
         const { form, qcvnList, qcvnListSelected } = this.props
         return (
-          <React.Fragment>
+          <Form.Item>
             {form.getFieldDecorator(
-              `${FIELDS.BY_STANDARD}.${record._id}.${FIELDS.STANDARD_ID}`
+              `${FIELDS.BY_STANDARD}.${record._id}.${FIELDS.STANDARD_ID}`,
+              {
+                rules: [
+                  {
+                    required: true,
+                    message: 'Vui lòng chọn ngưỡng',
+                  },
+                ],
+              }
             )(
               <SelectQCVNExceed
                 placeholder="Chọn ngưỡng"
@@ -34,7 +36,7 @@ export default class TableAlarmConfigExceed extends Component {
                 selectedQCVNList={qcvnListSelected}
               />
             )}
-          </React.Fragment>
+          </Form.Item>
         )
       },
     },
@@ -46,18 +48,19 @@ export default class TableAlarmConfigExceed extends Component {
       render: (value, record, index) => {
         const { form, users, roles } = this.props
         return (
-          <React.Fragment>
+          <Form.Item>
             {form.getFieldDecorator(
               `${FIELDS.BY_STANDARD}.${record._id}.${FIELDS.RECIPIENTS}`,
-              {}
-            )(
-              <TreeSelectUser
-                onChange={value => this.onChangeSelectUser(value, record._id)}
-                users={users}
-                roles={roles}
-              />
-            )}
-          </React.Fragment>
+              {
+                rules: [
+                  {
+                    required: true,
+                    message: 'Vui lòng chọn ít nhất một user',
+                  },
+                ],
+              }
+            )(<SelectUser mode="multiple" />)}
+          </Form.Item>
         )
       },
     },
@@ -69,7 +72,7 @@ export default class TableAlarmConfigExceed extends Component {
       render: (value, record) => {
         const { form } = this.props
         return (
-          <React.Fragment>
+          <Form.Item>
             {form.getFieldDecorator(
               `${FIELDS.BY_STANDARD}.${record._id}.${FIELDS.STATUS}`,
               {
@@ -83,7 +86,7 @@ export default class TableAlarmConfigExceed extends Component {
             {form.getFieldDecorator(
               `${FIELDS.BY_STANDARD}.${record._id}.${FIELDS.IS_CREATE_LOCAL}`
             )(<div />)}
-          </React.Fragment>
+          </Form.Item>
         )
       },
     },
@@ -127,7 +130,6 @@ export default class TableAlarmConfigExceed extends Component {
             type="link"
             style={{ fontWeight: 'bold' }}
             onClick={() => onAdd(FIELDS.BY_STANDARD)}
-            disabled={dataSource.length > 2}
           >
             <Icon type="plus" />
             Thêm

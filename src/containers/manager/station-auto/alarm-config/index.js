@@ -132,8 +132,7 @@ export default class AlarmConfig extends Component {
   getQueryParam = (alarmType, stationId) => {
     const { form } = this.props
     const value = form.getFieldsValue()
-
-    const paramsForm = Object.values(value['disconnect'])
+    const paramsForm = Object.values(value[alarmType] || {})
     const paramHidden = getHiddenParam(alarmType, stationId)
     const params = paramsForm.map(({ isCreateLocal, ...paramItem }) => ({
       ...paramItem,
@@ -179,6 +178,11 @@ export default class AlarmConfig extends Component {
 
   handleSubmit = async () => {
     const { alarmIdsDeleted } = this.state
+    const { form } = this.props
+
+    const checkValidate = await form.validateFields()
+
+    if (!checkValidate) return
 
     const paramsArray = [FIELDS.DISCONNECT, FIELDS.BY_STANDARD].map(
       alarmType => {
@@ -231,6 +235,7 @@ export default class AlarmConfig extends Component {
     const newData = {
       _id: uuidv4(),
       isCreateLocal: true,
+      maxDisconnectionTime: 1800,
     }
 
     const actionsAdd = {

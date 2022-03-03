@@ -1,8 +1,8 @@
-import { Button, Checkbox, Icon, Popconfirm, Table } from 'antd'
-import TreeSelectUser from 'components/elements/select-data/TreeSelectUser'
+import { Button, Checkbox, Icon, Popconfirm, Table, Form } from 'antd'
 import React, { Component } from 'react'
 import { SelectTime } from '../components'
 import { FIELDS } from '../index'
+import SelectUser from 'components/elements/select-data/SelectUser'
 
 export default class TableAlarmDisconnect extends Component {
   columns = [
@@ -14,11 +14,11 @@ export default class TableAlarmDisconnect extends Component {
       render: (value, record) => {
         const { form } = this.props
         return (
-          <React.Fragment>
+          <Form.Item>
             {form.getFieldDecorator(
               `${FIELDS.DISCONNECT}.${record._id}.${FIELDS.TIME_DISCONNECT}`
             )(<SelectTime />)}
-          </React.Fragment>
+          </Form.Item>
         )
       },
     },
@@ -30,11 +30,19 @@ export default class TableAlarmDisconnect extends Component {
       render: (value, record) => {
         const { form, users, roles } = this.props
         return (
-          <React.Fragment>
+          <Form.Item>
             {form.getFieldDecorator(
-              `${FIELDS.DISCONNECT}.${record._id}.${FIELDS.RECIPIENTS}`
-            )(<TreeSelectUser users={users} roles={roles} />)}
-          </React.Fragment>
+              `${FIELDS.DISCONNECT}.${record._id}.${FIELDS.RECIPIENTS}`,
+              {
+                rules: [
+                  {
+                    required: true,
+                    message: 'Vui lòng chọn ít nhất một user',
+                  },
+                ],
+              }
+            )(<SelectUser mode="multiple" />)}
+          </Form.Item>
         )
       },
     },
@@ -46,7 +54,7 @@ export default class TableAlarmDisconnect extends Component {
       render: (value, record) => {
         const { form } = this.props
         return (
-          <React.Fragment>
+          <Form.Item>
             {form.getFieldDecorator(
               `${FIELDS.DISCONNECT}.${record._id}.${FIELDS.STATUS}`,
               {
@@ -60,7 +68,7 @@ export default class TableAlarmDisconnect extends Component {
             {form.getFieldDecorator(
               `${FIELDS.DISCONNECT}.${record._id}.${FIELDS.IS_CREATE_LOCAL}`
             )(<div />)}
-          </React.Fragment>
+          </Form.Item>
         )
       },
     },
