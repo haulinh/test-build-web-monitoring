@@ -13,7 +13,7 @@ import CalculateApi from 'api/CalculateApi'
 import { flatten, isEmpty, keyBy } from 'lodash'
 import { v4 as uuidv4 } from 'uuid'
 import QCVNApi from 'api/QCVNApi'
-import { t } from 'hoc/create-lang'
+import { translate } from 'hoc/create-lang'
 
 const { Panel } = Collapse
 
@@ -175,10 +175,10 @@ export default class AlarmConfig extends Component {
 
     try {
       await CalculateApi.createBulkAlarm(paramRequest)
-      message.success(t('global.saveSuccess'))
+      message.success(translate('global.saveSuccess'))
     } catch (error) {
       console.error(error)
-      message.error(t('ticket.message.notificationError'))
+      message.error(translate('ticket.message.notificationError'))
     }
   }
 
