@@ -1,18 +1,22 @@
-import React, { Component } from 'react'
-import AlarmConfigDisconnect from './alarm-config-disconnect'
-import AlarmConfigExceed from './alarm-config-exceed'
-import { Button, Collapse, Form } from 'antd'
-import styled from 'styled-components'
+import { Button, Collapse, Form, message } from 'antd'
+import CalculateApi from 'api/CalculateApi'
 import { Clearfix } from 'components/elements'
-import { withRouter } from 'react-router-dom'
 import {
   ALARM_LIST_INIT,
   getHiddenParam,
 } from 'containers/manager/station-auto/alarm-config/constants'
-import CalculateApi from 'api/CalculateApi'
-import { flatten, isEmpty, keyBy } from 'lodash'
+import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
+import styled from 'styled-components'
 import { v4 as uuidv4 } from 'uuid'
+import AlarmConfigDisconnect from './alarm-config-disconnect'
+import AlarmConfigExceed from './alarm-config-exceed'
+import { flatten, isEmpty, keyBy } from 'lodash'
 import QCVNApi from 'api/QCVNApi'
+import RoleApi from 'api/RoleApi'
+import UserApi from 'api/UserApi'
+import { get } from 'lodash'
+import { translate as t } from 'hoc/create-lang'
 
 const { Panel } = Collapse
 
@@ -80,6 +84,8 @@ export default class AlarmConfig extends Component {
     alarmStandard: ALARM_LIST_INIT.BY_STANDARD,
     alarmList: [],
     qcvnList: [],
+    users: [],
+    roles: [],
     alarmIdsDeleted: [],
   }
 
@@ -87,6 +93,8 @@ export default class AlarmConfig extends Component {
     const [alarmList, qcvnList] = await Promise.all([
       this.getAlarmByStationId(),
       this.getQCVNList(),
+      this.getUsers(),
+      this.getRoles(),
     ])
 
     this.setInitValues(alarmList, qcvnList)
@@ -104,11 +112,27 @@ export default class AlarmConfig extends Component {
     }
   }
 
+  getUsers = async () => {
+    const result = await UserApi.searchUser()
+    const users = get(result, 'data', []).filter(
+      item => !get(item, 'removeStatus.allowed')
+    )
+    if (result.success) {
+      this.setState({ users })
+    }
+  }
+
+  getRoles = async () => {
+    const result = await RoleApi.getRoles()
+    if (result.success) {
+      this.setState({ roles: result.data })
+    }
+  }
+
   getQueryParam = (alarmType, stationId) => {
     const { form } = this.props
     const value = form.getFieldsValue()
-
-    const paramsForm = Object.values(value[alarmType])
+    const paramsForm = Object.values(value[alarmType] || {})
     const paramHidden = getHiddenParam(alarmType, stationId)
     const params = paramsForm.map(({ isCreateLocal, ...paramItem }) => ({
       ...paramItem,
@@ -154,6 +178,11 @@ export default class AlarmConfig extends Component {
 
   handleSubmit = async () => {
     const { alarmIdsDeleted } = this.state
+    const { form } = this.props
+
+    const checkValidate = await form.validateFields()
+
+    if (!checkValidate) return
 
     const paramsArray = [FIELDS.DISCONNECT, FIELDS.BY_STANDARD].map(
       alarmType => {
@@ -169,8 +198,10 @@ export default class AlarmConfig extends Component {
 
     try {
       await CalculateApi.createBulkAlarm(paramRequest)
+      message.success(t('global.saveSuccess'))
     } catch (error) {
       console.error(error)
+      message.error(t('ticket.message.notificationError'))
     }
   }
 
@@ -204,6 +235,7 @@ export default class AlarmConfig extends Component {
     const newData = {
       _id: uuidv4(),
       isCreateLocal: true,
+      maxDisconnectionTime: 1800,
     }
 
     const actionsAdd = {
@@ -233,18 +265,26 @@ export default class AlarmConfig extends Component {
 
   render() {
     const { form } = this.props
-    const { alarmDisconnect, alarmStandard, qcvnList } = this.state
+    const {
+      alarmDisconnect,
+      alarmStandard,
+      qcvnList,
+      users,
+      roles,
+    } = this.state
 
     console.log({ valuesForm: form.getFieldsValue() })
 
     return (
-      <Collapse style={{ marginTop: '10px' }} activeKey="1">
+      <Collapse style={{ marginTop: '10px' }}>
         <PanelAnt header="Cảnh báo" key="1">
           <AlarmConfigDisconnect
             form={form}
             alarmList={alarmDisconnect}
             onAdd={this.handleAdd}
             onDelete={this.handleDelete}
+            users={users}
+            roles={roles}
           />
 
           <Clearfix height={24} />
@@ -255,6 +295,8 @@ export default class AlarmConfig extends Component {
             alarmList={alarmStandard}
             onAdd={this.handleAdd}
             onDelete={this.handleDelete}
+            users={users}
+            roles={roles}
           />
 
           <Button

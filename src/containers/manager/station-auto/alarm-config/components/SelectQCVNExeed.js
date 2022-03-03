@@ -9,6 +9,7 @@ export class SelectQCVNExceed extends PureComponent {
     label: PropTypes.string,
     onChange: PropTypes.func,
     qcvnList: PropTypes.array,
+    selectedQCVNList: PropTypes.array,
     value: PropTypes.oneOfType([
       PropTypes.object,
       PropTypes.string,
@@ -53,7 +54,7 @@ export class SelectQCVNExceed extends PureComponent {
 
   isDisabledQCVN = (selectedQCVNList, key) => {
     if (selectedQCVNList) {
-      const isDisabled = selectedQCVNList.some(qcvn => qcvn.key === key)
+      const isDisabled = selectedQCVNList.some(qcvn => qcvn._id === key)
       return isDisabled
     }
   }
