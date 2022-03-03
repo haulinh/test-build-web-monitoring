@@ -4163,6 +4163,7 @@ export default {
           value: 'Value',
           device: 'Device Status',
         },
+        standard: 'Standard',
       },
       history: {
         name: 'Alarm Name',
@@ -4227,6 +4228,10 @@ export default {
         {{measure}} : The device,
         {{status}} : The device's status,
         {{time}} : The time that meet the condition`,
+      },
+      by_standard: {
+        label: 'Standard',
+        value: 'by_standard',
       },
     },
   },

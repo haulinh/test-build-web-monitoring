@@ -4,6 +4,7 @@ import DeviceForm from './DeviceForm'
 import DisconnectForm from './DisconnectForm'
 import ExceedForm from './ExceedForm'
 import AdvanceForm from './AdvanceForm'
+import StandardForm from './StandardForm'
 
 class AlarmTypeForm extends React.Component {
   renderForm = () => {
@@ -24,6 +25,10 @@ class AlarmTypeForm extends React.Component {
 
     if (type === alarmType.advance.value) {
       return <AdvanceForm wrappedComponentRef={innerRef} />
+    }
+
+    if (type === alarmType.by_standard.value) {
+      return <StandardForm form={form} />
     }
 
     return <React.Fragment />
