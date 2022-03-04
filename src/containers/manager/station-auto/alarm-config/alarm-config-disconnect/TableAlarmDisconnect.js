@@ -17,7 +17,10 @@ export default class TableAlarmDisconnect extends Component {
         return (
           <Form.Item>
             {form.getFieldDecorator(
-              `${FIELDS.DISCONNECT}.${record._id}.${FIELDS.TIME_DISCONNECT}`
+              `${FIELDS.DISCONNECT}.${record._id}.${FIELDS.TIME_DISCONNECT}`,
+              {
+                initialValue: 1800,
+              }
             )(<SelectTime />)}
           </Form.Item>
         )
@@ -33,15 +36,7 @@ export default class TableAlarmDisconnect extends Component {
         return (
           <Form.Item>
             {form.getFieldDecorator(
-              `${FIELDS.DISCONNECT}.${record._id}.${FIELDS.RECIPIENTS}`,
-              {
-                rules: [
-                  {
-                    required: true,
-                    message: i18n().require.selectUser,
-                  },
-                ],
-              }
+              `${FIELDS.DISCONNECT}.${record._id}.${FIELDS.RECIPIENTS}`
             )(<TreeSelectUser users={users} roles={roles} />)}
           </Form.Item>
         )

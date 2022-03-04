@@ -10,13 +10,12 @@ import {
   getHiddenParam,
 } from 'containers/manager/station-auto/alarm-config/constants'
 import CalculateApi from 'api/CalculateApi'
-import { flatten, isEmpty, keyBy } from 'lodash'
+import { flatten, isEmpty, keyBy, get, isNil } from 'lodash'
 import { v4 as uuidv4 } from 'uuid'
 import QCVNApi from 'api/QCVNApi'
 import { translate } from 'hoc/create-lang'
 import RoleApi from 'api/RoleApi'
 import UserApi from 'api/UserApi'
-import { get } from 'lodash'
 import { i18n } from './constants'
 
 const { Panel } = Collapse
@@ -135,15 +134,20 @@ export default class AlarmConfig extends Component {
     const value = form.getFieldsValue()
 
     const paramsForm = Object.values(value[alarmType] || {})
-    const paramHidden = getHiddenParam(alarmType, stationId)
-    const params = paramsForm.map(({ isCreateLocal, ...paramItem }) => ({
-      ...paramItem,
-      recipients: paramItem.recipients.flat(),
-      _id: !isCreateLocal ? paramItem._id : null,
-      status: getStatusAlarm(paramItem.status),
-      ...getHiddenParam(alarmType, stationId, paramItem.maxDisconnectionTime),
-    }))
-
+    const params = paramsForm
+      .map(({ isCreateLocal, ...paramItem }) => ({
+        ...paramItem,
+        recipients: get(paramItem, 'recipients', []).flat(),
+        _id: !isCreateLocal ? paramItem._id : null,
+        status: getStatusAlarm(paramItem.status),
+        ...getHiddenParam(alarmType, stationId, paramItem.maxDisconnectionTime),
+      }))
+      .filter(paramItem => {
+        if (alarmType === 'by_standard') {
+          return isNil(paramItem.standardId) && isEmpty(paramItem.recipients)
+        }
+        return isEmpty(paramItem.recipients)
+      })
     return params
   }
   //#endregion get
@@ -180,12 +184,9 @@ export default class AlarmConfig extends Component {
   //#endregion set
 
   handleSubmit = async () => {
-    const { alarmIdsDeleted } = this.state
+    const { alarmIdsDeleted, qcvnList } = this.state
     const { form } = this.props
 
-    const checkValidate = await form.validateFields()
-
-    if (!checkValidate) return
     const paramsArray = [FIELDS.DISCONNECT, FIELDS.BY_STANDARD].map(
       alarmType => {
         const paramType = this.getQueryParam(alarmType, this.stationId)
@@ -200,6 +201,8 @@ export default class AlarmConfig extends Component {
 
     try {
       await CalculateApi.createBulkAlarm(paramRequest)
+      const alarmList = await this.getAlarmByStationId()
+      this.setInitValues(alarmList, qcvnList)
       message.success(translate('global.saveSuccess'))
     } catch (error) {
       console.error(error)
@@ -210,7 +213,7 @@ export default class AlarmConfig extends Component {
   //region management state Alarm
   handleDelete = (alarmType, id) => {
     const { alarmDisconnect, alarmStandard, alarmIdsDeleted } = this.state
-
+    const { form } = this.props
     const newIdsDeleted = [...alarmIdsDeleted, id]
     this.setState({ alarmIdsDeleted: newIdsDeleted })
 
@@ -218,13 +221,19 @@ export default class AlarmConfig extends Component {
       [FIELDS.BY_STANDARD]: () => {
         const newAlarmList = alarmStandard.filter(item => item._id !== id)
         this.setState({ alarmStandard: newAlarmList }, () => {
-          this.setFormValues(FIELDS.BY_STANDARD, newAlarmList)
+          this.setFormValues(
+            FIELDS.BY_STANDARD,
+            Object.values(form.getFieldsValue().by_standard)
+          )
         })
       },
       [FIELDS.DISCONNECT]: () => {
         const newAlarmList = alarmDisconnect.filter(item => item._id !== id)
         this.setState({ alarmDisconnect: newAlarmList }, () => {
-          this.setFormValues(FIELDS.DISCONNECT, newAlarmList)
+          this.setFormValues(
+            FIELDS.BY_STANDARD,
+            Object.values(form.getFieldsValue().disconnect)
+          )
         })
       },
     }
@@ -234,8 +243,10 @@ export default class AlarmConfig extends Component {
 
   handleAdd = alarmType => {
     const { alarmDisconnect, alarmStandard } = this.state
+    const { form } = this.props
+    const uuid = uuidv4()
     const newData = {
-      _id: uuidv4(),
+      _id: uuid,
       isCreateLocal: true,
       maxDisconnectionTime: 1800,
     }
@@ -247,16 +258,26 @@ export default class AlarmConfig extends Component {
           {
             alarmStandard: newAlarmList,
           },
-          () => this.setFormValues(FIELDS.BY_STANDARD, newAlarmList)
+          () => {
+            this.setFormValues(
+              FIELDS.BY_STANDARD,
+              Object.values(form.getFieldsValue().by_standard)
+            )
+          }
         )
       },
       [FIELDS.DISCONNECT]: () => {
         const newAlarmList = [...alarmDisconnect, newData]
         this.setState(
           {
-            alarmDisconnect: [...alarmDisconnect, newData],
+            alarmDisconnect: newAlarmList,
           },
-          () => this.setFormValues(FIELDS.DISCONNECT, newAlarmList)
+          () => {
+            this.setFormValues(
+              FIELDS.DISCONNECT,
+              Object.values(form.getFieldsValue().disconnect)
+            )
+          }
         )
       },
     }

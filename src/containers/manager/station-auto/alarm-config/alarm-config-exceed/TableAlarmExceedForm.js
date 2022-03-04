@@ -21,15 +21,7 @@ export default class TableAlarmConfigExceed extends Component {
         return (
           <Form.Item>
             {form.getFieldDecorator(
-              `${FIELDS.BY_STANDARD}.${record._id}.${FIELDS.STANDARD_ID}`,
-              {
-                rules: [
-                  {
-                    required: true,
-                    message: i18n().require.selectThreshold,
-                  },
-                ],
-              }
+              `${FIELDS.BY_STANDARD}.${record._id}.${FIELDS.STANDARD_ID}`
             )(
               <SelectQCVNExceed
                 placeholder={i18n().selectThreshold}
@@ -51,15 +43,7 @@ export default class TableAlarmConfigExceed extends Component {
         return (
           <Form.Item>
             {form.getFieldDecorator(
-              `${FIELDS.BY_STANDARD}.${record._id}.${FIELDS.RECIPIENTS}`,
-              {
-                rules: [
-                  {
-                    required: true,
-                    message: i18n().require.selectUser,
-                  },
-                ],
-              }
+              `${FIELDS.BY_STANDARD}.${record._id}.${FIELDS.RECIPIENTS}`
             )(<TreeSelectUser users={users} roles={roles} />)}
           </Form.Item>
         )
