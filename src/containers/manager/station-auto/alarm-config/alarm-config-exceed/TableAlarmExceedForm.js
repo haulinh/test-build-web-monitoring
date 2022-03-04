@@ -2,7 +2,7 @@ import { Button, Checkbox, Icon, Popconfirm, Table, Form } from 'antd'
 import React, { Component } from 'react'
 import { SelectQCVNExceed } from '../components'
 import { FIELDS } from '../index'
-import SelectUser from 'components/elements/select-data/SelectUser'
+import TreeSelectUser from 'components/elements/select-data/TreeSelectUser'
 import { i18n } from '../constants'
 
 export default class TableAlarmConfigExceed extends Component {
@@ -60,7 +60,7 @@ export default class TableAlarmConfigExceed extends Component {
                   },
                 ],
               }
-            )(<SelectUser mode="multiple" />)}
+            )(<TreeSelectUser users={users} roles={roles} />)}
           </Form.Item>
         )
       },

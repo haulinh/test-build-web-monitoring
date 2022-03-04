@@ -59,7 +59,7 @@ export const ALARM_LIST_INIT = {
 }
 
 const chanels = ['email', 'mobile', 'sms', 'webhook']
-export const getHiddenParam = (typeAlarm, stationId) => {
+export const getHiddenParam = (typeAlarm, stationId, maxDisconnectionTime) => {
   const paramChanels = chanels.reduce((base, currentChanel) => {
     const valueChanel = {
       active: true,
@@ -72,8 +72,10 @@ export const getHiddenParam = (typeAlarm, stationId) => {
     }
   }, {})
 
+  const frequency = typeAlarm === 'disconnect' ? maxDisconnectionTime : 60 * 60
+
   const paramHidden = {
-    repeatConfig: { active: true, frequency: 60 * 60 },
+    repeatConfig: { active: true, frequency },
     channels: paramChanels,
     stationId,
     type: typeAlarm,
