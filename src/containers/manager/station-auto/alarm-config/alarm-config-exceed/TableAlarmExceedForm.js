@@ -101,6 +101,8 @@ export default class TableAlarmConfigExceed extends Component {
           return (
             <Popconfirm
               title={i18n().popConfirmDelete}
+              okText={i18n().button.submit}
+              cancelText={i18n().button.cancel}
               onConfirm={() => onDelete(FIELDS.BY_STANDARD, record._id)}
             >
               <div style={{ textAlign: 'center', cursor: 'pointer' }}>
