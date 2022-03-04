@@ -17,6 +17,7 @@ import RoleApi from 'api/RoleApi'
 import UserApi from 'api/UserApi'
 import { get } from 'lodash'
 import { translate as t } from 'hoc/create-lang'
+import { i18n } from './constants'
 
 const { Panel } = Collapse
 
@@ -277,7 +278,7 @@ export default class AlarmConfig extends Component {
 
     return (
       <Collapse style={{ marginTop: '10px' }}>
-        <PanelAnt header="Cảnh báo" key="1">
+        <PanelAnt header={i18n().alarm} key="1">
           <AlarmConfigDisconnect
             form={form}
             alarmList={alarmDisconnect}
@@ -304,7 +305,7 @@ export default class AlarmConfig extends Component {
             type="primary"
             onClick={this.handleSubmit}
           >
-            Lưu
+            {i18n().button.save}
           </Button>
         </PanelAnt>
       </Collapse>

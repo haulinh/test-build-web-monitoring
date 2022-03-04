@@ -4250,6 +4250,20 @@ export default {
         value: 'by_standard',
       },
     },
+    config: {
+      alarmDisconnect: 'Cảnh báo mất tín hiệu',
+      timeDisconnect: 'Thời gian mất tín hiệu (phút)',
+      alarmExceed: 'Cảnh báo vượt ngưỡng',
+      threshold: 'Ngưỡng',
+      selectThreshold: 'Chọn ngưỡng',
+      add: 'Thêm',
+      save: 'Lưu',
+      require: {
+        selectUser: 'Vui lòng chọn ít nhất một user',
+        selectThreshold: 'Vui lòng chọn ngưỡng',
+      },
+      popConfirmDelete: 'Đồng ý xoá?',
+    },
   },
   report: {
     required: {

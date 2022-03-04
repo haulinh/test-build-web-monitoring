@@ -3,11 +3,12 @@ import React, { Component } from 'react'
 import { SelectTime } from '../components'
 import { FIELDS } from '../index'
 import SelectUser from 'components/elements/select-data/SelectUser'
+import { i18n } from '../constants'
 
 export default class TableAlarmDisconnect extends Component {
   columns = [
     {
-      title: 'Thời gian mất tín hiệu (phút)',
+      title: i18n().alarmDisconnect,
       width: '15%',
       align: 'center',
       dataIndex: FIELDS.TIME_DISCONNECT,
@@ -23,7 +24,7 @@ export default class TableAlarmDisconnect extends Component {
       },
     },
     {
-      title: 'Người nhận',
+      title: i18n().recipient,
       dataIndex: 'recipients',
       align: 'center',
       width: '40%',
@@ -37,7 +38,7 @@ export default class TableAlarmDisconnect extends Component {
                 rules: [
                   {
                     required: true,
-                    message: 'Vui lòng chọn ít nhất một user',
+                    message: i18n().require.selectUser,
                   },
                 ],
               }
@@ -47,7 +48,7 @@ export default class TableAlarmDisconnect extends Component {
       },
     },
     {
-      title: 'Cảnh báo',
+      title: i18n().alarm,
       width: '15%',
       align: 'center',
       dataIndex: 'status',
@@ -83,7 +84,7 @@ export default class TableAlarmDisconnect extends Component {
 
         return (
           <Popconfirm
-            title="Sure to delete?"
+            title={i18n().popConfirmDelete}
             onConfirm={() => handleDelete(FIELDS.DISCONNECT, record._id)}
           >
             <div style={{ textAlign: 'center', cursor: 'pointer' }}>
@@ -111,7 +112,7 @@ export default class TableAlarmDisconnect extends Component {
             onClick={() => handleAdd(FIELDS.DISCONNECT)}
           >
             <Icon type="plus" />
-            Thêm
+            {i18n().button.add}
           </Button>
         )}
       />

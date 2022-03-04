@@ -4234,6 +4234,20 @@ export default {
         value: 'by_standard',
       },
     },
+    config: {
+      alarmDisconnect: 'Disconnect alarm',
+      timeDisconnect: 'Time disconnect (minutes)',
+      alarmExceed: 'Threshold alarm',
+      threshold: 'Threshold',
+      selectThreshold: 'Select threshold',
+      add: 'Add',
+      save: 'Save',
+      require: {
+        selectUser: 'Please select at least one user',
+        selectThreshold: 'Please select a threshold',
+      },
+      popConfirmDelete: 'Sure to delete?',
+    },
   },
   report: {
     required: {

@@ -5,6 +5,7 @@ import React, { Component } from 'react'
 import { FIELDS } from '../index'
 import TableAlarmExceedForm from './TableAlarmExceedForm'
 import TableQCVN from './TableQCVN'
+import { i18n } from '../constants'
 
 export default class AlarmConfigExceed extends Component {
   getMeasuringList = () => {
@@ -44,7 +45,7 @@ export default class AlarmConfigExceed extends Component {
 
     return (
       <div>
-        <div className="title">Cảnh báo vượt ngưỡng</div>
+        <div className="title">{i18n().alarmExceed}</div>
 
         <TableAlarmExceedForm
           qcvnList={qcvnList}
