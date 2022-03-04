@@ -2,6 +2,7 @@ import { Table } from 'antd'
 import _ from 'lodash'
 import React, { Component } from 'react'
 import uuid from 'uuid'
+import { i18n } from '../constants'
 
 export default class TableQCVN extends Component {
   getColumns = () => {
@@ -14,7 +15,7 @@ export default class TableQCVN extends Component {
         children: [
           {
             key: `minLimit-${qcvn.key}-${uuid()}`,
-            title: 'Giới hạn tối thiểu',
+            title: i18n().qcvnMin,
             align: 'left',
             dataIndex: 'key',
             render: measureKey => {
@@ -28,7 +29,7 @@ export default class TableQCVN extends Component {
           },
           {
             key: `minLimit-${qcvn.key}-${uuid()}`,
-            title: 'Giới hạn tối đa',
+            title: i18n().qcvnMax,
             dataIndex: 'key',
             render: measureKey => {
               const measureValue = _.get(measuringQcvnObj, [
@@ -45,7 +46,7 @@ export default class TableQCVN extends Component {
     })
     return [
       {
-        title: 'Thông số',
+        title: i18n().measure,
         dataIndex: 'key',
         align: 'left',
         width: '10%',
