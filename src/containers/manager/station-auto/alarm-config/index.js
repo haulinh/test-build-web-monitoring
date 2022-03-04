@@ -14,6 +14,10 @@ import { flatten, isEmpty, keyBy } from 'lodash'
 import { v4 as uuidv4 } from 'uuid'
 import QCVNApi from 'api/QCVNApi'
 import { translate } from 'hoc/create-lang'
+import RoleApi from 'api/RoleApi'
+import UserApi from 'api/UserApi'
+import { get } from 'lodash'
+import { i18n } from './constants'
 
 const { Panel } = Collapse
 
@@ -58,7 +62,7 @@ const getAlarmGroupByType = alarmList => {
   const alarmGroupByType = alarmList.reduce((base, current) => {
     if (current.type === FIELDS.DISCONNECT) {
       base.alarmDisconnect.push(current)
-    } else if (current.type === FIELDS.STANDARD_ID) {
+    } else if (current.type === FIELDS.BY_STANDARD) {
       base.alarmStandard.push(current)
     }
     return base
@@ -82,12 +86,16 @@ export default class AlarmConfig extends Component {
     alarmList: [],
     qcvnList: [],
     alarmIdsDeleted: [],
+    users: [],
+    roles: [],
   }
 
   componentDidMount = async () => {
     const [alarmList, qcvnList] = await Promise.all([
       this.getAlarmByStationId(),
       this.getQCVNList(),
+      this.getUsers(),
+      this.getRoles(),
     ])
 
     this.setInitValues(alarmList, qcvnList)
@@ -105,6 +113,23 @@ export default class AlarmConfig extends Component {
     }
   }
 
+  getUsers = async () => {
+    const result = await UserApi.searchUser()
+    const users = get(result, 'data', []).filter(
+      item => !get(item, 'removeStatus.allowed')
+    )
+    if (result.success) {
+      this.setState({ users })
+    }
+  }
+
+  getRoles = async () => {
+    const result = await RoleApi.getRoles()
+    if (result.success) {
+      this.setState({ roles: result.data })
+    }
+  }
+
   getQueryParam = (alarmType, stationId) => {
     const { form } = this.props
     const value = form.getFieldsValue()
@@ -113,9 +138,10 @@ export default class AlarmConfig extends Component {
     const paramHidden = getHiddenParam(alarmType, stationId)
     const params = paramsForm.map(({ isCreateLocal, ...paramItem }) => ({
       ...paramItem,
+      recipients: paramItem.recipients.flat(),
       _id: !isCreateLocal ? paramItem._id : null,
       status: getStatusAlarm(paramItem.status),
-      ...paramHidden,
+      ...getHiddenParam(alarmType, stationId, paramItem.maxDisconnectionTime),
     }))
 
     return params
@@ -241,7 +267,13 @@ export default class AlarmConfig extends Component {
 
   render() {
     const { form } = this.props
-    const { alarmDisconnect, alarmStandard, qcvnList } = this.state
+    const {
+      alarmDisconnect,
+      alarmStandard,
+      qcvnList,
+      users,
+      roles,
+    } = this.state
 
     console.log({ valuesForm: form.getFieldsValue() })
 
@@ -253,6 +285,8 @@ export default class AlarmConfig extends Component {
             alarmList={alarmDisconnect}
             onAdd={this.handleAdd}
             onDelete={this.handleDelete}
+            users={users}
+            roles={roles}
           />
 
           <Clearfix height={24} />
@@ -263,6 +297,8 @@ export default class AlarmConfig extends Component {
             alarmList={alarmStandard}
             onAdd={this.handleAdd}
             onDelete={this.handleDelete}
+            users={users}
+            roles={roles}
           />
 
           <Button
@@ -270,7 +306,7 @@ export default class AlarmConfig extends Component {
             type="primary"
             onClick={this.handleSubmit}
           >
-            Lưu
+            {i18n().button.save}
           </Button>
         </PanelAnt>
       </Collapse>

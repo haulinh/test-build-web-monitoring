@@ -32,8 +32,7 @@ export default class StandardForm extends React.Component {
   }
 
   render() {
-    const { form, isEdit } = this.props
-    const repeatConfig = form.getFieldValue(`${FIELDS.REPEAT_CONFIG}.active`)
+    const { form, isEdit, alarmSelected } = this.props
 
     return (
       <React.Fragment>
@@ -51,7 +50,7 @@ export default class StandardForm extends React.Component {
               })(<Switch disabled={isEdit} />)}
             </FormItem>
           </Col>
-          {repeatConfig && (
+          {alarmSelected[FIELDS.REPEAT_CONFIG] && (
             <Col span={8}>
               <FormItem label={i18n().form.label.frequency}>
                 {form.getFieldDecorator(`${FIELDS.REPEAT_CONFIG}.frequency`, {

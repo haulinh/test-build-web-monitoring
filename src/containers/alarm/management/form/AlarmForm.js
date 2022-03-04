@@ -89,7 +89,6 @@ export default class AlarmForm extends Component {
       FIELDS.NAME,
       FIELDS.STATION_ID,
       FIELDS.RECIPIENTS,
-      FIELDS.REPEAT_CONFIG,
       FIELDS.TYPE,
       FIELDS.CHANNELS,
     ])
@@ -141,7 +140,10 @@ export default class AlarmForm extends Component {
     const { isEdit } = this.props
     const values = this.processGeneralValue()
     if (!isEdit) {
-      return values
+      return {
+        ...values,
+        maxDisconnectionTime: values.maxDisconnectionTime * 60,
+      }
     }
     const { maxDisconnectionTime, ...param } = values
     return param
