@@ -96,7 +96,7 @@ export const i18n = () => {
       selectUser: translate('alarm.config.require.selectUser'),
       selectThreshold: translate('alarm.config.require.selectThreshold'),
     },
-    popConfirmDelete: translate('alarm.config.popConfirmDelete'),
+    popConfirmDelete: translate('alarm.popconfirm.title'),
     time: {
       minute: translate('dataSearchFilterForm.selectTimeRange.minute'),
       hour: translate('dataSearchFilterForm.selectTimeRange.hour'),
@@ -105,6 +105,8 @@ export const i18n = () => {
     button: {
       add: translate('alarm.config.add'),
       save: translate('alarm.config.save'),
+      submit: translate('global.submit'),
+      cancel: translate('global.cancel'),
     },
     qcvnMin: translate('stationFixedPoint.form.measuringForm.qcvnMin'),
     qcvnMax: translate('stationFixedPoint.form.measuringForm.qcvnMax'),
