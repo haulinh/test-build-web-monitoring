@@ -85,6 +85,8 @@ export default class TableAlarmDisconnect extends Component {
         return (
           <Popconfirm
             title={i18n().popConfirmDelete}
+            okText={i18n().button.submit}
+            cancelText={i18n().button.cancel}
             onConfirm={() => handleDelete(FIELDS.DISCONNECT, record._id)}
           >
             <div style={{ textAlign: 'center', cursor: 'pointer' }}>
