@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import TableAlarmDisconnect from './TableAlarmDisconnect'
+import { i18n } from '../constants'
 
 export default class AlarmConfigDisconnect extends Component {
   render() {
@@ -7,7 +8,7 @@ export default class AlarmConfigDisconnect extends Component {
 
     return (
       <React.Fragment>
-        <div className="title">Cảnh báo mất tín hiệu</div>
+        <div className="title">{i18n().alarmDisconnect}</div>
 
         <TableAlarmDisconnect
           form={form}
