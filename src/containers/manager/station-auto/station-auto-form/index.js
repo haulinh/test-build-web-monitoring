@@ -39,6 +39,7 @@ import MeasuringTable from '../station-auto-formTable/'
 import { v4 as uuidv4 } from 'uuid'
 import AlarmConfig from '../alarm-config'
 import { Clearfix } from 'components/elements'
+import { HeaderSearch, Title } from 'components/layouts/styles'
 
 const { TextArea } = Input
 const { Panel } = Collapse
@@ -602,8 +603,26 @@ export default class StationAutoForm extends React.PureComponent {
     return (
       <div>
         <Clearfix height={32} />
-
         <Form onSubmit={this.handleSubmit}>
+          <HeaderSearch>
+            <Title>
+              {t('stationAutoManager.configStationAuto.tabConfigStationAuto')}
+            </Title>
+            <FormItem
+              style={{
+                marginTop: '20px',
+              }}
+            >
+              <Button
+                size="small"
+                type="primary"
+                loading={this.props.isLoading}
+                htmlType="submit"
+              >
+                {t('addon.save')}
+              </Button>
+            </FormItem>
+          </HeaderSearch>
           <Collapse
             onChange={this.handleChange}
             activeKey={this.state.tabKey}
@@ -1395,21 +1414,7 @@ export default class StationAutoForm extends React.PureComponent {
             </Panel>
           </Collapse>
 
-          <FormItem
-            style={{
-              marginTop: '20px',
-            }}
-          >
-            <Button
-              style={{ width: '100%' }}
-              type="primary"
-              loading={this.props.isLoading}
-              htmlType="submit"
-            >
-              {t('addon.save')}
-            </Button>
-          </FormItem>
-
+          <Clearfix height={20} />
           <AlarmConfig isEdit={this.props.isEdit} />
         </Form>
       </div>

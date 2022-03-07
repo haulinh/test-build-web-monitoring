@@ -1731,6 +1731,12 @@ export default {
       tabChanels: 'Notification Chanels',
       tabConfigNotification: 'Frequency of Notifications',
     },
+    configStationAuto: {
+      tabConfigStationAuto: 'Station Auto Config',
+    },
+    configAlarm: {
+      tabConfigAlarm: 'Alarm Config',
+    },
     configColor: {
       title: 'Warning Color Configuration',
     },
