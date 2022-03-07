@@ -1,4 +1,4 @@
-import { Table } from 'antd'
+import { Table, Tooltip } from 'antd'
 import { DD_MM_YYYY } from 'constants/format-date'
 import _ from 'lodash'
 import moment from 'moment'
@@ -36,7 +36,13 @@ export default function TableMonth({ resultReport = {} }) {
     {
       title: i18n().flow,
       dataIndex: 'total',
-      render: value => <div>{value && getFormatNumber(value.flow, 2)}</div>,
+      render: value => {
+        return (
+          <Tooltip title={value.flow} placement="top">
+            {value && getFormatNumber(value.flow, 2)}
+          </Tooltip>
+        )
+      },
       align: 'center',
     },
     {
@@ -48,7 +54,12 @@ export default function TableMonth({ resultReport = {} }) {
         align: 'center',
         render: value => {
           const valueMeasure = _.get(value, `${measure.key}.value`)
-          return <div>{getFormatNumber(valueMeasure, 2)}</div>
+
+          return (
+            <Tooltip title={valueMeasure} placement="top">
+              {value && getFormatNumber(valueMeasure, 2)}
+            </Tooltip>
+          )
         },
       })),
     },
@@ -82,7 +93,9 @@ export default function TableMonth({ resultReport = {} }) {
               <b>{i18n().sum}</b>
             </td>
             <td style={{ textAlign: 'center' }}>
-              <b>{totalFlow && getFormatNumber(totalFlow, 2)}</b>
+              <Tooltip title={totalFlow} placement="top">
+                <b>{totalFlow && getFormatNumber(totalFlow, 2)}</b>
+              </Tooltip>
             </td>
             {[...Array(measuringList.length * 2).keys()].map(() => (
               <td></td>

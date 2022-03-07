@@ -1,4 +1,4 @@
-import { InputNumber, Table } from 'antd'
+import { InputNumber, Table, Tooltip } from 'antd'
 import { translate as t } from 'hoc/create-lang'
 import _ from 'lodash'
 import moment from 'moment'
@@ -77,7 +77,11 @@ export default function TableQuarter({ resultReport = {}, form }) {
       title: `${i18n().amountOfWastewater} ${`(M³)`}`,
       dataIndex: 'flow',
       render: value => {
-        return <div>{value && formatCurrency(Number(value.toFixed(3)))}</div>
+        return (
+          <Tooltip title={value} placement="top">
+            {value && formatCurrency(Number(value.toFixed(3)))}
+          </Tooltip>
+        )
       },
       align: 'center',
     },
