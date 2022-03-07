@@ -1734,6 +1734,12 @@ export default {
       tabChanels: 'Kênh gửi cảnh báo',
       tabConfigNotification: 'Cấu hình cảnh báo',
     },
+    configStationAuto: {
+      tabConfigStationAuto: 'Cấu hình trạm quan trắc',
+    },
+    configAlarm: {
+      tabConfigAlarm: 'Cấu hình cảnh báo',
+    },
     form: {
       panel1: 'Thông tin trạm',
       panel2: 'Thông tin khác',

@@ -1,21 +1,22 @@
-import React, { Component } from 'react'
-import AlarmConfigDisconnect from './alarm-config-disconnect'
-import AlarmConfigExceed from './alarm-config-exceed'
 import { Button, Collapse, Form, message } from 'antd'
-import styled from 'styled-components'
+import CalculateApi from 'api/CalculateApi'
+import QCVNApi from 'api/QCVNApi'
+import RoleApi from 'api/RoleApi'
+import UserApi from 'api/UserApi'
 import { Clearfix } from 'components/elements'
-import { withRouter } from 'react-router-dom'
+import { HeaderSearch, Title } from 'components/layouts/styles'
 import {
   ALARM_LIST_INIT,
   getHiddenParam,
 } from 'containers/manager/station-auto/alarm-config/constants'
-import CalculateApi from 'api/CalculateApi'
-import { flatten, isEmpty, keyBy, get, isNil } from 'lodash'
-import { v4 as uuidv4 } from 'uuid'
-import QCVNApi from 'api/QCVNApi'
 import { translate } from 'hoc/create-lang'
-import RoleApi from 'api/RoleApi'
-import UserApi from 'api/UserApi'
+import { flatten, get, isEmpty, isNil, keyBy } from 'lodash'
+import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
+import styled from 'styled-components'
+import { v4 as uuidv4 } from 'uuid'
+import AlarmConfigDisconnect from './alarm-config-disconnect'
+import AlarmConfigExceed from './alarm-config-exceed'
 import { i18n } from './constants'
 
 const { Panel } = Collapse
@@ -144,9 +145,15 @@ export default class AlarmConfig extends Component {
       }))
       .filter(paramItem => {
         if (alarmType === 'by_standard') {
-          return isNil(paramItem.standardId) && isEmpty(paramItem.recipients)
+          return !isNil(paramItem.standardId)
         }
-        return isEmpty(paramItem.recipients)
+        return !isEmpty(paramItem.recipients)
+      })
+      .filter(paramItem => {
+        if (alarmType === 'by_standard') {
+          return !isEmpty(paramItem.recipients)
+        }
+        return true
       })
     return params
   }
@@ -185,7 +192,6 @@ export default class AlarmConfig extends Component {
 
   handleSubmit = async () => {
     const { alarmIdsDeleted, qcvnList } = this.state
-    const { form } = this.props
 
     const paramsArray = [FIELDS.DISCONNECT, FIELDS.BY_STANDARD].map(
       alarmType => {
@@ -296,41 +302,41 @@ export default class AlarmConfig extends Component {
       roles,
     } = this.state
 
-    console.log({ valuesForm: form.getFieldsValue() })
-
     return (
-      <Collapse style={{ marginTop: '10px' }} defaultActiveKey={'1'}>
-        <PanelAnt header="Cảnh báo" key="1">
-          <AlarmConfigDisconnect
-            form={form}
-            alarmList={alarmDisconnect}
-            onAdd={this.handleAdd}
-            onDelete={this.handleDelete}
-            users={users}
-            roles={roles}
-          />
-
-          <Clearfix height={24} />
-
-          <AlarmConfigExceed
-            qcvnList={qcvnList}
-            form={form}
-            alarmList={alarmStandard}
-            onAdd={this.handleAdd}
-            onDelete={this.handleDelete}
-            users={users}
-            roles={roles}
-          />
-
-          <Button
-            style={{ width: '100%', marginTop: '10px' }}
-            type="primary"
-            onClick={this.handleSubmit}
-          >
+      <React.Fragment>
+        <HeaderSearch>
+          <Title>
+            {translate('stationAutoManager.configAlarm.tabConfigAlarm')}
+          </Title>
+          <Button size="small" type="primary" onClick={this.handleSubmit}>
             {i18n().button.save}
           </Button>
-        </PanelAnt>
-      </Collapse>
+        </HeaderSearch>
+        <Collapse defaultActiveKey={'1'}>
+          <PanelAnt header={translate('menuApp.alarm')} key="1">
+            <AlarmConfigDisconnect
+              form={form}
+              alarmList={alarmDisconnect}
+              onAdd={this.handleAdd}
+              onDelete={this.handleDelete}
+              users={users}
+              roles={roles}
+            />
+
+            <Clearfix height={24} />
+
+            <AlarmConfigExceed
+              qcvnList={qcvnList}
+              form={form}
+              alarmList={alarmStandard}
+              onAdd={this.handleAdd}
+              onDelete={this.handleDelete}
+              users={users}
+              roles={roles}
+            />
+          </PanelAnt>
+        </Collapse>
+      </React.Fragment>
     )
   }
 }

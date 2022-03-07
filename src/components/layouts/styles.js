@@ -28,7 +28,7 @@ export const FormItem = styled(Form.Item)`
   }
 `
 
-const Title = styled.div`
+export const Title = styled.div`
   font-weight: 600;
   font-size: 14px;
   line-height: 22px;
@@ -40,7 +40,7 @@ const FormLayout = styled.div`
   border-radius: 0px 0px 10px 10px;
 `
 
-const HeaderSearch = styled.div`
+export const HeaderSearch = styled.div`
   height: 40px;
   background: linear-gradient(90deg, #1e8acf 0%, #55d1f2 99.02%);
   border-radius: 4px 4px 0px 0px;
