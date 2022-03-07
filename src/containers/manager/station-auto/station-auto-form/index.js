@@ -608,20 +608,6 @@ export default class StationAutoForm extends React.PureComponent {
             <Title>
               {t('stationAutoManager.configStationAuto.tabConfigStationAuto')}
             </Title>
-            <FormItem
-              style={{
-                marginTop: '20px',
-              }}
-            >
-              <Button
-                size="small"
-                type="primary"
-                loading={this.props.isLoading}
-                htmlType="submit"
-              >
-                {t('addon.save')}
-              </Button>
-            </FormItem>
           </HeaderSearch>
           <Collapse
             onChange={this.handleChange}
@@ -1414,7 +1400,21 @@ export default class StationAutoForm extends React.PureComponent {
             </Panel>
           </Collapse>
 
-          <Clearfix height={20} />
+          <FormItem
+            style={{
+              marginTop: '10px',
+            }}
+          >
+            <Button
+              style={{ width: '100%' }}
+              type="primary"
+              loading={this.props.isLoading}
+              htmlType="submit"
+            >
+              {t('addon.save')}
+            </Button>
+          </FormItem>
+
           <AlarmConfig isEdit={this.props.isEdit} />
         </Form>
       </div>

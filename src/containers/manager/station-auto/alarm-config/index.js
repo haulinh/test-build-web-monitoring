@@ -185,7 +185,15 @@ export default class AlarmConfig extends Component {
   setFormValues = (alarmType, alarmList) => {
     const { form } = this.props
     const alarmFormValues = keyBy(alarmList, '_id')
-    const alarmFormValuesType = { [alarmType]: alarmFormValues }
+    const alarmFormValuesFormat = Object.values(alarmFormValues)
+      .map(item => ({
+        ...item,
+        status: item.status === 'enable' ? true : false,
+      }))
+      .reduce((base, current) => ({ ...base, [current._id]: current }), {})
+    const alarmFormValuesType = {
+      [alarmType]: alarmFormValuesFormat,
+    }
     form.setFieldsValue(alarmFormValuesType)
   }
   //#endregion set
@@ -229,7 +237,7 @@ export default class AlarmConfig extends Component {
         this.setState({ alarmStandard: newAlarmList }, () => {
           this.setFormValues(
             FIELDS.BY_STANDARD,
-            Object.values(form.getFieldsValue().by_standard)
+            Object.values(get(form.getFieldsValue(), 'by_standard', {}))
           )
         })
       },
@@ -238,7 +246,7 @@ export default class AlarmConfig extends Component {
         this.setState({ alarmDisconnect: newAlarmList }, () => {
           this.setFormValues(
             FIELDS.BY_STANDARD,
-            Object.values(form.getFieldsValue().disconnect)
+            Object.values(get(form.getFieldsValue(), 'disconnect', {}))
           )
         })
       },
@@ -267,7 +275,7 @@ export default class AlarmConfig extends Component {
           () => {
             this.setFormValues(
               FIELDS.BY_STANDARD,
-              Object.values(form.getFieldsValue().by_standard)
+              Object.values(get(form.getFieldsValue(), 'by_standard', {}))
             )
           }
         )
@@ -281,7 +289,7 @@ export default class AlarmConfig extends Component {
           () => {
             this.setFormValues(
               FIELDS.DISCONNECT,
-              Object.values(form.getFieldsValue().disconnect)
+              Object.values(get(form.getFieldsValue(), 'disconnect', {}))
             )
           }
         )
@@ -302,15 +310,14 @@ export default class AlarmConfig extends Component {
       roles,
     } = this.state
 
+    console.log({ formValue: form.getFieldsValue() })
+
     return (
       <React.Fragment>
         <HeaderSearch>
           <Title>
             {translate('stationAutoManager.configAlarm.tabConfigAlarm')}
           </Title>
-          <Button size="small" type="primary" onClick={this.handleSubmit}>
-            {i18n().button.save}
-          </Button>
         </HeaderSearch>
         <Collapse defaultActiveKey={'1'}>
           <PanelAnt header={translate('menuApp.alarm')} key="1">
@@ -334,6 +341,14 @@ export default class AlarmConfig extends Component {
               users={users}
               roles={roles}
             />
+
+            <Button
+              style={{ width: '100%', marginTop: '10px' }}
+              type="primary"
+              onClick={this.handleSubmit}
+            >
+              {i18n().button.save}
+            </Button>
           </PanelAnt>
         </Collapse>
       </React.Fragment>
