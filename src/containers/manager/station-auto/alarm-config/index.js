@@ -53,6 +53,11 @@ const getStatusAlarm = status => {
   return 'disable'
 }
 
+const getStatusAlarmBoolean = status => {
+  if (status === 'enable') return true
+  return false
+}
+
 const getAlarmGroupByType = alarmList => {
   const initialValues = {
     alarmDisconnect: [],
@@ -188,7 +193,10 @@ export default class AlarmConfig extends Component {
     const alarmFormValuesFormat = Object.values(alarmFormValues)
       .map(item => ({
         ...item,
-        status: item.status === 'enable' ? true : false,
+        status:
+          typeof item.status === 'boolean'
+            ? item.status
+            : getStatusAlarmBoolean(item.status),
       }))
       .reduce((base, current) => ({ ...base, [current._id]: current }), {})
     const alarmFormValuesType = {
