@@ -106,15 +106,18 @@ export class ChanelForm extends React.Component {
                       {form.getFieldDecorator(
                         `${FIELDS.CHANNELS}.${channel.type}.config.method`,
                         { initialValue: 'POST' }
-                      )(
-                        <span>URL (POST)</span>
-                      )}
+                      )(<span>URL (POST)</span>)}
                     </Row>
                     <Row>
                       {form.getFieldDecorator(
-                        `${FIELDS.CHANNELS}.${channel.type}.config.endpoint`,
+                        `${FIELDS.CHANNELS}.${channel.type}.config.endpoint`
                       )(
-                        <Input placeholder={translate('alarm.placeholder.management.webhook')} disabled={typeAlarm === alarmType.advance.value} />
+                        <Input
+                          placeholder={translate(
+                            'alarm.placeholder.management.webhook'
+                          )}
+                          disabled={typeAlarm === alarmType.advance.value}
+                        />
                       )}
                     </Row>
                   </Row>
@@ -141,7 +144,10 @@ export class ChanelForm extends React.Component {
                 )(
                   <TextArea
                     style={{ height: 150 }}
-                    disabled={typeAlarm === alarmType.advance.value}
+                    disabled={
+                      typeAlarm === alarmType.advance.value ||
+                      typeAlarm === alarmType.by_standard.value
+                    }
                   />
                 )}
               </React.Fragment>

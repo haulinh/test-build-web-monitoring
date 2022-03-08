@@ -38,7 +38,13 @@ export default class DeviceForm extends React.Component {
   }
 
   render() {
-    const { form, stationAutoById, isEdit, getPopupContainer } = this.props
+    const {
+      form,
+      stationAutoById,
+      isEdit,
+      getPopupContainer,
+      alarmSelected,
+    } = this.props
     const repeatConfig = form.getFieldValue(`${FIELDS.REPEAT_CONFIG}.active`)
     const stationIdSelected = form.getFieldValue(FIELDS.STATION_ID)
     const measuringList = _.get(
@@ -111,7 +117,7 @@ export default class DeviceForm extends React.Component {
               })(<Switch disabled={isEdit} />)}
             </FormItem>
           </Col>
-          {repeatConfig && (
+          {(alarmSelected[FIELDS.REPEAT_CONFIG] || repeatConfig) && (
             <Col span={8}>
               <FormItem label={i18n().form.label.frequency}>
                 {form.getFieldDecorator(`${FIELDS.REPEAT_CONFIG}.frequency`, {

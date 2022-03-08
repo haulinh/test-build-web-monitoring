@@ -310,8 +310,6 @@ export default class AlarmConfig extends Component {
       roles,
     } = this.state
 
-    console.log({ formValue: form.getFieldsValue() })
-
     return (
       <React.Fragment>
         <HeaderSearch>
