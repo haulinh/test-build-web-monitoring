@@ -292,7 +292,7 @@ export default class TabChart extends React.PureComponent {
                 if (index === 0) {
                   return {
                     y: qcvn.maxLimit,
-                    dataLabels: { enabled: true, className: 'max' },
+                    dataLabels: { enabled: true },
                   }
                 } else {
                   return [dataItem[0], qcvn.maxLimit]
@@ -317,7 +317,7 @@ export default class TabChart extends React.PureComponent {
                 if (index === 0) {
                   return {
                     y: qcvn.minLimit,
-                    dataLabels: { enabled: true, className: 'min' },
+                    dataLabels: { enabled: true },
                   }
                 } else {
                   return [dataItem[0], qcvn.minLimit]
