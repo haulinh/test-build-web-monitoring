@@ -204,18 +204,6 @@ export default class TabChart extends React.PureComponent {
     return qcvnList
   }
 
-  // getPilotLine = measure => {
-  //   const { qcvnSelected } = this.props
-
-  //   let plotLines = []
-
-  //   if (_.isEmpty(qcvnSelected)) {
-
-  //   }
-
-  //   return plotLines
-  // }
-
   handleDrawChart = () => {
     const { stationAutoCurrent } = this.props
     const { measureCurrent } = this.state
@@ -256,13 +244,7 @@ export default class TabChart extends React.PureComponent {
       //type line qcvn
       const lineQcvn = {
         type: 'line',
-        marker: {
-          enabled: false,
-        },
         enableMouseTracking: false,
-        dataLabels: {
-          enabled: false,
-        },
       }
 
       //draw line maxLimit minLimit
@@ -295,36 +277,61 @@ export default class TabChart extends React.PureComponent {
       ]
 
       qcvnList.forEach(qcvn => {
+        //add line qcvn minLimit & maxLimit
         const data = dataSeries.data
 
-        //add line qcvn minLimit & maxLimit
-        if (qcvn.maxLimit || qcvn.maxLimit === 0) {
+        if (_.isNumber(qcvn.maxLimit)) {
           series = [
             ...series,
             {
               ...lineQcvn,
               id: qcvn.id,
               name: qcvn.name,
-              data: data.map(dataItem => [dataItem[0], qcvn.maxLimit]),
+              valueLimit: qcvn.maxLimit,
+              data: data.map((dataItem, index) => {
+                if (index === 0) {
+                  return {
+                    y: qcvn.maxLimit,
+                    dataLabels: { enabled: true, className: 'max' },
+                  }
+                } else {
+                  return [dataItem[0], qcvn.maxLimit]
+                }
+              }),
             },
           ]
+
           plotLines = []
         }
 
-        if (qcvn.minLimit || qcvn.minLimit === 0) {
+        if (_.isNumber(qcvn.minLimit)) {
           series = [
             ...series,
             {
               ...lineQcvn,
               id: qcvn.id,
+              valueLimit: qcvn.minLimit,
               name: qcvn.name,
-              data: data.map(dataItem => [dataItem[0], qcvn.minLimit]),
+              className: 'min',
+              data: data.map((dataItem, index) => {
+                if (index === 0) {
+                  return {
+                    y: qcvn.minLimit,
+                    dataLabels: { enabled: true, className: 'min' },
+                  }
+                } else {
+                  return [dataItem[0], qcvn.minLimit]
+                }
+              }),
             },
           ]
           plotLines = []
         }
       })
-      nameChart = `${stationAutoCurrent.name} - ${measure.name}`
+      const unitMeasure = measure.unit ? `(${measure.unit})` : ''
+
+      nameChart = `${stationAutoCurrent.name} - ${measure.name} ${unitMeasure}`
+
       minChart = _.get(this.state.heightChart, [measureCurrent, 'minChart'])
       maxChart = _.get(this.state.heightChart, [measureCurrent, 'maxChart']) //_.get(dataSeries,'minLimit', undefined)
     } else {
@@ -374,6 +381,29 @@ export default class TabChart extends React.PureComponent {
       plotOptions: {
         series: {
           fillColor: 'red',
+
+          dataLabels: {
+            enabled: false,
+            crop: false,
+            overflow: 'none',
+            align: 'left',
+            verticalAlign: 'middle',
+            allowOverlap: true,
+            formatter: function() {
+              const isMinLimit = this.series.options.className === 'min'
+
+              const labelMinLimit = `${translate(
+                'monitoring.moreContent.chart.content.minLimit'
+              )} ${this.series.name}: ${this.series.options.valueLimit}`
+              const labelMaxLimit = `${translate(
+                'monitoring.moreContent.chart.content.maxLimit'
+              )} ${this.series.name}: ${this.series.options.valueLimit}`
+
+              const label = isMinLimit ? labelMinLimit : labelMaxLimit
+
+              return `<span style="color: black; font-weight: 300; font-size: 12px">${label}</span>`
+            },
+          },
         },
       },
 
@@ -447,7 +477,6 @@ export default class TabChart extends React.PureComponent {
 
   render() {
     const { measureCurrent, mesureList } = this.state
-
     return (
       <TabChartWrapper>
         <ChartWrapper innerRef={ref => (this.chartWrapper = ref)}>
