@@ -5,11 +5,15 @@ export const ROUND_DIGIT = 2 // Làm tròn số thap phan
 
 // format number toFixed(FORMAT_VALUE_MEASURING), format currency 1000 => 1,000 (type EN)
 // Hien tai qui ve mot kieu la "EN"
-export function getFormatNumber(value, numberToFixed = FORMAT_VALUE_MEASURING) {
+export function getFormatNumber(
+  value,
+  numberToFixed = FORMAT_VALUE_MEASURING,
+  maximum = numberToFixed
+) {
   if (_.isNumber(value) || value) {
     let tempNumber = Number(value).toLocaleString(FORMAT_LOCAL, {
       minimumFractionDigits: numberToFixed,
-      maximumFractionDigits: numberToFixed,
+      maximumFractionDigits: maximum,
     })
     return tempNumber
   }
