@@ -465,21 +465,21 @@ export default class StationAutoForm extends React.PureComponent {
   }
 
   changeQCVN(standardsVNObject) {
-    // console.log(standardsVNObject, 'standardsVNObject')
     const { measuringList } = this.state
     const { form } = this.props
     const value = get(standardsVNObject, 'key', null)
     form.setFieldsValue({ standardsVN: value })
 
-    const measuringListQCVN = standardsVNObject.measuringList.filter(item =>
-      measuringList.some(measuring => item.key === measuring.key)
+    const measuringListQCVN = standardsVNObject.measuringList.filter(
+      measuringQCVN =>
+        measuringList.some(measuring => measuringQCVN.key === measuring.key)
     )
 
     const newMeasuringList = measuringList.map(measuring => {
       const measuringChanged = measuringListQCVN.find(
-        item => item.key === measuring.key
+        measuringQCVN => measuringQCVN.key === measuring.key
       )
-      if (measuringListQCVN.some(item => item.key === measuring.key)) {
+      if (get(measuringChanged, 'key', '') === measuring.key) {
         return {
           ...measuring,
           minLimit: get(measuringChanged, 'minLimit', null),
