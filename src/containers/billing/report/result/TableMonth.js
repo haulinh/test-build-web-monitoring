@@ -1,4 +1,4 @@
-import { Table } from 'antd'
+import { Table, Tooltip } from 'antd'
 import { DD_MM_YYYY } from 'constants/format-date'
 import _ from 'lodash'
 import moment from 'moment'
@@ -36,7 +36,15 @@ export default function TableMonth({ resultReport = {} }) {
     {
       title: i18n().flow,
       dataIndex: 'total',
-      render: value => <div>{value && getFormatNumber(value.flow, 2)}</div>,
+      render: value => {
+        const textTooltip = getFormatNumber(value.flow, 2, 8)
+
+        return (
+          <Tooltip title={textTooltip} placement="top">
+            {value && getFormatNumber(value.flow, 2)}
+          </Tooltip>
+        )
+      },
       align: 'center',
     },
     {
@@ -48,7 +56,13 @@ export default function TableMonth({ resultReport = {} }) {
         align: 'center',
         render: value => {
           const valueMeasure = _.get(value, `${measure.key}.value`)
-          return <div>{getFormatNumber(valueMeasure, 2)}</div>
+          const textTooltip = getFormatNumber(valueMeasure, 2, 8)
+
+          return (
+            <Tooltip title={textTooltip} placement="top">
+              {value && getFormatNumber(valueMeasure, 2)}
+            </Tooltip>
+          )
         },
       })),
     },
@@ -74,6 +88,8 @@ export default function TableMonth({ resultReport = {} }) {
 
   const BodyWrapper = props => {
     const totalFlow = _.get(resultReport, ['total', 'flow'], 0)
+    const textTooltip = getFormatNumber(totalFlow, 2, 8)
+
     const renderFooter = () => {
       return (
         <React.Fragment>
@@ -82,7 +98,9 @@ export default function TableMonth({ resultReport = {} }) {
               <b>{i18n().sum}</b>
             </td>
             <td style={{ textAlign: 'center' }}>
-              <b>{totalFlow && getFormatNumber(totalFlow, 2)}</b>
+              <Tooltip title={textTooltip} placement="top">
+                <b>{totalFlow && getFormatNumber(totalFlow, 2)}</b>
+              </Tooltip>
             </td>
             {[...Array(measuringList.length * 2).keys()].map(() => (
               <td></td>
