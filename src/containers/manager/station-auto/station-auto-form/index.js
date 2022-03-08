@@ -17,12 +17,14 @@ import {
   Select,
 } from 'antd'
 import CategoryApi from 'api/CategoryApi'
+import { Clearfix } from 'components/elements'
 import InputNumberCell from 'components/elements/input-number-cell'
 import InputPhoneNumber from 'components/elements/input-phone-number'
 import SelectProvice from 'components/elements/select-province'
 import SelectQCVN from 'components/elements/select-qcvn'
 import SelectStationFix from 'components/elements/select-station-fixed'
 import SelectStationType from 'components/elements/select-station-type'
+import { HeaderSearch, Title } from 'components/layouts/styles'
 import { PATTERN_KEY, PATTERN_NAME } from 'constants/format-string'
 import { autobind } from 'core-decorators'
 import createLanguageHoc, { langPropTypes, translate } from 'hoc/create-lang'
@@ -34,12 +36,10 @@ import React from 'react'
 import styled from 'styled-components'
 // import MediaApi from 'api/MediaApi'
 import swal from 'sweetalert2'
-import MeasuringTableAdvanced from '../station-auto-formTable-advanced/'
-import MeasuringTable from '../station-auto-formTable/'
 import { v4 as uuidv4 } from 'uuid'
 import AlarmConfig from '../alarm-config'
-import { Clearfix } from 'components/elements'
-import { HeaderSearch, Title } from 'components/layouts/styles'
+import MeasuringTableAdvanced from '../station-auto-formTable-advanced/'
+import MeasuringTable from '../station-auto-formTable/'
 
 const { TextArea } = Input
 const { Panel } = Collapse
@@ -466,10 +466,33 @@ export default class StationAutoForm extends React.PureComponent {
 
   changeQCVN(standardsVNObject) {
     // console.log(standardsVNObject, 'standardsVNObject')
+    const { measuringList } = this.state
+    const { form } = this.props
     const value = get(standardsVNObject, 'key', null)
-    this.props.form.setFieldsValue({ standardsVN: value })
+    form.setFieldsValue({ standardsVN: value })
+
+    const measuringListQCVN = standardsVNObject.measuringList.filter(item =>
+      measuringList.some(measuring => item.key === measuring.key)
+    )
+
+    const newMeasuringList = measuringList.map(measuring => {
+      const measuringChanged = measuringListQCVN.find(
+        item => item.key === measuring.key
+      )
+      if (measuringListQCVN.some(item => item.key === measuring.key)) {
+        return {
+          ...measuring,
+          minLimit: get(measuringChanged, 'minLimit', null),
+          maxLimit: get(measuringChanged, 'maxLimit', null),
+        }
+      }
+      return {
+        ...measuring,
+      }
+    })
 
     this.setState({
+      measuringList: newMeasuringList,
       standardsVN: value,
       isStandardsVN: true,
       standardsVNObject: standardsVNObject ? standardsVNObject : null,

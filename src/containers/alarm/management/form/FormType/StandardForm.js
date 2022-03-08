@@ -1,9 +1,7 @@
 import { Col, Row, Switch } from 'antd'
 import SelectQCVN from 'components/elements/select-qcvn-v2'
 import { FormItem } from 'components/layouts/styles'
-import SelectFrequency, {
-  DEFAULT_VALUE_FREQUENCY,
-} from 'containers/alarm/Component/SelectFrequency'
+import SelectFrequency from 'containers/alarm/Component/SelectFrequency'
 import _ from 'lodash'
 import React from 'react'
 import { connect } from 'react-redux'
@@ -56,7 +54,7 @@ export default class StandardForm extends React.Component {
             <Col span={8}>
               <FormItem label={i18n().form.label.frequency}>
                 {form.getFieldDecorator(`${FIELDS.REPEAT_CONFIG}.frequency`, {
-                  initialValue: DEFAULT_VALUE_FREQUENCY,
+                  initialValue: 3600,
                 })(<SelectFrequency disabled={isEdit} />)}
               </FormItem>
             </Col>

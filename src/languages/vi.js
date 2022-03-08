@@ -4182,7 +4182,7 @@ export default {
           value: 'Giá trị thông số',
           device: 'Trạng thái thiết bị',
         },
-        standard: 'Qui chuẩn',
+        standard: 'Quy chuẩn',
       },
       history: {
         name: 'Tên cảnh báo',
@@ -4252,7 +4252,7 @@ export default {
         `,
       },
       by_standard: {
-        label: 'Qui chuẩn',
+        label: 'Quy chuẩn',
         value: 'by_standard',
       },
     },

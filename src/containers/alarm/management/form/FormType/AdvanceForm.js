@@ -272,7 +272,7 @@ class AdvanceForm extends React.Component {
   }
 
   render() {
-    const { form, isEdit } = this.props
+    const { form, isEdit, alarmSelected } = this.props
     const { conditions } = this.state
     const repeatConfig = form.getFieldValue(`${FIELDS.REPEAT_CONFIG}.active`)
 
@@ -305,7 +305,7 @@ class AdvanceForm extends React.Component {
               })(<Switch disabled={isEdit} />)}
             </FormItem>
           </Col>
-          {repeatConfig && (
+          {(alarmSelected[FIELDS.REPEAT_CONFIG] || repeatConfig) && (
             <Col span={8}>
               <FormItem label={i18n().form.label.frequency}>
                 {form.getFieldDecorator(`${FIELDS.REPEAT_CONFIG}.frequency`, {
