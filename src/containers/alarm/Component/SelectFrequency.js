@@ -1,6 +1,8 @@
 import { Select } from 'antd'
 import React from 'react'
 
+export const DEFAULT_VALUE_FREQUENCY = 15 * 60
+
 const frequency = {
   '15p': {
     label: '15p',

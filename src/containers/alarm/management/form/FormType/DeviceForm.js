@@ -2,7 +2,9 @@ import { Col, Row, Switch } from 'antd'
 import SelectOperator from 'components/core/select/SelectOperator'
 import SelectMeasureParameter from 'components/elements/select-measure-parameter'
 import { FormItem } from 'components/layouts/styles'
-import SelectFrequency from 'containers/alarm/Component/SelectFrequency'
+import SelectFrequency, {
+  DEFAULT_VALUE_FREQUENCY,
+} from 'containers/alarm/Component/SelectFrequency'
 import SelectStatusDevice from 'containers/alarm/Component/SelectStatusDevice'
 import { translate } from 'hoc/create-lang'
 import _ from 'lodash'
@@ -113,7 +115,7 @@ export default class DeviceForm extends React.Component {
             <Col span={8}>
               <FormItem label={i18n().form.label.frequency}>
                 {form.getFieldDecorator(`${FIELDS.REPEAT_CONFIG}.frequency`, {
-                  initialValue: 15,
+                  initialValue: DEFAULT_VALUE_FREQUENCY,
                 })(<SelectFrequency disabled={isEdit} />)}
               </FormItem>
             </Col>
