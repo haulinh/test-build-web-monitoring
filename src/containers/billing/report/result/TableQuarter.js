@@ -5,6 +5,7 @@ import _ from 'lodash'
 import moment from 'moment'
 import React from 'react'
 import { formatCurrency } from 'utils/string'
+import { maximumFractionDigits } from '../constants'
 
 const i18n = () => ({
   typeFee: t('billing.table.quarter.typeFee'),
@@ -78,7 +79,7 @@ export default function TableQuarter({ resultReport = {}, form }) {
       title: `${i18n().amountOfWastewater} ${`(M³)`}`,
       dataIndex: 'flow',
       render: value => {
-        const textTooltip = getFormatNumber(value, 2, 8)
+        const textTooltip = getFormatNumber(value, 2, maximumFractionDigits)
 
         return (
           <Tooltip title={textTooltip} placement="top">
