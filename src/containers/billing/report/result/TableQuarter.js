@@ -78,7 +78,7 @@ export default function TableQuarter({ resultReport = {}, form }) {
       title: `${i18n().amountOfWastewater} ${`(M³)`}`,
       dataIndex: 'flow',
       render: value => {
-        const textTooltip = getFormatNumber(value, 2, 8)
+        const textTooltip = getFormatNumber(value, 2, 6)
 
         return (
           <Tooltip title={textTooltip} placement="top">
