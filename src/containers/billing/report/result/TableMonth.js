@@ -6,6 +6,7 @@ import React from 'react'
 import { translate as t } from 'hoc/create-lang'
 import { formatCurrency } from 'utils/string'
 import { getFormatNumber } from 'constants/format-number'
+import { maximumFractionDigits } from '../constants'
 
 const i18n = () => ({
   stt: t('billing.table.month.stt'),
@@ -37,7 +38,11 @@ export default function TableMonth({ resultReport = {} }) {
       title: i18n().flow,
       dataIndex: 'total',
       render: value => {
-        const textTooltip = getFormatNumber(value.flow, 2, 6)
+        const textTooltip = getFormatNumber(
+          value.flow,
+          2,
+          maximumFractionDigits
+        )
 
         return (
           <Tooltip title={textTooltip} placement="top">
@@ -56,7 +61,11 @@ export default function TableMonth({ resultReport = {} }) {
         align: 'center',
         render: value => {
           const valueMeasure = _.get(value, `${measure.key}.value`)
-          const textTooltip = getFormatNumber(valueMeasure, 2, 6)
+          const textTooltip = getFormatNumber(
+            valueMeasure,
+            2,
+            maximumFractionDigits
+          )
 
           return (
             <Tooltip title={textTooltip} placement="top">
@@ -88,7 +97,7 @@ export default function TableMonth({ resultReport = {} }) {
 
   const BodyWrapper = props => {
     const totalFlow = _.get(resultReport, ['total', 'flow'], 0)
-    const textTooltip = getFormatNumber(totalFlow, 2, 6)
+    const textTooltip = getFormatNumber(totalFlow, 2, maximumFractionDigits)
 
     const renderFooter = () => {
       return (
