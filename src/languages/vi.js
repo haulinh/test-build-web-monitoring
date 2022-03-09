@@ -3043,6 +3043,7 @@ export default {
       stationFixed: 'Quản lý điểm quan trắc',
       uploadFile: 'Quản lý báo cáo định kì',
       importData: 'Nhập dữ liệu điểm quan trắc',
+      monitoringData: 'Dữ liệu quan trắc',
       report: 'Tra cứu dữ liệu',
       map: 'Bản đồ',
     },

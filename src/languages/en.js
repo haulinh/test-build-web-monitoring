@@ -3042,6 +3042,8 @@ export default {
       base: 'Manage the monitoring phase',
       stationFixed: 'Monitoring point management',
       importData: 'Enter the monitoring point data',
+      monitoringData: 'Monitoring data',
+      uploadFile: 'Monitoring report management',
       report: 'Search',
       map: 'Map',
     },
