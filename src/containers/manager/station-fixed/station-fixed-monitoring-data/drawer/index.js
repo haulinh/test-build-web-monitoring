@@ -18,23 +18,8 @@ const Drawer = styled(DrawerAnt)`
   }
 `
 export default class DrawerMonitoring extends Component {
-  state = {
-    phases: [],
-  }
-
-  fetchPhase = async () => {
-    const response = await getPhase()
-    this.setState({
-      phases: response,
-    })
-  }
-
-  componentDidMount = () => {
-    this.fetchPhase()
-  }
   render() {
     const { visible, onClose } = this.props
-    const { phases } = this.state
 
     return (
       <Drawer
@@ -45,7 +30,7 @@ export default class DrawerMonitoring extends Component {
         onClose={onClose}
         width={600}
       >
-        <FormMonitoring phases={phases} />
+        <FormMonitoring />
       </Drawer>
     )
   }
