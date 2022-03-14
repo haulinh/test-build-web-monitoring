@@ -125,7 +125,7 @@ export class ChartSummary extends React.Component {
               })
               this.props.selectMenu(slug.map.base)
             }}
-            to={slug.map.base + `?Id=${stationType.key}`}
+            to={slug.map.base}
           >
             {translate('dashboard.viewInMap')}
           </Link>
@@ -161,7 +161,11 @@ export class ChartSummary extends React.Component {
   }
 
   renderSubTitle = () => {
-    const good = _.get(_.countBy(this.props.stationList, 'status'), 'DATA_CONNECTED', 0)
+    const good = _.get(
+      _.countBy(this.props.stationList, 'status'),
+      'DATA_CONNECTED',
+      0
+    )
     return <div>&nbsp; {`(${good}/${this.props.totalStation})`}</div>
   }
 
