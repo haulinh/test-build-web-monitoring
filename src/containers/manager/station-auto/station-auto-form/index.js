@@ -405,19 +405,19 @@ export default class StationAutoForm extends React.PureComponent {
 
         if (!_.isNil(minLimit) && !_.isNil(maxLimit) && minLimit >= maxLimit) {
           message.error(t('stationAutoManager.form.errorMinMax'))
-          console.log('--1--')
+          // console.log('--1--')
           return true
         }
 
         if (!_.isNil(minTend) && !_.isNil(maxTend) && minTend >= maxTend) {
           console.log(minTend, maxTend, '---maxTend--')
           message.error(t('stationAutoManager.form.errorMinMax'))
-          console.log('--2--')
+          // console.log('--2--')
           return true
         }
         if (!_.isNil(minRange) && !_.isNil(maxRange) && minRange >= maxRange) {
           message.error(t('stationAutoManager.form.errorMinMax'))
-          console.log('--3--')
+          // console.log('--3--')
           return true
         }
         return false
