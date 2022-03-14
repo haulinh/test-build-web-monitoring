@@ -649,20 +649,22 @@ export default class StationAutoForm extends React.PureComponent {
                     label={t('stationAutoManager.form.key.label')}
                   >
                     {getFieldDecorator('key', {
-                      rules: [
-                        {
-                          required: true,
-                          message: i18n().key.required,
-                        },
-                        {
-                          pattern: PATTERN_KEY,
-                          message: i18n().key.pattern,
-                        },
-                        {
-                          max: 64,
-                          message: i18n().key.max,
-                        },
-                      ],
+                      rules: this.props.isEdit
+                        ? []
+                        : [
+                            {
+                              required: true,
+                              message: i18n().key.required,
+                            },
+                            {
+                              pattern: PATTERN_KEY,
+                              message: i18n().key.pattern,
+                            },
+                            {
+                              max: 64,
+                              message: i18n().key.max,
+                            },
+                          ],
                     })(
                       <Input
                         disabled={this.props.isEdit}
