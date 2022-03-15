@@ -81,50 +81,53 @@ export default class TableDataList extends React.PureComponent {
             </Tooltip>
           )
         }
-        return <div>{moment(record.receivedAt).format(formatDate)}</div>
+        return (
+          <div style={{ padding: '0px 4px' }}>
+            {moment(record.receivedAt).format(formatDate)}
+          </div>
+        )
       },
     }
 
-    const columnsMeasuring = this.props.measuringData
-      .map(measuring => ({
-        title: (
-          <strong>
-            {measuring.name} <br />{' '}
-            {_get(measuring, 'unit', '')
-              ? `(${_get(measuring, 'unit', '').trim()})`
-              : ''}
-          </strong>
-        ),
-        dataIndex: `measuringLogs.${measuring.key}`,
-        key: measuring.key,
-        width: 120,
-        align: 'right',
-        render: (value, item) => {
-          if (item.isQCVN) {
-            return (
-              <div>{getMeasuringValue(item.measuringList, measuring.key)}</div>
-            )
-          }
-          // console.log(value, '==value==')
-          // console.log(JSON.stringify(this.props.dataSource, null, 2), '==dataSource==')
-          if (value === null || value === undefined) return <div>-</div>
-
+    const columnsMeasuring = this.props.measuringData.map(measuring => ({
+      title: (
+        <strong>
+          {measuring.name} <br />{' '}
+          {_get(measuring, 'unit', '')
+            ? `(${_get(measuring, 'unit', '').trim()})`
+            : ''}
+        </strong>
+      ),
+      dataIndex: `measuringLogs.${measuring.key}`,
+      key: measuring.key,
+      width: 120,
+      align: 'right',
+      render: (value, item) => {
+        if (item.isQCVN) {
           return (
-            <div
-              style={{
-                color: COLOR[value.warningLevel],
-                fontWeight: value.isMerged ? 700 : 400,
-              }}
-            >
-              <Tooltip
-                title={value.isMerged ? translate('qcvn.invalid') : value.qcvn}
-              >
-                {getFormatNumber(value.value, FORMAT_VALUE_MEASURING)}
-              </Tooltip>
-            </div>
+            <div>{getMeasuringValue(item.measuringList, measuring.key)}</div>
           )
-        },
-      }))
+        }
+        // console.log(value, '==value==')
+        // console.log(JSON.stringify(this.props.dataSource, null, 2), '==dataSource==')
+        if (value === null || value === undefined) return <div>-</div>
+
+        return (
+          <div
+            style={{
+              color: COLOR[value.warningLevel],
+              fontWeight: value.isMerged ? 700 : 400,
+            }}
+          >
+            <Tooltip
+              title={value.isMerged ? translate('qcvn.invalid') : value.qcvn}
+            >
+              {getFormatNumber(value.value, FORMAT_VALUE_MEASURING)}
+            </Tooltip>
+          </div>
+        )
+      },
+    }))
     const columnData = [columnReceivedAt, ...columnsMeasuring]
     return columnData
   }
