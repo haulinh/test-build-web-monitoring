@@ -124,7 +124,7 @@ export default class StatusDataReport extends React.Component {
         title: i18n().parameter,
         align: 'center',
         dataIndex: 'analyze',
-        width: 80,
+        width: 120,
         key: '2',
         render: value => {
           if (!value) {
