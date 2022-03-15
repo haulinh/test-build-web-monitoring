@@ -42,25 +42,14 @@ export default class MonitoringHeaderFilter extends React.Component {
     }
   }
 
-  // getPropsSelect(key, placeholder) {
-  //   return {
-  //     value: this.props.filter[key],
-  //     onChange: value => {
-  //       console.log(value, '--getPropsSelect-')
-  //       this.handleChange(key, value)
-  //     },
-  //     placeholder,
-  //   }
-  // }
-
   timeOut = null
 
-  onChange = event => {
+  debounceHandleChange = event => {
     clearTimeout(this.timeOut)
     event.persist()
     this.timeOut = setTimeout(() => {
-      this.setState({ search: event.target.value })
-    }, 400)
+      this.handleChange('search', event)
+    }, 500)
   }
 
   render() {
@@ -71,7 +60,7 @@ export default class MonitoringHeaderFilter extends React.Component {
             defaultValue={_.get(this.props, 'filter.search', '')}
             placeholder={translate('monitoring.keywordSearch')}
             // onChange={this.debounceHandleChange}
-            onChange={this.onChange}
+            onChange={this.debounceHandleChange}
           />
         </div>
         {/* <Clearfix width={8} />
