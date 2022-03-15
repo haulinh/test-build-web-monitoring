@@ -214,7 +214,7 @@ export default class SearchAvgForm extends React.Component {
       }
       this.setState({
         rangesView,
-        filterList: listFilter.filter(
+        filterList: listFilter().filter(
           filter => nextProps.initialValues[filter.key]
         ),
       })
