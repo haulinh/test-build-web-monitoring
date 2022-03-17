@@ -79,7 +79,7 @@ class TableConfig extends React.Component {
     {
       title: i18n().measure,
       dataIndex: 'name',
-      key: 'key',
+      key: 'name',
     },
     {
       title: () => {
