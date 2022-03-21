@@ -105,7 +105,6 @@ export default class StationForm extends React.PureComponent {
   componentDidUpdate(prevProps, prevState) {
     if (!this.props.stations.length) return
 
-    console.log(this.props.stations.length, '--length--')
     if (
       !_.isEqual(prevProps.stationKeys, this.props.stationKeys) ||
       !_.isEqual(prevProps.stations.length, this.props.stations.length) ||

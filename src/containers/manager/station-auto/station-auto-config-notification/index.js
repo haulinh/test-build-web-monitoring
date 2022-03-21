@@ -51,6 +51,7 @@ const Span = styled.span`
 @protectRole(ROLE.CAU_HINH_GUI_CANH_BAO.VIEW)
 @createManagerList({
   apiList: StationAutoApi.getStationAutos,
+  itemPerPage: 10000,
 })
 @createManagerDelete({
   apiDelete: StationAutoApi.removeStationAuto,

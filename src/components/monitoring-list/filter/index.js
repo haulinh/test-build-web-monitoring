@@ -7,6 +7,7 @@ import SelectAnt from 'components/elements/select-ant'
 import SelectType from 'components/elements/select-station-type'
 import Clearfix from 'components/elements/clearfix'
 import update from 'react-addons-update'
+import * as _ from 'lodash'
 // import { GROUP_OPTIONS, ORDER_OPTIONS } from './options'
 import { translate } from 'hoc/create-lang'
 
@@ -15,16 +16,19 @@ const MonitoringHeaderFilterWrapper = styled.div`
   flex: 1;
 `
 @autobind
-export default class MonitoringHeaderFilter extends React.PureComponent {
+export default class MonitoringHeaderFilter extends React.Component {
   static propTypes = {
     onChange: PropTypes.func,
   }
 
-  handleChange(key, value) {
+  handleChange = (key, value) => {
     this.props.onChange(
       update(this.props.filter, {
         [key]: {
-          $set: typeof value === 'object' ? value.target.value : value,
+          $set:
+            typeof value === 'object'
+              ? _.get(value, 'target.value', null)
+              : value,
         },
       })
     )
@@ -33,9 +37,19 @@ export default class MonitoringHeaderFilter extends React.PureComponent {
   getPropsSelect(key, placeholder) {
     return {
       value: this.props.filter[key],
-      onChange: value => this.handleChange(key, value),
+      onChange: event => this.handleChange(key, event),
       placeholder,
     }
+  }
+
+  timeOut = null
+
+  debounceHandleChange = event => {
+    clearTimeout(this.timeOut)
+    event.persist()
+    this.timeOut = setTimeout(() => {
+      this.handleChange('search', event)
+    }, 500)
   }
 
   render() {
@@ -43,11 +57,10 @@ export default class MonitoringHeaderFilter extends React.PureComponent {
       <MonitoringHeaderFilterWrapper>
         <div style={{ width: '33%' }}>
           <Input
-            placeholder="Search"
-            {...this.getPropsSelect(
-              'search',
-              translate('monitoring.keywordSearch')
-            )}
+            defaultValue={_.get(this.props, 'filter.search', '')}
+            placeholder={translate('monitoring.keywordSearch')}
+            // onChange={this.debounceHandleChange}
+            onChange={this.debounceHandleChange}
           />
         </div>
         {/* <Clearfix width={8} />

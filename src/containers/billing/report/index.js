@@ -21,39 +21,8 @@ import Filter from './Filter'
 import TableMonth from './result/TableMonth'
 import TableQuarter from './result/TableQuarter'
 import createLanguage from 'hoc/create-lang'
+import { i18n } from './constants'
 
-export const Fields = {
-  stationType: 'stationType',
-  stationKey: 'stationKey',
-  reportType: 'reportType',
-  billingConfigId: 'billingConfigId',
-  time: 'time',
-}
-
-export function i18n() {
-  return {
-    reportType: {
-      label: t('billing.label.reportType'),
-    },
-    time: {
-      label: t('billing.label.time'),
-      required: t('billing.required.time'),
-      sameQuarter: t('billing.required.sameQuarter'),
-    },
-    stationType: {
-      label: t('billing.label.stationType'),
-      required: t('billing.required.stationType'),
-    },
-    stationName: {
-      label: t('billing.label.stationName'),
-      required: t('billing.required.stationName'),
-    },
-    billingConfig: {
-      label: t('billing.label.billingConfig'),
-      required: t('billing.required.billingConfig'),
-    },
-  }
-}
 @createProtectRole(ROLE.BILLING_REPORT.VIEW)
 @Form.create()
 @createLanguage
@@ -142,14 +111,24 @@ export default class BillingReport extends Component {
   }
 
   handleExportBilling = async () => {
-    const { lang: { translateManual } } = this.props
+    const {
+      lang: { translateManual },
+    } = this.props
     const params = await this.getQueryParams()
     const result = await CalculateApi.exportReportBilling({
       ...params,
       lang: this.state.langExport,
     })
     const { from, to } = this.getTimes()
-    downFileExcel(result.data, `${translateManual('billing.title.name', null, null, this.state.langExport)} ${from} - ${to}`)
+    downFileExcel(
+      result.data,
+      `${translateManual(
+        'billing.title.name',
+        null,
+        null,
+        this.state.langExport
+      )} ${from} - ${to}`
+    )
     this.setState({
       visableModal: false,
     })

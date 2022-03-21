@@ -20,7 +20,7 @@ export function getStationAutoAll(
   { page = 1, itemPerPage = 1000 } = {},
   { address, stationType, name } = {}
 ) {
-  var url = getStationAutoUrl(`/all?page=${page}&itemPerPage=${itemPerPage}`)
+  var url = getStationAutoUrl(`all?page=${page}&itemPerPage=${itemPerPage}`)
   if (address) url += `&address=${address}`
   if (stationType) url += `&stationType=${stationType}`
   if (name) url += `&name=${name}`
