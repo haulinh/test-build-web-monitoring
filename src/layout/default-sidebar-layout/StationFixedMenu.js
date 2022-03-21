@@ -86,17 +86,17 @@ export default {
       {/* NOTE  nhập dữ liệu quan trắc */}
       {protectRole(ROLE.STATION_FIXED_INPUT.VIEW)(
         <Menu.Item
-          key={slug.stationFixed.importData}
+          key={slug.stationFixed.monitoringData}
           onClick={() => {
-            props.selectMenu(slug.stationFixed.importData)
+            props.selectMenu(slug.stationFixed.monitoringData)
           }}
         >
           <Tooltip
             placement="right"
             title={listTooltipMenu().stationFixed.importData}
           >
-            <Link to={slug.stationFixed.importData}>
-              {listMenuName().stationFixed.importData}
+            <Link to={slug.stationFixed.monitoringData}>
+              {listMenuName().stationFixed.monitoringData}
             </Link>
           </Tooltip>
         </Menu.Item>

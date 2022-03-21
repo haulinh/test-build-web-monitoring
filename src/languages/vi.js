@@ -1682,6 +1682,20 @@ export default {
     list: {
       title: 'Trạm quan trắc cố định',
     },
+    label: {
+      timeRange: 'Thời gian nhập liệu',
+    },
+    table: {
+      title: {
+        phase: 'Đợt quan trắc',
+        reportName: 'Tên báo cáo',
+        point: 'Tên điểm quan trắc',
+        typeInput: 'Loại nhập liệu',
+        userInput: 'Nhập liệu',
+        createTime: 'Thời gian nhập liệu',
+        editTime: 'Thời gian chỉnh sửa',
+      },
+    },
   },
   stationAutoManager: {
     list: {
@@ -3043,6 +3057,7 @@ export default {
       stationFixed: 'Quản lý điểm quan trắc',
       uploadFile: 'Quản lý báo cáo định kì',
       importData: 'Nhập dữ liệu điểm quan trắc',
+      monitoringData: 'Dữ liệu quan trắc',
       report: 'Tra cứu dữ liệu',
       map: 'Bản đồ',
     },
