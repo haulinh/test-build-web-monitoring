@@ -137,6 +137,7 @@ export default class StationAutoList extends React.Component {
     let stationTypeArr = []
 
     let sourceSorted = this.props.dataSource || []
+    console.log(sourceSorted, '--sourceSorted--')
 
     let stationCount = _.countBy(sourceSorted, 'stationType.key')
     //logic return groupRow or groupRow and Row
