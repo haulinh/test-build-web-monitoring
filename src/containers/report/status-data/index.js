@@ -124,7 +124,7 @@ export default class StatusDataReport extends React.Component {
         title: i18n().parameter,
         align: 'center',
         dataIndex: 'analyze',
-        width: 80,
+        width: 120,
         key: '2',
         render: value => {
           if (!value) {
@@ -362,7 +362,7 @@ export default class StatusDataReport extends React.Component {
                 <div style={{ textAlign: 'center' }}>
                   {analyze.map((item, index) => (
                     <div key={item.key}>
-                      <span>{getFormatNumber(item.count, 2)}</span>
+                      <span>{getFormatNumber(item.count, 0)}</span>
                       {index !== analyze.length - 1 && (
                         <Divider style={{ margin: 0 }} />
                       )}
@@ -415,7 +415,7 @@ export default class StatusDataReport extends React.Component {
                     <div key={item.key}>
                       <span>
                         {_.isNumber(item.totalVuotNguong)
-                          ? getFormatNumber(item.totalVuotNguong, 2)
+                          ? getFormatNumber(item.totalVuotNguong, 0)
                           : '-'}
                       </span>
                       {index !== value.length - 1 && (

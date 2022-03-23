@@ -7,7 +7,7 @@ import SelectStationType from 'components/elements/select-station-type'
 import { FormItem } from 'components/layouts/styles'
 import moment from 'moment'
 import React from 'react'
-import { Fields, i18n } from './index'
+import { Fields, i18n } from './constants'
 
 export default function Filter({ form, setResultReport }) {
   const { stationType, reportType } = form.getFieldsValue() || {}
