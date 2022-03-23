@@ -1,10 +1,10 @@
 import { DatePicker } from 'antd'
 import { FormItem } from 'components/layouts/styles'
 import { DD_MM_YYYY } from 'constants/format-date'
+import { translate as t } from 'hoc/create-lang'
 import React from 'react'
-import { FIELDS } from './index'
 import styled from 'styled-components'
-import createLang, { translate as t } from 'hoc/create-lang'
+import { FIELDS } from './index'
 
 const { RangePicker } = DatePicker
 

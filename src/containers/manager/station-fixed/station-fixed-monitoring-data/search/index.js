@@ -31,9 +31,7 @@ export default class Search extends React.Component {
     timeSelected: [],
   }
 
-  async componentDidMount() {
-    const { points } = this.state
-
+  componentDidMount = async () => {
     const response = await CategoryApi.getStationTypes({}, { isAuto: false })
     const periodic = await StationFixedPeriodic.getStationFixedPeriodics({}, {})
 
@@ -56,6 +54,7 @@ export default class Search extends React.Component {
     this.setState(
       { points: periodic.data, initialPoints: periodic.data },
       () => {
+        const { points } = this.state
         const params = {
           stationId: points.map(point => point._id).join(','),
           from: getTimeUTC(moment(new Date(0))),

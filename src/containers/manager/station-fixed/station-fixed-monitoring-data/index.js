@@ -11,11 +11,14 @@ export default class StationFixedMonitoringData extends React.Component {
     dataSource: [],
     loading: false,
   }
-  getMonitoringData = (data, loading) => {
-    this.setState({ dataSource: data, loading })
+
+  getMonitoringData = (dataSource, loading) => {
+    this.setState({ dataSource, loading })
   }
+
   render() {
     const { dataSource, loading } = this.state
+
     return (
       <PageContainer>
         <Breadcrumb items={['monitoringData']} />
