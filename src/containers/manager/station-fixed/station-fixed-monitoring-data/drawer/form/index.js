@@ -43,6 +43,9 @@ export default class FormMonitoring extends Component {
     measuringList: [],
     measuringNotSelect: [],
   }
+
+  selectPointRef = React.createRef()
+
   onSubmitForm = async () => {
     const { form } = this.props
 
@@ -59,16 +62,17 @@ export default class FormMonitoring extends Component {
     })
   }
 
-  setInitialValueMeasure = measureList => {
+  setInitialValueMeasure = () => {
     const { form } = this.props
-    const initMeasure = measureList.reduce((base, current) => {
+    const { measuringList } = this.state
+    const initMeasure = measuringList.reduce((base, current) => {
       return {
         ...base,
         [current._id]: { key: current.key, value: current.value },
       }
     }, {})
 
-    console.log({ initMeasure })
+    // console.log({ initMeasure })
 
     form.setFieldsValue({
       measure: initMeasure,
@@ -98,6 +102,10 @@ export default class FormMonitoring extends Component {
       }
     })
 
+    // console.log(this.selectPointRef)
+
+    // console.log({ measuringList })
+
     // console.log({ initialValue })
 
     this.getOptionSelectMeasure()
@@ -105,9 +113,9 @@ export default class FormMonitoring extends Component {
     this.setState(
       {
         measuringList,
-        measureNotSelected: [],
+        // measureNotSelected: [],
       },
-      () => this.setInitialValueMeasure(measuringList)
+      () => this.setInitialValueMeasure()
     )
   }
 
@@ -191,6 +199,7 @@ export default class FormMonitoring extends Component {
         <div className="form-body">
           <FormInfoBasic
             form={form}
+            // ref={this.selectPointRef}
             phases={phases}
             onChangePoint={this.onChangePoint}
             onFetchPointSuccess={this.onFetchPointSuccess}

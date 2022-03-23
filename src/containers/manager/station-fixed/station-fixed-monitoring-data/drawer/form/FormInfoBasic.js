@@ -23,6 +23,24 @@ export default class FormInfoBasic extends Component {
     })
     form.resetFields([FIELDS.POINT])
   }
+
+  setInitialValueMeasure = measuringList => {
+    const { form } = this.props
+    // const { measuringList } = this.state
+    const initMeasure = measuringList.reduce((base, current) => {
+      return {
+        ...base,
+        [current._id]: { key: current.key, value: current.value },
+      }
+    }, {})
+
+    // console.log({ initMeasure })
+
+    form.setFieldsValue({
+      measure: initMeasure,
+    })
+  }
+
   render() {
     const { form, onChangePoint, onFetchPointSuccess } = this.props
     const { stationTypeId } = this.state
