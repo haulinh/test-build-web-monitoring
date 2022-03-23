@@ -18,7 +18,7 @@ import {
 } from 'antd'
 import CategoryApi from 'api/CategoryApi'
 import { Clearfix } from 'components/elements'
-import InputNumberCell from 'components/elements/input-number-cell'
+// import InputNumberCell from 'components/elements/input-number-cell'
 import InputPhoneNumber from 'components/elements/input-phone-number'
 import SelectProvice from 'components/elements/select-province'
 import SelectQCVN from 'components/elements/select-qcvn'
@@ -367,7 +367,7 @@ export default class StationAutoForm extends React.PureComponent {
         career: values.career,
         material: values.material,
         processProduction: values.processProduction,
-        yearOperate: values.yearOperate,
+        yearOperate: get(values, 'yearOperate', ''),
         userResponsible: values.userResponsible,
         userSupervisor: values.userSupervisor,
         phoneResponsible: get(values, 'phoneResponsible'),
@@ -1302,9 +1302,8 @@ export default class StationAutoForm extends React.PureComponent {
                       'yearOperate',
                       {}
                     )(
-                      <InputNumberCell
-                        editable={true}
-                        size="small"
+                      <InputNumber
+                        style={{ flex: 1, width: '100%' }}
                         min={1800}
                         max={2050}
                       />
