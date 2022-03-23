@@ -1682,6 +1682,20 @@ export default {
     list: {
       title: 'Fixed Station',
     },
+    label: {
+      timeRange: 'Input Time',
+    },
+    table: {
+      title: {
+        phase: 'Phase',
+        reportName: 'Report name',
+        point: 'Point',
+        typeInput: 'Type of input',
+        userInput: 'User input',
+        createTime: 'Create time',
+        editTime: 'Edit time',
+      },
+    },
   },
   stationAutoManager: {
     list: {

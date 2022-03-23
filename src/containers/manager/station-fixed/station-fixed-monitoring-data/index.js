@@ -5,10 +5,12 @@ import Search from './search'
 import TableMonitoringData from './TableMonitoringData'
 import DropdownButton from './components/DropdownButton'
 import DrawerMonitoring from './drawer'
+import { Clearfix } from 'components/elements'
 
 export default class StationFixedMonitoringData extends React.Component {
   state = {
     visibleDrawer: false,
+    dataSource: [],
   }
 
   onClickImportManual = () => {
@@ -22,6 +24,9 @@ export default class StationFixedMonitoringData extends React.Component {
       visibleDrawer: false,
     })
   }
+  getMonitoringData = data => {
+    this.setState({ dataSource: data })
+  }
 
   render() {
     const { visibleDrawer } = this.state
@@ -29,7 +34,8 @@ export default class StationFixedMonitoringData extends React.Component {
     return (
       <PageContainer>
         <Breadcrumb items={['monitoringData']} />
-        <Search />
+        <Search getMonitoringData={this.getMonitoringData} />
+        <Clearfix height={15} />
         <TableMonitoringData />
 
         <DrawerMonitoring

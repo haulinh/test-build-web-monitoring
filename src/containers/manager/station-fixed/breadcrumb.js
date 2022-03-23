@@ -28,5 +28,6 @@ export default createBreadcrumb({
     id: 'monitoringData',
     href: slug.stationFixed.monitoringData,
     name: 'Dữ liệu quan trắc',
+    getName: () => translate('menuApp.stationFixed.monitoringData'),
   },
 })
