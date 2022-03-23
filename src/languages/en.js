@@ -1685,15 +1685,21 @@ export default {
     label: {
       timeRange: 'Input Time',
     },
+    placeholder: {
+      timeRange: {
+        from: 'Start date',
+        to: 'End date',
+      },
+    },
     table: {
       title: {
         phase: 'Phase',
         reportName: 'Report name',
         point: 'Point',
         typeInput: 'Type of input',
-        userInput: 'User input',
+        userInput: 'Created by',
         createTime: 'Create time',
-        editTime: 'Edit time',
+        editTime: 'Edited by',
       },
     },
   },

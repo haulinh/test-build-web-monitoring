@@ -10,6 +10,7 @@ export default class SelectProvinceForm extends React.Component {
       <FormItem label={label}>
         {form.getFieldDecorator(FIELDS.PROVINCES, {
           initialValue: '',
+          onChange: () => form.resetFields([FIELDS.POINT]),
         })(<SelectProvince isShowAll fieldValue="_id" isUsedId size="large" />)}
       </FormItem>
     )

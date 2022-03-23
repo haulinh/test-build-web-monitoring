@@ -11,6 +11,7 @@ export default class SelectStationTypes extends React.Component {
           initialValue: stationTypes
             .filter(stationType => stationType.key === 'all')
             .map(item => item._id),
+          onChange: () => form.resetFields([FIELDS.POINT]),
         })(
           <Select onSelect={handleOnSelectStationType} size="large">
             {stationTypes.map(stationType => (

@@ -11,6 +11,7 @@ import StationFixedPointApi from 'api/station-fixed/StationFixedPointApi.js'
 import createLanguageHoc, { translate } from 'hoc/create-lang'
 import protectRole from 'hoc/protect-role'
 import ROLE from 'constants/role'
+import StationFixedPeriodic from 'api/station-fixed/StationFixedPeriodic'
 
 function i18n() {
   return {
@@ -30,7 +31,7 @@ export default class StationFixedCreateContainer extends React.Component {
 
   handleSubmit = async data => {
     this.setState({ isLoading: true })
-    return StationFixedPointApi.createStationFixedPoint(data)
+    return StationFixedPeriodic.createStationFixedPeriodic(data)
       .then(values => {
         this.setState({ isLoading: false })
         if (values) {

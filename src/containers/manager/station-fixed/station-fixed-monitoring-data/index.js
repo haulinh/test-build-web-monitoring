@@ -9,18 +9,20 @@ import DropdownButton from './components/DropdownButton'
 export default class StationFixedMonitoringData extends React.Component {
   state = {
     dataSource: [],
+    loading: false,
   }
-  getMonitoringData = data => {
-    this.setState({ dataSource: data })
+  getMonitoringData = (data, loading) => {
+    this.setState({ dataSource: data, loading })
   }
   render() {
+    const { dataSource, loading } = this.state
     return (
       <PageContainer>
         <Breadcrumb items={['monitoringData']} />
         <Clearfix height={15} />
         <Search getMonitoringData={this.getMonitoringData} />
         <Clearfix height={15} />
-        <TableMonitoringData />
+        <TableMonitoringData dataSource={dataSource} loading={loading} />
         <DropdownButton className="dropdown-button" />
       </PageContainer>
     )

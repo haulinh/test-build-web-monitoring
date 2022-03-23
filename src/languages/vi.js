@@ -1685,15 +1685,21 @@ export default {
     label: {
       timeRange: 'Thời gian nhập liệu',
     },
+    placeholder: {
+      timeRange: {
+        from: 'Từ khoảng',
+        to: 'Tới khoảng',
+      },
+    },
     table: {
       title: {
         phase: 'Đợt quan trắc',
         reportName: 'Tên báo cáo',
         point: 'Tên điểm quan trắc',
-        typeInput: 'Loại nhập liệu',
+        typeInput: 'Hình thức nhập',
         userInput: 'Nhập liệu',
         createTime: 'Thời gian nhập liệu',
-        editTime: 'Thời gian chỉnh sửa',
+        editTime: 'Chỉnh sửa',
       },
     },
   },
