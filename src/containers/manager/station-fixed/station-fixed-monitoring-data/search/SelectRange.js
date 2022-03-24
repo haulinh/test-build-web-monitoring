@@ -16,12 +16,13 @@ const CustomRangePicker = styled(RangePicker)`
 
 export default class SelectRange extends React.Component {
   render() {
-    const { form, label, changeTimeRange } = this.props
+    const { form, label, onChangeTimeRange } = this.props
     return (
       <FormItem label={label}>
-        {form.getFieldDecorator(FIELDS.RANGE_PICKER)(
+        {form.getFieldDecorator(FIELDS.RANGE_PICKER, {
+          onChange: value => onChangeTimeRange(value),
+        })(
           <CustomRangePicker
-            onChange={changeTimeRange}
             style={{ width: '100%' }}
             format={DD_MM_YYYY}
             placeholder={[
