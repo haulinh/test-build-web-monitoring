@@ -70,29 +70,67 @@ export default class Search extends React.Component {
     const stationTypeId = form.getFieldValue(FIELDS.STATION_TYPE_ID)
     const provinceId = form.getFieldValue(FIELDS.PROVINCES)
 
-    const newPoints = initialPoints.filter(
-      point =>
-        point.stationTypeId === stationTypeId && point.provinceId === provinceId
-    )
+    if (provinceId === '') {
+      const newPoints = initialPoints.filter(
+        point => point.stationTypeId === stationTypeId
+      )
+      this.setState({ points: newPoints })
+    } else {
+      const newPoints = initialPoints.filter(
+        point =>
+          point.stationTypeId === stationTypeId &&
+          point.provinceId === provinceId
+      )
+      this.setState({ points: newPoints })
+    }
+  }
 
-    this.setState({ points: newPoints })
+  handleSelectProvince = () => {
+    const { form } = this.props
+    const { initialPoints } = this.state
+
+    form.resetFields([FIELDS.POINT])
+
+    const stationTypeId = form.getFieldValue(FIELDS.STATION_TYPE_ID)
+    const provinceId = form.getFieldsValue([FIELDS.PROVINCES])
+
+    if (provinceId === '') {
+      const newPoints = initialPoints.filter(
+        point => point.stationTypeId === stationTypeId
+      )
+      this.setState({ points: newPoints })
+    } else {
+      const newPoints = initialPoints.filter(
+        point =>
+          point.stationTypeId === stationTypeId &&
+          point.provinceId === provinceId
+      )
+      this.setState({ points: newPoints })
+    }
   }
 
   getListMonitoringData = async params => {
     const { setMonitoringData } = this.props
 
     setMonitoringData([], true)
-    if (
-      params.stationIds === '' ||
-      params.from === 'Invalid date' ||
-      params.to === 'Invalid date'
-    ) {
+    if (params.stationIds === '') {
       setMonitoringData([], false)
       return
     }
     try {
-      const dataSource = await StationFixedReport.getStationFixedReports(params)
-      setMonitoringData(dataSource, false)
+      if (params.from === getTimeUTC(moment(new Date()))) {
+        const dataSource = await StationFixedReport.getStationFixedReports({
+          stationIds: params.stationIds,
+          from: getTimeUTC(moment(new Date(0))),
+          to: params.to,
+        })
+        setMonitoringData(dataSource, false)
+      } else {
+        const dataSource = await StationFixedReport.getStationFixedReports(
+          params
+        )
+        setMonitoringData(dataSource, false)
+      }
     } catch (error) {
       console.log(error)
       setMonitoringData([], false)
@@ -105,7 +143,7 @@ export default class Search extends React.Component {
     const [startTime, endTime] = get(
       form.getFieldsValue([FIELDS.RANGE_PICKER]),
       'timeRange',
-      ['', '']
+      [getTimeUTC(moment(new Date(0))), getTimeUTC(moment(new Date()))]
     )
 
     const params = {
@@ -147,6 +185,7 @@ export default class Search extends React.Component {
               <SelectProvinceForm
                 label={t('dataPointReport.form.label.province')}
                 form={form}
+                handleOnSelectProvince={this.handleSelectProvince}
               />
             </Col>
             <Col span={12}>
@@ -161,7 +200,7 @@ export default class Search extends React.Component {
           <Row gutter={12}>
             <Col span={12}>
               <SelectPoint
-                label={t('dataPointReport.form.label.point')}
+                label={t('stationFixedManager.label.point')}
                 form={form}
                 points={points}
                 onChangePoint={this.handlePointSelected}

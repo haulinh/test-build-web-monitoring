@@ -1,4 +1,4 @@
-import { getFetch, postFetch } from 'utils/fetch'
+import { getFetch, postFetch, deleteFetch, pathFetch } from 'utils/fetch'
 import { getConfigApi } from '../../config'
 
 export function getStationFixedPeriodicUrl(prefix = '') {
@@ -38,8 +38,22 @@ export function createStationFixedPeriodic(data = {}) {
   return postFetch(url, data)
 }
 
+export function deleteStationFixedPeriodic(Id) {
+  return deleteFetch(getStationFixedPeriodicUrl(Id))
+}
+
+export function deactivateStationFixedPeriodic(Id) {
+  return pathFetch(getStationFixedPeriodicUrl(`${Id}/deactivate`))
+}
+
+export function activeStationFixedPeriodic(Id) {
+  return pathFetch(getStationFixedPeriodicUrl(`${Id}/active`))
+}
 export default {
   getStationFixedPeriodics,
   getStationFixedPeriodic,
   createStationFixedPeriodic,
+  deleteStationFixedPeriodic,
+  deactivateStationFixedPeriodic,
+  activeStationFixedPeriodic,
 }
