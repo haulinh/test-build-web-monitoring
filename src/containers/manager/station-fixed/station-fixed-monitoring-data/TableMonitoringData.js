@@ -1,9 +1,9 @@
-import { Row, Table, Col } from 'antd'
-import React from 'react'
-import { translate as t } from 'hoc/create-lang'
-import moment from 'moment-timezone'
-import { get } from 'lodash'
+import { Row, Table } from 'antd'
 import AvatarCharacter from 'components/elements/avatar-character'
+import { translate as t } from 'hoc/create-lang'
+import { get } from 'lodash'
+import moment from 'moment-timezone'
+import React from 'react'
 
 const REPORT_LINK = 'https://qa.ilotusland.asia/'
 export default class TableMonitoringData extends React.Component {
