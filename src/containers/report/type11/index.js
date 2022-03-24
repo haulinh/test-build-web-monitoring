@@ -2,7 +2,7 @@ import { Button, Form, Spin, Table, Typography } from 'antd'
 import DataInsight from 'api/DataInsight'
 import Clearfix from 'components/elements/clearfix'
 import ModalLangExport from 'components/elements/modal-lang-export'
-import { DD_MM_YYYY } from 'constants/format-date'
+import { DD_MM_YYYY, DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import { getFormatNumber, ROUND_DIGIT } from 'constants/format-number'
 import ROLE from 'constants/role'
 import createLanguage, { translate } from 'hoc/create-lang'
@@ -102,8 +102,7 @@ export default class ReportType11 extends React.Component {
             <div style={{ textAlign: 'left' }}>
               {moment(value)
                 .tz(_get(this.props, 'timeZone.value', ''))
-                .format('H')}
-              h
+                .format(DD_MM_YYYY_HH_MM)}
             </div>
           )
         },
