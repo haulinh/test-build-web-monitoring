@@ -32,7 +32,7 @@ export default class Search extends React.Component {
   }
 
   componentDidMount = async () => {
-    const response = await CategoryApi.getStationTypes({}, { isAuto: false })
+    const stationType = await CategoryApi.getStationTypes({}, { isAuto: false })
     const periodic = await StationFixedPeriodic.getStationFixedPeriodics({}, {})
 
     const allStationTypes = {
@@ -42,13 +42,13 @@ export default class Search extends React.Component {
       key: 'all',
       name: t('global.all'),
       numericalOrder: 1,
-      _id: response.data.map(item => item._id),
+      _id: stationType.data.map(item => item._id),
     }
 
-    response.data.unshift(allStationTypes)
+    const newStationTypes = [allStationTypes, ...stationType.data]
 
-    if (response.success) {
-      this.setState({ stationTypes: response.data || [] })
+    if (stationType.success) {
+      this.setState({ stationTypes: newStationTypes || [] })
     }
 
     this.setState(
@@ -62,7 +62,7 @@ export default class Search extends React.Component {
       }
     )
 
-    this.setState({ stationTypes: response.data })
+    this.setState({ stationTypes: newStationTypes })
   }
 
   handleSelectStationType = () => {
@@ -81,23 +81,31 @@ export default class Search extends React.Component {
   }
 
   getListMonitoringData = async params => {
-    const { getMonitoringData } = this.props
+    const { setMonitoringData } = this.props
 
-    getMonitoringData([], true)
+    setMonitoringData([], true)
+    if (
+      params.stationIds === '' ||
+      params.from === 'Invalid date' ||
+      params.to === 'Invalid date'
+    ) {
+      setMonitoringData([], false)
+      return
+    }
     try {
       const dataSource = await StationFixedReport.getStationFixedReports(params)
-      getMonitoringData(dataSource, false)
+      setMonitoringData(dataSource, false)
     } catch (error) {
       console.log(error)
-      getMonitoringData([], false)
+      setMonitoringData([], false)
     }
   }
 
-  getPointSelected = pointSelected => {
+  setPointSelected = pointSelected => {
     this.setState({ pointSelected })
   }
 
-  getTimeSelected = timeSelected => {
+  setTimeSelected = timeSelected => {
     const formatTimeSelected = timeSelected.map(time =>
       getTimeUTC(moment(time))
     )
@@ -106,7 +114,7 @@ export default class Search extends React.Component {
 
   componentDidUpdate = (prevProps, prevState) => {
     const { form } = this.props
-    const { points, pointSelected, timeSelected } = this.state
+    const { pointSelected, timeSelected } = this.state
 
     const [startTime, endTime] = get(
       form.getFieldsValue([FIELDS.RANGE_PICKER]),
@@ -116,7 +124,7 @@ export default class Search extends React.Component {
     const stationId = get(
       form.getFieldsValue([FIELDS.POINT]),
       'point',
-      points.map(point => point._id)
+      []
     ).join(',')
 
     if (
@@ -161,14 +169,14 @@ export default class Search extends React.Component {
                 label={t('dataPointReport.form.label.point')}
                 form={form}
                 points={points}
-                changePoint={this.getPointSelected}
+                changePoint={this.setPointSelected}
               />
             </Col>
             <Col span={12}>
               <SelectRange
                 label={t('stationFixedManager.label.timeRange')}
                 form={form}
-                changeTimeRange={this.getTimeSelected}
+                changeTimeRange={this.setTimeSelected}
               />
             </Col>
           </Row>
