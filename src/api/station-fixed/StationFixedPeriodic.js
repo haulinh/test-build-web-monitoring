@@ -38,17 +38,22 @@ export function createStationFixedPeriodic(data = {}) {
   return postFetch(url, data)
 }
 
-export function deleteStationFixedPeriodic(Id) {
-  return deleteFetch(getStationFixedPeriodicUrl(Id))
+export function deleteStationFixedPeriodic(id) {
+  return deleteFetch(getStationFixedPeriodicUrl(id))
 }
 
-export function deactivateStationFixedPeriodic(Id) {
-  return pathFetch(getStationFixedPeriodicUrl(`${Id}/deactivate`))
+export function deactivateStationFixedPeriodic(id) {
+  return pathFetch(getStationFixedPeriodicUrl(`${id}/deactivate`))
 }
 
-export function activeStationFixedPeriodic(Id) {
-  return pathFetch(getStationFixedPeriodicUrl(`${Id}/active`))
+export function activeStationFixedPeriodic(id) {
+  return pathFetch(getStationFixedPeriodicUrl(`${id}/active`))
 }
+
+export function updateStationFixedPeriodic(id, params) {
+  return pathFetch(getStationFixedPeriodicUrl(id), params)
+}
+
 export default {
   getStationFixedPeriodics,
   getStationFixedPeriodic,
@@ -56,4 +61,5 @@ export default {
   deleteStationFixedPeriodic,
   deactivateStationFixedPeriodic,
   activeStationFixedPeriodic,
+  updateStationFixedPeriodic,
 }

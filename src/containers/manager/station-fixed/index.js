@@ -8,6 +8,7 @@ import StationFixedList from './station-fixed-list'
 import StationFixedMap from './station-fixed-map'
 import StationFixedMonitoringData from './station-fixed-monitoring-data'
 import stationFixedDrive from './upload-file'
+import StationFixedImportData from './station-fixed-import-data'
 
 export default props => (
   <Switch>
@@ -30,6 +31,11 @@ export default props => (
       path={slug.stationFixed.importPoint}
       component={StationFixedImportPoint}
     />
+    <Route
+      path={slug.stationFixed.importData}
+      component={StationFixedImportData}
+    />
+
     <Route
       path={slug.stationFixed.monitoringData}
       component={StationFixedMonitoringData}

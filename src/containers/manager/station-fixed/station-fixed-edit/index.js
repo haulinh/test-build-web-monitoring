@@ -1,21 +1,19 @@
-import React from 'react'
 import { Spin } from 'antd'
-import { autobind } from 'core-decorators'
-
-import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import StationFixedPointApi from 'api/station-fixed/StationFixedPointApi.js'
-
-import StationFixedForm from '../station-fixed-form'
-import createManagerEdit from 'hoc/manager-edit'
-import PropTypes from 'prop-types'
-import Breadcrumb from '../breadcrumb'
+import StationFixedPeriodic from 'api/station-fixed/StationFixedPeriodic'
 import ROLE from 'constants/role'
+import { autobind } from 'core-decorators'
+import createManagerEdit from 'hoc/manager-edit'
 import protectRole from 'hoc/protect-role'
+import PageContainer from 'layout/default-sidebar-layout/PageContainer'
+import PropTypes from 'prop-types'
+import React from 'react'
+import Breadcrumb from '../breadcrumb'
+import StationFixedForm from '../station-fixed-form'
 
 @protectRole(ROLE.STATION_FIXED.EDIT)
 @createManagerEdit({
-  apiUpdate: StationFixedPointApi.updateStationFixedPoint,
-  apiGetByKey: StationFixedPointApi.getStationFixedPoint,
+  apiUpdate: StationFixedPeriodic.updateStationFixedPeriodic,
+  apiGetByKey: StationFixedPeriodic.getStationFixedPeriodic,
 })
 @autobind
 export default class StationFixedEdit extends React.PureComponent {
