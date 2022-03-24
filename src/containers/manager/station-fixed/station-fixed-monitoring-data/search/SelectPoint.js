@@ -25,6 +25,7 @@ export default class SelectPoint extends React.Component {
               option.props.value.toLowerCase().indexOf(input.toLowerCase()) >= 0
             }
             style={{ width: '100%' }}
+            placeholder={label}
           >
             {points.map(point => (
               <Select.Option key={point.key} value={point._id}>

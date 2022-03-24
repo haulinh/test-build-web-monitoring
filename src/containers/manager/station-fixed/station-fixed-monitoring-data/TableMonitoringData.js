@@ -65,15 +65,17 @@ export default class TableMonitoringData extends React.Component {
       render: (value, record, index) => {
         return (
           <div>
-            <Row type="flex" justify="start">
-              <Col span={5} style={{ marginTop: '6px' }}>
+            <Row type="flex" align="top">
+              <div style={{ marginTop: '6px' }}>
                 <AvatarCharacter
                   size={20}
+                  height={20}
+                  width={20}
                   username={value.firstName}
                   avatarUrl={value.avatar}
                 />
-              </Col>
-              <Col span={19}>
+              </div>
+              <div style={{ marginLeft: '8px' }}>
                 <Row>
                   {get(value, 'lastName', '') +
                     ' ' +
@@ -82,7 +84,7 @@ export default class TableMonitoringData extends React.Component {
                 <Row style={{ color: '#A2A7B3' }}>
                   {moment(record.createdAt).format('HH:MM DD/MM/YYYY')}
                 </Row>
-              </Col>
+              </div>
             </Row>
           </div>
         )
@@ -96,15 +98,17 @@ export default class TableMonitoringData extends React.Component {
       render: (value, record, index) => {
         return (
           <div>
-            <Row type="flex" justify="start">
-              <Col span={5} style={{ marginTop: '6px' }}>
+            <Row type="flex" align="top">
+              <div style={{ marginTop: '6px' }}>
                 <AvatarCharacter
                   size={20}
+                  height={20}
+                  width={20}
                   username={value.firstName}
                   avatarUrl={value.avatar}
                 />
-              </Col>
-              <Col span={19}>
+              </div>
+              <div style={{ marginLeft: '8px' }}>
                 <Row>
                   {get(value, 'lastName', '') +
                     ' ' +
@@ -113,7 +117,7 @@ export default class TableMonitoringData extends React.Component {
                 <Row style={{ color: '#A2A7B3' }}>
                   {moment(record.updatedAt).format('HH:MM DD/MM/YYYY')}
                 </Row>
-              </Col>
+              </div>
             </Row>
           </div>
         )
