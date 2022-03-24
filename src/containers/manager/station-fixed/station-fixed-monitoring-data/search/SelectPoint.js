@@ -5,10 +5,12 @@ import { FIELDS } from './index'
 
 export default class SelectPoint extends React.Component {
   render() {
-    const { label, form, points, changePoint } = this.props
+    const { label, form, points, onChangePoint } = this.props
     return (
       <FormItem label={label}>
-        {form.getFieldDecorator(FIELDS.POINT)(
+        {form.getFieldDecorator(FIELDS.POINT, {
+          onChange: value => onChangePoint(value),
+        })(
           <Select
             autoClearSearchValue
             allowClear
@@ -23,7 +25,6 @@ export default class SelectPoint extends React.Component {
               option.props.value.toLowerCase().indexOf(input.toLowerCase()) >= 0
             }
             style={{ width: '100%' }}
-            onChange={changePoint}
           >
             {points.map(point => (
               <Select.Option key={point.key} value={point._id}>

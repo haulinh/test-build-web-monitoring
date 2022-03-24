@@ -27,8 +27,6 @@ export default class Search extends React.Component {
     stationTypes: [],
     points: [],
     initialPoints: [],
-    pointSelected: '',
-    timeSelected: [],
   }
 
   componentDidMount = async () => {
@@ -101,45 +99,42 @@ export default class Search extends React.Component {
     }
   }
 
-  setPointSelected = pointSelected => {
-    this.setState({ pointSelected })
-  }
-
-  setTimeSelected = timeSelected => {
-    const formatTimeSelected = timeSelected.map(time =>
-      getTimeUTC(moment(time))
-    )
-    this.setState({ timeSelected: formatTimeSelected })
-  }
-
-  componentDidUpdate = (prevProps, prevState) => {
+  handlePointSelected = pointSelected => {
     const { form } = this.props
-    const { pointSelected, timeSelected } = this.state
 
     const [startTime, endTime] = get(
       form.getFieldsValue([FIELDS.RANGE_PICKER]),
       'timeRange',
       ['', '']
     )
+
+    const params = {
+      stationIds: pointSelected.join(','),
+      from: getTimeUTC(moment(startTime)),
+      to: getTimeUTC(moment(endTime)),
+    }
+
+    this.getListMonitoringData(params)
+  }
+
+  handleTimeSelected = timeSelected => {
+    const { form } = this.props
+
     const stationId = get(
       form.getFieldsValue([FIELDS.POINT]),
       'point',
       []
     ).join(',')
 
-    if (
-      pointSelected !== prevState.pointSelected ||
-      timeSelected.join(',') !== prevState.timeSelected.join(',')
-    ) {
-      const params = {
-        stationIds: stationId,
-        from: getTimeUTC(moment(startTime)),
-        to: getTimeUTC(moment(endTime)),
-      }
-
-      this.getListMonitoringData(params)
+    const params = {
+      stationIds: stationId,
+      from: getTimeUTC(moment(timeSelected[0])),
+      to: getTimeUTC(moment(timeSelected[1])),
     }
+
+    this.getListMonitoringData(params)
   }
+
   render() {
     const { form } = this.props
     const { stationTypes, points } = this.state
@@ -169,14 +164,14 @@ export default class Search extends React.Component {
                 label={t('dataPointReport.form.label.point')}
                 form={form}
                 points={points}
-                changePoint={this.setPointSelected}
+                onChangePoint={this.handlePointSelected}
               />
             </Col>
             <Col span={12}>
               <SelectRange
                 label={t('stationFixedManager.label.timeRange')}
                 form={form}
-                changeTimeRange={this.setTimeSelected}
+                onChangeTimeRange={this.handleTimeSelected}
               />
             </Col>
           </Row>
