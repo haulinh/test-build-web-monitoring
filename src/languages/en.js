@@ -1683,7 +1683,8 @@ export default {
       title: 'Fixed Station',
     },
     label: {
-      timeRange: 'Input Time',
+      timeRange: 'Time',
+      point: 'Monitoring point',
     },
     placeholder: {
       timeRange: {
@@ -1697,7 +1698,7 @@ export default {
       title: {
         phase: 'Phase',
         reportName: 'Report name',
-        point: 'Point',
+        point: 'Monitoring point',
         typeInput: 'Type of input',
         userInput: 'Created by',
         createTime: 'Create time',

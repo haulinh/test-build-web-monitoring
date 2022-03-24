@@ -200,7 +200,7 @@ export default class Search extends React.Component {
           <Row gutter={12}>
             <Col span={12}>
               <SelectPoint
-                label={t('dataPointReport.form.label.point')}
+                label={t('stationFixedManager.label.point')}
                 form={form}
                 points={points}
                 onChangePoint={this.handlePointSelected}

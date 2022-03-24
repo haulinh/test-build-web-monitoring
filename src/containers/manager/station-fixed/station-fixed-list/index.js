@@ -1,36 +1,32 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
 import {
-  Divider,
   Button,
-  Icon,
-  Modal,
-  message,
-  Menu,
-  Dropdown,
-  Row,
   Col,
+  Divider,
+  Dropdown,
+  Icon,
+  Menu,
+  message,
+  Modal,
+  Row,
 } from 'antd'
-import { autobind } from 'core-decorators'
-import * as _ from 'lodash'
-import styled from 'styled-components'
-
-/** */
-import StationFixedPointApi from 'api/station-fixed/StationFixedPointApi.js'
-import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import slug from 'constants/slug'
-
-import createManagerList from 'hoc/manager-list'
-import createManagerDelete from 'hoc/manager-delete'
-import Breadcrumb from '../breadcrumb'
-import createLanguageHoc, { langPropTypes } from 'hoc/create-lang'
+import StationFixedPeriodic from 'api/station-fixed/StationFixedPeriodic'
 import DynamicTable from 'components/elements/dynamic-table'
 import HeaderSearchWrapper from 'components/elements/header-search-wrapper'
-import StationFixedSearchForm from '../station-fixed-search'
-import { translate } from 'hoc/create-lang'
-import protectRole from 'hoc/protect-role'
 import ROLE from 'constants/role'
+import slug from 'constants/slug'
+import { autobind } from 'core-decorators'
+import createLanguageHoc, { langPropTypes, translate } from 'hoc/create-lang'
+import createManagerDelete from 'hoc/manager-delete'
+import createManagerList from 'hoc/manager-list'
+import protectRole from 'hoc/protect-role'
+import PageContainer from 'layout/default-sidebar-layout/PageContainer'
+import * as _ from 'lodash'
+import PropTypes from 'prop-types'
+import React from 'react'
+import { Link } from 'react-router-dom'
+import styled from 'styled-components'
+import Breadcrumb from '../breadcrumb'
+import StationFixedSearchForm from '../station-fixed-search'
 
 const LinkSpan = styled.span`
   color: #000;
@@ -77,11 +73,11 @@ function i18n() {
 
 @protectRole(ROLE.STATION_FIXED.VIEW)
 @createManagerList({
-  apiList: StationFixedPointApi.getStationFixedPoints,
+  apiList: StationFixedPeriodic.getStationFixedPeriodics,
   itemPerPage: 1000,
 })
 @createManagerDelete({
-  apiDelete: StationFixedPointApi.deleteStationFixedPoint,
+  apiDelete: StationFixedPeriodic.deleteStationFixedPeriodic,
 })
 @createLanguageHoc
 @autobind
@@ -308,7 +304,7 @@ export default class StationFixedList extends React.Component {
       cancelText: i18n().cancelText,
       onOk() {
         return new Promise(async (resolve, reject) => {
-          const res = await StationFixedPointApi.deactivateStationFixedPoint(
+          const res = await StationFixedPeriodic.deactivateStationFixedPeriodic(
             _id
           )
           if (res.status === 'ok') {
@@ -332,7 +328,7 @@ export default class StationFixedList extends React.Component {
       cancelText: i18n().cancelText,
       onOk() {
         return new Promise(async (resolve, reject) => {
-          const res = await StationFixedPointApi.activeStationFixedPoint(_id)
+          const res = await StationFixedPeriodic.activeStationFixedPeriodic(_id)
           if (res.status === 'ok') {
             message.info(i18n().onRestore.success)
             callback()
