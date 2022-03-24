@@ -24,7 +24,7 @@ const { Title, Text } = Typography
 
 function i18n() {
   return {
-    header8: translate('avgSearchFrom.table.header8'),
+    header8: translate('avgSearchFrom.table.receivedAt'),
     title: translate('avgSearchFrom.table.title6'),
   }
 }
