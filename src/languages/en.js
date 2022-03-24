@@ -1682,6 +1682,28 @@ export default {
     list: {
       title: 'Fixed Station',
     },
+    label: {
+      timeRange: 'Input Time',
+    },
+    placeholder: {
+      timeRange: {
+        from: 'Start date',
+        to: 'End date',
+      },
+    },
+    table: {
+      directInput: 'Direct input',
+      excelInput: 'By excel',
+      title: {
+        phase: 'Phase',
+        reportName: 'Report name',
+        point: 'Point',
+        typeInput: 'Type of input',
+        userInput: 'Created by',
+        createTime: 'Create time',
+        editTime: 'Edited by',
+      },
+    },
   },
   stationAutoManager: {
     list: {
@@ -3042,6 +3064,8 @@ export default {
       base: 'Manage the monitoring phase',
       stationFixed: 'Monitoring point management',
       importData: 'Enter the monitoring point data',
+      monitoringData: 'Monitoring data',
+      uploadFile: 'Monitoring report management',
       report: 'Search',
       map: 'Map',
     },

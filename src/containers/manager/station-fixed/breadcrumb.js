@@ -24,4 +24,9 @@ export default createBreadcrumb({
     href: slug.stationFixed.edit,
     name: 'FILE',
   },
+  monitoringData: {
+    id: 'monitoringData',
+    href: slug.stationFixed.monitoringData,
+    getName: () => translate('menuApp.stationFixed.monitoringData'),
+  },
 })

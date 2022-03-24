@@ -1,16 +1,15 @@
-import React from 'react'
 import { message } from 'antd'
-
+import StationFixedPeriodic from 'api/station-fixed/StationFixedPeriodic'
+import Clearfix from 'components/elements/clearfix'
+import ROLE from 'constants/role'
 /** */
 import slug from 'constants/slug'
-import Breadcrumb from '../breadcrumb'
-import StationFixedForm from '../station-fixed-form'
-import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import Clearfix from 'components/elements/clearfix'
-import StationFixedPointApi from 'api/station-fixed/StationFixedPointApi.js'
 import createLanguageHoc, { translate } from 'hoc/create-lang'
 import protectRole from 'hoc/protect-role'
-import ROLE from 'constants/role'
+import PageContainer from 'layout/default-sidebar-layout/PageContainer'
+import React from 'react'
+import Breadcrumb from '../breadcrumb'
+import StationFixedForm from '../station-fixed-form'
 
 function i18n() {
   return {
@@ -30,7 +29,7 @@ export default class StationFixedCreateContainer extends React.Component {
 
   handleSubmit = async data => {
     this.setState({ isLoading: true })
-    return StationFixedPointApi.createStationFixedPoint(data)
+    return StationFixedPeriodic.createStationFixedPeriodic(data)
       .then(values => {
         this.setState({ isLoading: false })
         if (values) {
