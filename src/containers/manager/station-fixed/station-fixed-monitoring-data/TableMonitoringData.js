@@ -59,7 +59,7 @@ export default class TableMonitoringData extends React.Component {
     },
     {
       title: t('stationFixedManager.table.title.userInput'),
-      dataIndex: 'createBy',
+      dataIndex: 'createdBy',
       align: 'left',
       key: 'userInput',
       render: (value, record, index) => {

@@ -12,7 +12,7 @@ export default class StationFixedMonitoringData extends React.Component {
     loading: false,
   }
 
-  getMonitoringData = (dataSource, loading) => {
+  setMonitoringData = (dataSource, loading) => {
     this.setState({ dataSource, loading })
   }
 
@@ -23,7 +23,7 @@ export default class StationFixedMonitoringData extends React.Component {
       <PageContainer>
         <Breadcrumb items={['monitoringData']} />
         <Clearfix height={15} />
-        <Search getMonitoringData={this.getMonitoringData} />
+        <Search setMonitoringData={this.setMonitoringData} />
         <Clearfix height={15} />
         <TableMonitoringData dataSource={dataSource} loading={loading} />
         <DropdownButton className="dropdown-button" />
