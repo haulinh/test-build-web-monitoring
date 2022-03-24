@@ -17,7 +17,6 @@ export async function getStationFixedPeriodics(
       limit: itemPerPage,
     }
   }
-  const nameReplaced = (name || '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 
   filter = {
     ...filter,

@@ -2,7 +2,10 @@ import { Row, Table, Col } from 'antd'
 import React from 'react'
 import { translate as t } from 'hoc/create-lang'
 import moment from 'moment-timezone'
+import { get } from 'lodash'
+import AvatarCharacter from 'components/elements/avatar-character'
 
+const REPORT_LINK = 'https://qa.ilotusland.asia/'
 export default class TableMonitoringData extends React.Component {
   columns = [
     {
@@ -22,7 +25,7 @@ export default class TableMonitoringData extends React.Component {
       render: value => {
         return (
           <a
-            href="https://qa.ilotusland.asia/"
+            href={REPORT_LINK}
             style={{
               textDecoration: 'underline',
               color: 'rgba(0, 0, 0, 0.65)',
@@ -41,35 +44,41 @@ export default class TableMonitoringData extends React.Component {
     },
     {
       title: t('stationFixedManager.table.title.typeInput'),
-      dataIndex: 'typeInput',
+      dataIndex: 'type',
       align: 'left',
       key: 'typeInput',
       render: value => {
-        return <div>Nhập trực tiếp</div>
+        return (
+          <div>
+            {value === 'manual'
+              ? t('stationFixedManager.table.directInput')
+              : t('stationFixedManager.table.title.excelInput')}
+          </div>
+        )
       },
     },
     {
       title: t('stationFixedManager.table.title.userInput'),
-      dataIndex: 'createdById',
-      // dataIndex: 'createdBy',
+      dataIndex: 'createBy',
       align: 'left',
       key: 'userInput',
       render: (value, record, index) => {
         return (
           <div>
             <Row type="flex" justify="start">
-              <Col span={3}>
-                <img
-                  width={20}
-                  height={20}
-                  src="/images/ilotusland-logo.svg"
-                  alt="ilotusland"
+              <Col span={5} style={{ marginTop: '6px' }}>
+                <AvatarCharacter
+                  size={20}
+                  username={value.firstName}
+                  avatarUrl={value.avatar}
                 />
-                {/* <img src={value.avatar} alt="ilotusland" /> */}
               </Col>
-              <Col span={21}>
-                <Row>{value}</Row>
-                {/* <Row style={{ color: '#111827' }}>{value.lastName + ' ' + value.firstName}</Row> */}
+              <Col span={19}>
+                <Row>
+                  {get(value, 'lastName', '') +
+                    ' ' +
+                    get(value, 'firstName', '')}
+                </Row>
                 <Row style={{ color: '#A2A7B3' }}>
                   {moment(record.createdAt).format('HH:MM DD/MM/YYYY')}
                 </Row>
@@ -81,26 +90,26 @@ export default class TableMonitoringData extends React.Component {
     },
     {
       title: t('stationFixedManager.table.title.editTime'),
-      dataIndex: 'updatedById',
-      // dataIndex: 'updatedBy',
+      dataIndex: 'updatedBy',
       align: 'left',
       key: 'userInput',
       render: (value, record, index) => {
         return (
           <div>
             <Row type="flex" justify="start">
-              <Col span={3}>
-                <img
-                  width={20}
-                  height={20}
-                  src="/images/ilotusland-logo.svg"
-                  alt="ilotusland"
+              <Col span={5} style={{ marginTop: '6px' }}>
+                <AvatarCharacter
+                  size={20}
+                  username={value.firstName}
+                  avatarUrl={value.avatar}
                 />
-                {/* <img src={value.avatar} alt="ilotusland" /> */}
               </Col>
-              <Col span={21}>
-                <Row>{value}</Row>
-                {/* <Row style={{ color: '#111827' }}>{value.lastName + ' ' + value.firstName}</Row> */}
+              <Col span={19}>
+                <Row>
+                  {get(value, 'lastName', '') +
+                    ' ' +
+                    get(value, 'firstName', '')}
+                </Row>
                 <Row style={{ color: '#A2A7B3' }}>
                   {moment(record.updatedAt).format('HH:MM DD/MM/YYYY')}
                 </Row>

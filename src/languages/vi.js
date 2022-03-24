@@ -1692,6 +1692,8 @@ export default {
       },
     },
     table: {
+      directInput: 'Nhập trực tiếp',
+      excelInput: 'Bằng file Excel',
       title: {
         phase: 'Đợt quan trắc',
         reportName: 'Tên báo cáo',

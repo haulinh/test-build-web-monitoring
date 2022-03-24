@@ -54,9 +54,7 @@ export default class Search extends React.Component {
     this.setState(
       { points: periodic.data, initialPoints: periodic.data },
       () => {
-        const { points } = this.state
         const params = {
-          stationId: points.map(point => point._id).join(','),
           from: getTimeUTC(moment(new Date(0))),
           to: getTimeUTC(moment(new Date())),
         }
@@ -126,7 +124,7 @@ export default class Search extends React.Component {
       timeSelected.join(',') !== prevState.timeSelected.join(',')
     ) {
       const params = {
-        stationId: stationId,
+        stationIds: stationId,
         from: getTimeUTC(moment(startTime)),
         to: getTimeUTC(moment(endTime)),
       }

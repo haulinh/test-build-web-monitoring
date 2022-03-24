@@ -1692,6 +1692,8 @@ export default {
       },
     },
     table: {
+      directInput: 'Direct input',
+      excelInput: 'By excel',
       title: {
         phase: 'Phase',
         reportName: 'Report name',
