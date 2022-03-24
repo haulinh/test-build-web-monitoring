@@ -38,69 +38,20 @@ export function createStationFixedPeriodic(data = {}) {
   return postFetch(url, data)
 }
 
-export function deleteStationFixedPeriodic(Id) {
-  return deleteFetch(getStationFixedPeriodicUrl(Id))
+export function deleteStationFixedPeriodic(id) {
+  return deleteFetch(getStationFixedPeriodicUrl(id))
 }
 
-export function deactivateStationFixedPeriodic(Id) {
-  return pathFetch(getStationFixedPeriodicUrl(`${Id}/deactivate`))
+export function deactivateStationFixedPeriodic(id) {
+  return pathFetch(getStationFixedPeriodicUrl(`${id}/deactivate`))
 }
 
-export function activeStationFixedPeriodic(Id) {
-  return pathFetch(getStationFixedPeriodicUrl(`${Id}/active`))
+export function activeStationFixedPeriodic(id) {
+  return pathFetch(getStationFixedPeriodicUrl(`${id}/active`))
 }
 
-export function updateStationFixedPeriodic(
-  Id,
-  {
-    name,
-    address,
-    note,
-    mapLocation,
-    latVn2000,
-    longVn2000,
-    stationTypeId,
-    qcvnId,
-    measuringList,
-    position,
-    provinceId,
-    website,
-    yearOperate,
-    userResponsible,
-    userSupervisor,
-    phoneResponsible,
-    phoneSupervisor,
-    irrigationArea,
-    purposeUsed,
-    lakeCapacity,
-    catchmentArea,
-    config,
-  }
-) {
-  return pathFetch(getStationFixedPeriodicUrl(Id), {
-    name,
-    measuringList,
-    stationTypeId,
-    mapLocation,
-    latVn2000,
-    longVn2000,
-    position: position || null,
-    address: address || null,
-    note: note || null,
-    qcvnId: qcvnId || null,
-    provinceId: provinceId || null,
-    website: website || null,
-    yearOperate: yearOperate || null,
-    userResponsible: userResponsible || null,
-    userSupervisor: userSupervisor || null,
-    phoneResponsible: phoneResponsible || null,
-    phoneSupervisor: phoneSupervisor || null,
-    irrigationArea: irrigationArea || null,
-    purposeUsed: purposeUsed || null,
-    lakeCapacity: lakeCapacity || null,
-    catchmentArea: catchmentArea || null,
-    config,
-  })
+export function updateStationFixedPeriodic(id, params) {
+  return pathFetch(getStationFixedPeriodicUrl(id), params)
 }
 
 export default {
