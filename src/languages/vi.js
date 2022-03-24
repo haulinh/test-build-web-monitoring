@@ -1684,6 +1684,7 @@ export default {
     },
     label: {
       timeRange: 'Thời gian nhập liệu',
+      point: 'Điểm quan trắc',
     },
     placeholder: {
       timeRange: {

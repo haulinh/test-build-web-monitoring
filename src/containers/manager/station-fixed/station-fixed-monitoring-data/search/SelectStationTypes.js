@@ -14,7 +14,7 @@ export default class SelectStationTypes extends React.Component {
             .map(stationType => stationType._id),
           onChange: () => form.resetFields([FIELDS.POINT]),
         })(
-          <Select onSelect={handleOnSelectStationType} size="large">
+          <Select onSelect={handleOnSelectStationType} size="large" allowClear>
             {stationTypes.map(stationType => (
               <Select.Option key={stationType._id} value={stationType._id}>
                 {stationType.name}
