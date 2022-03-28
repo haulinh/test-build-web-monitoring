@@ -1683,17 +1683,26 @@ export default {
       title: 'Fixed Station',
     },
     label: {
-      timeRange: 'Input Time',
+      timeRange: 'Time',
+      point: 'Monitoring point',
+    },
+    placeholder: {
+      timeRange: {
+        from: 'Start date',
+        to: 'End date',
+      },
     },
     table: {
+      directInput: 'Direct input',
+      excelInput: 'By excel',
       title: {
         phase: 'Phase',
         reportName: 'Report name',
-        point: 'Point',
+        point: 'Monitoring point',
         typeInput: 'Type of input',
-        userInput: 'User input',
+        userInput: 'Created by',
         createTime: 'Create time',
-        editTime: 'Edit time',
+        editTime: 'Edited by',
       },
     },
   },

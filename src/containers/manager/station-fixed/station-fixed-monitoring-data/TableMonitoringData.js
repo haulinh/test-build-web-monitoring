@@ -1,164 +1,36 @@
-import { Row, Table, Col } from 'antd'
-import React from 'react'
+import { Row, Table } from 'antd'
+import AvatarCharacter from 'components/elements/avatar-character'
 import { translate as t } from 'hoc/create-lang'
+import { get } from 'lodash'
+import moment from 'moment-timezone'
+import React from 'react'
 
+const REPORT_LINK = 'https://qa.ilotusland.asia/'
 export default class TableMonitoringData extends React.Component {
-  dataSource = [
-    {
-      order: 1,
-      phase: 'Đợt quan trắc 1',
-      nameReport: 'Báo cáo QTĐK - MP1 161121',
-      point: 'Nước mặt',
-      typeInput: 'Excel',
-      user: {
-        name: 'User Name',
-        time: '15:09 26/11/2021',
-      },
-      timeCreate: '21/2/2022',
-      timeEdit: '21/2/2022',
-    },
-    {
-      order: 2,
-      phase: 'Đợt quan trắc 1',
-      nameReport: 'Báo cáo QTĐK - MP1 161121',
-      point: 'Nước mặt',
-      typeInput: 'Excel',
-      user: {
-        name: 'User Name',
-        time: '15:09 26/11/2021',
-      },
-      timeCreate: '21/2/2022',
-      timeEdit: '21/2/2022',
-    },
-    {
-      order: 3,
-      phase: 'Đợt quan trắc 1',
-      nameReport: 'Báo cáo QTĐK - MP1 161121',
-      point: 'Nước mặt',
-      typeInput: 'Excel',
-      user: {
-        name: 'User Name',
-        time: '15:09 26/11/2021',
-      },
-      timeCreate: '21/2/2022',
-      timeEdit: '21/2/2022',
-    },
-    {
-      order: 4,
-      phase: 'Đợt quan trắc 1',
-      nameReport: 'Báo cáo QTĐK - MP1 161121',
-      point: 'Nước mặt',
-      typeInput: 'Excel',
-      user: {
-        name: 'User Name',
-        time: '15:09 26/11/2021',
-      },
-      timeCreate: '21/2/2022',
-      timeEdit: '21/2/2022',
-    },
-    {
-      order: 5,
-      phase: 'Đợt quan trắc 1',
-      nameReport: 'Báo cáo QTĐK - MP1 161121',
-      point: 'Nước mặt',
-      typeInput: 'Excel',
-      user: {
-        name: 'User Name',
-        time: '15:09 26/11/2021',
-      },
-      timeCreate: '21/2/2022',
-      timeEdit: '21/2/2022',
-    },
-    {
-      order: 6,
-      phase: 'Đợt quan trắc 1',
-      nameReport: 'Báo cáo QTĐK - MP1 161121',
-      point: 'Nước mặt',
-      typeInput: 'Excel',
-      user: {
-        name: 'User Name',
-        time: '15:09 26/11/2021',
-      },
-      timeCreate: '21/2/2022',
-      timeEdit: '21/2/2022',
-    },
-    {
-      order: 7,
-      phase: 'Đợt quan trắc 1',
-      nameReport: 'Báo cáo QTĐK - MP1 161121',
-      point: 'Nước mặt',
-      typeInput: 'Excel',
-      user: {
-        name: 'User Name',
-        time: '15:09 26/11/2021',
-      },
-      timeCreate: '21/2/2022',
-      timeEdit: '21/2/2022',
-    },
-    {
-      order: 8,
-      phase: 'Đợt quan trắc 1',
-      nameReport: 'Báo cáo QTĐK - MP1 161121',
-      point: 'Nước mặt',
-      typeInput: 'Excel',
-      user: {
-        name: 'User Name',
-        time: '15:09 26/11/2021',
-      },
-      timeCreate: '21/2/2022',
-      timeEdit: '21/2/2022',
-    },
-    {
-      order: 9,
-      phase: 'Đợt quan trắc 1',
-      nameReport: 'Báo cáo QTĐK - MP1 161121',
-      point: 'Nước mặt',
-      typeInput: 'Excel',
-      user: {
-        name: 'User Name',
-        time: '15:09 26/11/2021',
-      },
-      timeCreate: '21/2/2022',
-      timeEdit: '21/2/2022',
-    },
-    {
-      order: 10,
-      phase: 'Đợt quan trắc 1',
-      nameReport: 'Báo cáo QTĐK - MP1 161121',
-      point: 'Nước mặt',
-      typeInput: 'Excel',
-      user: {
-        name: 'User Name',
-        time: '15:09 26/11/2021',
-      },
-      timeCreate: '21/2/2022',
-      timeEdit: '21/2/2022',
-    },
-  ]
-
   columns = [
     {
-      title: 'STT',
-      dataIndex: 'order',
+      title: '#',
+      dataIndex: '',
       align: 'center',
       key: 'order',
-    },
-    {
-      title: t('stationFixedManager.table.title.phase'),
-      dataIndex: 'phase',
-      align: 'left',
-      key: 'phase',
+      render: (value, record, index) => {
+        return <div>{index + 1}</div>
+      },
     },
     {
       title: t('stationFixedManager.table.title.reportName'),
-      dataIndex: 'nameReport',
+      dataIndex: 'name',
       align: 'left',
-      key: 'nameReport',
+      key: 'name',
       render: value => {
         return (
           <a
-            href="https://qa.ilotusland.asia/"
-            style={{ textDecoration: 'underline', color: '#111827' }}
+            disabled={true}
+            href={REPORT_LINK}
+            style={{
+              textDecoration: 'underline',
+              color: 'rgba(0, 0, 0, 0.65)',
+            }}
           >
             {value}
           </a>
@@ -167,53 +39,53 @@ export default class TableMonitoringData extends React.Component {
     },
     {
       title: t('stationFixedManager.table.title.point'),
-      dataIndex: 'point',
+      dataIndex: 'station.name',
       align: 'left',
       key: 'point',
     },
     {
       title: t('stationFixedManager.table.title.typeInput'),
-      dataIndex: 'typeInput',
+      dataIndex: 'type',
       align: 'left',
       key: 'typeInput',
-    },
-    {
-      title: t('stationFixedManager.table.title.userInput'),
-      dataIndex: 'user',
-      align: 'left',
-      key: 'userInput',
       render: value => {
         return (
           <div>
-            <Row>
-              <Col span={7}>
-                <img src="/images/ilotusland-logo.svg" alt="ilotusland" />
-              </Col>
-              <Col span={17}>
-                <Row style={{ color: '#111827' }}>{value.name}</Row>
-                <Row style={{ color: '#A2A7B3' }}>{value.time}</Row>
-              </Col>
-            </Row>
+            {value === 'manual'
+              ? t('stationFixedManager.table.directInput')
+              : t('stationFixedManager.table.title.excelInput')}
           </div>
         )
       },
     },
     {
-      title: t('stationFixedManager.table.title.createTime'),
-      dataIndex: 'user',
+      title: t('stationFixedManager.table.title.userInput'),
+      dataIndex: 'createdBy',
       align: 'left',
       key: 'userInput',
-      render: value => {
+      render: (value, record, index) => {
         return (
           <div>
-            <Row>
-              <Col span={7}>
-                <img src="/images/ilotusland-logo.svg" alt="ilotusland" />
-              </Col>
-              <Col span={17}>
-                <Row style={{ color: '#111827' }}>{value.name}</Row>
-                <Row style={{ color: '#A2A7B3' }}>{value.time}</Row>
-              </Col>
+            <Row type="flex" align="top">
+              <div style={{ marginTop: '6px' }}>
+                <AvatarCharacter
+                  size={20}
+                  height={20}
+                  width={20}
+                  username={value.firstName}
+                  avatarUrl={value.avatar}
+                />
+              </div>
+              <div style={{ marginLeft: '8px' }}>
+                <Row>
+                  {get(value, 'lastName', '') +
+                    ' ' +
+                    get(value, 'firstName', '')}
+                </Row>
+                <Row style={{ color: '#A2A7B3' }}>
+                  {moment(record.createdAt).format('HH:MM DD/MM/YYYY')}
+                </Row>
+              </div>
             </Row>
           </div>
         )
@@ -221,20 +93,32 @@ export default class TableMonitoringData extends React.Component {
     },
     {
       title: t('stationFixedManager.table.title.editTime'),
-      dataIndex: 'user',
+      dataIndex: 'updatedBy',
       align: 'left',
       key: 'userInput',
-      render: value => {
+      render: (value, record, index) => {
         return (
           <div>
-            <Row>
-              <Col span={7}>
-                <img src="/images/ilotusland-logo.svg" alt="ilotusland" />
-              </Col>
-              <Col span={17}>
-                <Row style={{ color: '#111827' }}>{value.name}</Row>
-                <Row style={{ color: '#A2A7B3' }}>{value.time}</Row>
-              </Col>
+            <Row type="flex" align="top">
+              <div style={{ marginTop: '6px' }}>
+                <AvatarCharacter
+                  size={20}
+                  height={20}
+                  width={20}
+                  username={value.firstName}
+                  avatarUrl={value.avatar}
+                />
+              </div>
+              <div style={{ marginLeft: '8px' }}>
+                <Row>
+                  {get(value, 'lastName', '') +
+                    ' ' +
+                    get(value, 'firstName', '')}
+                </Row>
+                <Row style={{ color: '#A2A7B3' }}>
+                  {moment(record.updatedAt).format('HH:MM DD/MM/YYYY')}
+                </Row>
+              </div>
             </Row>
           </div>
         )
@@ -242,12 +126,18 @@ export default class TableMonitoringData extends React.Component {
     },
   ]
   render() {
+    const { dataSource, loading } = this.props
+    const dataSourceSort = dataSource.sort(function(a, b) {
+      return moment(b.createdAt) - moment(a.createdAt)
+    })
+
     return (
       <Table
-        dataSource={this.dataSource}
+        dataSource={dataSourceSort}
         columns={this.columns}
-        // rowKey="_id"
+        rowKey={record => record._id}
         bordered
+        loading={loading}
         pagination={{ pageSize: 20, hideOnSinglePage: true }}
       />
     )

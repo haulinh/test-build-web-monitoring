@@ -65,6 +65,8 @@ export default class UserDropdown extends React.PureComponent {
             <Tooltip position="right" content={translate('profileUser.title')}>
               <AvatarCharacter
                 size={32}
+                height={35}
+                width={35}
                 username={this.props.authInfo.email}
                 avatarUrl={this.props.authInfo.avatar}
               />

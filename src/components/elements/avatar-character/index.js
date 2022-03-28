@@ -4,16 +4,14 @@ import styled from 'styled-components'
 import { getColorFromText } from 'utils/color'
 
 const View = styled.div`
-  width: ${props => props.size}px;
-  height: ${props => props.size}px;
+  width: ${props => props.width}px;
+  height: ${props => props.height}px;
   border-radius: ${props => props.size / 2}px;
   color: #ffffff;
   background-color: ${props => props.backgroundColor};
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 35px;
-  width: 35px;
   border-radius: 17.5px;
 `
 
@@ -24,20 +22,30 @@ const Span = styled.span`
 `
 
 const LogoUser = styled.img`
-  height: 35px;
-  width: 35px;
+  width: ${props => props.width}px;
+  height: ${props => props.height}px;
   border-radius: 17.5px;
 `
 
-export default function AvatarCharacter({ size = 30, username, avatarUrl }) {
+export default function AvatarCharacter({
+  size = 30,
+  width,
+  height,
+  username,
+  avatarUrl,
+}) {
   if (avatarUrl && avatarUrl.indexOf('http:/') !== -1) {
     avatarUrl = avatarUrl.replace('http:/', 'http://')
   }
 
   return (
-    <View size={size} backgroundColor={getColorFromText(username)}>
+    <View
+      height={height}
+      width={width}
+      backgroundColor={getColorFromText(username)}
+    >
       {avatarUrl ? (
-        <LogoUser src={avatarUrl} />
+        <LogoUser width={width} height={height} src={avatarUrl} />
       ) : (
         <Span size={size / 2}>{username[0].toUpperCase()}</Span>
       )}

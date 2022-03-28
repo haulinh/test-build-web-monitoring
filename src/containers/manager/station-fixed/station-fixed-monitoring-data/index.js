@@ -44,8 +44,9 @@ export default class StationFixedMonitoringData extends React.Component {
     })
     this.formRef.current.props.form.resetFields()
   }
-  getMonitoringData = data => {
-    this.setState({ dataSource: data })
+
+  setMonitoringData = (dataSource, loading) => {
+    this.setState({ dataSource, loading })
   }
 
   setMonitoringData = (dataSource, loading) => {
@@ -81,6 +82,11 @@ export default class StationFixedMonitoringData extends React.Component {
           className="dropdown-button"
           onClickImportManual={this.onClickImportManual}
         />
+        <Clearfix height={15} />
+        <Search setMonitoringData={this.setMonitoringData} />
+        <Clearfix height={15} />
+        <TableMonitoringData dataSource={dataSource} loading={loading} />
+        <DropdownButton className="dropdown-button" />
       </PageContainer>
     )
   }

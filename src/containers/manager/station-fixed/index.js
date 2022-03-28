@@ -7,6 +7,7 @@ import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import StationFixedImportPoint from './import-multi-point'
 import StationFixedEdit from './station-fixed-edit'
+import StationFixedImportData from './station-fixed-import-data'
 import StationFixedMap from './station-fixed-map'
 
 export default props => (
@@ -30,6 +31,11 @@ export default props => (
       path={slug.stationFixed.importPoint}
       component={StationFixedImportPoint}
     />
+    <Route
+      path={slug.stationFixed.importData}
+      component={StationFixedImportData}
+    />
+
     <Route
       path={slug.stationFixed.monitoringData}
       component={StationFixedMonitoringData}
