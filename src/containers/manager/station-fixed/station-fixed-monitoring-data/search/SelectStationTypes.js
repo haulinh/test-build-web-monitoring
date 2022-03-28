@@ -3,6 +3,7 @@ import { FormItem } from 'components/layouts/styles'
 import React from 'react'
 import { FIELDS } from './index'
 import { replaceVietnameseStr } from 'utils/string'
+import { translate } from 'hoc/create-lang'
 
 export default class SelectStationTypes extends React.Component {
   state = {
@@ -28,15 +29,13 @@ export default class SelectStationTypes extends React.Component {
   }
 
   render() {
-    const { form, handleOnSelectStationType, label } = this.props
+    const { form, handleOnSelectStationType, label, isShowAll } = this.props
     const stationTypeList = this.getStationTypes()
 
     return (
       <FormItem label={label}>
         {form.getFieldDecorator(FIELDS.STATION_TYPE_ID, {
-          initialValue: stationTypeList
-            .filter(stationType => stationType.key === 'all')
-            .map(stationType => stationType._id),
+          initialValue: '',
           onChange: () => form.resetFields([FIELDS.POINT]),
         })(
           <Select
@@ -47,6 +46,11 @@ export default class SelectStationTypes extends React.Component {
             showSearch
             filterOption={false}
           >
+            {isShowAll && (
+              <Select.Option value="">
+                {translate('dataSearchFrom.form.all')}
+              </Select.Option>
+            )}
             {stationTypeList.map(stationType => (
               <Select.Option key={stationType._id} value={stationType._id}>
                 {stationType.name}

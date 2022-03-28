@@ -33,20 +33,8 @@ export default class Search extends React.Component {
     const stationType = await CategoryApi.getStationTypes({}, { isAuto: false })
     const periodic = await StationFixedPeriodic.getStationFixedPeriodics({}, {})
 
-    const allStationTypes = {
-      color: '',
-      icon: '',
-      isAuto: false,
-      key: 'all',
-      name: t('global.all'),
-      numericalOrder: 1,
-      _id: stationType.data.map(item => item._id),
-    }
-
-    const newStationTypes = [allStationTypes, ...stationType.data]
-
     if (stationType.success) {
-      this.setState({ stationTypes: newStationTypes || [] })
+      this.setState({ stationTypes: stationType.data || [] })
     }
 
     this.setState(
@@ -60,7 +48,7 @@ export default class Search extends React.Component {
       }
     )
 
-    this.setState({ stationTypes: newStationTypes })
+    this.setState({ stationTypes: stationType.data })
   }
 
   handleSelectedStationType = () => {
@@ -76,6 +64,12 @@ export default class Search extends React.Component {
         point => point.stationTypeId === stationTypeId
       )
       this.setState({ points: newPoints })
+      const params = {
+        stationIds: newPoints.map(point => point._id).join(','),
+        from: getTimeUTC(moment(new Date(0))),
+        to: getTimeUTC(moment(new Date())),
+      }
+      this.setListMonitoringData(params)
     } else {
       const newPoints = initialPoints.filter(
         point =>
@@ -169,6 +163,14 @@ export default class Search extends React.Component {
     const { setMonitoringData } = this.props
 
     setMonitoringData([], true)
+    if (
+      params.stationIds === '' &&
+      params.from === getTimeUTC(moment(new Date(0))) &&
+      params.to === getTimeUTC(moment(new Date()))
+    ) {
+      setMonitoringData([], false)
+      return
+    }
     try {
       if (params.from === getTimeUTC(moment(new Date()))) {
         const dataSource = await StationFixedReport.getStationFixedReports({
@@ -210,6 +212,7 @@ export default class Search extends React.Component {
                 stationTypes={stationTypes}
                 handleOnSelectStationType={this.handleSelectedStationType}
                 form={form}
+                isShowAll
               />
             </Col>
           </Row>
