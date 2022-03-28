@@ -1,17 +1,35 @@
 import Breadcrumb from '../breadcrumb'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import React from 'react'
+import React, { createRef } from 'react'
 import Search from './search'
 import TableMonitoringData from './TableMonitoringData'
 import DropdownButton from './components/DropdownButton'
-import DrawerMonitoring from './drawer'
 import { Clearfix } from 'components/elements'
+import { Drawer as DrawerAnt } from 'antd'
+import styled from 'styled-components'
+import FormMonitoring from './form-create/index'
+
+const Drawer = styled(DrawerAnt)`
+  .ant-drawer-body {
+    height: calc(100% - 55px);
+    flex-direction: column;
+    padding: 0;
+  }
+
+  .title {
+    font-size: 16px;
+    font-weight: 700;
+    padding: 12px 0;
+  }
+`
 
 export default class StationFixedMonitoringData extends React.Component {
   state = {
     visibleDrawer: false,
     dataSource: [],
   }
+
+  formRef = createRef()
 
   onClickImportManual = () => {
     this.setState({
@@ -23,6 +41,7 @@ export default class StationFixedMonitoringData extends React.Component {
     this.setState({
       visibleDrawer: false,
     })
+    this.formRef.current.props.form.resetFields()
   }
   getMonitoringData = data => {
     this.setState({ dataSource: data })
@@ -38,10 +57,21 @@ export default class StationFixedMonitoringData extends React.Component {
         <Clearfix height={15} />
         <TableMonitoringData />
 
-        <DrawerMonitoring
+        <Drawer
+          title="Nhập liệu điểm quan trắc"
           visible={visibleDrawer}
+          closable={false}
+          placement="right"
           onClose={this.onCloseDrawer}
-        />
+          width={600}
+        >
+          <FormMonitoring
+            visibleDrawer={visibleDrawer}
+            wrappedComponentRef={this.formRef}
+            onResetForm={this.onResetForm}
+          />
+        </Drawer>
+
         <DropdownButton
           className="dropdown-button"
           onClickImportManual={this.onClickImportManual}
