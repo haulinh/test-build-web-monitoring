@@ -3,7 +3,7 @@ import CategoryApi from 'api/CategoryApi'
 import StationFixedPeriodic from 'api/station-fixed/StationFixedPeriodic'
 import StationFixedReport from 'api/station-fixed/StationFixedReportApi'
 import createLang, { translate as t } from 'hoc/create-lang'
-import { get, isEmpty } from 'lodash'
+import { get, isEmpty, isNil } from 'lodash'
 import moment from 'moment-timezone'
 import React from 'react'
 import { getTimeUTC } from 'utils/datetime/index'
@@ -92,6 +92,13 @@ export default class Search extends React.Component {
         point => point.stationTypeId === stationTypeId
       )
       this.setState({ points: newPoints })
+    } else if (isNil(provinceId)) {
+      const params = {
+        stationIds: initialPoints.map(point => point._id).join(','),
+        from: getTimeUTC(moment(new Date(0))),
+        to: getTimeUTC(moment(new Date())),
+      }
+      this.setListMonitoringData(params)
     } else {
       const newPoints = initialPoints.filter(
         point => point.provinceId === provinceId
@@ -152,8 +159,8 @@ export default class Search extends React.Component {
       stationIds: stationId
         ? stationId
         : pointsOfProvince.map(point => point._id).join(','),
-      from: getTimeUTC(moment(timeSelected[0])),
-      to: getTimeUTC(moment(timeSelected[1])),
+      from: getTimeUTC(moment(timeSelected[0]).startOf('date')),
+      to: getTimeUTC(moment(timeSelected[1]).endOf('date')),
     }
 
     this.setListMonitoringData(params)
