@@ -306,6 +306,8 @@ export default class UserList extends React.Component {
               <AccountWrapper>
                 <AvatarCharacter
                   size={32}
+                  height={35}
+                  width={35}
                   username={row.email}
                   avatarUrl={row.avatar}
                 />

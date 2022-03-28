@@ -3,7 +3,7 @@ import CategoryApi from 'api/CategoryApi'
 import StationFixedPeriodic from 'api/station-fixed/StationFixedPeriodic'
 import StationFixedReport from 'api/station-fixed/StationFixedReportApi'
 import createLang, { translate as t } from 'hoc/create-lang'
-import { get } from 'lodash'
+import { get, isEmpty } from 'lodash'
 import moment from 'moment-timezone'
 import React from 'react'
 import { getTimeUTC } from 'utils/datetime/index'
@@ -63,12 +63,13 @@ export default class Search extends React.Component {
     this.setState({ stationTypes: newStationTypes })
   }
 
-  handleSelectStationType = () => {
+  handleSelectedStationType = () => {
     const { form } = this.props
     const { initialPoints } = this.state
 
-    const stationTypeId = form.getFieldValue(FIELDS.STATION_TYPE_ID)
-    const provinceId = form.getFieldValue(FIELDS.PROVINCES)
+    const stationTypeId = form.getFieldsValue([FIELDS.STATION_TYPE_ID])
+      .stationTypeId
+    const provinceId = form.getFieldsValue([FIELDS.PROVINCES]).provinceId
 
     if (provinceId === '') {
       const newPoints = initialPoints.filter(
@@ -85,14 +86,12 @@ export default class Search extends React.Component {
     }
   }
 
-  handleSelectProvince = () => {
+  handleSelectedProvince = provinceId => {
     const { form } = this.props
     const { initialPoints } = this.state
 
-    form.resetFields([FIELDS.POINT])
-
     const stationTypeId = form.getFieldValue(FIELDS.STATION_TYPE_ID)
-    const provinceId = form.getFieldsValue([FIELDS.PROVINCES])
+    form.resetFields([FIELDS.POINT])
 
     if (provinceId === '') {
       const newPoints = initialPoints.filter(
@@ -101,22 +100,75 @@ export default class Search extends React.Component {
       this.setState({ points: newPoints })
     } else {
       const newPoints = initialPoints.filter(
-        point =>
-          point.stationTypeId === stationTypeId &&
-          point.provinceId === provinceId
+        point => point.provinceId === provinceId
       )
       this.setState({ points: newPoints })
+
+      const params = {
+        stationIds: newPoints.map(point => point._id).join(','),
+        from: getTimeUTC(moment(new Date(0))),
+        to: getTimeUTC(moment(new Date())),
+      }
+      this.getListMonitoringData(params)
     }
+  }
+
+  handleSelectedPoint = pointSelected => {
+    const { form } = this.props
+    const { initialPoints } = this.state
+
+    const [startTime, endTime] = get(
+      form.getFieldsValue([FIELDS.RANGE_PICKER]),
+      'timeRange',
+      [getTimeUTC(moment(new Date(0))), getTimeUTC(moment(new Date()))]
+    )
+
+    const provinceId = form.getFieldsValue([FIELDS.PROVINCES]).provinceId
+    const newPoints = initialPoints.filter(
+      point => point.provinceId === provinceId
+    )
+
+    const params = {
+      stationIds: isEmpty(pointSelected)
+        ? newPoints.map(point => point._id).join(',')
+        : pointSelected.join(','),
+      from: getTimeUTC(moment(startTime)),
+      to: getTimeUTC(moment(endTime)),
+    }
+
+    this.getListMonitoringData(params)
+  }
+
+  handleSelectedTime = timeSelected => {
+    const { form } = this.props
+    const { initialPoints } = this.state
+
+    const stationId = get(
+      form.getFieldsValue([FIELDS.POINT]),
+      'point',
+      []
+    ).join(',')
+
+    const provinceId = form.getFieldsValue([FIELDS.PROVINCES]).provinceId
+    const newPoints = initialPoints.filter(
+      point => point.provinceId === provinceId
+    )
+
+    const params = {
+      stationIds: stationId
+        ? stationId
+        : newPoints.map(point => point._id).join(','),
+      from: getTimeUTC(moment(timeSelected[0])),
+      to: getTimeUTC(moment(timeSelected[1])),
+    }
+
+    this.getListMonitoringData(params)
   }
 
   getListMonitoringData = async params => {
     const { setMonitoringData } = this.props
 
     setMonitoringData([], true)
-    if (params.stationIds === '') {
-      setMonitoringData([], false)
-      return
-    }
     try {
       if (params.from === getTimeUTC(moment(new Date()))) {
         const dataSource = await StationFixedReport.getStationFixedReports({
@@ -137,42 +189,6 @@ export default class Search extends React.Component {
     }
   }
 
-  handlePointSelected = pointSelected => {
-    const { form } = this.props
-
-    const [startTime, endTime] = get(
-      form.getFieldsValue([FIELDS.RANGE_PICKER]),
-      'timeRange',
-      [getTimeUTC(moment(new Date(0))), getTimeUTC(moment(new Date()))]
-    )
-
-    const params = {
-      stationIds: pointSelected.join(','),
-      from: getTimeUTC(moment(startTime)),
-      to: getTimeUTC(moment(endTime)),
-    }
-
-    this.getListMonitoringData(params)
-  }
-
-  handleTimeSelected = timeSelected => {
-    const { form } = this.props
-
-    const stationId = get(
-      form.getFieldsValue([FIELDS.POINT]),
-      'point',
-      []
-    ).join(',')
-
-    const params = {
-      stationIds: stationId,
-      from: getTimeUTC(moment(timeSelected[0])),
-      to: getTimeUTC(moment(timeSelected[1])),
-    }
-
-    this.getListMonitoringData(params)
-  }
-
   render() {
     const { form } = this.props
     const { stationTypes, points } = this.state
@@ -185,14 +201,14 @@ export default class Search extends React.Component {
               <SelectProvinceForm
                 label={t('dataPointReport.form.label.province')}
                 form={form}
-                handleOnSelectProvince={this.handleSelectProvince}
+                onChangeProvince={this.handleSelectedProvince}
               />
             </Col>
             <Col span={12}>
               <SelectStationTypes
                 label={t('dataPointReport.form.label.stationType')}
                 stationTypes={stationTypes}
-                handleOnSelectStationType={this.handleSelectStationType}
+                handleOnSelectStationType={this.handleSelectedStationType}
                 form={form}
               />
             </Col>
@@ -203,14 +219,14 @@ export default class Search extends React.Component {
                 label={t('stationFixedManager.label.point')}
                 form={form}
                 points={points}
-                onChangePoint={this.handlePointSelected}
+                onChangePoint={this.handleSelectedPoint}
               />
             </Col>
             <Col span={12}>
               <SelectRange
                 label={t('stationFixedManager.label.timeRange')}
                 form={form}
-                onChangeTimeRange={this.handleTimeSelected}
+                onChangeTimeRange={this.handleSelectedTime}
               />
             </Col>
           </Row>
