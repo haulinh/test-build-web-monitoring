@@ -1,18 +1,13 @@
 import slug from 'constants/slug'
 import StationFixedList from './station-fixed-list'
 import StationFixedCreate from './station-fixed-create'
-import StationFixedImportData from './station-fixed-import-data'
 import StationFixedMonitoringData from './station-fixed-monitoring-data'
 import stationFixedDrive from './upload-file'
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import StationFixedImportPoint from './import-multi-point'
-import StationFixedCreate from './station-fixed-create'
 import StationFixedEdit from './station-fixed-edit'
-import StationFixedList from './station-fixed-list'
 import StationFixedMap from './station-fixed-map'
-import StationFixedMonitoringData from './station-fixed-monitoring-data'
-import stationFixedDrive from './upload-file'
 
 export default props => (
   <Switch>

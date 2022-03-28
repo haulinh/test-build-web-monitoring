@@ -23,7 +23,7 @@ export function getConfigApi() {
 
     stationType: c('station-type'),
     stationAuto: c('station-auto'),
-    // stationAuto: "http://localhost:5003/station-auto",
+    // stationAuto: 'http://localhost:5003/station-auto',
     dataStationAuto: c('data-station-auto'),
     // dataStationAuto: 'http://localhost:5004/data-station-auto',
     report: c('report'),
@@ -33,6 +33,8 @@ export function getConfigApi() {
     stationFixedDataPoint: c('station-fixed/data-points'),
     stationFixedExportDataPoint: c('station-fixed/export-data-points'),
     stationFixedPoint: c('station-fixed/points'),
+    stationFixedReport: c('station-fixed/report'),
+    stationFixedPeriodic: c('station-fixed/station-periodic'),
     dataStationFixed: c('data-station-fixed'),
     // report: 'http://localhost:5004/report',
     // stationFixed: 'http://localhost:5018',
