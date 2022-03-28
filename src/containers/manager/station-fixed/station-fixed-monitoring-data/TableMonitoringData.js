@@ -25,6 +25,7 @@ export default class TableMonitoringData extends React.Component {
       render: value => {
         return (
           <a
+            disabled={true}
             href={REPORT_LINK}
             style={{
               textDecoration: 'underline',
