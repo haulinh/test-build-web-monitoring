@@ -56,7 +56,7 @@ export default class Search extends React.Component {
           from: getTimeUTC(moment(new Date(0))),
           to: getTimeUTC(moment(new Date())),
         }
-        this.getListMonitoringData(params)
+        this.setListMonitoringData(params)
       }
     )
 
@@ -109,7 +109,7 @@ export default class Search extends React.Component {
         from: getTimeUTC(moment(new Date(0))),
         to: getTimeUTC(moment(new Date())),
       }
-      this.getListMonitoringData(params)
+      this.setListMonitoringData(params)
     }
   }
 
@@ -124,19 +124,19 @@ export default class Search extends React.Component {
     )
 
     const provinceId = form.getFieldsValue([FIELDS.PROVINCES]).provinceId
-    const newPoints = initialPoints.filter(
+    const pointsOfProvince = initialPoints.filter(
       point => point.provinceId === provinceId
     )
 
     const params = {
       stationIds: isEmpty(pointSelected)
-        ? newPoints.map(point => point._id).join(',')
+        ? pointsOfProvince.map(point => point._id).join(',')
         : pointSelected.join(','),
       from: getTimeUTC(moment(startTime)),
       to: getTimeUTC(moment(endTime)),
     }
 
-    this.getListMonitoringData(params)
+    this.setListMonitoringData(params)
   }
 
   handleSelectedTime = timeSelected => {
@@ -150,22 +150,22 @@ export default class Search extends React.Component {
     ).join(',')
 
     const provinceId = form.getFieldsValue([FIELDS.PROVINCES]).provinceId
-    const newPoints = initialPoints.filter(
+    const pointsOfProvince = initialPoints.filter(
       point => point.provinceId === provinceId
     )
 
     const params = {
       stationIds: stationId
         ? stationId
-        : newPoints.map(point => point._id).join(','),
+        : pointsOfProvince.map(point => point._id).join(','),
       from: getTimeUTC(moment(timeSelected[0])),
       to: getTimeUTC(moment(timeSelected[1])),
     }
 
-    this.getListMonitoringData(params)
+    this.setListMonitoringData(params)
   }
 
-  getListMonitoringData = async params => {
+  setListMonitoringData = async params => {
     const { setMonitoringData } = this.props
 
     setMonitoringData([], true)

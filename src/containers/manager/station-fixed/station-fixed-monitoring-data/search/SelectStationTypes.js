@@ -20,9 +20,8 @@ export default class SelectStationTypes extends React.Component {
     if (searchString) {
       const newSearchString = replaceVietnameseStr(searchString)
 
-      return stationTypes.filter(
-        stationType =>
-          replaceVietnameseStr(stationType.name).indexOf(newSearchString) > -1
+      return stationTypes.filter(stationType =>
+        replaceVietnameseStr(stationType.name).includes(newSearchString)
       )
     }
     return stationTypes
