@@ -173,6 +173,31 @@ export default class FormMonitoring extends Component {
     return measureKeyFormArr
   }
 
+  getNewListSelectMeasureChange = (
+    measuringListSelect,
+    measureKeyFormArr,
+    measureKey
+  ) => {
+    const newMeasuringListSelected = measuringListSelect.map(measure => {
+      if (!measureKeyFormArr.includes(measure.key)) {
+        return {
+          ...measure,
+          disabled: false,
+        }
+      }
+
+      if (measure.key === measureKey) {
+        return {
+          ...measure,
+          disabled: true,
+        }
+      }
+      return measure
+    })
+
+    return newMeasuringListSelected
+  }
+
   onChangeMeasure = measureKey => {
     const { measuringListSelect } = this.state
     const { form } = this.props
@@ -182,22 +207,11 @@ export default class FormMonitoring extends Component {
 
       const measureKeyFormArr = this.getValueMeasureForm(measuringLogs)
 
-      const newMeasuringListSelected = measuringListSelect.map(measure => {
-        if (!measureKeyFormArr.includes(measure.key)) {
-          return {
-            ...measure,
-            disabled: false,
-          }
-        }
-
-        if (measure.key === measureKey) {
-          return {
-            ...measure,
-            disabled: true,
-          }
-        }
-        return measure
-      })
+      const newMeasuringListSelected = this.getNewListSelectMeasureChange(
+        measuringListSelect,
+        measureKeyFormArr,
+        measureKey
+      )
 
       this.setState(
         {
@@ -241,38 +255,52 @@ export default class FormMonitoring extends Component {
     )
   }
 
-  onDeleteMeasure = _id => {
-    const { form } = this.props
-    const { measuringList, measuringListSelect } = this.state
-
-    const isDisable = false
-
-    const measureDeleted = measuringList.find(measure => measure._id === _id)
-    const newMeasuringList = measuringList.filter(
-      measure => measure._id !== _id
-    )
-
-    const { measuringLogs } = form.getFieldsValue([FIELDS.MEASURING_LOGS])
-
-    const measureFormDeleted = measuringLogs[_id]
-
+  getNewMeasureListSelected = (
+    measuringListSelect,
+    measureItemDeleted,
+    measureItemFormDeleted
+  ) => {
     let newMeasuringListSelected = measuringListSelect
 
-    if (measureDeleted.key || measureFormDeleted.key) {
+    if (measureItemDeleted.key || measureItemFormDeleted.key) {
       newMeasuringListSelected = measuringListSelect.map(measure => {
         if (
-          measure.key === measureDeleted.key ||
-          measure.key === measureFormDeleted.key
+          measure.key === measureItemDeleted.key ||
+          measure.key === measureItemFormDeleted.key
         ) {
           return {
             ...measure,
-            disabled: isDisable,
+            disabled: false,
           }
         }
 
         return measure
       })
     }
+
+    return newMeasuringListSelected
+  }
+
+  onDeleteMeasure = measureDeletedId => {
+    const { form } = this.props
+    const { measuringList, measuringListSelect } = this.state
+
+    const measureDeleted = measuringList.find(
+      measure => measure._id === measureDeletedId
+    )
+    const newMeasuringList = measuringList.filter(
+      measure => measure._id !== measureDeletedId
+    )
+
+    const { measuringLogs } = form.getFieldsValue([FIELDS.MEASURING_LOGS])
+
+    const measureFormDeleted = measuringLogs[measureDeletedId]
+
+    const newMeasuringListSelected = this.getNewMeasureListSelected(
+      measuringListSelect,
+      measureDeleted,
+      measureFormDeleted
+    )
 
     this.setState(
       {

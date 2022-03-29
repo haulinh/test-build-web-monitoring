@@ -45,15 +45,15 @@ export default class StationFixedMonitoringData extends React.Component {
 
   componentDidMount = async () => {
     try {
-      const periodic = await StationFixedPeriodic.getStationFixedPeriodics(
+      const stationFixed = await StationFixedPeriodic.getStationFixedPeriodics(
         {},
         {}
       )
 
-      const points = periodic.data.filter(point => point.active)
+      const stationFixedActive = stationFixed.data.filter(point => point.active)
 
       this.setState({
-        points,
+        points: stationFixedActive,
       })
     } catch (error) {
       console.error({ error })
