@@ -67,7 +67,9 @@ export default class Search extends React.Component {
         point => point.stationTypeId === stationTypeId
       )
 
-      this.setState({ points: pointsOfStationType })
+      isEmpty(stationTypeId)
+        ? this.setState({ points: initialPoints })
+        : this.setState({ points: pointsOfStationType })
       return {
         stationIds: initialPoints.map(point => point._id).join(','),
         ...DEFAULT_RANGE,
