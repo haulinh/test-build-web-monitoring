@@ -29,17 +29,16 @@ export default class SelectStationTypes extends React.Component {
   }
 
   render() {
-    const { form, handleOnSelectStationType, label, isShowAll } = this.props
+    const { form, onChangeStationType, label, isShowAll } = this.props
     const stationTypeList = this.getStationTypes()
 
     return (
       <FormItem label={label}>
         {form.getFieldDecorator(FIELDS.STATION_TYPE_ID, {
           initialValue: '',
-          onChange: () => form.resetFields([FIELDS.POINT]),
+          onChange: value => onChangeStationType(value),
         })(
           <Select
-            onSelect={handleOnSelectStationType}
             onSearch={this.handleSearch}
             size="large"
             allowClear
