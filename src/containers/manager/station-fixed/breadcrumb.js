@@ -35,4 +35,9 @@ export default createBreadcrumb({
     href: slug.stationFixed.monitoringDataDetail,
     getName: () => 'Dữ liệu quan trắc',
   },
+  importExcel: {
+    id: 'importExcel',
+    href: slug.stationFixed.monitoringDataImport,
+    getName: () => 'Nhập dữ liệu quan trắc',
+  },
 })

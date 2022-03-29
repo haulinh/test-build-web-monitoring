@@ -106,6 +106,7 @@ export default {
     editWithKey: '/station-fixed/edit',
     importPoint: '/station-fixed/import-point',
     monitoringData: '/station-fixed/monitoring-data',
+    monitoringDataImport: '/station-fixed/import-excel',
     monitoringDataDetail: '/station-fixed/monitoring-data/detail/:key',
     monitoringDataDetailWithKey: '/station-fixed/monitoring-data/detail',
     importData: '/station-fixed/import-data',

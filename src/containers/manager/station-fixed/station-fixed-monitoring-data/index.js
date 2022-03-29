@@ -8,8 +8,11 @@ import Breadcrumb from '../breadcrumb'
 import DropdownButton from './components/DropdownButton'
 import FormMonitoring from './form-create/index'
 import Search from './search'
+import slug from 'constants/slug'
 import TableMonitoringData from './TableMonitoringData'
 import ModalConfirmCancel from './components/ModalConfirmCancel'
+import { Router } from 'react-router'
+import { withRouter } from 'react-router'
 
 const Drawer = styled(DrawerAnt)`
   .ant-drawer-body {
@@ -30,7 +33,7 @@ const Drawer = styled(DrawerAnt)`
     color: #111827;
   }
 `
-
+@withRouter
 export default class StationFixedMonitoringData extends React.Component {
   state = {
     visibleDrawer: false,
@@ -102,6 +105,12 @@ export default class StationFixedMonitoringData extends React.Component {
     })
   }
 
+  onClickImportFile = () => {
+    const { history } = this.props
+
+    history.push(slug.stationFixed.monitoringDataImport)
+  }
+
   render() {
     const {
       dataSource,
@@ -144,6 +153,7 @@ export default class StationFixedMonitoringData extends React.Component {
         <DropdownButton
           className="dropdown-button"
           onClickImportManual={this.onClickImportManual}
+          onClickImportFile={this.onClickImportFile}
         />
 
         <ModalConfirmCancel
