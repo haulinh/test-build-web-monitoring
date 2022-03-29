@@ -8,8 +8,6 @@ import { Link } from 'react-router-dom'
 import slug from 'constants/slug'
 import { autobind } from 'core-decorators'
 
-const REPORT_LINK = 'https://qa.ilotusland.asia/'
-
 @autobind
 export default class TableMonitoringData extends React.Component {
   columns = [

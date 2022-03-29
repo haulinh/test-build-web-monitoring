@@ -2839,6 +2839,7 @@ export default {
         phaseUsed: 'Monitoring is being used to import data!',
         pointUsed: 'The monitoring point is being used for data entry!',
         stationUsed: 'Monitoring station is being used to import data!',
+        reportUsed: `The action can't be completed because there are reports using this station`,
       },
       success: 'Deleted Successfully',
       qcvn: {
