@@ -51,6 +51,16 @@ export default class Search extends React.Component {
     this.setState({ stationTypes: stationType.data })
   }
 
+  getParams = points => {
+    const params = {
+      stationIds: points.map(point => point._id).join(','),
+      from: getTimeUTC(moment(new Date(0))),
+      to: getTimeUTC(moment(new Date())),
+    }
+
+    return params
+  }
+
   handleSelectedStationType = () => {
     const { form } = this.props
     const { initialPoints } = this.state
@@ -64,11 +74,8 @@ export default class Search extends React.Component {
         point => point.stationTypeId === stationTypeId
       )
       this.setState({ points: newPoints })
-      const params = {
-        stationIds: newPoints.map(point => point._id).join(','),
-        from: getTimeUTC(moment(new Date(0))),
-        to: getTimeUTC(moment(new Date())),
-      }
+
+      const params = this.getParams(newPoints)
       this.setListMonitoringData(params)
     } else {
       const newPoints = initialPoints.filter(
@@ -91,13 +98,11 @@ export default class Search extends React.Component {
       const newPoints = initialPoints.filter(
         point => point.stationTypeId === stationTypeId
       )
+
       this.setState({ points: newPoints })
     } else if (isNil(provinceId)) {
-      const params = {
-        stationIds: initialPoints.map(point => point._id).join(','),
-        from: getTimeUTC(moment(new Date(0))),
-        to: getTimeUTC(moment(new Date())),
-      }
+      const params = this.getParams(initialPoints)
+
       this.setListMonitoringData(params)
     } else {
       const newPoints = initialPoints.filter(
@@ -105,11 +110,7 @@ export default class Search extends React.Component {
       )
       this.setState({ points: newPoints })
 
-      const params = {
-        stationIds: newPoints.map(point => point._id).join(','),
-        from: getTimeUTC(moment(new Date(0))),
-        to: getTimeUTC(moment(new Date())),
-      }
+      const params = this.getParams(newPoints)
       this.setListMonitoringData(params)
     }
   }
