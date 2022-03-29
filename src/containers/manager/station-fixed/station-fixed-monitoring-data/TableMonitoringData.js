@@ -7,9 +7,12 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import slug from 'constants/slug'
 import { autobind } from 'core-decorators'
+import ROLE from 'constants/role'
+import protectRole from 'hoc/protect-role'
 
 const REPORT_LINK = 'https://qa.ilotusland.asia/'
 
+@protectRole(ROLE.STATION_FIXED.VIEW)
 @autobind
 export default class TableMonitoringData extends React.Component {
   columns = [
@@ -34,7 +37,7 @@ export default class TableMonitoringData extends React.Component {
               textDecoration: 'underline',
               color: 'rgba(0, 0, 0, 0.65)',
             }}
-            to={slug.stationFixed.monitoringDataDetail + '/' + record._id}
+            to={slug.stationFixed.monitoringDataDetailWithKey}
           >
             {value}
           </Link>
