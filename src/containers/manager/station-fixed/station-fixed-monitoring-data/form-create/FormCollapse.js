@@ -185,15 +185,6 @@ export default class FormCollapse extends Component {
                 </FormItem>
               </Col>
             </Row>
-
-            {/* <Row
-              gutter={16}
-              justify="space-between"
-              type="flex"
-              style={{ width: '100%' }}
-            >
-              
-            </Row> */}
           </Panel>
         </Collapse>
 

@@ -86,11 +86,3 @@ export default class FormInfoBasic extends Component {
     )
   }
 }
-
-// {(
-//   <SelectStationFixed
-//     style={{ width: '100%' }}
-//     placeholder="Điểm quan trắc"
-//     onFetchSuccess={onFetchPointSuccess}
-//   />
-// ) }

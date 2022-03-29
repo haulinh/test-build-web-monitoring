@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Form } from 'antd'
+import { Button, Form, message } from 'antd'
 import styled from 'styled-components'
 import FormInfoBasic from './FormInfoBasic'
 import { FIELDS } from '../constants'
@@ -68,6 +68,7 @@ export default class FormMonitoring extends Component {
       })
 
       setVisibleDrawer(false)
+      message.success('Tạo mới thành công')
     } catch (error) {
       console.error({ error })
 
@@ -160,10 +161,6 @@ export default class FormMonitoring extends Component {
       measuringList,
       measuringListSelect: measuringList,
     })
-  }
-
-  onFetchPointSuccess = points => {
-    this.setState({ points })
   }
 
   getValueMeasureForm = measureForm => {
@@ -322,7 +319,6 @@ export default class FormMonitoring extends Component {
             form={form}
             points={points}
             onChangePoint={this.onChangePoint}
-            onFetchPointSuccess={this.onFetchPointSuccess}
           />
           <FormMeasure
             onChangeMeasure={this.onChangeMeasure}

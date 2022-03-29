@@ -9,6 +9,7 @@ import DropdownButton from './components/DropdownButton'
 import FormMonitoring from './form-create/index'
 import Search from './search'
 import TableMonitoringData from './TableMonitoringData'
+import ModalConfirmCancel from './components/ModalConfirmCancel'
 
 const Drawer = styled(DrawerAnt)`
   .ant-drawer-body {
@@ -37,6 +38,7 @@ export default class StationFixedMonitoringData extends React.Component {
     loading: false,
     points: [],
     type: '',
+    visibleModalConfirmCancel: false,
   }
 
   formRef = createRef()
@@ -48,8 +50,10 @@ export default class StationFixedMonitoringData extends React.Component {
         {}
       )
 
+      const points = periodic.data.filter(point => point.active)
+
       this.setState({
-        points: periodic.data,
+        points,
       })
     } catch (error) {
       console.error({ error })
@@ -65,9 +69,8 @@ export default class StationFixedMonitoringData extends React.Component {
 
   onCloseDrawer = () => {
     this.setState({
-      visibleDrawer: false,
+      visibleModalConfirmCancel: true,
     })
-    this.formRef.current.props.form.resetFields()
   }
 
   setMonitoringData = (dataSource, loading) => {
@@ -82,8 +85,30 @@ export default class StationFixedMonitoringData extends React.Component {
     this.formRef.current.props.form.resetFields()
   }
 
+  onConfirmCancel = () => {
+    this.setState({
+      visibleDrawer: false,
+      visibleModalConfirmCancel: false,
+    })
+
+    this.formRef.current.props.form.resetFields()
+  }
+
+  onCancelOut = () => {
+    this.setState({
+      visibleModalConfirmCancel: false,
+    })
+  }
+
   render() {
-    const { dataSource, loading, visibleDrawer, points, type } = this.state
+    const {
+      dataSource,
+      loading,
+      visibleDrawer,
+      points,
+      type,
+      visibleModalConfirmCancel,
+    } = this.state
 
     return (
       <PageContainer>
@@ -113,6 +138,12 @@ export default class StationFixedMonitoringData extends React.Component {
         <DropdownButton
           className="dropdown-button"
           onClickImportManual={this.onClickImportManual}
+        />
+
+        <ModalConfirmCancel
+          visible={visibleModalConfirmCancel}
+          onConfirmCancel={this.onConfirmCancel}
+          onCancelOut={this.onCancelOut}
         />
       </PageContainer>
     )

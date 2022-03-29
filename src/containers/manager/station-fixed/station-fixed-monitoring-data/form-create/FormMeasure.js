@@ -90,9 +90,9 @@ export default class FormMeasure extends Component {
 
             <Col span={3} style={{ textAlign: 'right', alignSelf: 'center' }}>
               <Popconfirm
-                title="Xac nhan xoa"
-                okText="Dong y"
-                cancelText="Huy bo"
+                title="Bạn có muốn xóa mục này không?"
+                okText="Đồng ý"
+                cancelText="Hủy bỏ"
                 onConfirm={() => handleDelete(measure._id)}
               >
                 <Icon
