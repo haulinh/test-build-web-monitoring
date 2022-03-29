@@ -39,6 +39,7 @@ export default class StationFixedMonitoringData extends React.Component {
     points: [],
     type: '',
     visibleModalConfirmCancel: false,
+    createSuccess: false,
   }
 
   formRef = createRef()
@@ -74,12 +75,13 @@ export default class StationFixedMonitoringData extends React.Component {
   }
 
   setMonitoringData = (dataSource, loading) => {
-    this.setState({ dataSource, loading })
+    this.setState({ dataSource, loading, createSuccess: false })
   }
 
   setVisibleDrawer = visible => {
     this.setState({
       visibleDrawer: visible,
+      createSuccess: true,
     })
 
     this.formRef.current.props.form.resetFields()
@@ -108,12 +110,16 @@ export default class StationFixedMonitoringData extends React.Component {
       points,
       type,
       visibleModalConfirmCancel,
+      createSuccess,
     } = this.state
 
     return (
       <PageContainer>
         <Breadcrumb items={['monitoringData']} />
-        <Search setMonitoringData={this.setMonitoringData} />
+        <Search
+          setMonitoringData={this.setMonitoringData}
+          createSuccess={createSuccess}
+        />
         <Clearfix height={15} />
         <TableMonitoringData dataSource={dataSource} loading={loading} />
 
