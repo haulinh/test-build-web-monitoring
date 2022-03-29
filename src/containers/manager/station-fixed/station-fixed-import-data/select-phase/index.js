@@ -13,7 +13,10 @@ export default class SelectPhase extends Component {
   }
 
   getListStationType = async () => {
-    const results = await getStationTypes({ itemPerPage: 100 }, {isAuto: false})
+    const results = await getStationTypes(
+      { itemPerPage: 100 },
+      { isAuto: false }
+    )
     this.setState({
       options: results.data.map(item => ({
         stationTypeId: item._id,
@@ -25,7 +28,7 @@ export default class SelectPhase extends Component {
   }
 
   onChange = (value, selectedOptions) => {
-    const {onChange} = this.props
+    const { onChange } = this.props
     onChange(selectedOptions)
   }
 
@@ -33,7 +36,7 @@ export default class SelectPhase extends Component {
     const { options } = this.state
     const targetOption = selectedOptions[selectedOptions.length - 1]
     const params = {
-      stationTypeId: targetOption.stationTypeId
+      stationTypeId: targetOption.stationTypeId,
     }
     targetOption.loading = true
     const results = await StationFixedPhaseApi.getStationFixedPhases(
@@ -51,10 +54,13 @@ export default class SelectPhase extends Component {
 
   render() {
     const { options } = this.state
+    const { width } = this.props
+
     return (
       <Cascader
-        placeholder=""
+        placeholder="Đợt quan trắc"
         options={options}
+        style={{ width: width }}
         onChange={this.onChange}
         loadData={this.loadData}
       />
