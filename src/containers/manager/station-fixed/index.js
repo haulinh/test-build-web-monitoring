@@ -42,7 +42,7 @@ export default props => (
       component={StationFixedMonitoringData}
     />
     <Route
-      path={slug.stationFixed.monitoringData}
+      path={slug.stationFixed.monitoringDataDetail}
       component={StationFixedMonitoringDataDetail}
     />
     <Route path={slug.stationFixed.uploadFile} component={stationFixedDrive} />

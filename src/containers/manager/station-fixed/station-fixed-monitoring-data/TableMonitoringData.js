@@ -34,7 +34,7 @@ export default class TableMonitoringData extends React.Component {
               textDecoration: 'underline',
               color: 'rgba(0, 0, 0, 0.65)',
             }}
-            to={slug.stationFixed.monitoringDataDetailWithKey}
+            to={slug.stationFixed.monitoringDataDetail + '/' + record._id}
           >
             {value}
           </Link>
