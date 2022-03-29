@@ -4,8 +4,13 @@ import { translate as t } from 'hoc/create-lang'
 import { get } from 'lodash'
 import moment from 'moment-timezone'
 import React from 'react'
+import { Link } from 'react-router-dom'
+import slug from 'constants/slug'
+import { autobind } from 'core-decorators'
 
 const REPORT_LINK = 'https://qa.ilotusland.asia/'
+
+@autobind
 export default class TableMonitoringData extends React.Component {
   columns = [
     {
@@ -22,18 +27,17 @@ export default class TableMonitoringData extends React.Component {
       dataIndex: 'name',
       align: 'left',
       key: 'name',
-      render: value => {
+      render: (value, record, index) => {
         return (
-          <a
-            disabled={true}
-            href={REPORT_LINK}
+          <Link
             style={{
               textDecoration: 'underline',
               color: 'rgba(0, 0, 0, 0.65)',
             }}
+            to={slug.stationFixed.monitoringDataDetailWithKey}
           >
             {value}
-          </a>
+          </Link>
         )
       },
     },
