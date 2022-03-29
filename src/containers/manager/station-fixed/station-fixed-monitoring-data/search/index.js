@@ -3,7 +3,7 @@ import CategoryApi from 'api/CategoryApi'
 import StationFixedPeriodic from 'api/station-fixed/StationFixedPeriodic'
 import StationFixedReport from 'api/station-fixed/StationFixedReportApi'
 import createLang, { translate as t } from 'hoc/create-lang'
-import { get, isEmpty } from 'lodash'
+import { get, isEmpty, isNil } from 'lodash'
 import moment from 'moment-timezone'
 import React from 'react'
 import { getTimeUTC } from 'utils/datetime/index'
@@ -51,6 +51,38 @@ export default class Search extends React.Component {
     this.setState({ stationTypes: stationType.data })
   }
 
+  getParams = provinceId => {
+    const { initialPoints } = this.state
+    const { form } = this.props
+    const timeRange = {
+      from: getTimeUTC(moment(new Date(0))),
+      to: getTimeUTC(moment(new Date())),
+    }
+    const stationTypeId = form.getFieldsValue([FIELDS.STATION_TYPE_ID])
+      .stationTypeId
+
+    if (isNil(provinceId)) {
+      const pointsOfStationType = initialPoints.filter(
+        point => point.stationTypeId === stationTypeId
+      )
+
+      this.setState({ points: pointsOfStationType })
+      return {
+        stationIds: initialPoints.map(point => point._id).join(','),
+        ...timeRange,
+      }
+    }
+    const pointsOfProvince = initialPoints.filter(
+      point => point.provinceId === provinceId
+    )
+    this.setState({ points: pointsOfProvince })
+
+    return {
+      stationIds: pointsOfProvince.map(point => point._id).join(','),
+      ...timeRange,
+    }
+  }
+
   handleSelectedStationType = () => {
     const { form } = this.props
     const { initialPoints } = this.state
@@ -64,6 +96,7 @@ export default class Search extends React.Component {
         point => point.stationTypeId === stationTypeId
       )
       this.setState({ points: newPoints })
+
       const params = {
         stationIds: newPoints.map(point => point._id).join(','),
         from: getTimeUTC(moment(new Date(0))),
@@ -82,29 +115,10 @@ export default class Search extends React.Component {
 
   handleSelectedProvince = provinceId => {
     const { form } = this.props
-    const { initialPoints } = this.state
-
-    const stationTypeId = form.getFieldValue(FIELDS.STATION_TYPE_ID)
     form.resetFields([FIELDS.POINT])
 
-    if (provinceId === '') {
-      const newPoints = initialPoints.filter(
-        point => point.stationTypeId === stationTypeId
-      )
-      this.setState({ points: newPoints })
-    } else {
-      const newPoints = initialPoints.filter(
-        point => point.provinceId === provinceId
-      )
-      this.setState({ points: newPoints })
-
-      const params = {
-        stationIds: newPoints.map(point => point._id).join(','),
-        from: getTimeUTC(moment(new Date(0))),
-        to: getTimeUTC(moment(new Date())),
-      }
-      this.setListMonitoringData(params)
-    }
+    const params = this.getParams(provinceId)
+    this.setListMonitoringData(params)
   }
 
   handleSelectedPoint = pointSelected => {
@@ -152,8 +166,8 @@ export default class Search extends React.Component {
       stationIds: stationId
         ? stationId
         : pointsOfProvince.map(point => point._id).join(','),
-      from: getTimeUTC(moment(timeSelected[0])),
-      to: getTimeUTC(moment(timeSelected[1])),
+      from: getTimeUTC(moment(timeSelected[0]).startOf('date')),
+      to: getTimeUTC(moment(timeSelected[1]).endOf('date')),
     }
 
     this.setListMonitoringData(params)
