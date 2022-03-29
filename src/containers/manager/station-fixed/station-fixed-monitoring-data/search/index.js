@@ -71,16 +71,15 @@ export default class Search extends React.Component {
         stationIds: initialPoints.map(point => point._id).join(','),
         ...timeRange,
       }
-    } else {
-      const pointsOfProvince = initialPoints.filter(
-        point => point.provinceId === provinceId
-      )
-      this.setState({ points: pointsOfProvince })
+    }
+    const pointsOfProvince = initialPoints.filter(
+      point => point.provinceId === provinceId
+    )
+    this.setState({ points: pointsOfProvince })
 
-      return {
-        stationIds: pointsOfProvince.map(point => point._id).join(','),
-        ...timeRange,
-      }
+    return {
+      stationIds: pointsOfProvince.map(point => point._id).join(','),
+      ...timeRange,
     }
   }
 
