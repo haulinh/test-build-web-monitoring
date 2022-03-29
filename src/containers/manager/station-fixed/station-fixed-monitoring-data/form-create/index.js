@@ -8,6 +8,7 @@ import _, { get } from 'lodash'
 import FormMeasure from './FormMeasure'
 import { v4 as uuidv4 } from 'uuid'
 import FormCollapse from './FormCollapse'
+import { createManualReport } from 'api/station-fixed/StationFixedReportApi'
 
 const FormContainer = styled.div`
   display: flex;
@@ -44,17 +45,72 @@ const FormContainer = styled.div`
 @Form.create()
 export default class FormMonitoring extends Component {
   state = {
-    points: [],
     measuringList: [],
     measuringListSelect: [],
+    loading: false,
   }
 
   onSubmitForm = async () => {
+    const { form, setVisibleDrawer } = this.props
+
+    await form.validateFields()
+
+    const params = this.getParams()
+
+    this.setState({
+      loading: true,
+    })
+
+    try {
+      await createManualReport(params)
+      this.setState({
+        loading: false,
+      })
+
+      setVisibleDrawer(false)
+    } catch (error) {
+      console.error({ error })
+
+      this.setState({
+        loading: false,
+      })
+    }
+  }
+
+  getParams = () => {
+    const { form, type } = this.props
+
+    const value = form.getFieldsValue()
+
+    const { measuringLogs, otherInfo, ...otherValue } = value
+
+    const paramMeasuringLogs = this.getParamMeasuringLogs()
+
+    const params = {
+      ...otherValue,
+      ...otherInfo,
+      measuringLogs: paramMeasuringLogs,
+      type,
+    }
+
+    return params
+  }
+
+  getParamMeasuringLogs = () => {
     const { form } = this.props
 
-    const value = await form.validateFields()
+    const { measuringLogs } = form.getFieldsValue([FIELDS.MEASURING_LOGS])
 
-    console.log('values ---->', { value })
+    const measuringLogsArr = Object.values(measuringLogs)
+
+    const paramMeasuringLogs = measuringLogsArr.reduce((base, current) => {
+      return {
+        ...base,
+        [current.key]: { key: current.key, value: current.value },
+      }
+    }, {})
+
+    return paramMeasuringLogs
   }
 
   setInitial = () => {
@@ -79,10 +135,10 @@ export default class FormMonitoring extends Component {
     }
   }
 
-  getMeasureListPoint = pointKey => {
-    const { points } = this.state
+  getMeasureListPoint = pointId => {
+    const { points } = this.props
 
-    const pointSelected = points.find(point => point.key === pointKey)
+    const pointSelected = points.find(point => point._id === pointId)
 
     let measuringList = _.get(pointSelected, 'measuringList', [])
 
@@ -97,8 +153,8 @@ export default class FormMonitoring extends Component {
     return measuringList
   }
 
-  onChangePoint = pointKey => {
-    const measuringList = this.getMeasureListPoint(pointKey)
+  onChangePoint = pointId => {
+    const measuringList = this.getMeasureListPoint(pointId)
 
     this.setState({
       measuringList,
@@ -250,7 +306,7 @@ export default class FormMonitoring extends Component {
   }
 
   render() {
-    const { form, phases } = this.props
+    const { form, points, loading } = this.props
     const { measuringList, measuringListSelect } = this.state
 
     const point = form.getFieldValue(FIELDS.POINT)
@@ -264,7 +320,7 @@ export default class FormMonitoring extends Component {
         <div className="form-body">
           <FormInfoBasic
             form={form}
-            phases={phases}
+            points={points}
             onChangePoint={this.onChangePoint}
             onFetchPointSuccess={this.onFetchPointSuccess}
           />
@@ -283,7 +339,7 @@ export default class FormMonitoring extends Component {
           <Button type="link" onClick={this.resetForm}>
             Nhập lại
           </Button>
-          <Button type="primary" onClick={this.onSubmitForm}>
+          <Button loading={loading} type="primary" onClick={this.onSubmitForm}>
             Tạo mới
           </Button>
         </div>

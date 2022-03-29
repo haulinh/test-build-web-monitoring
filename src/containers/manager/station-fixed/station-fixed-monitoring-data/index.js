@@ -1,13 +1,14 @@
-import Breadcrumb from '../breadcrumb'
+import { Drawer as DrawerAnt } from 'antd'
+import StationFixedPeriodic from 'api/station-fixed/StationFixedPeriodic'
+import { Clearfix } from 'components/elements'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import React, { createRef } from 'react'
+import styled from 'styled-components'
+import Breadcrumb from '../breadcrumb'
+import DropdownButton from './components/DropdownButton'
+import FormMonitoring from './form-create/index'
 import Search from './search'
 import TableMonitoringData from './TableMonitoringData'
-import DropdownButton from './components/DropdownButton'
-import { Clearfix } from 'components/elements'
-import { Drawer as DrawerAnt } from 'antd'
-import styled from 'styled-components'
-import FormMonitoring from './form-create/index'
 
 const Drawer = styled(DrawerAnt)`
   .ant-drawer-body {
@@ -16,10 +17,16 @@ const Drawer = styled(DrawerAnt)`
     padding: 0;
   }
 
+  .ant-drawer-title {
+    font-size: 16px;
+    font-weight: 700;
+  }
+
   .title {
     font-size: 16px;
     font-weight: 700;
     padding: 12px 0;
+    color: #111827;
   }
 `
 
@@ -28,13 +35,31 @@ export default class StationFixedMonitoringData extends React.Component {
     visibleDrawer: false,
     dataSource: [],
     loading: false,
+    points: [],
+    type: '',
   }
 
   formRef = createRef()
 
+  componentDidMount = async () => {
+    try {
+      const periodic = await StationFixedPeriodic.getStationFixedPeriodics(
+        {},
+        {}
+      )
+
+      this.setState({
+        points: periodic.data,
+      })
+    } catch (error) {
+      console.error({ error })
+    }
+  }
+
   onClickImportManual = () => {
     this.setState({
       visibleDrawer: true,
+      type: 'manual',
     })
   }
 
@@ -49,19 +74,23 @@ export default class StationFixedMonitoringData extends React.Component {
     this.setState({ dataSource, loading })
   }
 
-  setMonitoringData = (dataSource, loading) => {
-    this.setState({ dataSource, loading })
+  setVisibleDrawer = visible => {
+    this.setState({
+      visibleDrawer: visible,
+    })
+
+    this.formRef.current.props.form.resetFields()
   }
 
   render() {
-    const { dataSource, loading, visibleDrawer } = this.state
+    const { dataSource, loading, visibleDrawer, points, type } = this.state
 
     return (
       <PageContainer>
         <Breadcrumb items={['monitoringData']} />
-        <Search getMonitoringData={this.getMonitoringData} />
+        <Search setMonitoringData={this.setMonitoringData} />
         <Clearfix height={15} />
-        <TableMonitoringData />
+        <TableMonitoringData dataSource={dataSource} loading={loading} />
 
         <Drawer
           title="Nhập liệu điểm quan trắc"
@@ -72,6 +101,9 @@ export default class StationFixedMonitoringData extends React.Component {
           width={600}
         >
           <FormMonitoring
+            setVisibleDrawer={this.setVisibleDrawer}
+            type={type}
+            points={points}
             visibleDrawer={visibleDrawer}
             wrappedComponentRef={this.formRef}
             onResetForm={this.onResetForm}
@@ -82,11 +114,6 @@ export default class StationFixedMonitoringData extends React.Component {
           className="dropdown-button"
           onClickImportManual={this.onClickImportManual}
         />
-        <Clearfix height={15} />
-        <Search setMonitoringData={this.setMonitoringData} />
-        <Clearfix height={15} />
-        <TableMonitoringData dataSource={dataSource} loading={loading} />
-        <DropdownButton className="dropdown-button" />
       </PageContainer>
     )
   }

@@ -1,12 +1,8 @@
-import SelectStationFixed from 'components/elements/select-station-fixed'
+import { Col, DatePicker, Input, Row } from 'antd'
 import { FormItem } from 'components/layouts/styles'
-import SelectPhase from 'containers/manager/station-fixed/station-fixed-import-data/select-phase'
-import _ from 'lodash'
 import React, { Component } from 'react'
 import { FIELDS } from '../constants'
-import { Input, Row, Col } from 'antd'
-import { DatePicker } from 'antd'
-import moment from 'moment-timezone'
+import SelectPoint from '../search/SelectPoint'
 
 export default class FormInfoBasic extends Component {
   state = {
@@ -14,8 +10,7 @@ export default class FormInfoBasic extends Component {
   }
 
   render() {
-    const { form, onChangePoint, onFetchPointSuccess } = this.props
-    const { stationTypeId } = this.state
+    const { form, onChangePoint, points } = this.props
 
     return (
       <div>
@@ -32,18 +27,12 @@ export default class FormInfoBasic extends Component {
                 rules: [
                   {
                     required: true,
+                    message: 'Tên báo cáo không được để trống',
                   },
                 ],
               })(<Input style={{ width: '100%' }} placeholder="Tên báo cáo" />)}
             </FormItem>
           </Col>
-          {/* <Col span={12}>
-            <FormItem label="Đợt quan trắc" style={{ width: '100%' }}>
-              {form.getFieldDecorator(FIELDS.PHASE, {
-                onChange: this.onChangePhase,
-              })(<SelectPhase width="100%" />)}
-            </FormItem>
-          </Col> */}
         </Row>
         <Row
           gutter={16}
@@ -58,13 +47,17 @@ export default class FormInfoBasic extends Component {
                 rules: [
                   {
                     required: true,
+                    message: 'Vui lòng chọn điểm quan trắc',
                   },
                 ],
               })(
-                <SelectStationFixed
-                  style={{ width: '100%' }}
-                  placeholder="Điểm quan trắc"
-                  onFetchSuccess={onFetchPointSuccess}
+                <SelectPoint
+                  points={points}
+                  form={form}
+                  mode="default"
+                  size="default"
+                  label="Điểm quan trắc"
+                  showSearch
                 />
               )}
             </FormItem>
@@ -93,3 +86,11 @@ export default class FormInfoBasic extends Component {
     )
   }
 }
+
+// {(
+//   <SelectStationFixed
+//     style={{ width: '100%' }}
+//     placeholder="Điểm quan trắc"
+//     onFetchSuccess={onFetchPointSuccess}
+//   />
+// ) }

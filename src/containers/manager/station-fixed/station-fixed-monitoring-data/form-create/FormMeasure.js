@@ -52,47 +52,56 @@ export default class FormMeasure extends Component {
 
     const formDynamic = measuringList.map(measure => (
       <Row
-        gutter={10}
+        gutter={16}
         justify="space-between"
         type="flex"
         style={{ width: '100%' }}
         key={measure._id}
       >
-        <Col span={11}>
+        <Col span={12}>
           <FormItem label="Thông số">
             {form.getFieldDecorator(
               `${FIELDS.MEASURING_LOGS}.${measure._id}.key`,
               {
                 onChange: onChangeMeasure,
+                message: 'Vui lòng chọn thông số',
               }
             )(<SelectMeasure measuringList={measuringListSelect} />)}
           </FormItem>
         </Col>
 
-        <Col span={11}>
-          <FormItem label="Giá trị">
-            {form.getFieldDecorator(
-              `${FIELDS.MEASURING_LOGS}.${measure._id}.value`,
-              {
-                rules: [
+        <Col span={12}>
+          <Row type="flex">
+            <Col span={21}>
+              <FormItem label="Giá trị">
+                {form.getFieldDecorator(
+                  `${FIELDS.MEASURING_LOGS}.${measure._id}.value`,
                   {
-                    required: true,
-                  },
-                ],
-              }
-            )(<Input style={{ width: '100%' }} placeholder="Giá trị" />)}
-          </FormItem>
-        </Col>
+                    rules: [
+                      {
+                        required: true,
+                        message: 'Vui lòng nhập giá trị',
+                      },
+                    ],
+                  }
+                )(<Input placeholder="Giá trị" />)}
+              </FormItem>
+            </Col>
 
-        <Col style={{ textAlign: 'center', alignSelf: 'center' }}>
-          <Popconfirm
-            title="Xac nhan xoa"
-            okText="Dong y"
-            cancelText="Huy bo"
-            onConfirm={() => handleDelete(measure._id)}
-          >
-            <Icon type="delete" style={{ fontSize: '16px', color: 'red' }} />
-          </Popconfirm>
+            <Col span={3} style={{ textAlign: 'right', alignSelf: 'center' }}>
+              <Popconfirm
+                title="Xac nhan xoa"
+                okText="Dong y"
+                cancelText="Huy bo"
+                onConfirm={() => handleDelete(measure._id)}
+              >
+                <Icon
+                  type="delete"
+                  style={{ fontSize: '16px', color: 'red' }}
+                />
+              </Popconfirm>
+            </Col>
+          </Row>
         </Col>
       </Row>
     ))

@@ -2,6 +2,7 @@ import { Col, Form, Row } from 'antd'
 import CategoryApi from 'api/CategoryApi'
 import StationFixedPeriodic from 'api/station-fixed/StationFixedPeriodic'
 import StationFixedReport from 'api/station-fixed/StationFixedReportApi'
+import { FormItem } from 'components/layouts/styles'
 import createLang, { translate as t } from 'hoc/create-lang'
 import { get, isEmpty } from 'lodash'
 import moment from 'moment-timezone'
@@ -218,12 +219,18 @@ export default class Search extends React.Component {
           </Row>
           <Row gutter={12}>
             <Col span={12}>
-              <SelectPoint
-                label={t('stationFixedManager.label.point')}
-                form={form}
-                points={points}
-                onChangePoint={this.handleSelectedPoint}
-              />
+              <FormItem label={t('stationFixedManager.label.point')}>
+                {form.getFieldDecorator(FIELDS.POINT, {
+                  onChange: this.handleSelectedPoint,
+                })(
+                  <SelectPoint
+                    label={t('stationFixedManager.label.point')}
+                    points={points}
+                    mode="multiple"
+                    size="large"
+                  />
+                )}
+              </FormItem>
             </Col>
             <Col span={12}>
               <SelectRange

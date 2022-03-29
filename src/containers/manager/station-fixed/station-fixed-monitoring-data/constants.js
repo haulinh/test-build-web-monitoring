@@ -1,12 +1,12 @@
 export const FIELDS = {
   PHASE: 'phase',
-  POINT: 'point',
+  POINT: 'stationId',
   REPORT_ID: 'reportId',
   NAME_REPORT: 'name',
   TIME: 'datetime',
   MEASURING_LOGS: 'measuringLogs',
+  TYPE: 'type',
   OTHER: {
-    TYPE: 'type',
     SYMBOL: 'symbol',
     WEATHER: 'weather',
     SAMPLER: 'sampler',

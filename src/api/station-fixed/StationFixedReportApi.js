@@ -1,4 +1,4 @@
-import { getFetch } from 'utils/fetch'
+import { getFetch, postFetch } from 'utils/fetch'
 import { getConfigApi } from '../../config'
 
 export function getStationFixedReportUrl(prefix = '') {
@@ -15,7 +15,15 @@ export function getStationFixedReport(id) {
   return getFetch(url)
 }
 
+export const createManualReport = params => {
+  let url = getStationFixedReportUrl()
+  console.log({ url })
+
+  return postFetch(url, params)
+}
+
 export default {
   getStationFixedReports,
   getStationFixedReport,
+  createManualReport,
 }
