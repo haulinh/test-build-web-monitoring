@@ -1,0 +1,23 @@
+export const FIELDS = {
+  PHASE: 'phase',
+  POINT: 'stationId',
+  REPORT_ID: 'reportId',
+  NAME_REPORT: 'name',
+  TIME: 'datetime',
+  MEASURING_LOGS: 'measuringLogs',
+  TYPE: 'type',
+  OTHER: {
+    SYMBOL: 'symbol',
+    WEATHER: 'weather',
+    SAMPLER: 'sampler',
+    NOTES: 'notes',
+    MONITORING_PLACE: 'monitoringPlace',
+    REQUIREMENTS: 'requirements',
+    METHOD: 'method',
+    CHEMICAL: 'chemical',
+    CONDITIONS: 'conditions',
+    EQUIPMENTLIST: 'equipmentlist',
+    ANALYST: 'analyst',
+    PLACE_OF_ANALYSIS: 'placeOfAnalysis',
+  },
+}

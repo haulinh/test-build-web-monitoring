@@ -118,8 +118,8 @@ export default class SelectStationFixed extends React.PureComponent {
 
     selectValue = Array.isArray(selectValue)
       ? selectValue.map((key, idx) =>
-        stationFixMaps.has(key) ? key : get(valueNames, idx, key)
-      )
+          stationFixMaps.has(key) ? key : get(valueNames, idx, key)
+        )
       : stationFixMaps.get(selectValue) || valueNames
 
     return (

@@ -10,9 +10,6 @@ import { autobind } from 'core-decorators'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 
-const REPORT_LINK = 'https://qa.ilotusland.asia/'
-
-@protectRole(ROLE.STATION_FIXED.VIEW)
 @autobind
 export default class TableMonitoringData extends React.Component {
   columns = [
@@ -60,7 +57,7 @@ export default class TableMonitoringData extends React.Component {
           <div>
             {value === 'manual'
               ? t('stationFixedManager.table.directInput')
-              : t('stationFixedManager.table.title.excelInput')}
+              : t('stationFixedManager.table.excelInput')}
           </div>
         )
       },
@@ -90,7 +87,9 @@ export default class TableMonitoringData extends React.Component {
                     get(value, 'firstName', '')}
                 </Row>
                 <Row style={{ color: '#A2A7B3' }}>
-                  {moment(record.createdAt).format('HH:MM DD/MM/YYYY')}
+                  {moment(record.createdAt)
+                    .utc()
+                    .format('HH:mm DD/MM/YYYY')}
                 </Row>
               </div>
             </Row>
@@ -123,7 +122,7 @@ export default class TableMonitoringData extends React.Component {
                     get(value, 'firstName', '')}
                 </Row>
                 <Row style={{ color: '#A2A7B3' }}>
-                  {moment(record.updatedAt).format('HH:MM DD/MM/YYYY')}
+                  {moment(record.updatedAt).format('HH:mm DD/MM/YYYY')}
                 </Row>
               </div>
             </Row>
