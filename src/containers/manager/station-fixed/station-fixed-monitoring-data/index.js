@@ -12,6 +12,7 @@ import slug from 'constants/slug'
 import TableMonitoringData from './TableMonitoringData'
 import ModalConfirmCancel from './components/ModalConfirmCancel'
 import { withRouter } from 'react-router'
+import { i18n } from './constants'
 
 const Drawer = styled(DrawerAnt)`
   .ant-drawer-body {
@@ -134,7 +135,7 @@ export default class StationFixedMonitoringData extends React.Component {
 
           <Drawer
             key={visibleDrawer}
-            title="Nhập liệu điểm quan trắc"
+            title={i18n().drawer.title}
             visible={visibleDrawer}
             closable
             placement="right"

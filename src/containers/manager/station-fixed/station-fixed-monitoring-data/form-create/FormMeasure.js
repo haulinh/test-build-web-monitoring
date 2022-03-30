@@ -4,7 +4,7 @@ import _ from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import SelectMeasure from '../components/SelectMeasure'
-import { FIELDS } from '../constants'
+import { FIELDS, i18n } from '../constants'
 
 @connect(state => ({
   measuresObj: state.global.measuresObj,
@@ -64,6 +64,14 @@ export default class FormMeasure extends Component {
 
       const key = measureKeyForm.measuringLogs[measure._id].key
 
+      const validateValue = (rule, value, callBack) => {
+        if (/^(>|<)?=?\s?-?(\d+)((\.|,)\d+)?$/i.test(value)) {
+          callBack(i18n().drawer.formMeasure.message.format)
+          return
+        }
+        callBack()
+      }
+
       return (
         <Row
           gutter={16}
@@ -73,7 +81,7 @@ export default class FormMeasure extends Component {
           key={measure._id}
         >
           <Col span={12}>
-            <FormItem label="Thông số">
+            <FormItem label={i18n().drawer.formMeasure.measure}>
               {form.getFieldDecorator(
                 `${FIELDS.MEASURING_LOGS}.${measure._id}.key`,
                 {
@@ -81,31 +89,44 @@ export default class FormMeasure extends Component {
                   rules: [
                     {
                       required: true,
-                      message: 'Vui lòng chọn thông số',
+                      message: i18n().drawer.formMeasure.message.measure,
                     },
                   ],
                 }
-              )(<SelectMeasure measuringList={measuringListSelect} />)}
+              )(
+                <SelectMeasure
+                  measuringList={measuringListSelect}
+                  placeholder={i18n().drawer.formMeasure.measure}
+                />
+              )}
             </FormItem>
           </Col>
 
           <Col span={12}>
             <Row type="flex">
               <Col span={21}>
-                <FormItem label="Giá trị">
+                <FormItem label={i18n().drawer.formMeasure.value}>
                   {form.getFieldDecorator(
                     `${FIELDS.MEASURING_LOGS}.${measure._id}.value`,
                     {
                       rules: [
                         {
                           required: true,
-                          message: 'Vui lòng nhập giá trị',
+                          message: i18n().drawer.formMeasure.message.value,
+                        },
+                        {
+                          whitespace: true,
+                          message: i18n().drawer.formMeasure.message.value,
+                        },
+
+                        {
+                          validator: validateValue,
                         },
                       ],
                     }
                   )(
                     <Input
-                      placeholder="Giá trị"
+                      placeholder={i18n().drawer.formMeasure.value}
                       suffix={_.get(measuresObj[key], 'unit')}
                     />
                   )}
@@ -114,9 +135,9 @@ export default class FormMeasure extends Component {
 
               <Col span={3} style={{ textAlign: 'right', alignSelf: 'center' }}>
                 <Popconfirm
-                  title="Bạn có muốn xóa mục này không?"
-                  okText="Đồng ý"
-                  cancelText="Hủy bỏ"
+                  title={i18n().drawer.formMeasure.popupDelete.title}
+                  okText={i18n().button.accept}
+                  cancelText={i18n().button.cancel}
                   disabled={isDisableDelete}
                   onConfirm={() => handleDelete(measure._id)}
                   getPopupContainer={trigger => trigger.parentNode}
@@ -138,7 +159,7 @@ export default class FormMeasure extends Component {
 
     return (
       <div>
-        <div className="title">Thông số</div>
+        <div className="title">{i18n().drawer.formMeasure.title}</div>
 
         {formDynamic}
 
@@ -146,7 +167,7 @@ export default class FormMeasure extends Component {
           <Button onClick={onClickAddMeasure} type="link">
             <Row>
               <Icon type="plus" />
-              <span> Thêm thông số</span>
+              <span> {i18n().drawer.formMeasure.buttonAdd}</span>
             </Row>
           </Button>
         )}

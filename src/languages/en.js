@@ -4411,4 +4411,78 @@ export default {
       cancel: 'Cancel',
     },
   },
+  stationFixedMonitoring: {
+    importButton: {
+      manual: 'Quick data entry',
+      importExcel: 'Upload by form',
+    },
+    drawer: {
+      title: 'Import data of monitoring point',
+      formBasic: {
+        title: 'Basic information',
+        nameReport: 'Report name',
+        point: 'Monitoring point',
+        time: 'Sampling time',
+        selectTime: 'Select Time',
+        message: {
+          nameReport: {
+            require: 'Please enter report name',
+            max64: 'Do not enter more than 64 characters',
+          },
+          point: {
+            require: 'Please select monitoring point',
+          },
+          time: 'Please enter select sampling time',
+        },
+        datePicker: {
+          now: 'Now',
+          selectTime: 'Select Time',
+        },
+      },
+      formMeasure: {
+        title: 'Parameter',
+        measure: 'Parameter',
+        value: 'Value',
+        popupDelete: {
+          title: 'Do you want to delete this item?',
+        },
+        buttonAdd: 'Add parameter',
+        message: {
+          measure: 'Please select parameters',
+          value: 'Please enter the value',
+          format: 'Please enter true format',
+        },
+      },
+      formOtherInfo: {
+        placeholder: 'Enter information',
+        title: 'Other information',
+        sampler: 'Sampler name',
+        monitoringPlace: 'Features of monitoring place',
+        requirements: 'Requirements for sampling',
+        method: 'Sampling method',
+        chemical: 'Color preservatives',
+        conditions: 'Sample storage conditions',
+        equipmentList: 'List of sampling devices',
+        symbol: 'Sample symbol',
+        weather: 'Weather features',
+        analyst: 'Analyst',
+        placeOfAnalysis: 'Place of analysis',
+        note: 'Notes',
+      },
+    },
+    popupCreateSuccess: {
+      title: 'Data has been approved',
+      desc:
+        'Periodic monitoring data has been approved successfully, the unit sending the report will receive a notification of approval.',
+    },
+    modalConfirmCancel: {
+      content: "The changes you have made, probably won't be saved.",
+    },
+    button: {
+      accept: 'Accept',
+      cancel: 'Cancel',
+      reset: 'Retype',
+      create: 'Create',
+    },
+  },
 }

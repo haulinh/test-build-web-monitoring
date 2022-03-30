@@ -3,6 +3,7 @@ import iconUploadFile from 'assets/svg-icons/UploadFile.svg'
 import iconUploadManual from 'assets/svg-icons/UploadIcon.svg'
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import { i18n } from '../constants'
 
 const FixedButton = styled.div`
   position: fixed;
@@ -29,7 +30,9 @@ export default class DropdownButton extends Component {
               <Menu.Item key="1" onClick={onClickImportManual}>
                 <Row type="flex" align="middle">
                   <img src={iconUploadManual} alt="" />
-                  <div style={{ marginLeft: '10px' }}>Nhập nhanh dữ liệu</div>
+                  <div style={{ marginLeft: '10px' }}>
+                    {i18n().importButton.manual}
+                  </div>
                 </Row>
               </Menu.Item>
               <Menu.Item
@@ -39,7 +42,9 @@ export default class DropdownButton extends Component {
               >
                 <Row type="flex" align="middle">
                   <img src={iconUploadFile} alt="" />
-                  <div style={{ marginLeft: '10px' }}>Tải lên theo mẫu</div>
+                  <div style={{ marginLeft: '10px' }}>
+                    {i18n().importButton.importExcel}
+                  </div>
                 </Row>
               </Menu.Item>
             </Menu>
