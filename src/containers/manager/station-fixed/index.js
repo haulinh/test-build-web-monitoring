@@ -10,6 +10,7 @@ import StationFixedEdit from './station-fixed-edit'
 import StationFixedImportData from './station-fixed-import-data'
 import StationFixedMap from './station-fixed-map'
 import StationFixedMonitoringDataDetail from './station-fixed-monitoring-data-detail'
+import StationFixedImportExcel from './station-fixed-monitoring-data/import-data'
 
 export default props => (
   <Switch>
@@ -40,6 +41,10 @@ export default props => (
     <Route
       path={slug.stationFixed.monitoringData}
       component={StationFixedMonitoringData}
+    />
+    <Route
+      path={slug.stationFixed.monitoringDataImport}
+      component={StationFixedImportExcel}
     />
     <Route
       path={slug.stationFixed.monitoringData}

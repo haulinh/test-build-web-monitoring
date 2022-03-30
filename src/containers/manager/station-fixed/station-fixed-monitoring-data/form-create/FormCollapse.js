@@ -32,7 +32,7 @@ export default class FormCollapse extends Component {
 
     return (
       <FormCollapseContainer>
-        <Collapse defaultActiveKey={1} expandIconPosition="right">
+        <Collapse expandIconPosition="left" defaultActiveKey={1}>
           <Panel key={1} header="Thông tin khác">
             <Row
               gutter={16}
