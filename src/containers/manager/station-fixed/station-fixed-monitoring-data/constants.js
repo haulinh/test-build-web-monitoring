@@ -9,6 +9,7 @@ export const FIELDS = {
   TIME: 'datetime',
   MEASURING_LOGS: 'measuringLogs',
   TYPE: 'type',
+  FILE: 'file',
   OTHER: {
     SYMBOL: 'symbol',
     WEATHER: 'weather',

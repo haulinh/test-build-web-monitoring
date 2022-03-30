@@ -179,6 +179,7 @@ class StationFixedImportData extends React.Component {
   }
 
   onChangeFile = async ({ file }) => {
+    console.log({ file })
     const { form } = this.props
     form.setFieldsValue({ [FIELDS.FILE]: file })
   }
