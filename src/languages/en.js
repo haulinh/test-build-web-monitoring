@@ -1685,6 +1685,7 @@ export default {
     label: {
       timeRange: 'Time',
       point: 'Monitoring point',
+      attachment: 'Attachments',
     },
     placeholder: {
       timeRange: {
@@ -1692,9 +1693,16 @@ export default {
         to: 'End date',
       },
     },
+    button: {
+      add: 'Add information',
+    },
     table: {
       directInput: 'Direct input',
       excelInput: 'By excel',
+      popUp: {
+        delete: `Are you sure to delete this row's data?`,
+      },
+      footer: 'Add data',
       title: {
         phase: 'Phase',
         reportName: 'Report name',
@@ -1703,6 +1711,7 @@ export default {
         userInput: 'Created by',
         createTime: 'Create time',
         editTime: 'Edited by',
+        dateTime: 'Time sample',
       },
     },
   },

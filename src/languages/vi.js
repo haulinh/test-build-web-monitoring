@@ -1685,6 +1685,7 @@ export default {
     label: {
       timeRange: 'Thời gian nhập liệu',
       point: 'Điểm quan trắc',
+      attachment: 'Đính kèm',
     },
     placeholder: {
       timeRange: {
@@ -1692,9 +1693,16 @@ export default {
         to: 'Tới khoảng',
       },
     },
+    button: {
+      add: 'Thêm thông tin',
+    },
     table: {
       directInput: 'Nhập trực tiếp',
       excelInput: 'Bằng file Excel',
+      popUp: {
+        delete: 'Bạn có chắc muốn xóa hàng dữ liệu này?',
+      },
+      footer: 'Thêm dữ liệu',
       title: {
         phase: 'Đợt quan trắc',
         reportName: 'Tên báo cáo',
@@ -1703,6 +1711,7 @@ export default {
         userInput: 'Nhập liệu',
         createTime: 'Thời gian nhập liệu',
         editTime: 'Chỉnh sửa',
+        dateTime: 'Thời gian lấy mẫu',
       },
     },
   },
