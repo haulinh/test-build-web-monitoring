@@ -76,7 +76,7 @@ export default class FormInfoBasic extends Component {
           </Col>
 
           <Col span={12}>
-            <FormItem label="Thời gian" style={{ width: '100%' }}>
+            <FormItem label="Thời gian lấy mẫu" style={{ width: '100%' }}>
               {form.getFieldDecorator(FIELDS.TIME, {
                 rules: [
                   {

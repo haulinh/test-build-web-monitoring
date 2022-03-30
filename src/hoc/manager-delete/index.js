@@ -38,7 +38,9 @@ const createManagerDelete = ({ apiDelete }) => Component => {
               ) {
                 message.error(translate('addon.onDelete.qcvn.qcvnUsed'))
               } else if (res.error) {
-                message.error(translate('addon.onDelete.error'))
+                message.error(
+                  translate('addon.onDelete.errorMessage.reportUsed')
+                )
               } else {
                 message.success(translate('addon.onDelete.success'))
                 callbackSuccess()
@@ -97,12 +99,16 @@ const createManagerDelete = ({ apiDelete }) => Component => {
                     break
                   }
                   default: {
-                    message.error(translate('addon.onDelete.error'))
+                    message.error(
+                      translate('addon.onDelete.errorMessage.reportUsed')
+                    )
                     break
                   }
                 }
               } else {
-                message.error(translate('addon.onDelete.error'))
+                message.error(
+                  translate('addon.onDelete.errorMessage.reportUsed')
+                )
               }
 
               resolve()

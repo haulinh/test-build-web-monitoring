@@ -2839,6 +2839,7 @@ export default {
         phaseUsed: 'Đợt quan trắc đang được sử dụng để nhập dữ liệu!',
         pointUsed: 'Điểm quan trắc đang được sử dụng để nhập dữ liệu!',
         stationUsed: 'Trạm quan trắc đang được sử dụng để nhập dữ liệu!',
+        reportUsed: 'Không thể xóa vì đã có báo cáo sử dụng điểm quan trắc này',
       },
       success: 'Xoá thành công',
       error: 'Xoá thất bại',
