@@ -560,7 +560,7 @@ export default class StationAutoForm extends React.PureComponent {
     })
   }
 
-  handleChange(listKey, ae) {
+  handleChange(listKey) {
     this.setState({
       tabKey: listKey.length > 0 ? listKey[listKey.length - 1] : listKey,
     })
@@ -715,7 +715,7 @@ export default class StationAutoForm extends React.PureComponent {
                           pattern: 64,
                           message: i18n().name.max,
                         }]}
-                        onChangeLanguage={language => form.setFieldsValue({['language.name']: language})
+                        onChangeLanguage={language => form.setFieldsValue({'language.name': language})
                       }
                       />
                     )}

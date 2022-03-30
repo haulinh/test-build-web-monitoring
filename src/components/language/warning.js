@@ -10,7 +10,7 @@ const i18n = {
 export const Warning = ({lang}) => {
   return (
     <WarningWrapper>
-      <img src={dangerIcon} />
+      <img src={dangerIcon} alt="" />
       <div dangerouslySetInnerHTML={{__html: i18n.content(lang)}} />
     </WarningWrapper>
   )

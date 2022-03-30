@@ -72,6 +72,7 @@ class Language extends React.Component {
       .map(lang => {
         const content = (formValues[lang] || '').trim()
         if (!!content) return {lang, content}
+        return null
       })
       .filter(Boolean)
 
