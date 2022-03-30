@@ -26,13 +26,14 @@ export default class TableMonitoringData extends React.Component {
       align: 'left',
       key: 'name',
       render: (value, record, index) => {
+        const url = `${slug.stationFixed.monitoringDataDetailWithKey}/${record._id}`
         return (
           <Link
             style={{
               textDecoration: 'underline',
               color: 'rgba(0, 0, 0, 0.65)',
             }}
-            to={slug.stationFixed.monitoringDataDetailWithKey}
+            to={url}
           >
             {value}
           </Link>
