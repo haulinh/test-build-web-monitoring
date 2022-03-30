@@ -4423,4 +4423,77 @@ export default {
       cancel: 'Hủy',
     },
   },
+  stationFixedMonitoring: {
+    importButton: {
+      manual: 'Nhập nhanh dữ liệu',
+      importExcel: 'Tải lên theo mẫu',
+    },
+    drawer: {
+      title: 'Nhập liệu điểm quan trắc',
+      formBasic: {
+        title: 'Thông tin cơ bản',
+        nameReport: 'Tên báo cáo',
+        point: 'Điểm quan trắc',
+        time: 'Thời gian lấy mẫu',
+        selectTime: 'Chọn thời gian',
+        message: {
+          nameReport: {
+            require: 'Vui lòng nhập tên báo cáo',
+            max64: 'Không được nhập quá 64 kí tự',
+          },
+          point: {
+            require: 'Vui lòng chọn điểm quan trắc',
+          },
+          time: 'Vui lòng nhập chọn thời gian lấy mẫu',
+        },
+        datePicker: {
+          now: 'Hiện tại',
+          selectTime: 'Chọn thời gian',
+        },
+      },
+      formMeasure: {
+        title: 'Thông số',
+        measure: 'Thông số',
+        value: 'Giá trị',
+        popupDelete: {
+          title: 'Bạn có muốn xóa mục này không?',
+        },
+        buttonAdd: 'Thêm thông số',
+        message: {
+          measure: 'Vui lòng chọn thông số',
+          value: 'Vui lòng nhập giá trị',
+        },
+      },
+      formOtherInfo: {
+        placeholder: 'Nhập thông tin',
+        title: 'Thông tin khác',
+        sampler: 'Tên người lấy mẫu',
+        monitoringPlace: 'Đặc điểm nơi quan trắc',
+        requirements: 'Yêu cầu đối với việc lấy mẫu',
+        method: 'Phương pháp lấy mẫu',
+        chemical: 'Hóa chất bảo quản màu',
+        conditions: 'Điều kiện bảo quản mẫu',
+        equipmentList: 'Danh sách thiết bị lấy mẫu',
+        symbol: 'Ký hiệu mẫu',
+        weather: 'Đặc điểm thời tiết',
+        analyst: 'Người phân tích',
+        placeOfAnalysis: 'Nơi phân tích',
+        note: 'Ghi chú',
+      },
+    },
+    popupCreateSuccess: {
+      title: 'Dữ liệu đã được duyệt',
+      desc:
+        'Dữ liệu quan trắc định kỳ đã được duyệt thành công, đơn vị gửi báo cáo sẽ nhận được thông báo phê duyệt.',
+    },
+    modalConfirmCancel: {
+      content: 'Những thay đổi bạn đã thực hiện, có thể sẽ không được lưu.',
+    },
+    button: {
+      accept: 'Đồng ý',
+      cancel: 'Hủy bỏ',
+      reset: 'Nhập lại',
+      create: 'Nhập dữ liệu',
+    },
+  },
 }

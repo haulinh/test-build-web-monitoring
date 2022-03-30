@@ -1,5 +1,6 @@
 import { Button, Modal, Row } from 'antd'
 import React from 'react'
+import { i18n } from '../constants'
 
 class ModalConfirmCancel extends React.Component {
   render() {
@@ -13,7 +14,7 @@ class ModalConfirmCancel extends React.Component {
         footer={[
           <Row type="flex" justify="end">
             <Button key="back" onClick={onCancelOut}>
-              Hủy
+              {i18n().button.cancel}
             </Button>
             <Button
               key="submit"
@@ -21,12 +22,12 @@ class ModalConfirmCancel extends React.Component {
               onClick={onConfirmCancel}
               style={{ marginLeft: 10 }}
             >
-              Đồng ý
+              {i18n().button.accept}
             </Button>
           </Row>,
         ]}
       >
-        <div>Những thay đổi bạn đã thực hiện, có thể sẽ không được lưu.</div>
+        <div>{i18n().modalConfirmCancel.content}</div>
       </Modal>
     )
   }

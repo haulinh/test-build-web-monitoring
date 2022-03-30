@@ -1,30 +1,9 @@
-import React, { Component } from 'react'
-import { Collapse, Row, Col, Input } from 'antd'
+import { Col, Collapse, Input, Row } from 'antd'
 import { Clearfix, FormItem } from 'components/layouts/styles'
-import { FIELDS } from '../constants'
-import styled from 'styled-components'
+import React, { Component } from 'react'
+import { FIELDS, FormCollapseContainer, i18n } from '../constants'
 
 const { Panel } = Collapse
-
-const FormCollapseContainer = styled.div`
-  .ant-collapse {
-    border: unset;
-    background: unset;
-  }
-  .ant-collapse-icon-position-right
-    > .ant-collapse-item
-    > .ant-collapse-header {
-    padding: 12px 0;
-  }
-  .ant-collapse-content-box {
-    padding: 16px 0;
-  }
-
-  .ant-collapse-content,
-  .ant-collapse-item {
-    border: unset;
-  }
-`
 
 export default class FormCollapse extends Component {
   render() {
@@ -33,7 +12,7 @@ export default class FormCollapse extends Component {
     return (
       <FormCollapseContainer>
         <Collapse expandIconPosition="left" defaultActiveKey={1}>
-          <Panel key={1} header="Thông tin khác">
+          <Panel key={1} header={i18n().drawer.formOtherInfo.title}>
             <Row
               gutter={16}
               justify="space-between"
@@ -41,21 +20,30 @@ export default class FormCollapse extends Component {
               style={{ width: '100%' }}
             >
               <Col span={12}>
-                <FormItem label="Tên người lấy mẫu" style={{ width: '100%' }}>
+                <FormItem
+                  label={i18n().drawer.formOtherInfo.sampler}
+                  style={{ width: '100%' }}
+                >
                   {form.getFieldDecorator(`otherInfo.${FIELDS.OTHER.SAMPLER}`)(
-                    <Input placeholder="Nhập thông tin" />
+                    <Input
+                      placeholder={i18n().drawer.formOtherInfo.placeholder}
+                    />
                   )}
                 </FormItem>
               </Col>
 
               <Col span={12}>
                 <FormItem
-                  label="Đặc điểm nơi quan trắc"
+                  label={i18n().drawer.formOtherInfo.monitoringPlace}
                   style={{ width: '100%' }}
                 >
                   {form.getFieldDecorator(
                     `otherInfo.${FIELDS.OTHER.MONITORING_PLACE}`
-                  )(<Input placeholder="Nhập thông tin" />)}
+                  )(
+                    <Input
+                      placeholder={i18n().drawer.formOtherInfo.placeholder}
+                    />
+                  )}
                 </FormItem>
               </Col>
             </Row>
@@ -68,19 +56,28 @@ export default class FormCollapse extends Component {
             >
               <Col span={12}>
                 <FormItem
-                  label="Yêu cầu đối với việc lấy mẫu"
+                  label={i18n().drawer.formOtherInfo.requirements}
                   style={{ width: '100%' }}
                 >
                   {form.getFieldDecorator(
                     `otherInfo.${FIELDS.OTHER.REQUIREMENTS}`
-                  )(<Input placeholder="Nhập thông tin" />)}
+                  )(
+                    <Input
+                      placeholder={i18n().drawer.formOtherInfo.placeholder}
+                    />
+                  )}
                 </FormItem>
               </Col>
 
               <Col span={12}>
-                <FormItem label="Phương pháp lấy mẫu" style={{ width: '100%' }}>
+                <FormItem
+                  label={i18n().drawer.formOtherInfo.method}
+                  style={{ width: '100%' }}
+                >
                   {form.getFieldDecorator(`otherInfo.${FIELDS.OTHER.METHOD}`)(
-                    <Input placeholder="Nhập thông tin" />
+                    <Input
+                      placeholder={i18n().drawer.formOtherInfo.placeholder}
+                    />
                   )}
                 </FormItem>
               </Col>
@@ -94,23 +91,29 @@ export default class FormCollapse extends Component {
             >
               <Col span={12}>
                 <FormItem
-                  label="Hóa chất bảo quản màu"
+                  label={i18n().drawer.formOtherInfo.chemical}
                   style={{ width: '100%' }}
                 >
                   {form.getFieldDecorator(`otherInfo.${FIELDS.OTHER.CHEMICAL}`)(
-                    <Input placeholder="Nhập thông tin" />
+                    <Input
+                      placeholder={i18n().drawer.formOtherInfo.placeholder}
+                    />
                   )}
                 </FormItem>
               </Col>
 
               <Col span={12}>
                 <FormItem
-                  label="Điều kiện bảo quản mẫu"
+                  label={i18n().drawer.formOtherInfo.conditions}
                   style={{ width: '100%' }}
                 >
                   {form.getFieldDecorator(
                     `otherInfo.${FIELDS.OTHER.CONDITIONS}`
-                  )(<Input placeholder="Nhập thông tin" />)}
+                  )(
+                    <Input
+                      placeholder={i18n().drawer.formOtherInfo.placeholder}
+                    />
+                  )}
                 </FormItem>
               </Col>
             </Row>
@@ -123,19 +126,28 @@ export default class FormCollapse extends Component {
             >
               <Col span={12}>
                 <FormItem
-                  label="Danh sách thiết bị lấy mẫu"
+                  label={i18n().drawer.formOtherInfo.equipmentList}
                   style={{ width: '100%' }}
                 >
                   {form.getFieldDecorator(
                     `otherInfo.${FIELDS.OTHER.EQUIPMENTLIST}`
-                  )(<Input placeholder="Nhập thông tin" />)}
+                  )(
+                    <Input
+                      placeholder={i18n().drawer.formOtherInfo.placeholder}
+                    />
+                  )}
                 </FormItem>
               </Col>
 
               <Col span={12}>
-                <FormItem label="Ký hiệu mẫu" style={{ width: '100%' }}>
+                <FormItem
+                  label={i18n().drawer.formOtherInfo.symbol}
+                  style={{ width: '100%' }}
+                >
                   {form.getFieldDecorator(`otherInfo.${FIELDS.OTHER.SYMBOL}`)(
-                    <Input placeholder="Nhập thông tin" />
+                    <Input
+                      placeholder={i18n().drawer.formOtherInfo.placeholder}
+                    />
                   )}
                 </FormItem>
               </Col>
@@ -148,17 +160,27 @@ export default class FormCollapse extends Component {
               style={{ width: '100%' }}
             >
               <Col span={12}>
-                <FormItem label="Đặc điểm thời tiết" style={{ width: '100%' }}>
+                <FormItem
+                  label={i18n().drawer.formOtherInfo.weather}
+                  style={{ width: '100%' }}
+                >
                   {form.getFieldDecorator(`otherInfo.${FIELDS.OTHER.WEATHER}`)(
-                    <Input placeholder="Nhập thông tin" />
+                    <Input
+                      placeholder={i18n().drawer.formOtherInfo.placeholder}
+                    />
                   )}
                 </FormItem>
               </Col>
 
               <Col span={12}>
-                <FormItem label="Người phân tích" style={{ width: '100%' }}>
+                <FormItem
+                  label={i18n().drawer.formOtherInfo.analyst}
+                  style={{ width: '100%' }}
+                >
                   {form.getFieldDecorator(`otherInfo.${FIELDS.OTHER.ANALYST}`)(
-                    <Input placeholder="Nhập thông tin" />
+                    <Input
+                      placeholder={i18n().drawer.formOtherInfo.placeholder}
+                    />
                   )}
                 </FormItem>
               </Col>
@@ -171,16 +193,28 @@ export default class FormCollapse extends Component {
               style={{ width: '100%' }}
             >
               <Col span={12}>
-                <FormItem label="Nơi phân tích" style={{ width: '100%' }}>
+                <FormItem
+                  label={i18n().drawer.formOtherInfo.placeOfAnalysis}
+                  style={{ width: '100%' }}
+                >
                   {form.getFieldDecorator(
                     `otherInfo.${FIELDS.OTHER.PLACE_OF_ANALYSIS}`
-                  )(<Input placeholder="Nhập thông tin" />)}
+                  )(
+                    <Input
+                      placeholder={i18n().drawer.formOtherInfo.placeholder}
+                    />
+                  )}
                 </FormItem>
               </Col>
               <Col span={12}>
-                <FormItem label="Ghi chú" style={{ width: '100%' }}>
+                <FormItem
+                  label={i18n().drawer.formOtherInfo.note}
+                  style={{ width: '100%' }}
+                >
                   {form.getFieldDecorator(`otherInfo.${FIELDS.OTHER.NOTES}`)(
-                    <Input placeholder="Nhập thông tin" />
+                    <Input
+                      placeholder={i18n().drawer.formOtherInfo.placeholder}
+                    />
                   )}
                 </FormItem>
               </Col>

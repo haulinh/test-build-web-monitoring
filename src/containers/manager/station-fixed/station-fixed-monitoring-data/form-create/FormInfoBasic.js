@@ -1,14 +1,19 @@
 import { Col, DatePicker, Input, Row } from 'antd'
 import { FormItem } from 'components/layouts/styles'
 import React, { Component } from 'react'
-import { FIELDS } from '../constants'
+import { FIELDS, i18n } from '../constants'
 import SelectPoint from '../search/SelectPoint'
 
 const locale = {
   lang: {
-    now: 'Hiện tại',
-    timeSelect: 'Chọn thời gian',
+    now: i18n().drawer.formBasic.datePicker.now,
+    timeSelect: i18n().drawer.formBasic.datePicker.selectTime,
     ok: 'OK',
+    yearFormat: 'YYYY',
+    dateFormat: 'D M YYYY',
+    dayFormat: 'D',
+    dateTimeFormat: 'D M YYYY HH:mm:ss',
+    monthBeforeYear: true,
   },
 }
 export default class FormInfoBasic extends Component {
@@ -21,7 +26,7 @@ export default class FormInfoBasic extends Component {
 
     return (
       <div>
-        <div className="title">Thông tin cơ bản</div>
+        <div className="title">{i18n().drawer.formBasic.title}</div>
         <Row
           gutter={16}
           justify="space-between"
@@ -29,20 +34,31 @@ export default class FormInfoBasic extends Component {
           style={{ width: '100%' }}
         >
           <Col span={24}>
-            <FormItem label="Tên báo cáo" style={{ width: '100%' }}>
+            <FormItem
+              label={i18n().drawer.formBasic.nameReport}
+              style={{ width: '100%' }}
+            >
               {form.getFieldDecorator(FIELDS.NAME_REPORT, {
                 rules: [
                   {
                     required: true,
-                    message: 'Tên báo cáo không được để trống',
+                    message: i18n().drawer.formBasic.message.nameReport.require,
                   },
-                  { max: 64, message: 'Vượt quá 64 kí tự' },
+                  {
+                    max: 64,
+                    message: i18n().drawer.formBasic.message.nameReport.max64,
+                  },
                   {
                     whitespace: true,
-                    message: 'Tên báo cáo không được để trống',
+                    message: i18n().drawer.formBasic.message.nameReport.require,
                   },
                 ],
-              })(<Input style={{ width: '100%' }} placeholder="Tên báo cáo" />)}
+              })(
+                <Input
+                  style={{ width: '100%' }}
+                  placeholder={i18n().drawer.formBasic.nameReport}
+                />
+              )}
             </FormItem>
           </Col>
         </Row>
@@ -53,13 +69,16 @@ export default class FormInfoBasic extends Component {
           style={{ width: '100%' }}
         >
           <Col span={12}>
-            <FormItem label="Điểm quan trắc" style={{ width: '100%' }}>
+            <FormItem
+              label={i18n().drawer.formBasic.point}
+              style={{ width: '100%' }}
+            >
               {form.getFieldDecorator(FIELDS.POINT, {
                 onChange: onChangePoint,
                 rules: [
                   {
                     required: true,
-                    message: 'Vui lòng chọn điểm quan trắc',
+                    message: i18n().drawer.formBasic.message.point.require,
                   },
                 ],
               })(
@@ -68,7 +87,7 @@ export default class FormInfoBasic extends Component {
                   form={form}
                   mode="default"
                   size="default"
-                  label="Điểm quan trắc"
+                  label={i18n().drawer.formBasic.point}
                   showSearch
                 />
               )}
@@ -76,11 +95,15 @@ export default class FormInfoBasic extends Component {
           </Col>
 
           <Col span={12}>
-            <FormItem label="Thời gian lấy mẫu" style={{ width: '100%' }}>
+            <FormItem
+              label={i18n().drawer.formBasic.time}
+              style={{ width: '100%' }}
+            >
               {form.getFieldDecorator(FIELDS.TIME, {
                 rules: [
                   {
                     required: true,
+                    message: i18n().drawer.formBasic.message.time,
                   },
                 ],
               })(
@@ -88,7 +111,7 @@ export default class FormInfoBasic extends Component {
                   locale={locale}
                   style={{ width: '100%' }}
                   showTime
-                  placeholder="Select Time"
+                  placeholder={i18n().drawer.formBasic.selectTime}
                   format="HH:mm DD/MM/YYYY"
                 />
               )}

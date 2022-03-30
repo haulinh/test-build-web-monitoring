@@ -5,7 +5,7 @@ import moment from 'moment-timezone'
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { v4 as uuidv4 } from 'uuid'
-import { FIELDS } from '../constants'
+import { FIELDS, i18n } from '../constants'
 import FormCollapse from './FormCollapse'
 import FormInfoBasic from './FormInfoBasic'
 import FormMeasure from './FormMeasure'
@@ -33,6 +33,10 @@ const FormContainer = styled.div`
 
   .ant-popover-inner-content {
     width: 300px;
+  }
+
+  .ant-input-suffix {
+    color: #a2a7b3;
   }
 
   .row-form {
@@ -71,13 +75,13 @@ export default class FormMonitoring extends Component {
         loading: false,
       })
 
-      setVisibleDrawer(false)
       notification.success({
-        message: `Dữ liệu đã được duyệt`,
-        description:
-          'Dữ liệu quan trắc định kỳ đã được duyệt thành công, đơn vị gửi báo cáo sẽ nhận được thông báo phê duyệt.',
+        message: i18n().popupCreateSuccess.title,
+        description: i18n().popupCreateSuccess.desc,
         placement: 'bottomRight',
       })
+
+      setVisibleDrawer(false)
     } catch (error) {
       console.error({ error })
 
@@ -377,10 +381,10 @@ export default class FormMonitoring extends Component {
             onClick={this.resetForm}
             style={{ background: '#E1EDFB', color: '#1890FF' }}
           >
-            Nhập lại
+            {i18n().button.reset}
           </Button>
           <Button loading={loading} type="primary" onClick={this.onSubmitForm}>
-            Nhập dữ liệu
+            {i18n().button.create}
           </Button>
         </div>
       </FormContainer>

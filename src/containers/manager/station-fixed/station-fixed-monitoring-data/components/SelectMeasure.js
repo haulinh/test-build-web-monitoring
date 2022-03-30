@@ -10,7 +10,6 @@ export default class SelectMeasure extends Component {
     return (
       <Select
         {...this.props}
-        placeholder="Thong so"
         style={{ width: '100%' }}
         getPopupContainer={trigger => trigger.parentNode}
       >
