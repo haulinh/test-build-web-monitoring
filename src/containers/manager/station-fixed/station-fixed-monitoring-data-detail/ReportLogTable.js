@@ -34,7 +34,7 @@ class ReportLogTable extends React.Component {
     },
     {
       title: i18n().optionalInfo.dateTime,
-      dataIndex: 'datatime',
+      dataIndex: 'datetime',
       key: 'datetime',
       align: 'left',
       width: 180,
@@ -60,7 +60,6 @@ class ReportLogTable extends React.Component {
       key: 'notes',
       align: 'left',
       width: 208,
-      fixed: 'left',
       render: (value, record, index) => {
         return <div>{value}</div>
       },
@@ -151,18 +150,22 @@ class ReportLogTable extends React.Component {
         reportId,
         logId,
       })
-      if (response.success) {
+      console.log(response)
+      if (response) {
         const newDataSource = dataSource.filter(log => log._id !== logId)
         this.setState({ dataSource: newDataSource })
         message.success(t('addon.onDelete.success'))
+      } else {
+        message.error(t('addon.onDelete.error'))
       }
     } catch (error) {
       console.log(error)
-      message.success(t('addon.onDelete.error'))
     }
   }
   render() {
     const { dataSource } = this.state
+
+    console.log(this.getColumns())
 
     return (
       <Table
@@ -171,7 +174,6 @@ class ReportLogTable extends React.Component {
         columns={this.getColumns()}
         pagination={false}
         bordered
-        scroll={{ x: 1200 }}
         footer={() => (
           <Row type="flex" style={{ color: '#1890FF' }} align="middle">
             <Button type="link" style={{ fontWeight: 500, fontSize: '16px' }}>
