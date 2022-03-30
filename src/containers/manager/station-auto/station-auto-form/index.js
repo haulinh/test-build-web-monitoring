@@ -40,6 +40,7 @@ import { v4 as uuidv4 } from 'uuid'
 import AlarmConfig from '../alarm-config'
 import MeasuringTableAdvanced from '../station-auto-formTable-advanced/'
 import MeasuringTable from '../station-auto-formTable/'
+import LanguageInput from 'components/language'
 
 const { TextArea } = Input
 const { Panel } = Collapse
@@ -604,7 +605,7 @@ export default class StationAutoForm extends React.PureComponent {
 
   render() {
     const { getFieldDecorator } = this.props.form
-    const { otherForm } = this.props
+    const { otherForm, form } = this.props
     const { t } = this.props.lang
     // const urlPhotoUpload = MediaApi.urlPhotoUploadWithDirectory('station-autos')
     // const { previewVisible, previewImage, fileList } = this.state
@@ -625,6 +626,8 @@ export default class StationAutoForm extends React.PureComponent {
         sm: { span: 17, offset: 0 },
       },
     }
+
+    getFieldDecorator('language.name')
 
     return (
       <div>
@@ -706,10 +709,14 @@ export default class StationAutoForm extends React.PureComponent {
                         },
                       ],
                     })(
-                      <Input
-                        placeholder={t(
-                          'stationAutoManager.form.name.placeholder'
-                        )}
+                      <LanguageInput
+                        language={form.getFieldValue('language.name')}
+                        rules={[{
+                          pattern: 64,
+                          message: i18n().name.max,
+                        }]}
+                        onChangeLanguage={language => form.setFieldsValue({['language.name']: language})
+                      }
                       />
                     )}
                   </FormItem>

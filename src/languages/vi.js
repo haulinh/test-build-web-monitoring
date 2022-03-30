@@ -1,4 +1,8 @@
 export default {
+  languageSetup: {
+    setup: 'Thiết lập hệ thống',
+    warningContent: '"<span>{{=it.lang}}</span>" sẽ được sử dụng cho các ô còn trống.'
+  },
   notificationFreq: {
     only1: 'Chỉ 1 lần',
     _5Min: 'Mỗi 5 phút',
@@ -36,6 +40,7 @@ export default {
     edit: 'Sửa',
     delete: 'Xoá',
     create: 'Tạo mới',
+    back: 'Trở về',
     leave: 'Đồng ý',
     leaveConfirm: {
       title: 'Thoát phiên làm việc',
