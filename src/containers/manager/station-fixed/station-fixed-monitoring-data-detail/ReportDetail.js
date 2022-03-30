@@ -1,14 +1,13 @@
 import { Button, Checkbox, Col, Form, Input, Popover, Row, Tabs } from 'antd'
-import React, { Component } from 'react'
-import SelectProvinceForm from '../station-fixed-monitoring-data/search/SelectProvinceForm'
-import styled from 'styled-components'
+import StationFixedPeriodic from 'api/station-fixed/StationFixedPeriodic'
 import { Clearfix } from 'components/elements'
-import ReportTable from 'containers/manager/station-fixed/station-fixed-monitoring-data-detail/ReportTable'
 import { FormItem } from 'components/layouts/styles'
-import Attachments from './Attachments'
+import ReportLogTable from 'containers/manager/station-fixed/station-fixed-monitoring-data-detail/ReportLogTable'
 import { translate as t } from 'hoc/create-lang'
-
-const { TabPane } = Tabs
+import { get } from 'lodash'
+import React, { Component } from 'react'
+import styled from 'styled-components'
+import Attachments from './Attachments'
 
 const Flex = styled.div`
   display: flex;
@@ -42,6 +41,7 @@ export function i18n() {
       invalid: t('qcvn.invalid'),
     },
     optionalInfo: {
+      dateTime: t('stationFixedManager.table.title.dateTime'),
       year: t('dataPointReport.optionalInfo.year'),
       month: t('dataPointReport.optionalInfo.month'),
       symbol: t('dataPointReport.optionalInfo.symbol'),
@@ -66,8 +66,6 @@ export function i18n() {
 }
 
 const optionalInfo = [
-  // { field: 'year', checked: false },
-  // { field: 'month', checked: false },
   { field: 'monitoringPlace', checked: false },
   { field: 'requirements', checked: false },
   { field: 'method', checked: false },
@@ -78,18 +76,35 @@ const optionalInfo = [
   { field: 'weather', checked: false },
   { field: 'analyst', checked: false },
   { field: 'placeOfAnalysis', checked: false },
-  // { field: 'createdAt', checked: false },
 ]
 
 @Form.create()
 export default class ReportDetail extends Component {
+  state = {
+    points: [],
+  }
+
+  componentDidMount = async () => {
+    const periodic = await StationFixedPeriodic.getStationFixedPeriodics({}, {})
+
+    this.setState({ points: periodic.data })
+  }
+
   operations = () => (
     <Flex>
       <Popover content={this.content()} placement="bottom" trigger="click">
-        <CustomButton icon="profile">Thêm thông tin</CustomButton>
+        <CustomButton icon="profile">
+          {t('stationFixedManager.button.add')}
+        </CustomButton>
       </Popover>
     </Flex>
   )
+
+  getPointName = (points, stationId) => {
+    const pointEdit = points.find(point => point._id === stationId)
+
+    return get(pointEdit, 'name', '')
+  }
 
   content = () => {
     const { form } = this.props
@@ -110,21 +125,26 @@ export default class ReportDetail extends Component {
     )
   }
   render() {
-    const { form } = this.props
+    const { form, initialValues } = this.props
+    const { points } = this.state
+
     return (
-      <div>
+      <React.Fragment>
         <Row gutter={12}>
           <Col span={12}>
-            <FormItem label="Điểm quan trắc">
+            <FormItem label={t('stationFixedManager.label.point')}>
               {form.getFieldDecorator('POINTS', {
-                initialValue: 'Trạm Hoàn Kiếm',
+                initialValue: initialValues.report.name,
               })(<Input style={{ height: '40px' }} disabled />)}
             </FormItem>
           </Col>
           <Col span={12}>
-            <FormItem label="Tên báo cáo">
+            <FormItem label={t('stationFixedManager.table.title.reportName')}>
               {form.getFieldDecorator('REPORT', {
-                initialValue: 'Báo cáo QTĐK - MP1 261121',
+                initialValue: this.getPointName(
+                  points,
+                  initialValues.report.stationId
+                ),
               })(<Input style={{ height: '40px' }}></Input>)}
             </FormItem>
           </Col>
@@ -132,10 +152,10 @@ export default class ReportDetail extends Component {
         <Clearfix height={24} />
         {this.operations()}
         <Clearfix height={12} />
-        <ReportTable form={form} />
+        <ReportLogTable form={form} dataSource={initialValues.logs} />
         <Clearfix height={16} />
         <Attachments />
-      </div>
+      </React.Fragment>
     )
   }
 }

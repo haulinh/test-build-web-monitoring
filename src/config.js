@@ -34,6 +34,7 @@ export function getConfigApi() {
     stationFixedExportDataPoint: c('station-fixed/export-data-points'),
     stationFixedPoint: c('station-fixed/points'),
     stationFixedReport: c('station-fixed/report'),
+    stationFixedReportLog: c('station-fixed/report-logs'),
     stationFixedPeriodic: c('station-fixed/station-periodic'),
     dataStationFixed: c('data-station-fixed'),
     // report: 'http://localhost:5004/report',
