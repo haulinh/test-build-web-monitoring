@@ -55,7 +55,7 @@ export default class TableMonitoringData extends React.Component {
           <div>
             {value === 'manual'
               ? t('stationFixedManager.table.directInput')
-              : t('stationFixedManager.table.title.excelInput')}
+              : t('stationFixedManager.table.excelInput')}
           </div>
         )
       },
