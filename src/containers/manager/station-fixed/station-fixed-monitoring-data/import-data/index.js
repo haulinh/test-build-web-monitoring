@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
-import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import Breadcrumb from '../../breadcrumb'
-import { Clearfix, FormItem } from 'components/layouts/styles'
 import { Col, Input, Row } from 'antd'
+import { Clearfix } from 'components/layouts/styles'
+import PageContainer from 'layout/default-sidebar-layout/PageContainer'
+import React, { Component } from 'react'
+import Breadcrumb from '../../breadcrumb'
 import ImportFile from './ImportFile'
 
 export default class StationFixedImportExcel extends Component {

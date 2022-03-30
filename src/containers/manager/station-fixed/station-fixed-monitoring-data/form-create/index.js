@@ -1,14 +1,14 @@
-import React, { Component } from 'react'
-import { Button, Form, message } from 'antd'
-import styled from 'styled-components'
-import FormInfoBasic from './FormInfoBasic'
-import { FIELDS } from '../constants'
-import moment from 'moment-timezone'
-import _, { get } from 'lodash'
-import FormMeasure from './FormMeasure'
-import { v4 as uuidv4 } from 'uuid'
-import FormCollapse from './FormCollapse'
+import { Button, Form, notification } from 'antd'
 import { createManualReport } from 'api/station-fixed/StationFixedReportApi'
+import _, { get } from 'lodash'
+import moment from 'moment-timezone'
+import React, { Component } from 'react'
+import styled from 'styled-components'
+import { v4 as uuidv4 } from 'uuid'
+import { FIELDS } from '../constants'
+import FormCollapse from './FormCollapse'
+import FormInfoBasic from './FormInfoBasic'
+import FormMeasure from './FormMeasure'
 
 const FormContainer = styled.div`
   display: flex;
@@ -28,7 +28,11 @@ const FormContainer = styled.div`
     justify-content: flex-end;
     gap: 12px;
     border-top: 1px solid #e8e8e8;
-    padding: 24px;
+    padding: 12px;
+  }
+
+  .ant-popover-inner-content {
+    width: 300px;
   }
 
   .row-form {
@@ -68,7 +72,12 @@ export default class FormMonitoring extends Component {
       })
 
       setVisibleDrawer(false)
-      message.success('Tạo mới thành công')
+      notification.success({
+        message: `Dữ liệu đã được duyệt`,
+        description:
+          'Dữ liệu quan trắc định kỳ đã được duyệt thành công, đơn vị gửi báo cáo sẽ nhận được thông báo phê duyệt.',
+        placement: 'bottomRight',
+      })
     } catch (error) {
       console.error({ error })
 
@@ -83,6 +92,8 @@ export default class FormMonitoring extends Component {
 
     const value = form.getFieldsValue()
 
+    console.log({ value })
+
     const { measuringLogs, otherInfo, ...otherValue } = value
 
     const paramMeasuringLogs = this.getParamMeasuringLogs()
@@ -90,6 +101,7 @@ export default class FormMonitoring extends Component {
     const params = {
       ...otherValue,
       ...otherInfo,
+      name: value.name.trim(),
       measuringLogs: paramMeasuringLogs,
       type,
     }
@@ -360,11 +372,15 @@ export default class FormMonitoring extends Component {
           <FormCollapse form={form} />
         </div>
         <div className="form-footer">
-          <Button type="link" onClick={this.resetForm}>
+          <Button
+            type="link"
+            onClick={this.resetForm}
+            style={{ background: '#E1EDFB', color: '#1890FF' }}
+          >
             Nhập lại
           </Button>
           <Button loading={loading} type="primary" onClick={this.onSubmitForm}>
-            Tạo mới
+            Nhập dữ liệu
           </Button>
         </div>
       </FormContainer>

@@ -1,14 +1,12 @@
 import { Row, Table } from 'antd'
 import AvatarCharacter from 'components/elements/avatar-character'
+import slug from 'constants/slug'
+import { autobind } from 'core-decorators'
 import { translate as t } from 'hoc/create-lang'
 import { get } from 'lodash'
 import moment from 'moment-timezone'
 import React from 'react'
 import { Link } from 'react-router-dom'
-import slug from 'constants/slug'
-import { autobind } from 'core-decorators'
-
-const REPORT_LINK = 'https://qa.ilotusland.asia/'
 
 @autobind
 export default class TableMonitoringData extends React.Component {
@@ -87,7 +85,7 @@ export default class TableMonitoringData extends React.Component {
                     get(value, 'firstName', '')}
                 </Row>
                 <Row style={{ color: '#A2A7B3' }}>
-                  {moment(record.createdAt).format('HH:MM DD/MM/YYYY')}
+                  {moment(record.createdAt).format('HH:mm DD/MM/YYYY')}
                 </Row>
               </div>
             </Row>
@@ -120,7 +118,7 @@ export default class TableMonitoringData extends React.Component {
                     get(value, 'firstName', '')}
                 </Row>
                 <Row style={{ color: '#A2A7B3' }}>
-                  {moment(record.updatedAt).format('HH:MM DD/MM/YYYY')}
+                  {moment(record.updatedAt).format('HH:mm DD/MM/YYYY')}
                 </Row>
               </div>
             </Row>

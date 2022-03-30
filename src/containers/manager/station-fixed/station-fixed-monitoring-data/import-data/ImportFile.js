@@ -1,4 +1,4 @@
-import { Button, Row, Icon, Upload, Col } from 'antd'
+import { Button, Icon, Row, Upload } from 'antd'
 import { Clearfix } from 'components/elements'
 import React, { Component } from 'react'
 import styled from 'styled-components'

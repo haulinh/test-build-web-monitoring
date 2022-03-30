@@ -11,7 +11,6 @@ import Search from './search'
 import slug from 'constants/slug'
 import TableMonitoringData from './TableMonitoringData'
 import ModalConfirmCancel from './components/ModalConfirmCancel'
-import { Router } from 'react-router'
 import { withRouter } from 'react-router'
 
 const Drawer = styled(DrawerAnt)`
@@ -123,45 +122,48 @@ export default class StationFixedMonitoringData extends React.Component {
     } = this.state
 
     return (
-      <PageContainer>
-        <Breadcrumb items={['monitoringData']} />
-        <Search
-          setMonitoringData={this.setMonitoringData}
-          createSuccess={createSuccess}
-        />
-        <Clearfix height={15} />
-        <TableMonitoringData dataSource={dataSource} loading={loading} />
-
-        <Drawer
-          title="Nhập liệu điểm quan trắc"
-          visible={visibleDrawer}
-          closable={false}
-          placement="right"
-          onClose={this.onCloseDrawer}
-          width={600}
-        >
-          <FormMonitoring
-            setVisibleDrawer={this.setVisibleDrawer}
-            type={type}
-            points={points}
-            visibleDrawer={visibleDrawer}
-            wrappedComponentRef={this.formRef}
-            onResetForm={this.onResetForm}
+      <div>
+        <PageContainer>
+          <Breadcrumb items={['monitoringData']} />
+          <Search
+            setMonitoringData={this.setMonitoringData}
+            createSuccess={createSuccess}
           />
-        </Drawer>
+          <Clearfix height={15} />
+          <TableMonitoringData dataSource={dataSource} loading={loading} />
 
-        <DropdownButton
-          className="dropdown-button"
-          onClickImportManual={this.onClickImportManual}
-          onClickImportFile={this.onClickImportFile}
-        />
+          <Drawer
+            key={visibleDrawer}
+            title="Nhập liệu điểm quan trắc"
+            visible={visibleDrawer}
+            closable
+            placement="right"
+            onClose={this.onCloseDrawer}
+            width={600}
+          >
+            <FormMonitoring
+              setVisibleDrawer={this.setVisibleDrawer}
+              type={type}
+              points={points}
+              visibleDrawer={visibleDrawer}
+              wrappedComponentRef={this.formRef}
+              onResetForm={this.onResetForm}
+            />
+            <ModalConfirmCancel
+              visible={visibleModalConfirmCancel}
+              onConfirmCancel={this.onConfirmCancel}
+              onCancelOut={this.onCancelOut}
+              closable={false}
+            />
+          </Drawer>
 
-        <ModalConfirmCancel
-          visible={visibleModalConfirmCancel}
-          onConfirmCancel={this.onConfirmCancel}
-          onCancelOut={this.onCancelOut}
-        />
-      </PageContainer>
+          <DropdownButton
+            className="dropdown-button"
+            onClickImportManual={this.onClickImportManual}
+            onClickImportFile={this.onClickImportFile}
+          />
+        </PageContainer>
+      </div>
     )
   }
 }
