@@ -8,8 +8,10 @@ import Breadcrumb from '../breadcrumb'
 import DropdownButton from './components/DropdownButton'
 import FormMonitoring from './form-create/index'
 import Search from './search'
+import slug from 'constants/slug'
 import TableMonitoringData from './TableMonitoringData'
 import ModalConfirmCancel from './components/ModalConfirmCancel'
+import { withRouter } from 'react-router'
 
 const Drawer = styled(DrawerAnt)`
   .ant-drawer-body {
@@ -30,7 +32,7 @@ const Drawer = styled(DrawerAnt)`
     color: #111827;
   }
 `
-
+@withRouter
 export default class StationFixedMonitoringData extends React.Component {
   state = {
     visibleDrawer: false,
@@ -39,6 +41,7 @@ export default class StationFixedMonitoringData extends React.Component {
     points: [],
     type: '',
     visibleModalConfirmCancel: false,
+    createSuccess: false,
   }
 
   formRef = createRef()
@@ -74,12 +77,13 @@ export default class StationFixedMonitoringData extends React.Component {
   }
 
   setMonitoringData = (dataSource, loading) => {
-    this.setState({ dataSource, loading })
+    this.setState({ dataSource, loading, createSuccess: false })
   }
 
   setVisibleDrawer = visible => {
     this.setState({
       visibleDrawer: visible,
+      createSuccess: true,
     })
 
     this.formRef.current.props.form.resetFields()
@@ -100,6 +104,12 @@ export default class StationFixedMonitoringData extends React.Component {
     })
   }
 
+  onClickImportFile = () => {
+    const { history } = this.props
+
+    history.push(slug.stationFixed.monitoringDataImport)
+  }
+
   render() {
     const {
       dataSource,
@@ -108,44 +118,52 @@ export default class StationFixedMonitoringData extends React.Component {
       points,
       type,
       visibleModalConfirmCancel,
+      createSuccess,
     } = this.state
 
     return (
-      <PageContainer>
-        <Breadcrumb items={['monitoringData']} />
-        <Search setMonitoringData={this.setMonitoringData} />
-        <Clearfix height={15} />
-        <TableMonitoringData dataSource={dataSource} loading={loading} />
-
-        <Drawer
-          title="Nhập liệu điểm quan trắc"
-          visible={visibleDrawer}
-          closable={false}
-          placement="right"
-          onClose={this.onCloseDrawer}
-          width={600}
-        >
-          <FormMonitoring
-            setVisibleDrawer={this.setVisibleDrawer}
-            type={type}
-            points={points}
-            visibleDrawer={visibleDrawer}
-            wrappedComponentRef={this.formRef}
-            onResetForm={this.onResetForm}
+      <div>
+        <PageContainer>
+          <Breadcrumb items={['monitoringData']} />
+          <Search
+            setMonitoringData={this.setMonitoringData}
+            createSuccess={createSuccess}
           />
-        </Drawer>
+          <Clearfix height={15} />
+          <TableMonitoringData dataSource={dataSource} loading={loading} />
 
-        <DropdownButton
-          className="dropdown-button"
-          onClickImportManual={this.onClickImportManual}
-        />
+          <Drawer
+            key={visibleDrawer}
+            title="Nhập liệu điểm quan trắc"
+            visible={visibleDrawer}
+            closable
+            placement="right"
+            onClose={this.onCloseDrawer}
+            width={600}
+          >
+            <FormMonitoring
+              setVisibleDrawer={this.setVisibleDrawer}
+              type={type}
+              points={points}
+              visibleDrawer={visibleDrawer}
+              wrappedComponentRef={this.formRef}
+              onResetForm={this.onResetForm}
+            />
+            <ModalConfirmCancel
+              visible={visibleModalConfirmCancel}
+              onConfirmCancel={this.onConfirmCancel}
+              onCancelOut={this.onCancelOut}
+              closable={false}
+            />
+          </Drawer>
 
-        <ModalConfirmCancel
-          visible={visibleModalConfirmCancel}
-          onConfirmCancel={this.onConfirmCancel}
-          onCancelOut={this.onCancelOut}
-        />
-      </PageContainer>
+          <DropdownButton
+            className="dropdown-button"
+            onClickImportManual={this.onClickImportManual}
+            onClickImportFile={this.onClickImportFile}
+          />
+        </PageContainer>
+      </div>
     )
   }
 }

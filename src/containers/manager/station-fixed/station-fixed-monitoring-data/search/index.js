@@ -33,6 +33,7 @@ export default class Search extends React.Component {
     stationTypes: [],
     points: [],
     initialPoints: [],
+    time: '',
   }
 
   componentDidMount = async () => {
@@ -167,6 +168,9 @@ export default class Search extends React.Component {
     const { form } = this.props
     const { initialPoints } = this.state
 
+    this.setState({
+      time: timeSelected,
+    })
     const stationId = get(
       form.getFieldsValue([FIELDS.POINT]),
       'point',
@@ -221,9 +225,19 @@ export default class Search extends React.Component {
     }
   }
 
+  componentDidUpdate = (prevProps, prevState) => {
+    const { time } = this.state
+    const { createSuccess } = this.props
+    if (prevProps.createSuccess !== createSuccess) {
+      this.handleSelectedTime(time)
+    }
+  }
+
   render() {
-    const { form } = this.props
+    const { form, createSuccess } = this.props
     const { stationTypes, points } = this.state
+
+    console.log({ createSuccess })
 
     return (
       <React.Fragment>

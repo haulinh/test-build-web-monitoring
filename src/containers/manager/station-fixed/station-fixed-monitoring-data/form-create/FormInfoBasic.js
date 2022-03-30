@@ -4,6 +4,13 @@ import React, { Component } from 'react'
 import { FIELDS } from '../constants'
 import SelectPoint from '../search/SelectPoint'
 
+const locale = {
+  lang: {
+    now: 'Hiện tại',
+    timeSelect: 'Chọn thời gian',
+    ok: 'OK',
+  },
+}
 export default class FormInfoBasic extends Component {
   state = {
     stationTypeId: '',
@@ -27,6 +34,11 @@ export default class FormInfoBasic extends Component {
                 rules: [
                   {
                     required: true,
+                    message: 'Tên báo cáo không được để trống',
+                  },
+                  { max: 64, message: 'Vượt quá 64 kí tự' },
+                  {
+                    whitespace: true,
                     message: 'Tên báo cáo không được để trống',
                   },
                 ],
@@ -64,7 +76,7 @@ export default class FormInfoBasic extends Component {
           </Col>
 
           <Col span={12}>
-            <FormItem label="Thời gian" style={{ width: '100%' }}>
+            <FormItem label="Thời gian lấy mẫu" style={{ width: '100%' }}>
               {form.getFieldDecorator(FIELDS.TIME, {
                 rules: [
                   {
@@ -73,6 +85,7 @@ export default class FormInfoBasic extends Component {
                 ],
               })(
                 <DatePicker
+                  locale={locale}
                   style={{ width: '100%' }}
                   showTime
                   placeholder="Select Time"
