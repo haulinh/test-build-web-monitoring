@@ -41,6 +41,7 @@ import AlarmConfig from '../alarm-config'
 import MeasuringTableAdvanced from '../station-auto-formTable-advanced/'
 import MeasuringTable from '../station-auto-formTable/'
 import LanguageInput from 'components/language'
+import CalculateApi from 'api/CalculateApi'
 
 const { TextArea } = Input
 const { Panel } = Collapse
@@ -184,7 +185,9 @@ export default class StationAutoForm extends React.PureComponent {
     }
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    const list = await CalculateApi.getAllLanguageContent()
+    console.log(list)
     const initialValues = this.getInitialValues()
     const minuteCount = _.get(
       initialValues,
@@ -293,7 +296,7 @@ export default class StationAutoForm extends React.PureComponent {
     return result
   }
 
-  handleSubmit(e) {
+  async handleSubmit(e) {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
       if (err) {
@@ -437,7 +440,10 @@ export default class StationAutoForm extends React.PureComponent {
       // Callback submit form Container Component
       console.log('--onSubmit---', data)
       if (!isDisableSave && !isDisableSaveAdvanced && this.props.onSubmit) {
-        this.props.onSubmit(data)
+        console.log(data)
+        this.getFormLanguage()
+    
+        // await this.props.onSubmit(data)
         data.measuringListAdvanced.forEach((measuringAdvanced, index) => {
           this.props.form.setFieldsValue({
             [`measuringListAdvanced.${this.state.measuringListAdvanced[index].id}`]: {
@@ -447,6 +453,12 @@ export default class StationAutoForm extends React.PureComponent {
         })
       }
     })
+  }
+
+  getFormLanguage(){
+    const {form} = this.props
+    const languages = form.getFieldValue('language')
+    console.log(languages)
   }
 
   changeStationType(stationTypeObject) {

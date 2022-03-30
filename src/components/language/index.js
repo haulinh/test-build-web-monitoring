@@ -40,7 +40,7 @@ class Language extends React.Component {
     const getContent = (lang) => 
       lang === getLanguage() && !!content && get(language, lang) !== content
         ? content
-        : get(language, lang)
+        : get(language, lang, content)
 
     form.setFieldsValue({
       vi: getContent('vi'),
@@ -62,7 +62,15 @@ class Language extends React.Component {
     })
   }
 
-  onChange = (content) => this.setState({content})
+  timeOut = null
+  onChange = (content) => {
+    this.setState({content})
+    clearTimeout(this.timeOut)
+    this.timeOut = setTimeout(() => {
+      const {onChange} = this.props
+      onChange(content)
+    }, 500)
+  }
 
   getValues = async () => {
     const {form} = this.props
