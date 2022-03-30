@@ -39,6 +39,10 @@ const FormContainer = styled.div`
     color: #a2a7b3;
   }
 
+  .ant-input-affix-wrapper .ant-input:not(:last-child) {
+    padding-right: 45px;
+  }
+
   .row-form {
     display: flex;
     gap: 20px;
