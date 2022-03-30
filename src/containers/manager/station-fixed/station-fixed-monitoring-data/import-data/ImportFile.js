@@ -47,6 +47,7 @@ export default class ImportFile extends Component {
         <Dragger
           accept=".xlsx"
           name="file"
+          multiple={false}
           style={{ width: '600px' }}
           action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
           onChange={onChangeUpload}
@@ -58,7 +59,7 @@ export default class ImportFile extends Component {
           <p className="ant-upload-hint">Hỗ trợ cho tệp Xlsx</p>
         </Dragger>
 
-        <Clearfix height={30} />
+        <Clearfix height={20} />
       </ImportContainer>
     )
   }
