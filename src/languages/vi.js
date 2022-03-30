@@ -4462,6 +4462,7 @@ export default {
         message: {
           measure: 'Vui lòng chọn thông số',
           value: 'Vui lòng nhập giá trị',
+          format: 'Vui lòng nhập đúng định dạng',
         },
       },
       formOtherInfo: {

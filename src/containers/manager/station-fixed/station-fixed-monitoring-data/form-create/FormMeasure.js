@@ -64,6 +64,14 @@ export default class FormMeasure extends Component {
 
       const key = measureKeyForm.measuringLogs[measure._id].key
 
+      const validateValue = (rule, value, callBack) => {
+        if (/^(>|<)?=?\s?-?(\d+)((\.|,)\d+)?$/i.test(value)) {
+          callBack(i18n().drawer.formMeasure.message.format)
+          return
+        }
+        callBack()
+      }
+
       return (
         <Row
           gutter={16}
@@ -109,6 +117,10 @@ export default class FormMeasure extends Component {
                         {
                           whitespace: true,
                           message: i18n().drawer.formMeasure.message.value,
+                        },
+
+                        {
+                          validator: validateValue,
                         },
                       ],
                     }

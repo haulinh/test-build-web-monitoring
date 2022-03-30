@@ -110,6 +110,7 @@ export const i18n = () => {
             'stationFixedMonitoring.drawer.formMeasure.message.measure'
           ),
           value: t('stationFixedMonitoring.drawer.formMeasure.message.value'),
+          format: t('stationFixedMonitoring.drawer.formMeasure.message.format'),
         },
       },
       formOtherInfo: {

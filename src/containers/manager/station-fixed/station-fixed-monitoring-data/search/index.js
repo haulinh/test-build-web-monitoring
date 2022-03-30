@@ -234,10 +234,8 @@ export default class Search extends React.Component {
   }
 
   render() {
-    const { form, createSuccess } = this.props
+    const { form } = this.props
     const { stationTypes, points } = this.state
-
-    console.log({ createSuccess })
 
     return (
       <React.Fragment>

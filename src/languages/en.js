@@ -4450,6 +4450,7 @@ export default {
         message: {
           measure: 'Please select parameters',
           value: 'Please enter the value',
+          format: 'Please enter true format',
         },
       },
       formOtherInfo: {
