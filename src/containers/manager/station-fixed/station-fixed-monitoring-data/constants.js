@@ -115,6 +115,9 @@ export const i18n = () => {
           value: t('stationFixedMonitoring.drawer.formMeasure.message.value'),
           format: t('stationFixedMonitoring.drawer.formMeasure.message.format'),
         },
+        hint: {
+          text: t('stationFixedMonitoring.drawer.formMeasure.hint.text'),
+        },
       },
       formOtherInfo: {
         placeholder: t(
@@ -145,7 +148,6 @@ export const i18n = () => {
     },
     popupCreateSuccess: {
       title: t('stationFixedMonitoring.popupCreateSuccess.title'),
-      desc: t('stationFixedMonitoring.popupCreateSuccess.desc'),
     },
     modalConfirmCancel: {
       content: t('stationFixedMonitoring.modalConfirmCancel.content'),

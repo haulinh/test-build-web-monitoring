@@ -1685,6 +1685,7 @@ export default {
     label: {
       timeRange: 'Time',
       point: 'Monitoring point',
+      attachment: 'Attachments',
     },
     placeholder: {
       timeRange: {
@@ -1692,9 +1693,16 @@ export default {
         to: 'End date',
       },
     },
+    button: {
+      add: 'Add information',
+    },
     table: {
       directInput: 'Direct input',
       excelInput: 'By excel',
+      popUp: {
+        delete: `Are you sure to delete this row's data?`,
+      },
+      footer: 'Add data',
       title: {
         phase: 'Phase',
         reportName: 'Report name',
@@ -1703,6 +1711,7 @@ export default {
         userInput: 'Created by',
         createTime: 'Create time',
         editTime: 'Edited by',
+        dateTime: 'Time sample',
       },
     },
   },
@@ -4452,6 +4461,9 @@ export default {
           value: 'Please enter the value',
           format: 'Please enter true format',
         },
+        hint: {
+          text: 'Hint: Pressing <b>tab</b> to go next the cell',
+        },
       },
       formOtherInfo: {
         placeholder: 'Enter information',
@@ -4471,9 +4483,7 @@ export default {
       },
     },
     popupCreateSuccess: {
-      title: 'Data has been approved',
-      desc:
-        'Periodic monitoring data has been approved successfully, the unit sending the report will receive a notification of approval.',
+      title: 'Create Success',
     },
     modalConfirmCancel: {
       content: "The changes you have made, probably won't be saved.",

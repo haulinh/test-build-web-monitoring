@@ -1685,6 +1685,7 @@ export default {
     label: {
       timeRange: 'Thời gian nhập liệu',
       point: 'Điểm quan trắc',
+      attachment: 'Đính kèm',
     },
     placeholder: {
       timeRange: {
@@ -1692,9 +1693,16 @@ export default {
         to: 'Tới khoảng',
       },
     },
+    button: {
+      add: 'Thêm thông tin',
+    },
     table: {
       directInput: 'Nhập trực tiếp',
       excelInput: 'Bằng file Excel',
+      popUp: {
+        delete: 'Bạn có chắc muốn xóa hàng dữ liệu này?',
+      },
+      footer: 'Thêm dữ liệu',
       title: {
         phase: 'Đợt quan trắc',
         reportName: 'Tên báo cáo',
@@ -1703,6 +1711,7 @@ export default {
         userInput: 'Nhập liệu',
         createTime: 'Thời gian nhập liệu',
         editTime: 'Chỉnh sửa',
+        dateTime: 'Thời gian lấy mẫu',
       },
     },
   },
@@ -4464,6 +4473,9 @@ export default {
           value: 'Vui lòng nhập giá trị',
           format: 'Vui lòng nhập đúng định dạng',
         },
+        hint: {
+          text: 'Gợi ý: Nhấn <b>tab</b> để nhập ô tiếp theo',
+        },
       },
       formOtherInfo: {
         placeholder: 'Nhập thông tin',
@@ -4483,9 +4495,7 @@ export default {
       },
     },
     popupCreateSuccess: {
-      title: 'Dữ liệu đã được duyệt',
-      desc:
-        'Dữ liệu quan trắc định kỳ đã được duyệt thành công, đơn vị gửi báo cáo sẽ nhận được thông báo phê duyệt.',
+      title: 'Tạo mới báo cáo thành công.',
     },
     modalConfirmCancel: {
       content: 'Những thay đổi bạn đã thực hiện, có thể sẽ không được lưu.',
