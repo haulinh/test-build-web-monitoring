@@ -4461,6 +4461,9 @@ export default {
           value: 'Please enter the value',
           format: 'Please enter true format',
         },
+        hint: {
+          text: 'Hint: Pressing <b>tab</b> to go next the cell',
+        },
       },
       formOtherInfo: {
         placeholder: 'Enter information',
@@ -4480,9 +4483,7 @@ export default {
       },
     },
     popupCreateSuccess: {
-      title: 'Data has been approved',
-      desc:
-        'Periodic monitoring data has been approved successfully, the unit sending the report will receive a notification of approval.',
+      title: 'Create Success',
     },
     modalConfirmCancel: {
       content: "The changes you have made, probably won't be saved.",

@@ -1,4 +1,4 @@
-import { Button, Col, Icon, Input, Popconfirm, Row } from 'antd'
+import { Button, Col, Icon, Input, Row } from 'antd'
 import { Clearfix, FormItem } from 'components/layouts/styles'
 import _ from 'lodash'
 import React, { Component } from 'react'
@@ -139,13 +139,10 @@ export default class FormMeasure extends Component {
               </Col>
 
               <Col span={3} style={{ textAlign: 'right', alignSelf: 'center' }}>
-                <Popconfirm
-                  title={i18n().drawer.formMeasure.popupDelete.title}
-                  okText={i18n().button.accept}
-                  cancelText={i18n().button.cancel}
+                <Button
+                  type="link"
                   disabled={isDisableDelete}
-                  onConfirm={() => handleDelete(measure._id)}
-                  getPopupContainer={trigger => trigger.parentNode}
+                  onClick={() => handleDelete(measure._id)}
                 >
                   <Icon
                     type="delete"
@@ -154,7 +151,7 @@ export default class FormMeasure extends Component {
                       color: isDisableDelete ? '#A2A7B3' : 'red',
                     }}
                   />
-                </Popconfirm>
+                </Button>
               </Col>
             </Row>
           </Col>
@@ -164,7 +161,24 @@ export default class FormMeasure extends Component {
 
     return (
       <div>
-        <div className="title">{i18n().drawer.formMeasure.title}</div>
+        <Row
+          gutter={16}
+          type="flex"
+          justify="space-between"
+          align="middle"
+          style={{ width: '100%' }}
+        >
+          <Col span={12} className="title">
+            {i18n().drawer.formMeasure.title}
+          </Col>
+          <Col
+            span={12}
+            style={{ textAlign: 'right' }}
+            dangerouslySetInnerHTML={{
+              __html: i18n().drawer.formMeasure.hint.text,
+            }}
+          />
+        </Row>
 
         {formDynamic}
 
