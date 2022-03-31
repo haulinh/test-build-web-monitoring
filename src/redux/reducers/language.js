@@ -6,6 +6,7 @@ import {
   LIST_DICTIONARY_LANGUAGES,
   LIST_LANGUAGES,
   LIST_LANGUAGE_CONTENTS,
+  UPDATE_LANGUAGE_CONTENT,
 } from '../actions/languageAction'
 import languages from 'languages'
 import { getLanguage } from 'utils/localStorage'
@@ -43,9 +44,26 @@ export default function createReducer(state = initialState, action) {
       return getListLanguages(state, action)
     case LIST_LANGUAGE_CONTENTS:
       return getListLanguageContents(state, action)
+    case UPDATE_LANGUAGE_CONTENT:
+      return updateLanguageContent(state, action)
     default:
       return state
   }
+}
+
+export function updateLanguageContent(state, { payload }) {
+  const newContents = {
+    ...state.languageContents,
+    [payload.type]: {
+      [payload.itemId]: payload
+    }
+  }
+
+  return update(state, {
+    languageContents: {
+      $set: newContents
+    },
+  })
 }
 
 export function getListLanguageContents(state, { payload }) {

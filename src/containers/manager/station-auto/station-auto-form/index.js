@@ -42,7 +42,7 @@ import MeasuringTableAdvanced from '../station-auto-formTable-advanced/'
 import MeasuringTable from '../station-auto-formTable/'
 import LanguageInput from 'components/language'
 import CalculateApi from 'api/CalculateApi'
-import {connect} from 'react-redux'
+import {getLanguage} from 'utils/localStorage'
 
 const { TextArea } = Input
 const { Panel } = Collapse
@@ -442,7 +442,8 @@ class StationAutoForm extends React.PureComponent {
         if (results.data) {
           const language = this.getFormLanguage(values)
           const itemId = results.data._id
-          await CalculateApi.updateLanguageContent({itemId, type: 'Station', language})
+          const content = await CalculateApi.updateLanguageContent({itemId, type: 'Station', language})
+          this.props.updateLanguageContent(content)
         }
 
         data.measuringListAdvanced.forEach((measuringAdvanced, index) => {
@@ -459,6 +460,7 @@ class StationAutoForm extends React.PureComponent {
   getFormLanguage(values){
     const language = get(values, 'language')
     if(isEmpty(get(language, 'name'))) language['name'] = {vi: values['name'], en: values['name'], tw: values['name']}
+    if(language['name'][getLanguage()] !== values['name']) language['name'][getLanguage()] = values['name']
     return language
   }
 

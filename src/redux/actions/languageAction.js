@@ -6,7 +6,9 @@ import CalculateApi from 'api/CalculateApi'
 export const CHANGE_LANGUAGE = 'LANGUAGE/change-language'
 export const LIST_DICTIONARY_LANGUAGES = 'LANGUAGE/list-dictionary-languages'
 export const LIST_LANGUAGES = 'LANGUAGE/list-languages'
+
 export const LIST_LANGUAGE_CONTENTS = 'LANGUAGE/list-contents'
+export const UPDATE_LANGUAGE_CONTENT = 'LANGUAGE/update-contents'
 
 export function changeLanguage(locale = 'vi') {
   setLanguage(locale)
@@ -43,5 +45,12 @@ export function getListLanguageContents() {
       type: LIST_LANGUAGE_CONTENTS,
       payload: data,
     })
+  }
+}
+
+export function updateLanguageContent(data) {
+  return {
+    type: UPDATE_LANGUAGE_CONTENT,
+    payload: data,
   }
 }
