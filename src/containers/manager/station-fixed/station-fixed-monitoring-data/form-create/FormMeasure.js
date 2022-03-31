@@ -1,5 +1,6 @@
 import { Button, Col, Icon, Input, Popconfirm, Row } from 'antd'
 import { Clearfix, FormItem } from 'components/layouts/styles'
+import measuring from 'containers/manager/measuring'
 import _ from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
@@ -11,16 +12,22 @@ import { FIELDS, i18n } from '../constants'
 }))
 export default class FormMeasure extends Component {
   convertDataMeasureObj = measuringList => {
+    const { formType, logData } = this.props
+    console.log(formType)
     const newDataMeasure = measuringList.reduce((base, current) => {
       return {
         ...base,
         [current._id]: {
           key: current.key,
-          value: current.value,
+          value:
+            formType === 'editReportLog'
+              ? logData.measuringLogs[`${current.key}`].textValue
+              : current.value,
         },
       }
     }, {})
 
+    console.log(newDataMeasure)
     return newDataMeasure
   }
 
@@ -43,6 +50,22 @@ export default class FormMeasure extends Component {
     }
   }
 
+  componentDidMount = () => {
+    const { formType, measuringList, form, logData } = this.props
+
+    if (formType === 'editReportLog') {
+      const newMeasuringList = measuringList.map(measure => {
+        setTimeout(() => {
+          form.setFieldsValue({
+            [`${FIELDS.MEASURING_LOGS}.${measure._id}.value`]: logData
+              .measuringLogs[`${measure.key}`].textValue,
+          })
+        })
+        return {}
+      })
+    }
+  }
+
   render() {
     const {
       measuringList,
@@ -51,6 +74,8 @@ export default class FormMeasure extends Component {
       isShowButton,
       measuringListSelect,
       onChangeMeasure,
+      formType,
+      logData,
     } = this.props
 
     const isDisableDelete = measuringList.length <= 1

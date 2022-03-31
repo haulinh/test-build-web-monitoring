@@ -100,23 +100,26 @@ class ReportLogTable extends React.Component {
             },
           }
         }),
-      Object.values(get(dataSource[0], 'measuringLogs', {})).map(measuring => {
-        return {
-          title: measuresObj[measuring.key].name,
-          dataIndex: `measuringLogs.${measuring.key}`,
-          align: 'left',
-          width: 114,
-          render: (value, record, index) => {
-            return (
-              <div>
-                {isNil(value.value)
-                  ? ''
-                  : `${value.value} ${measuresObj[value.key].unit}`}
-              </div>
-            )
-          },
-        }
-      }),
+      Object.entries(get(dataSource[0], 'measuringLogs', {}))
+        .map(([key, measuringObj]) => ({ key, measuringObj }))
+        .map(measuring => {
+          return {
+            title: measuresObj[measuring.key].name,
+            dataIndex: `measuringLogs.${get(measuring, 'key', '')}`,
+            align: 'left',
+            width: 114,
+            render: (value, record, index) => {
+              console.log(value)
+              return (
+                <div>
+                  {isNil(value)
+                    ? ''
+                    : `${value.textValue} ${measuresObj[measuring.key].unit}`}
+                </div>
+              )
+            },
+          }
+        }),
       {
         title: '',
         align: 'center',
@@ -150,7 +153,6 @@ class ReportLogTable extends React.Component {
         reportId,
         logId,
       })
-      console.log(response)
       if (response) {
         const newDataSource = dataSource.filter(log => log._id !== logId)
         this.setState({ dataSource: newDataSource })
@@ -163,10 +165,10 @@ class ReportLogTable extends React.Component {
     }
   }
   render() {
+    const { onClickReportLog, onClickAddReportLog } = this.props
     const { dataSource } = this.state
 
-    console.log(this.getColumns())
-
+    console.log('dataSource----------->', dataSource)
     return (
       <Table
         rowKey={record => record._id}
@@ -176,12 +178,23 @@ class ReportLogTable extends React.Component {
         bordered
         footer={() => (
           <Row type="flex" style={{ color: '#1890FF' }} align="middle">
-            <Button type="link" style={{ fontWeight: 500, fontSize: '16px' }}>
+            <Button
+              onClick={() => onClickAddReportLog()}
+              type="link"
+              style={{ fontWeight: 500, fontSize: '16px' }}
+            >
               <Icon type="plus" style={{ marginRight: 5 }} />
               {t('stationFixedManager.table.footer')}
             </Button>
           </Row>
         )}
+        onRow={record => {
+          return {
+            onClick: event => {
+              onClickReportLog(record)
+            }, // click row
+          }
+        }}
       ></Table>
     )
   }

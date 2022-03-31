@@ -1,5 +1,9 @@
 import { Button, Form, notification } from 'antd'
 import { createManualReport } from 'api/station-fixed/StationFixedReportApi'
+import {
+  createStationFixedReportLog,
+  updateStationFixedReportLog,
+} from 'api/station-fixed/StationFixedReportLog'
 import _, { get } from 'lodash'
 import moment from 'moment-timezone'
 import React, { Component } from 'react'
@@ -21,6 +25,10 @@ const FormContainer = styled.div`
     flex: 1;
     padding: 0 24px;
     overflow: auto;
+  }
+
+  .ant-drawer-body {
+    padding: 0 24px;
   }
 
   .form-footer {
@@ -63,18 +71,36 @@ export default class FormMonitoring extends Component {
   }
 
   onSubmitForm = async () => {
-    const { form, setVisibleDrawer } = this.props
+    const {
+      form,
+      formType,
+      setVisibleDrawer,
+      points,
+      basicInfoData,
+    } = this.props
 
     await form.validateFields()
 
     const params = this.getParams()
+    const reportId = basicInfoData.reportId
+    params.stationId = basicInfoData.stationId
 
     this.setState({
       loading: true,
     })
 
     try {
-      await createManualReport(params)
+      if (formType === 'editReportLog') {
+        await updateStationFixedReportLog(reportId, basicInfoData.logData._id, {
+          ...params,
+          reportId,
+        })
+      } else if (formType === 'createReportLog') {
+        console.log({ ...params, reportId })
+        await createStationFixedReportLog({ ...params, reportId })
+      } else {
+        await createManualReport(params)
+      }
       this.setState({
         loading: false,
       })
@@ -99,8 +125,6 @@ export default class FormMonitoring extends Component {
     const { form, type } = this.props
 
     const value = form.getFieldsValue()
-
-    console.log({ value })
 
     const { measuringLogs, otherInfo, ...otherValue } = value
 
@@ -144,6 +168,24 @@ export default class FormMonitoring extends Component {
 
   componentDidMount = () => {
     this.setInitial()
+    const { formType, basicInfoData } = this.props
+    if (formType === 'editReportLog') {
+      const measuringList = this.getMeasureListPoint(
+        get(basicInfoData, 'stationId', '')
+      ).filter(measuring =>
+        Object.entries(basicInfoData.logData.measuringLogs)
+          .map(([key, value]) => ({ key, value }))
+          .some(measuringLog => measuringLog.key === measuring.key)
+      )
+
+      this.setState({ measuringList })
+    } else if (formType === 'createReportLog') {
+      const measuringList = this.getMeasureListPoint(
+        get(basicInfoData, 'stationId', '')
+      )
+
+      this.setState({ measuringList })
+    }
   }
 
   componentDidUpdate = (prevProps, prevState) => {
@@ -351,7 +393,7 @@ export default class FormMonitoring extends Component {
   }
 
   render() {
-    const { form, points, loading } = this.props
+    const { form, points, loading, formType, basicInfoData } = this.props
     const { measuringList, measuringListSelect } = this.state
 
     const point = form.getFieldValue(FIELDS.POINT)
@@ -367,17 +409,25 @@ export default class FormMonitoring extends Component {
             form={form}
             points={points}
             onChangePoint={this.onChangePoint}
+            formType={formType}
+            basicInfoData={basicInfoData}
           />
           <FormMeasure
             onChangeMeasure={this.onChangeMeasure}
             measuringList={measuringList}
             measuringListSelect={measuringListSelect}
             form={form}
+            formType={formType}
+            logData={_.get(basicInfoData, 'logData', {})}
             isShowButton={isShowButton}
             onClickAddMeasure={this.onClickAddMeasure}
             handleDelete={this.onDeleteMeasure}
           />
-          <FormCollapse form={form} />
+          <FormCollapse
+            form={form}
+            logData={_.get(basicInfoData, 'logData', {})}
+            formType={formType}
+          />
         </div>
         <div className="form-footer">
           <Button
@@ -388,7 +438,7 @@ export default class FormMonitoring extends Component {
             {i18n().button.reset}
           </Button>
           <Button loading={loading} type="primary" onClick={this.onSubmitForm}>
-            {i18n().button.create}
+            {formType === 'editReportLog' ? 'Cập nhật' : i18n().button.create}
           </Button>
         </div>
       </FormContainer>

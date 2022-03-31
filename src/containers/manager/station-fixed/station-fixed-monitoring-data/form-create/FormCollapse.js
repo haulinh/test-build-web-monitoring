@@ -7,7 +7,7 @@ const { Panel } = Collapse
 
 export default class FormCollapse extends Component {
   render() {
-    const { form } = this.props
+    const { form, logData, formType } = this.props
 
     return (
       <FormCollapseContainer>
@@ -24,7 +24,10 @@ export default class FormCollapse extends Component {
                   label={i18n().drawer.formOtherInfo.sampler}
                   style={{ width: '100%' }}
                 >
-                  {form.getFieldDecorator(`otherInfo.${FIELDS.OTHER.SAMPLER}`)(
+                  {form.getFieldDecorator(`otherInfo.${FIELDS.OTHER.SAMPLER}`, {
+                    initialValue:
+                      formType === 'editReportLog' ? logData.sampler : '',
+                  })(
                     <Input
                       placeholder={i18n().drawer.formOtherInfo.placeholder}
                     />
@@ -38,7 +41,13 @@ export default class FormCollapse extends Component {
                   style={{ width: '100%' }}
                 >
                   {form.getFieldDecorator(
-                    `otherInfo.${FIELDS.OTHER.MONITORING_PLACE}`
+                    `otherInfo.${FIELDS.OTHER.MONITORING_PLACE}`,
+                    {
+                      initialValue:
+                        formType === 'editReportLog'
+                          ? logData.monitoringPlace
+                          : '',
+                    }
                   )(
                     <Input
                       placeholder={i18n().drawer.formOtherInfo.placeholder}
@@ -60,7 +69,13 @@ export default class FormCollapse extends Component {
                   style={{ width: '100%' }}
                 >
                   {form.getFieldDecorator(
-                    `otherInfo.${FIELDS.OTHER.REQUIREMENTS}`
+                    `otherInfo.${FIELDS.OTHER.REQUIREMENTS}`,
+                    {
+                      initialValue:
+                        formType === 'editReportLog'
+                          ? logData.requirements
+                          : '',
+                    }
                   )(
                     <Input
                       placeholder={i18n().drawer.formOtherInfo.placeholder}
@@ -74,7 +89,10 @@ export default class FormCollapse extends Component {
                   label={i18n().drawer.formOtherInfo.method}
                   style={{ width: '100%' }}
                 >
-                  {form.getFieldDecorator(`otherInfo.${FIELDS.OTHER.METHOD}`)(
+                  {form.getFieldDecorator(`otherInfo.${FIELDS.OTHER.METHOD}`, {
+                    initialValue:
+                      formType === 'editReportLog' ? logData.method : '',
+                  })(
                     <Input
                       placeholder={i18n().drawer.formOtherInfo.placeholder}
                     />
@@ -94,7 +112,13 @@ export default class FormCollapse extends Component {
                   label={i18n().drawer.formOtherInfo.chemical}
                   style={{ width: '100%' }}
                 >
-                  {form.getFieldDecorator(`otherInfo.${FIELDS.OTHER.CHEMICAL}`)(
+                  {form.getFieldDecorator(
+                    `otherInfo.${FIELDS.OTHER.CHEMICAL}`,
+                    {
+                      initialValue:
+                        formType === 'editReportLog' ? logData.chemical : '',
+                    }
+                  )(
                     <Input
                       placeholder={i18n().drawer.formOtherInfo.placeholder}
                     />
@@ -108,7 +132,11 @@ export default class FormCollapse extends Component {
                   style={{ width: '100%' }}
                 >
                   {form.getFieldDecorator(
-                    `otherInfo.${FIELDS.OTHER.CONDITIONS}`
+                    `otherInfo.${FIELDS.OTHER.CONDITIONS}`,
+                    {
+                      initialValue:
+                        formType === 'editReportLog' ? logData.conditions : '',
+                    }
                   )(
                     <Input
                       placeholder={i18n().drawer.formOtherInfo.placeholder}
@@ -130,7 +158,13 @@ export default class FormCollapse extends Component {
                   style={{ width: '100%' }}
                 >
                   {form.getFieldDecorator(
-                    `otherInfo.${FIELDS.OTHER.EQUIPMENTLIST}`
+                    `otherInfo.${FIELDS.OTHER.EQUIPMENTLIST}`,
+                    {
+                      initialValue:
+                        formType === 'editReportLog'
+                          ? logData.equipmentList
+                          : '',
+                    }
                   )(
                     <Input
                       placeholder={i18n().drawer.formOtherInfo.placeholder}
@@ -144,7 +178,10 @@ export default class FormCollapse extends Component {
                   label={i18n().drawer.formOtherInfo.symbol}
                   style={{ width: '100%' }}
                 >
-                  {form.getFieldDecorator(`otherInfo.${FIELDS.OTHER.SYMBOL}`)(
+                  {form.getFieldDecorator(`otherInfo.${FIELDS.OTHER.SYMBOL}`, {
+                    initialValue:
+                      formType === 'editReportLog' ? logData.symbol : '',
+                  })(
                     <Input
                       placeholder={i18n().drawer.formOtherInfo.placeholder}
                     />
@@ -164,7 +201,10 @@ export default class FormCollapse extends Component {
                   label={i18n().drawer.formOtherInfo.weather}
                   style={{ width: '100%' }}
                 >
-                  {form.getFieldDecorator(`otherInfo.${FIELDS.OTHER.WEATHER}`)(
+                  {form.getFieldDecorator(`otherInfo.${FIELDS.OTHER.WEATHER}`, {
+                    initialValue:
+                      formType === 'editReportLog' ? logData.weather : '',
+                  })(
                     <Input
                       placeholder={i18n().drawer.formOtherInfo.placeholder}
                     />
@@ -177,7 +217,10 @@ export default class FormCollapse extends Component {
                   label={i18n().drawer.formOtherInfo.analyst}
                   style={{ width: '100%' }}
                 >
-                  {form.getFieldDecorator(`otherInfo.${FIELDS.OTHER.ANALYST}`)(
+                  {form.getFieldDecorator(`otherInfo.${FIELDS.OTHER.ANALYST}`, {
+                    initialValue:
+                      formType === 'editReportLog' ? logData.analyst : '',
+                  })(
                     <Input
                       placeholder={i18n().drawer.formOtherInfo.placeholder}
                     />
@@ -198,7 +241,13 @@ export default class FormCollapse extends Component {
                   style={{ width: '100%' }}
                 >
                   {form.getFieldDecorator(
-                    `otherInfo.${FIELDS.OTHER.PLACE_OF_ANALYSIS}`
+                    `otherInfo.${FIELDS.OTHER.PLACE_OF_ANALYSIS}`,
+                    {
+                      initialValue:
+                        formType === 'editReportLog'
+                          ? logData.placeOfAnalysis
+                          : '',
+                    }
                   )(
                     <Input
                       placeholder={i18n().drawer.formOtherInfo.placeholder}
@@ -211,7 +260,10 @@ export default class FormCollapse extends Component {
                   label={i18n().drawer.formOtherInfo.note}
                   style={{ width: '100%' }}
                 >
-                  {form.getFieldDecorator(`otherInfo.${FIELDS.OTHER.NOTES}`)(
+                  {form.getFieldDecorator(`otherInfo.${FIELDS.OTHER.NOTES}`, {
+                    initialValue:
+                      formType === 'editReportLog' ? logData.notes : '',
+                  })(
                     <Input
                       placeholder={i18n().drawer.formOtherInfo.placeholder}
                     />

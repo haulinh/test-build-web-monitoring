@@ -149,6 +149,7 @@ export default class StationFixedMonitoringData extends React.Component {
               visibleDrawer={visibleDrawer}
               wrappedComponentRef={this.formRef}
               onResetForm={this.onResetForm}
+              formType="create"
             />
             <ModalConfirmCancel
               visible={visibleModalConfirmCancel}
