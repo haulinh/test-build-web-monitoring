@@ -33,7 +33,7 @@ export default class ImportFile extends Component {
 
     return (
       <ImportContainer>
-        <Clearfix height={30} />
+        {/* <Clearfix height={15} /> */}
 
         <Dragger
           {...this.props}

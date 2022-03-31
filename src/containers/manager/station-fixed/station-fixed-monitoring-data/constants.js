@@ -10,6 +10,8 @@ export const FIELDS = {
   MEASURING_LOGS: 'measuringLogs',
   TYPE: 'type',
   FILE: 'file',
+  STATION_TYPE: 'stationType',
+  TYPE_REPORT: 'typeReport',
   OTHER: {
     SYMBOL: 'symbol',
     WEATHER: 'weather',

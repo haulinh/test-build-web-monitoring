@@ -71,6 +71,8 @@ export default class StationFixedImportExcel extends Component {
           </Col>
         </Row>
 
+        <Clearfix height={25} />
+
         <Row
           type="flex"
           style={{
@@ -108,10 +110,7 @@ export default class StationFixedImportExcel extends Component {
 
         <Clearfix height={30} />
 
-        <ModalDownloadFile
-          visible={visibleModalDownload}
-          onCancel={this.onCancel}
-        />
+        <ModalDownloadFile visible={true} onCancel={this.onCancel} />
       </PageContainer>
     )
   }
