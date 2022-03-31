@@ -1,7 +1,7 @@
 export default {
   languageSetup: {
     setup: 'Language setup',
-    warningContent: '"<span>{{=it.lang}}</span>" will be applied for remaning languages'
+    warningContent: '<span>"{{=it.lang}}"</span> will be applied for remaning languages'
   },
   notificationFreq: {
     only1: 'Once only',

@@ -33,31 +33,35 @@ class Language extends React.Component {
     values: []
   }
 
-  setInit = () => {
+  getLanguages = () => {
     const {content} = this.state
-    const {form, language} = this.props
-
-    const getContent = (lang) => 
+    const {language} = this.props
+    const getContent = (lang) =>
       lang === getLanguage() && !!content && get(language, lang) !== content
         ? content
         : get(language, lang, content)
 
-    form.setFieldsValue({
+    return {
       vi: getContent('vi'),
       en: getContent('en'),
       tw: getContent('tw'),
-    })
+    }
+  }
+
+  setInitValues = () => {
+    const {form} = this.props
+    const initialValues = this.getLanguages()
+    form.setFieldsValue(initialValues)
   }
 
   openLanguageModal = () => {
-    this.setState({isVisible: true}, this.setInit)
+    this.setState({isVisible: true}, this.setInitValues)
   }
 
   closeLanguageModal = (cb) => {
     const {form} = this.props
     this.setState({isVisible: false}, () => {
       typeof cb === 'function' && cb()
-
       form.resetFields()
     })
   }
@@ -101,15 +105,14 @@ class Language extends React.Component {
       return
     }
 
-    const {form, onChange, onChangeLanguage} = this.props
+    const {form, onChange} = this.props
     const formValues = form.getFieldsValue()
 
     this.closeLanguageModal(() => {
       const lang = getLanguage()
       const item = values.find(item => item.lang === lang) || values[0]
       this.onChange(item.content)
-      onChange(item.content)
-      onChangeLanguage(formValues)
+      onChange(item.content, formValues)
     })
   }
 

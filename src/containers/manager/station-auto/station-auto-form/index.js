@@ -28,7 +28,7 @@ import { HeaderSearch, Title } from 'components/layouts/styles'
 import { PATTERN_KEY, PATTERN_NAME } from 'constants/format-string'
 import { autobind } from 'core-decorators'
 import createLanguageHoc, { langPropTypes, translate } from 'hoc/create-lang'
-import _, { get, omit } from 'lodash'
+import _, { get, isEmpty, omit } from 'lodash'
 import moment from 'moment'
 import PropTypes from 'prop-types'
 import React from 'react'
@@ -186,8 +186,14 @@ export default class StationAutoForm extends React.PureComponent {
   }
 
   async componentDidMount() {
-    const list = await CalculateApi.getAllLanguageContent()
-    console.log(list)
+    const {form} = this.props
+    form.setFieldsValue({
+      key: 'test_station',
+      name: 'Test',
+      long: 1,
+      lat: 1,
+    })
+
     const initialValues = this.getInitialValues()
     const minuteCount = _.get(
       initialValues,
@@ -298,7 +304,7 @@ export default class StationAutoForm extends React.PureComponent {
 
   async handleSubmit(e) {
     e.preventDefault()
-    this.props.form.validateFields((err, values) => {
+    this.props.form.validateFields(async (err, values) => {
       if (err) {
         if (err.measuringListAdvanced) {
           this.setState({
@@ -318,6 +324,7 @@ export default class StationAutoForm extends React.PureComponent {
           return restItem
         }
       )
+
       let measuringListAdvanced = this.state.measuringListAdvanced.map(
         ({ id, ...restItem }) => {
           return restItem
@@ -438,12 +445,14 @@ export default class StationAutoForm extends React.PureComponent {
       )
 
       // Callback submit form Container Component
-      console.log('--onSubmit---', data)
       if (!isDisableSave && !isDisableSaveAdvanced && this.props.onSubmit) {
-        console.log(data)
-        this.getFormLanguage()
-    
-        // await this.props.onSubmit(data)
+        const results = await this.props.onSubmit(data)
+        if (results.data) {
+          const language = this.getFormLanguage(values)
+          const itemId = results.data._id
+          await CalculateApi.updateLanguageContent({itemId, type: 'Station', language})
+        }
+
         data.measuringListAdvanced.forEach((measuringAdvanced, index) => {
           this.props.form.setFieldsValue({
             [`measuringListAdvanced.${this.state.measuringListAdvanced[index].id}`]: {
@@ -455,10 +464,11 @@ export default class StationAutoForm extends React.PureComponent {
     })
   }
 
-  getFormLanguage(){
-    const {form} = this.props
-    const languages = form.getFieldValue('language')
-    console.log(languages)
+  getFormLanguage(values){
+    const language = get(values, 'language')
+    if(isEmpty(get(language, 'name'))) language['name'] = {vi: values['name'], en: values['name'], tw: values['name']}
+    console.log({values, language})
+    return language
   }
 
   changeStationType(stationTypeObject) {

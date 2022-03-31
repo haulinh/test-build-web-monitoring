@@ -34,6 +34,8 @@ const WarningWrapper = styled.div`
   flex-direction: column;
   span {
     font-weight: 600;
+    font-style: italic;
+    display: block;
   }
   > div {
     margin-top: 10px;
