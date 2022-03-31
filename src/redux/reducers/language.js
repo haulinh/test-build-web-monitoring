@@ -5,6 +5,7 @@ import {
   CHANGE_LANGUAGE,
   LIST_DICTIONARY_LANGUAGES,
   LIST_LANGUAGES,
+  LIST_LANGUAGE_CONTENTS,
 } from '../actions/languageAction'
 import languages from 'languages'
 import { getLanguage } from 'utils/localStorage'
@@ -29,6 +30,7 @@ const initialState = {
   isLoading: true,
   dataSource: {},
   listLanguage: [],
+  languageContents: []
 }
 
 export default function createReducer(state = initialState, action) {
@@ -39,9 +41,28 @@ export default function createReducer(state = initialState, action) {
       return getListDictionaryLanguageWeb(state, action)
     case LIST_LANGUAGES:
       return getListLanguages(state, action)
+    case LIST_LANGUAGE_CONTENTS:
+      return getListLanguageContents(state, action)
     default:
       return state
   }
+}
+
+export function getListLanguageContents(state, { payload }) {
+  const groupData = payload.reduce(
+    (prev, item) => ({
+      ...prev,
+      [item.type]: {
+        ...prev[item.type],
+        [item.itemId]: item
+      }
+    }), {})
+
+  return update(state, {
+    languageContents: {
+      $set: groupData,
+    },
+  })
 }
 
 export function getListLanguages(state, { payload }) {

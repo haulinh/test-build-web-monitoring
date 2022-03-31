@@ -6,6 +6,7 @@ import {Warning} from './warning'
 import {translate as t} from 'hoc/create-lang'
 import get from 'lodash/get'
 import {getLanguage} from 'utils/localStorage'
+import {connect} from 'react-redux'
 
 const i18n = {
   title: t('languageSetup.setup'),
@@ -18,19 +19,37 @@ const i18n = {
   }
 }
 
-const LangConfig =[ 
+const LangConfig = [
   {lang: 'vi', code: 'VN', label: i18n.lang.vi },
   {lang: 'en', code: 'US', label: i18n.lang.en},
   {lang: 'tw', code: 'TW', label: i18n.lang.tw } 
 ] 
 
 @Form.create({})
+@connect(
+  state => ({
+    languageContents: get(state, 'language.languageContents')
+  })
+)
 class Language extends React.Component {
   state = {
     content: null,
     isVisible: false,
     isWarning: false,
     values: []
+  }
+
+  componentDidUpdate(props){
+    const {content} = this.state
+    const {itemId, type, id: field, languageContents, onChangeLanguage} = this.props
+    if(content === null && props.value) {
+      const language = get(languageContents, `${type}.${itemId}.language.${field}`);
+      let content = props.value
+      if(language) content = language[getLanguage()]
+      this.setState({content}, () => {
+        onChangeLanguage(language)
+      })
+    }
   }
 
   getLanguages = () => {
@@ -105,7 +124,7 @@ class Language extends React.Component {
       return
     }
 
-    const {form, onChange} = this.props
+    const {form, onChange, onChangeLanguage} = this.props
     const formValues = form.getFieldsValue()
 
     this.closeLanguageModal(() => {
@@ -113,6 +132,7 @@ class Language extends React.Component {
       const item = values.find(item => item.lang === lang) || values[0]
       this.onChange(item.content)
       onChange(item.content, formValues)
+      onChangeLanguage(formValues)
     })
   }
 

@@ -42,6 +42,7 @@ import MeasuringTableAdvanced from '../station-auto-formTable-advanced/'
 import MeasuringTable from '../station-auto-formTable/'
 import LanguageInput from 'components/language'
 import CalculateApi from 'api/CalculateApi'
+import {connect} from 'react-redux'
 
 const { TextArea } = Input
 const { Panel } = Collapse
@@ -71,10 +72,9 @@ function i18n() {
   }
 }
 
-@Form.create({})
 @createLanguageHoc
 @autobind
-export default class StationAutoForm extends React.PureComponent {
+class StationAutoForm extends React.PureComponent {
   static propTypes = {
     onSubmit: PropTypes.func,
     isEdit: PropTypes.bool,
@@ -186,14 +186,6 @@ export default class StationAutoForm extends React.PureComponent {
   }
 
   async componentDidMount() {
-    const {form} = this.props
-    form.setFieldsValue({
-      key: 'test_station',
-      name: 'Test',
-      long: 1,
-      lat: 1,
-    })
-
     const initialValues = this.getInitialValues()
     const minuteCount = _.get(
       initialValues,
@@ -467,7 +459,6 @@ export default class StationAutoForm extends React.PureComponent {
   getFormLanguage(values){
     const language = get(values, 'language')
     if(isEmpty(get(language, 'name'))) language['name'] = {vi: values['name'], en: values['name'], tw: values['name']}
-    console.log({values, language})
     return language
   }
 
@@ -626,19 +617,9 @@ export default class StationAutoForm extends React.PureComponent {
   }
 
   render() {
-    const { getFieldDecorator } = this.props.form
-    const { otherForm, form } = this.props
+    const { otherForm, form, initialValues } = this.props
+    const { getFieldDecorator } = form
     const { t } = this.props.lang
-    // const urlPhotoUpload = MediaApi.urlPhotoUploadWithDirectory('station-autos')
-    // const { previewVisible, previewImage, fileList } = this.state
-    // const uploadButton = (
-    //   <div>
-    //     <Icon type="plus" />
-    //     <div className="ant-upload-text">
-    //       {t('stationAutoManager.upload.label')}
-    //     </div>
-    //   </div>
-    // )
 
     const formItemLayout = {
       labelCol: {
@@ -732,6 +713,8 @@ export default class StationAutoForm extends React.PureComponent {
                       ],
                     })(
                       <LanguageInput
+                        itemId={get(initialValues, '_id')}
+                        type='Station'
                         language={form.getFieldValue('language.name')}
                         rules={[{
                           pattern: 64,
@@ -1477,3 +1460,5 @@ export default class StationAutoForm extends React.PureComponent {
     )
   }
 }
+
+export default Form.create({})(StationAutoForm)

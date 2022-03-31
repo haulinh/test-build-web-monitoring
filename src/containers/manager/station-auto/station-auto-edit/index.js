@@ -32,7 +32,7 @@ export default class StationAutoEdit extends React.PureComponent {
   }
 
   async handleSubmit(data) {
-    this.props.onUpdateItem(data)
+    return this.props.onUpdateItem(data)
     //const key = this.props.match.params.key
   }
 
@@ -90,7 +90,7 @@ export default class StationAutoEdit extends React.PureComponent {
           ]}
         />
         <Clearfix height={16} />
-        <Spin style={{ width: '100%' }} spinning={!this.props.isLoaded}>
+        <Spin style={{width: '100%'}} spinning={!this.props.isLoaded}>
           {this.props.isLoaded && this.props.success && (
             <StationAutoForm
               isLoading={this.props.isUpdating}
