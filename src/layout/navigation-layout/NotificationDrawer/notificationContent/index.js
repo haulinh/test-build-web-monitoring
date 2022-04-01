@@ -40,6 +40,7 @@ function LoadMoreIcon() {
     currentPage: state.notification.currentPage,
     dataSource: state.notification.logs,
     stationAuto: state.stationAuto.list,
+    languageContents: state.language.languageContents
   }),
   { loadNotificationsByType, clearLoadNotificationsByType }
 )
@@ -99,7 +100,7 @@ export default class NotificationContent extends React.Component {
 
   render() {
     const {isSearchLoading} = this.state
-    const { loading, dataSource, stationAuto, currentPage, useWindow, inline } = this.props
+    const { loading, dataSource, stationAuto, currentPage, useWindow, inline, languageContents } = this.props
     
     if(isSearchLoading) return <Skeleton avatar paragraph={{ rows: 4 }} />
     
@@ -124,6 +125,7 @@ export default class NotificationContent extends React.Component {
           inline={inline}
           dataSource={dataSource}
           closeDrawer={this.props.closeDrawer}
+          languageContents={languageContents}
         />
       </InfiniteScroll>
     )

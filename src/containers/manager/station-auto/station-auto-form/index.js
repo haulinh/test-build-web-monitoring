@@ -718,8 +718,9 @@ class StationAutoForm extends React.PureComponent {
                         itemId={get(initialValues, '_id')}
                         type='Station'
                         language={form.getFieldValue('language.name')}
+                        placeholder={t('stationAutoManager.form.name.placeholder')}
                         rules={[{
-                          pattern: 64,
+                          max: 64,
                           message: i18n().name.max,
                         }]}
                         onChangeLanguage={language => form.setFieldsValue({'language.name': language})

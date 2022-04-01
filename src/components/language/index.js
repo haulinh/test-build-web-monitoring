@@ -1,5 +1,5 @@
 import React from 'react'
-import {Form, Icon, Input, Modal} from 'antd'
+import {Form, Input, Modal} from 'antd'
 import {FlagIcon} from 'react-flag-kit'
 import {FormWrapper, FormItem, FlagLabel} from './styled'
 import {Warning} from './warning'
@@ -7,6 +7,7 @@ import {translate as t} from 'hoc/create-lang'
 import get from 'lodash/get'
 import {getLanguage} from 'utils/localStorage'
 import {connect} from 'react-redux'
+import iconLanguage from 'assets/svg-icons/IconLanguage.svg'
 
 const i18n = {
   title: t('languageSetup.setup'),
@@ -182,7 +183,7 @@ class Language extends React.Component {
   })
 
   render(){
-    const {form, rules} = this.props
+    const {form, rules, placeholder} = this.props
     const {isWarning, isVisible, content, values} = this.state
     const {getFieldDecorator} = form
 
@@ -191,7 +192,15 @@ class Language extends React.Component {
         <Input 
           value={content}
           onChange={e => this.onChange(e.target.value)}
-          addonAfter={<Icon type="setting" onClick={this.openLanguageModal} />}
+          placeholder={placeholder}
+          addonAfter={
+            <img
+              alt=""
+              style={{cursor: 'pointer'}}
+              src={iconLanguage}
+              onClick={this.openLanguageModal}
+            />
+          }
         />
 
         <Modal

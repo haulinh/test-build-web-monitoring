@@ -11,6 +11,7 @@ import { translate } from 'hoc/create-lang'
 import stationStatus from 'constants/stationStatus'
 import './style.css'
 import moment from 'moment'
+import LanguageContent from 'components/language/language-content'
 
 function i18n() {
   return {
@@ -255,12 +256,15 @@ class TableData extends React.Component {
       },
       {
         title: i18n().stationName,
-        dataIndex: 'name',
         key: 'name',
         width: 220,
         fixed: 'left',
-        render: name => {
-          return <div className="stationName">{name}</div>
+        render: row => {
+          return (
+            <div className="stationName">
+              <LanguageContent type="Station" itemId={row._id} field="name" value={row.name} />
+            </div>
+          )
         },
       },
       {

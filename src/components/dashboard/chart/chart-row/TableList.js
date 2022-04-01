@@ -8,13 +8,14 @@ import {
   // warningLevelsNumber,
   warningLevels,
 } from 'constants/warningLevels'
-import { removeAccents, removeAccentsSort, translate } from 'hoc/create-lang'
+import { removeAccentsSort, translate } from 'hoc/create-lang'
 import * as _ from 'lodash'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { DATA_COLOR } from 'themes/color'
+import {getContent} from 'components/language/language-content'
 
 const Status = styled.div`
   width: 16px;
@@ -95,6 +96,7 @@ const FILTER_TYPE = {
 
 @connect(state => ({
   language: _.get(state, 'language.locale'),
+  languageContents: _.get(state, 'language.languageContents'),
 }))
 export default class TableListCustom extends React.PureComponent {
   static propTypes = {
@@ -254,7 +256,7 @@ export default class TableListCustom extends React.PureComponent {
   }
 
   render() {
-    const { language } = this.props
+    const {languageContents} = this.props
     return (
       <div style={{ height: 450, minWidth: 300, overflow: 'scroll' }}>
         <Row>
@@ -292,7 +294,7 @@ export default class TableListCustom extends React.PureComponent {
           >
             <IndexColumn>{index + 1}</IndexColumn>
             <NameColumn className="name">
-              {removeAccents(language, item.name)}
+              {getContent(languageContents, {type: 'Station', itemId: item._id, field: 'name', value: item.name})}
             </NameColumn>
             <StatusColumn> {this.renderStatusView(item)}</StatusColumn>
           </Row>

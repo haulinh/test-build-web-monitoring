@@ -51,7 +51,7 @@ class Chart extends Component {
       },
     },
     tooltip: {
-      formatter: function(tooltip) {
+      formatter: function() {
         if (!this.point.description || this.point.description === 'qcvn')
           return null
 

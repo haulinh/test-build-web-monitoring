@@ -11,6 +11,7 @@ import iconTendToExceed from 'assets/svg-icons/Tend-To-Exceed.svg'
 import iconError from 'assets/svg-icons/Error.svg'
 import iconCalibration from 'assets/svg-icons/Calibration.svg'
 import iconDeviceGood from 'assets/svg-icons/Device-status-good.svg'
+import {getContent} from 'components/language/language-content'
 
 import { default as NotificationItem } from './_defaultCell'
 
@@ -98,14 +99,14 @@ const getNotificationInfo = status => {
   }
 }
 
-const NotificationContent = ({ notification, statusText, inline }) => {
+const NotificationContent = ({ languageContents, notification, statusText, inline }) => {
   // console.log("NotificationConten=====?")
   // console.log(notification.status, '==notification.status==')
   return (
     <Row type={inline ? 'flex' : ''} gutter={12}>
       <Col>
         <Text>
-          {i18n().station} <b>{notification.station}</b> {statusText}
+          {i18n().station} <b>{getContent(languageContents, {type: 'Station', itemId: notification.stationID, field: 'name', value: notification.station})}</b> {statusText}
         </Text>
       </Col>
       <Col>
@@ -149,7 +150,7 @@ const NotificationContent = ({ notification, statusText, inline }) => {
 }
 
 export default function Cells(props) {
-  const { dataSource, inline } = props
+  const { dataSource, inline, languageContents } = props
   const list = (dataSource || []).map(notification => {
     const { icon, statusText } = getNotificationInfo(notification.status)
     return (
@@ -159,6 +160,7 @@ export default function Cells(props) {
         icon={icon}
         content={
           <NotificationContent
+            languageContents={languageContents}
             inline={inline}
             notification={notification}
             statusText={statusText}
