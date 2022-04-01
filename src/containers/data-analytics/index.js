@@ -15,6 +15,7 @@ import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import FilterList from 'components/filter'
 import { Row, Col } from 'antd'
 import Breadcrum from './breadcrum'
+import CalculateApi from 'api/CalculateApi'
 
 function i18n() {
   return {
@@ -23,17 +24,7 @@ function i18n() {
   }
 }
 
-const Title = styled.div`
-  padding: 8px 24px;
-  font-size: 22px;
-  font-weight: 600;
-  color: #3b3b3b;
-  border-bottom: 1px solid rgb(238, 238, 238);
-`
-const Container = styled.div`
-  padding: 24px;
-  overflow-x: hidden;
-`
+const MODULE_TYPE = 'Analytic'
 class DataAnalytics extends Component {
   chart
 
@@ -47,9 +38,20 @@ class DataAnalytics extends Component {
     isLoadingData: false,
     isShowQcvn: true,
     paramFilter: {},
+    filterList: [],
   }
 
   setLoading = isLoadingData => this.setState({ isLoadingData })
+
+  componentDidMount = async () => {
+    try {
+      const response = await CalculateApi.getFilterList({ type: MODULE_TYPE })
+
+      this.setState({ filterList: response })
+    } catch (error) {
+      console.error({ error })
+    }
+  }
 
   onData = (result, { dataType, from, to }) => {
     if (isEmpty(result.data)) {
@@ -247,6 +249,7 @@ class DataAnalytics extends Component {
       measuringList,
       measure,
       isShowQcvn,
+      filterList,
     } = this.state
 
     return (
@@ -263,9 +266,9 @@ class DataAnalytics extends Component {
 
           <Row
             type="flex"
-            style={{ marginLeft: '-24px', marginRight: '-15px' }}
+            style={{ marginLeft: '-24px', marginRight: '-24px' }}
           >
-            <FilterList />
+            <FilterList filterList={filterList} />
             <Col style={{ flex: 1, overflowX: 'hidden' }}>
               <FilterForm
                 standardsVN={qcvns.map(qc => qc.key)}
