@@ -103,12 +103,35 @@ export function i18n() {
       createdAt: t('dataPointReport.optionalInfo.createdAt'),
     },
     drawer: {
-      title: t('stationFixedMonitoring.drawer.title'),
+      title: {
+        edit: t('stationFixedMonitoring.drawer.title.edit'),
+        create: t('stationFixedMonitoring.drawer.title.create'),
+      },
+    },
+    updateReportName: {
+      success: t('stationFixedMonitoring.updateReportName.success'),
+      error: t('stationFixedMonitoring.updateReportName.error'),
     },
     addButton: t('dataPointReport.button.add'),
     exportExcelButton: t('dataPointReport.button.exportExcel'),
     dataTab: t('dataPointReport.tab.data'),
     numberOrder: t('dataPointReport.title.numberOrder'),
+    message: {
+      nameReport: {
+        require: t(
+          'stationFixedMonitoring.drawer.formBasic.message.nameReport.require'
+        ),
+        max64: t(
+          'stationFixedMonitoring.drawer.formBasic.message.nameReport.max64'
+        ),
+      },
+      point: {
+        require: t(
+          'stationFixedMonitoring.drawer.formBasic.message.point.require'
+        ),
+      },
+      time: t('stationFixedMonitoring.drawer.formBasic.message.time'),
+    },
   }
 }
 
@@ -172,11 +195,11 @@ export default class ReportDetail extends Component {
         reportName.trim()
       )
       form.setFieldsValue({ REPORT: reportName.trim() })
-      message.success('Cập nhật tên báo cáo thành công!')
+      message.success(i18n().updateReportName.success)
       this.setState({ reportName: reportName.trim() })
       return true
     } catch (error) {
-      message.error('Cập nhật tên báo cáo thất bại!')
+      message.error(i18n().updateReportName.error)
     }
   }
 
@@ -304,9 +327,22 @@ export default class ReportDetail extends Component {
             <FormItem label={t('stationFixedManager.table.title.reportName')}>
               {form.getFieldDecorator('REPORT', {
                 initialValue: initialValues.report.name,
+                rules: [
+                  {
+                    required: true,
+                    message: i18n().message.nameReport.require,
+                  },
+                  {
+                    max: 64,
+                    message: i18n().message.nameReport.max64,
+                  },
+                  {
+                    whitespace: true,
+                    message: i18n().message.nameReport.require,
+                  },
+                ],
               })(
                 <EditWrapper
-                  maxLength={64}
                   style={{ ...styleText }}
                   type="input"
                   value={this.getPointName(
@@ -340,8 +376,8 @@ export default class ReportDetail extends Component {
           key={visibleDrawer}
           title={
             formType === 'editReportLog'
-              ? 'Chỉnh sửa dữ liệu'
-              : i18n().drawer.title
+              ? i18n().drawer.title.edit
+              : i18n().drawer.title.create
           }
           visible={visibleDrawer}
           closable

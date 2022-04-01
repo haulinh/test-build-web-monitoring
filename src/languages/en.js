@@ -4434,7 +4434,10 @@ export default {
       importExcel: 'Upload by form',
     },
     drawer: {
-      title: 'Import data of monitoring point',
+      title: {
+        create: 'Import data of monitoring point',
+        edit: 'Edit data of monitoring point',
+      },
       formBasic: {
         title: 'Basic information',
         nameReport: 'Report name',
@@ -4490,8 +4493,18 @@ export default {
         note: 'Notes',
       },
     },
+    updateReportName: {
+      success: 'Update report name successfully!',
+      error: 'Update report name successfully!',
+    },
     popupCreateSuccess: {
       title: 'Create Success',
+    },
+    popupCreateLogSuccess: {
+      title: 'Create information successfully',
+    },
+    popupEditLogSuccess: {
+      title: 'Edit information successfully',
     },
     modalConfirmCancel: {
       content: "The changes you have made, probably won't be saved.",
@@ -4503,6 +4516,7 @@ export default {
       create: 'Create',
       download: 'Download',
       upload: 'Upload',
+      update: 'Update',
     },
     importExcel: {
       breadCrumb: 'Import monitoring data',

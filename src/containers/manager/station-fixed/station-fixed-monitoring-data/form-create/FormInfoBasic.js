@@ -24,11 +24,17 @@ export default class FormInfoBasic extends Component {
 
   componentDidMount = () => {
     const { form, formType, basicInfoData } = this.props
-    if (formType === 'editReportLog') {
+    if (formType === 'editReportLog' || formType === 'createReportLog') {
       setTimeout(() => {
         form.setFieldsValue({
-          [FIELDS.TIME]: moment(basicInfoData.logData.datetime),
+          [FIELDS.NAME_REPORT]: basicInfoData.reportName,
+          [FIELDS.POINT]: basicInfoData.stationName,
         })
+        if (formType === 'editReportLog') {
+          form.setFieldsValue({
+            [FIELDS.TIME]: moment(basicInfoData.logData.datetime),
+          })
+        }
       })
     }
   }
@@ -51,10 +57,6 @@ export default class FormInfoBasic extends Component {
               style={{ width: '100%' }}
             >
               {form.getFieldDecorator(FIELDS.NAME_REPORT, {
-                initialValue:
-                  formType === 'editReportLog' || formType === 'createReportLog'
-                    ? basicInfoData.stationName
-                    : '',
                 rules: [
                   {
                     required: true,
@@ -96,10 +98,6 @@ export default class FormInfoBasic extends Component {
               style={{ width: '100%' }}
             >
               {form.getFieldDecorator(FIELDS.POINT, {
-                initialValue:
-                  formType === 'editReportLog' || formType === 'createReportLog'
-                    ? basicInfoData.reportName
-                    : '',
                 onChange: onChangePoint,
                 rules: [
                   {
