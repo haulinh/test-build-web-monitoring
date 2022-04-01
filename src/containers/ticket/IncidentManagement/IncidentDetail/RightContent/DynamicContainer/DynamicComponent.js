@@ -21,6 +21,7 @@ export const DynamicComponent = ({
 
   const values = form.getFieldsValue()
 
+  console.log(form, type, name, categories, updateDynamicField, prevValue)
   if (type === 'text')
     return (
       <React.Fragment>

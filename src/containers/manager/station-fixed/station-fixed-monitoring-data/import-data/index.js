@@ -11,6 +11,7 @@ import Breadcrumb from '../../breadcrumb'
 import { FIELDS, i18n, REPORT_TYPE } from '../constants'
 import ImportFile from './ImportFile'
 import ModalDownloadFile from './ModalDownloadFile'
+import styled from 'styled-components'
 
 const IMPORT_DATA_ERROR = {
   DUPLICATE_PARAMETER: i18n().errorUploadFile.duplicateParameter,
@@ -23,12 +24,18 @@ const IMPORT_DATA_ERROR = {
   POINT_KEY_NOT_BELONG_TO_STATION_TYPE: i18n().errorUploadFile
     .pointAndPhaseNotBelongToStationType,
   FILE_EMPTY: i18n().importExcel.notificationUpload.empty.desc,
+  POINT_KEY_REQUIRED: i18n().errorUploadFile.pointKeyRequired,
+  DATETIME_REQUIRED: i18n().errorUploadFile.dateTimeRequired,
 }
 
 const formItemLayout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
+  labelCol: { span: 9 },
+  wrapperCol: { span: 15 },
 }
+
+const ImportFileWrapper = styled.div`
+  min-height: 100vh;
+`
 
 @Form.create()
 export default class StationFixedImportExcel extends Component {
@@ -88,9 +95,6 @@ export default class StationFixedImportExcel extends Component {
   }
 
   onSubmitForm = async () => {
-    const { form } = this.props
-
-    await form.validateFields()
     const params = this.getParams()
 
     if (!params) return
@@ -184,7 +188,7 @@ export default class StationFixedImportExcel extends Component {
 
     return (
       <PageContainer>
-        <div style={{ minHeight: '100vh' }}>
+        <ImportFileWrapper>
           <Breadcrumb items={['monitoringData', 'importExcel']} />
           <Clearfix height={25} />
 
@@ -243,21 +247,16 @@ export default class StationFixedImportExcel extends Component {
 
           <Row type="flex" justify="center">
             <Form.Item
-              style={{ marginBottom: 0 }}
-              {...formItemLayout}
               label={i18n().downloadExcel.modal.typeReport.title}
+              {...formItemLayout}
+              style={{ marginBottom: 0 }}
             >
               {form.getFieldDecorator(FIELDS.TYPE_REPORT, {
+                initialValue: REPORT_TYPE.DETAIL,
                 valuePropsName: 'checked',
-                rules: [
-                  {
-                    required: true,
-                    message: i18n().importExcel.message,
-                  },
-                ],
               })(
                 <Radio.Group>
-                  <Row type="flex" justify="space-between" gutter={4}>
+                  <Row type="flex" justify="space-between" gutter={10}>
                     <Col span={12}>
                       <Radio value={REPORT_TYPE.DETAIL}>
                         {i18n().downloadExcel.modal.typeReport.detailTitle}
@@ -359,7 +358,7 @@ export default class StationFixedImportExcel extends Component {
               })
             }
           />
-        </div>
+        </ImportFileWrapper>
       </PageContainer>
     )
   }

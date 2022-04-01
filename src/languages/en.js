@@ -2972,6 +2972,8 @@ export default {
     parameterNotTypeNumber: 'Wrong format parameter',
     pointAndPhaseNotBelongToStationType:
       'Point and phase monitoring are not the same type of station',
+    pointKeyRequired: 'Point code cannot be left empty',
+    dateTimeRequired: 'Time cannot be left empty',
     selectPhaseError: 'Please select the monitoring batch',
     complexForm: 'Complex template',
     simpleForm: 'Simple template',

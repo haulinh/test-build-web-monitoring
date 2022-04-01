@@ -178,6 +178,8 @@ export const i18n = () => {
       pointAndPhaseNotBelongToStationType: t(
         'importDataPoint.pointAndPhaseNotBelongToStationType'
       ),
+      pointKeyRequired: t('importDataPoint.pointKeyRequired'),
+      dateTimeRequired: t('importDataPoint.dateTimeRequired'),
     },
 
     importExcel: {
