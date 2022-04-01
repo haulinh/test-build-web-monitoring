@@ -28,7 +28,7 @@ import { HeaderSearch, Title } from 'components/layouts/styles'
 import { PATTERN_KEY, PATTERN_NAME } from 'constants/format-string'
 import { autobind } from 'core-decorators'
 import createLanguageHoc, { langPropTypes, translate } from 'hoc/create-lang'
-import _, { get, isEmpty, omit } from 'lodash'
+import _, { get, omit } from 'lodash'
 import moment from 'moment'
 import PropTypes from 'prop-types'
 import React from 'react'
@@ -40,7 +40,7 @@ import { v4 as uuidv4 } from 'uuid'
 import AlarmConfig from '../alarm-config'
 import MeasuringTableAdvanced from '../station-auto-formTable-advanced/'
 import MeasuringTable from '../station-auto-formTable/'
-import LanguageInput from 'components/language'
+import LanguageInput, {LangConfig} from 'components/language'
 import CalculateApi from 'api/CalculateApi'
 import {getLanguage} from 'utils/localStorage'
 
@@ -440,7 +440,7 @@ class StationAutoForm extends React.PureComponent {
       if (!isDisableSave && !isDisableSaveAdvanced && this.props.onSubmit) {
         const results = await this.props.onSubmit(data)
         if (results.data) {
-          const language = this.getFormLanguage(values)
+          const language = this.getLanguageContents(values)
           const itemId = results.data._id
           const content = await CalculateApi.updateLanguageContent({itemId, type: 'Station', language})
           this.props.updateLanguageContent(content)
@@ -457,15 +457,25 @@ class StationAutoForm extends React.PureComponent {
     })
   }
 
-  getFormLanguage(values){
-    const language = get(values, 'language')
-    if(isEmpty(get(language, 'name'))) language['name'] = {vi: values['name'], en: values['name'], tw: values['name']}
-    if(language['name'][getLanguage()] !== values['name']) language['name'][getLanguage()] = values['name']
-    return {
-      vi: language['vi'].trim(),
-      en: language['en'].trim(),
-      tw: language['tw'].trim(),
+  getLanguageContents(values, fields = ['name']){
+    const currentLang = getLanguage()
+    const contents = get(values, 'language');
+
+    const getContent = (field, value, lang) => {
+      const isSetupLanguage = !!get(contents, field);
+      if(currentLang === lang) return value
+      return isSetupLanguage ? get(contents, `${field}.${lang}`, '').trim() : value;
     }
+    const results = fields.reduce((prev, field) => {
+      const inputValue = get(values, field, '').trim();
+      prev[field] = LangConfig.reduce((p, {lang}) => ({
+        ...p,
+        [lang]: getContent(field, inputValue, lang)
+      }), {})
+      return prev
+    }, {})
+
+    return results
   }
 
   changeStationType(stationTypeObject) {

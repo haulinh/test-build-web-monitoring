@@ -55,6 +55,7 @@ export function updateLanguageContent(state, { payload }) {
   const newContents = {
     ...state.languageContents,
     [payload.type]: {
+      ...state.languageContents[payload.type],
       [payload.itemId]: payload
     }
   }

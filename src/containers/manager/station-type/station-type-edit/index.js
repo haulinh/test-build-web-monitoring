@@ -12,6 +12,8 @@ import Breadcrumb from '../breadcrumb'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 import { translate } from 'hoc/create-lang'
+import {connect} from 'react-redux'
+import {getContent} from 'components/language/language-content'
 
 @protectRole(ROLE.STATION_TYPE.EDIT)
 @createManagerDelete({
@@ -21,6 +23,10 @@ import { translate } from 'hoc/create-lang'
   apiUpdate: CategoryApi.updateStationType,
   apiGetByKey: CategoryApi.getStationType,
 })
+@connect(
+  state => ({
+    languageContents: state.language.languageContents
+  }))
 @autobind
 export default class StationTypeEdit extends React.PureComponent {
   static propTypes = {
@@ -37,7 +43,7 @@ export default class StationTypeEdit extends React.PureComponent {
     this.setState({
       dataSource: data,
     })
-    this.props.onUpdateItem(data)
+    return this.props.onUpdateItem(data)
     //const key = this.props.match.params.key
   }
 
@@ -67,6 +73,7 @@ export default class StationTypeEdit extends React.PureComponent {
   }
 
   render() {
+    const {data, languageContents} = this.props
     return (
       <PageContainer button={this.buttonDelete()} {...this.props.wrapperProps}>
         <Spin spinning={!this.props.isLoaded}>
@@ -75,7 +82,9 @@ export default class StationTypeEdit extends React.PureComponent {
               'list',
               {
                 id: 'edit',
-                name: this.props.isLoaded ? this.props.data.name : null,
+                name: this.props.isLoaded && this.props.success
+                  ? getContent(languageContents, {type: "StationType", itemId: data._id, field: 'name', value: data.name})
+                  : null,
               },
             ]}
           />

@@ -20,7 +20,7 @@ const i18n = {
   }
 }
 
-const LangConfig = [
+export const LangConfig = [
   {lang: 'vi', code: 'VN', label: i18n.lang.vi },
   {lang: 'en', code: 'US', label: i18n.lang.en},
   {lang: 'tw', code: 'TW', label: i18n.lang.tw } 
