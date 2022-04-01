@@ -183,7 +183,7 @@ class Language extends React.Component {
   })
 
   render(){
-    const {form, rules} = this.props
+    const {form, rules, placeholder} = this.props
     const {isWarning, isVisible, content, values} = this.state
     const {getFieldDecorator} = form
 
@@ -192,6 +192,7 @@ class Language extends React.Component {
         <Input 
           value={content}
           onChange={e => this.onChange(e.target.value)}
+          placeholder={placeholder}
           addonAfter={
             <img
               alt=""
