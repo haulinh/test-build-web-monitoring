@@ -71,15 +71,17 @@ export default class FormMonitoring extends Component {
       form,
       formType,
       setVisibleDrawer,
-      points,
       basicInfoData,
+      handleSuccessEditLog,
+      handleSuccessCreateLog,
     } = this.props
 
     await form.validateFields()
 
     const params = this.getParams()
-    const reportId = basicInfoData.reportId
-    params.stationId = basicInfoData.stationId
+    const reportId = get(basicInfoData, 'reportId', '')
+    if (formType === 'editReportLog' || formType === 'createReportLog')
+      params.stationId = get(basicInfoData, 'stationId', '')
 
     this.setState({
       loading: true,
@@ -87,13 +89,21 @@ export default class FormMonitoring extends Component {
 
     try {
       if (formType === 'editReportLog') {
+        const logId = basicInfoData.logData._id
+        const paramsLog = { ...params, _id: logId, reportId }
+        delete paramsLog.stationId
+
         await updateStationFixedReportLog(reportId, basicInfoData.logData._id, {
           ...params,
           reportId,
         })
+        handleSuccessEditLog(paramsLog)
       } else if (formType === 'createReportLog') {
-        console.log({ ...params, reportId })
+        const paramsLog = { ...params, reportId }
+        delete paramsLog.stationId
+
         await createStationFixedReportLog({ ...params, reportId })
+        handleSuccessCreateLog(paramsLog)
       } else {
         await createManualReport(params)
       }
@@ -160,8 +170,31 @@ export default class FormMonitoring extends Component {
 
   componentDidMount = () => {
     this.setInitial()
-    const { formType, basicInfoData } = this.props
+    const { formType, basicInfoData, points } = this.props
+    const pointSelected = points.find(
+      point => point._id === get(basicInfoData, 'stationId', '')
+    )
+
+    const measuringListSelect = _.get(pointSelected, 'measuringList', [])
+
     if (formType === 'editReportLog') {
+      const newMeasuringListSelect = measuringListSelect.map(measure => {
+        if (
+          Object.values(basicInfoData.logData.measuringLogs).some(
+            measuringLog => measuringLog.key === measure.key
+          )
+        )
+          return {
+            _id: uuidv4(),
+            ...measure,
+            disabled: true,
+          }
+        return {
+          _id: uuidv4(),
+          ...measure,
+          disabled: false,
+        }
+      })
       const measuringList = this.getMeasureListPoint(
         get(basicInfoData, 'stationId', '')
       ).filter(measuring =>
@@ -170,13 +203,18 @@ export default class FormMonitoring extends Component {
           .some(measuringLog => measuringLog.key === measuring.key)
       )
 
-      this.setState({ measuringList })
+      this.setState({
+        measuringList,
+        measuringListSelect: newMeasuringListSelect,
+      })
     } else if (formType === 'createReportLog') {
       const measuringList = this.getMeasureListPoint(
         get(basicInfoData, 'stationId', '')
       )
 
-      this.setState({ measuringList })
+      this.setState({
+        measuringList,
+      })
     }
   }
 

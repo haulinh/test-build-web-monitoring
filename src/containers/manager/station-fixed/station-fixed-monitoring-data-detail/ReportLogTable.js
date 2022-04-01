@@ -7,19 +7,19 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { i18n } from './ReportDetail'
 import { translate as t } from 'hoc/create-lang'
+import styled from 'styled-components'
 
+const TableStyled = styled(Table)`
+  .ant-table-row {
+    :hover {
+      cursor: pointer;
+    }
+  }
+`
 @connect(state => ({
   measuresObj: state.global.measuresObj,
 }))
 class ReportLogTable extends React.Component {
-  state = {
-    dataSource: [],
-  }
-
-  componentDidMount = () => {
-    const { dataSource } = this.props
-    this.setState({ dataSource })
-  }
   baseColumns = [
     {
       title: '#',
@@ -67,8 +67,7 @@ class ReportLogTable extends React.Component {
   ]
 
   getColumns = () => {
-    const { form, measuresObj } = this.props
-    const { dataSource } = this.state
+    const { form, measuresObj, dataSource } = this.props
     return [
       ...this.baseColumns,
       Object.keys(form.getFieldsValue())
@@ -109,7 +108,6 @@ class ReportLogTable extends React.Component {
             align: 'left',
             width: 114,
             render: (value, record, index) => {
-              console.log(value)
               return (
                 <div>
                   {isNil(value)
@@ -131,9 +129,16 @@ class ReportLogTable extends React.Component {
               title={t('stationFixedManager.table.popUp.delete')}
               okText={t('global.submit')}
               cancelText={t('global.cancel')}
-              onConfirm={() => this.onDelete(record.reportId, record._id)}
+              onConfirm={e => {
+                e.stopPropagation()
+                this.onDelete(record.reportId, record._id)
+              }}
+              onCancel={e => e.stopPropagation()}
             >
-              <div style={{ textAlign: 'center', cursor: 'pointer' }}>
+              <div
+                style={{ textAlign: 'center', cursor: 'pointer' }}
+                onClick={e => e.stopPropagation()}
+              >
                 <Icon
                   type="delete"
                   style={{ fontSize: '16px', color: 'red' }}
@@ -147,7 +152,7 @@ class ReportLogTable extends React.Component {
   }
 
   onDelete = async (reportId, logId) => {
-    const { dataSource } = this.state
+    const { dataSource, handleDeleteLog } = this.props
     try {
       const response = await StationFixedReportLog.deleteStationFixedReportLog({
         reportId,
@@ -155,7 +160,7 @@ class ReportLogTable extends React.Component {
       })
       if (response) {
         const newDataSource = dataSource.filter(log => log._id !== logId)
-        this.setState({ dataSource: newDataSource })
+        handleDeleteLog(newDataSource)
         message.success(t('addon.onDelete.success'))
       } else {
         message.error(t('addon.onDelete.error'))
@@ -165,12 +170,10 @@ class ReportLogTable extends React.Component {
     }
   }
   render() {
-    const { onClickReportLog, onClickAddReportLog } = this.props
-    const { dataSource } = this.state
+    const { onClickReportLog, onClickAddReportLog, dataSource } = this.props
 
-    console.log('dataSource----------->', dataSource)
     return (
-      <Table
+      <TableStyled
         rowKey={record => record._id}
         dataSource={dataSource}
         columns={this.getColumns()}
@@ -195,7 +198,7 @@ class ReportLogTable extends React.Component {
             }, // click row
           }
         }}
-      ></Table>
+      ></TableStyled>
     )
   }
 }

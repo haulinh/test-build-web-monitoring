@@ -13,7 +13,6 @@ import { FIELDS, i18n } from '../constants'
 export default class FormMeasure extends Component {
   convertDataMeasureObj = measuringList => {
     const { formType, logData } = this.props
-    console.log(formType)
     const newDataMeasure = measuringList.reduce((base, current) => {
       return {
         ...base,
@@ -21,7 +20,7 @@ export default class FormMeasure extends Component {
           key: current.key,
           value:
             formType === 'editReportLog'
-              ? logData.measuringLogs[`${current.key}`].textValue
+              ? _.get(logData.measuringLogs[`${current.key}`], 'textValue', '')
               : current.value,
         },
       }
@@ -74,8 +73,6 @@ export default class FormMeasure extends Component {
       isShowButton,
       measuringListSelect,
       onChangeMeasure,
-      formType,
-      logData,
     } = this.props
 
     const isDisableDelete = measuringList.length <= 1
@@ -96,6 +93,8 @@ export default class FormMeasure extends Component {
         }
         callBack()
       }
+
+      console.log('measuringListSelect-------->', measuringListSelect)
 
       return (
         <Row
