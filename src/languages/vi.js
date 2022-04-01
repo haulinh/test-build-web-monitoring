@@ -4554,6 +4554,7 @@ export default {
     },
     downloadExcel: {
       downloadFile: 'Tải xuống tệp mẫu',
+      cancel: 'Hủy',
       modal: {
         title: 'Thiết lập mẫu Báo cáo tải xuống',
         typeReport: {

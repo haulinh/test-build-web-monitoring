@@ -4541,6 +4541,8 @@ export default {
     },
     downloadExcel: {
       downloadFile: 'Download the sample file',
+      cancel: 'Cancel',
+
       modal: {
         title: 'Set up the dwnload report template',
         typeReport: {

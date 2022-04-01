@@ -233,6 +233,7 @@ export const i18n = () => {
     },
     downloadExcel: {
       downloadFile: t('stationFixedMonitoring.downloadExcel.downloadFile'),
+      cancel: t('stationFixedMonitoring.downloadExcel.cancel'),
       modal: {
         title: t('stationFixedMonitoring.downloadExcel.modal.title'),
         typeReport: {
