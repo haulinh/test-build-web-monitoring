@@ -24,7 +24,7 @@ const createManagerEdit = ({ apiUpdate, apiGetByKey }) => Component => {
         // console.log(res, "---res--")
         if (res.success) {
           message.success(this.props.lang.t('addon.onSave.update.success'))
-          return null
+          return res
         } else if (res.error) {
           message.error(this.props.lang.t('addon.onSave.update.error'))
           return res

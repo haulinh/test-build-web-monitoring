@@ -22,6 +22,7 @@ import { translate } from 'hoc/create-lang'
 import HeaderSearchWrapper from 'components/elements/header-search-wrapper'
 
 import DynamicTable from 'components/elements/dynamic-table'
+import LanguageContent from 'components/language/language-content'
 
 function i18n() {
   return {
@@ -171,7 +172,7 @@ export default class StationAutoList extends React.Component {
           {
             content: (
               <Span deleted={row.removeStatus && row.removeStatus.allowed}>
-                {row.name}
+                <LanguageContent type="Station" itemId={row._id} field="name" value={row.name}/>
               </Span>
             ),
           },

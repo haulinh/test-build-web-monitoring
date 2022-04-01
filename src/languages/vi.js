@@ -1,4 +1,8 @@
 export default {
+  languageSetup: {
+    setup: 'Thiết lập hệ thống',
+    warningContent: '<span>"{{=it.lang}}"</span> sẽ được sử dụng cho các ô còn trống.'
+  },
   notificationFreq: {
     only1: 'Chỉ 1 lần',
     _5Min: 'Mỗi 5 phút',
@@ -36,6 +40,7 @@ export default {
     edit: 'Sửa',
     delete: 'Xoá',
     create: 'Tạo mới',
+    back: 'Trở về',
     leave: 'Đồng ý',
     leaveConfirm: {
       title: 'Thoát phiên làm việc',
@@ -4473,6 +4478,9 @@ export default {
           value: 'Vui lòng nhập giá trị',
           format: 'Vui lòng nhập đúng định dạng',
         },
+        hint: {
+          text: 'Gợi ý: Nhấn <b>tab</b> để nhập ô tiếp theo',
+        },
       },
       formOtherInfo: {
         placeholder: 'Nhập thông tin',
@@ -4492,9 +4500,7 @@ export default {
       },
     },
     popupCreateSuccess: {
-      title: 'Dữ liệu đã được duyệt',
-      desc:
-        'Dữ liệu quan trắc định kỳ đã được duyệt thành công, đơn vị gửi báo cáo sẽ nhận được thông báo phê duyệt.',
+      title: 'Tạo mới báo cáo thành công.',
     },
     modalConfirmCancel: {
       content: 'Những thay đổi bạn đã thực hiện, có thể sẽ không được lưu.',

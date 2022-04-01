@@ -1,4 +1,4 @@
-import { Button, Form, notification } from 'antd'
+import { Button, Form, message } from 'antd'
 import { createManualReport } from 'api/station-fixed/StationFixedReportApi'
 import {
   createStationFixedReportLog,
@@ -37,10 +37,6 @@ const FormContainer = styled.div`
     gap: 12px;
     border-top: 1px solid #e8e8e8;
     padding: 12px;
-  }
-
-  .ant-popover-inner-content {
-    width: 300px;
   }
 
   .ant-input-suffix {
@@ -105,11 +101,7 @@ export default class FormMonitoring extends Component {
         loading: false,
       })
 
-      notification.success({
-        message: i18n().popupCreateSuccess.title,
-        description: i18n().popupCreateSuccess.desc,
-        placement: 'bottomRight',
-      })
+      message.success(i18n().popupCreateSuccess.title)
 
       setVisibleDrawer(false)
     } catch (error) {
@@ -151,7 +143,7 @@ export default class FormMonitoring extends Component {
     const paramMeasuringLogs = measuringLogsArr.reduce((base, current) => {
       return {
         ...base,
-        [current.key]: { key: current.key, value: current.value },
+        [current.key]: { key: current.key, value: current.value.trim() },
       }
     }, {})
 

@@ -13,6 +13,7 @@ function calc(prefix = '') {
 
 const prefixAlarm = 'alarm-subscription'
 const prefixAlarmLog = 'alarm-log'
+const prefixSetupLanguage = 'languages'
 
 export default {
   getWQIPeriodic: params => {
@@ -152,4 +153,15 @@ export default {
     return pathFetch(url, params)
   },
   //#endregion
+
+  //#language setup for content
+
+  getAllLanguageContent: (params) => {
+    const url = calc(`${prefixSetupLanguage}`)
+    return getFetch(url, params)
+  },
+  updateLanguageContent: (params) => {
+    const url = calc(`${prefixSetupLanguage}`)
+    return pathFetch(url, params)
+  },
 }
