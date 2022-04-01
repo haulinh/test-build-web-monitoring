@@ -13,6 +13,8 @@ import {
   DATETIME_TOOLTIP_FORMAT,
 } from 'constants/chart-format'
 import { ROUND_DIGIT } from 'constants/format-number'
+import {connect} from 'react-redux'
+import {getContent} from 'components/language/language-content'
 
 const ChartWrapper = styled.div``
 const SelectWrapper = styled.span`
@@ -122,6 +124,9 @@ const configChart = (data, title, minLimit, maxLimit, maxChart, minChart) => {
 }
 
 @autobind
+@connect(state => ({
+  languageContents: _.get(state, 'language.languageContents'),
+}))
 export default class ChartRowToChart extends React.Component {
   constructor(props) {
     super(props)
@@ -269,7 +274,8 @@ export default class ChartRowToChart extends React.Component {
     let minLimit = null
     let maxChart = undefined
     let minChart = undefined
-    let title = _.get(this.props, 'station.name', '')
+    const {station, languageContents} = this.props
+    let title = getContent(languageContents, {type: 'Station', itemId: station._id, value: station.name, field: 'name'})
     if (!this.state.isShowAll) {
       dataSeries = []
       maxLimit = _.get(this.state.current, '0.maxLimit', undefined)

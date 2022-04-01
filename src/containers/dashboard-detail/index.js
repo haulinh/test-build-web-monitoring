@@ -280,8 +280,6 @@ export default class OverviewDashboard extends Component {
             )
           }}
         />
-
-        {/* this.state.stationList */}
       </PageContainer>
     )
   }

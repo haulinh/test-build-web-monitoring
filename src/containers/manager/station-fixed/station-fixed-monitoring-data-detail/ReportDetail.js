@@ -114,7 +114,7 @@ export default class ReportDetail extends Component {
           style={{ display: 'flex', flexDirection: 'column' }}
         >
           {optionalInfo.map(item => (
-            <div key={item.key} style={{ marginBottom: '8px' }}>
+            <div key={item.field} style={{ marginBottom: '8px' }}>
               {form.getFieldDecorator(item.field)(
                 <Checkbox>{i18n().optionalInfo[item.field]}</Checkbox>
               )}
