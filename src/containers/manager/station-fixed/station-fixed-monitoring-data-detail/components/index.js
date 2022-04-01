@@ -49,7 +49,7 @@ export class EditWrapper extends React.Component {
 
   render() {
     const { isClicked } = this.state
-    const { type, value, onChange, style, title, maxLength } = this.props
+    const { type, value, onChange, style, title } = this.props
     if (!isClicked)
       return (
         <React.Fragment>
@@ -100,7 +100,6 @@ export class EditWrapper extends React.Component {
           {...props}
           style={{ width: '100%', height: '40px' }}
           fontSize={style && style.fontSize}
-          maxLength={maxLength}
         />
         <Clearfix height={12} />
         <Flex justifyContent="end">

@@ -26,7 +26,7 @@ class ReportLogTable extends React.Component {
       dataIndex: '',
       key: 'order',
       align: 'center',
-      width: 48,
+      width: 60,
       fixed: 'left',
       render: (value, record, index) => {
         return <p>{index + 1}</p>

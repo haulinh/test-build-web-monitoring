@@ -1,23 +1,24 @@
 import { Row, Table } from 'antd'
 import AvatarCharacter from 'components/elements/avatar-character'
 import slug from 'constants/slug'
-import { autobind } from 'core-decorators'
 import { translate as t } from 'hoc/create-lang'
 import { get } from 'lodash'
 import moment from 'moment-timezone'
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-@autobind
-export default class TableMonitoringData extends React.Component {
-  columns = [
+const TableMonitoringData = ({ dataSource, loading }) => {
+  const dataSourceSort = dataSource.sort(function(a, b) {
+    return moment(b.createdAt) - moment(a.createdAt)
+  })
+  const columns = [
     {
       title: '#',
       dataIndex: '',
       align: 'center',
       key: 'order',
       render: (value, record, index) => {
-        return <div>{index + 1}</div>
+        return <div>{dataSource.indexOf(record) + 1}</div>
       },
     },
     {
@@ -128,21 +129,17 @@ export default class TableMonitoringData extends React.Component {
       },
     },
   ]
-  render() {
-    const { dataSource, loading } = this.props
-    const dataSourceSort = dataSource.sort(function(a, b) {
-      return moment(b.createdAt) - moment(a.createdAt)
-    })
 
-    return (
-      <Table
-        dataSource={dataSourceSort}
-        columns={this.columns}
-        rowKey={record => record._id}
-        bordered
-        loading={loading}
-        pagination={{ pageSize: 20, hideOnSinglePage: true }}
-      />
-    )
-  }
+  return (
+    <Table
+      dataSource={dataSourceSort}
+      columns={columns}
+      rowKey={record => record._id}
+      bordered
+      loading={loading}
+      pagination={{ pageSize: 20, hideOnSinglePage: true }}
+    />
+  )
 }
+
+export default TableMonitoringData

@@ -98,20 +98,21 @@ export default class FormMonitoring extends Component {
           reportId,
         })
         handleSuccessEditLog(paramsLog)
+        message.success(i18n().popupEditLogSuccess.title)
       } else if (formType === 'createReportLog') {
         const paramsLog = { ...params, reportId }
         delete paramsLog.stationId
 
         await createStationFixedReportLog({ ...params, reportId })
         handleSuccessCreateLog(paramsLog)
+        message.success(i18n().popupCreateLogSuccess.title)
       } else {
         await createManualReport(params)
+        message.success(i18n().popupCreateSuccess.title)
       }
       this.setState({
         loading: false,
       })
-
-      message.success(i18n().popupCreateSuccess.title)
 
       setVisibleDrawer(false)
     } catch (error) {
@@ -470,7 +471,9 @@ export default class FormMonitoring extends Component {
             {i18n().button.reset}
           </Button>
           <Button loading={loading} type="primary" onClick={this.onSubmitForm}>
-            {formType === 'editReportLog' ? 'Cập nhật' : i18n().button.create}
+            {formType === 'editReportLog'
+              ? i18n().button.update
+              : i18n().button.create}
           </Button>
         </div>
       </FormContainer>

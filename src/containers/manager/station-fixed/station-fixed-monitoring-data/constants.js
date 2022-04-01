@@ -73,7 +73,10 @@ export const i18n = () => {
       importExcel: t('stationFixedMonitoring.importButton.importExcel'),
     },
     drawer: {
-      title: t('stationFixedMonitoring.drawer.title'),
+      title: {
+        edit: t('stationFixedMonitoring.drawer.title.edit'),
+        create: t('stationFixedMonitoring.drawer.title.create'),
+      },
       formBasic: {
         title: t('stationFixedMonitoring.drawer.formBasic.title'),
         nameReport: t('stationFixedMonitoring.drawer.formBasic.nameReport'),
@@ -154,6 +157,12 @@ export const i18n = () => {
     popupCreateSuccess: {
       title: t('stationFixedMonitoring.popupCreateSuccess.title'),
     },
+    popupCreateLogSuccess: {
+      title: t('stationFixedMonitoring.popupCreateLogSuccess.title'),
+    },
+    popupEditLogSuccess: {
+      title: t('stationFixedMonitoring.popupEditLogSuccess.title'),
+    },
     modalConfirmCancel: {
       content: t('stationFixedMonitoring.modalConfirmCancel.content'),
     },
@@ -164,6 +173,7 @@ export const i18n = () => {
       create: t('stationFixedMonitoring.button.create'),
       download: t('stationFixedMonitoring.button.download'),
       upload: t('stationFixedMonitoring.button.upload'),
+      update: t('stationFixedMonitoring.button.update'),
     },
 
     errorUploadFile: {

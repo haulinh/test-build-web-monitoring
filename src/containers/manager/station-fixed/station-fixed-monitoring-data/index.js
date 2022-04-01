@@ -135,7 +135,7 @@ export default class StationFixedMonitoringData extends React.Component {
 
           <Drawer
             key={visibleDrawer}
-            title={i18n().drawer.title}
+            title={i18n().drawer.title.create}
             visible={visibleDrawer}
             closable
             placement="right"
