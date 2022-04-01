@@ -74,6 +74,8 @@ export default class StationAutoCreate extends React.PureComponent {
         message.error(translate('addon.onSave.add.error'))
       }
     }
+
+    return res
   }
 
   componentDidMount() {

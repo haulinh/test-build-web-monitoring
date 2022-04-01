@@ -1,4 +1,4 @@
-import { deleteFetch } from 'utils/fetch'
+import { deleteFetch, postFetch, pathFetch } from 'utils/fetch'
 import { getConfigApi } from '../../config'
 
 export function getStationFixedReportLogUrl(prefix = '') {
@@ -11,6 +11,18 @@ export function deleteStationFixedReportLog(params) {
   )
 }
 
+export const createStationFixedReportLog = params => {
+  let url = getStationFixedReportLogUrl()
+  return postFetch(url, params)
+}
+
+export const updateStationFixedReportLog = (reportId, logId, params) => {
+  let url = getStationFixedReportLogUrl(`${reportId}?logId=${logId}`)
+  return pathFetch(url, params)
+}
+
 export default {
   deleteStationFixedReportLog,
+  createStationFixedReportLog,
+  updateStationFixedReportLog,
 }

@@ -28,7 +28,7 @@ import { HeaderSearch, Title } from 'components/layouts/styles'
 import { PATTERN_KEY, PATTERN_NAME } from 'constants/format-string'
 import { autobind } from 'core-decorators'
 import createLanguageHoc, { langPropTypes, translate } from 'hoc/create-lang'
-import _, { get, omit } from 'lodash'
+import _, { get, isEmpty, omit } from 'lodash'
 import moment from 'moment'
 import PropTypes from 'prop-types'
 import React from 'react'
@@ -40,6 +40,9 @@ import { v4 as uuidv4 } from 'uuid'
 import AlarmConfig from '../alarm-config'
 import MeasuringTableAdvanced from '../station-auto-formTable-advanced/'
 import MeasuringTable from '../station-auto-formTable/'
+import LanguageInput from 'components/language'
+import CalculateApi from 'api/CalculateApi'
+import {getLanguage} from 'utils/localStorage'
 
 const { TextArea } = Input
 const { Panel } = Collapse
@@ -69,10 +72,9 @@ function i18n() {
   }
 }
 
-@Form.create({})
 @createLanguageHoc
 @autobind
-export default class StationAutoForm extends React.PureComponent {
+class StationAutoForm extends React.PureComponent {
   static propTypes = {
     onSubmit: PropTypes.func,
     isEdit: PropTypes.bool,
@@ -183,7 +185,7 @@ export default class StationAutoForm extends React.PureComponent {
     }
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const initialValues = this.getInitialValues()
     const minuteCount = _.get(
       initialValues,
@@ -292,9 +294,9 @@ export default class StationAutoForm extends React.PureComponent {
     return result
   }
 
-  handleSubmit(e) {
+  async handleSubmit(e) {
     e.preventDefault()
-    this.props.form.validateFields((err, values) => {
+    this.props.form.validateFields(async (err, values) => {
       if (err) {
         if (err.measuringListAdvanced) {
           this.setState({
@@ -314,6 +316,7 @@ export default class StationAutoForm extends React.PureComponent {
           return restItem
         }
       )
+
       let measuringListAdvanced = this.state.measuringListAdvanced.map(
         ({ id, ...restItem }) => {
           return restItem
@@ -434,9 +437,15 @@ export default class StationAutoForm extends React.PureComponent {
       )
 
       // Callback submit form Container Component
-      console.log('--onSubmit---', data)
       if (!isDisableSave && !isDisableSaveAdvanced && this.props.onSubmit) {
-        this.props.onSubmit(data)
+        const results = await this.props.onSubmit(data)
+        if (results.data) {
+          const language = this.getFormLanguage(values)
+          const itemId = results.data._id
+          const content = await CalculateApi.updateLanguageContent({itemId, type: 'Station', language})
+          this.props.updateLanguageContent(content)
+        }
+
         data.measuringListAdvanced.forEach((measuringAdvanced, index) => {
           this.props.form.setFieldsValue({
             [`measuringListAdvanced.${this.state.measuringListAdvanced[index].id}`]: {
@@ -446,6 +455,17 @@ export default class StationAutoForm extends React.PureComponent {
         })
       }
     })
+  }
+
+  getFormLanguage(values){
+    const language = get(values, 'language')
+    if(isEmpty(get(language, 'name'))) language['name'] = {vi: values['name'], en: values['name'], tw: values['name']}
+    if(language['name'][getLanguage()] !== values['name']) language['name'][getLanguage()] = values['name']
+    return {
+      vi: language['vi'].trim(),
+      en: language['en'].trim(),
+      tw: language['tw'].trim(),
+    }
   }
 
   changeStationType(stationTypeObject) {
@@ -559,7 +579,7 @@ export default class StationAutoForm extends React.PureComponent {
     })
   }
 
-  handleChange(listKey, ae) {
+  handleChange(listKey) {
     this.setState({
       tabKey: listKey.length > 0 ? listKey[listKey.length - 1] : listKey,
     })
@@ -603,19 +623,9 @@ export default class StationAutoForm extends React.PureComponent {
   }
 
   render() {
-    const { getFieldDecorator } = this.props.form
-    const { otherForm } = this.props
+    const { otherForm, form, initialValues } = this.props
+    const { getFieldDecorator } = form
     const { t } = this.props.lang
-    // const urlPhotoUpload = MediaApi.urlPhotoUploadWithDirectory('station-autos')
-    // const { previewVisible, previewImage, fileList } = this.state
-    // const uploadButton = (
-    //   <div>
-    //     <Icon type="plus" />
-    //     <div className="ant-upload-text">
-    //       {t('stationAutoManager.upload.label')}
-    //     </div>
-    //   </div>
-    // )
 
     const formItemLayout = {
       labelCol: {
@@ -625,6 +635,8 @@ export default class StationAutoForm extends React.PureComponent {
         sm: { span: 17, offset: 0 },
       },
     }
+
+    getFieldDecorator('language.name')
 
     return (
       <div>
@@ -706,10 +718,17 @@ export default class StationAutoForm extends React.PureComponent {
                         },
                       ],
                     })(
-                      <Input
-                        placeholder={t(
-                          'stationAutoManager.form.name.placeholder'
-                        )}
+                      <LanguageInput
+                        itemId={get(initialValues, '_id')}
+                        type='Station'
+                        language={form.getFieldValue('language.name')}
+                        placeholder={t('stationAutoManager.form.name.placeholder')}
+                        rules={[{
+                          max: 64,
+                          message: i18n().name.max,
+                        }]}
+                        onChangeLanguage={language => form.setFieldsValue({'language.name': language})
+                      }
                       />
                     )}
                   </FormItem>
@@ -1448,3 +1467,5 @@ export default class StationAutoForm extends React.PureComponent {
     )
   }
 }
+
+export default Form.create({})(StationAutoForm)

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
 import styled from 'styled-components'
 import Clearfix from 'components/elements/clearfix'
-import { SHAPE } from 'themes/color'
 import { Dropdown, Button, Menu, Icon, Divider } from 'antd'
 import ROLE, { checkRolePriority } from 'constants/role'
 import moment from 'moment/moment'
@@ -11,7 +10,7 @@ import moment from 'moment/moment'
 import DrawerStation from './more-content/drawer'
 
 // import protectRole from 'hoc/protect-role'
-import { translate, removeAccents } from 'hoc/create-lang'
+import { translate } from 'hoc/create-lang'
 
 import { connect } from 'react-redux'
 // import StationControl from 'api/SamplingApi'
@@ -19,6 +18,7 @@ import { STATUS_STATION } from 'constants/stationStatus'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import { isEmpty, get as _get } from 'lodash'
 import queryFormDataBrowser from 'hoc/query-formdata-browser'
+import LanguageContent from 'components/language/language-content'
 
 // import objectPath from 'object-path'
 
@@ -74,19 +74,6 @@ const StationName = styled.h4`
   margin-bottom: 0px;
 `
 
-const WrapperNameStationTypeName = styled.div`
-  flex-direction: column;
-  .stationName {
-    font-size: 12px;
-  }
-  .stationTypeName {
-    font-size: 10px;
-    display: block;
-    color: ${SHAPE.PRIMARY};
-    opacity: 0.7;
-  }
-`
-
 const ReceivedAt = styled.span`
   color: #000;
   font-style: ${props =>
@@ -129,6 +116,7 @@ const ActionWrapper = styled.div`
   organization: state.auth.userInfo.organization,
   userInfo: state.auth.userInfo,
   language: _get(state, 'language.locale'),
+  languageContents: _get(state, 'language.languageContents'),
 }))
 @queryFormDataBrowser(['submit'])
 @autobind
@@ -217,21 +205,15 @@ export default class StationAutoHead extends React.PureComponent {
   render() {
     const {
       name,
-      stationTypeName,
       receivedAt,
       orderNumber,
       stationID,
       options,
       status,
-      language,
       _id,
       stationKey,
     } = this.props
-    // if (stationID === "NUOCTHAINMPM2_1MR") {
-    //   console.log(this.state, this.props.currentActionDefault , "currentAction")
-    // }
 
-    // console.log(this.props.stationID, "'#components-anchor-demo-static'")
     const { currentAction } = this.state
     const isCamera = options && options.camera && options.camera.allowed
     const isSampling = options && options.sampling && options.sampling.allowed
@@ -247,21 +229,10 @@ export default class StationAutoHead extends React.PureComponent {
           </a>
           <OrderNumber>{orderNumber}</OrderNumber>
           <Clearfix width={8} />
-          {stationTypeName ? (
-            <WrapperNameStationTypeName>
-              <StationName className="stationName">
-                {removeAccents(language, name)}
-              </StationName>
-              <span className="stationTypeName">
-                {removeAccents(language, stationTypeName)}
-              </span>
-            </WrapperNameStationTypeName>
-          ) : (
-            <StationName>
-              {removeAccents(language, name)}{' '}
-              {status === STATUS_STATION.NOT_USE && ' - ' + i18n().notInUse}
-            </StationName>
-          )}
+          <StationName>
+            <LanguageContent type="Station" field="name" value={name} itemId={_id}/>
+            {status === STATUS_STATION.NOT_USE && ' - ' + i18n().notInUse}
+          </StationName>
           <Clearfix width={8} />
           {/* MARK  Bỏ status={status} vì k0 can phan biet status nua */}
           <ReceivedAt id={stationID} status={STATUS_STATION.DATA_CONNECTED}>
