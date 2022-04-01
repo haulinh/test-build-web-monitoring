@@ -34,7 +34,7 @@ const formItemLayout = {
 export default class StationFixedImportExcel extends Component {
   state = {
     visibleModalDownload: false,
-    isNoFile: false,
+    hasFile: false,
     isImportSuccess: false,
     errorDetail: null,
     count: null,
@@ -81,9 +81,7 @@ export default class StationFixedImportExcel extends Component {
 
       const stationFixedActive = stationFixed.data.filter(point => point.active)
 
-      this.setState({
-        points: stationFixedActive,
-      })
+      this.setState({ points: stationFixedActive })
     } catch (error) {
       console.error({ error })
     }
@@ -135,9 +133,7 @@ export default class StationFixedImportExcel extends Component {
     const file = value[FIELDS.FILE]
 
     if (!file) {
-      this.setState({
-        isNoFile: true,
-      })
+      this.setState({ hasFile: true })
       return
     }
 
@@ -161,16 +157,14 @@ export default class StationFixedImportExcel extends Component {
   }
 
   onCancel = () => {
-    this.setState({
-      visibleModalDownload: false,
-    })
+    this.setState({ visibleModalDownload: false })
   }
 
   onChangeUploadFile = ({ file }) => {
     const { form } = this.props
 
     this.setState({
-      isNoFile: false,
+      hasFile: false,
     })
 
     form.setFieldsValue({ [FIELDS.FILE]: file })
@@ -180,7 +174,7 @@ export default class StationFixedImportExcel extends Component {
     const { form } = this.props
     const {
       visibleModalDownload,
-      isNoFile,
+      hasFile,
       errorDetail,
       points,
       isImportSuccess,
@@ -295,7 +289,7 @@ export default class StationFixedImportExcel extends Component {
 
           <Clearfix height={30} />
 
-          {isNoFile && (
+          {hasFile && (
             <Row justify="center" type="flex">
               <Col span={12}>
                 <Alert

@@ -44,12 +44,8 @@ export default class ImportFile extends Component {
           </p>
           <p className="ant-upload-text">{i18n().importExcel.dragger.title}</p>
           <p className="ant-upload-hint">{i18n().importExcel.dragger.desc}</p>
-          <p style={{ marginTop: '10px' }}>
-            {_.get(file, 'name') ? file.name : null}
-          </p>
+          <p style={{ marginTop: '10px' }}>{_.get(file, 'name', '')}</p>
         </Dragger>
-
-        {/* <Clearfix height={20} /> */}
       </ImportContainer>
     )
   }

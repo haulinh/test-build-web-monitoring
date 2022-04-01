@@ -57,16 +57,16 @@ export default class ModalDownloadFile extends Component {
 
     const { selectedList } = value
 
-    const measureListIsChoose = measuringList.filter(
+    const measureListSelected = measuringList.filter(
       measure => selectedList[measure.key]
     )
 
-    const measureKeyListIsChoose = measureListIsChoose.map(
+    const measureKeyListSelected = measureListSelected.map(
       measure => measure.key
     )
 
     const params = {
-      measurings: measureKeyListIsChoose,
+      measurings: measureKeyListSelected,
     }
 
     return params.measurings
@@ -76,15 +76,14 @@ export default class ModalDownloadFile extends Component {
     const { points, form } = this.props
 
     form.resetFields(['selectedList'])
-    const pointsList = points.filter(
+
+    const newPoints = points.filter(
       point => point.stationType.key === stationKey
     )
 
-    const measuringList = getMeasuringListFromStationAutos(pointsList)
+    const measuringList = getMeasuringListFromStationAutos(newPoints)
 
-    this.setState({
-      measuringList,
-    })
+    this.setState({ measuringList })
   }
   onDragEnd = result => {
     const { measuringList } = this.state
@@ -96,12 +95,10 @@ export default class ModalDownloadFile extends Component {
 
     newMeasuringList.splice(result.destination.index, 0, reorderedItem)
 
-    this.setState({
-      measuringList: newMeasuringList,
-    })
+    this.setState({ measuringList: newMeasuringList })
   }
 
-  getIsDisableBtn = () => {
+  isDisableButton = () => {
     const { form } = this.props
     const checkList = form.getFieldValue('selectedList')
 
@@ -118,7 +115,7 @@ export default class ModalDownloadFile extends Component {
     const isShowDragDrop = measuringList.length > 0
 
     const isDisableDownload =
-      this.getIsDisableBtn() || measuringList.length === 0
+      this.isDisableButton() || measuringList.length === 0
 
     return (
       <Modal
@@ -169,7 +166,8 @@ export default class ModalDownloadFile extends Component {
                 rules: [
                   {
                     required: true,
-                    message: '',
+                    message: i18n().downloadExcel.modal.selectStationType
+                      .require,
                   },
                 ],
               })(
