@@ -1,4 +1,4 @@
-import { Button, Checkbox, Col, Form, Input, Popover, Row, Tabs } from 'antd'
+import { Button, Checkbox, Col, Form, Input, Popover, Row } from 'antd'
 import StationFixedPeriodic from 'api/station-fixed/StationFixedPeriodic'
 import { Clearfix } from 'components/elements'
 import { FormItem } from 'components/layouts/styles'
