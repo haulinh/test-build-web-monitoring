@@ -29,6 +29,7 @@ import styled from 'styled-components'
 import { getMonitoringFilter } from 'utils/localStorage'
 import { replaceVietnameseStr } from 'utils/string'
 import HeaderView from '../../../components/monitoring/header-view'
+import { getContent } from 'components/language/language-content'
 
 const { Link } = Anchor
 
@@ -52,6 +53,7 @@ export const defaultFilter = {
 }
 @connect(state => ({
   language: _.get(state, 'language.locale'),
+  languageContents: _.get(state, 'language.languageContents'),
 }))
 @withRouter
 @queryFormDataBrowser(['submit'])
@@ -266,12 +268,14 @@ export default class MonitoringGeneral extends React.Component {
   getFilterProvince = dataList => {
     let total = 0
     let countGood = 0
+    const {languageContents} = this.props
     const stationTypeList = _.map(
       dataList,
       ({ stationAutoList, totalWarning, stationType }) => {
         const rs = _.filter(
           stationAutoList || [],
-          ({ name, province, status }) => {
+          ({ _id: itemId, province, status, name: pureName}) => {
+            const name = getContent(languageContents, {type: 'Station', itemId: itemId, field: 'name', value: pureName})
             let hasFilterName = true
             if (this.state.filter.search) {
               hasFilterName = _.includes(
