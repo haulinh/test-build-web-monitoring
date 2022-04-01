@@ -12,10 +12,10 @@ import { AnalyzeDataProvider } from './context'
 import { CHART_TYPE } from './report-data/chart-type'
 import { OPERATOR } from './filter/select-operator'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import FilterList from 'components/filter'
-import { Row, Col } from 'antd'
+import { Row, Col, Button, Modal, Form } from 'antd'
 import Breadcrum from './breadcrum'
 import CalculateApi from 'api/CalculateApi'
+import { ModalSaveFilter, FilterList } from 'components/filter'
 
 function i18n() {
   return {
@@ -25,6 +25,8 @@ function i18n() {
 }
 
 const MODULE_TYPE = 'Analytic'
+
+@Form.create()
 class DataAnalytics extends Component {
   chart
 
@@ -39,7 +41,10 @@ class DataAnalytics extends Component {
     isShowQcvn: true,
     paramFilter: {},
     filterList: [],
+    visibleModalSave: false,
   }
+
+  formSearchRef = React.createRef()
 
   setLoading = isLoadingData => this.setState({ isLoadingData })
 
@@ -164,6 +169,18 @@ class DataAnalytics extends Component {
     if (redraw) this.chart.redraw()
   }
 
+  onSubmitSaveFilter = () => {
+    const { form } = this.props
+
+    const value = form.getFieldsValue()
+
+    const valueFormSearch = this.formSearchRef.current.getFieldsValue()
+
+    console.log({ valueFormSearch })
+
+    console.log({ value })
+  }
+
   onFetchReceiveTime = async measure => {
     const { data, dataType, from, to, paramFilter } = this.state
     this.setState({ measure })
@@ -238,6 +255,14 @@ class DataAnalytics extends Component {
     this.setState({ isShowQcvn: toogle })
   }
 
+  onClickSaveFilter = () => {
+    this.setState({ visibleModalSave: true })
+  }
+
+  onCancelModal = () => {
+    this.setState({ visibleModalSave: false })
+  }
+
   render() {
     const {
       data,
@@ -249,8 +274,11 @@ class DataAnalytics extends Component {
       measuringList,
       measure,
       isShowQcvn,
+      visibleModalSave,
       filterList,
     } = this.state
+
+    const { form } = this.props
 
     return (
       <AnalyzeDataProvider
@@ -259,7 +287,13 @@ class DataAnalytics extends Component {
           chart: this.chart,
         }}
       >
-        <PageContainer>
+        <PageContainer
+          right={
+            <Button type="primary" onClick={this.onClickSaveFilter}>
+              Lưu bộ lọc
+            </Button>
+          }
+        >
           {/* <Title>{i18n().title}</Title> */}
           <Breadcrum items={['list']} />
           {/* <Breadcrumb items={['list']} /> */}
@@ -274,6 +308,7 @@ class DataAnalytics extends Component {
                 standardsVN={qcvns.map(qc => qc.key)}
                 isLoadingData={isLoadingData}
                 onData={this.onData}
+                ref={this.formSearchRef}
                 onReDrawChart={this.onReDrawChart}
                 setLoading={this.setLoading}
                 setParamFilter={this.setParamFilter}
@@ -296,6 +331,13 @@ class DataAnalytics extends Component {
             </Col>
           </Row>
         </PageContainer>
+        <ModalSaveFilter
+          visible={visibleModalSave}
+          centered
+          onCancel={this.onCancelModal}
+          onSubmitSaveFilter={this.onSubmitSaveFilter}
+          form={form}
+        />
       </AnalyzeDataProvider>
     )
   }
