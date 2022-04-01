@@ -11,6 +11,10 @@ import ReportData from './report-data'
 import { AnalyzeDataProvider } from './context'
 import { CHART_TYPE } from './report-data/chart-type'
 import { OPERATOR } from './filter/select-operator'
+import PageContainer from 'layout/default-sidebar-layout/PageContainer'
+import FilterList from 'components/filter'
+import { Row, Col } from 'antd'
+import Breadcrum from './breadcrum'
 
 function i18n() {
   return {
@@ -115,7 +119,7 @@ class DataAnalytics extends Component {
         data: series,
         type: chartType,
         name: i18n().measuredValue,
-        enableMouseTracking: [OPERATOR.MIN, OPERATOR.MAX].includes(dataType)
+        enableMouseTracking: [OPERATOR.MIN, OPERATOR.MAX].includes(dataType),
       },
       true
     )
@@ -176,7 +180,7 @@ class DataAnalytics extends Component {
       measure,
       stations: data[measure].map(item => item.stationKey).join(','),
       values: data[measure].map(item => item.analyzeData[dataType]).join(','),
-      isFilter: paramFilter.isFilter
+      isFilter: paramFilter.isFilter,
     })
 
     const chart = this.chart.getChartSeries('mainChart')
@@ -229,7 +233,7 @@ class DataAnalytics extends Component {
   }
 
   toogleSelectQcvns = toogle => {
-    this.setState({isShowQcvn: toogle})
+    this.setState({ isShowQcvn: toogle })
   }
 
   render() {
@@ -242,7 +246,7 @@ class DataAnalytics extends Component {
       paramFilter,
       measuringList,
       measure,
-      isShowQcvn
+      isShowQcvn,
     } = this.state
 
     return (
@@ -252,32 +256,43 @@ class DataAnalytics extends Component {
           chart: this.chart,
         }}
       >
-        <Title>{i18n().title}</Title>
-        <Container>
-          <FilterForm
-            standardsVN={qcvns.map(qc => qc.key)}
-            isLoadingData={isLoadingData}
-            onData={this.onData}
-            onReDrawChart={this.onReDrawChart}
-            setLoading={this.setLoading}
-            setParamFilter={this.setParamFilter}
-            toogleSelectQcvns={this.toogleSelectQcvns}
-          />
-          <ReportData
-            isShowQcvn={isShowQcvn}
-            measure={measure}
-            measuringList={measuringList}
-            paramFilter={paramFilter}
-            data={data}
-            qcvns={qcvns}
-            dataType={dataType}
-            chartType={chartType}
-            isLoadingData={isLoadingData}
-            onReDrawChart={this.onReDrawChart}
-            onChangeQcvn={this.onChangeQcvn}
-            onFetchReceiveTime={this.onFetchReceiveTime}
-          />
-        </Container>
+        <PageContainer>
+          {/* <Title>{i18n().title}</Title> */}
+          <Breadcrum items={['list']} />
+          {/* <Breadcrumb items={['list']} /> */}
+
+          <Row
+            type="flex"
+            style={{ marginLeft: '-24px', marginRight: '-15px' }}
+          >
+            <FilterList />
+            <Col style={{ flex: 1, overflowX: 'hidden' }}>
+              <FilterForm
+                standardsVN={qcvns.map(qc => qc.key)}
+                isLoadingData={isLoadingData}
+                onData={this.onData}
+                onReDrawChart={this.onReDrawChart}
+                setLoading={this.setLoading}
+                setParamFilter={this.setParamFilter}
+                toogleSelectQcvns={this.toogleSelectQcvns}
+              />
+              <ReportData
+                isShowQcvn={isShowQcvn}
+                measure={measure}
+                measuringList={measuringList}
+                paramFilter={paramFilter}
+                data={data}
+                qcvns={qcvns}
+                dataType={dataType}
+                chartType={chartType}
+                isLoadingData={isLoadingData}
+                onReDrawChart={this.onReDrawChart}
+                onChangeQcvn={this.onChangeQcvn}
+                onFetchReceiveTime={this.onFetchReceiveTime}
+              />
+            </Col>
+          </Row>
+        </PageContainer>
       </AnalyzeDataProvider>
     )
   }
