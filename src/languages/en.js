@@ -1,7 +1,8 @@
 export default {
   languageSetup: {
     setup: 'Language setup',
-    warningContent: '<span>"{{=it.lang}}"</span> will be applied for remaning languages'
+    warningContent:
+      '<span>"{{=it.lang}}"</span> will be applied for remaning languages',
   },
   notificationFreq: {
     only1: 'Once only',
@@ -2973,7 +2974,7 @@ export default {
     pointAndPhaseNotBelongToStationType:
       'Point and phase monitoring are not the same type of station',
     pointKeyRequired: 'Point code cannot be left empty',
-    dateTimeRequired: 'Time cannot be left empty',
+    dateTimeRequired: 'Date and time cannot be left empty',
     selectPhaseError: 'Please select the monitoring batch',
     complexForm: 'Complex template',
     simpleForm: 'Simple template',

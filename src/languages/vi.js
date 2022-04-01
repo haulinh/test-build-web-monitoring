@@ -1,7 +1,8 @@
 export default {
   languageSetup: {
     setup: 'Thiết lập hệ thống',
-    warningContent: '<span>"{{=it.lang}}"</span> sẽ được sử dụng cho các ô còn trống.'
+    warningContent:
+      '<span>"{{=it.lang}}"</span> sẽ được sử dụng cho các ô còn trống.',
   },
   notificationFreq: {
     only1: 'Chỉ 1 lần',
@@ -2972,7 +2973,7 @@ export default {
     parameterNotTypeNumber: 'Thông số sai định dạng',
     pointAndPhaseNotBelongToStationType: 'Điểm và đợt không cùng loại trạm',
     pointKeyRequired: 'Mã điểm không được để trống',
-    dateTimeRequired: 'Thời gian không được để trống',
+    dateTimeRequired: 'Ngày giờ không được để trống',
     selectPhaseError: 'Vui lòng chọn đợt quan trắc',
     complexForm: 'Mẫu chi tiết',
     simpleForm: 'Mẫu đơn giản',
