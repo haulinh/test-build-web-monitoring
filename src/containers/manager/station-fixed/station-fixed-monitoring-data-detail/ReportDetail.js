@@ -1,5 +1,16 @@
-import { Button, Checkbox, Col, Form, Input, Popover, Row } from 'antd'
+import {
+  Button,
+  Checkbox,
+  Col,
+  Form,
+  Input,
+  message,
+  Popover,
+  Row,
+  Drawer as DrawerAnt,
+} from 'antd'
 import StationFixedPeriodic from 'api/station-fixed/StationFixedPeriodic'
+import StationFixedReportApi from 'api/station-fixed/StationFixedReportApi'
 import { Clearfix } from 'components/elements'
 import { FormItem } from 'components/layouts/styles'
 import ReportLogTable from 'containers/manager/station-fixed/station-fixed-monitoring-data-detail/ReportLogTable'
@@ -7,7 +18,15 @@ import { translate as t } from 'hoc/create-lang'
 import { get } from 'lodash'
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import FormMonitoring from '../station-fixed-monitoring-data/form-create'
 import Attachments from './Attachments'
+import { EditWrapper } from './components/index'
+import ModalConfirmCancel from '../station-fixed-monitoring-data/components/ModalConfirmCancel'
+import { getTimeUTC } from 'utils/datetime'
+import moment from 'moment-timezone'
+import measuring from 'containers/manager/measuring'
+import { v4 as uuidV4 } from 'uuid'
+import { FIELDS } from 'containers/statistic/wqi-station-fixed/search-form'
 
 const Flex = styled.div`
   display: flex;
@@ -30,6 +49,33 @@ const CustomButton = styled(Button)`
   border-color: transparent;
   height: 40px;
 `
+
+const Drawer = styled(DrawerAnt)`
+  .ant-drawer-body {
+    height: calc(100% - 55px);
+    flex-direction: column;
+    padding: 0;
+  }
+
+  .ant-drawer-title {
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .title {
+    font-size: 16px;
+    font-weight: 700;
+    padding: 12px 0;
+    color: #111827;
+  }
+`
+
+const styleText = {
+  color: '#262626',
+  fontSize: 14,
+  border: '1px solid rgb(217, 217, 217)',
+  borderRadius: 4,
+}
 
 export function i18n() {
   return {
@@ -58,6 +104,9 @@ export function i18n() {
       placeOfAnalysis: t('dataPointReport.optionalInfo.placeOfAnalysis'),
       createdAt: t('dataPointReport.optionalInfo.createdAt'),
     },
+    drawer: {
+      title: t('stationFixedMonitoring.drawer.title'),
+    },
     addButton: t('dataPointReport.button.add'),
     exportExcelButton: t('dataPointReport.button.exportExcel'),
     dataTab: t('dataPointReport.tab.data'),
@@ -82,12 +131,23 @@ const optionalInfo = [
 export default class ReportDetail extends Component {
   state = {
     points: [],
+    reportName: '',
+    visibleDrawer: false,
+    visibleModalConfirmCancel: false,
+    logData: {},
+    formType: 'editReportLog',
+    dataSourceLog: [],
   }
 
   componentDidMount = async () => {
+    const { initialValues } = this.props
     const periodic = await StationFixedPeriodic.getStationFixedPeriodics({}, {})
 
-    this.setState({ points: periodic.data })
+    this.setState({
+      points: periodic.data,
+      reportName: initialValues.report.name,
+      dataSourceLog: initialValues.logs,
+    })
   }
 
   operations = () => (
@@ -104,6 +164,22 @@ export default class ReportDetail extends Component {
     const pointEdit = points.find(point => point._id === stationId)
 
     return get(pointEdit, 'name', '')
+  }
+
+  updateReportField = async reportName => {
+    const { initialValues, form } = this.props
+    try {
+      await StationFixedReportApi.updateReportName(
+        initialValues.report._id,
+        reportName.trim()
+      )
+      form.setFieldsValue({ REPORT: reportName.trim() })
+      message.success('Cập nhật tên báo cáo thành công!')
+      this.setState({ reportName: reportName.trim() })
+      return true
+    } catch (error) {
+      message.error('Cập nhật tên báo cáo thất bại!')
+    }
   }
 
   content = () => {
@@ -124,9 +200,94 @@ export default class ReportDetail extends Component {
       </Form>
     )
   }
+
+  onCloseDrawer = () => {
+    this.setState({ visibleModalConfirmCancel: true })
+  }
+
+  handleClickRow = logData => {
+    this.setState({
+      visibleDrawer: true,
+      logData: logData,
+      formType: 'editReportLog',
+    })
+  }
+
+  handleClickAddReportLog = () => {
+    this.setState({ formType: 'createReportLog', visibleDrawer: true })
+  }
+
+  onConfirmCancel = () => {
+    this.setState({
+      visibleDrawer: false,
+      visibleModalConfirmCancel: false,
+    })
+  }
+
+  onCancelOut = () => {
+    this.setState({ visibleModalConfirmCancel: false })
+  }
+
+  setVisibleDrawer = visible => {
+    this.setState({
+      visibleDrawer: visible,
+    })
+  }
+
+  setDataSourceLog = logEdited => {
+    const { dataSourceLog, formType } = this.state
+
+    logEdited.datetime = getTimeUTC(moment(logEdited.datetime))
+
+    const newMeasuringLog = Object.values(logEdited.measuringLogs).map(
+      measuring => {
+        return {
+          key: measuring.key,
+          value: measuring.value,
+          textValue: measuring.value,
+        }
+      }
+    )
+
+    logEdited.measuringLogs = newMeasuringLog.reduce((base, current) => {
+      return { ...base, [current.key]: current }
+    }, {})
+
+    if (formType === 'editReportLog') {
+      const newDataSourceLog = dataSourceLog.map(log => {
+        if (log._id === logEdited._id) return logEdited
+        return log
+      })
+      this.setState({ dataSourceLog: newDataSourceLog })
+      return
+    }
+    const newDataSourceLog = [...dataSourceLog, { ...logEdited, _id: uuidV4() }]
+    this.setState({ dataSourceLog: newDataSourceLog })
+  }
+
+  deleteLogData = dataSourceAfterDelete => {
+    console.log(dataSourceAfterDelete)
+    this.setState({ dataSourceLog: dataSourceAfterDelete })
+  }
+
   render() {
     const { form, initialValues } = this.props
-    const { points } = this.state
+    const {
+      points,
+      reportName,
+      visibleDrawer,
+      visibleModalConfirmCancel,
+      logData,
+      formType,
+      dataSourceLog,
+    } = this.state
+
+    const stationName = this.getPointName(
+      points,
+      initialValues.report.stationId
+    )
+    const stationId = initialValues ? initialValues.report.stationId : ''
+    const reportId = initialValues ? initialValues.report._id : ''
 
     return (
       <React.Fragment>
@@ -134,27 +295,87 @@ export default class ReportDetail extends Component {
           <Col span={12}>
             <FormItem label={t('stationFixedManager.label.point')}>
               {form.getFieldDecorator('POINTS', {
-                initialValue: initialValues.report.name,
+                initialValue: this.getPointName(
+                  points,
+                  initialValues.report.stationId
+                ),
               })(<Input style={{ height: '40px' }} disabled />)}
             </FormItem>
           </Col>
           <Col span={12}>
             <FormItem label={t('stationFixedManager.table.title.reportName')}>
               {form.getFieldDecorator('REPORT', {
-                initialValue: this.getPointName(
-                  points,
-                  initialValues.report.stationId
-                ),
-              })(<Input style={{ height: '40px' }}></Input>)}
+                initialValue: initialValues.report.name,
+              })(
+                <EditWrapper
+                  maxLength={64}
+                  style={{ ...styleText }}
+                  type="input"
+                  value={this.getPointName(
+                    points,
+                    initialValues.report.stationId
+                  )}
+                  update={() =>
+                    this.updateReportField(
+                      form.getFieldsValue(['REPORT']).REPORT
+                    )
+                  }
+                  prevValue={reportName}
+                ></EditWrapper>
+              )}
             </FormItem>
           </Col>
         </Row>
         <Clearfix height={24} />
         {this.operations()}
         <Clearfix height={12} />
-        <ReportLogTable form={form} dataSource={initialValues.logs} />
+        <ReportLogTable
+          form={form}
+          dataSource={dataSourceLog}
+          onClickReportLog={this.handleClickRow}
+          onClickAddReportLog={this.handleClickAddReportLog}
+          handleDeleteLog={this.deleteLogData}
+        />
         <Clearfix height={16} />
         <Attachments />
+        <Drawer
+          key={visibleDrawer}
+          title={
+            formType === 'editReportLog'
+              ? 'Chỉnh sửa dữ liệu'
+              : i18n().drawer.title
+          }
+          visible={visibleDrawer}
+          closable
+          placement="right"
+          onClose={this.onCloseDrawer}
+          width={600}
+        >
+          <FormMonitoring
+            setVisibleDrawer={this.setVisibleDrawer}
+            type={'manual'}
+            formType={formType}
+            points={points}
+            visibleDrawer={visibleDrawer}
+            wrappedComponentRef={this.formRef}
+            onResetForm={this.onResetForm}
+            basicInfoData={{
+              stationName,
+              reportName,
+              stationId,
+              reportId,
+              logData,
+            }}
+            handleSuccessEditLog={this.setDataSourceLog}
+            handleSuccessCreateLog={this.setDataSourceLog}
+          />
+          <ModalConfirmCancel
+            visible={visibleModalConfirmCancel}
+            onConfirmCancel={this.onConfirmCancel}
+            onCancelOut={this.onCancelOut}
+            closable={false}
+          />
+        </Drawer>
       </React.Fragment>
     )
   }

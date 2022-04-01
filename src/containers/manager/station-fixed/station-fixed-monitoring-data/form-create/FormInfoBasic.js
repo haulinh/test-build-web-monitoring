@@ -1,6 +1,8 @@
 import { Col, DatePicker, Input, Row } from 'antd'
 import { FormItem } from 'components/layouts/styles'
+import moment from 'moment'
 import React, { Component } from 'react'
+import { getTimeUTC } from 'utils/datetime'
 import { FIELDS, i18n } from '../constants'
 import SelectPoint from '../search/SelectPoint'
 
@@ -21,8 +23,19 @@ export default class FormInfoBasic extends Component {
     stationTypeId: '',
   }
 
+  componentDidMount = () => {
+    const { form, formType, basicInfoData } = this.props
+    if (formType === 'editReportLog') {
+      setTimeout(() => {
+        form.setFieldsValue({
+          [FIELDS.TIME]: moment(basicInfoData.logData.datetime),
+        })
+      })
+    }
+  }
+
   render() {
-    const { form, onChangePoint, points } = this.props
+    const { form, onChangePoint, points, formType, basicInfoData } = this.props
 
     return (
       <div>
@@ -39,6 +52,10 @@ export default class FormInfoBasic extends Component {
               style={{ width: '100%' }}
             >
               {form.getFieldDecorator(FIELDS.NAME_REPORT, {
+                initialValue:
+                  formType === 'editReportLog' || formType === 'createReportLog'
+                    ? basicInfoData.stationName
+                    : '',
                 rules: [
                   {
                     required: true,
@@ -57,6 +74,12 @@ export default class FormInfoBasic extends Component {
                 <Input
                   style={{ width: '100%' }}
                   placeholder={i18n().drawer.formBasic.nameReport}
+                  disabled={
+                    formType === 'editReportLog' ||
+                    formType === 'createReportLog'
+                      ? true
+                      : false
+                  }
                 />
               )}
             </FormItem>
@@ -74,6 +97,10 @@ export default class FormInfoBasic extends Component {
               style={{ width: '100%' }}
             >
               {form.getFieldDecorator(FIELDS.POINT, {
+                initialValue:
+                  formType === 'editReportLog' || formType === 'createReportLog'
+                    ? basicInfoData.reportName
+                    : '',
                 onChange: onChangePoint,
                 rules: [
                   {
@@ -89,6 +116,12 @@ export default class FormInfoBasic extends Component {
                   size="default"
                   label={i18n().drawer.formBasic.point}
                   showSearch
+                  disabled={
+                    formType === 'editReportLog' ||
+                    formType === 'createReportLog'
+                      ? true
+                      : false
+                  }
                 />
               )}
             </FormItem>

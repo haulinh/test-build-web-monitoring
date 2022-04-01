@@ -7,19 +7,19 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { i18n } from './ReportDetail'
 import { translate as t } from 'hoc/create-lang'
+import styled from 'styled-components'
 
+const TableStyled = styled(Table)`
+  .ant-table-row {
+    :hover {
+      cursor: pointer;
+    }
+  }
+`
 @connect(state => ({
   measuresObj: state.global.measuresObj,
 }))
 class ReportLogTable extends React.Component {
-  state = {
-    dataSource: [],
-  }
-
-  componentDidMount = () => {
-    const { dataSource } = this.props
-    this.setState({ dataSource })
-  }
   baseColumns = [
     {
       title: '#',
@@ -67,8 +67,7 @@ class ReportLogTable extends React.Component {
   ]
 
   getColumns = () => {
-    const { form, measuresObj } = this.props
-    const { dataSource } = this.state
+    const { form, measuresObj, dataSource } = this.props
     return [
       ...this.baseColumns,
       Object.keys(form.getFieldsValue())
@@ -100,23 +99,25 @@ class ReportLogTable extends React.Component {
             },
           }
         }),
-      Object.values(get(dataSource[0], 'measuringLogs', {})).map(measuring => {
-        return {
-          title: measuresObj[measuring.key].name,
-          dataIndex: `measuringLogs.${measuring.key}`,
-          align: 'left',
-          width: 114,
-          render: (value, record, index) => {
-            return (
-              <div>
-                {isNil(value.value)
-                  ? ''
-                  : `${value.value} ${measuresObj[value.key].unit}`}
-              </div>
-            )
-          },
-        }
-      }),
+      Object.entries(get(dataSource[0], 'measuringLogs', {}))
+        .map(([key, measuringObj]) => ({ key, measuringObj }))
+        .map(measuring => {
+          return {
+            title: measuresObj[measuring.key].name,
+            dataIndex: `measuringLogs.${get(measuring, 'key', '')}`,
+            align: 'left',
+            width: 114,
+            render: (value, record, index) => {
+              return (
+                <div>
+                  {isNil(value)
+                    ? ''
+                    : `${value.textValue} ${measuresObj[measuring.key].unit}`}
+                </div>
+              )
+            },
+          }
+        }),
       {
         title: '',
         align: 'center',
@@ -128,9 +129,16 @@ class ReportLogTable extends React.Component {
               title={t('stationFixedManager.table.popUp.delete')}
               okText={t('global.submit')}
               cancelText={t('global.cancel')}
-              onConfirm={() => this.onDelete(record.reportId, record._id)}
+              onConfirm={e => {
+                e.stopPropagation()
+                this.onDelete(record.reportId, record._id)
+              }}
+              onCancel={e => e.stopPropagation()}
             >
-              <div style={{ textAlign: 'center', cursor: 'pointer' }}>
+              <div
+                style={{ textAlign: 'center', cursor: 'pointer' }}
+                onClick={e => e.stopPropagation()}
+              >
                 <Icon
                   type="delete"
                   style={{ fontSize: '16px', color: 'red' }}
@@ -144,16 +152,15 @@ class ReportLogTable extends React.Component {
   }
 
   onDelete = async (reportId, logId) => {
-    const { dataSource } = this.state
+    const { dataSource, handleDeleteLog } = this.props
     try {
       const response = await StationFixedReportLog.deleteStationFixedReportLog({
         reportId,
         logId,
       })
-      console.log(response)
       if (response) {
         const newDataSource = dataSource.filter(log => log._id !== logId)
-        this.setState({ dataSource: newDataSource })
+        handleDeleteLog(newDataSource)
         message.success(t('addon.onDelete.success'))
       } else {
         message.error(t('addon.onDelete.error'))
@@ -163,12 +170,10 @@ class ReportLogTable extends React.Component {
     }
   }
   render() {
-    const { dataSource } = this.state
-
-    console.log(this.getColumns())
+    const { onClickReportLog, onClickAddReportLog, dataSource } = this.props
 
     return (
-      <Table
+      <TableStyled
         rowKey={record => record._id}
         dataSource={dataSource}
         columns={this.getColumns()}
@@ -176,13 +181,24 @@ class ReportLogTable extends React.Component {
         bordered
         footer={() => (
           <Row type="flex" style={{ color: '#1890FF' }} align="middle">
-            <Button type="link" style={{ fontWeight: 500, fontSize: '16px' }}>
+            <Button
+              onClick={() => onClickAddReportLog()}
+              type="link"
+              style={{ fontWeight: 500, fontSize: '16px' }}
+            >
               <Icon type="plus" style={{ marginRight: 5 }} />
               {t('stationFixedManager.table.footer')}
             </Button>
           </Row>
         )}
-      ></Table>
+        onRow={record => {
+          return {
+            onClick: event => {
+              onClickReportLog(record)
+            }, // click row
+          }
+        }}
+      ></TableStyled>
     )
   }
 }
