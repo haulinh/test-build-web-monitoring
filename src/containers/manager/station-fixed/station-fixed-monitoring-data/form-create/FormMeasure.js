@@ -1,6 +1,5 @@
 import { Button, Col, Icon, Input, Row } from 'antd'
 import { Clearfix, FormItem } from 'components/layouts/styles'
-import measuring from 'containers/manager/measuring'
 import _ from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
@@ -93,8 +92,6 @@ export default class FormMeasure extends Component {
         }
         callBack()
       }
-
-      console.log('measuringListSelect-------->', measuringListSelect)
 
       return (
         <Row

@@ -135,10 +135,12 @@ export default class FormMonitoring extends Component {
     const params = {
       ...otherValue,
       ...otherInfo,
-      name: value.name.trim(),
+      name: value.reportName.trim(),
       measuringLogs: paramMeasuringLogs,
       type,
     }
+
+    delete params.reportName
 
     return params
   }

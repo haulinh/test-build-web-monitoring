@@ -2,12 +2,12 @@ import {
   Button,
   Checkbox,
   Col,
+  Drawer as DrawerAnt,
   Form,
   Input,
   message,
   Popover,
   Row,
-  Drawer as DrawerAnt,
 } from 'antd'
 import StationFixedPeriodic from 'api/station-fixed/StationFixedPeriodic'
 import StationFixedReportApi from 'api/station-fixed/StationFixedReportApi'
@@ -16,17 +16,15 @@ import { FormItem } from 'components/layouts/styles'
 import ReportLogTable from 'containers/manager/station-fixed/station-fixed-monitoring-data-detail/ReportLogTable'
 import { translate as t } from 'hoc/create-lang'
 import { get } from 'lodash'
+import moment from 'moment-timezone'
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import { getTimeUTC } from 'utils/datetime'
+import { v4 as uuidV4 } from 'uuid'
+import ModalConfirmCancel from '../station-fixed-monitoring-data/components/ModalConfirmCancel'
 import FormMonitoring from '../station-fixed-monitoring-data/form-create'
 import Attachments from './Attachments'
 import { EditWrapper } from './components/index'
-import ModalConfirmCancel from '../station-fixed-monitoring-data/components/ModalConfirmCancel'
-import { getTimeUTC } from 'utils/datetime'
-import moment from 'moment-timezone'
-import measuring from 'containers/manager/measuring'
-import { v4 as uuidV4 } from 'uuid'
-import { FIELDS } from 'containers/statistic/wqi-station-fixed/search-form'
 
 const Flex = styled.div`
   display: flex;

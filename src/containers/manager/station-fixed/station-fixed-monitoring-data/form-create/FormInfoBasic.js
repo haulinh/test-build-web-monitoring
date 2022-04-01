@@ -2,7 +2,6 @@ import { Col, DatePicker, Input, Row } from 'antd'
 import { FormItem } from 'components/layouts/styles'
 import moment from 'moment'
 import React, { Component } from 'react'
-import { getTimeUTC } from 'utils/datetime'
 import { FIELDS, i18n } from '../constants'
 import SelectPoint from '../search/SelectPoint'
 
