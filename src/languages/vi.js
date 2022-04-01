@@ -2966,6 +2966,8 @@ export default {
     pointKeyNotExisted: 'Mã điểm không tồn tại',
     parameterNotTypeNumber: 'Thông số sai định dạng',
     pointAndPhaseNotBelongToStationType: 'Điểm và đợt không cùng loại trạm',
+    pointKeyRequired: 'Mã điểm không được để trống',
+    dateTimeRequired: 'Thời gian không được để trống',
     selectPhaseError: 'Vui lòng chọn đợt quan trắc',
     complexForm: 'Mẫu chi tiết',
     simpleForm: 'Mẫu đơn giản',

@@ -1,4 +1,4 @@
-import { Col, Form, message, Modal as ModalAnt, Radio, Row, Button } from 'antd'
+import { Button, Col, Form, Modal as ModalAnt, Radio, Row } from 'antd'
 import {
   exportDataTemplateMonitoring,
   exportSimpleDataTemplateMonitoring,
@@ -42,7 +42,6 @@ export default class ModalDownloadFile extends Component {
         downFileExcel(result.data, 'simple-data-template')
       }
 
-      message.success(i18n().downloadExcel.modal.downloadSuccess)
       setVisibleModal(false)
     } catch (error) {
       console.error({ error })
