@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { getListLanguageWeb } from 'redux/actions/languageAction'
+import { getListLanguageWeb, getListLanguageContents } from 'redux/actions/languageAction'
 import { getMeasuresAsync } from 'redux/actions/globalAction'
 import languageApi from 'api/languageApi'
 import slug from 'constants/slug'
@@ -16,19 +16,20 @@ import * as _ from 'lodash'
   {
     getListLanguageWeb,
     getMeasuresAsync,
+    getListLanguageContents
   }
 )
 export default class AppContainer extends React.Component {
-  async componentWillMount() {
-    if (window.location.pathname !== slug.login.loginWithEmail) {
-      this.initialLanguage()
-      this.props.getListLanguageWeb()
-    }
-  }
-
   async componentDidMount() {
-    const { getMeasuresAsync } = this.props
-    await getMeasuresAsync()
+    const { getMeasuresAsync, getListLanguageWeb, getListLanguageContents } = this.props
+    if (window.location.pathname !== slug.login.loginWithEmail) {
+      Promise.all([
+        this.initialLanguage(),
+        getListLanguageWeb(),
+        getMeasuresAsync(),
+        getListLanguageContents()
+      ])
+    }
   }
 
   async initialLanguage() {

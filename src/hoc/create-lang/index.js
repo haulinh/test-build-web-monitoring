@@ -3,7 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import objectPath from 'object-path'
 import { connectAutoDispatch } from 'redux/connect'
-import { changeLanguage } from 'redux/actions/languageAction'
+import { changeLanguage, updateLanguageContent } from 'redux/actions/languageAction'
 import { autobind } from 'core-decorators'
 import dot from 'dot'
 import languages, { getData } from 'languages'
@@ -73,7 +73,7 @@ const createLanguageHoc = Component => {
         : state.language.dataInitial[state.language.locale],
       languageLocale: state.language.locale,
     }),
-    { changeLanguage }
+    { changeLanguage, updateLanguageContent}
   )
   @autobind
   class LanguageHoc extends React.Component {

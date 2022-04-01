@@ -1,4 +1,8 @@
 export default {
+  languageSetup: {
+    setup: 'Language setup',
+    warningContent: '<span>"{{=it.lang}}"</span> will be applied for remaning languages'
+  },
   notificationFreq: {
     only1: 'Once only',
     _5Min: 'Every 5 minutes',
@@ -33,6 +37,7 @@ export default {
     example: 'Example',
     copySuccess: 'Copy successfully',
     loading: 'Loading',
+    back: 'Back',
     edit: 'Edit',
     delete: 'Delete',
     create: 'Create',

@@ -4,6 +4,7 @@ import { Button, Icon, Spin } from 'antd'
 import { autobind } from 'core-decorators'
 import StationAutoApi from 'api/StationAuto'
 import Clearfix from 'components/elements/clearfix'
+import {getContent} from 'components/language/language-content'
 import StationAutoForm from '../station-auto-form'
 import slug from '/constants/slug'
 import createManagerDelete from 'hoc/manager-delete'
@@ -13,6 +14,7 @@ import Breadcrumb from '../breadcrumb'
 import { message } from 'antd'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
+import {connect} from 'react-redux'
 
 @protectRole(ROLE.STATION_AUTO.EDIT)
 @createManagerDelete({
@@ -22,6 +24,10 @@ import protectRole from 'hoc/protect-role'
   apiUpdate: StationAutoApi.updateStationAuto,
   apiGetByKey: StationAutoApi.getStationAuto,
 })
+@connect(
+  state => ({
+    languageContents: state.language.languageContents
+  }))
 @autobind
 export default class StationAutoEdit extends React.PureComponent {
   static propTypes = {
@@ -32,7 +38,7 @@ export default class StationAutoEdit extends React.PureComponent {
   }
 
   async handleSubmit(data) {
-    this.props.onUpdateItem(data)
+    return this.props.onUpdateItem(data)
     //const key = this.props.match.params.key
   }
 
@@ -74,23 +80,25 @@ export default class StationAutoEdit extends React.PureComponent {
   }
 
   render() {
-    const { search: otherForm } = this.props.location
+    const {location, languageContents} = this.props
+    const {search: otherForm} = location
+
     return (
       <PageContainer button={this.buttonDelete()} {...this.props.wrapperProps}>
+
         <Breadcrumb
           items={[
             'list',
             {
               id: 'edit',
-              name:
-                this.props.isLoaded && this.props.success
-                  ? this.cleanData().name
+              name: this.props.isLoaded && this.props.success
+                  ? getContent(languageContents, {type: "Station", itemId: this.cleanData()._id, field: 'name', value: this.cleanData().name})
                   : null,
             },
           ]}
         />
         <Clearfix height={16} />
-        <Spin style={{ width: '100%' }} spinning={!this.props.isLoaded}>
+        <Spin style={{width: '100%'}} spinning={!this.props.isLoaded}>
           {this.props.isLoaded && this.props.success && (
             <StationAutoForm
               isLoading={this.props.isUpdating}
