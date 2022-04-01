@@ -179,7 +179,7 @@ class Language extends React.Component {
     okText: i18n.okText,
     cancelText: i18n.cancelText,
     title: i18n.title,
-    bodyStyle: {height: 280}
+    bodyStyle: {height: 300}
   })
 
   render(){
