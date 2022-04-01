@@ -14,6 +14,7 @@ import Clearfix from 'components/elements/clearfix'
 import { getMonitoringFilter, setMonitoringFilter } from 'utils/localStorage'
 import { replaceVietnameseStr } from 'utils/string'
 import * as _ from 'lodash'
+import get from 'lodash/get'
 import HeaderView from '../../../components/monitoring-list/header-view'
 import styled from 'styled-components'
 import {
@@ -29,6 +30,7 @@ import { connect } from 'react-redux'
 import { changeOpenSubMenu } from 'redux/actions/themeAction'
 import HeaderLeft from './HeaderLeft'
 import HeaderRight from './HeaderRight'
+import {getContent} from 'components/language/language-content'
 
 const ContainerHeader = styled.div`
   flex-direction: row;
@@ -51,7 +53,6 @@ function i18n() {
     list: translate('common.list'),
     statusSensor: translate('common.statusSensor'),
     statusData: translate('common.statusData'),
-
     dataLoss: translate('common.deviceStatus.dataLossMonitoring'),
     dataExceeded: translate('common.deviceStatus.dataExceededMonitoring'),
     dataExceededPrepare: translate(
@@ -74,10 +75,14 @@ export const defaultFilter = {
   search: '',
 }
 
-@connect(state => ({}), {
-  changeOpenSubMenu,
-  toggleNavigation,
-})
+@connect(
+  state => ({
+    languageContents: get(state, 'language.languageContents')
+  }), 
+  {
+    changeOpenSubMenu,
+    toggleNavigation,
+  })
 @withRouter
 @protectRole(ROLE.MONITORING_BY_LIST.VIEW)
 @autobind
@@ -250,6 +255,7 @@ export default class MonitoringGeneral extends React.Component {
   }
 
   getFilterProvince = dataList => {
+    const {languageContents} = this.props
     let total = 0
     let countGood = 0
     const stationTypeList = _.map(
@@ -257,7 +263,9 @@ export default class MonitoringGeneral extends React.Component {
       ({ stationAutoList, totalWarning, stationType }) => {
         const rs = _.filter(
           stationAutoList || [],
-          ({ name, province, status }) => {
+          ({ _id: itemId, province, status, name: pureName}) => {
+            const name = getContent(languageContents, {type: 'Station', itemId: itemId, field: 'name', value: pureName})
+
             let hasFilterName = true
             if (this.state.filter.search) {
               hasFilterName = _.includes(
