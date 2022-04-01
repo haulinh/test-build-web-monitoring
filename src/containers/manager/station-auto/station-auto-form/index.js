@@ -461,7 +461,11 @@ class StationAutoForm extends React.PureComponent {
     const language = get(values, 'language')
     if(isEmpty(get(language, 'name'))) language['name'] = {vi: values['name'], en: values['name'], tw: values['name']}
     if(language['name'][getLanguage()] !== values['name']) language['name'][getLanguage()] = values['name']
-    return language
+    return {
+      vi: language['vi'].trim(),
+      en: language['en'].trim(),
+      tw: language['tw'].trim(),
+    }
   }
 
   changeStationType(stationTypeObject) {
