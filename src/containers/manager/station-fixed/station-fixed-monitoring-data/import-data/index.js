@@ -95,8 +95,6 @@ export default class StationFixedImportExcel extends Component {
     await form.validateFields()
     const params = this.getParams()
 
-    console.log({ params })
-
     if (!params) return
 
     const formData = new FormData()
