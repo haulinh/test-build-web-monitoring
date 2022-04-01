@@ -4498,6 +4498,67 @@ export default {
       cancel: 'Cancel',
       reset: 'Retype',
       create: 'Create',
+      download: 'Download',
+      upload: 'Upload',
+    },
+    importExcel: {
+      breadCrumb: 'Import monitoring data',
+      nameReport: 'Name report',
+      placeholder: 'Enter a name for the report',
+
+      message: 'Please select upload report type',
+
+      note:
+        'Note: An identifier for the Report name makes it easier to manage your data',
+      desc:
+        'Download a sample file to upload a variety of data information to the system.',
+      dragger: {
+        title: 'Drag and drop your file here',
+        desc: 'Support for files .xlsx, .xls',
+      },
+      notificationUpload: {
+        notFile: {
+          title: 'Please select File',
+          desc: 'Upload files format in .xlsx, .xls ',
+        },
+        uploadError: {
+          title: 'File upload failed',
+          desc: 'Some data lines are corrupted. Please check and try again',
+        },
+        empty: {
+          title: 'File upload failed',
+          desc: 'File has no data',
+        },
+        success: {
+          title: 'Upload successful',
+          desc: 'You have successfully uploaded ',
+          desc2: ' data rows.',
+        },
+      },
+    },
+    downloadExcel: {
+      downloadFile: 'Download the sample file',
+      modal: {
+        title: 'Set up the dwnload report template',
+        typeReport: {
+          title: 'Select report type',
+          simpleTitle: 'Simple pattern',
+          simpleDesc:
+            'Suitable for users to quickly enter data into the system with basic information fields.',
+          detailTitle: 'Detailed sample',
+          detailDesc:
+            'In line with user needs, enter detailed data into the system with detailed information fields.',
+        },
+        selectStationType: {
+          title: 'Station type',
+          placeholder: 'Select station type',
+          require: 'Please select station type.',
+        },
+        dragDrop: {
+          hint: 'Select and order the values ​​in the report',
+        },
+        downloadSuccess: 'Download the success report form',
+      },
     },
   },
 }

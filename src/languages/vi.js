@@ -4510,6 +4510,68 @@ export default {
       cancel: 'Hủy bỏ',
       reset: 'Nhập lại',
       create: 'Nhập dữ liệu',
+      download: 'Tải xuống',
+      upload: 'Tải lên',
+    },
+
+    importExcel: {
+      breadCrumb: 'Nhập dữ liệu quan trắc',
+      nameReport: 'Tên báo cáo',
+      placeholder: 'Nhập tên cho báo cáo',
+
+      message: 'Vui lòng chọn loại báo cáo tải lên.',
+
+      note:
+        'Ghi chú: Định danh cho tên Báo cáo giúp bạn quản lý dữ liệu dễ hơn.',
+      desc:
+        'Tải xuống tệp tin mẫu để đưa hàng loạt thông tin dữ liệu lên hệ thống.',
+      dragger: {
+        title: 'Kéo và thả tệp của bạn vào đây',
+        desc: 'Hỗ trợ cho tệp .xlsx, .xls',
+      },
+      notificationUpload: {
+        notFile: {
+          title: 'Vui lòng chọn File',
+          desc: 'Tải lên file định dạng .xlsx, .xls',
+        },
+        uploadError: {
+          title: 'Tải file lên thất bại',
+          desc: 'Một số dòng dữ liệu bị lỗi. Vui lòng kiểm tra và thử lại',
+        },
+        empty: {
+          title: 'Tải file lên thất bại',
+          desc: 'File không có dữ liệu',
+        },
+        success: {
+          title: 'Tải lên thành công',
+          desc: 'Bạn đã tải lên thành công ',
+          desc2: ' dòng dữ liệu.',
+        },
+      },
+    },
+    downloadExcel: {
+      downloadFile: 'Tải xuống tệp mẫu',
+      modal: {
+        title: 'Thiết lập mẫu Báo cáo tải xuống',
+        typeReport: {
+          title: 'Chọn loại báo cáo:',
+          simpleTitle: 'Mẫu đơn giản',
+          simpleDesc:
+            'Phù hợp với nhu cầu sử dụng nhập nhanh dữ liệu lên hệ thống với các trường thông tin cơ bản.',
+          detailTitle: 'Mẫu chi tiết',
+          detailDesc:
+            'Phù hợp với nhu cầu sử dụng nhập chi tiết dữ liệu lên hệ thống với các trường thông tin chi tiết.',
+        },
+        selectStationType: {
+          title: 'Loại trạm',
+          placeholder: 'Chọn loại trạm',
+          require: 'Vui lòng chọn loại trạm.',
+        },
+        dragDrop: {
+          hint: 'Chọn và sắp xếp thứ tự cho các giá trị trong báo cáo',
+        },
+        downloadSuccess: 'Tải xuống mẫu báo cáo thành công',
+      },
     },
   },
 }
