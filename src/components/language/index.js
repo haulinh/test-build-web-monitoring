@@ -192,7 +192,14 @@ class Language extends React.Component {
         <Input 
           value={content}
           onChange={e => this.onChange(e.target.value)}
-          addonAfter={<img src={iconLanguage} alt="" onClick={this.openLanguageModal} />}
+          addonAfter={
+            <img
+              alt=""
+              style={{cursor: 'pointer'}}
+              src={iconLanguage}
+              onClick={this.openLanguageModal}
+            />
+          }
         />
 
         <Modal
