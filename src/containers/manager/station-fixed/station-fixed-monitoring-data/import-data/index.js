@@ -101,8 +101,10 @@ export default class StationFixedImportExcel extends Component {
 
     const formData = new FormData()
     formData.append(FIELDS.FILE, params.file)
-    if (params.nameReport)
-      formData.append(FIELDS.NAME_REPORT, params.nameReport)
+    if (params.nameReport) {
+      const nameReport = params.nameReport.trim()
+      formData.append(FIELDS.NAME_REPORT, nameReport)
+    }
 
     try {
       let response
@@ -146,7 +148,7 @@ export default class StationFixedImportExcel extends Component {
     const typeReport = value[FIELDS.TYPE_REPORT]
 
     const params = {
-      nameReport,
+      nameReport: nameReport,
       file: file.file,
       typeReport,
     }
