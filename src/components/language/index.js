@@ -183,11 +183,14 @@ class Language extends React.Component {
   })
 
   render(){
-    const {form, rules, placeholder} = this.props
+    const {form, rules, placeholder, itemId} = this.props
     const {isWarning, isVisible, content, values} = this.state
-    const {getFieldDecorator} = form
+    const formValues = form.getFieldsValue()
 
-    return (
+    const disabled = !!itemId &&
+      Object.values(formValues).every(item => !item)
+
+      return (
       <React.Fragment>
         <Input 
           value={content}
@@ -208,11 +211,12 @@ class Language extends React.Component {
           visible={isVisible}
           onCancel={this.closeLanguageModal}
           onOk={this.handleSubmit}
+          okButtonProps={{disabled}}
         >
           <FormWrapper className="form-language">
             {LangConfig.map(item =>
               <FormItem key={item.lang} label={this.renderFormItemLabel(item)}>
-                {getFieldDecorator(item.lang, {rules})(
+                {form.getFieldDecorator(item.lang, {rules})(
                   <Input autoFocus={getLanguage() === item.lang} />
                 )}
               </FormItem>

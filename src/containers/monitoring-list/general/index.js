@@ -300,7 +300,6 @@ export default class MonitoringGeneral extends React.Component {
   getData() {
     const dataResult = this.getFilterProvince(this.state.data)
     let stationTypeList = dataResult.stationTypeList
-    // console.log("stationTypeList: ", stationTypeList);
     // filter by STATION TYPE
     if (this.state.filter.stationType) {
       stationTypeList = stationTypeList.filter(
