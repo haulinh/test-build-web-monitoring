@@ -5,7 +5,7 @@ export const FIELDS = {
   PHASE: 'phase',
   POINT: 'stationId',
   REPORT_ID: 'reportId',
-  NAME_REPORT: 'name',
+  NAME_REPORT: 'reportName',
   TIME: 'datetime',
   MEASURING_LOGS: 'measuringLogs',
   TYPE: 'type',
@@ -26,6 +26,11 @@ export const FIELDS = {
     ANALYST: 'analyst',
     PLACE_OF_ANALYSIS: 'placeOfAnalysis',
   },
+}
+
+export const REPORT_TYPE = {
+  SIMPLE: 'simple',
+  DETAIL: 'detail',
 }
 
 export const FormCollapseContainer = styled.div`
@@ -157,6 +162,112 @@ export const i18n = () => {
       cancel: t('stationFixedMonitoring.button.cancel'),
       reset: t('stationFixedMonitoring.button.reset'),
       create: t('stationFixedMonitoring.button.create'),
+      download: t('stationFixedMonitoring.button.download'),
+      upload: t('stationFixedMonitoring.button.upload'),
+    },
+
+    errorUploadFile: {
+      line: t('importDataPoint.line'),
+      duplicateParameter: t('importDataPoint.duplicateParameter'),
+      duplicateData: t('importDataPoint.duplicateData'),
+      invalidDataSheet: t('importDataPoint.invalidDataSheet'),
+      invalidDateTime: t('importDataPoint.invalidDateTime'),
+      invalidParameter: t('importDataPoint.invalidParameter'),
+      pointKeyNotExisted: t('importDataPoint.pointKeyNotExisted'),
+      parameterNotTypeNumber: t('importDataPoint.parameterNotTypeNumber'),
+      pointAndPhaseNotBelongToStationType: t(
+        'importDataPoint.pointAndPhaseNotBelongToStationType'
+      ),
+    },
+
+    importExcel: {
+      breadCrumb: t('stationFixedMonitoring.importExcel.breadCrumb'),
+      nameReport: t('stationFixedMonitoring.importExcel.nameReport'),
+      placeholder: t('stationFixedMonitoring.importExcel.placeholder'),
+      message: t('stationFixedMonitoring.importExcel.message'),
+      note: t('stationFixedMonitoring.importExcel.note'),
+      desc: t('stationFixedMonitoring.importExcel.desc'),
+      dragger: {
+        title: t('stationFixedMonitoring.importExcel.dragger.title'),
+        desc: t('stationFixedMonitoring.importExcel.dragger.desc'),
+      },
+      notificationUpload: {
+        notFile: {
+          title: t(
+            'stationFixedMonitoring.importExcel.notificationUpload.notFile.title'
+          ),
+          desc: t(
+            'stationFixedMonitoring.importExcel.notificationUpload.notFile.desc'
+          ),
+        },
+        uploadError: {
+          title: t(
+            'stationFixedMonitoring.importExcel.notificationUpload.uploadError.title'
+          ),
+          desc: t(
+            'stationFixedMonitoring.importExcel.notificationUpload.uploadError.desc'
+          ),
+        },
+        empty: {
+          title: t(
+            'stationFixedMonitoring.importExcel.notificationUpload.empty.title'
+          ),
+          desc: t(
+            'stationFixedMonitoring.importExcel.notificationUpload.empty.desc'
+          ),
+        },
+        success: {
+          title: t(
+            'stationFixedMonitoring.importExcel.notificationUpload.success.title'
+          ),
+          desc: t(
+            'stationFixedMonitoring.importExcel.notificationUpload.success.desc'
+          ),
+          desc2: t(
+            'stationFixedMonitoring.importExcel.notificationUpload.success.desc2'
+          ),
+        },
+      },
+    },
+    downloadExcel: {
+      downloadFile: t('stationFixedMonitoring.downloadExcel.downloadFile'),
+      modal: {
+        title: t('stationFixedMonitoring.downloadExcel.modal.title'),
+        typeReport: {
+          title: t(
+            'stationFixedMonitoring.downloadExcel.modal.typeReport.title'
+          ),
+          simpleTitle: t(
+            'stationFixedMonitoring.downloadExcel.modal.typeReport.simpleTitle'
+          ),
+          simpleDesc: t(
+            'stationFixedMonitoring.downloadExcel.modal.typeReport.simpleDesc'
+          ),
+          detailTitle: t(
+            'stationFixedMonitoring.downloadExcel.modal.typeReport.detailTitle'
+          ),
+          detailDesc: t(
+            'stationFixedMonitoring.downloadExcel.modal.typeReport.detailDesc'
+          ),
+        },
+        selectStationType: {
+          title: t(
+            'stationFixedMonitoring.downloadExcel.modal.selectStationType.title'
+          ),
+          placeholder: t(
+            'stationFixedMonitoring.downloadExcel.modal.selectStationType.placeholder'
+          ),
+          require: t(
+            'stationFixedMonitoring.downloadExcel.modal.selectStationType.require'
+          ),
+        },
+        dragDrop: {
+          hint: t('stationFixedMonitoring.downloadExcel.modal.dragDrop.hint'),
+        },
+        downloadSuccess: t(
+          'stationFixedMonitoring.downloadExcel.modal.downloadSuccess'
+        ),
+      },
     },
   }
 }

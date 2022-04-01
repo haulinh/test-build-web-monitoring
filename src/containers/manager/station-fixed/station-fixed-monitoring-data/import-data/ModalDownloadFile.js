@@ -1,89 +1,225 @@
-import React, { Component } from 'react'
-import { Modal as ModalAnt, Form, Radio, Row, Col } from 'antd'
-import { FormItem } from 'components/layouts/styles'
-import { FIELDS } from '../constants'
-import styled from 'styled-components'
+import { Col, Form, message, Modal as ModalAnt, Radio, Row, Button } from 'antd'
+import {
+  exportDataTemplateMonitoring,
+  exportSimpleDataTemplateMonitoring,
+} from 'api/station-fixed/StationFixedPeriodic'
 import SelectStationType from 'components/elements/select-station-type'
+import Text from 'components/elements/text'
+import { Clearfix, FormItem } from 'components/layouts/styles'
+import { getMeasuringListFromStationAutos } from 'containers/api-sharing/util'
+import React, { Component } from 'react'
+import styled from 'styled-components'
+import { downFileExcel } from 'utils/downFile'
+import { FIELDS, i18n, REPORT_TYPE } from '../constants'
+import DragDropMeasure from './DragDropMeasure'
 
 const Modal = styled(ModalAnt)`
   .ant-modal-body {
     padding: 12px 24px;
   }
 `
+
 @Form.create()
 export default class ModalDownloadFile extends Component {
-  onOk = () => {
+  state = {
+    measuringList: [],
+  }
+
+  onOk = async () => {
+    const { form, setVisibleModal } = this.props
+    await form.validateFields()
+
+    const reportType = form.getFieldValue(FIELDS.TYPE_REPORT)
+
+    const params = this.getParams()
+
+    try {
+      if (reportType === REPORT_TYPE.DETAIL) {
+        const result = await exportDataTemplateMonitoring(params)
+        downFileExcel(result.data, 'data-template')
+      } else if (reportType === REPORT_TYPE.SIMPLE) {
+        const result = await exportSimpleDataTemplateMonitoring(params)
+        downFileExcel(result.data, 'simple-data-template')
+      }
+
+      message.success(i18n().downloadExcel.modal.downloadSuccess)
+      setVisibleModal(false)
+    } catch (error) {
+      console.error({ error })
+    }
+  }
+
+  getParams = () => {
     const { form } = this.props
+    const { measuringList } = this.state
 
     const value = form.getFieldsValue()
 
-    console.log({ value })
+    const { selectedList } = value
+
+    const measureListIsChoose = measuringList.filter(
+      measure => selectedList[measure.key]
+    )
+
+    const measureKeyListIsChoose = measureListIsChoose.map(
+      measure => measure.key
+    )
+
+    const params = {
+      measurings: measureKeyListIsChoose,
+    }
+
+    return params.measurings
   }
 
   onChangeStationType = stationKey => {
-    console.log({ stationKey })
+    const { points, form } = this.props
+
+    form.resetFields(['selectedList'])
+    const pointsList = points.filter(
+      point => point.stationType.key === stationKey
+    )
+
+    const measuringList = getMeasuringListFromStationAutos(pointsList)
+
+    this.setState({
+      measuringList,
+    })
+  }
+  onDragEnd = result => {
+    const { measuringList } = this.state
+    if (!result.destination) return
+
+    const newMeasuringList = measuringList
+
+    const [reorderedItem] = newMeasuringList.splice(result.source.index, 1)
+
+    newMeasuringList.splice(result.destination.index, 0, reorderedItem)
+
+    this.setState({
+      measuringList: newMeasuringList,
+    })
   }
 
-  onFetchSuccess = value => {
-    console.log({ value })
+  getIsDisableBtn = () => {
+    const { form } = this.props
+    const checkList = form.getFieldValue('selectedList')
+
+    if (!checkList) return
+
+    const checkListValue = Object.values(checkList)
+
+    return checkListValue.every(checkbox => !checkbox)
   }
 
   render() {
     const { visible, onCancel, form } = this.props
+    const { measuringList } = this.state
+    const isShowDragDrop = measuringList.length > 0
+
+    const isDisableDownload =
+      this.getIsDisableBtn() || measuringList.length === 0
 
     return (
       <Modal
-        title="Thiết lập mẫu Báo cáo tải xuống"
+        title={i18n().downloadExcel.modal.title}
         centered
         width={700}
         closable
+        footer={false}
         onCancel={onCancel}
-        cancelText="Hủy"
-        okText="Tải xuống"
         visible={visible}
-        onOk={this.onOk}
       >
-        <FormItem label="Chọn loại báo cáo">
+        <FormItem label={i18n().downloadExcel.modal.typeReport.title}>
           {form.getFieldDecorator(FIELDS.TYPE_REPORT, {
-            initialValue: 'simple',
+            initialValue: REPORT_TYPE.DETAIL,
             valuePropsName: 'checked',
           })(
             <Radio.Group>
               <Row type="flex" justify="space-between" gutter={20}>
                 <Col span={12}>
-                  <Radio value="simple">Mẫu đơn giản</Radio>
+                  <Radio value={REPORT_TYPE.DETAIL}>
+                    {i18n().downloadExcel.modal.typeReport.detailTitle}
+                  </Radio>
                   <div style={{ marginTop: '8px', color: '#A2A7B3' }}>
-                    Phù hợp với nhu cầu sử dụng nhập nhanh dữ liệu lên hệ thống
-                    với các trường thông tin cơ bản.
+                    {i18n().downloadExcel.modal.typeReport.detailDesc}
                   </div>
                 </Col>
+
                 <Col span={12}>
-                  <Radio value="detail">Mẫu chi tiết</Radio>
+                  <Radio value={REPORT_TYPE.SIMPLE}>
+                    {i18n().downloadExcel.modal.typeReport.simpleTitle}
+                  </Radio>
                   <div style={{ marginTop: '8px', color: '#A2A7B3' }}>
-                    Phù hợp với nhu cầu sử dụng nhập chi tiết dữ liệu lên hệ
-                    thống với các trường thông tin chi tiết.
+                    {i18n().downloadExcel.modal.typeReport.simpleDesc}
                   </div>
                 </Col>
               </Row>
             </Radio.Group>
           )}
-
-          <Row>
-            <Col span={12}>
-              <FormItem label="Loại trạm">
-                {form.getFieldDecorator(FIELDS.STATION_TYPE, {
-                  onChange: this.onChangeStationType,
-                })(
-                  <SelectStationType
-                    fieldValue="key"
-                    placeholder="Chọn loại trạm"
-                    onFetchSuccess={this.onFetchSuccess}
-                  />
-                )}
-              </FormItem>
-            </Col>
-          </Row>
         </FormItem>
+
+        <Row>
+          <Col span={12}>
+            <FormItem
+              label={i18n().downloadExcel.modal.selectStationType.title}
+            >
+              {form.getFieldDecorator(FIELDS.STATION_TYPE, {
+                onChange: this.onChangeStationType,
+                rules: [
+                  {
+                    required: true,
+                    message: '',
+                  },
+                ],
+              })(
+                <SelectStationType
+                  isAuto={false}
+                  fieldValue="key"
+                  placeholder={
+                    i18n().downloadExcel.modal.selectStationType.placeholder
+                  }
+                />
+              )}
+            </FormItem>
+          </Col>
+        </Row>
+
+        <Text fontWeight={600} color="#111827">
+          {i18n().downloadExcel.modal.dragDrop.hint}
+        </Text>
+
+        <Clearfix height={16} />
+
+        {isShowDragDrop && (
+          <DragDropMeasure
+            onDragEnd={this.onDragEnd}
+            measuringList={measuringList}
+            form={form}
+          />
+        )}
+
+        <Clearfix height={16} />
+
+        <Row type="flex" gutter={16} justify="end">
+          <Col>
+            <Button
+              onClick={onCancel}
+              style={{ color: '#1890FF', background: '#E1EDFB' }}
+            >
+              {i18n().button.cancel}
+            </Button>
+          </Col>
+          <Col>
+            <Button
+              onClick={this.onOk}
+              type="primary"
+              disabled={isDisableDownload}
+            >
+              {i18n().button.download}
+            </Button>
+          </Col>
+        </Row>
       </Modal>
     )
   }

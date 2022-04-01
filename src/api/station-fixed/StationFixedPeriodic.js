@@ -1,4 +1,11 @@
-import { getFetch, postFetch, deleteFetch, pathFetch } from 'utils/fetch'
+import {
+  getFetch,
+  postFetch,
+  deleteFetch,
+  pathFetch,
+  getFetchDownFile,
+} from 'utils/fetch'
+import { getLanguage } from 'utils/localStorage'
 import { getConfigApi } from '../../config'
 
 export function getStationFixedPeriodicUrl(prefix = '') {
@@ -54,6 +61,31 @@ export function updateStationFixedPeriodic(id, params) {
   return pathFetch(getStationFixedPeriodicUrl(id), params)
 }
 
+export function exportDataTemplateMonitoring(measurings = []) {
+  const lang = getLanguage()
+  const url = getStationFixedPeriodicUrl('export-data-template') + '/' + lang
+  return getFetchDownFile(url, { lang, measurings })
+}
+
+export function exportSimpleDataTemplateMonitoring(measurings = []) {
+  const lang = getLanguage()
+  const url =
+    getStationFixedPeriodicUrl('export-simple-data-template') + '/' + lang
+  return getFetchDownFile(url, { lang, measurings })
+}
+
+export const importDataExcelMonitoring = params => {
+  const url = getStationFixedPeriodicUrl('import-data')
+
+  return postFetch(url, params)
+}
+
+export const importDataExcelMonitoringSimple = params => {
+  const url = getStationFixedPeriodicUrl('import-simple-data')
+
+  return postFetch(url, params)
+}
+
 export default {
   getStationFixedPeriodics,
   getStationFixedPeriodic,
@@ -62,4 +94,8 @@ export default {
   deactivateStationFixedPeriodic,
   activeStationFixedPeriodic,
   updateStationFixedPeriodic,
+  exportDataTemplateMonitoring,
+  exportSimpleDataTemplateMonitoring,
+  importDataExcelMonitoring,
+  importDataExcelMonitoringSimple,
 }

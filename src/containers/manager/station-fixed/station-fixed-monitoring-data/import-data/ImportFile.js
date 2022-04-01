@@ -1,8 +1,8 @@
-import { Button, Icon, Row, Upload } from 'antd'
-import { Clearfix } from 'components/elements'
+import { Icon, Upload } from 'antd'
 import _ from 'lodash'
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import { i18n } from '../constants'
 
 const ImportContainer = styled.div`
   margin-top: 50px;
@@ -33,8 +33,6 @@ export default class ImportFile extends Component {
 
     return (
       <ImportContainer>
-        {/* <Clearfix height={15} /> */}
-
         <Dragger
           {...this.props}
           accept=".xlsx"
@@ -44,8 +42,8 @@ export default class ImportFile extends Component {
           <p className="ant-upload-drag-icon">
             <Icon type="inbox" />
           </p>
-          <p className="ant-upload-text">Kéo & Thả tệp của bạn vào đây</p>
-          <p className="ant-upload-hint">Hỗ trợ cho tệp Xlsx</p>
+          <p className="ant-upload-text">{i18n().importExcel.dragger.title}</p>
+          <p className="ant-upload-hint">{i18n().importExcel.dragger.desc}</p>
           <p style={{ marginTop: '10px' }}>
             {_.get(file, 'name') ? file.name : null}
           </p>
