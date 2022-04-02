@@ -8,30 +8,23 @@ const { Panel } = Collapse
 export default class FormCollapse extends Component {
   componentDidMount = () => {
     const { form, logData, formType } = this.props
-    console.log(logData)
+
+    const inititialOtherInfomation = Object.values(FIELDS.OTHER).reduce(
+      (base, current) => {
+        return { ...base, [`otherInfo.${current}`]: logData[current] }
+      },
+      {}
+    )
+
     if (formType === 'editReportLog') {
       setTimeout(() => {
-        form.setFieldsValue({
-          [`otherInfo.${FIELDS.OTHER.SAMPLER}`]: logData.sampler,
-          [`otherInfo.${FIELDS.OTHER.MONITORING_PLACE}`]: logData.monitoringPlace,
-          [`otherInfo.${FIELDS.OTHER.REQUIREMENTS}`]: logData.requirements,
-          [`otherInfo.${FIELDS.OTHER.CHEMICAL}`]: logData.chemical,
-          [`otherInfo.${FIELDS.OTHER.CONDITIONS}`]: logData.conditions,
-          [`otherInfo.${FIELDS.OTHER.EQUIPMENTLIST}`]: logData.equipmentlist,
-          [`otherInfo.${FIELDS.OTHER.METHOD}`]: logData.method,
-          [`otherInfo.${FIELDS.OTHER.SYMBOL}`]: logData.symbol,
-          [`otherInfo.${FIELDS.OTHER.WEATHER}`]: logData.weather,
-          [`otherInfo.${FIELDS.OTHER.ANALYST}`]: logData.analyst,
-          [`otherInfo.${FIELDS.OTHER.PLACE_OF_ANALYSIS}`]: logData.placeOfAnalysis,
-          [`otherInfo.${FIELDS.OTHER.NOTES}`]: logData.notes,
-        })
+        form.setFieldsValue(inititialOtherInfomation)
       })
     }
   }
   render() {
     const { form } = this.props
 
-    console.log(form.getFieldsValue())
     return (
       <FormCollapseContainer>
         <Collapse expandIconPosition="left" defaultActiveKey={1}>
