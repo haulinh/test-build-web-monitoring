@@ -8,5 +8,6 @@ export default createBreadcrumb({
     getName: () => translate('menuApp.monitoring.dataAnalytics'),
     id: 'base',
     icon: '',
+    href: slug.dataAnalytics.base,
   },
 })

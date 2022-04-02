@@ -1,21 +1,28 @@
-import React, { Component } from 'react'
-import styled from 'styled-components'
-import moment from 'moment'
-import { get, isEmpty } from 'lodash'
-import dataInsightApi from 'api/DataInsight'
-import { translate as t } from 'hoc/create-lang'
-import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
-
-import FilterForm from './filter'
-import ReportData from './report-data'
-import { AnalyzeDataProvider } from './context'
-import { CHART_TYPE } from './report-data/chart-type'
-import { OPERATOR } from './filter/select-operator'
-import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import { Row, Col, Button, Modal, Form } from 'antd'
-import Breadcrum from './breadcrum'
+import { Button, Col, Form, message, Row } from 'antd'
 import CalculateApi from 'api/CalculateApi'
-import { ModalSaveFilter, FilterList } from 'components/filter'
+import dataInsightApi from 'api/DataInsight'
+import { FilterList, ModalSaveFilter } from 'components/filter'
+import { ACTION_TYPE, MODULE_TYPE } from 'components/filter/constants'
+import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
+import slug from 'constants/slug'
+import { translate as t } from 'hoc/create-lang'
+import PageContainer from 'layout/default-sidebar-layout/PageContainer'
+import { get, isEmpty } from 'lodash'
+import moment from 'moment'
+import React, { Component } from 'react'
+import { withRouter } from 'react-router'
+import { connectAutoDispatch } from 'redux/connect'
+import {
+  addBreadcrumb,
+  deleteBreadcrumb,
+  updateBreadcrumb,
+} from 'shared/breadcrumb/action'
+import Breadcrum from './breadcrum'
+import { AnalyzeDataProvider } from './context'
+import FilterForm from './filter'
+import { OPERATOR } from './filter/select-operator'
+import ReportData from './report-data'
+import { CHART_TYPE } from './report-data/chart-type'
 
 function i18n() {
   return {
@@ -24,8 +31,13 @@ function i18n() {
   }
 }
 
-const MODULE_TYPE = 'Analytic'
-
+@connectAutoDispatch(
+  state => ({
+    breadcrumbs: state.breadcrumbs,
+  }),
+  { updateBreadcrumb, addBreadcrumb, deleteBreadcrumb }
+)
+@withRouter
 @Form.create()
 class DataAnalytics extends Component {
   chart
@@ -42,15 +54,35 @@ class DataAnalytics extends Component {
     paramFilter: {},
     filterList: [],
     visibleModalSave: false,
+    filterItem: {},
   }
 
   formSearchRef = React.createRef()
 
   setLoading = isLoadingData => this.setState({ isLoadingData })
 
-  componentDidMount = async () => {
+  componentDidMount = () => {
+    // const { history, deleteBreadcrumb } = this.props
+
+    this.getFilterList()
+
+    // history.listen((location, action) => {
+    //   console.log('History listen')
+    //   // console.log({ location })
+    //   // if (!location.state) {
+    //   //   deleteBreadcrumb({
+    //   //     id: 'detail',
+    //   //     // autoDestroy: true,
+    //   //   })
+    //   // }
+    // })
+  }
+
+  getFilterList = async () => {
     try {
-      const response = await CalculateApi.getFilterList({ type: MODULE_TYPE })
+      const response = await CalculateApi.getFilterList({
+        type: MODULE_TYPE.ANALYTIC,
+      })
 
       this.setState({ filterList: response })
     } catch (error) {
@@ -169,16 +201,58 @@ class DataAnalytics extends Component {
     if (redraw) this.chart.redraw()
   }
 
-  onSubmitSaveFilter = () => {
+  onSubmitSaveFilter = async () => {
+    const { form } = this.props
+    const { filterItem } = this.state
+
+    const value = await form.validateFields()
+
+    const queryParams = this.getParams()
+
+    const action = value.action
+
+    try {
+      if (action === ACTION_TYPE.UPDATE) {
+        await CalculateApi.updateFilter(filterItem._id, queryParams)
+        message.success('Cập nhật bộ lọc thành công')
+      } else {
+        await CalculateApi.createFilter(queryParams)
+
+        message.success('Lưu bộ lọc thành công')
+      }
+
+      this.getFilterList()
+      this.setState({ visibleModalSave: false })
+    } catch (error) {
+      console.error({ error })
+    }
+  }
+
+  getParams = () => {
     const { form } = this.props
 
-    const value = form.getFieldsValue()
+    const { props } = this.formSearchRef.current
 
-    const valueFormSearch = this.formSearchRef.current.getFieldsValue()
+    const valueFormSearch = props.form.getFieldsValue()
+
+    const measuringList = valueFormSearch.measuringList.join(',')
+
+    const stationKeys = valueFormSearch.stationAuto.join(',')
 
     console.log({ valueFormSearch })
+    const filterName = form.getFieldValue('name')
 
-    console.log({ value })
+    const queryParams = {
+      type: MODULE_TYPE.ANALYTIC,
+      name: filterName,
+      params: {
+        ...valueFormSearch,
+        measuringList,
+        stationKeys,
+      },
+    }
+
+    return queryParams
   }
 
   onFetchReceiveTime = async measure => {
@@ -263,6 +337,67 @@ class DataAnalytics extends Component {
     this.setState({ visibleModalSave: false })
   }
 
+  onClickFilter = (filterId, filterItem) => {
+    this.setState({ filterItem })
+    // const {
+    //   breadcrumbs,
+    //   updateBreadcrumb,
+    //   addBreadcrumb,
+    //   deleteBreadcrumb,
+    //   history,
+    // } = this.props
+
+    // const url = `${slug.dataAnalytics.base}/${filterId}`
+    // if (breadcrumbs.length === 2) {
+    //   updateBreadcrumb({
+    //     id: 'detail',
+    //     icon: '',
+    //     href: url,
+    //     name: filterItem.name,
+    //     autoDestroy: true,
+    //   })
+    // } else {
+    //   addBreadcrumb({
+    //     id: 'detail',
+    //     icon: '',
+    //     href: url,
+    //     name: filterItem.name,
+    //     autoDestroy: true,
+    //   })
+    // }
+    // history.push(url, { filterId })
+
+    const params = filterItem.params
+    const { form } = this.formSearchRef.current.props
+    form.setFieldsValue({
+      ...params,
+      measuringList: params.measuringList.split(','),
+    })
+    this.formSearchRef.current.handleSearch()
+  }
+
+  onDelete = () => {
+    const { deleteBreadcrumb } = this.props
+
+    deleteBreadcrumb({
+      id: 'detail',
+    })
+  }
+
+  onDeleteFilter = async filterId => {
+    const { filterList } = this.state
+
+    try {
+      await CalculateApi.deleteFilter(filterId)
+      const newFilterList = filterList.filter(filter => filter._id !== filterId)
+
+      this.setState({ filterList: newFilterList })
+      message.success('Xóa bộ lọc thành công')
+    } catch (error) {
+      console.error({ error })
+    }
+  }
+
   render() {
     const {
       data,
@@ -276,10 +411,12 @@ class DataAnalytics extends Component {
       isShowQcvn,
       visibleModalSave,
       filterList,
+      filterItem,
     } = this.state
 
     const { form } = this.props
 
+    const isUpdateFilter = !isEmpty(filterItem)
     return (
       <AnalyzeDataProvider
         value={{
@@ -294,21 +431,33 @@ class DataAnalytics extends Component {
             </Button>
           }
         >
-          {/* <Title>{i18n().title}</Title> */}
-          <Breadcrum items={['list']} />
-          {/* <Breadcrumb items={['list']} /> */}
+          <Breadcrum
+            items={[
+              {
+                getName: () => i18n().title,
+                id: 'base',
+                icon: '',
+                href: slug.dataAnalytics.base,
+              },
+            ]}
+          />
 
           <Row
             type="flex"
             style={{ marginLeft: '-24px', marginRight: '-24px' }}
           >
-            <FilterList filterList={filterList} />
+            <FilterList
+              list={filterList}
+              onClickMenuItem={this.onClickFilter}
+              key={filterList}
+              onDeleteFilter={this.onDeleteFilter}
+            />
             <Col style={{ flex: 1, overflowX: 'hidden' }}>
               <FilterForm
                 standardsVN={qcvns.map(qc => qc.key)}
                 isLoadingData={isLoadingData}
                 onData={this.onData}
-                ref={this.formSearchRef}
+                wrappedComponentRef={this.formSearchRef}
                 onReDrawChart={this.onReDrawChart}
                 setLoading={this.setLoading}
                 setParamFilter={this.setParamFilter}
@@ -332,8 +481,11 @@ class DataAnalytics extends Component {
           </Row>
         </PageContainer>
         <ModalSaveFilter
+          filterName={filterItem.name}
           visible={visibleModalSave}
+          key={visibleModalSave}
           centered
+          isUpdate={isUpdateFilter}
           onCancel={this.onCancelModal}
           onSubmitSaveFilter={this.onSubmitSaveFilter}
           form={form}

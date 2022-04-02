@@ -156,9 +156,27 @@ export default {
 
   //#region filter
   getFilterList: params => {
-    const url = calc(`search-histories`)
+    const url = calc('search-histories')
 
     return getFetch(url, params)
+  },
+
+  createFilter: params => {
+    const url = calc('search-histories')
+
+    return postFetch(url, params)
+  },
+
+  deleteFilter: id => {
+    const url = calc(`search-histories/${id}`)
+
+    return deleteFetch(url)
+  },
+
+  updateFilter: (id, params) => {
+    const url = calc(`search-histories/${id}`)
+
+    return pathFetch(url, params)
   },
   //endregion
 

@@ -1,9 +1,17 @@
-import React from 'react'
-import { Affix, Col as ColAnt, Menu, Input, Row, Icon } from 'antd'
-import styled from 'styled-components'
+import {
+  Affix,
+  Col as ColAnt,
+  Icon,
+  Input,
+  Menu,
+  Popconfirm,
+  Row,
+  Tooltip,
+} from 'antd'
 import { Clearfix } from 'components/layouts/styles'
-import CalculateApi from 'api/CalculateApi'
-import PropTypes from 'prop-types'
+import _ from 'lodash'
+import React from 'react'
+import styled from 'styled-components'
 
 const { SubMenu } = Menu
 
@@ -16,6 +24,22 @@ const Col = styled(ColAnt)`
   .ant-menu-light {
     background: unset;
     overflow-y: auto;
+
+    .icon-delete {
+      visibility: hidden;
+      opacity: 0;
+    }
+  }
+
+  .ant-menu-item {
+    :hover {
+      .icon-delete {
+        /* transition: 0.5s; */
+        transition: visibility 0s, opacity 0.5s linear;
+        opacity: 1;
+        visibility: visible;
+      }
+    }
   }
 
   ul.ant-menu.ant-menu-sub.ant-menu-inline {
@@ -31,8 +55,39 @@ const Col = styled(ColAnt)`
   }
 `
 
-export const FilterList = ({ filterList }) => {
-  console.log({ filterList })
+export const FilterList = props => {
+  const { list, onClickMenuItem, onDeleteFilter } = props
+
+  const filterGroupByStationType = list.reduce((base, current) => {
+    const stationType = _.get(current, ['stationType'])
+    const stationKey = stationType.key
+
+    if (base[stationKey]) {
+      return {
+        ...base,
+        [stationKey]: {
+          ...base[stationKey],
+          stationKey: stationKey,
+          stationName: stationType.name,
+          filterList: [...base[stationKey].filterList, current],
+        },
+      }
+    }
+
+    return {
+      ...base,
+      [stationKey]: {
+        filterList: [current],
+        stationKey: stationKey,
+        stationName: stationType.name,
+      },
+    }
+  }, {})
+
+  const menuSource = Object.values(filterGroupByStationType)
+
+  const defaultOpenKeys = Object.keys(filterGroupByStationType)
+
   return (
     <Affix offsetTop={58}>
       <Col>
@@ -46,50 +101,61 @@ export const FilterList = ({ filterList }) => {
         </Row>
         <Clearfix height={10} />
 
-        <Menu mode="inline" defaultOpenKeys={['sub1', 'sub2']}>
-          <SubMenu key="sub1" title="Nước thải sinh hoạt (Loại 1)">
-            <Menu.Item key="1">Option 1</Menu.Item>
-            <Menu.Item key="2">Option 1</Menu.Item>
-          </SubMenu>
-          <SubMenu key="sub2" title="Nước thải sinh hoạt (Loại 2)">
-            <Menu.Item key="1">Option 2</Menu.Item>
-            <Menu.Item key="2">Option 3</Menu.Item>
-          </SubMenu>
+        <Menu
+          forceSubMenuRender={true}
+          {...props}
+          mode="inline"
+          defaultOpenKeys={defaultOpenKeys}
+        >
+          {menuSource.map(menu => (
+            <SubMenu key={menu.stationKey} title={menu.stationName}>
+              {menu.filterList.map(filterItem => {
+                const isDisable = !filterItem.allowed
+
+                return (
+                  <Menu.Item key={filterItem._id} disabled={isDisable}>
+                    <Row
+                      type="flex"
+                      justify="space-between"
+                      align="middle"
+                      onClick={() => {
+                        if (isDisable) return
+                        onClickMenuItem(filterItem._id, filterItem)
+                      }}
+                    >
+                      <div style={{ flex: 1 }}>{filterItem.name}</div>
+                      {isDisable && (
+                        <Tooltip title="Một vài trạm đã bị ẩn do bạn không có quyền">
+                          <Icon type="info-circle" theme="twoTone" />
+                        </Tooltip>
+                      )}
+                      {!isDisable && (
+                        <Popconfirm
+                          title="Bạn có chắc chắn muốn xóa bộ lọc?"
+                          onCancel={event => {
+                            event.stopPropagation()
+                          }}
+                          onConfirm={event => {
+                            event.stopPropagation()
+                            onDeleteFilter(filterItem._id, filterItem)
+                          }}
+                        >
+                          <Icon
+                            onClick={event => event.stopPropagation()}
+                            className="icon-delete"
+                            type="close-circle"
+                            theme="filled"
+                          />
+                        </Popconfirm>
+                      )}
+                    </Row>
+                  </Menu.Item>
+                )
+              })}
+            </SubMenu>
+          ))}
         </Menu>
       </Col>
     </Affix>
   )
 }
-
-// export default class FilterList extends Component {
-//   state = {
-//     filterList: [],
-//   }
-//   componentDidMount = async () => {
-//     const { moduleType } = this.props
-
-//     try {
-//       const response = await CalculateApi.getFilterList({ type: moduleType })
-//       this.setState({ filterList: response })
-//     } catch (error) {
-//       console.error({ error })
-//     }
-//   }
-
-//   getFilterList = () => {
-//     const { filterList } = this.state
-
-//     console.log({ filterList })
-//   }
-//   render() {
-//     // const list = this.getFilterList()
-
-//     return (
-
-//     )
-//   }
-// }
-
-// FilterList.propTypes = {
-//   moduleType: PropTypes.string.isRequired,
-// }
