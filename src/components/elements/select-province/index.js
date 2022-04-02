@@ -6,6 +6,7 @@ import ProvinceApi from 'api/ProvinceApi'
 import { translate } from 'hoc/create-lang'
 import { get } from 'lodash'
 import { replaceVietnameseStr } from 'utils/string'
+import LanguageContent from 'components/language/language-content'
 
 export default class SelectProvince extends PureComponent {
   static propTypes = {
@@ -125,7 +126,7 @@ export default class SelectProvince extends PureComponent {
             key={province.key}
             value={province[fieldValue || 'key']}
           >
-            {province.name}
+            <LanguageContent type="Province" itemId={province._id} value={province.name} />
           </Select.Option>
         ))}
       </Select>
