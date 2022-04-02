@@ -183,6 +183,7 @@ export default class ReportDetail extends Component {
 
   updateReportField = async reportName => {
     const { initialValues, form } = this.props
+    await form.validateFields()
     try {
       await StationFixedReportApi.updateReportName(
         initialValues.report._id,
