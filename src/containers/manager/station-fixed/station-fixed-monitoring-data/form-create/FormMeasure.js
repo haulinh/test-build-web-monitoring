@@ -25,7 +25,6 @@ export default class FormMeasure extends Component {
       }
     }, {})
 
-    console.log(newDataMeasure)
     return newDataMeasure
   }
 

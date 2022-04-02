@@ -99,22 +99,18 @@ class ReportLogTable extends React.Component {
             },
           }
         }),
-      Object.entries(get(dataSource[0], 'measuringLogs', {}))
+      Object.entries(get(dataSource, '0.measuringLogs', {}))
         .map(([key, measuringObj]) => ({ key, measuringObj }))
         .map(measuring => {
           return {
-            title: measuresObj[measuring.key].name,
+            title: `${measuresObj[measuring.key].name} (${
+              measuresObj[measuring.key].unit
+            })`,
             dataIndex: `measuringLogs.${get(measuring, 'key', '')}`,
             align: 'left',
             width: 114,
             render: (value, record, index) => {
-              return (
-                <div>
-                  {isNil(value)
-                    ? ''
-                    : `${value.textValue} ${measuresObj[measuring.key].unit}`}
-                </div>
-              )
+              return <div>{isNil(value) ? '' : value.textValue}</div>
             },
           }
         }),
@@ -179,6 +175,7 @@ class ReportLogTable extends React.Component {
         columns={this.getColumns()}
         pagination={false}
         bordered
+        scroll={{ y: 500 }}
         footer={() => (
           <Row type="flex" style={{ color: '#1890FF' }} align="middle">
             <Button
@@ -195,7 +192,7 @@ class ReportLogTable extends React.Component {
           return {
             onClick: event => {
               onClickReportLog(record)
-            }, // click row
+            },
           }
         }}
       ></TableStyled>
