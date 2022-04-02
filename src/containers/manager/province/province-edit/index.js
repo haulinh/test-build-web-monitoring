@@ -1,6 +1,6 @@
 import React from 'react'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import { Button, Icon, Spin } from 'antd'
+import { Button, Icon } from 'antd'
 import { autobind } from 'core-decorators'
 import ProvinceApi from 'api/ProvinceApi'
 import ProvinceForm from '../province-form'

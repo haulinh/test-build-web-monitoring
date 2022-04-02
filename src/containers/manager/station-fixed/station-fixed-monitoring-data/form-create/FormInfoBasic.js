@@ -40,7 +40,7 @@ export default class FormInfoBasic extends Component {
   }
 
   render() {
-    const { form, onChangePoint, points, formType, basicInfoData } = this.props
+    const { form, onChangePoint, points, formType } = this.props
 
     return (
       <div>

@@ -6,11 +6,11 @@ import { Sticky, StickyContainer } from 'react-sticky'
 import { Collapse } from 'reactstrap'
 import StationAutoList from './station-auto-list'
 import HeadStationType from './HeadStationType'
-import { removeAccents } from 'hoc/create-lang'
 import { Icon } from 'antd'
 import { get as _get } from 'lodash'
 import { filter } from 'lodash'
 import { connect } from 'react-redux'
+import LanguageContent from 'components/language/language-content'
 
 const StationTypeWrapper = styled.div``
 
@@ -50,7 +50,7 @@ export default class StationTypeSummary extends React.Component {
   }
 
   render() {
-    const { stationType, stationAutoList, language } = this.props
+    const { stationType, stationAutoList } = this.props
     const goodTotal = filter(
       stationAutoList || [],
       ({ status }) => status === 'DATA_CONNECTED'
@@ -71,7 +71,7 @@ export default class StationTypeSummary extends React.Component {
               >
                 <HeadStationType>
                   <TextSpan onClick={this.toggleOpen}>
-                    {removeAccents(language, stationType.name)} ({goodTotal}/
+                    <LanguageContent type="StationType" itemId={stationType._id} value={stationType.name} /> ({goodTotal}/
                     {stationAutoList.length})
                     <IconToggle
                       isOpen={this.state.isOpen}

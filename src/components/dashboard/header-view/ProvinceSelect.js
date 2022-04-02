@@ -6,6 +6,8 @@ import { autobind } from 'core-decorators'
 import styled from 'styled-components'
 import { translate } from 'hoc/create-lang'
 import { get, keyBy } from 'lodash'
+import {getContent} from 'components/language/language-content'
+import {connect} from 'react-redux'
 
 const SelectWrapper = styled.div`
   width: 100%;
@@ -30,6 +32,7 @@ const SelectWrapper = styled.div`
 `
 
 @autobind
+@connect(state => ({languageContents: state.language.languageContents}))
 export default class ProvinceSelect extends PureComponent {
   static propTypes = {
     query: PropTypes.object,
@@ -55,6 +58,7 @@ export default class ProvinceSelect extends PureComponent {
   }
 
   render() {
+    const {languageContents} = this.props
     return (
       <SelectWrapper>
         <Select
@@ -66,9 +70,9 @@ export default class ProvinceSelect extends PureComponent {
           <Select.Option value={''}>
             {translate('dashboard.selectProvince')}
           </Select.Option>
-          {this.state.provinceList.map(({ key, name }) => (
+          {this.state.provinceList.map(({ _id, key, name }) => (
             <Select.Option key={key} value={key}>
-              {name}
+            {getContent(languageContents, {type: 'Province', itemId: _id, field:'name', value: name})}
             </Select.Option>
           ))}
         </Select>
