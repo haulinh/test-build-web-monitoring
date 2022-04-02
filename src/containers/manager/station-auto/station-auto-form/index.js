@@ -40,9 +40,8 @@ import { v4 as uuidv4 } from 'uuid'
 import AlarmConfig from '../alarm-config'
 import MeasuringTableAdvanced from '../station-auto-formTable-advanced/'
 import MeasuringTable from '../station-auto-formTable/'
-import LanguageInput, {LangConfig} from 'components/language'
+import LanguageInput, {getLanguageContents} from 'components/language'
 import CalculateApi from 'api/CalculateApi'
-import {getLanguage} from 'utils/localStorage'
 
 const { TextArea } = Input
 const { Panel } = Collapse
@@ -440,7 +439,7 @@ class StationAutoForm extends React.PureComponent {
       if (!isDisableSave && !isDisableSaveAdvanced && this.props.onSubmit) {
         const results = await this.props.onSubmit(data)
         if (results.data) {
-          const language = this.getLanguageContents(values)
+          const language = getLanguageContents(values)
           const itemId = results.data._id
           const content = await CalculateApi.updateLanguageContent({itemId, type: 'Station', language})
           this.props.updateLanguageContent(content)
@@ -455,27 +454,6 @@ class StationAutoForm extends React.PureComponent {
         })
       }
     })
-  }
-
-  getLanguageContents(values, fields = ['name']){
-    const currentLang = getLanguage()
-    const contents = get(values, 'language');
-
-    const getContent = (field, value, lang) => {
-      const isSetupLanguage = !!get(contents, field);
-      if(currentLang === lang) return value
-      return isSetupLanguage ? get(contents, `${field}.${lang}`, '').trim() : value;
-    }
-    const results = fields.reduce((prev, field) => {
-      const inputValue = get(values, field, '').trim();
-      prev[field] = LangConfig.reduce((p, {lang}) => ({
-        ...p,
-        [lang]: getContent(field, inputValue, lang)
-      }), {})
-      return prev
-    }, {})
-
-    return results
   }
 
   changeStationType(stationTypeObject) {

@@ -17,6 +17,7 @@ import DynamicTable from 'components/elements/dynamic-table'
 import * as _ from 'lodash'
 import { getTotalCount_by_province } from 'api/StationAuto'
 import { translate } from 'hoc/create-lang'
+import LanguageContent from 'components/language/language-content'
 
 function i18n() {
   return {
@@ -94,7 +95,9 @@ export default class ProvinceList extends React.Component {
         content: row.key,
       },
       {
-        content: row.name,
+        content: (
+          <LanguageContent type="Province" itemId={row._id} field="name" value={row.name} />
+        )
       },
       {
         content: (

@@ -8,12 +8,11 @@ import * as _ from 'lodash'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { mapPropsToFields } from 'utils/form'
-import LanguageInput, {LangConfig} from 'components/language'
+import LanguageInput, {getLanguageContents} from 'components/language'
 import CalculateApi from 'api/CalculateApi'
-import {getLanguage} from 'utils/localStorage'
 import get from 'lodash/get'
 import {connect} from 'react-redux'
-import { updateLanguageContent } from 'redux/actions/languageAction'
+import {updateLanguageContent} from 'redux/actions/languageAction'
 
 function i18n() {
   return {
@@ -65,7 +64,7 @@ export default class StationTypeForm extends React.PureComponent {
       // Callback submit form Container Component
       const res = await this.props.onSubmit(data)
       if(res.success) {
-        const language = this.getLanguageContents(values)
+        const language = getLanguageContents(values)
         const itemId = res.data._id
         const content = await CalculateApi.updateLanguageContent({itemId, type: 'StationType', language})
         this.props.updateLanguageContent(content)
@@ -114,27 +113,6 @@ export default class StationTypeForm extends React.PureComponent {
       urlIcon: iconObject.urlIcon,
       color: iconObject.color,
     })
-  }
-
-  getLanguageContents(values, fields = ['name']){
-    const currentLang = getLanguage()
-    const contents = get(values, 'language');
-
-    const getContent = (field, value, lang) => {
-      const isSetupLanguage = !!get(contents, field);
-      if(currentLang === lang) return value
-      return isSetupLanguage ? get(contents, `${field}.${lang}`, '').trim() : value;
-    }
-    const results = fields.reduce((prev, field) => {
-      const inputValue = get(values, field, '').trim();
-      prev[field] = LangConfig.reduce((p, {lang}) => ({
-        ...p,
-        [lang]: getContent(field, inputValue, lang)
-      }), {})
-      return prev
-    }, {})
-
-    return results
   }
 
   render() {
