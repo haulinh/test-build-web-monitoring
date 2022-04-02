@@ -150,16 +150,18 @@ export default class ReportDetail extends Component {
     logData: {},
     formType: 'editReportLog',
     dataSourceLog: [],
+    loading: false,
   }
 
   componentDidMount = async () => {
-    const { initialValues } = this.props
+    const { initialValues, loading } = this.props
     const periodic = await StationFixedPeriodic.getStationFixedPeriodics({}, {})
 
     this.setState({
       points: periodic.data,
       reportName: initialValues.report.name,
       dataSourceLog: initialValues.logs,
+      loading,
     })
   }
 
@@ -237,7 +239,12 @@ export default class ReportDetail extends Component {
     this.setState({
       visibleDrawer: false,
       visibleModalConfirmCancel: false,
+      loading: true,
     })
+
+    setTimeout(() => {
+      this.setState({ loading: false })
+    }, 400)
   }
 
   onCancelOut = () => {
@@ -248,21 +255,21 @@ export default class ReportDetail extends Component {
     this.setState({ visibleDrawer: visible })
   }
 
-  setDataSourceLog = async logEdited => {
+  setDataSourceLog = async (logEdited, loading) => {
     const { initialValues } = this.props
     const { dataSourceLog, formType } = this.state
 
     logEdited.datetime = getTimeUTC(moment(logEdited.datetime))
 
-    const newMeasuringLog = Object.values(logEdited.measuringLogs).map(
-      measuring => {
-        return {
-          key: measuring.key,
-          value: measuring.value,
-          textValue: measuring.value,
-        }
+    const newMeasuringLog = Object.values(
+      get(logEdited, 'measuringLogs', {})
+    ).map(measuring => {
+      return {
+        key: measuring.key,
+        value: measuring.value,
+        textValue: measuring.value,
       }
-    )
+    })
 
     logEdited.measuringLogs = newMeasuringLog.reduce((base, current) => {
       return { ...base, [current.key]: current }
@@ -273,14 +280,14 @@ export default class ReportDetail extends Component {
         if (log._id === logEdited._id) return logEdited
         return log
       })
-      this.setState({ dataSourceLog: newDataSourceLog })
+      this.setState({ dataSourceLog: newDataSourceLog, loading })
       return
     }
     const newReportData = await StationFixedReportApi.getStationFixedReport(
       initialValues.report._id
     )
 
-    this.setState({ dataSourceLog: newReportData.logs })
+    this.setState({ dataSourceLog: newReportData.logs, loading })
   }
 
   deleteLogData = dataSourceAfterDelete => {
@@ -297,6 +304,7 @@ export default class ReportDetail extends Component {
       logData,
       formType,
       dataSourceLog,
+      loading,
     } = this.state
 
     const stationName = this.getPointName(
@@ -364,6 +372,7 @@ export default class ReportDetail extends Component {
           onClickReportLog={this.handleClickRow}
           onClickAddReportLog={this.handleClickAddReportLog}
           handleDeleteLog={this.deleteLogData}
+          loading={loading}
         />
         <Clearfix height={16} />
         <Attachments />
