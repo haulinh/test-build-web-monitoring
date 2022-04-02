@@ -13,6 +13,8 @@ import { message } from 'antd'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 import Clearfix from 'components/elements/clearfix'
+import {connect} from 'react-redux'
+import {getContent} from 'components/language/language-content'
 
 @protectRole(ROLE.PROVINCE.EDIT)
 @createManagerDelete({
@@ -22,6 +24,10 @@ import Clearfix from 'components/elements/clearfix'
   apiUpdate: ProvinceApi.updateProvince,
   apiGetByKey: ProvinceApi.getProviceByID,
 })
+@connect(
+  state => ({
+    languageContents: state.language.languageContents
+  }))
 @autobind
 export default class ProvinceEdit extends React.PureComponent {
   static propTypes = {
@@ -36,13 +42,11 @@ export default class ProvinceEdit extends React.PureComponent {
   }
 
   async handleSubmit(data) {
-    if (this.props.onUpdateItem) {
-      this.props.onUpdateItem(data)
-      this.setState({
-        dataSource: data,
-      })
-    }
-    //const key = this.props.match.params.key
+    const res = this.props.onUpdateItem(data)
+    this.setState({
+      dataSource: data,
+    })
+    return res
   }
 
   //Su kien truoc khi component duoc tao ra
@@ -81,6 +85,7 @@ export default class ProvinceEdit extends React.PureComponent {
   }
 
   render() {
+    const {data, languageContents} = this.props
     return (
       <PageContainer button={this.buttonDelete()} {...this.props.wrapperProps}>
         <Clearfix height={16} />
@@ -89,25 +94,22 @@ export default class ProvinceEdit extends React.PureComponent {
             'list',
             {
               id: 'edit',
-              name:
-                this.props.isLoaded && this.props.success
-                  ? this.cleanData().name
+                name: this.props.isLoaded && this.props.success
+                  ? getContent(languageContents, {type: "Province", itemId: data._id, field: 'name', value: data.name})
                   : null,
             },
           ]}
         />
-        <Spin style={{ width: '100%' }} spinning={!this.props.isLoaded}>
-          {this.props.isLoaded && this.props.success && (
-            <ProvinceForm
-              isLoading={this.props.isUpdating}
-              initialValues={
-                this.state.dataSource ? this.state.dataSource : this.cleanData()
-              }
-              onSubmit={this.handleSubmit}
-              isEdit={true}
-            />
-          )}
-        </Spin>
+        {this.props.isLoaded && this.props.success && (
+          <ProvinceForm
+            isLoading={this.props.isUpdating}
+            initialValues={
+              this.state.dataSource ? this.state.dataSource : data
+            }
+            onSubmit={this.handleSubmit}
+            isEdit={true}
+          />
+        )}
       </PageContainer>
     )
   }

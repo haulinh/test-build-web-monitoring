@@ -125,3 +125,7 @@ li.ant-menu-item {
 .ant-modal-footer {
   border-top: unset;
 }
+
+.ant-modal-title {
+  font-weight: 700;
+}

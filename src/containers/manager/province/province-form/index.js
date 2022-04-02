@@ -7,9 +7,17 @@ import { mapPropsToFields } from 'utils/form'
 import createLanguageHoc, { langPropTypes } from '../../../../hoc/create-lang'
 import InputNumberCell from 'components/elements/input-number-cell'
 import { Clearfix } from 'components/elements'
+import LanguageInput, {getLanguageContents} from 'components/language'
+import { updateLanguageContent } from 'redux/actions/languageAction'
+import {connect} from 'react-redux'
+import CalculateApi from 'api/CalculateApi'
+import get from 'lodash/get'
 
 const FormItem = Form.Item
 
+@connect(() => ({}), {
+  updateLanguageContent
+})
 @Form.create({
   mapPropsToFields: mapPropsToFields,
 })
@@ -23,6 +31,13 @@ export default class ProvinceForm extends React.PureComponent {
     lang: langPropTypes,
     isLoading: PropTypes.bool,
   }
+
+  componentDidMount(){
+    const {form, initialValues} = this.props
+    if(!initialValues) return
+    form.setFieldsValue({name: initialValues.name})
+  }
+
   handleSubmit(e) {
     e.preventDefault()
     this.props.form.validateFields(async (err, values) => {
@@ -34,6 +49,12 @@ export default class ProvinceForm extends React.PureComponent {
       }
       // Callback submit form Container Component
       const res = await this.props.onSubmit(data)
+      if(res.success) {
+        const language = getLanguageContents(values)
+        const itemId = res.data._id
+        const content = await CalculateApi.updateLanguageContent({itemId, type: 'Province', language})
+        this.props.updateLanguageContent(content)
+      }
       if (res && res.error) {
         if (res.message === 'KEY_EXISTED') {
           this.props.form.setFields({
@@ -48,9 +69,12 @@ export default class ProvinceForm extends React.PureComponent {
       }
     })
   }
+
   render() {
-    const { getFieldDecorator } = this.props.form
-    const { t } = this.props.lang
+    const {form, lang, initialValues} = this.props
+    const {getFieldDecorator} = form
+    const {t} = lang
+
     const formItemLayout = {
       labelCol: {
         sm: { span: 6, offset: 0 },
@@ -60,6 +84,7 @@ export default class ProvinceForm extends React.PureComponent {
       },
     }
 
+    form.getFieldDecorator('language.name')
     return (
       <Form onSubmit={this.handleSubmit}>
         <Row type="flex" gutter={8}>
@@ -107,9 +132,18 @@ export default class ProvinceForm extends React.PureComponent {
                   },
                 ],
               })(
-                <Input
+                <LanguageInput
                   size="large"
                   placeholder={t('province.form.name.placeholder')}
+                  itemId={get(initialValues, '_id')}
+                  type='Province'
+                  language={form.getFieldValue('language.name')}
+                  rules={[{
+                    max: 64,
+                    message: t('province.form.name.max'),
+                  }]}
+                  onChangeLanguage={language => form.setFieldsValue({'language.name': language})
+                }
                 />
               )}
             </FormItem>

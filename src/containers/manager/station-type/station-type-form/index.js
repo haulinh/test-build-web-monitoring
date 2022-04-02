@@ -8,6 +8,11 @@ import * as _ from 'lodash'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { mapPropsToFields } from 'utils/form'
+import LanguageInput, {getLanguageContents} from 'components/language'
+import CalculateApi from 'api/CalculateApi'
+import get from 'lodash/get'
+import {connect} from 'react-redux'
+import {updateLanguageContent} from 'redux/actions/languageAction'
 
 function i18n() {
   return {
@@ -18,6 +23,10 @@ function i18n() {
 }
 
 const FormItem = Form.Item
+
+@connect(() => ({}), {
+  updateLanguageContent
+})
 @Form.create({
   mapPropsToFields: mapPropsToFields,
 })
@@ -43,10 +52,6 @@ export default class StationTypeForm extends React.PureComponent {
   handleSubmit(e) {
     e.preventDefault()
     this.props.form.validateFields(async (err, values) => {
-      console.log(
-        '🚀 ~ file: index.js ~ line 43 ~ StationTypeForm ~ this.props.form.validateFields ~ values',
-        values
-      )
       if (err) return
       const data = {
         key: values.key,
@@ -58,6 +63,12 @@ export default class StationTypeForm extends React.PureComponent {
       }
       // Callback submit form Container Component
       const res = await this.props.onSubmit(data)
+      if(res.success) {
+        const language = getLanguageContents(values)
+        const itemId = res.data._id
+        const content = await CalculateApi.updateLanguageContent({itemId, type: 'StationType', language})
+        this.props.updateLanguageContent(content)
+      }
       if (res && res.error) {
         if (res.message === 'KEY_EXISTED') {
           this.props.form.setFields({
@@ -84,13 +95,15 @@ export default class StationTypeForm extends React.PureComponent {
     )
   }
 
-  async componentWillMount() {
-    if (this.props.initialValues) {
+  async componentDidMount() {
+    const {initialValues, form} = this.props
+    if (initialValues) {
+      form.setFieldsValue({name: initialValues.name})
       let updateState = {}
-      if (this.props.initialValues.icon && this.props.initialValues.icon !== '')
-        updateState.urlIcon = this.props.initialValues.icon
-      if (this.props.initialValues.color)
-        updateState.color = this.props.initialValues.color
+      if (initialValues.icon && initialValues.icon !== '')
+        updateState.urlIcon = initialValues.icon
+      if (initialValues.color)
+        updateState.color = initialValues.color
       this.setState(updateState)
     }
   }
@@ -103,8 +116,10 @@ export default class StationTypeForm extends React.PureComponent {
   }
 
   render() {
-    const { getFieldDecorator } = this.props.form
-    const { t } = this.props.lang
+    const {form, lang, initialValues} = this.props
+    const {getFieldDecorator} = form
+    const {t} = lang
+
     const formItemLayout = {
       labelCol: {
         xs: { span: 24, offset: 0 },
@@ -116,7 +131,7 @@ export default class StationTypeForm extends React.PureComponent {
       },
     }
 
-    console.log(t('stationTypeManage.form.key.error'))
+    getFieldDecorator('language.name')
 
     return (
       <Form onSubmit={this.handleSubmit}>
@@ -166,9 +181,17 @@ export default class StationTypeForm extends React.PureComponent {
                   },
                 ],
               })(
-                <Input
+                <LanguageInput
                   size="large"
                   placeholder={t('stationTypeManager.form.name.label')}
+                  itemId={get(initialValues, '_id')}
+                  type='StationType'
+                  language={form.getFieldValue('language.name')}
+                  rules={[{
+                    max: 64,
+                    message: t('stationTypeManager.form.name.max'),
+                  }]}
+                  onChangeLanguage={language => form.setFieldsValue({'language.name': language})}
                 />
               )}
             </FormItem>

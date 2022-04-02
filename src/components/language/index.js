@@ -8,23 +8,14 @@ import get from 'lodash/get'
 import {getLanguage} from 'utils/localStorage'
 import {connect} from 'react-redux'
 import iconLanguage from 'assets/svg-icons/IconLanguage.svg'
+import { LangConfig } from './helper'
+export * from './helper'
 
 const i18n = {
   title: t('languageSetup.setup'),
   okText: t('global.save'),
   cancelText: t('global.back'),
-  lang: {
-    vi: t('language.list.colVI'),
-    en: t('language.list.colEN'),
-    tw: t('language.list.colTW'),
-  }
 }
-
-const LangConfig = [
-  {lang: 'vi', code: 'VN', label: i18n.lang.vi },
-  {lang: 'en', code: 'US', label: i18n.lang.en},
-  {lang: 'tw', code: 'TW', label: i18n.lang.tw } 
-] 
 
 @Form.create({})
 @connect(
@@ -43,6 +34,7 @@ class Language extends React.Component {
   componentDidUpdate(props){
     const {content} = this.state
     const {itemId, type, id: field, languageContents, onChangeLanguage} = this.props
+
     if(content === null && props.value) {
       const language = get(languageContents, `${type}.${itemId}.language.${field}`);
       let content = props.value
@@ -56,6 +48,7 @@ class Language extends React.Component {
   getLanguages = () => {
     const {content} = this.state
     const {language} = this.props
+
     const getContent = (lang) =>
       lang === getLanguage() && !!content && get(language, lang) !== content
         ? content

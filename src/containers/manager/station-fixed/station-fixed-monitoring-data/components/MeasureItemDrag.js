@@ -13,15 +13,22 @@ const Row = styled(RowAnt)`
     font-size: 16px;
   }
 
-  .icon-drag {
+  /* .icon-drag {
     cursor: pointer;
-  }
+  } */
 `
 
 const MeasureItemDrag = ({ name, measureKey, form }) => {
+  const onChangeCheckBox = () => {
+    const valueCheckBox = form.getFieldValue(`selectedList.${measureKey}`)
+
+    form.setFieldsValue({
+      [`selectedList.${measureKey}`]: !valueCheckBox,
+    })
+  }
   return (
     <Row type="flex" justify="space-between" align="middle">
-      <Col>
+      <Col style={{ flex: 1 }} onClick={onChangeCheckBox}>
         <Row type="flex" style={{ gap: '12px' }}>
           {form.getFieldDecorator(`selectedList.${measureKey}`, {
             valuePropName: 'checked',
@@ -31,7 +38,7 @@ const MeasureItemDrag = ({ name, measureKey, form }) => {
         </Row>
       </Col>
 
-      <Col>
+      <Col style={{ width: '24px' }}>
         <img className="icon-drag" src={iconDragDrop} alt="icon Drag" />
       </Col>
     </Row>
