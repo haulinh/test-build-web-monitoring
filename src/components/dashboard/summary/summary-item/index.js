@@ -2,13 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
 import styled from 'styled-components'
-import { removeAccents } from 'hoc/create-lang'
 
-// import { Link } from 'react-router-dom'
-// import slug from 'constants/slug'
 import { DATA_COLOR } from 'themes/color'
 import { get as _get } from 'lodash'
 import { connect } from 'react-redux'
+import {getContent} from 'components/language/language-content'
 const SummaryItemWrapper = styled.div`
   display: flex;
   flex: 1;
@@ -59,6 +57,7 @@ const Row = styled.div`
 
 @connect(state => ({
   language: _get(state, 'language.locale'),
+  languageContents: _get(state, 'language.languageContents'),
 }))
 @autobind
 export default class SummaryItem extends React.PureComponent {
@@ -84,17 +83,15 @@ export default class SummaryItem extends React.PureComponent {
     const {
       name,
       image,
-      // color,
-      // stationTypeKey,
       statusStation,
       indexScroll,
       number,
-      language,
+      _id,
+      languageContents,
     } = this.props
     const colorStatus =
       this.props.number === 0 ? DATA_COLOR.DATA_LOSS : DATA_COLOR[statusStation]
     return (
-      // MARK  logic cũ là dùng thẻ Link, giở change thành div
       <div
         onClick={e => {
           if (number > 0 && window.fullpage_api)
@@ -106,7 +103,7 @@ export default class SummaryItem extends React.PureComponent {
             <StationTypeImg src={image} />
             <TextNumber>{this.renderNumber()}</TextNumber>
           </Row>
-          <TextDescription>{removeAccents(language, name)}</TextDescription>
+          <TextDescription>{getContent(languageContents, {type: 'StationType', itemId: _id, field: 'name', value: name})}</TextDescription>
         </SummaryItemWrapper>
       </div>
     )

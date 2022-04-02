@@ -8,6 +8,7 @@ import styled from 'styled-components'
 import HeadStationType from './HeadStationType'
 import StationAutoList from './station-auto-list'
 import { STATUS_STATION } from 'constants/stationStatus'
+import LanguageContent from 'components/language/language-content'
 
 const { Option } = Select
 
@@ -112,7 +113,7 @@ export default class StationTypeSummary extends React.Component {
               <IconToggle isOpen={this.state.isOpen}>
                 <Icon type="caret-right" />
               </IconToggle>
-              {stationType.name} ({goodTotal}/{dataSource.length})
+              <LanguageContent type="StationType" itemId={stationType._id} value={stationType.name}/> ({goodTotal}/{dataSource.length})
             </TextSpan>
             <Select
               mode="multiple"

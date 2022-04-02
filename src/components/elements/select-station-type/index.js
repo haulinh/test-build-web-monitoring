@@ -4,12 +4,13 @@ import PropTypes from 'prop-types'
 import CategoryApi from 'api/CategoryApi'
 import { get as _get } from 'lodash'
 import { autobind } from 'core-decorators'
-import { translate, removeAccents } from 'hoc/create-lang'
+import { translate } from 'hoc/create-lang'
 import { connect } from 'react-redux'
 import { replaceVietnameseStr } from 'utils/string'
+import {getContent} from 'components/language/language-content'
 
 @connect(state => ({
-  language: _get(state, 'language.locale'),
+  languageContents: _get(state, 'language.languageContents'),
 }))
 @autobind
 export default class SelectStationType extends PureComponent {
@@ -122,7 +123,7 @@ export default class SelectStationType extends PureComponent {
   }
 
   render() {
-    const { language, fieldValue } = this.props
+    const { languageContents, fieldValue } = this.props
     const stationTypes = this.getStationTypes()
     return (
       <Select
@@ -144,7 +145,7 @@ export default class SelectStationType extends PureComponent {
             key={stationType.key}
             value={stationType[fieldValue || 'key']}
           >
-            {removeAccents(language, stationType.name)}
+            {getContent(languageContents, {type: 'StationType', itemId: stationType._id, field: 'name', value: stationType.name})}
           </Select.Option>
         ))}
       </Select>

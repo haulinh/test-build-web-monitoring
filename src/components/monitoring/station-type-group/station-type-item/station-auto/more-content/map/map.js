@@ -8,6 +8,7 @@ import { map as _map } from 'lodash'
 import { getGoogleMapProps } from 'components/map/utils'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import {getContent} from 'components/language/language-content'
 
 const MapContainer = styled.div`
   position: relative;
@@ -15,6 +16,9 @@ const MapContainer = styled.div`
 
 @withScriptjs
 @withGoogleMap
+@connect(state => ({
+  languageContents: state.language.languageContents
+}))
 class CustomGoogleMap extends PureComponent {
   static propTypes = {
     defaultCenter: PropTypes.shape({
@@ -36,7 +40,7 @@ class CustomGoogleMap extends PureComponent {
     return value.length * 3.7
   }
   render() {
-    // console.log(this.props.stationMap, 'stationMap')
+    const {languageContents} = this.props
     return (
       <GoogleMap
         defaultZoom={this.props.defaultZoom}
@@ -53,7 +57,7 @@ class CustomGoogleMap extends PureComponent {
             _map(this.props.stationMap, (item, index) => {
               const item_location = item.mapLocation
               if (!item_location) return null
-
+              const name = getContent(languageContents, {type: 'Station', field: 'name', itemId: item._id, value: item.name})
               let styleLable = {
                 color: 'white',
                 fontSize: '14px',
@@ -75,12 +79,12 @@ class CustomGoogleMap extends PureComponent {
                   key={index}
                   position={item_location}
                   labelAnchor={
-                    new google.maps.Point(this.calculateString(item.name), 0)
+                    new google.maps.Point(this.calculateString(name), 0)
                   }
                   labelStyle={styleLable}
                   icon={item_icon}
                 >
-                  <div>{item.name}</div>
+                  <div>{name}</div>
                 </MarkerWithLabel>
               )
             })}
@@ -106,7 +110,6 @@ export default class MonitoringMapView extends PureComponent {
   state = {}
 
   render() {
-    // console.log(getGoogleMapProps(), 'getGoogleMapProps()')
     return (
       <MapContainer>
         <CustomGoogleMap

@@ -19,6 +19,8 @@ import { getStationTypes } from 'api/CategoryApi'
 import { getLastLog } from 'api/StationAuto'
 import { translate } from 'hoc/create-lang'
 import { STATUS_STATION, getStatusPriority } from 'constants/stationStatus'
+import {getContent} from 'components/language/language-content'
+import {connect} from 'react-redux'
 
 // NOTE  every 1min will get last log
 const GET_LAST_LOG_INTERVAL_TIME = 1000 * 60
@@ -46,6 +48,9 @@ const BoxLoader = createContentLoader({
 })(null)
 
 @protectRole(ROLE.DASHBOARD_2.VIEW)
+@connect(state => ({
+  languageContents: state.language.languageContents
+}))
 export default class OverviewDashboard extends Component {
   state = {
     isGroupProvince: null,
@@ -165,6 +170,7 @@ export default class OverviewDashboard extends Component {
     ]
 
     return this.state.stationTypeList.map((item, index) => ({
+      _id: item._id,
       statusStation: this.timKiemStatusQuaLastLog(
         this.state.groupLastLog[item.key]
       ),
@@ -212,13 +218,14 @@ export default class OverviewDashboard extends Component {
   }
 
   getChartList() {
+    const {languageContents} = this.props
     const result = _.map(this.state.stationTypeList, item => {
       if (this.state.stationCount[item.key] === 0) {
         return null
       }
       return {
         key: item.key,
-        title: item.name,
+        title: getContent(languageContents, {type: 'StationType', itemId: item._id, field: 'name', value: item.name}), 
         totalStation: this.state.stationCount[item.key],
         stationList: this.state.rows[item.key],
       }

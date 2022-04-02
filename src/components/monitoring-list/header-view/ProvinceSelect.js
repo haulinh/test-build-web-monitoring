@@ -6,6 +6,7 @@ import { autobind } from 'core-decorators'
 import styled from 'styled-components'
 import { translate } from 'hoc/create-lang'
 import { get, keyBy } from 'lodash'
+import LanguageContent from 'components/language/language-content'
 
 const SelectWrapper = styled.div`
   width: 100%;
@@ -49,9 +50,9 @@ export default class ProvinceSelect extends PureComponent {
           defaultValue=""
         >
           <Select.Option value={''}>{translate('chart.all')}</Select.Option>
-          {this.state.provinceList.map(({ key, name }) => (
+          {this.state.provinceList.map(({ _id: itemId, key, name }) => (
             <Select.Option key={key} value={key}>
-              {name}
+              <LanguageContent type="Province" value={name} itemId={itemId} />
             </Select.Option>
           ))}
         </Select>

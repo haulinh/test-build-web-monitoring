@@ -1,4 +1,7 @@
+import React from 'react'
+import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import { Button, Icon, message } from 'antd'
+import { autobind } from 'core-decorators'
 import ProvinceApi from 'api/ProvinceApi'
 import Clearfix from 'components/elements/clearfix'
 import { getContent } from 'components/language/language-content'
