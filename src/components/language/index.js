@@ -1,14 +1,15 @@
-import React from 'react'
 import {Form, Input, Modal} from 'antd'
-import {FlagIcon} from 'react-flag-kit'
-import {FormWrapper, FormItem, FlagLabel} from './styled'
-import {Warning} from './warning'
+import iconLanguage from 'assets/svg-icons/IconLanguage.svg'
 import {translate as t} from 'hoc/create-lang'
 import get from 'lodash/get'
-import {getLanguage} from 'utils/localStorage'
+import React from 'react'
+import {FlagIcon} from 'react-flag-kit'
 import {connect} from 'react-redux'
-import iconLanguage from 'assets/svg-icons/IconLanguage.svg'
-import { LangConfig } from './helper'
+import styled from 'styled-components'
+import {getLanguage} from 'utils/localStorage'
+import {LangConfig} from './helper'
+import {FlagLabel, FormItem, FormWrapper} from './styled'
+import {Warning} from './warning'
 export * from './helper'
 
 const i18n = {
@@ -16,6 +17,19 @@ const i18n = {
   okText: t('global.save'),
   cancelText: t('global.back'),
 }
+const InputWrapper = styled(Input)`
+  span.ant-input-group-addon{
+    cursor: pointer;
+    background: #ffffff;
+    &:hover{
+      background: rgb(230, 247, 255);
+    }
+  }
+`
+
+const IconWrapper = styled.img`
+  width: 25px;
+`
 
 @Form.create({})
 @connect(
@@ -176,7 +190,7 @@ class Language extends React.Component {
   })
 
   render(){
-    const {form, rules, placeholder, itemId} = this.props
+    const {form, rules, placeholder, itemId, size} = this.props
     const {isWarning, isVisible, content, values} = this.state
     const formValues = form.getFieldsValue()
 
@@ -185,14 +199,14 @@ class Language extends React.Component {
 
       return (
       <React.Fragment>
-        <Input 
+        <InputWrapper
+          size={size}
           value={content}
-          onChange={e => this.onChange(e.target.value)}
           placeholder={placeholder}
+          onChange={e => this.onChange(e.target.value)}
           addonAfter={
-            <img
+            <IconWrapper
               alt=""
-              style={{cursor: 'pointer'}}
               src={iconLanguage}
               onClick={this.openLanguageModal}
             />
