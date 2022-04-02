@@ -42,6 +42,11 @@ export default class FormInfoBasic extends Component {
   render() {
     const { form, onChangePoint, points, formType } = this.props
 
+    const isDisable =
+      formType === 'editReportLog' || formType === 'createReportLog'
+        ? true
+        : false
+
     return (
       <div>
         <div className="title">{i18n().drawer.formBasic.title}</div>
@@ -75,12 +80,7 @@ export default class FormInfoBasic extends Component {
                 <Input
                   style={{ width: '100%' }}
                   placeholder={i18n().drawer.formBasic.nameReport}
-                  disabled={
-                    formType === 'editReportLog' ||
-                    formType === 'createReportLog'
-                      ? true
-                      : false
-                  }
+                  disabled={isDisable}
                 />
               )}
             </FormItem>
@@ -113,12 +113,7 @@ export default class FormInfoBasic extends Component {
                   size="default"
                   label={i18n().drawer.formBasic.point}
                   showSearch
-                  disabled={
-                    formType === 'editReportLog' ||
-                    formType === 'createReportLog'
-                      ? true
-                      : false
-                  }
+                  disabled={isDisable}
                 />
               )}
             </FormItem>

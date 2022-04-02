@@ -97,6 +97,7 @@ export default class FormMonitoring extends Component {
           ...params,
           reportId,
         })
+
         handleSuccessEditLog(paramsLog)
         message.success(i18n().popupEditLogSuccess.title)
       } else if (formType === 'createReportLog') {
@@ -104,10 +105,12 @@ export default class FormMonitoring extends Component {
         delete paramsLog.stationId
 
         await createStationFixedReportLog({ ...params, reportId })
+
         handleSuccessCreateLog(paramsLog)
         message.success(i18n().popupCreateLogSuccess.title)
       } else {
         await createManualReport(params)
+
         message.success(i18n().popupCreateSuccess.title)
       }
       this.setState({
@@ -217,6 +220,7 @@ export default class FormMonitoring extends Component {
 
       this.setState({
         measuringList,
+        measuringListSelect: measuringList,
       })
     }
   }
@@ -414,12 +418,34 @@ export default class FormMonitoring extends Component {
   }
 
   resetForm = () => {
-    const { form } = this.props
+    const { form, formType } = this.props
+    const { measuringList } = this.state
+
+    if (formType === 'editReportLog' || formType === 'createReportLog') {
+      const resetFields = Object.values(FIELDS.OTHER).map(
+        field => `otherInfo.${field}`
+      )
+      form.resetFields(resetFields)
+      const newDataMeasure = measuringList.reduce((base, current) => {
+        return {
+          ...base,
+          [current._id]: {
+            key: current.key,
+            value: current.value,
+          },
+        }
+      }, {})
+
+      this.setInitial()
+      form.setFieldsValue({
+        [FIELDS.MEASURING_LOGS]: newDataMeasure,
+      })
+
+      return
+    }
 
     form.resetFields()
-
     this.setInitial()
-
     this.setState({
       measuringList: [],
     })
@@ -431,7 +457,11 @@ export default class FormMonitoring extends Component {
 
     const point = form.getFieldValue(FIELDS.POINT)
 
-    const measureListPoint = this.getMeasureListPoint(point)
+    const measureListPoint = this.getMeasureListPoint(
+      formType === 'editReportLog' || formType === 'createReportLog'
+        ? get(basicInfoData, 'stationId', '')
+        : point
+    )
 
     const isShowButton = !(measuringList.length === measureListPoint.length)
 

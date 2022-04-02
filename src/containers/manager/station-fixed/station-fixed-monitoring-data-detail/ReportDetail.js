@@ -20,7 +20,6 @@ import moment from 'moment-timezone'
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { getTimeUTC } from 'utils/datetime'
-import { v4 as uuidV4 } from 'uuid'
 import ModalConfirmCancel from '../station-fixed-monitoring-data/components/ModalConfirmCancel'
 import FormMonitoring from '../station-fixed-monitoring-data/form-create'
 import Attachments from './Attachments'
@@ -67,13 +66,6 @@ const Drawer = styled(DrawerAnt)`
     color: #111827;
   }
 `
-
-const styleText = {
-  color: '#262626',
-  fontSize: 14,
-  border: '1px solid rgb(217, 217, 217)',
-  borderRadius: 4,
-}
 
 export function i18n() {
   return {
@@ -235,7 +227,10 @@ export default class ReportDetail extends Component {
   }
 
   handleClickAddReportLog = () => {
-    this.setState({ formType: 'createReportLog', visibleDrawer: true })
+    this.setState({
+      formType: 'createReportLog',
+      visibleDrawer: true,
+    })
   }
 
   onConfirmCancel = () => {
@@ -250,12 +245,11 @@ export default class ReportDetail extends Component {
   }
 
   setVisibleDrawer = visible => {
-    this.setState({
-      visibleDrawer: visible,
-    })
+    this.setState({ visibleDrawer: visible })
   }
 
-  setDataSourceLog = logEdited => {
+  setDataSourceLog = async logEdited => {
+    const { initialValues } = this.props
     const { dataSourceLog, formType } = this.state
 
     logEdited.datetime = getTimeUTC(moment(logEdited.datetime))
@@ -282,12 +276,14 @@ export default class ReportDetail extends Component {
       this.setState({ dataSourceLog: newDataSourceLog })
       return
     }
-    const newDataSourceLog = [...dataSourceLog, { ...logEdited, _id: uuidV4() }]
-    this.setState({ dataSourceLog: newDataSourceLog })
+    const newReportData = await StationFixedReportApi.getStationFixedReport(
+      initialValues.report._id
+    )
+
+    this.setState({ dataSourceLog: newReportData.logs })
   }
 
   deleteLogData = dataSourceAfterDelete => {
-    console.log(dataSourceAfterDelete)
     this.setState({ dataSourceLog: dataSourceAfterDelete })
   }
 
@@ -343,7 +339,6 @@ export default class ReportDetail extends Component {
                 ],
               })(
                 <EditWrapper
-                  style={{ ...styleText }}
                   type="input"
                   value={this.getPointName(
                     points,
