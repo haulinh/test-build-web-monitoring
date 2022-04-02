@@ -54,6 +54,7 @@ class Language extends React.Component {
       let content = props.value
       if(language) content = language[getLanguage()]
       this.setState({content}, () => {
+        console.log(language)
         onChangeLanguage(language)
       })
     }

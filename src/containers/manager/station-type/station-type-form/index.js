@@ -9,7 +9,6 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import { mapPropsToFields } from 'utils/form'
 import LanguageInput, {getLanguageContents} from 'components/language'
-import CalculateApi from 'api/CalculateApi'
 import get from 'lodash/get'
 import {connect} from 'react-redux'
 import {updateLanguageContent} from 'redux/actions/languageAction'
@@ -32,7 +31,7 @@ const FormItem = Form.Item
 })
 @createLanguageHoc
 @autobind
-export default class StationTypeForm extends React.PureComponent {
+class StationTypeForm extends React.PureComponent {
   static propTypes = {
     isEdit: PropTypes.bool,
     onSubmit: PropTypes.func,
@@ -63,12 +62,8 @@ export default class StationTypeForm extends React.PureComponent {
       }
       // Callback submit form Container Component
       const res = await this.props.onSubmit(data)
-      if(res.success) {
-        const language = getLanguageContents(values)
-        const itemId = res.data._id
-        const content = await CalculateApi.updateLanguageContent({itemId, type: 'StationType', language})
-        this.props.updateLanguageContent(content)
-      }
+      if(res.success) this.updateLanguage(res.data._id) 
+
       if (res && res.error) {
         if (res.message === 'KEY_EXISTED') {
           this.props.form.setFields({
@@ -84,6 +79,29 @@ export default class StationTypeForm extends React.PureComponent {
         }
       }
     })
+  }
+
+  updateLanguage(itemId, type = 'StationType') {
+    const {form, updateLanguageContent} = this.props
+    const values = form.getFieldsValue()
+    const language = getLanguageContents(values)
+    console.log({values, language})
+    updateLanguageContent({itemId, type, language})
+  }
+
+  onChangeLanguage(language, field='name') {
+    const {form, isEdit, initialValues} = this.props
+    const languageFieldName = `language.${field}`;
+    const content = form.getFieldValue(languageFieldName);
+    form.setFieldsValue({[languageFieldName]: language})
+
+    console.log('init', form.getFieldValue(languageFieldName))
+
+    // don't process save for initial data or creation flow
+    if(!isEdit || !content) return
+    setTimeout(() => {
+      this.updateLanguage(initialValues._id)
+    }, 1000)
   }
 
   renderButtonUpload(name) {
@@ -191,7 +209,7 @@ export default class StationTypeForm extends React.PureComponent {
                     max: 64,
                     message: t('stationTypeManager.form.name.max'),
                   }]}
-                  onChangeLanguage={language => form.setFieldsValue({'language.name': language})}
+                  onChangeLanguage={(language) => this.onChangeLanguage(language)}
                 />
               )}
             </FormItem>
@@ -278,3 +296,5 @@ export default class StationTypeForm extends React.PureComponent {
     )
   }
 }
+
+export default StationTypeForm
