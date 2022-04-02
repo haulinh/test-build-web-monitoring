@@ -1,20 +1,19 @@
-import React from 'react'
-import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import { Button, Icon, Spin } from 'antd'
-import { autobind } from 'core-decorators'
+import { Button, Icon, message } from 'antd'
 import ProvinceApi from 'api/ProvinceApi'
-import ProvinceForm from '../province-form'
-import slug from '/constants/slug'
+import Clearfix from 'components/elements/clearfix'
+import { getContent } from 'components/language/language-content'
+import ROLE from 'constants/role'
+import { autobind } from 'core-decorators'
 import createManagerDelete from 'hoc/manager-delete'
 import createManagerEdit from 'hoc/manager-edit'
-import PropTypes from 'prop-types'
-import Breadcrumb from '../breadcrumb'
-import { message } from 'antd'
-import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
-import Clearfix from 'components/elements/clearfix'
-import {connect} from 'react-redux'
-import {getContent} from 'components/language/language-content'
+import PageContainer from 'layout/default-sidebar-layout/PageContainer'
+import PropTypes from 'prop-types'
+import React from 'react'
+import { connect } from 'react-redux'
+import Breadcrumb from '../breadcrumb'
+import ProvinceForm from '../province-form'
+import slug from '/constants/slug'
 
 @protectRole(ROLE.PROVINCE.EDIT)
 @createManagerDelete({
@@ -24,10 +23,9 @@ import {getContent} from 'components/language/language-content'
   apiUpdate: ProvinceApi.updateProvince,
   apiGetByKey: ProvinceApi.getProviceByID,
 })
-@connect(
-  state => ({
-    languageContents: state.language.languageContents
-  }))
+@connect(state => ({
+  languageContents: state.language.languageContents,
+}))
 @autobind
 export default class ProvinceEdit extends React.PureComponent {
   static propTypes = {
@@ -85,7 +83,7 @@ export default class ProvinceEdit extends React.PureComponent {
   }
 
   render() {
-    const {data, languageContents} = this.props
+    const { data, languageContents } = this.props
     return (
       <PageContainer button={this.buttonDelete()} {...this.props.wrapperProps}>
         <Clearfix height={16} />
@@ -94,8 +92,14 @@ export default class ProvinceEdit extends React.PureComponent {
             'list',
             {
               id: 'edit',
-                name: this.props.isLoaded && this.props.success
-                  ? getContent(languageContents, {type: "Province", itemId: data._id, field: 'name', value: data.name})
+              name:
+                this.props.isLoaded && this.props.success
+                  ? getContent(languageContents, {
+                      type: 'Province',
+                      itemId: data._id,
+                      field: 'name',
+                      value: data.name,
+                    })
                   : null,
             },
           ]}
@@ -103,9 +107,7 @@ export default class ProvinceEdit extends React.PureComponent {
         {this.props.isLoaded && this.props.success && (
           <ProvinceForm
             isLoading={this.props.isUpdating}
-            initialValues={
-              this.state.dataSource ? this.state.dataSource : data
-            }
+            initialValues={this.state.dataSource ? this.state.dataSource : data}
             onSubmit={this.handleSubmit}
             isEdit={true}
           />

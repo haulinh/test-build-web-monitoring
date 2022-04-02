@@ -92,21 +92,21 @@ export default class FormMonitoring extends Component {
         const logId = basicInfoData.logData._id
         const paramsLog = { ...params, _id: logId, reportId }
         delete paramsLog.stationId
-
+        handleSuccessEditLog({}, true)
         await updateStationFixedReportLog(reportId, basicInfoData.logData._id, {
           ...params,
           reportId,
         })
 
-        handleSuccessEditLog(paramsLog)
+        handleSuccessEditLog(paramsLog, false)
         message.success(i18n().popupEditLogSuccess.title)
       } else if (formType === 'createReportLog') {
         const paramsLog = { ...params, reportId }
         delete paramsLog.stationId
-
+        handleSuccessCreateLog({}, true)
         await createStationFixedReportLog({ ...params, reportId })
 
-        handleSuccessCreateLog(paramsLog)
+        handleSuccessCreateLog(paramsLog, false)
         message.success(i18n().popupCreateLogSuccess.title)
       } else {
         await createManualReport(params)

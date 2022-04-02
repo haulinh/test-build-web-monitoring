@@ -15,6 +15,9 @@ const TableStyled = styled(Table)`
       cursor: pointer;
     }
   }
+  .custom-record {
+    width: ${props => `${props.unfixedWidth}px`};
+  }
 `
 @connect(state => ({
   measuresObj: state.global.measuresObj,
@@ -48,7 +51,7 @@ class ReportLogTable extends React.Component {
       dataIndex: 'sampler',
       key: 'person',
       align: 'left',
-      width: 168,
+      width: 190,
       fixed: 'left',
       render: (value, record, index) => {
         return <div>{value}</div>
@@ -88,7 +91,7 @@ class ReportLogTable extends React.Component {
             dataIndex: `${dataIndex}`,
             key: `${option}`,
             align: 'left',
-            width: 150,
+            className: 'custom-record',
             render: value => {
               let formatValue = value
               if (option === 'month') formatValue = moment(value).format('M')
@@ -107,8 +110,8 @@ class ReportLogTable extends React.Component {
               measuresObj[measuring.key].unit
             })`,
             dataIndex: `measuringLogs.${get(measuring, 'key', '')}`,
+            className: 'custom-record',
             align: 'left',
-            width: 114,
             render: (value, record, index) => {
               return <div>{isNil(value) ? '' : value.textValue}</div>
             },
@@ -117,7 +120,7 @@ class ReportLogTable extends React.Component {
       {
         title: '',
         align: 'center',
-        width: 52,
+        width: 62,
         fixed: 'right',
         render: (value, record, index) => {
           return (
@@ -166,16 +169,27 @@ class ReportLogTable extends React.Component {
     }
   }
   render() {
-    const { onClickReportLog, onClickAddReportLog, dataSource } = this.props
+    const {
+      onClickReportLog,
+      onClickAddReportLog,
+      dataSource,
+      loading,
+    } = this.props
 
+    console.log(window.innerWidth)
     return (
       <TableStyled
+        unfixedWidth={window.innerWidth > 1650 ? 250 : 250}
         rowKey={record => record._id}
         dataSource={dataSource}
+        loading={loading}
         columns={this.getColumns()}
         pagination={false}
+        // size="small"
         bordered
-        scroll={{ y: 500 }}
+        scroll={
+          window.innerWidth > 1650 ? { y: 500, x: 1500 } : { y: 500, x: 1300 }
+        }
         footer={() => (
           <Row type="flex" style={{ color: '#1890FF' }} align="middle">
             <Button
