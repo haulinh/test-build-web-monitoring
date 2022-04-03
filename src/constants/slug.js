@@ -135,6 +135,7 @@ export default {
   },
   dataAnalytics: {
     base: '/data-analytic',
+    detail: '/data-analytic',
   },
   map: {
     base: '/map',
