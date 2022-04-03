@@ -1,4 +1,4 @@
-import { Button, Col, Row } from 'antd'
+import { Button, Col, Row, Form as FormAnt, message } from 'antd'
 import DataInsight from 'api/DataInsight'
 import BoxShadowStyle from 'components/elements/box-shadow'
 import Clearfix from 'components/elements/clearfix/index'
@@ -8,17 +8,21 @@ import ROLE from 'constants/role'
 import createLang, { translate } from 'hoc/create-lang'
 import protectRole from 'hoc/protect-role'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import _ from 'lodash'
+import _, { isEmpty } from 'lodash'
 import moment from 'moment-timezone'
 import React from 'react'
 import { connect } from 'react-redux'
 import { getTimes, getTimesUTC } from 'utils/datetime'
 import { getParamArray } from 'utils/params'
 import Breadcrumb from './breadcrumb'
+import { replaceVietnameseStr } from 'utils/string'
 import SearchFrom from './search-form'
 import TabList from './tab-list'
 import DataAnalyze from './tab-list/tab-table-data-list/data-analyze'
 import { downFileExcel } from 'utils/downFile'
+import { FilterList, ModalSaveFilter } from 'components/filter'
+import CalculateApi from 'api/CalculateApi'
+import { ACTION_TYPE, MODULE_TYPE } from 'components/filter/constants'
 
 export const fields = {
   stationKey: 'stationKey',
@@ -42,6 +46,7 @@ export const ITEM_PER_PAGE = 50
   stationAutoByKey: _.keyBy(state.stationAuto.list, 'key'),
 }))
 @createLang
+@FormAnt.create()
 export default class MinutesDataSearch extends React.Component {
   state = {
     summary: [],
@@ -49,13 +54,37 @@ export default class MinutesDataSearch extends React.Component {
     page: 1,
     totalItem: null,
     standards: [],
+    filterList: [],
+    filterListSearched: [],
+    filterItem: {},
     standardObjectList: [],
     loadingData: false,
     qcvnSelected: [],
     loadingSummary: false,
     loadingExport: false,
+    visibleModalSave: false,
+    highlightText: '',
   }
   searchFormRef = React.createRef()
+
+  componentDidMount = () => {
+    this.getFilterList()
+  }
+
+  getFilterList = async () => {
+    try {
+      const response = await CalculateApi.getFilterList({
+        type: MODULE_TYPE.ORIGINAL,
+      })
+
+      this.setState({
+        filterList: response,
+        filterListSearched: response,
+      })
+    } catch (error) {
+      console.error({ error })
+    }
+  }
 
   getValuesForm = e => {
     if (!e) return null
@@ -199,6 +228,106 @@ export default class MinutesDataSearch extends React.Component {
     this.setState({ standardObjectList })
   }
 
+  onClickSaveFilter = () => {
+    this.setState({ visibleModalSave: true })
+  }
+
+  onCancelModal = () => {
+    this.setState({ visibleModalSave: false })
+  }
+
+  getParamsFilter = () => {
+    const { form } = this.props
+
+    const valueFormSearch = this.searchFormRef.current.getFieldsValue()
+
+    const measuringList = valueFormSearch.measuringList.join(',')
+
+    const filterName = form.getFieldValue('name')
+
+    const queryParams = {
+      type: MODULE_TYPE.ORIGINAL,
+      name: filterName,
+      params: {
+        ...valueFormSearch,
+        measuringList,
+      },
+    }
+
+    return queryParams
+  }
+
+  onSubmitSaveFilter = async () => {
+    const { form } = this.props
+    const { filterItem } = this.state
+
+    const value = await form.validateFields()
+
+    const queryParams = this.getParamsFilter()
+
+    const action = value.action
+
+    try {
+      if (action === ACTION_TYPE.UPDATE) {
+        await CalculateApi.updateFilter(filterItem._id, queryParams)
+        message.success('Cập nhật bộ lọc thành công')
+      } else {
+        await CalculateApi.createFilter(queryParams)
+
+        message.success('Tạo bộ lọc thành công')
+      }
+
+      this.getFilterList()
+      this.setState({ visibleModalSave: false })
+    } catch (error) {
+      console.error({ error })
+    }
+  }
+  onClickFilter = (filterId, filterItem) => {
+    this.setState({ filterItem })
+
+    const params = filterItem.params
+
+    this.searchFormRef.current.setFieldsValue({
+      ...params,
+      measuringList: params.measuringList.split(','),
+    })
+
+    this.handleOnSearch()
+  }
+
+  onDeleteFilter = async filterId => {
+    const { filterList } = this.state
+
+    try {
+      await CalculateApi.deleteFilter(filterId)
+      const newFilterList = filterList.filter(filter => filter._id !== filterId)
+
+      this.setState({
+        filterList: newFilterList,
+        filterListSearched: newFilterList,
+      })
+      message.success('Xóa bộ lọc thành công')
+    } catch (error) {
+      console.error({ error })
+    }
+  }
+
+  onChangeSearch = event => {
+    const { filterList } = this.state
+    const value = event.target.value
+    const newFilterListSearched = filterList.filter(({ name }) => {
+      name = replaceVietnameseStr(name)
+
+      return name.includes(replaceVietnameseStr(value))
+    })
+
+    this.setState({
+      highlightText: value,
+      filterListSearched: newFilterListSearched,
+    })
+  }
+
   setPage = page => this.setState({ page }, () => this.handleOnSearch())
 
   render() {
@@ -211,9 +340,18 @@ export default class MinutesDataSearch extends React.Component {
       totalItem,
       loadingExport,
       standards,
+      filterListSearched,
+      filterList,
       qcvnSelected,
       standardObjectList,
+      visibleModalSave,
+      highlightText,
+      filterItem,
     } = this.state
+
+    const { form } = this.props
+
+    const isUpdateFilter = !_.isEmpty(filterItem)
 
     const measuringList = this.searchFormRef.current
       ? this.getMeasuringList()
@@ -221,77 +359,115 @@ export default class MinutesDataSearch extends React.Component {
     const stationKey = this.searchFormRef.current ? this.getStationAuto() : ''
 
     return (
-      <PageContainer {...this.props.wrapperProps} backgroundColor={'#fafbfb'}>
+      <PageContainer
+        {...this.props.wrapperProps}
+        right={
+          <Button type="primary" onClick={this.onClickSaveFilter}>
+            Lưu bộ lọc
+          </Button>
+        }
+        backgroundColor={'#fafbfb'}
+      >
         <Breadcrumb items={['list']} />
 
-        <Clearfix height={16} />
-        <BoxShadowStyle>
-          <Heading
-            rightChildren={
-              <Button
-                loading={loadingData || loadingSummary}
-                type="primary"
-                icon="search"
-                size="small"
-                onClick={this.handleOnSearch}
+        <Row type="flex" style={{ marginLeft: '-24px', marginRight: '-24px' }}>
+          <FilterList
+            list={filterListSearched}
+            onChangeSearch={this.onChangeSearch}
+            highlightText={highlightText}
+            onClickMenuItem={this.onClickFilter}
+            key={filterList}
+            onDeleteFilter={this.onDeleteFilter}
+          />
+          <Col style={{ flex: 1, overflowX: 'hidden' }}>
+            <Clearfix height={16} />
+            <BoxShadowStyle>
+              <Heading
+                rightChildren={
+                  <Button
+                    loading={loadingData || loadingSummary}
+                    type="primary"
+                    icon="search"
+                    size="small"
+                    onClick={this.handleOnSearch}
+                  >
+                    {this.props.lang.t('addon.search')}
+                  </Button>
+                }
+                textColor="#ffffff"
+                isBackground
+                fontSize={14}
+                style={{ padding: '8px 16px' }}
               >
                 {this.props.lang.t('addon.search')}
-              </Button>
-            }
-            textColor="#ffffff"
-            isBackground
-            fontSize={14}
-            style={{ padding: '8px 16px' }}
-          >
-            {this.props.lang.t('addon.search')}
-          </Heading>
-          <SearchFrom ref={this.searchFormRef} onSearch={this.handleOnSearch} />
-        </BoxShadowStyle>
+              </Heading>
+              <SearchFrom
+                ref={this.searchFormRef}
+                onSearch={this.handleOnSearch}
+              />
+            </BoxShadowStyle>
 
-        <Clearfix height={16} />
-        <DataAnalyze
-          loading={loadingSummary}
-          dataAnalyzeStationAuto={summary}
-          locale={{
-            emptyText: translate('dataSearchFrom.table.emptyText'),
-          }}
-        />
+            <Clearfix height={16} />
+            <DataAnalyze
+              loading={loadingSummary}
+              dataAnalyzeStationAuto={summary}
+              locale={{
+                emptyText: translate('dataSearchFrom.table.emptyText'),
+              }}
+            />
 
-        <Clearfix height={16} />
-        <Row gutter={12} style={{ marginLeft: 16 }} type="flex" align="middle">
-          <span
-            style={{
-              fontSize: '14px',
-              fontWeight: 600,
-            }}
-          >
-            {translate('dataAnalytics.standardViews')}
-          </span>
-          <Col span={8}>
-            <SelectQCVN
-              onFetchSuccess={this.handleOnFetchSuccessQCVN}
-              fieldValue="key"
-              mode="multiple"
-              maxTagCount={3}
-              maxTagTextLength={18}
-              onChange={this.onChangeQcvn}
+            <Clearfix height={16} />
+            <Row
+              gutter={12}
+              style={{ marginLeft: 16 }}
+              type="flex"
+              align="middle"
+            >
+              <span
+                style={{
+                  fontSize: '14px',
+                  fontWeight: 600,
+                }}
+              >
+                {translate('dataAnalytics.standardViews')}
+              </span>
+              <Col span={8}>
+                <SelectQCVN
+                  onFetchSuccess={this.handleOnFetchSuccessQCVN}
+                  fieldValue="key"
+                  mode="multiple"
+                  maxTagCount={3}
+                  maxTagTextLength={18}
+                  onChange={this.onChangeQcvn}
+                />
+              </Col>
+            </Row>
+
+            <TabList
+              qcvnSelected={qcvnSelected}
+              loadingExport={loadingExport}
+              exportExcel={this.exportExcel}
+              totalItem={totalItem}
+              page={page}
+              stationKey={stationKey}
+              standards={standards}
+              standardObjectList={standardObjectList}
+              setPage={this.setPage}
+              loading={loadingData}
+              dataStationAuto={data}
+              measuringList={measuringList}
             />
           </Col>
         </Row>
-
-        <TabList
-          qcvnSelected={qcvnSelected}
-          loadingExport={loadingExport}
-          exportExcel={this.exportExcel}
-          totalItem={totalItem}
-          page={page}
-          stationKey={stationKey}
-          standards={standards}
-          standardObjectList={standardObjectList}
-          setPage={this.setPage}
-          loading={loadingData}
-          dataStationAuto={data}
-          measuringList={measuringList}
+        <ModalSaveFilter
+          filterName={filterItem.name}
+          visible={visibleModalSave}
+          key={visibleModalSave}
+          centered
+          isUpdate={isUpdateFilter}
+          onCancel={this.onCancelModal}
+          onSubmitSaveFilter={this.onSubmitSaveFilter}
+          form={form}
         />
       </PageContainer>
     )

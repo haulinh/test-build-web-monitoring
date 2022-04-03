@@ -17,6 +17,8 @@ const { SubMenu } = Menu
 
 const MENU_WIDTH = 300
 
+const { Search } = Input
+
 const Col = styled(ColAnt)`
   width: ${MENU_WIDTH}px;
   height: calc(100vh - 55px);
@@ -56,7 +58,13 @@ const Col = styled(ColAnt)`
 `
 
 export const FilterList = props => {
-  const { list, onClickMenuItem, onDeleteFilter } = props
+  const {
+    list,
+    onClickMenuItem,
+    onDeleteFilter,
+    onChangeSearch,
+    highlightText,
+  } = props
 
   const filterGroupByStationType = list.reduce((base, current) => {
     const stationType = _.get(current, ['stationType'])
@@ -84,6 +92,30 @@ export const FilterList = props => {
     }
   }, {})
 
+  const getHighlightedText = text => {
+    if (!highlightText) return text
+    //Split text on highlight term, include term itself into parts, ignore case
+    const parts = text.split(new RegExp(`(${highlightText})`, 'gi'))
+    return (
+      <span>
+        {parts.map((part, i) => {
+          return (
+            <span
+              key={i}
+              style={
+                part.toLowerCase() === highlightText.toLowerCase()
+                  ? { backgroundColor: 'yellow' }
+                  : {}
+              }
+            >
+              {part}
+            </span>
+          )
+        })}
+      </span>
+    )
+  }
+
   const menuSource = Object.values(filterGroupByStationType)
 
   const defaultOpenKeys = Object.keys(filterGroupByStationType)
@@ -93,10 +125,11 @@ export const FilterList = props => {
       <Col>
         <Clearfix height={10} />
         <Row type="flex" justify="center">
-          <Input
+          <Search
             placeholder="Nhập tên bộ lọc..."
             style={{ width: '80%' }}
-            suffix={<Icon type="search" />}
+            onChange={onChangeSearch}
+            // suffix={<Icon type="search" />}
           />
         </Row>
         <Clearfix height={10} />
@@ -118,12 +151,21 @@ export const FilterList = props => {
                       type="flex"
                       justify="space-between"
                       align="middle"
+                      style={{ gap: 8 }}
                       onClick={() => {
                         if (isDisable) return
                         onClickMenuItem(filterItem._id, filterItem)
                       }}
                     >
-                      <div style={{ flex: 1 }}>{filterItem.name}</div>
+                      <div
+                        style={{
+                          flex: 1,
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                        }}
+                      >
+                        {getHighlightedText(filterItem.name)}
+                      </div>
                       {isDisable && (
                         <Tooltip title="Một vài trạm đã bị ẩn do bạn không có quyền">
                           <Icon type="info-circle" theme="twoTone" />

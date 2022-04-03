@@ -1,6 +1,7 @@
 import { Button, Col, Form, message, Row } from 'antd'
 import CalculateApi from 'api/CalculateApi'
 import dataInsightApi from 'api/DataInsight'
+// import { , ModalSaveFilter } from 'components/filter'
 import { FilterList, ModalSaveFilter } from 'components/filter'
 import { ACTION_TYPE, MODULE_TYPE } from 'components/filter/constants'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
@@ -23,6 +24,7 @@ import FilterForm from './filter'
 import { OPERATOR } from './filter/select-operator'
 import ReportData from './report-data'
 import { CHART_TYPE } from './report-data/chart-type'
+import { replaceVietnameseStr } from 'utils/string'
 
 function i18n() {
   return {
@@ -52,8 +54,10 @@ class DataAnalytics extends Component {
     isLoadingData: false,
     isShowQcvn: true,
     paramFilter: {},
+    filterListSearched: [],
     filterList: [],
     visibleModalSave: false,
+    highlightText: '',
     filterItem: {},
   }
 
@@ -84,7 +88,10 @@ class DataAnalytics extends Component {
         type: MODULE_TYPE.ANALYTIC,
       })
 
-      this.setState({ filterList: response })
+      this.setState({
+        filterList: response,
+        filterListSearched: response,
+      })
     } catch (error) {
       console.error({ error })
     }
@@ -239,7 +246,6 @@ class DataAnalytics extends Component {
 
     const stationKeys = valueFormSearch.stationAuto.join(',')
 
-    console.log({ valueFormSearch })
     const filterName = form.getFieldValue('name')
 
     const queryParams = {
@@ -391,11 +397,29 @@ class DataAnalytics extends Component {
       await CalculateApi.deleteFilter(filterId)
       const newFilterList = filterList.filter(filter => filter._id !== filterId)
 
-      this.setState({ filterList: newFilterList })
+      this.setState({
+        filterList: newFilterList,
+        filterListSearched: newFilterList,
+      })
       message.success('Xóa bộ lọc thành công')
     } catch (error) {
       console.error({ error })
     }
+  }
+
+  onChangeSearch = event => {
+    const { filterList } = this.state
+    const value = event.target.value
+    const newFilterListSearched = filterList.filter(({ name }) => {
+      name = replaceVietnameseStr(name)
+
+      return name.includes(replaceVietnameseStr(value))
+    })
+
+    this.setState({
+      highlightText: value,
+      filterListSearched: newFilterListSearched,
+    })
   }
 
   render() {
@@ -410,6 +434,8 @@ class DataAnalytics extends Component {
       measure,
       isShowQcvn,
       visibleModalSave,
+      filterListSearched,
+      highlightText,
       filterList,
       filterItem,
     } = this.state
@@ -447,8 +473,10 @@ class DataAnalytics extends Component {
             style={{ marginLeft: '-24px', marginRight: '-24px' }}
           >
             <FilterList
-              list={filterList}
+              list={filterListSearched}
               onClickMenuItem={this.onClickFilter}
+              onChangeSearch={this.onChangeSearch}
+              highlightText={highlightText}
               key={filterList}
               onDeleteFilter={this.onDeleteFilter}
             />
