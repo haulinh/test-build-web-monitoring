@@ -7,7 +7,6 @@ import createLanguageHoc, { langPropTypes, translate } from 'hoc/create-lang'
 import * as _ from 'lodash'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { mapPropsToFields } from 'utils/form'
 import LanguageInput, {getLanguageContents} from 'components/language'
 import get from 'lodash/get'
 import {connect} from 'react-redux'
@@ -23,15 +22,14 @@ function i18n() {
 
 const FormItem = Form.Item
 
-@connect(() => ({}), {
-  updateLanguageContent
-})
-@Form.create({
-  mapPropsToFields: mapPropsToFields,
-})
+@connect(
+  () => ({}), 
+  {updateLanguageContent}
+)
+@Form.create({})
 @createLanguageHoc
 @autobind
-class StationTypeForm extends React.PureComponent {
+class StationTypeForm extends React.Component {
   static propTypes = {
     isEdit: PropTypes.bool,
     onSubmit: PropTypes.func,
@@ -85,7 +83,6 @@ class StationTypeForm extends React.PureComponent {
     const {form, updateLanguageContent} = this.props
     const values = form.getFieldsValue()
     const language = getLanguageContents(values)
-    console.log({values, language})
     updateLanguageContent({itemId, type, language})
   }
 
@@ -94,8 +91,6 @@ class StationTypeForm extends React.PureComponent {
     const languageFieldName = `language.${field}`;
     const content = form.getFieldValue(languageFieldName);
     form.setFieldsValue({[languageFieldName]: language})
-
-    console.log('init', form.getFieldValue(languageFieldName))
 
     // don't process save for initial data or creation flow
     if(!isEdit || !content) return
@@ -114,9 +109,15 @@ class StationTypeForm extends React.PureComponent {
   }
 
   async componentDidMount() {
-    const {initialValues, form} = this.props
-    if (initialValues) {
-      form.setFieldsValue({name: initialValues.name})
+    const {isEdit, initialValues, form} = this.props
+    if (isEdit) {
+      form.setFieldsValue({
+        key: initialValues.key,
+        name: initialValues.name,
+        numericalOrder: initialValues.numericalOrder,
+        isAuto: initialValues.isAuto
+      })
+
       let updateState = {}
       if (initialValues.icon && initialValues.icon !== '')
         updateState.urlIcon = initialValues.icon
