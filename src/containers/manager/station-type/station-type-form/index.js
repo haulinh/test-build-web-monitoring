@@ -7,9 +7,7 @@ import createLanguageHoc, { langPropTypes, translate } from 'hoc/create-lang'
 import * as _ from 'lodash'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { mapPropsToFields } from 'utils/form'
 import LanguageInput, {getLanguageContents} from 'components/language'
-import CalculateApi from 'api/CalculateApi'
 import get from 'lodash/get'
 import {connect} from 'react-redux'
 import {updateLanguageContent} from 'redux/actions/languageAction'
@@ -24,15 +22,14 @@ function i18n() {
 
 const FormItem = Form.Item
 
-@connect(() => ({}), {
-  updateLanguageContent
-})
-@Form.create({
-  mapPropsToFields: mapPropsToFields,
-})
+@connect(
+  () => ({}), 
+  {updateLanguageContent}
+)
+@Form.create({})
 @createLanguageHoc
 @autobind
-export default class StationTypeForm extends React.PureComponent {
+class StationTypeForm extends React.Component {
   static propTypes = {
     isEdit: PropTypes.bool,
     onSubmit: PropTypes.func,
@@ -63,12 +60,8 @@ export default class StationTypeForm extends React.PureComponent {
       }
       // Callback submit form Container Component
       const res = await this.props.onSubmit(data)
-      if(res.success) {
-        const language = getLanguageContents(values)
-        const itemId = res.data._id
-        const content = await CalculateApi.updateLanguageContent({itemId, type: 'StationType', language})
-        this.props.updateLanguageContent(content)
-      }
+      if(res.success) this.updateLanguage(res.data._id) 
+
       if (res && res.error) {
         if (res.message === 'KEY_EXISTED') {
           this.props.form.setFields({
@@ -86,6 +79,24 @@ export default class StationTypeForm extends React.PureComponent {
     })
   }
 
+  updateLanguage(itemId, type = 'StationType') {
+    const {form, updateLanguageContent} = this.props
+    const values = form.getFieldsValue()
+    const language = getLanguageContents(values)
+    updateLanguageContent({itemId, type, language})
+  }
+
+  onChangeLanguage(language, field='name') {
+    const {form, isEdit, initialValues} = this.props
+    const languageFieldName = `language.${field}`;
+    const content = form.getFieldValue(languageFieldName);
+    form.setFieldsValue({[languageFieldName]: language})
+
+    // don't process save for initial data or creation flow
+    if(!isEdit || !content) return
+    this.updateLanguage(initialValues._id)
+  }
+
   renderButtonUpload(name) {
     return (
       <div>
@@ -96,9 +107,15 @@ export default class StationTypeForm extends React.PureComponent {
   }
 
   async componentDidMount() {
-    const {initialValues, form} = this.props
-    if (initialValues) {
-      form.setFieldsValue({name: initialValues.name})
+    const {isEdit, initialValues, form} = this.props
+    if (isEdit) {
+      form.setFieldsValue({
+        key: initialValues.key,
+        name: initialValues.name,
+        numericalOrder: initialValues.numericalOrder,
+        isAuto: initialValues.isAuto
+      })
+
       let updateState = {}
       if (initialValues.icon && initialValues.icon !== '')
         updateState.urlIcon = initialValues.icon
@@ -191,7 +208,7 @@ export default class StationTypeForm extends React.PureComponent {
                     max: 64,
                     message: t('stationTypeManager.form.name.max'),
                   }]}
-                  onChangeLanguage={language => form.setFieldsValue({'language.name': language})}
+                  onChangeLanguage={(language) => this.onChangeLanguage(language)}
                 />
               )}
             </FormItem>
@@ -278,3 +295,5 @@ export default class StationTypeForm extends React.PureComponent {
     )
   }
 }
+
+export default StationTypeForm

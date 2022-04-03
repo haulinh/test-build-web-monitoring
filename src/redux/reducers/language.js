@@ -51,7 +51,7 @@ export default function createReducer(state = initialState, action) {
   }
 }
 
-export function updateLanguageContent(state, { payload }) {
+function updateLanguageContent(state, { payload }) {
   const newContents = {
     ...state.languageContents,
     [payload.type]: {
@@ -67,7 +67,7 @@ export function updateLanguageContent(state, { payload }) {
   })
 }
 
-export function getListLanguageContents(state, { payload }) {
+function getListLanguageContents(state, { payload }) {
   const groupData = payload.reduce(
     (prev, item) => ({
       ...prev,

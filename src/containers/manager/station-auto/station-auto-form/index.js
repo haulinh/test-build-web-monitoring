@@ -41,7 +41,8 @@ import AlarmConfig from '../alarm-config'
 import MeasuringTableAdvanced from '../station-auto-formTable-advanced/'
 import MeasuringTable from '../station-auto-formTable/'
 import LanguageInput, {getLanguageContents} from 'components/language'
-import CalculateApi from 'api/CalculateApi'
+import {updateLanguageContent} from 'redux/actions/languageAction'
+import {connect} from 'react-redux'
 
 const { TextArea } = Input
 const { Panel } = Collapse
@@ -71,6 +72,11 @@ function i18n() {
   }
 }
 
+@connect(
+  () => ({}), 
+  {updateLanguageContent}
+)
+@Form.create({})
 @createLanguageHoc
 @autobind
 class StationAutoForm extends React.PureComponent {
@@ -438,12 +444,7 @@ class StationAutoForm extends React.PureComponent {
       // Callback submit form Container Component
       if (!isDisableSave && !isDisableSaveAdvanced && this.props.onSubmit) {
         const results = await this.props.onSubmit(data)
-        if (results.data) {
-          const language = getLanguageContents(values)
-          const itemId = results.data._id
-          const content = await CalculateApi.updateLanguageContent({itemId, type: 'Station', language})
-          this.props.updateLanguageContent(content)
-        }
+        if (results.data) this.updateLanguage(results.data._id)
 
         data.measuringListAdvanced.forEach((measuringAdvanced, index) => {
           this.props.form.setFieldsValue({
@@ -454,6 +455,24 @@ class StationAutoForm extends React.PureComponent {
         })
       }
     })
+  }
+
+  updateLanguage(itemId, type = 'Station') {
+    const {form, updateLanguageContent} = this.props
+    const values = form.getFieldsValue()
+    const language = getLanguageContents(values)
+    updateLanguageContent({itemId, type, language})
+  }
+
+  onChangeLanguage(language, field='name') {
+    const {form, isEdit, initialValues} = this.props
+    const languageFieldName = `language.${field}`;
+    const content = form.getFieldValue(languageFieldName);
+    form.setFieldsValue({[languageFieldName]: language})
+
+    // don't process save for initial data or creation flow
+    if(!isEdit || !content) return
+    this.updateLanguage(initialValues._id)
   }
 
   changeStationType(stationTypeObject) {
@@ -592,23 +611,15 @@ class StationAutoForm extends React.PureComponent {
   }
 
   handleOnChangeMeasuringUnit = isOnChangeMeasuringUnit => {
-    this.setState({
-      isOnChangeMeasuringUnit: isOnChangeMeasuringUnit,
-    })
+    this.setState({isOnChangeMeasuringUnit: isOnChangeMeasuringUnit})
   }
 
   handleOnChangeMeasuringAdvanced = dataMeasuringAdvanced => {
-    // console.log(dataMeasuring, '--handleOnChangeMeasuring')
-    this.setState({
-      measuringListAdvanced: dataMeasuringAdvanced,
-    })
+    this.setState({measuringListAdvanced: dataMeasuringAdvanced})
   }
 
-  onChangeStandardsVN = value => {
-    this.setState({
-      isStandardsVN: value,
-    })
-  }
+  onChangeStandardsVN = value => this.setState({isStandardsVN: value})
+
 
   render() {
     const { otherForm, form, initialValues } = this.props
@@ -715,8 +726,7 @@ class StationAutoForm extends React.PureComponent {
                           max: 64,
                           message: i18n().name.max,
                         }]}
-                        onChangeLanguage={language => form.setFieldsValue({'language.name': language})
-                      }
+                        onChangeLanguage={(language) => this.onChangeLanguage(language)}
                       />
                     )}
                   </FormItem>
@@ -1456,4 +1466,4 @@ class StationAutoForm extends React.PureComponent {
   }
 }
 
-export default Form.create({})(StationAutoForm)
+export default StationAutoForm

@@ -19,6 +19,7 @@ import moment from 'moment-timezone'
 import { DD_MM_YYYY } from 'constants/format-date'
 import _ from 'lodash'
 import { translate } from 'hoc/create-lang'
+import get from 'lodash/get'
 import HeaderSearchWrapper from 'components/elements/header-search-wrapper'
 
 import DynamicTable from 'components/elements/dynamic-table'
@@ -187,7 +188,7 @@ export default class StationAutoList extends React.Component {
             content: (
               <div>
                 <Span deleted={row.removeStatus && row.removeStatus.allowed}>
-                  {_.get(row, 'province.name', '   ')}
+                <LanguageContent type="Province" itemId={get(row , 'province._id')} field="name" value={get(row, 'province.name')}/>
                 </Span>
               </div>
             ),
@@ -213,7 +214,7 @@ export default class StationAutoList extends React.Component {
                 content: (
                   <div>
                     <strong>
-                      {row.stationType.name}{' '}
+                      <LanguageContent type="StationType" itemId={row.stationType._id} value={row.stationType.name} />
                       {stationCount[row.stationType.key]
                         ? '(' + stationCount[row.stationType.key] + ')'
                         : ''}
@@ -304,7 +305,7 @@ export default class StationAutoList extends React.Component {
           <HeaderSearchWrapper flex={1}>
             <StationAutoSearchForm
               stationLength={this.props.pagination.totalItem}
-              onChangeSearch={this.props.onChangeSearch}
+              onChangeSearch={this.onChangeSearch}
               initialValues={this.props.data}
             />
           </HeaderSearchWrapper>
