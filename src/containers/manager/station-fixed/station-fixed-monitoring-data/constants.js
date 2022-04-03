@@ -98,6 +98,9 @@ export const i18n = () => {
             ),
           },
           time: t('stationFixedMonitoring.drawer.formBasic.message.time'),
+          timeExist: t(
+            'stationFixedMonitoring.drawer.formBasic.message.timeExist'
+          ),
         },
         datePicker: {
           now: t('stationFixedMonitoring.drawer.formBasic.datePicker.now'),

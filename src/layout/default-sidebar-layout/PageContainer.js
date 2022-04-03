@@ -8,7 +8,6 @@ import { StickyContainer, Sticky } from 'react-sticky'
 import LoaderCircle from 'components/elements/loader-circle'
 import { connect } from 'react-redux'
 
-
 const HeaderFlex = styled.div`
   display: flex;
   justify-content: space-between;
@@ -78,9 +77,11 @@ export default class PageContainer extends React.PureComponent {
     headerCustom: PropTypes.any,
     componentLoading: PropTypes.any,
     right: PropTypes.any,
+    isReload: PropTypes.bool,
   }
 
   renderHeader() {
+    const { isReload } = this.props
     return (
       <Sticky key={this.props.navigationIsOpen}>
         {props => (
@@ -98,7 +99,7 @@ export default class PageContainer extends React.PureComponent {
                   this.props.headerCustom
                 ) : (
                   <HeaderFlex>
-                    <BreadcrumbBar />
+                    <BreadcrumbBar isReload={isReload} />
                     {this.props.center}
                     {this.props.right}
                   </HeaderFlex>

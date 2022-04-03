@@ -4453,6 +4453,7 @@ export default {
             require: 'Please select monitoring point',
           },
           time: 'Please enter select sampling time',
+          timeExist: 'Sample time existed!',
         },
         datePicker: {
           now: 'Now',
