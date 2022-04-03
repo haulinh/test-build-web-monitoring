@@ -45,7 +45,7 @@ class Language extends React.Component {
     values: []
   }
 
-  componentDidUpdate(props){
+  componentWillReceiveProps(props){
     const {content} = this.state
     const {itemId, type, id: field, languageContents, onChangeLanguage} = this.props
 

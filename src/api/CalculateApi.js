@@ -101,11 +101,11 @@ export default {
     const url = calc(prefixAlarm)
     return postFetch(url, param)
   },
-  createBulkAlarm: (param) => {
+  createBulkAlarm: param => {
     const url = calc(`${prefixAlarm}/bulk`)
     return postFetch(url, param)
   },
-  getAlarms: (param) => {
+  getAlarms: param => {
     const url = calc(prefixAlarm)
     return getFetch(url, param)
   },
@@ -154,13 +154,39 @@ export default {
   },
   //#endregion
 
+  //#region filter
+  getFilterList: params => {
+    const url = calc('search-histories')
+
+    return getFetch(url, params)
+  },
+
+  createFilter: params => {
+    const url = calc('search-histories')
+
+    return postFetch(url, params)
+  },
+
+  deleteFilter: id => {
+    const url = calc(`search-histories/${id}`)
+
+    return deleteFetch(url)
+  },
+
+  updateFilter: (id, params) => {
+    const url = calc(`search-histories/${id}`)
+
+    return pathFetch(url, params)
+  },
+  //endregion
+
   //#language setup for content
 
-  getAllLanguageContent: (params) => {
+  getAllLanguageContent: params => {
     const url = calc(`${prefixSetupLanguage}`)
     return getFetch(url, params)
   },
-  updateLanguageContent: (params) => {
+  updateLanguageContent: params => {
     const url = calc(`${prefixSetupLanguage}`)
     return pathFetch(url, params)
   },
