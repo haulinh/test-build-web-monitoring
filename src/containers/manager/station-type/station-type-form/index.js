@@ -94,9 +94,7 @@ class StationTypeForm extends React.Component {
 
     // don't process save for initial data or creation flow
     if(!isEdit || !content) return
-    setTimeout(() => {
-      this.updateLanguage(initialValues._id)
-    }, 1000)
+    this.updateLanguage(initialValues._id)
   }
 
   renderButtonUpload(name) {

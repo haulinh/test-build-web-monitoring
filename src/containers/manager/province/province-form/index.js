@@ -3,7 +3,6 @@ import { Form, Input, Button, Row, Col } from 'antd'
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
 import { PATTERN_KEY, PATTERN_NAME } from 'constants/format-string'
-import { mapPropsToFields } from 'utils/form'
 import createLanguageHoc, { langPropTypes } from '../../../../hoc/create-lang'
 import InputNumberCell from 'components/elements/input-number-cell'
 import { Clearfix } from 'components/elements'
@@ -18,9 +17,7 @@ const FormItem = Form.Item
 @connect(() => ({}), {
   updateLanguageContent
 })
-@Form.create({
-  mapPropsToFields: mapPropsToFields,
-})
+@Form.create({ })
 @createLanguageHoc
 @autobind
 export default class ProvinceForm extends React.PureComponent {
@@ -32,10 +29,14 @@ export default class ProvinceForm extends React.PureComponent {
     isLoading: PropTypes.bool,
   }
 
-  componentDidMount(){
-    const {form, initialValues} = this.props
-    if(!initialValues) return
-    form.setFieldsValue({name: initialValues.name})
+  componentDidMount() {
+    const {isEdit, form, initialValues} = this.props
+    if (!isEdit) return
+    form.setFieldsValue({
+      key: initialValues.key,
+      name: initialValues.name,
+      numericalOrder: initialValues.numericalOrder
+    })
   }
 
   handleSubmit(e) {
@@ -49,12 +50,8 @@ export default class ProvinceForm extends React.PureComponent {
       }
       // Callback submit form Container Component
       const res = await this.props.onSubmit(data)
-      if(res.success) {
-        const language = getLanguageContents(values)
-        const itemId = res.data._id
-        const content = await CalculateApi.updateLanguageContent({itemId, type: 'Province', language})
-        this.props.updateLanguageContent(content)
-      }
+      if(res.success) this.updateLanguage(res.data._id) 
+
       if (res && res.error) {
         if (res.message === 'KEY_EXISTED') {
           this.props.form.setFields({
@@ -68,6 +65,24 @@ export default class ProvinceForm extends React.PureComponent {
         }
       }
     })
+  }
+
+  updateLanguage(itemId, type = 'Province') {
+    const {form, updateLanguageContent} = this.props
+    const values = form.getFieldsValue()
+    const language = getLanguageContents(values)
+    updateLanguageContent({itemId, type, language})
+  }
+
+  onChangeLanguage(language, field='name') {
+    const {form, isEdit, initialValues} = this.props
+    const languageFieldName = `language.${field}`;
+    const content = form.getFieldValue(languageFieldName);
+    form.setFieldsValue({[languageFieldName]: language})
+
+    // don't process save for initial data or creation flow
+    if(!isEdit || !content) return
+    this.updateLanguage(initialValues._id)
   }
 
   render() {
@@ -142,8 +157,7 @@ export default class ProvinceForm extends React.PureComponent {
                     max: 64,
                     message: t('province.form.name.max'),
                   }]}
-                  onChangeLanguage={language => form.setFieldsValue({'language.name': language})
-                }
+                  onChangeLanguage={(language) => this.onChangeLanguage(language)}
                 />
               )}
             </FormItem>
