@@ -58,9 +58,11 @@ const SpanIcon = styled.span`
 @autobind
 class BreadcrumbItem extends React.PureComponent {
   handleClick(e) {
+    const { isReload } = this.props
     e.preventDefault()
     if (!this.props.last) {
       this.props.history.push(this.props.href)
+      if (isReload) window.location.reload()
     }
   }
 
@@ -79,7 +81,7 @@ class BreadcrumbItem extends React.PureComponent {
   }
 }
 
-function BreadcrumbBar({ breadcrumbs }) {
+function BreadcrumbBar({ breadcrumbs, isReload }) {
   return (
     <BreadcrumbBarStyle>
       {breadcrumbs.map((breadcrumb, index) => (
@@ -88,6 +90,7 @@ function BreadcrumbBar({ breadcrumbs }) {
           {...breadcrumb}
           index={index}
           last={index === breadcrumbs.length - 1}
+          isReload={isReload}
         />
       ))}
     </BreadcrumbBarStyle>

@@ -16,7 +16,7 @@ const TableStyled = styled(Table)`
     }
   }
   .custom-record {
-    width: ${props => `${props.unfixedWidth}px`};
+    width: ${props => `${props.unFixedWidth}px`};
   }
 `
 @connect(state => ({
@@ -51,7 +51,12 @@ class ReportLogTable extends React.Component {
       dataIndex: 'sampler',
       key: 'person',
       align: 'left',
-      width: 190,
+      width:
+        Object.entries(
+          get(this.props.dataSource, '0.measuringLogs', {})
+        ).map(([key, measuringObj]) => ({ key, measuringObj })).length > 1
+          ? 250
+          : 500,
       fixed: 'left',
       render: (value, record, index) => {
         return <div>{value}</div>
@@ -62,7 +67,12 @@ class ReportLogTable extends React.Component {
       dataIndex: 'notes',
       key: 'notes',
       align: 'left',
-      width: 208,
+      width:
+        Object.entries(
+          get(this.props.dataSource, '0.measuringLogs', {})
+        ).map(([key, measuringObj]) => ({ key, measuringObj })).length > 1
+          ? 350
+          : 500,
       render: (value, record, index) => {
         return <div>{value}</div>
       },
@@ -176,10 +186,9 @@ class ReportLogTable extends React.Component {
       loading,
     } = this.props
 
-    console.log(window.innerWidth)
     return (
       <TableStyled
-        unfixedWidth={window.innerWidth > 1650 ? 250 : 250}
+        unFixedWidth={window.innerWidth > 1650 ? 250 : 150}
         rowKey={record => record._id}
         dataSource={dataSource}
         loading={loading}
@@ -188,7 +197,7 @@ class ReportLogTable extends React.Component {
         // size="small"
         bordered
         scroll={
-          window.innerWidth > 1650 ? { y: 500, x: 1500 } : { y: 500, x: 1300 }
+          window.innerWidth > 1650 ? { y: 500, x: 1500 } : { y: 500, x: 1200 }
         }
         footer={() => (
           <Row type="flex" style={{ color: '#1890FF' }} align="middle">

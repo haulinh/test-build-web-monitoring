@@ -404,6 +404,7 @@ export default class ReportDetail extends Component {
               stationId,
               reportId,
               logData,
+              dataSourceLog,
             }}
             handleSuccessEditLog={this.setDataSourceLog}
             handleSuccessCreateLog={this.setDataSourceLog}

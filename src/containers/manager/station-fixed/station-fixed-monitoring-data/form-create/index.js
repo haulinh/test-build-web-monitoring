@@ -186,9 +186,9 @@ export default class FormMonitoring extends Component {
     if (formType === 'editReportLog') {
       const newMeasuringListSelect = measuringListSelect.map(measure => {
         if (
-          Object.values(basicInfoData.logData.measuringLogs).some(
-            measuringLog => measuringLog.key === measure.key
-          )
+          Object.entries(basicInfoData.logData.measuringLogs)
+            .map(([key, value]) => ({ key, value }))
+            .some(measuringLog => measuringLog.key === measure.key)
         )
           return {
             _id: uuidv4(),
