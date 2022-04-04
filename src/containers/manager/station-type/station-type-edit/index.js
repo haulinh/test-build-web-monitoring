@@ -39,21 +39,17 @@ export default class StationTypeEdit extends React.PureComponent {
     dataSource: null,
   }
 
-  async handleSubmit(data) {
-    this.setState({
-      dataSource: data,
-    })
-    return this.props.onUpdateItem(data)
-    //const key = this.props.match.params.key
+  async handleSubmit(data, onSuccess) {
+    this.setState({dataSource: data})
+    const {onUpdateItem} = this.props
+    const res = await onUpdateItem(data)
+    if (res.success && typeof onSuccess === 'function') onSuccess(res.data)
   }
 
-  //Su kien truoc khi component duoc tao ra
   async componentWillMount() {
-    //const key = this.props.match.params.key
     this.props.getItem()
   }
 
-  // Su kien xoa measuring
   deleteStationType() {
     const key = this.props.match.params.key
     this.props.onDeleteItem(key, () => {
@@ -73,7 +69,9 @@ export default class StationTypeEdit extends React.PureComponent {
   }
 
   render() {
+    const {dataSource} = this.state
     const {data, languageContents} = this.props
+    const initialValues = Object.assign(data, {dataSource})
     return (
       <PageContainer button={this.buttonDelete()} {...this.props.wrapperProps}>
         <Spin spinning={!this.props.isLoaded}>
@@ -92,9 +90,7 @@ export default class StationTypeEdit extends React.PureComponent {
             <StationTypeFrom
               isEdit
               isLoading={this.props.isUpdating}
-              initialValues={
-                this.state.dataSource ? this.state.dataSource : this.props.data
-              }
+              initialValues={initialValues}
               onSubmit={this.handleSubmit}
             />
           )}

@@ -47,13 +47,14 @@ class Language extends React.Component {
 
   componentWillReceiveProps(props){
     const {content} = this.state
-    const {itemId, type, id: field, languageContents, onChangeLanguage} = this.props
+    const {itemId, type, id: field, languageContents, onChange, onChangeLanguage} = this.props
 
     if(content === null && props.value) {
       const language = get(languageContents, `${type}.${itemId}.language.${field}`);
       let content = props.value
       if(language) content = language[getLanguage()]
       this.setState({content}, () => {
+        onChange(content)
         onChangeLanguage(language)
       })
     }
@@ -99,7 +100,7 @@ class Language extends React.Component {
     clearTimeout(this.timeOut)
     this.timeOut = setTimeout(() => {
       const {onChange} = this.props
-      onChange(content)
+      onChange(content);
     }, 500)
   }
 

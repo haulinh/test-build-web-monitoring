@@ -37,9 +37,11 @@ export default class StationAutoEdit extends React.PureComponent {
     isLoaded: PropTypes.bool,
   }
 
-  async handleSubmit(data) {
-    return this.props.onUpdateItem(data)
-    //const key = this.props.match.params.key
+  async handleSubmit(data, onSuccess) {
+    const {onUpdateItem} = this.props
+    const res = await onUpdateItem(data)
+
+    if(res.success && typeof onSuccess === 'function') onSuccess(res.data)
   }
 
   //Su kien truoc khi component duoc tao ra

@@ -39,8 +39,10 @@ export default class ProvinceForm extends React.PureComponent {
   }
 
   handleSubmit(e) {
+    const { form, onSubmit } = this.props
+
     e.preventDefault()
-    this.props.form.validateFields(async (err, values) => {
+    form.validateFields(async (err, values) => {
       if (err) return
       const data = {
         key: values.key,
@@ -48,8 +50,11 @@ export default class ProvinceForm extends React.PureComponent {
         numericalOrder: values.numericalOrder,
       }
       // Callback submit form Container Component
-      const res = await this.props.onSubmit(data)
-      if (res.success) this.updateLanguage(res.data._id)
+      const onSuccess = data => {
+        this.updateLanguage(data._id)
+      }
+
+      const res = await onSubmit(data, onSuccess)
 
       if (res && res.error) {
         if (res.message === 'KEY_EXISTED') {

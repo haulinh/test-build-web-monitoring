@@ -443,8 +443,10 @@ class StationAutoForm extends React.PureComponent {
 
       // Callback submit form Container Component
       if (!isDisableSave && !isDisableSaveAdvanced && this.props.onSubmit) {
-        const results = await this.props.onSubmit(data)
-        if (results.data) this.updateLanguage(results.data._id)
+        const onSuccess = (data) => {
+          this.updateLanguage(data._id)
+        }
+        await this.props.onSubmit(data, onSuccess)
 
         data.measuringListAdvanced.forEach((measuringAdvanced, index) => {
           this.props.form.setFieldsValue({
