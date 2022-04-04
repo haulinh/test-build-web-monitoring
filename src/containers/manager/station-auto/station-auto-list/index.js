@@ -305,7 +305,7 @@ export default class StationAutoList extends React.Component {
           <HeaderSearchWrapper flex={1}>
             <StationAutoSearchForm
               stationLength={this.props.pagination.totalItem}
-              onChangeSearch={this.onChangeSearch}
+              onChangeSearch={this.props.onChangeSearch}
               initialValues={this.props.data}
             />
           </HeaderSearchWrapper>
