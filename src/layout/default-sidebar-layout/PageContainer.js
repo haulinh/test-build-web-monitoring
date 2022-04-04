@@ -77,11 +77,9 @@ export default class PageContainer extends React.PureComponent {
     headerCustom: PropTypes.any,
     componentLoading: PropTypes.any,
     right: PropTypes.any,
-    isReload: PropTypes.bool,
   }
 
   renderHeader() {
-    const { isReload } = this.props
     return (
       <Sticky key={this.props.navigationIsOpen}>
         {props => (
@@ -99,7 +97,7 @@ export default class PageContainer extends React.PureComponent {
                   this.props.headerCustom
                 ) : (
                   <HeaderFlex>
-                    <BreadcrumbBar isReload={isReload} />
+                    <BreadcrumbBar />
                     {this.props.center}
                     {this.props.right}
                   </HeaderFlex>

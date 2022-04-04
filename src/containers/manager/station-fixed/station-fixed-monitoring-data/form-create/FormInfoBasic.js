@@ -46,15 +46,35 @@ export default class FormInfoBasic extends Component {
       createReportLog: basicInfoData.dataSourceLog.length >= 1,
     }
 
+    const sampleTimeList = basicInfoData.dataSourceLog.map(item =>
+      moment(item.datetime).format('HH:mm DD/MM/YYYY')
+    )
+    const sampleTimeListExceptEditTime = sampleTimeList.filter(
+      time =>
+        time !==
+        moment(basicInfoData.logData.datetime).format('HH:mm DD/MM/YYYY')
+    )
+
     if (
-      basicInfoData.dataSourceLog
-        .map(item => moment(item.datetime).format('HH:mm DD/MM/YYYY'))
-        .some(time => time === moment(value).format('HH:mm DD/MM/YYYY')) &&
-      formTypeCheck[formType]
+      formType === 'editReportLog' &&
+      sampleTimeListExceptEditTime.some(
+        time => time === moment(value).format('HH:mm DD/MM/YYYY')
+      ) &&
+      formTypeCheck['editReportLog']
+    ) {
+      callback(i18n().drawer.formBasic.message.timeExist)
+      return true
+    } else if (
+      sampleTimeList.some(
+        time => time === moment(value).format('HH:mm DD/MM/YYYY')
+      ) &&
+      formTypeCheck['createReportLog'] &&
+      formType !== 'editReportLog'
     ) {
       callback(i18n().drawer.formBasic.message.timeExist)
       return true
     }
+
     callback()
   }
 

@@ -29,7 +29,7 @@ class StationFixedMonitoringDataDetail extends React.Component {
   }
   render() {
     return (
-      <PageContainer isReload={true}>
+      <PageContainer>
         <Spin spinning={!this.props.isLoaded}>
           <Breadcrumb
             items={[

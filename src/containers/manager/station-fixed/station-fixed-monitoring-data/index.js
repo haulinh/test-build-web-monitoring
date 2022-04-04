@@ -72,6 +72,10 @@ export default class StationFixedMonitoringData extends React.Component {
   }
 
   onCloseDrawer = () => {
+    if (!this.formRef.current.props.form.isFieldsTouched()) {
+      this.setState({ visibleDrawer: false })
+      return
+    }
     this.setState({
       visibleModalConfirmCancel: true,
     })

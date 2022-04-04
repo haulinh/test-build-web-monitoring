@@ -67,7 +67,7 @@ export class EditWrapper extends React.Component {
 
   render() {
     const { isClicked } = this.state
-    const { type, value, onChange, style, title } = this.props
+    const { type, value, onChange, style, title, isValidate } = this.props
     if (!isClicked)
       return (
         <React.Fragment>
@@ -102,21 +102,23 @@ export class EditWrapper extends React.Component {
           fontSize={style && style.fontSize}
         />
         <Clearfix height={12} />
-        <Flex justifyContent="end">
-          <Icon
-            type="check"
-            theme="outlined"
-            style={styleIcon}
-            onClick={this.handleOnOk}
-          />
-          <Clearfix width={12} />
-          <Icon
-            onClick={this.handleCancel}
-            type="close"
-            theme="outlined"
-            style={styleIcon}
-          />
-        </Flex>
+        {!isValidate && (
+          <Flex justifyContent="end">
+            <Icon
+              type="check"
+              theme="outlined"
+              style={styleIcon}
+              onClick={this.handleOnOk}
+            />
+            <Clearfix width={12} />
+            <Icon
+              onClick={this.handleCancel}
+              type="close"
+              theme="outlined"
+              style={styleIcon}
+            />
+          </Flex>
+        )}
       </div>
     )
   }
