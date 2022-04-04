@@ -418,8 +418,14 @@ export default class FormMonitoring extends Component {
   }
 
   resetForm = () => {
-    const { form, formType } = this.props
+    const { form, formType, basicInfoData, points } = this.props
     const { measuringList } = this.state
+
+    const pointSelected = points.find(
+      point => point._id === get(basicInfoData, 'stationId', '')
+    )
+
+    const measuringListSelect = _.get(pointSelected, 'measuringList', [])
 
     if (formType === 'editReportLog' || formType === 'createReportLog') {
       const resetFields = Object.values(FIELDS.OTHER).map(
@@ -430,7 +436,7 @@ export default class FormMonitoring extends Component {
         return {
           ...base,
           [current._id]: {
-            key: current.key,
+            key: undefined,
             value: current.value,
           },
         }
@@ -440,6 +446,8 @@ export default class FormMonitoring extends Component {
       form.setFieldsValue({
         [FIELDS.MEASURING_LOGS]: newDataMeasure,
       })
+
+      this.setState({ measuringListSelect })
 
       return
     }
@@ -464,7 +472,6 @@ export default class FormMonitoring extends Component {
     )
 
     const isShowButton = !(measuringList.length === measureListPoint.length)
-
     return (
       <FormContainer>
         <div className="form-body">

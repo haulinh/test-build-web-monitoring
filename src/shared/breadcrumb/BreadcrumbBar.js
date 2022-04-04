@@ -58,11 +58,9 @@ const SpanIcon = styled.span`
 @autobind
 class BreadcrumbItem extends React.PureComponent {
   handleClick(e) {
-    const { isReload } = this.props
     e.preventDefault()
     if (!this.props.last) {
       this.props.history.push(this.props.href)
-      if (isReload) window.location.reload()
     }
   }
 

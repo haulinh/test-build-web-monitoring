@@ -17,7 +17,7 @@ import ReportLogTable from 'containers/manager/station-fixed/station-fixed-monit
 import { translate as t } from 'hoc/create-lang'
 import { get } from 'lodash'
 import moment from 'moment-timezone'
-import React, { Component } from 'react'
+import React, { Component, createRef } from 'react'
 import styled from 'styled-components'
 import { getTimeUTC } from 'utils/datetime'
 import ModalConfirmCancel from '../station-fixed-monitoring-data/components/ModalConfirmCancel'
@@ -152,6 +152,10 @@ export default class ReportDetail extends Component {
     dataSourceLog: [],
     loading: false,
   }
+  constructor(props) {
+    super(props)
+    this.formRef = createRef()
+  }
 
   componentDidMount = async () => {
     const { initialValues, loading } = this.props
@@ -218,6 +222,10 @@ export default class ReportDetail extends Component {
   }
 
   onCloseDrawer = () => {
+    if (!this.formRef.current.isFieldsTouched()) {
+      this.setState({ visibleDrawer: false })
+      return
+    }
     this.setState({ visibleModalConfirmCancel: true })
   }
 
@@ -254,6 +262,10 @@ export default class ReportDetail extends Component {
 
   setVisibleDrawer = visible => {
     this.setState({ visibleDrawer: visible })
+  }
+
+  setFieldTouched = isFieldsTouched => {
+    this.setState({ isFieldsTouched })
   }
 
   setDataSourceLog = async (logEdited, loading) => {
@@ -315,6 +327,14 @@ export default class ReportDetail extends Component {
     const stationId = initialValues ? initialValues.report.stationId : ''
     const reportId = initialValues ? initialValues.report._id : ''
 
+    const reportNameMessageError = {
+      [i18n().message.nameReport.max64]: true,
+      [i18n().message.nameReport.require]: true,
+    }
+
+    const isReportNameValidate =
+      reportNameMessageError[form.getFieldError('REPORT')]
+
     return (
       <React.Fragment>
         <Row gutter={12}>
@@ -359,6 +379,7 @@ export default class ReportDetail extends Component {
                     )
                   }
                   prevValue={reportName}
+                  isValidate={isReportNameValidate}
                 ></EditWrapper>
               )}
             </FormItem>
@@ -396,7 +417,7 @@ export default class ReportDetail extends Component {
             formType={formType}
             points={points}
             visibleDrawer={visibleDrawer}
-            wrappedComponentRef={this.formRef}
+            ref={this.formRef}
             onResetForm={this.onResetForm}
             basicInfoData={{
               stationName,
@@ -408,6 +429,7 @@ export default class ReportDetail extends Component {
             }}
             handleSuccessEditLog={this.setDataSourceLog}
             handleSuccessCreateLog={this.setDataSourceLog}
+            handleFieldTouched={this.setFieldTouched}
           />
           <ModalConfirmCancel
             visible={visibleModalConfirmCancel}

@@ -23,66 +23,71 @@ const TableStyled = styled(Table)`
   measuresObj: state.global.measuresObj,
 }))
 class ReportLogTable extends React.Component {
-  baseColumns = [
-    {
-      title: '#',
-      dataIndex: '',
-      key: 'order',
-      align: 'center',
-      width: 60,
-      fixed: 'left',
-      render: (value, record, index) => {
-        return <p>{index + 1}</p>
+  getNoteColumnWidth = () => {
+    const measuringList = Object.entries(
+      get(this.props.dataSource, '0.measuringLogs', {})
+    ).map(([key, measuringObj]) => ({ key, measuringObj }))
+    if (measuringList.length === 0) {
+      return 850
+    }
+    return 510
+  }
+  baseColumns = () => {
+    return [
+      {
+        title: '#',
+        dataIndex: '',
+        key: 'order',
+        align: 'center',
+        width: 60,
+        fixed: 'left',
+        render: (value, record, index) => {
+          return <p>{index + 1}</p>
+        },
       },
-    },
-    {
-      title: i18n().optionalInfo.dateTime,
-      dataIndex: 'datetime',
-      key: 'datetime',
-      align: 'left',
-      width: 180,
-      fixed: 'left',
-      render: (value, record, index) => {
-        return <div>{moment(value).format('HH:mm DD/MM/YYYY')}</div>
+      {
+        title: i18n().optionalInfo.dateTime,
+        dataIndex: 'datetime',
+        key: 'datetime',
+        align: 'left',
+        width: 180,
+        fixed: 'left',
+        render: (value, record, index) => {
+          return <div>{moment(value).format('HH:mm DD/MM/YYYY')}</div>
+        },
       },
-    },
-    {
-      title: i18n().optionalInfo.sampler,
-      dataIndex: 'sampler',
-      key: 'person',
-      align: 'left',
-      width:
-        Object.entries(
-          get(this.props.dataSource, '0.measuringLogs', {})
-        ).map(([key, measuringObj]) => ({ key, measuringObj })).length > 1
-          ? 250
-          : 500,
-      fixed: 'left',
-      render: (value, record, index) => {
-        return <div>{value}</div>
+      {
+        title: i18n().optionalInfo.sampler,
+        dataIndex: 'sampler',
+        key: 'person',
+        align: 'left',
+        width:
+          Object.entries(
+            get(this.props.dataSource, '0.measuringLogs', {})
+          ).map(([key, measuringObj]) => ({ key, measuringObj })).length > 1
+            ? 250
+            : 350,
+        fixed: 'left',
+        render: (value, record, index) => {
+          return <div>{value}</div>
+        },
       },
-    },
-    {
-      title: i18n().optionalInfo.notes,
-      dataIndex: 'notes',
-      key: 'notes',
-      align: 'left',
-      width:
-        Object.entries(
-          get(this.props.dataSource, '0.measuringLogs', {})
-        ).map(([key, measuringObj]) => ({ key, measuringObj })).length > 1
-          ? 350
-          : 500,
-      render: (value, record, index) => {
-        return <div>{value}</div>
+      {
+        title: i18n().optionalInfo.notes,
+        dataIndex: 'notes',
+        key: 'notes',
+        align: 'left',
+        width: this.getNoteColumnWidth(),
+        render: (value, record, index) => {
+          return <div>{value}</div>
+        },
       },
-    },
-  ]
-
+    ]
+  }
   getColumns = () => {
     const { form, measuresObj, dataSource } = this.props
     return [
-      ...this.baseColumns,
+      ...this.baseColumns(),
       Object.keys(form.getFieldsValue())
         .filter(
           option =>
@@ -112,8 +117,17 @@ class ReportLogTable extends React.Component {
             },
           }
         }),
-      Object.entries(get(dataSource, '0.measuringLogs', {}))
-        .map(([key, measuringObj]) => ({ key, measuringObj }))
+      dataSource
+        .map(log => log.measuringLogs)
+        .reduce((base, current) => {
+          const measuringListFilter = Object.entries(current)
+            .map(([key, value]) => ({
+              key,
+              value,
+            }))
+            .filter(measuring => !base.some(item => item.key === measuring.key))
+          return [...base, measuringListFilter].flat()
+        }, [])
         .map(measuring => {
           return {
             title: `${measuresObj[measuring.key].name} (${
@@ -188,7 +202,7 @@ class ReportLogTable extends React.Component {
 
     return (
       <TableStyled
-        unFixedWidth={window.innerWidth > 1650 ? 250 : 150}
+        unFixedWidth={window.innerWidth > 1650 ? 350 : 250}
         rowKey={record => record._id}
         dataSource={dataSource}
         loading={loading}
