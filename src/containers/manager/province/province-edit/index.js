@@ -39,8 +39,9 @@ export default class ProvinceEdit extends React.PureComponent {
     dataSource: null,
   }
 
-  async handleSubmit(data) {
+  async handleSubmit(data, onSuccess) {
     const res = this.props.onUpdateItem(data)
+    if(res.success && typeof onSuccess === 'function') onSuccess() 
     this.setState({
       dataSource: data,
     })
@@ -84,6 +85,9 @@ export default class ProvinceEdit extends React.PureComponent {
 
   render() {
     const { data, languageContents } = this.props
+    const {dataSource} = this.props
+    const initialValues = Object.assign(data, dataSource)
+
     return (
       <PageContainer button={this.buttonDelete()} {...this.props.wrapperProps}>
         <Clearfix height={16} />
@@ -107,7 +111,7 @@ export default class ProvinceEdit extends React.PureComponent {
         {this.props.isLoaded && this.props.success && (
           <ProvinceForm
             isLoading={this.props.isUpdating}
-            initialValues={this.state.dataSource ? this.state.dataSource : data}
+            initialValues={initialValues}
             onSubmit={this.handleSubmit}
             isEdit={true}
           />

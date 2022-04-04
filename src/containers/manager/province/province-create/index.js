@@ -17,11 +17,13 @@ export default class ProvinceCreate extends React.PureComponent {
   state = {
     isLoading: false,
   }
-  async handleSubmit(data) {
+  async handleSubmit(data, onSuccess) {
     this.setState({ isLoading: true })
     const res = await ProvinceApi.createProvince(data)
     this.setState({ isLoading: false })
+
     if (res.success) {
+      if(typeof onSuccess === 'function') onSuccess(res.data)
       message.success(translate('province.create.success'))
       this.props.history.push(slug.province.list)
     }
