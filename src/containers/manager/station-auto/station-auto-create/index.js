@@ -65,7 +65,7 @@ export default class StationAutoCreate extends React.PureComponent {
     const res = await StationAutoApi.createStationAuto(data)
     this.setState({ isLoading: false })
     if (res && res.success) {
-      typeof onSuccess === 'function' && onSuccess()
+      typeof onSuccess === 'function' && onSuccess(res.data)
       message.success(translate('stationAutoManager.create.success'))
       this.props.history.push(slug.stationAuto.list)
     } else {
