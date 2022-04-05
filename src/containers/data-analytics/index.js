@@ -399,15 +399,18 @@ class DataAnalytics extends Component {
     const { operator, stationType, rangeTime, province } = params
 
     const stationAutoKeys = params.stationKeys.split(',')
+    const measuringList = params.measuringList.split(',')
+    this.formSearchRef.current.updateForm({ stationAutoKeys })
 
     form.setFieldsValue({
       [FIELDS.OPERATOR]: operator,
       [FIELDS.STATION_TYPE]: stationType,
+      [FIELDS.STATION_AUTO]: stationAutoKeys,
       [FIELDS.RANGE_TIME]: rangeTime,
       [FIELDS.PROVINCE]: province,
+      [FIELDS.MEASURING_LIST]: measuringList,
     })
 
-    this.formSearchRef.current.updateForm({ stationAutoKeys })
     this.formSearchRef.current.handleSearch()
 
     this.setState({ filterItem })

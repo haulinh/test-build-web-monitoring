@@ -173,8 +173,6 @@ export class SearchForm extends React.Component {
     this.props.onSearch()
   }
 
-  handleClick = () => alert('It works!')
-
   getConfig = msg => {
     return {
       rules: [{ required: true, message: msg }],
