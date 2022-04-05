@@ -88,14 +88,14 @@ class FilterForm extends Component {
       setLoading,
       setParamFilter,
       standardsVN,
-      defaultValueForm,
+      setValuesForm,
     } = this.props
     try {
       setLoading(true)
       const values = await form.validateFields()
 
       if (isEmpty(this.props.filterItem)) {
-        defaultValueForm(values)
+        setValuesForm(values)
       }
 
       const times = getTimes(values[FIELDS.RANGE_TIME])

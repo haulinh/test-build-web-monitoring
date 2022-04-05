@@ -73,7 +73,7 @@ class DataAnalytics extends Component {
     history.push(slug.dataAnalytics.base)
   }
 
-  getDefaultValue = value => {
+  setFilterDefault = value => {
     this.setState({
       filterDefault: value,
     })
@@ -508,7 +508,7 @@ class DataAnalytics extends Component {
                 standardsVN={qcvns.map(qc => qc.key)}
                 isLoadingData={isLoadingData}
                 onData={this.onData}
-                defaultValueForm={this.getDefaultValue}
+                setValuesForm={this.setFilterDefault}
                 wrappedComponentRef={this.formSearchRef}
                 onReDrawChart={this.onReDrawChart}
                 filterItem={filterItem}
