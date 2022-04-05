@@ -226,10 +226,9 @@ export default class Search extends React.Component {
   }
 
   componentDidUpdate = (prevProps, prevState) => {
-    const { time } = this.state
     const { createSuccess } = this.props
     if (prevProps.createSuccess !== createSuccess) {
-      this.handleSelectedTime(time)
+      this.handleSelectedTime(Object.values(DEFAULT_RANGE))
     }
   }
 

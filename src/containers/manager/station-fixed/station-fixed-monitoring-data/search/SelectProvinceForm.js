@@ -53,7 +53,6 @@ export default class SelectProvinceForm extends React.Component {
             allowClear
             {...this.props}
             onSearch={this.handleSearch}
-            defaultValue=""
             filterOption={false}
           >
             <Select.Option value={''}>{translate('chart.all')}</Select.Option>

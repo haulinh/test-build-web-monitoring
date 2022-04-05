@@ -28,9 +28,22 @@ class ReportLogTable extends React.Component {
       get(this.props.dataSource, '0.measuringLogs', {})
     ).map(([key, measuringObj]) => ({ key, measuringObj }))
     if (measuringList.length === 0) {
-      return 850
+      return 880
     }
     return 510
+  }
+
+  getScrollOption = () => {
+    const measuringList = Object.entries(
+      get(this.props.dataSource, '0.measuringLogs', {})
+    ).map(([key, measuringObj]) => ({ key, measuringObj }))
+    if (measuringList.length === 0) {
+      return { x: 0, y: 0 }
+    } else if (window.innerWidth > 1650) {
+      return { y: 500, x: 1500 }
+    } else {
+      return { y: 500, x: 1200 }
+    }
   }
   baseColumns = () => {
     return [
@@ -208,11 +221,8 @@ class ReportLogTable extends React.Component {
         loading={loading}
         columns={this.getColumns()}
         pagination={false}
-        // size="small"
         bordered
-        scroll={
-          window.innerWidth > 1650 ? { y: 500, x: 1500 } : { y: 500, x: 1200 }
-        }
+        scroll={this.getScrollOption()}
         footer={() => (
           <Row type="flex" style={{ color: '#1890FF' }} align="middle">
             <Button

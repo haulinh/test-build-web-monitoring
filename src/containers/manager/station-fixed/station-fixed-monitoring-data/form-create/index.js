@@ -67,14 +67,7 @@ export default class FormMonitoring extends Component {
   }
 
   onSubmitForm = async () => {
-    const {
-      form,
-      formType,
-      setVisibleDrawer,
-      basicInfoData,
-      handleSuccessEditLog,
-      handleSuccessCreateLog,
-    } = this.props
+    const { form, formType, setVisibleDrawer, basicInfoData } = this.props
 
     await form.validateFields()
 
@@ -89,42 +82,58 @@ export default class FormMonitoring extends Component {
 
     try {
       if (formType === 'editReportLog') {
-        const logId = basicInfoData.logData._id
-        const paramsLog = { ...params, _id: logId, reportId }
-        delete paramsLog.stationId
-        handleSuccessEditLog({}, true)
-        await updateStationFixedReportLog(reportId, basicInfoData.logData._id, {
-          ...params,
-          reportId,
-        })
-
-        handleSuccessEditLog(paramsLog, false)
-        message.success(i18n().popupEditLogSuccess.title)
+        await this.handleSubmitEditReportLog(params, reportId)
       } else if (formType === 'createReportLog') {
-        const paramsLog = { ...params, reportId }
-        delete paramsLog.stationId
-        handleSuccessCreateLog({}, true)
-        await createStationFixedReportLog({ ...params, reportId })
-
-        handleSuccessCreateLog(paramsLog, false)
-        message.success(i18n().popupCreateLogSuccess.title)
+        await this.handleSubmitCreateReportLog(params, reportId)
       } else {
-        await createManualReport(params)
-
-        message.success(i18n().popupCreateSuccess.title)
+        await this.handleSubmitCreateReport(params)
       }
+
       this.setState({
         loading: false,
       })
-
       setVisibleDrawer(false)
     } catch (error) {
-      console.error({ error })
+      if (error.data) message.error(i18n().drawer.formBasic.message.timeExist)
 
       this.setState({
         loading: false,
       })
+      return false
     }
+  }
+
+  handleSubmitEditReportLog = async (params, reportId) => {
+    const { basicInfoData, handleSuccessEditLog } = this.props
+    const logId = basicInfoData.logData._id
+    const paramsLog = { ...params, _id: logId, reportId }
+
+    delete paramsLog.stationId
+    handleSuccessEditLog({}, true)
+    await updateStationFixedReportLog(reportId, basicInfoData.logData._id, {
+      ...params,
+      reportId,
+    })
+
+    handleSuccessEditLog(paramsLog, false)
+    message.success(i18n().popupEditLogSuccess.title)
+  }
+
+  handleSubmitCreateReportLog = async (params, reportId) => {
+    const { handleSuccessCreateLog } = this.props
+    const paramsLog = { ...params, reportId }
+    delete paramsLog.stationId
+    handleSuccessCreateLog({}, true)
+    await createStationFixedReportLog({ ...params, reportId })
+
+    handleSuccessCreateLog(paramsLog, false)
+    message.success(i18n().popupCreateLogSuccess.title)
+  }
+
+  handleSubmitCreateReport = async params => {
+    await createManualReport(params)
+
+    message.success(i18n().popupCreateSuccess.title)
   }
 
   getParams = () => {

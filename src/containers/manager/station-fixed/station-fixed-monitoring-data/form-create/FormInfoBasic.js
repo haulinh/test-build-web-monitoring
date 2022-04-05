@@ -39,45 +39,6 @@ export default class FormInfoBasic extends Component {
     }
   }
 
-  handleExistSampleTime = (rule, value, callback) => {
-    const { basicInfoData, formType } = this.props
-    const formTypeCheck = {
-      editReportLog: basicInfoData.dataSourceLog.length > 1,
-      createReportLog: basicInfoData.dataSourceLog.length >= 1,
-    }
-
-    const sampleTimeList = basicInfoData.dataSourceLog.map(item =>
-      moment(item.datetime).format('HH:mm DD/MM/YYYY')
-    )
-    const sampleTimeListExceptEditTime = sampleTimeList.filter(
-      time =>
-        time !==
-        moment(basicInfoData.logData.datetime).format('HH:mm DD/MM/YYYY')
-    )
-
-    if (
-      formType === 'editReportLog' &&
-      sampleTimeListExceptEditTime.some(
-        time => time === moment(value).format('HH:mm DD/MM/YYYY')
-      ) &&
-      formTypeCheck['editReportLog']
-    ) {
-      callback(i18n().drawer.formBasic.message.timeExist)
-      return true
-    } else if (
-      sampleTimeList.some(
-        time => time === moment(value).format('HH:mm DD/MM/YYYY')
-      ) &&
-      formTypeCheck['createReportLog'] &&
-      formType !== 'editReportLog'
-    ) {
-      callback(i18n().drawer.formBasic.message.timeExist)
-      return true
-    }
-
-    callback()
-  }
-
   render() {
     const { form, onChangePoint, points, formType } = this.props
 
@@ -163,30 +124,14 @@ export default class FormInfoBasic extends Component {
               label={i18n().drawer.formBasic.time}
               style={{ width: '100%' }}
             >
-              {form.getFieldDecorator(
-                FIELDS.TIME,
-                formType !== 'create'
-                  ? {
-                      rules: [
-                        {
-                          required: true,
-                          message: i18n().drawer.formBasic.message.time,
-                        },
-                        {
-                          message: i18n().drawer.formBasic.message.timeExist,
-                          validator: this.handleExistSampleTime,
-                        },
-                      ],
-                    }
-                  : {
-                      rules: [
-                        {
-                          required: true,
-                          message: i18n().drawer.formBasic.message.time,
-                        },
-                      ],
-                    }
-              )(
+              {form.getFieldDecorator(FIELDS.TIME, {
+                rules: [
+                  {
+                    required: true,
+                    message: i18n().drawer.formBasic.message.time,
+                  },
+                ],
+              })(
                 <DatePicker
                   locale={locale}
                   style={{ width: '100%' }}

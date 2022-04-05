@@ -4465,7 +4465,7 @@ export default {
             require: 'Vui lòng chọn điểm quan trắc',
           },
           time: 'Vui lòng nhập chọn thời gian lấy mẫu',
-          timeExist: 'Thời gian lấy mẫu đã tồn tại!',
+          timeExist: 'Không thành công do thời gian lấy mẫu đã tồn tại!',
         },
         datePicker: {
           now: 'Hiện tại',

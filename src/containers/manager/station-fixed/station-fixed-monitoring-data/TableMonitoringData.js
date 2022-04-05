@@ -66,7 +66,7 @@ const TableMonitoringData = ({ dataSource, loading }) => {
       title: t('stationFixedManager.table.title.userInput'),
       dataIndex: 'createdBy',
       align: 'left',
-      key: 'userInput',
+      key: 'createdBy',
       render: (value, record, index) => {
         return (
           <div>
@@ -99,7 +99,7 @@ const TableMonitoringData = ({ dataSource, loading }) => {
       title: t('stationFixedManager.table.title.editTime'),
       dataIndex: 'updatedBy',
       align: 'left',
-      key: 'userInput',
+      key: 'updatedBy',
       render: (value, record, index) => {
         return (
           <div>

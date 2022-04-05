@@ -101,7 +101,7 @@ export class EditWrapper extends React.Component {
           style={{ width: '100%', height: '40px' }}
           fontSize={style && style.fontSize}
         />
-        <Clearfix height={12} />
+        <Clearfix height={4} />
         {!isValidate && (
           <Flex justifyContent="end">
             <Icon
