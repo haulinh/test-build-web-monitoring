@@ -1,9 +1,15 @@
-import React from 'react'
+import { autobind } from 'core-decorators'
 import PropTypes from 'prop-types'
+import React from 'react'
+import { withRouter } from 'react-router-dom'
+import { connectAutoDispatch } from 'redux/connect'
+import {
+  addBreadcrumb,
+  deleteBreadcrumb,
+  updateBreadcrumb,
+} from 'shared/breadcrumb/action'
 import styled from 'styled-components'
 import { SHAPE, TEXT } from 'themes/color'
-import { autobind } from 'core-decorators'
-import { withRouter } from 'react-router-dom'
 import injectBreadcrumb from './injectBreadcrumb'
 
 const BreadcrumbBarStyle = styled.div`
@@ -53,12 +59,24 @@ const SpanIcon = styled.span`
   position: relative;
   top: 2px;
 `
-
+@connectAutoDispatch(null, {
+  deleteBreadcrumb,
+})
 @withRouter
 @autobind
 class BreadcrumbItem extends React.PureComponent {
   handleClick(e) {
+    const { isReload, first, deleteBreadcrumb } = this.props
+    console.log({ first })
     e.preventDefault()
+
+    if (first) {
+      deleteBreadcrumb({
+        id: 'detail',
+        // autoDestroy: true,
+      })
+    }
+
     if (!this.props.last) {
       this.props.history.push(this.props.href)
     }
