@@ -15,7 +15,7 @@ import { Clearfix } from 'components/elements'
 import { FormItem } from 'components/layouts/styles'
 import ReportLogTable from 'containers/manager/station-fixed/station-fixed-monitoring-data-detail/ReportLogTable'
 import { translate as t } from 'hoc/create-lang'
-import { get } from 'lodash'
+import { get, isEmpty } from 'lodash'
 import moment from 'moment-timezone'
 import React, { Component, createRef } from 'react'
 import styled from 'styled-components'
@@ -128,14 +128,14 @@ export function i18n() {
 }
 
 const optionalInfo = [
+  { field: 'symbol', checked: false },
+  { field: 'weather', checked: false },
   { field: 'monitoringPlace', checked: false },
   { field: 'requirements', checked: false },
   { field: 'method', checked: false },
   { field: 'chemical', checked: false },
   { field: 'conditions', checked: false },
   { field: 'equipmentlist', checked: false },
-  { field: 'symbol', checked: false },
-  { field: 'weather', checked: false },
   { field: 'analyst', checked: false },
   { field: 'placeOfAnalysis', checked: false },
 ]
@@ -169,15 +169,23 @@ export default class ReportDetail extends Component {
     })
   }
 
-  operations = () => (
-    <Flex>
-      <Popover content={this.content()} placement="bottom" trigger="click">
-        <CustomButton icon="profile">
-          {t('stationFixedManager.button.add')}
-        </CustomButton>
-      </Popover>
-    </Flex>
-  )
+  operations = () => {
+    const { dataSourceLog } = this.state
+    return (
+      <Flex>
+        <Popover
+          disabled={isEmpty(dataSourceLog)}
+          content={this.content()}
+          placement="leftTop"
+          trigger="click"
+        >
+          <CustomButton icon="profile" disabled={isEmpty(dataSourceLog)}>
+            {t('stationFixedManager.button.add')}
+          </CustomButton>
+        </Popover>
+      </Flex>
+    )
+  }
 
   getPointName = (points, stationId) => {
     const pointEdit = points.find(point => point._id === stationId)
@@ -204,20 +212,24 @@ export default class ReportDetail extends Component {
 
   content = () => {
     const { form } = this.props
+    const { dataSourceLog } = this.state
+
     return (
-      <Form>
-        <OptionalInfoContainer
-          style={{ display: 'flex', flexDirection: 'column' }}
-        >
-          {optionalInfo.map(item => (
-            <div key={item.field} style={{ marginBottom: '8px' }}>
-              {form.getFieldDecorator(item.field)(
-                <Checkbox>{i18n().optionalInfo[item.field]}</Checkbox>
-              )}
-            </div>
-          ))}
-        </OptionalInfoContainer>
-      </Form>
+      !isEmpty(dataSourceLog) && (
+        <Form>
+          <OptionalInfoContainer
+            style={{ display: 'flex', flexDirection: 'column' }}
+          >
+            {optionalInfo.map(item => (
+              <div key={item.field} style={{ marginBottom: '8px' }}>
+                {form.getFieldDecorator(item.field)(
+                  <Checkbox>{i18n().optionalInfo[item.field]}</Checkbox>
+                )}
+              </div>
+            ))}
+          </OptionalInfoContainer>
+        </Form>
+      )
     )
   }
 
@@ -250,6 +262,8 @@ export default class ReportDetail extends Component {
       visibleModalConfirmCancel: false,
       loading: true,
     })
+
+    document.body.style = null
 
     setTimeout(() => {
       this.setState({ loading: false })
@@ -369,10 +383,6 @@ export default class ReportDetail extends Component {
               })(
                 <EditWrapper
                   type="input"
-                  value={this.getPointName(
-                    points,
-                    initialValues.report.stationId
-                  )}
                   update={() =>
                     this.updateReportField(
                       form.getFieldsValue(['REPORT']).REPORT
