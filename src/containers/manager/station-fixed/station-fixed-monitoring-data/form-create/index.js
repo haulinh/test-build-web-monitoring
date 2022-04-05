@@ -67,7 +67,14 @@ export default class FormMonitoring extends Component {
   }
 
   onSubmitForm = async () => {
-    const { form, formType, setVisibleDrawer, basicInfoData } = this.props
+    const {
+      form,
+      formType,
+      setVisibleDrawer,
+      basicInfoData,
+      handleSuccessEditLog,
+      handleSuccessCreateLog,
+    } = this.props
 
     await form.validateFields()
 
@@ -94,7 +101,11 @@ export default class FormMonitoring extends Component {
       })
       setVisibleDrawer(false)
     } catch (error) {
-      if (error.data) message.error(i18n().drawer.formBasic.message.timeExist)
+      if (error.data) {
+        message.error(i18n().drawer.formBasic.message.timeExist)
+        handleSuccessCreateLog({}, false)
+        handleSuccessEditLog({}, false)
+      }
 
       this.setState({
         loading: false,
