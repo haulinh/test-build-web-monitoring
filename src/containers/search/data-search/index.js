@@ -11,7 +11,7 @@ import ROLE from 'constants/role'
 import createLang, { translate } from 'hoc/create-lang'
 import protectRole from 'hoc/protect-role'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import _ from 'lodash'
+import _, { isEmpty, isEqual } from 'lodash'
 import moment from 'moment-timezone'
 import React from 'react'
 import { connect } from 'react-redux'
@@ -25,6 +25,13 @@ import TabList from './tab-list'
 import DataAnalyze from './tab-list/tab-table-data-list/data-analyze'
 import { withRouter } from 'react-router-dom'
 import slug from 'constants/slug'
+import { connectAutoDispatch } from 'redux/connect'
+import {
+  addBreadcrumb,
+  deleteBreadcrumb,
+  updateBreadcrumb,
+} from 'shared/breadcrumb/action'
+import { translate as t } from 'hoc/create-lang'
 
 export const fields = {
   stationKey: 'stationKey',
@@ -43,6 +50,12 @@ export const fields = {
 export const ITEM_PER_PAGE = 50
 
 @withRouter
+@connectAutoDispatch(
+  state => ({
+    breadcrumbs: state.breadcrumbs,
+  }),
+  { updateBreadcrumb, addBreadcrumb, deleteBreadcrumb }
+)
 @protectRole(ROLE.DATA_SEARCH.VIEW)
 @connect(state => ({
   locale: state.language.locale,
@@ -60,6 +73,7 @@ export default class MinutesDataSearch extends React.Component {
     filterList: [],
     filterListSearched: [],
     filterItem: {},
+    filterId: '',
     standardObjectList: [],
     loadingData: false,
     qcvnSelected: [],
@@ -67,23 +81,37 @@ export default class MinutesDataSearch extends React.Component {
     loadingExport: false,
     visibleModalSave: false,
     highlightText: '',
-    breadcrumbItems: [],
+    filterDefault: {},
   }
   searchFormRef = React.createRef()
 
   componentDidMount = () => {
-    const url = slug.dataSearch.base
-
+    const { history } = this.props
     this.getFilterList()
-    this.setState({
-      breadcrumbItems: [
-        {
-          id: 1,
-          url,
-          name: 'Home',
-        },
-      ],
+    history.push(slug.dataSearch.base)
+  }
+
+  componentWillUnmount = () => {
+    const { deleteBreadcrumb } = this.props
+    deleteBreadcrumb({
+      id: 'detail',
     })
+  }
+
+  componentDidUpdate = (prevProps, prevState) => {
+    const { filterDefault } = this.state
+    const { location } = this.props
+
+    if (!isEqual(prevProps.location, location)) {
+      if (!location.state) {
+        this.searchFormRef.current.setFieldsValue(filterDefault)
+        this.setState({
+          filterItem: {},
+        })
+
+        this.handleOnSearch()
+      }
+    }
   }
 
   getFilterList = async () => {
@@ -144,12 +172,20 @@ export default class MinutesDataSearch extends React.Component {
   }
 
   handleOnSearch = async valuesForm => {
-    // const { form } = this.props
-    await this.searchFormRef.current.validateFields()
+    const { filterItem } = this.state
+
+    const valueForm = await this.searchFormRef.current.validateFields()
 
     const { stationKey, rangesDate, ...queryParams } = this.getQueryParam(
       valuesForm
     )
+
+    if (isEmpty(filterItem)) {
+      this.setState({
+        filterDefault: valueForm,
+      })
+    }
+
     this.setState({
       loadingData: true,
       loadingSummary: true,
@@ -274,7 +310,7 @@ export default class MinutesDataSearch extends React.Component {
 
   onSubmitSaveFilter = async () => {
     const { form } = this.props
-    const { filterItem } = this.state
+    const { filterId } = this.state
 
     const { action } = await form.validateFields()
 
@@ -283,12 +319,12 @@ export default class MinutesDataSearch extends React.Component {
     try {
       if (action === ACTION_TYPE.UPDATE) {
         this.setState({ filterItem: queryParams })
-        await CalculateApi.updateFilter(filterItem._id, queryParams)
-        message.success('Cập nhật bộ lọc thành công')
+        await CalculateApi.updateFilter(filterId, queryParams)
+        message.success(t('storageFilter.message.updateSuccess'))
       } else {
         await CalculateApi.createFilter(queryParams)
 
-        message.success('Tạo bộ lọc thành công')
+        message.success(t('storageFilter.message.saveSuccess'))
       }
 
       this.getFilterList()
@@ -298,7 +334,27 @@ export default class MinutesDataSearch extends React.Component {
     }
   }
   onClickFilter = (filterId, filterItem) => {
-    this.setState({ filterItem })
+    const { breadcrumbs, updateBreadcrumb, addBreadcrumb, history } = this.props
+
+    const url = `${slug.dataSearch.base}/${filterId}`
+    if (breadcrumbs.length === 2) {
+      updateBreadcrumb({
+        id: 'detail',
+        icon: '',
+        href: url,
+        name: filterItem.name,
+        autoDestroy: true,
+      })
+    } else {
+      addBreadcrumb({
+        id: 'detail',
+        icon: '',
+        href: url,
+        name: filterItem.name,
+        autoDestroy: true,
+      })
+    }
+    history.push(url, { filterId })
 
     const params = filterItem.params
 
@@ -307,7 +363,7 @@ export default class MinutesDataSearch extends React.Component {
       measuringList: params.measuringList.split(','),
     })
 
-    this.handleOnSearch()
+    this.setState({ filterItem, filterId }, () => this.handleOnSearch())
   }
 
   onDeleteFilter = async filterId => {
@@ -321,7 +377,7 @@ export default class MinutesDataSearch extends React.Component {
         filterList: newFilterList,
         filterListSearched: newFilterList,
       })
-      message.success('Xóa bộ lọc thành công')
+      message.success(t('storageFilter.message.deleteSuccess'))
     } catch (error) {
       console.error({ error })
     }
@@ -377,7 +433,7 @@ export default class MinutesDataSearch extends React.Component {
         {...this.props.wrapperProps}
         right={
           <Button type="primary" onClick={this.onClickSaveFilter}>
-            Lưu bộ lọc
+            {t('storageFilter.button.saveFilter')}
           </Button>
         }
         backgroundColor={'#fafbfb'}

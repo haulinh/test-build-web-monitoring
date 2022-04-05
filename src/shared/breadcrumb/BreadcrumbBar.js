@@ -3,11 +3,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { connectAutoDispatch } from 'redux/connect'
-import {
-  addBreadcrumb,
-  deleteBreadcrumb,
-  updateBreadcrumb,
-} from 'shared/breadcrumb/action'
+import { deleteBreadcrumb } from 'shared/breadcrumb/action'
 import styled from 'styled-components'
 import { SHAPE, TEXT } from 'themes/color'
 import injectBreadcrumb from './injectBreadcrumb'
@@ -66,10 +62,9 @@ const SpanIcon = styled.span`
 @autobind
 class BreadcrumbItem extends React.PureComponent {
   handleClick(e) {
-    const { isReload, first, deleteBreadcrumb } = this.props
-    console.log({ first })
+    const { first, deleteBreadcrumb, length } = this.props
     e.preventDefault()
-
+    if (length === 1) return
     if (first) {
       deleteBreadcrumb({
         id: 'detail',
@@ -86,9 +81,10 @@ class BreadcrumbItem extends React.PureComponent {
     return (
       <BreadCrumbItem
         onClick={this.handleClick}
+        first={this.props.first}
         href={this.props.href}
-        first={this.props.index === 0}
         last={this.props.last}
+        length={this.props.length}
       >
         {this.props.icon ? <SpanIcon>{this.props.icon} &nbsp;</SpanIcon> : null}
         {this.props.name}
@@ -105,6 +101,8 @@ function BreadcrumbBar({ breadcrumbs, isReload }) {
           key={breadcrumb.id}
           {...breadcrumb}
           index={index}
+          first={index === 0}
+          length={breadcrumbs.length}
           last={index === breadcrumbs.length - 1}
           isReload={isReload}
         />

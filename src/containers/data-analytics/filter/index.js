@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Button, Col, Form, Row, Switch } from 'antd'
 import styled from 'styled-components'
-import { get } from 'lodash'
+import { get, isEmpty } from 'lodash'
 
 import dataInsightApi from 'api/DataInsight'
 import { translate as t } from 'hoc/create-lang'
@@ -82,10 +82,22 @@ class FilterForm extends Component {
     this.setState({
       triggerRerender: !this.state.triggerRerender,
     })
-    const { form, onData, setLoading, setParamFilter, standardsVN } = this.props
+    const {
+      form,
+      onData,
+      setLoading,
+      setParamFilter,
+      standardsVN,
+      defaultValueForm,
+    } = this.props
     try {
       setLoading(true)
       const values = await form.validateFields()
+
+      if (isEmpty(this.props.filterItem)) {
+        defaultValueForm(values)
+      }
+
       const times = getTimes(values[FIELDS.RANGE_TIME])
       const params = {
         stationKeys: values[FIELDS.STATION_AUTO].join(','),
@@ -146,10 +158,12 @@ class FilterForm extends Component {
   updateForm = ({ stationAutoKeys }) => {
     const { form } = this.props
     const operateType = form.getFieldValue(FIELDS.OPERATOR)
+
     const measuringList = this.getMeasuringList(stationAutoKeys, operateType)
     const getMap = (map, order) => [...map].map(item => item[order])
 
     this.setState({ measuringList: getMap(measuringList, 1) })
+
     form.setFieldsValue({
       [FIELDS.STATION_AUTO]: stationAutoKeys,
       [FIELDS.MEASURING_LIST]: getMap(measuringList, 0),
@@ -194,6 +208,7 @@ class FilterForm extends Component {
 
   onChange = field => {
     const { form, toogleSelectQcvns } = this.props
+
     setTimeout(() => {
       const province = form.getFieldValue(FIELDS.PROVINCE)
       const stationType = form.getFieldValue(FIELDS.STATION_TYPE)
@@ -220,6 +235,7 @@ class FilterForm extends Component {
       FIELDS.MEASURING_LIST,
       FIELDS.OPERATOR,
     ])
+
     const numberStation = (values[FIELDS.STATION_AUTO] || []).length
     const numberMeasuringList = (values[FIELDS.MEASURING_LIST] || []).length
 
