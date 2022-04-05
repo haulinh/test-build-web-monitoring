@@ -1,4 +1,11 @@
-import { Button, Col, Row, Form as FormAnt, message } from 'antd'
+import {
+  Button,
+  Col,
+  Row,
+  Form as FormAnt,
+  message,
+  Breadcrumb as BreadcrumbAnt,
+} from 'antd'
 import DataInsight from 'api/DataInsight'
 import BoxShadowStyle from 'components/elements/box-shadow'
 import Clearfix from 'components/elements/clearfix/index'
@@ -8,7 +15,7 @@ import ROLE from 'constants/role'
 import createLang, { translate } from 'hoc/create-lang'
 import protectRole from 'hoc/protect-role'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import _, { isEmpty } from 'lodash'
+import _, { get, isEmpty } from 'lodash'
 import moment from 'moment-timezone'
 import React from 'react'
 import { connect } from 'react-redux'
@@ -23,6 +30,8 @@ import { downFileExcel } from 'utils/downFile'
 import { FilterList, ModalSaveFilter } from 'components/filter'
 import CalculateApi from 'api/CalculateApi'
 import { ACTION_TYPE, MODULE_TYPE } from 'components/filter/constants'
+import slug from 'constants/slug'
+import { Link, withRouter } from 'react-router-dom'
 
 export const fields = {
   stationKey: 'stationKey',
@@ -40,6 +49,7 @@ export const fields = {
 
 export const ITEM_PER_PAGE = 50
 
+@withRouter
 @protectRole(ROLE.DATA_SEARCH.VIEW)
 @connect(state => ({
   locale: state.language.locale,
@@ -64,11 +74,23 @@ export default class MinutesDataSearch extends React.Component {
     loadingExport: false,
     visibleModalSave: false,
     highlightText: '',
+    breadcrumbItems: [],
   }
   searchFormRef = React.createRef()
 
   componentDidMount = () => {
+    const url = slug.dataSearch.base
+
     this.getFilterList()
+    this.setState({
+      breadcrumbItems: [
+        {
+          id: 1,
+          url,
+          name: 'Home',
+        },
+      ],
+    })
   }
 
   getFilterList = async () => {
@@ -247,7 +269,7 @@ export default class MinutesDataSearch extends React.Component {
 
     const queryParams = {
       type: MODULE_TYPE.ORIGINAL,
-      name: filterName,
+      name: filterName.trim(),
       params: {
         ...valueFormSearch,
         measuringList,
@@ -261,14 +283,13 @@ export default class MinutesDataSearch extends React.Component {
     const { form } = this.props
     const { filterItem } = this.state
 
-    const value = await form.validateFields()
+    const { action } = await form.validateFields()
 
     const queryParams = this.getParamsFilter()
 
-    const action = value.action
-
     try {
       if (action === ACTION_TYPE.UPDATE) {
+        this.setState({ filterItem: queryParams })
         await CalculateApi.updateFilter(filterItem._id, queryParams)
         message.success('Cập nhật bộ lọc thành công')
       } else {

@@ -17,6 +17,7 @@ export const ModalSaveFilter = ({
       closable
       onCancel={onCancel}
       {...otherProps}
+      width={600}
       onOk={onSubmitSaveFilter}
     >
       Dữ liệu chọn lọc theo các trường được tạo bởi bạn sẽ được lưu trữ khi bạn
@@ -26,9 +27,14 @@ export const ModalSaveFilter = ({
         {form.getFieldDecorator(FIELDS.FILTER_NAME, {
           initialValue: filterName || undefined,
           rules: [
+            { required: true, message: 'Không được để trống' },
             {
-              required: true,
-              message: 'Vui lòng nhập tên báo cáo',
+              max: 64,
+              message: 'Vượt quá 64 kí tự',
+            },
+            {
+              whitespace: true,
+              message: 'Không được để trống',
             },
           ],
         })(<Input placeholder="Vui lòng nhập tên bộ lọc" />)}
@@ -43,10 +49,16 @@ export const ModalSaveFilter = ({
             <Row type="flex" justify="space-between" gutter={20}>
               <Col span={12}>
                 <Radio value={ACTION_TYPE.UPDATE}>Cập nhật bộ lọc</Radio>
+                <div style={{ marginTop: '8px', color: '#A2A7B3' }}>
+                  Cập nhật bộ lọc cũ dựa trên các trường thông tin.
+                </div>
               </Col>
 
               <Col span={12}>
                 <Radio value={ACTION_TYPE.CREATE}>Tạo mới bộ lọc</Radio>
+                <div style={{ marginTop: '8px', color: '#A2A7B3' }}>
+                  Tạo một bộ lọc mới dựa trên các trường thông tin.
+                </div>
               </Col>
             </Row>
           </Radio.Group>
