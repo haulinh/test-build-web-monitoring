@@ -12,6 +12,7 @@ import { Clearfix } from 'components/layouts/styles'
 import _ from 'lodash'
 import React from 'react'
 import styled from 'styled-components'
+import { i18n } from './constants'
 
 const { SubMenu } = Menu
 
@@ -126,10 +127,9 @@ export const FilterList = props => {
         <Clearfix height={10} />
         <Row type="flex" justify="center">
           <Search
-            placeholder="Nhập tên bộ lọc..."
+            placeholder={i18n().menu.search}
             style={{ width: '80%' }}
             onChange={onChangeSearch}
-            // suffix={<Icon type="search" />}
           />
         </Row>
         <Clearfix height={10} />
@@ -167,16 +167,18 @@ export const FilterList = props => {
                         {getHighlightedText(filterItem.name)}
                       </div>
                       {isDisable && (
-                        <Tooltip title="Một vài trạm đã bị ẩn do bạn không có quyền">
+                        <Tooltip title={i18n().menu.tooltip}>
                           <Icon type="info-circle" theme="twoTone" />
                         </Tooltip>
                       )}
                       {!isDisable && (
                         <Popconfirm
-                          title="Bạn có chắc chắn muốn xóa bộ lọc?"
+                          title={i18n().menu.popupConfirm.title}
                           onCancel={event => {
                             event.stopPropagation()
                           }}
+                          cancelText={i18n().button.cancel}
+                          okText={i18n().button.ok}
                           onConfirm={event => {
                             event.stopPropagation()
                             onDeleteFilter(filterItem._id, filterItem)

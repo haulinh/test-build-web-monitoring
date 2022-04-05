@@ -1,9 +1,11 @@
-import React from 'react'
+import { autobind } from 'core-decorators'
 import PropTypes from 'prop-types'
+import React from 'react'
+import { withRouter } from 'react-router-dom'
+import { connectAutoDispatch } from 'redux/connect'
+import { deleteBreadcrumb } from 'shared/breadcrumb/action'
 import styled from 'styled-components'
 import { SHAPE, TEXT } from 'themes/color'
-import { autobind } from 'core-decorators'
-import { withRouter } from 'react-router-dom'
 import injectBreadcrumb from './injectBreadcrumb'
 
 const BreadcrumbBarStyle = styled.div`
@@ -53,12 +55,23 @@ const SpanIcon = styled.span`
   position: relative;
   top: 2px;
 `
-
+@connectAutoDispatch(null, {
+  deleteBreadcrumb,
+})
 @withRouter
 @autobind
 class BreadcrumbItem extends React.PureComponent {
   handleClick(e) {
+    const { first, deleteBreadcrumb, length } = this.props
     e.preventDefault()
+    if (length === 1) return
+    if (first) {
+      deleteBreadcrumb({
+        id: 'detail',
+        // autoDestroy: true,
+      })
+    }
+
     if (!this.props.last) {
       this.props.history.push(this.props.href)
     }
@@ -68,9 +81,10 @@ class BreadcrumbItem extends React.PureComponent {
     return (
       <BreadCrumbItem
         onClick={this.handleClick}
+        first={this.props.first}
         href={this.props.href}
-        first={this.props.index === 0}
         last={this.props.last}
+        length={this.props.length}
       >
         {this.props.icon ? <SpanIcon>{this.props.icon} &nbsp;</SpanIcon> : null}
         {this.props.name}
@@ -87,6 +101,8 @@ function BreadcrumbBar({ breadcrumbs, isReload }) {
           key={breadcrumb.id}
           {...breadcrumb}
           index={index}
+          first={index === 0}
+          length={breadcrumbs.length}
           last={index === breadcrumbs.length - 1}
           isReload={isReload}
         />

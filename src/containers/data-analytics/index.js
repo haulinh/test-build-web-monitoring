@@ -8,7 +8,7 @@ import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
 import slug from 'constants/slug'
 import { translate as t } from 'hoc/create-lang'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import { get, isEmpty } from 'lodash'
+import { get, isEmpty, isEqual } from 'lodash'
 import moment from 'moment'
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
@@ -18,13 +18,13 @@ import {
   deleteBreadcrumb,
   updateBreadcrumb,
 } from 'shared/breadcrumb/action'
+import { replaceVietnameseStr } from 'utils/string'
 import Breadcrum from './breadcrum'
 import { AnalyzeDataProvider } from './context'
-import FilterForm from './filter'
+import FilterForm, { FIELDS } from './filter'
 import { OPERATOR } from './filter/select-operator'
 import ReportData from './report-data'
 import { CHART_TYPE } from './report-data/chart-type'
-import { replaceVietnameseStr } from 'utils/string'
 
 function i18n() {
   return {
@@ -59,6 +59,8 @@ class DataAnalytics extends Component {
     visibleModalSave: false,
     highlightText: '',
     filterItem: {},
+    filterId: '',
+    filterDefault: {},
   }
 
   formSearchRef = React.createRef()
@@ -66,20 +68,41 @@ class DataAnalytics extends Component {
   setLoading = isLoadingData => this.setState({ isLoadingData })
 
   componentDidMount = () => {
-    // const { history, deleteBreadcrumb } = this.props
-
+    const { history } = this.props
     this.getFilterList()
+    history.push(slug.dataAnalytics.base)
+  }
 
-    // history.listen((location, action) => {
-    //   console.log('History listen')
-    //   // console.log({ location })
-    //   // if (!location.state) {
-    //   //   deleteBreadcrumb({
-    //   //     id: 'detail',
-    //   //     // autoDestroy: true,
-    //   //   })
-    //   // }
-    // })
+  setFilterDefault = value => {
+    this.setState({
+      filterDefault: value,
+    })
+  }
+
+  componentWillUnmount = () => {
+    const { deleteBreadcrumb } = this.props
+    deleteBreadcrumb({
+      id: 'detail',
+    })
+  }
+
+  componentDidUpdate = (prevProps, prevState) => {
+    const { filterDefault } = this.state
+    const { location } = this.props
+    const { form } = this.formSearchRef.current.props
+
+    if (!isEqual(prevProps.location, location)) {
+      if (!location.state) {
+        form.setFieldsValue(filterDefault)
+        const stationAutoKeys = filterDefault.stationAuto
+        this.setState({
+          filterItem: {},
+        })
+
+        this.formSearchRef.current.updateForm({ stationAutoKeys })
+        this.formSearchRef.current.handleSearch()
+      }
+    }
   }
 
   getFilterList = async () => {
@@ -210,7 +233,7 @@ class DataAnalytics extends Component {
 
   onSubmitSaveFilter = async () => {
     const { form } = this.props
-    const { filterItem } = this.state
+    const { filterId } = this.state
 
     const value = await form.validateFields()
 
@@ -220,12 +243,14 @@ class DataAnalytics extends Component {
 
     try {
       if (action === ACTION_TYPE.UPDATE) {
-        await CalculateApi.updateFilter(filterItem._id, queryParams)
-        message.success('Cập nhật bộ lọc thành công')
+        this.setState({ filterItem: queryParams })
+
+        await CalculateApi.updateFilter(filterId, queryParams)
+        message.success(t('storageFilter.message.updateSuccess'))
       } else {
         await CalculateApi.createFilter(queryParams)
 
-        message.success('Lưu bộ lọc thành công')
+        message.success(t('storageFilter.message.saveSuccess'))
       }
 
       this.getFilterList()
@@ -237,23 +262,21 @@ class DataAnalytics extends Component {
 
   getParams = () => {
     const { form } = this.props
-
     const { props } = this.formSearchRef.current
 
     const valueFormSearch = props.form.getFieldsValue()
+    const filterName = form.getFieldValue('name')
 
     const measuringList = valueFormSearch.measuringList.join(',')
-
     const stationKeys = valueFormSearch.stationAuto.join(',')
-
-    const filterName = form.getFieldValue('name')
 
     const queryParams = {
       type: MODULE_TYPE.ANALYTIC,
-      name: filterName,
+      name: filterName.trim(),
       params: {
         ...valueFormSearch,
         measuringList,
+        stationAuto: stationKeys,
         stationKeys,
       },
     }
@@ -344,50 +367,50 @@ class DataAnalytics extends Component {
   }
 
   onClickFilter = (filterId, filterItem) => {
-    this.setState({ filterItem })
-    // const {
-    //   breadcrumbs,
-    //   updateBreadcrumb,
-    //   addBreadcrumb,
-    //   deleteBreadcrumb,
-    //   history,
-    // } = this.props
+    const { form } = this.formSearchRef.current.props
+    this.setState({
+      filterItem,
+      filterId,
+    })
+    const { breadcrumbs, updateBreadcrumb, addBreadcrumb, history } = this.props
 
-    // const url = `${slug.dataAnalytics.base}/${filterId}`
-    // if (breadcrumbs.length === 2) {
-    //   updateBreadcrumb({
-    //     id: 'detail',
-    //     icon: '',
-    //     href: url,
-    //     name: filterItem.name,
-    //     autoDestroy: true,
-    //   })
-    // } else {
-    //   addBreadcrumb({
-    //     id: 'detail',
-    //     icon: '',
-    //     href: url,
-    //     name: filterItem.name,
-    //     autoDestroy: true,
-    //   })
-    // }
-    // history.push(url, { filterId })
+    const url = `${slug.dataAnalytics.base}/${filterId}`
+    if (breadcrumbs.length === 2) {
+      updateBreadcrumb({
+        id: 'detail',
+        icon: '',
+        href: url,
+        name: filterItem.name,
+        autoDestroy: true,
+      })
+    } else {
+      addBreadcrumb({
+        id: 'detail',
+        icon: '',
+        href: url,
+        name: filterItem.name,
+        autoDestroy: true,
+      })
+    }
+    history.push(url, { filterId })
 
     const params = filterItem.params
-    const { form } = this.formSearchRef.current.props
+
+    const { operator, stationType, rangeTime, province } = params
+
+    const stationAutoKeys = params.stationKeys.split(',')
+
     form.setFieldsValue({
-      ...params,
-      measuringList: params.measuringList.split(','),
+      [FIELDS.OPERATOR]: operator,
+      [FIELDS.STATION_TYPE]: stationType,
+      [FIELDS.RANGE_TIME]: rangeTime,
+      [FIELDS.PROVINCE]: province,
     })
+
+    this.formSearchRef.current.updateForm({ stationAutoKeys })
     this.formSearchRef.current.handleSearch()
-  }
 
-  onDelete = () => {
-    const { deleteBreadcrumb } = this.props
-
-    deleteBreadcrumb({
-      id: 'detail',
-    })
+    this.setState({ filterItem })
   }
 
   onDeleteFilter = async filterId => {
@@ -401,7 +424,7 @@ class DataAnalytics extends Component {
         filterList: newFilterList,
         filterListSearched: newFilterList,
       })
-      message.success('Xóa bộ lọc thành công')
+      message.success(t('storageFilter.message.deleteSuccess'))
     } catch (error) {
       console.error({ error })
     }
@@ -453,7 +476,7 @@ class DataAnalytics extends Component {
         <PageContainer
           right={
             <Button type="primary" onClick={this.onClickSaveFilter}>
-              Lưu bộ lọc
+              {t('storageFilter.button.saveFilter')}
             </Button>
           }
         >
@@ -485,8 +508,10 @@ class DataAnalytics extends Component {
                 standardsVN={qcvns.map(qc => qc.key)}
                 isLoadingData={isLoadingData}
                 onData={this.onData}
+                setValuesForm={this.setFilterDefault}
                 wrappedComponentRef={this.formSearchRef}
                 onReDrawChart={this.onReDrawChart}
+                filterItem={filterItem}
                 setLoading={this.setLoading}
                 setParamFilter={this.setParamFilter}
                 toogleSelectQcvns={this.toogleSelectQcvns}
