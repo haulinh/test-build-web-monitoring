@@ -1,30 +1,35 @@
-import React from 'react'
 import {Form, Input, Modal} from 'antd'
-import {FlagIcon} from 'react-flag-kit'
-import {FormWrapper, FormItem, FlagLabel} from './styled'
-import {Warning} from './warning'
+import iconLanguage from 'assets/svg-icons/IconLanguage.svg'
 import {translate as t} from 'hoc/create-lang'
 import get from 'lodash/get'
-import {getLanguage} from 'utils/localStorage'
+import React from 'react'
+import {FlagIcon} from 'react-flag-kit'
 import {connect} from 'react-redux'
-import iconLanguage from 'assets/svg-icons/IconLanguage.svg'
+import styled from 'styled-components'
+import {getLanguage} from 'utils/localStorage'
+import {LangConfig} from './helper'
+import {FlagLabel, FormItem, FormWrapper} from './styled'
+import {Warning} from './warning'
+export * from './helper'
 
 const i18n = {
   title: t('languageSetup.setup'),
   okText: t('global.save'),
   cancelText: t('global.back'),
-  lang: {
-    vi: t('language.list.colVI'),
-    en: t('language.list.colEN'),
-    tw: t('language.list.colTW'),
-  }
 }
+const InputWrapper = styled(Input)`
+  span.ant-input-group-addon{
+    cursor: pointer;
+    background: #ffffff;
+    &:hover{
+      background: rgb(230, 247, 255);
+    }
+  }
+`
 
-const LangConfig = [
-  {lang: 'vi', code: 'VN', label: i18n.lang.vi },
-  {lang: 'en', code: 'US', label: i18n.lang.en},
-  {lang: 'tw', code: 'TW', label: i18n.lang.tw } 
-] 
+const IconWrapper = styled.img`
+  width: 25px;
+`
 
 @Form.create({})
 @connect(
@@ -40,14 +45,16 @@ class Language extends React.Component {
     values: []
   }
 
-  componentDidUpdate(props){
+  componentWillReceiveProps(props){
     const {content} = this.state
-    const {itemId, type, id: field, languageContents, onChangeLanguage} = this.props
+    const {itemId, type, id: field, languageContents, onChange, onChangeLanguage} = this.props
+
     if(content === null && props.value) {
       const language = get(languageContents, `${type}.${itemId}.language.${field}`);
       let content = props.value
       if(language) content = language[getLanguage()]
       this.setState({content}, () => {
+        onChange(content)
         onChangeLanguage(language)
       })
     }
@@ -56,6 +63,7 @@ class Language extends React.Component {
   getLanguages = () => {
     const {content} = this.state
     const {language} = this.props
+
     const getContent = (lang) =>
       lang === getLanguage() && !!content && get(language, lang) !== content
         ? content
@@ -92,7 +100,7 @@ class Language extends React.Component {
     clearTimeout(this.timeOut)
     this.timeOut = setTimeout(() => {
       const {onChange} = this.props
-      onChange(content)
+      onChange(content);
     }, 500)
   }
 
@@ -183,20 +191,23 @@ class Language extends React.Component {
   })
 
   render(){
-    const {form, rules, placeholder} = this.props
+    const {form, rules, placeholder, itemId, size} = this.props
     const {isWarning, isVisible, content, values} = this.state
-    const {getFieldDecorator} = form
+    const formValues = form.getFieldsValue()
 
-    return (
+    const disabled = !!itemId &&
+      Object.values(formValues).every(item => !item)
+
+      return (
       <React.Fragment>
-        <Input 
+        <InputWrapper
+          size={size}
           value={content}
-          onChange={e => this.onChange(e.target.value)}
           placeholder={placeholder}
+          onChange={e => this.onChange(e.target.value)}
           addonAfter={
-            <img
+            <IconWrapper
               alt=""
-              style={{cursor: 'pointer'}}
               src={iconLanguage}
               onClick={this.openLanguageModal}
             />
@@ -208,11 +219,12 @@ class Language extends React.Component {
           visible={isVisible}
           onCancel={this.closeLanguageModal}
           onOk={this.handleSubmit}
+          okButtonProps={{disabled}}
         >
           <FormWrapper className="form-language">
             {LangConfig.map(item =>
               <FormItem key={item.lang} label={this.renderFormItemLabel(item)}>
-                {getFieldDecorator(item.lang, {rules})(
+                {form.getFieldDecorator(item.lang, {rules})(
                   <Input autoFocus={getLanguage() === item.lang} />
                 )}
               </FormItem>

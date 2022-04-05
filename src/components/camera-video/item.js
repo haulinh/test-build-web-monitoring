@@ -7,11 +7,14 @@ import slug from 'constants/slug'
 import * as _ from 'lodash'
 import PropTypes from 'prop-types'
 import { STATUS_CAMERA } from 'constants/stationStatus'
+import {getContent} from 'components/language/language-content'
+import {connect} from 'react-redux'
 
 const { Meta } = Card
 
 const DescriptionView = styled.div``
 
+@connect(state => ({languageContents: state.language.languageContents}))
 export default class ListItemView extends React.Component {
   static propTypes = {
     auth: PropTypes.string.isRequired,
@@ -29,12 +32,12 @@ export default class ListItemView extends React.Component {
   render() {
     let {
       src,
-      stationName,
       name,
       lastThumbnail,
       _id,
       stationType: { key },
     } = this.props.camera
+    const {languageContents} = this.props
     const status = this.props.auth
       ? STATUS_CAMERA.EXISTS
       : STATUS_CAMERA.NOT_EXISTS
@@ -65,7 +68,7 @@ export default class ListItemView extends React.Component {
         >
           <Meta
             title={name}
-            description={<DescriptionView>{stationName}</DescriptionView>}
+            description={<DescriptionView>{getContent(languageContents, {type: 'Station', itemId: _id, value: name})}</DescriptionView>}
           />
         </Link>
       </Card>

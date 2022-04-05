@@ -204,7 +204,7 @@ export default class ModalDownloadFile extends Component {
               onClick={onCancel}
               style={{ color: '#1890FF', background: '#E1EDFB' }}
             >
-              {i18n().button.cancel}
+              {i18n().downloadExcel.cancel}
             </Button>
           </Col>
           <Col>

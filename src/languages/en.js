@@ -1,7 +1,8 @@
 export default {
   languageSetup: {
     setup: 'Language setup',
-    warningContent: '<span>"{{=it.lang}}"</span> will be applied for remaning languages'
+    warningContent:
+      '<span>"{{=it.lang}}"</span> will be applied for remaning languages',
   },
   notificationFreq: {
     only1: 'Once only',
@@ -2973,7 +2974,7 @@ export default {
     pointAndPhaseNotBelongToStationType:
       'Point and phase monitoring are not the same type of station',
     pointKeyRequired: 'Point code cannot be left empty',
-    dateTimeRequired: 'Time cannot be left empty',
+    dateTimeRequired: 'Date and time cannot be left empty',
     selectPhaseError: 'Please select the monitoring batch',
     complexForm: 'Complex template',
     simpleForm: 'Simple template',
@@ -4433,7 +4434,10 @@ export default {
       importExcel: 'Upload by form',
     },
     drawer: {
-      title: 'Import data of monitoring point',
+      title: {
+        create: 'Import data of monitoring point',
+        edit: 'Edit data of monitoring point',
+      },
       formBasic: {
         title: 'Basic information',
         nameReport: 'Report name',
@@ -4449,6 +4453,7 @@ export default {
             require: 'Please select monitoring point',
           },
           time: 'Please enter select sampling time',
+          timeExist: 'Sample time existed!',
         },
         datePicker: {
           now: 'Now',
@@ -4489,8 +4494,18 @@ export default {
         note: 'Notes',
       },
     },
+    updateReportName: {
+      success: 'Update report name successfully!',
+      error: 'Update report name successfully!',
+    },
     popupCreateSuccess: {
       title: 'Create Success',
+    },
+    popupCreateLogSuccess: {
+      title: 'Create information successfully',
+    },
+    popupEditLogSuccess: {
+      title: 'Edit information successfully',
     },
     modalConfirmCancel: {
       content: "The changes you have made, probably won't be saved.",
@@ -4502,6 +4517,7 @@ export default {
       create: 'Create',
       download: 'Download',
       upload: 'Upload',
+      update: 'Update',
     },
     importExcel: {
       breadCrumb: 'Import monitoring data',
@@ -4540,6 +4556,8 @@ export default {
     },
     downloadExcel: {
       downloadFile: 'Download the sample file',
+      cancel: 'Cancel',
+
       modal: {
         title: 'Set up the dwnload report template',
         typeReport: {

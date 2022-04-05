@@ -25,6 +25,24 @@ const DivHover = styled.div`
 const InputCustom = styled(Input)`
   font-size: ${props => props.fontSize && `${props.fontSize}px`};
 `
+
+const styleInput = {
+  maxWidth: '100%',
+  fontSize: 14,
+  wordBreak: 'break-all',
+  display: 'flex',
+  height: '40px',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  paddingLeft: '11px',
+  paddingRight: '11px',
+  minHeight: 30,
+  maxHeight: 250,
+  whiteSpace: 'pre-wrap',
+  color: '#262626',
+  border: '1px solid rgb(217, 217, 217)',
+  borderRadius: 4,
+}
 export class EditWrapper extends React.Component {
   state = {
     isClicked: false,
@@ -49,31 +67,13 @@ export class EditWrapper extends React.Component {
 
   render() {
     const { isClicked } = this.state
-    const { type, value, onChange, style, title, maxLength } = this.props
+    const { type, value, onChange, style, title, isValidate } = this.props
     if (!isClicked)
       return (
         <React.Fragment>
           <b>{title}</b>
           <DivHover type={type} onClick={this.toggleEdit}>
-            <div
-              style={{
-                maxWidth: '100%',
-                fontSize: 14,
-                wordBreak: 'break-all',
-                display: 'flex',
-                height: '40px',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                paddingLeft: '11px',
-                paddingRight: '11px',
-                minHeight: 30,
-                maxHeight: 250,
-                whiteSpace: 'pre-wrap',
-                ...style,
-              }}
-            >
-              {value}
-            </div>
+            <div style={styleInput}>{value}</div>
           </DivHover>
         </React.Fragment>
       )
@@ -100,24 +100,25 @@ export class EditWrapper extends React.Component {
           {...props}
           style={{ width: '100%', height: '40px' }}
           fontSize={style && style.fontSize}
-          maxLength={maxLength}
         />
         <Clearfix height={12} />
-        <Flex justifyContent="end">
-          <Icon
-            type="check"
-            theme="outlined"
-            style={styleIcon}
-            onClick={this.handleOnOk}
-          />
-          <Clearfix width={12} />
-          <Icon
-            onClick={this.handleCancel}
-            type="close"
-            theme="outlined"
-            style={styleIcon}
-          />
-        </Flex>
+        {!isValidate && (
+          <Flex justifyContent="end">
+            <Icon
+              type="check"
+              theme="outlined"
+              style={styleIcon}
+              onClick={this.handleOnOk}
+            />
+            <Clearfix width={12} />
+            <Icon
+              onClick={this.handleCancel}
+              type="close"
+              theme="outlined"
+              style={styleIcon}
+            />
+          </Flex>
+        )}
       </div>
     )
   }

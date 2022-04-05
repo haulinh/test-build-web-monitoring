@@ -24,17 +24,67 @@ export default class FormInfoBasic extends Component {
 
   componentDidMount = () => {
     const { form, formType, basicInfoData } = this.props
-    if (formType === 'editReportLog') {
+    if (formType === 'editReportLog' || formType === 'createReportLog') {
       setTimeout(() => {
         form.setFieldsValue({
-          [FIELDS.TIME]: moment(basicInfoData.logData.datetime),
+          [FIELDS.NAME_REPORT]: basicInfoData.reportName,
+          [FIELDS.POINT]: basicInfoData.stationName,
         })
+        if (formType === 'editReportLog') {
+          form.setFieldsValue({
+            [FIELDS.TIME]: moment(basicInfoData.logData.datetime),
+          })
+        }
       })
     }
   }
 
+  handleExistSampleTime = (rule, value, callback) => {
+    const { basicInfoData, formType } = this.props
+    const formTypeCheck = {
+      editReportLog: basicInfoData.dataSourceLog.length > 1,
+      createReportLog: basicInfoData.dataSourceLog.length >= 1,
+    }
+
+    const sampleTimeList = basicInfoData.dataSourceLog.map(item =>
+      moment(item.datetime).format('HH:mm DD/MM/YYYY')
+    )
+    const sampleTimeListExceptEditTime = sampleTimeList.filter(
+      time =>
+        time !==
+        moment(basicInfoData.logData.datetime).format('HH:mm DD/MM/YYYY')
+    )
+
+    if (
+      formType === 'editReportLog' &&
+      sampleTimeListExceptEditTime.some(
+        time => time === moment(value).format('HH:mm DD/MM/YYYY')
+      ) &&
+      formTypeCheck['editReportLog']
+    ) {
+      callback(i18n().drawer.formBasic.message.timeExist)
+      return true
+    } else if (
+      sampleTimeList.some(
+        time => time === moment(value).format('HH:mm DD/MM/YYYY')
+      ) &&
+      formTypeCheck['createReportLog'] &&
+      formType !== 'editReportLog'
+    ) {
+      callback(i18n().drawer.formBasic.message.timeExist)
+      return true
+    }
+
+    callback()
+  }
+
   render() {
-    const { form, onChangePoint, points, formType, basicInfoData } = this.props
+    const { form, onChangePoint, points, formType } = this.props
+
+    const isDisable =
+      formType === 'editReportLog' || formType === 'createReportLog'
+        ? true
+        : false
 
     return (
       <div>
@@ -51,10 +101,6 @@ export default class FormInfoBasic extends Component {
               style={{ width: '100%' }}
             >
               {form.getFieldDecorator(FIELDS.NAME_REPORT, {
-                initialValue:
-                  formType === 'editReportLog' || formType === 'createReportLog'
-                    ? basicInfoData.stationName
-                    : '',
                 rules: [
                   {
                     required: true,
@@ -73,12 +119,7 @@ export default class FormInfoBasic extends Component {
                 <Input
                   style={{ width: '100%' }}
                   placeholder={i18n().drawer.formBasic.nameReport}
-                  disabled={
-                    formType === 'editReportLog' ||
-                    formType === 'createReportLog'
-                      ? true
-                      : false
-                  }
+                  disabled={isDisable}
                 />
               )}
             </FormItem>
@@ -96,10 +137,6 @@ export default class FormInfoBasic extends Component {
               style={{ width: '100%' }}
             >
               {form.getFieldDecorator(FIELDS.POINT, {
-                initialValue:
-                  formType === 'editReportLog' || formType === 'createReportLog'
-                    ? basicInfoData.reportName
-                    : '',
                 onChange: onChangePoint,
                 rules: [
                   {
@@ -115,12 +152,7 @@ export default class FormInfoBasic extends Component {
                   size="default"
                   label={i18n().drawer.formBasic.point}
                   showSearch
-                  disabled={
-                    formType === 'editReportLog' ||
-                    formType === 'createReportLog'
-                      ? true
-                      : false
-                  }
+                  disabled={isDisable}
                 />
               )}
             </FormItem>
@@ -131,14 +163,30 @@ export default class FormInfoBasic extends Component {
               label={i18n().drawer.formBasic.time}
               style={{ width: '100%' }}
             >
-              {form.getFieldDecorator(FIELDS.TIME, {
-                rules: [
-                  {
-                    required: true,
-                    message: i18n().drawer.formBasic.message.time,
-                  },
-                ],
-              })(
+              {form.getFieldDecorator(
+                FIELDS.TIME,
+                formType !== 'create'
+                  ? {
+                      rules: [
+                        {
+                          required: true,
+                          message: i18n().drawer.formBasic.message.time,
+                        },
+                        {
+                          message: i18n().drawer.formBasic.message.timeExist,
+                          validator: this.handleExistSampleTime,
+                        },
+                      ],
+                    }
+                  : {
+                      rules: [
+                        {
+                          required: true,
+                          message: i18n().drawer.formBasic.message.time,
+                        },
+                      ],
+                    }
+              )(
                 <DatePicker
                   locale={locale}
                   style={{ width: '100%' }}

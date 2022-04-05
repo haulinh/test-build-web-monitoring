@@ -6,8 +6,24 @@ import { FIELDS, FormCollapseContainer, i18n } from '../constants'
 const { Panel } = Collapse
 
 export default class FormCollapse extends Component {
-  render() {
+  componentDidMount = () => {
     const { form, logData, formType } = this.props
+
+    const inititialOtherInfomation = Object.values(FIELDS.OTHER).reduce(
+      (base, current) => {
+        return { ...base, [`otherInfo.${current}`]: logData[current] }
+      },
+      {}
+    )
+
+    if (formType === 'editReportLog') {
+      setTimeout(() => {
+        form.setFieldsValue(inititialOtherInfomation)
+      })
+    }
+  }
+  render() {
+    const { form } = this.props
 
     return (
       <FormCollapseContainer>
@@ -24,10 +40,7 @@ export default class FormCollapse extends Component {
                   label={i18n().drawer.formOtherInfo.sampler}
                   style={{ width: '100%' }}
                 >
-                  {form.getFieldDecorator(`otherInfo.${FIELDS.OTHER.SAMPLER}`, {
-                    initialValue:
-                      formType === 'editReportLog' ? logData.sampler : '',
-                  })(
+                  {form.getFieldDecorator(`otherInfo.${FIELDS.OTHER.SAMPLER}`)(
                     <Input
                       placeholder={i18n().drawer.formOtherInfo.placeholder}
                     />
@@ -41,13 +54,7 @@ export default class FormCollapse extends Component {
                   style={{ width: '100%' }}
                 >
                   {form.getFieldDecorator(
-                    `otherInfo.${FIELDS.OTHER.MONITORING_PLACE}`,
-                    {
-                      initialValue:
-                        formType === 'editReportLog'
-                          ? logData.monitoringPlace
-                          : '',
-                    }
+                    `otherInfo.${FIELDS.OTHER.MONITORING_PLACE}`
                   )(
                     <Input
                       placeholder={i18n().drawer.formOtherInfo.placeholder}
@@ -69,13 +76,7 @@ export default class FormCollapse extends Component {
                   style={{ width: '100%' }}
                 >
                   {form.getFieldDecorator(
-                    `otherInfo.${FIELDS.OTHER.REQUIREMENTS}`,
-                    {
-                      initialValue:
-                        formType === 'editReportLog'
-                          ? logData.requirements
-                          : '',
-                    }
+                    `otherInfo.${FIELDS.OTHER.REQUIREMENTS}`
                   )(
                     <Input
                       placeholder={i18n().drawer.formOtherInfo.placeholder}
@@ -89,10 +90,7 @@ export default class FormCollapse extends Component {
                   label={i18n().drawer.formOtherInfo.method}
                   style={{ width: '100%' }}
                 >
-                  {form.getFieldDecorator(`otherInfo.${FIELDS.OTHER.METHOD}`, {
-                    initialValue:
-                      formType === 'editReportLog' ? logData.method : '',
-                  })(
+                  {form.getFieldDecorator(`otherInfo.${FIELDS.OTHER.METHOD}`)(
                     <Input
                       placeholder={i18n().drawer.formOtherInfo.placeholder}
                     />
@@ -112,13 +110,7 @@ export default class FormCollapse extends Component {
                   label={i18n().drawer.formOtherInfo.chemical}
                   style={{ width: '100%' }}
                 >
-                  {form.getFieldDecorator(
-                    `otherInfo.${FIELDS.OTHER.CHEMICAL}`,
-                    {
-                      initialValue:
-                        formType === 'editReportLog' ? logData.chemical : '',
-                    }
-                  )(
+                  {form.getFieldDecorator(`otherInfo.${FIELDS.OTHER.CHEMICAL}`)(
                     <Input
                       placeholder={i18n().drawer.formOtherInfo.placeholder}
                     />
@@ -132,11 +124,7 @@ export default class FormCollapse extends Component {
                   style={{ width: '100%' }}
                 >
                   {form.getFieldDecorator(
-                    `otherInfo.${FIELDS.OTHER.CONDITIONS}`,
-                    {
-                      initialValue:
-                        formType === 'editReportLog' ? logData.conditions : '',
-                    }
+                    `otherInfo.${FIELDS.OTHER.CONDITIONS}`
                   )(
                     <Input
                       placeholder={i18n().drawer.formOtherInfo.placeholder}
@@ -158,13 +146,7 @@ export default class FormCollapse extends Component {
                   style={{ width: '100%' }}
                 >
                   {form.getFieldDecorator(
-                    `otherInfo.${FIELDS.OTHER.EQUIPMENTLIST}`,
-                    {
-                      initialValue:
-                        formType === 'editReportLog'
-                          ? logData.equipmentList
-                          : '',
-                    }
+                    `otherInfo.${FIELDS.OTHER.EQUIPMENTLIST}`
                   )(
                     <Input
                       placeholder={i18n().drawer.formOtherInfo.placeholder}
@@ -178,10 +160,7 @@ export default class FormCollapse extends Component {
                   label={i18n().drawer.formOtherInfo.symbol}
                   style={{ width: '100%' }}
                 >
-                  {form.getFieldDecorator(`otherInfo.${FIELDS.OTHER.SYMBOL}`, {
-                    initialValue:
-                      formType === 'editReportLog' ? logData.symbol : '',
-                  })(
+                  {form.getFieldDecorator(`otherInfo.${FIELDS.OTHER.SYMBOL}`)(
                     <Input
                       placeholder={i18n().drawer.formOtherInfo.placeholder}
                     />
@@ -201,10 +180,7 @@ export default class FormCollapse extends Component {
                   label={i18n().drawer.formOtherInfo.weather}
                   style={{ width: '100%' }}
                 >
-                  {form.getFieldDecorator(`otherInfo.${FIELDS.OTHER.WEATHER}`, {
-                    initialValue:
-                      formType === 'editReportLog' ? logData.weather : '',
-                  })(
+                  {form.getFieldDecorator(`otherInfo.${FIELDS.OTHER.WEATHER}`)(
                     <Input
                       placeholder={i18n().drawer.formOtherInfo.placeholder}
                     />
@@ -217,10 +193,7 @@ export default class FormCollapse extends Component {
                   label={i18n().drawer.formOtherInfo.analyst}
                   style={{ width: '100%' }}
                 >
-                  {form.getFieldDecorator(`otherInfo.${FIELDS.OTHER.ANALYST}`, {
-                    initialValue:
-                      formType === 'editReportLog' ? logData.analyst : '',
-                  })(
+                  {form.getFieldDecorator(`otherInfo.${FIELDS.OTHER.ANALYST}`)(
                     <Input
                       placeholder={i18n().drawer.formOtherInfo.placeholder}
                     />
@@ -241,13 +214,7 @@ export default class FormCollapse extends Component {
                   style={{ width: '100%' }}
                 >
                   {form.getFieldDecorator(
-                    `otherInfo.${FIELDS.OTHER.PLACE_OF_ANALYSIS}`,
-                    {
-                      initialValue:
-                        formType === 'editReportLog'
-                          ? logData.placeOfAnalysis
-                          : '',
-                    }
+                    `otherInfo.${FIELDS.OTHER.PLACE_OF_ANALYSIS}`
                   )(
                     <Input
                       placeholder={i18n().drawer.formOtherInfo.placeholder}
@@ -260,10 +227,7 @@ export default class FormCollapse extends Component {
                   label={i18n().drawer.formOtherInfo.note}
                   style={{ width: '100%' }}
                 >
-                  {form.getFieldDecorator(`otherInfo.${FIELDS.OTHER.NOTES}`, {
-                    initialValue:
-                      formType === 'editReportLog' ? logData.notes : '',
-                  })(
+                  {form.getFieldDecorator(`otherInfo.${FIELDS.OTHER.NOTES}`)(
                     <Input
                       placeholder={i18n().drawer.formOtherInfo.placeholder}
                     />

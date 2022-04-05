@@ -15,61 +15,79 @@ const TableStyled = styled(Table)`
       cursor: pointer;
     }
   }
+  .custom-record {
+    width: ${props => `${props.unFixedWidth}px`};
+  }
 `
 @connect(state => ({
   measuresObj: state.global.measuresObj,
 }))
 class ReportLogTable extends React.Component {
-  baseColumns = [
-    {
-      title: '#',
-      dataIndex: '',
-      key: 'order',
-      align: 'center',
-      width: 48,
-      fixed: 'left',
-      render: (value, record, index) => {
-        return <p>{index + 1}</p>
+  getNoteColumnWidth = () => {
+    const measuringList = Object.entries(
+      get(this.props.dataSource, '0.measuringLogs', {})
+    ).map(([key, measuringObj]) => ({ key, measuringObj }))
+    if (measuringList.length === 0) {
+      return 850
+    }
+    return 510
+  }
+  baseColumns = () => {
+    return [
+      {
+        title: '#',
+        dataIndex: '',
+        key: 'order',
+        align: 'center',
+        width: 60,
+        fixed: 'left',
+        render: (value, record, index) => {
+          return <p>{index + 1}</p>
+        },
       },
-    },
-    {
-      title: i18n().optionalInfo.dateTime,
-      dataIndex: 'datetime',
-      key: 'datetime',
-      align: 'left',
-      width: 180,
-      fixed: 'left',
-      render: (value, record, index) => {
-        return <div>{moment(value).format('HH:mm DD/MM/YYYY')}</div>
+      {
+        title: i18n().optionalInfo.dateTime,
+        dataIndex: 'datetime',
+        key: 'datetime',
+        align: 'left',
+        width: 180,
+        fixed: 'left',
+        render: (value, record, index) => {
+          return <div>{moment(value).format('HH:mm DD/MM/YYYY')}</div>
+        },
       },
-    },
-    {
-      title: i18n().optionalInfo.sampler,
-      dataIndex: 'sampler',
-      key: 'person',
-      align: 'left',
-      width: 168,
-      fixed: 'left',
-      render: (value, record, index) => {
-        return <div>{value}</div>
+      {
+        title: i18n().optionalInfo.sampler,
+        dataIndex: 'sampler',
+        key: 'person',
+        align: 'left',
+        width:
+          Object.entries(
+            get(this.props.dataSource, '0.measuringLogs', {})
+          ).map(([key, measuringObj]) => ({ key, measuringObj })).length > 1
+            ? 250
+            : 350,
+        fixed: 'left',
+        render: (value, record, index) => {
+          return <div>{value}</div>
+        },
       },
-    },
-    {
-      title: i18n().optionalInfo.notes,
-      dataIndex: 'notes',
-      key: 'notes',
-      align: 'left',
-      width: 208,
-      render: (value, record, index) => {
-        return <div>{value}</div>
+      {
+        title: i18n().optionalInfo.notes,
+        dataIndex: 'notes',
+        key: 'notes',
+        align: 'left',
+        width: this.getNoteColumnWidth(),
+        render: (value, record, index) => {
+          return <div>{value}</div>
+        },
       },
-    },
-  ]
-
+    ]
+  }
   getColumns = () => {
     const { form, measuresObj, dataSource } = this.props
     return [
-      ...this.baseColumns,
+      ...this.baseColumns(),
       Object.keys(form.getFieldsValue())
         .filter(
           option =>
@@ -88,7 +106,7 @@ class ReportLogTable extends React.Component {
             dataIndex: `${dataIndex}`,
             key: `${option}`,
             align: 'left',
-            width: 150,
+            className: 'custom-record',
             render: value => {
               let formatValue = value
               if (option === 'month') formatValue = moment(value).format('M')
@@ -99,29 +117,34 @@ class ReportLogTable extends React.Component {
             },
           }
         }),
-      Object.entries(get(dataSource[0], 'measuringLogs', {}))
-        .map(([key, measuringObj]) => ({ key, measuringObj }))
+      dataSource
+        .map(log => log.measuringLogs)
+        .reduce((base, current) => {
+          const measuringListFilter = Object.entries(current)
+            .map(([key, value]) => ({
+              key,
+              value,
+            }))
+            .filter(measuring => !base.some(item => item.key === measuring.key))
+          return [...base, measuringListFilter].flat()
+        }, [])
         .map(measuring => {
           return {
-            title: measuresObj[measuring.key].name,
+            title: `${measuresObj[measuring.key].name} (${
+              measuresObj[measuring.key].unit
+            })`,
             dataIndex: `measuringLogs.${get(measuring, 'key', '')}`,
+            className: 'custom-record',
             align: 'left',
-            width: 114,
             render: (value, record, index) => {
-              return (
-                <div>
-                  {isNil(value)
-                    ? ''
-                    : `${value.textValue} ${measuresObj[measuring.key].unit}`}
-                </div>
-              )
+              return <div>{isNil(value) ? '' : value.textValue}</div>
             },
           }
         }),
       {
         title: '',
         align: 'center',
-        width: 52,
+        width: 62,
         fixed: 'right',
         render: (value, record, index) => {
           return (
@@ -170,15 +193,26 @@ class ReportLogTable extends React.Component {
     }
   }
   render() {
-    const { onClickReportLog, onClickAddReportLog, dataSource } = this.props
+    const {
+      onClickReportLog,
+      onClickAddReportLog,
+      dataSource,
+      loading,
+    } = this.props
 
     return (
       <TableStyled
+        unFixedWidth={window.innerWidth > 1650 ? 350 : 250}
         rowKey={record => record._id}
         dataSource={dataSource}
+        loading={loading}
         columns={this.getColumns()}
         pagination={false}
+        // size="small"
         bordered
+        scroll={
+          window.innerWidth > 1650 ? { y: 500, x: 1500 } : { y: 500, x: 1200 }
+        }
         footer={() => (
           <Row type="flex" style={{ color: '#1890FF' }} align="middle">
             <Button
@@ -195,7 +229,7 @@ class ReportLogTable extends React.Component {
           return {
             onClick: event => {
               onClickReportLog(record)
-            }, // click row
+            },
           }
         }}
       ></TableStyled>

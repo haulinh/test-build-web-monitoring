@@ -17,10 +17,9 @@ import ReportLogTable from 'containers/manager/station-fixed/station-fixed-monit
 import { translate as t } from 'hoc/create-lang'
 import { get } from 'lodash'
 import moment from 'moment-timezone'
-import React, { Component } from 'react'
+import React, { Component, createRef } from 'react'
 import styled from 'styled-components'
 import { getTimeUTC } from 'utils/datetime'
-import { v4 as uuidV4 } from 'uuid'
 import ModalConfirmCancel from '../station-fixed-monitoring-data/components/ModalConfirmCancel'
 import FormMonitoring from '../station-fixed-monitoring-data/form-create'
 import Attachments from './Attachments'
@@ -68,13 +67,6 @@ const Drawer = styled(DrawerAnt)`
   }
 `
 
-const styleText = {
-  color: '#262626',
-  fontSize: 14,
-  border: '1px solid rgb(217, 217, 217)',
-  borderRadius: 4,
-}
-
 export function i18n() {
   return {
     receivedAt: t('dataPointReport.title.receivedAt'),
@@ -103,12 +95,35 @@ export function i18n() {
       createdAt: t('dataPointReport.optionalInfo.createdAt'),
     },
     drawer: {
-      title: t('stationFixedMonitoring.drawer.title'),
+      title: {
+        edit: t('stationFixedMonitoring.drawer.title.edit'),
+        create: t('stationFixedMonitoring.drawer.title.create'),
+      },
+    },
+    updateReportName: {
+      success: t('stationFixedMonitoring.updateReportName.success'),
+      error: t('stationFixedMonitoring.updateReportName.error'),
     },
     addButton: t('dataPointReport.button.add'),
     exportExcelButton: t('dataPointReport.button.exportExcel'),
     dataTab: t('dataPointReport.tab.data'),
     numberOrder: t('dataPointReport.title.numberOrder'),
+    message: {
+      nameReport: {
+        require: t(
+          'stationFixedMonitoring.drawer.formBasic.message.nameReport.require'
+        ),
+        max64: t(
+          'stationFixedMonitoring.drawer.formBasic.message.nameReport.max64'
+        ),
+      },
+      point: {
+        require: t(
+          'stationFixedMonitoring.drawer.formBasic.message.point.require'
+        ),
+      },
+      time: t('stationFixedMonitoring.drawer.formBasic.message.time'),
+    },
   }
 }
 
@@ -135,16 +150,22 @@ export default class ReportDetail extends Component {
     logData: {},
     formType: 'editReportLog',
     dataSourceLog: [],
+    loading: false,
+  }
+  constructor(props) {
+    super(props)
+    this.formRef = createRef()
   }
 
   componentDidMount = async () => {
-    const { initialValues } = this.props
+    const { initialValues, loading } = this.props
     const periodic = await StationFixedPeriodic.getStationFixedPeriodics({}, {})
 
     this.setState({
       points: periodic.data,
       reportName: initialValues.report.name,
       dataSourceLog: initialValues.logs,
+      loading,
     })
   }
 
@@ -166,17 +187,18 @@ export default class ReportDetail extends Component {
 
   updateReportField = async reportName => {
     const { initialValues, form } = this.props
+    await form.validateFields()
     try {
       await StationFixedReportApi.updateReportName(
         initialValues.report._id,
         reportName.trim()
       )
       form.setFieldsValue({ REPORT: reportName.trim() })
-      message.success('Cập nhật tên báo cáo thành công!')
+      message.success(i18n().updateReportName.success)
       this.setState({ reportName: reportName.trim() })
       return true
     } catch (error) {
-      message.error('Cập nhật tên báo cáo thất bại!')
+      message.error(i18n().updateReportName.error)
     }
   }
 
@@ -200,6 +222,10 @@ export default class ReportDetail extends Component {
   }
 
   onCloseDrawer = () => {
+    if (!this.formRef.current.isFieldsTouched()) {
+      this.setState({ visibleDrawer: false })
+      return
+    }
     this.setState({ visibleModalConfirmCancel: true })
   }
 
@@ -212,14 +238,22 @@ export default class ReportDetail extends Component {
   }
 
   handleClickAddReportLog = () => {
-    this.setState({ formType: 'createReportLog', visibleDrawer: true })
+    this.setState({
+      formType: 'createReportLog',
+      visibleDrawer: true,
+    })
   }
 
   onConfirmCancel = () => {
     this.setState({
       visibleDrawer: false,
       visibleModalConfirmCancel: false,
+      loading: true,
     })
+
+    setTimeout(() => {
+      this.setState({ loading: false })
+    }, 400)
   }
 
   onCancelOut = () => {
@@ -227,25 +261,28 @@ export default class ReportDetail extends Component {
   }
 
   setVisibleDrawer = visible => {
-    this.setState({
-      visibleDrawer: visible,
-    })
+    this.setState({ visibleDrawer: visible })
   }
 
-  setDataSourceLog = logEdited => {
+  setFieldTouched = isFieldsTouched => {
+    this.setState({ isFieldsTouched })
+  }
+
+  setDataSourceLog = async (logEdited, loading) => {
+    const { initialValues } = this.props
     const { dataSourceLog, formType } = this.state
 
     logEdited.datetime = getTimeUTC(moment(logEdited.datetime))
 
-    const newMeasuringLog = Object.values(logEdited.measuringLogs).map(
-      measuring => {
-        return {
-          key: measuring.key,
-          value: measuring.value,
-          textValue: measuring.value,
-        }
+    const newMeasuringLog = Object.values(
+      get(logEdited, 'measuringLogs', {})
+    ).map(measuring => {
+      return {
+        key: measuring.key,
+        value: measuring.value,
+        textValue: measuring.value,
       }
-    )
+    })
 
     logEdited.measuringLogs = newMeasuringLog.reduce((base, current) => {
       return { ...base, [current.key]: current }
@@ -256,15 +293,17 @@ export default class ReportDetail extends Component {
         if (log._id === logEdited._id) return logEdited
         return log
       })
-      this.setState({ dataSourceLog: newDataSourceLog })
+      this.setState({ dataSourceLog: newDataSourceLog, loading })
       return
     }
-    const newDataSourceLog = [...dataSourceLog, { ...logEdited, _id: uuidV4() }]
-    this.setState({ dataSourceLog: newDataSourceLog })
+    const newReportData = await StationFixedReportApi.getStationFixedReport(
+      initialValues.report._id
+    )
+
+    this.setState({ dataSourceLog: newReportData.logs, loading })
   }
 
   deleteLogData = dataSourceAfterDelete => {
-    console.log(dataSourceAfterDelete)
     this.setState({ dataSourceLog: dataSourceAfterDelete })
   }
 
@@ -278,6 +317,7 @@ export default class ReportDetail extends Component {
       logData,
       formType,
       dataSourceLog,
+      loading,
     } = this.state
 
     const stationName = this.getPointName(
@@ -286,6 +326,14 @@ export default class ReportDetail extends Component {
     )
     const stationId = initialValues ? initialValues.report.stationId : ''
     const reportId = initialValues ? initialValues.report._id : ''
+
+    const reportNameMessageError = {
+      [i18n().message.nameReport.max64]: true,
+      [i18n().message.nameReport.require]: true,
+    }
+
+    const isReportNameValidate =
+      reportNameMessageError[form.getFieldError('REPORT')]
 
     return (
       <React.Fragment>
@@ -304,10 +352,22 @@ export default class ReportDetail extends Component {
             <FormItem label={t('stationFixedManager.table.title.reportName')}>
               {form.getFieldDecorator('REPORT', {
                 initialValue: initialValues.report.name,
+                rules: [
+                  {
+                    required: true,
+                    message: i18n().message.nameReport.require,
+                  },
+                  {
+                    max: 64,
+                    message: i18n().message.nameReport.max64,
+                  },
+                  {
+                    whitespace: true,
+                    message: i18n().message.nameReport.require,
+                  },
+                ],
               })(
                 <EditWrapper
-                  maxLength={64}
-                  style={{ ...styleText }}
                   type="input"
                   value={this.getPointName(
                     points,
@@ -319,6 +379,7 @@ export default class ReportDetail extends Component {
                     )
                   }
                   prevValue={reportName}
+                  isValidate={isReportNameValidate}
                 ></EditWrapper>
               )}
             </FormItem>
@@ -333,6 +394,7 @@ export default class ReportDetail extends Component {
           onClickReportLog={this.handleClickRow}
           onClickAddReportLog={this.handleClickAddReportLog}
           handleDeleteLog={this.deleteLogData}
+          loading={loading}
         />
         <Clearfix height={16} />
         <Attachments />
@@ -340,8 +402,8 @@ export default class ReportDetail extends Component {
           key={visibleDrawer}
           title={
             formType === 'editReportLog'
-              ? 'Chỉnh sửa dữ liệu'
-              : i18n().drawer.title
+              ? i18n().drawer.title.edit
+              : i18n().drawer.title.create
           }
           visible={visibleDrawer}
           closable
@@ -355,7 +417,7 @@ export default class ReportDetail extends Component {
             formType={formType}
             points={points}
             visibleDrawer={visibleDrawer}
-            wrappedComponentRef={this.formRef}
+            ref={this.formRef}
             onResetForm={this.onResetForm}
             basicInfoData={{
               stationName,
@@ -363,9 +425,11 @@ export default class ReportDetail extends Component {
               stationId,
               reportId,
               logData,
+              dataSourceLog,
             }}
             handleSuccessEditLog={this.setDataSourceLog}
             handleSuccessCreateLog={this.setDataSourceLog}
+            handleFieldTouched={this.setFieldTouched}
           />
           <ModalConfirmCancel
             visible={visibleModalConfirmCancel}

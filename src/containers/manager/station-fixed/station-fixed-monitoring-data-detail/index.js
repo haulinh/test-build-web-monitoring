@@ -7,7 +7,12 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import Breadcrumb from '../breadcrumb'
 import ReportDetail from './ReportDetail'
+import styled from 'styled-components'
 
+const ContentWithNoData = styled.div`
+  height: 1000px;
+  background-color: white;
+`
 @createManagerEdit({
   apiGetByKey: StationFixedReportApi.getStationFixedReport,
 })
@@ -36,6 +41,7 @@ class StationFixedMonitoringDataDetail extends React.Component {
             ]}
           />
           <Clearfix height={26} />
+          {!this.props.isLoaded && <ContentWithNoData />}
           {this.props.isLoaded && (
             <ReportDetail initialValues={this.props.data} />
           )}

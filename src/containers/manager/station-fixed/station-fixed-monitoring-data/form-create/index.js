@@ -92,26 +92,30 @@ export default class FormMonitoring extends Component {
         const logId = basicInfoData.logData._id
         const paramsLog = { ...params, _id: logId, reportId }
         delete paramsLog.stationId
-
+        handleSuccessEditLog({}, true)
         await updateStationFixedReportLog(reportId, basicInfoData.logData._id, {
           ...params,
           reportId,
         })
-        handleSuccessEditLog(paramsLog)
+
+        handleSuccessEditLog(paramsLog, false)
+        message.success(i18n().popupEditLogSuccess.title)
       } else if (formType === 'createReportLog') {
         const paramsLog = { ...params, reportId }
         delete paramsLog.stationId
-
+        handleSuccessCreateLog({}, true)
         await createStationFixedReportLog({ ...params, reportId })
-        handleSuccessCreateLog(paramsLog)
+
+        handleSuccessCreateLog(paramsLog, false)
+        message.success(i18n().popupCreateLogSuccess.title)
       } else {
         await createManualReport(params)
+
+        message.success(i18n().popupCreateSuccess.title)
       }
       this.setState({
         loading: false,
       })
-
-      message.success(i18n().popupCreateSuccess.title)
 
       setVisibleDrawer(false)
     } catch (error) {
@@ -182,9 +186,9 @@ export default class FormMonitoring extends Component {
     if (formType === 'editReportLog') {
       const newMeasuringListSelect = measuringListSelect.map(measure => {
         if (
-          Object.values(basicInfoData.logData.measuringLogs).some(
-            measuringLog => measuringLog.key === measure.key
-          )
+          Object.entries(basicInfoData.logData.measuringLogs)
+            .map(([key, value]) => ({ key, value }))
+            .some(measuringLog => measuringLog.key === measure.key)
         )
           return {
             _id: uuidv4(),
@@ -216,6 +220,7 @@ export default class FormMonitoring extends Component {
 
       this.setState({
         measuringList,
+        measuringListSelect: measuringList,
       })
     }
   }
@@ -413,12 +418,42 @@ export default class FormMonitoring extends Component {
   }
 
   resetForm = () => {
-    const { form } = this.props
+    const { form, formType, basicInfoData, points } = this.props
+    const { measuringList } = this.state
+
+    const pointSelected = points.find(
+      point => point._id === get(basicInfoData, 'stationId', '')
+    )
+
+    const measuringListSelect = _.get(pointSelected, 'measuringList', [])
+
+    if (formType === 'editReportLog' || formType === 'createReportLog') {
+      const resetFields = Object.values(FIELDS.OTHER).map(
+        field => `otherInfo.${field}`
+      )
+      form.resetFields(resetFields)
+      const newDataMeasure = measuringList.reduce((base, current) => {
+        return {
+          ...base,
+          [current._id]: {
+            key: undefined,
+            value: current.value,
+          },
+        }
+      }, {})
+
+      this.setInitial()
+      form.setFieldsValue({
+        [FIELDS.MEASURING_LOGS]: newDataMeasure,
+      })
+
+      this.setState({ measuringListSelect })
+
+      return
+    }
 
     form.resetFields()
-
     this.setInitial()
-
     this.setState({
       measuringList: [],
     })
@@ -430,10 +465,13 @@ export default class FormMonitoring extends Component {
 
     const point = form.getFieldValue(FIELDS.POINT)
 
-    const measureListPoint = this.getMeasureListPoint(point)
+    const measureListPoint = this.getMeasureListPoint(
+      formType === 'editReportLog' || formType === 'createReportLog'
+        ? get(basicInfoData, 'stationId', '')
+        : point
+    )
 
     const isShowButton = !(measuringList.length === measureListPoint.length)
-
     return (
       <FormContainer>
         <div className="form-body">
@@ -470,7 +508,9 @@ export default class FormMonitoring extends Component {
             {i18n().button.reset}
           </Button>
           <Button loading={loading} type="primary" onClick={this.onSubmitForm}>
-            {formType === 'editReportLog' ? 'Cập nhật' : i18n().button.create}
+            {formType === 'editReportLog'
+              ? i18n().button.update
+              : i18n().button.create}
           </Button>
         </div>
       </FormContainer>

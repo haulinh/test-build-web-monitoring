@@ -2,6 +2,7 @@ import { Avatar, Button, Divider, Icon, message } from 'antd'
 import CategoryApi from 'api/CategoryApi'
 import { getTotalCount_by_type } from 'api/StationAuto'
 import DynamicTable from 'components/elements/dynamic-table'
+import LanguageContent from 'components/language/language-content'
 import ROLE from 'constants/role'
 import slug from 'constants/slug'
 import { autobind } from 'core-decorators'
@@ -121,7 +122,9 @@ export default class StationTypeList extends React.Component {
         content: row.key,
       },
       {
-        content: row.name,
+        content: (
+          <LanguageContent type="StationType" itemId={row._id} field="name" value={row.name} />
+        )
       },
       {
         content: (

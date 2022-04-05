@@ -66,9 +66,16 @@ class DataAnalytics extends Component {
   setLoading = isLoadingData => this.setState({ isLoadingData })
 
   componentDidMount = () => {
-    // const { history, deleteBreadcrumb } = this.props
+    const { history, deleteBreadcrumb } = this.props
 
     this.getFilterList()
+
+    // if (!location.state) {
+    //   deleteBreadcrumb({
+    //     id: 'detail',
+    //     // autoDestroy: true,
+    //   })
+    // }
   }
 
   getFilterList = async () => {
@@ -334,6 +341,34 @@ class DataAnalytics extends Component {
 
   onClickFilter = (filterId, filterItem) => {
     const { form } = this.formSearchRef.current.props
+    this.setState({ filterItem })
+    const {
+      breadcrumbs,
+      updateBreadcrumb,
+      addBreadcrumb,
+      deleteBreadcrumb,
+      history,
+    } = this.props
+
+    const url = `${slug.dataAnalytics.base}/${filterId}`
+    if (breadcrumbs.length === 2) {
+      updateBreadcrumb({
+        id: 'detail',
+        icon: '',
+        href: url,
+        name: filterItem.name,
+        autoDestroy: true,
+      })
+    } else {
+      addBreadcrumb({
+        id: 'detail',
+        icon: '',
+        href: url,
+        name: filterItem.name,
+        autoDestroy: true,
+      })
+    }
+    history.push(url, { filterId })
 
     const params = filterItem.params
 

@@ -1,7 +1,8 @@
 export default {
   languageSetup: {
     setup: 'Thiết lập hệ thống',
-    warningContent: '<span>"{{=it.lang}}"</span> sẽ được sử dụng cho các ô còn trống.'
+    warningContent:
+      '<span>"{{=it.lang}}"</span> sẽ được sử dụng cho các ô còn trống.',
   },
   notificationFreq: {
     only1: 'Chỉ 1 lần',
@@ -2972,7 +2973,7 @@ export default {
     parameterNotTypeNumber: 'Thông số sai định dạng',
     pointAndPhaseNotBelongToStationType: 'Điểm và đợt không cùng loại trạm',
     pointKeyRequired: 'Mã điểm không được để trống',
-    dateTimeRequired: 'Thời gian không được để trống',
+    dateTimeRequired: 'Ngày giờ không được để trống',
     selectPhaseError: 'Vui lòng chọn đợt quan trắc',
     complexForm: 'Mẫu chi tiết',
     simpleForm: 'Mẫu đơn giản',
@@ -4445,7 +4446,10 @@ export default {
       importExcel: 'Tải lên theo mẫu',
     },
     drawer: {
-      title: 'Nhập liệu điểm quan trắc',
+      title: {
+        create: 'Nhập liệu điểm quan trắc',
+        edit: 'Chỉnh sửa dữ liệu',
+      },
       formBasic: {
         title: 'Thông tin cơ bản',
         nameReport: 'Tên báo cáo',
@@ -4461,6 +4465,7 @@ export default {
             require: 'Vui lòng chọn điểm quan trắc',
           },
           time: 'Vui lòng nhập chọn thời gian lấy mẫu',
+          timeExist: 'Thời gian lấy mẫu đã tồn tại!',
         },
         datePicker: {
           now: 'Hiện tại',
@@ -4501,8 +4506,18 @@ export default {
         note: 'Ghi chú',
       },
     },
+    updateReportName: {
+      success: 'Cập nhật tên báo cáo thành công!',
+      error: 'Cập nhật tên báo cáo thất bại!',
+    },
     popupCreateSuccess: {
       title: 'Tạo mới báo cáo thành công.',
+    },
+    popupCreateLogSuccess: {
+      title: 'Thêm thông tin thành công.',
+    },
+    popupEditLogSuccess: {
+      title: 'Chỉnh sửa thông tin thành công.',
     },
     modalConfirmCancel: {
       content: 'Những thay đổi bạn đã thực hiện, có thể sẽ không được lưu.',
@@ -4514,6 +4529,7 @@ export default {
       create: 'Nhập dữ liệu',
       download: 'Tải xuống',
       upload: 'Tải lên',
+      update: 'Cập nhật',
     },
 
     importExcel: {
@@ -4553,6 +4569,7 @@ export default {
     },
     downloadExcel: {
       downloadFile: 'Tải xuống tệp mẫu',
+      cancel: 'Hủy',
       modal: {
         title: 'Thiết lập mẫu Báo cáo tải xuống',
         typeReport: {

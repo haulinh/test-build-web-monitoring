@@ -12,6 +12,8 @@ import Breadcrumb from '../breadcrumb'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 import { translate } from 'hoc/create-lang'
+import {connect} from 'react-redux'
+import {getContent} from 'components/language/language-content'
 
 @protectRole(ROLE.STATION_TYPE.EDIT)
 @createManagerDelete({
@@ -21,6 +23,10 @@ import { translate } from 'hoc/create-lang'
   apiUpdate: CategoryApi.updateStationType,
   apiGetByKey: CategoryApi.getStationType,
 })
+@connect(
+  state => ({
+    languageContents: state.language.languageContents
+  }))
 @autobind
 export default class StationTypeEdit extends React.PureComponent {
   static propTypes = {
@@ -33,21 +39,17 @@ export default class StationTypeEdit extends React.PureComponent {
     dataSource: null,
   }
 
-  async handleSubmit(data) {
-    this.setState({
-      dataSource: data,
-    })
-    this.props.onUpdateItem(data)
-    //const key = this.props.match.params.key
+  async handleSubmit(data, onSuccess) {
+    this.setState({dataSource: data})
+    const {onUpdateItem} = this.props
+    const res = await onUpdateItem(data)
+    if (res.success && typeof onSuccess === 'function') onSuccess(res.data)
   }
 
-  //Su kien truoc khi component duoc tao ra
   async componentWillMount() {
-    //const key = this.props.match.params.key
     this.props.getItem()
   }
 
-  // Su kien xoa measuring
   deleteStationType() {
     const key = this.props.match.params.key
     this.props.onDeleteItem(key, () => {
@@ -67,6 +69,9 @@ export default class StationTypeEdit extends React.PureComponent {
   }
 
   render() {
+    const {dataSource} = this.state
+    const {data, languageContents} = this.props
+    const initialValues = Object.assign(data, {dataSource})
     return (
       <PageContainer button={this.buttonDelete()} {...this.props.wrapperProps}>
         <Spin spinning={!this.props.isLoaded}>
@@ -75,7 +80,9 @@ export default class StationTypeEdit extends React.PureComponent {
               'list',
               {
                 id: 'edit',
-                name: this.props.isLoaded ? this.props.data.name : null,
+                name: this.props.isLoaded && this.props.success
+                  ? getContent(languageContents, {type: "StationType", itemId: data._id, field: 'name', value: data.name})
+                  : null,
               },
             ]}
           />
@@ -83,9 +90,7 @@ export default class StationTypeEdit extends React.PureComponent {
             <StationTypeFrom
               isEdit
               isLoading={this.props.isUpdating}
-              initialValues={
-                this.state.dataSource ? this.state.dataSource : this.props.data
-              }
+              initialValues={initialValues}
               onSubmit={this.handleSubmit}
             />
           )}

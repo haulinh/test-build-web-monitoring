@@ -1,37 +1,30 @@
-import {
-  Button,
-  Col,
-  Row,
-  Form as FormAnt,
-  message,
-  Breadcrumb as BreadcrumbAnt,
-} from 'antd'
+import { Button, Col, Form as FormAnt, message, Row } from 'antd'
+import CalculateApi from 'api/CalculateApi'
 import DataInsight from 'api/DataInsight'
 import BoxShadowStyle from 'components/elements/box-shadow'
 import Clearfix from 'components/elements/clearfix/index'
 import Heading from 'components/elements/heading'
 import SelectQCVN from 'components/elements/select-qcvn-v2'
+import { FilterList, ModalSaveFilter } from 'components/filter'
+import { ACTION_TYPE, MODULE_TYPE } from 'components/filter/constants'
 import ROLE from 'constants/role'
 import createLang, { translate } from 'hoc/create-lang'
 import protectRole from 'hoc/protect-role'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import _, { get, isEmpty } from 'lodash'
+import _ from 'lodash'
 import moment from 'moment-timezone'
 import React from 'react'
 import { connect } from 'react-redux'
 import { getTimes, getTimesUTC } from 'utils/datetime'
+import { downFileExcel } from 'utils/downFile'
 import { getParamArray } from 'utils/params'
-import Breadcrumb from './breadcrumb'
 import { replaceVietnameseStr } from 'utils/string'
+import Breadcrumb from './breadcrumb'
 import SearchFrom from './search-form'
 import TabList from './tab-list'
 import DataAnalyze from './tab-list/tab-table-data-list/data-analyze'
-import { downFileExcel } from 'utils/downFile'
-import { FilterList, ModalSaveFilter } from 'components/filter'
-import CalculateApi from 'api/CalculateApi'
-import { ACTION_TYPE, MODULE_TYPE } from 'components/filter/constants'
+import { withRouter } from 'react-router-dom'
 import slug from 'constants/slug'
-import { Link, withRouter } from 'react-router-dom'
 
 export const fields = {
   stationKey: 'stationKey',

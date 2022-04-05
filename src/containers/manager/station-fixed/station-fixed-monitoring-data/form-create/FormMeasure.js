@@ -25,7 +25,6 @@ export default class FormMeasure extends Component {
       }
     }, {})
 
-    console.log(newDataMeasure)
     return newDataMeasure
   }
 
@@ -52,15 +51,14 @@ export default class FormMeasure extends Component {
     const { formType, measuringList, form, logData } = this.props
 
     if (formType === 'editReportLog') {
-      const newMeasuringList = measuringList.map(measure => {
-        setTimeout(() => {
-          form.setFieldsValue({
-            [`${FIELDS.MEASURING_LOGS}.${measure._id}.value`]: logData
-              .measuringLogs[`${measure.key}`].textValue,
-          })
-        })
-        return {}
-      })
+      const newMeasuringList = measuringList.reduce((base, current) => {
+        return {
+          ...base,
+          [`${FIELDS.MEASURING_LOGS}.${current._id}.value`]: logData
+            .measuringLogs[`${current.key}`].textValue,
+        }
+      }, {})
+      form.setFieldsValue(newMeasuringList)
     }
   }
 
@@ -192,13 +190,6 @@ export default class FormMeasure extends Component {
           <Col span={12} className="title">
             {i18n().drawer.formMeasure.title}
           </Col>
-          <Col
-            span={12}
-            style={{ textAlign: 'right' }}
-            dangerouslySetInnerHTML={{
-              __html: i18n().drawer.formMeasure.hint.text,
-            }}
-          />
         </Row>
 
         {formDynamic}

@@ -72,6 +72,10 @@ export default class StationFixedMonitoringData extends React.Component {
   }
 
   onCloseDrawer = () => {
+    if (!this.formRef.current.props.form.isFieldsTouched()) {
+      this.setState({ visibleDrawer: false })
+      return
+    }
     this.setState({
       visibleModalConfirmCancel: true,
     })
@@ -135,7 +139,7 @@ export default class StationFixedMonitoringData extends React.Component {
 
           <Drawer
             key={visibleDrawer}
-            title={i18n().drawer.title}
+            title={i18n().drawer.title.create}
             visible={visibleDrawer}
             closable
             placement="right"

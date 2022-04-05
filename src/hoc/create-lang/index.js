@@ -6,8 +6,6 @@ import { connectAutoDispatch } from 'redux/connect'
 import { changeLanguage, updateLanguageContent } from 'redux/actions/languageAction'
 import { autobind } from 'core-decorators'
 import dot from 'dot'
-import languages, { getData } from 'languages'
-import { getLanguage } from 'utils/localStorage'
 
 // window.currentLanguage = languages()[getLanguage()]
 // eslint-disable-next-line

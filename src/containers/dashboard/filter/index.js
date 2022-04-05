@@ -5,6 +5,8 @@ import styled from 'styled-components'
 
 import ProvinceApi from 'api/ProvinceApi'
 import { translate as t } from 'hoc/create-lang'
+import {getContent} from 'components/language/language-content'
+import {connect} from 'react-redux'
 
 const SelectWrapper = styled.div`
   width: 160px;
@@ -19,6 +21,9 @@ function i18n() {
   }
 }
 
+@connect(state => ({
+  languageContents: state.language.languageContents
+}))
 class ProvinceSelect extends PureComponent {
   static propTypes = {
     placeholder: PropTypes.string,
@@ -46,13 +51,15 @@ class ProvinceSelect extends PureComponent {
 
   render() {
     const { provinces } = this.state
+    const {languageContents} = this.props
+
     return (
       <SelectWrapper>
         <Select placeholder={i18n().placeholder} onChange={this.onChange}>
           <Select.Option value={null}>{i18n().all}</Select.Option>
           {provinces.map(item => (
             <Select.Option key={item._id} value={item.key}>
-              {item.name}
+              {getContent(languageContents, {type: 'Province', itemId: item._id, value: item.name, field: 'name'})}
             </Select.Option>
           ))}
         </Select>
