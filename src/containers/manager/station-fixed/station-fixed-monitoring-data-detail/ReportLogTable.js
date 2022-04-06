@@ -38,11 +38,11 @@ class ReportLogTable extends React.Component {
       get(this.props.dataSource, '0.measuringLogs', {})
     ).map(([key, measuringObj]) => ({ key, measuringObj }))
     if (measuringList.length === 0) {
-      return { x: 0, y: 0 }
+      return { x: 0, y: 360 }
     } else if (window.innerWidth > 1650) {
-      return { y: 500, x: 1500 }
+      return { y: 360, x: 1500 }
     } else {
-      return { y: 500, x: 1200 }
+      return { y: 360, x: 1200 }
     }
   }
   baseColumns = () => {

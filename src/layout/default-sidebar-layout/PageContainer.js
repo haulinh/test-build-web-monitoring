@@ -19,6 +19,7 @@ const HeaderFlex = styled.div`
 export const Grid = styled.div`
   background-color: ${props => (props.hideBackground ? undefined : 'white')};
   overflow-x: hidden;
+  overflow-y: hidden;
   width: 100%;
   margin-left: auto;
   margin-right: auto;

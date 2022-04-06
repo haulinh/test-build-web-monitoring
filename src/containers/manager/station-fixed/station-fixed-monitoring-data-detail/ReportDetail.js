@@ -407,7 +407,7 @@ export default class ReportDetail extends Component {
           loading={loading}
         />
         <Clearfix height={16} />
-        <Attachments type="report" reportId={reportId} />
+        <Attachments type="report" />
         <Drawer
           key={visibleDrawer}
           title={
