@@ -12,6 +12,7 @@ import {
 import StationFixedPeriodic from 'api/station-fixed/StationFixedPeriodic'
 import StationFixedReportApi from 'api/station-fixed/StationFixedReportApi'
 import { Clearfix } from 'components/elements'
+import Attachments from 'components/elements/attachments'
 import { FormItem } from 'components/layouts/styles'
 import ReportLogTable from 'containers/manager/station-fixed/station-fixed-monitoring-data-detail/ReportLogTable'
 import { translate as t } from 'hoc/create-lang'
@@ -22,7 +23,6 @@ import styled from 'styled-components'
 import { getTimeUTC } from 'utils/datetime'
 import ModalConfirmCancel from '../station-fixed-monitoring-data/components/ModalConfirmCancel'
 import FormMonitoring from '../station-fixed-monitoring-data/form-create'
-import Attachments from './attachments'
 import { EditWrapper } from './components/index'
 
 const Flex = styled.div`
@@ -407,7 +407,7 @@ export default class ReportDetail extends Component {
           loading={loading}
         />
         <Clearfix height={16} />
-        <Attachments reportId={reportId} />
+        <Attachments type="report" reportId={reportId} />
         <Drawer
           key={visibleDrawer}
           title={

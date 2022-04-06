@@ -18,7 +18,6 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import styled from 'styled-components'
 import { downloadAttachment } from 'utils/downFile'
-import { i18n } from '../../index'
 
 const uploadProps = {
   onError(err) {
@@ -26,7 +25,11 @@ const uploadProps = {
   },
 }
 
-export const AttachmentItem = styled(Col)`
+const Container = styled.div`
+  height: 200px;
+`
+
+const AttachmentItem = styled(Col)`
   width: 100px;
   height: 100px;
   margin: 8px;
@@ -93,7 +96,7 @@ export const AttachmentItem = styled(Col)`
   }
 `
 
-export const Extension = styled.div`
+const Extension = styled.div`
   position: absolute;
   display: flex;
   align-items: center;
@@ -156,14 +159,39 @@ export default class Attachments extends Component {
     this.fetchData()
   }
 
-  customRequest = async ({ file, onError, onSuccess }) => {
+  getNotification = () => {
+    const { type } = this.props
+    const text = {
+      ticket: () =>
+        notification.success({
+          message: translate('ticket.message.incident.notificationSuccess'),
+        }),
+      report: () =>
+        message.success(translate('stationFixedMonitoring.attachment.message')),
+    }
+
+    return text[type]()
+  }
+
+  getId = () => {
     const {
       match: {
         params: { id },
       },
-      userInfo,
-      setUpdatedAt,
+      type,
+      reportId,
     } = this.props
+
+    const result = {
+      ticket: id,
+      report: reportId,
+    }
+
+    return result[type]
+  }
+
+  customRequest = async ({ file, onError, onSuccess }) => {
+    const { userInfo, setUpdatedAt, type } = this.props
 
     if (file.size > FILE_SIZE_LIMIT) {
       message.error(translate('ticket.message.incident.fileSizeLimit'))
@@ -173,12 +201,13 @@ export default class Attachments extends Component {
     const databaseName = getDatabaseName(
       userInfo.organization.databaseInfo.name
     )
+    const id = this.getId()
 
     const generatePutUrl = MediaApi.generatePutUrl(databaseName)
 
     const options = {
       params: {
-        prefix: `ticket/${id}/${file.name}`,
+        prefix: `${type}/${id}/${file.name}`,
         ContentType: file.type,
       },
       headers: {
@@ -194,9 +223,9 @@ export default class Attachments extends Component {
           'Content-Type': file.type,
         },
       })
-      setUpdatedAt()
+      type === 'ticket' && setUpdatedAt()
       this.fetchData()
-      notification.success({ message: i18n().notificationSuccess })
+      this.getNotification()
     } catch (error) {
       this.setState({ loading: false })
       onError()
@@ -206,17 +235,13 @@ export default class Attachments extends Component {
   }
 
   fetchData = async () => {
-    const {
-      userInfo,
-      match: {
-        params: { id },
-      },
-    } = this.props
+    const { userInfo, type } = this.props
     const databaseName = getDatabaseName(
       userInfo.organization.databaseInfo.name
     )
+    const id = this.getId()
     this.setState({ loading: true })
-    const result = await MediaApi.getAttachment(databaseName, id)
+    const result = await MediaApi.getAttachment(databaseName, id, type)
     this.setState({ loading: false })
     const resultSorted = result.sort(
       (a, b) => new Date(b.lastModified) - new Date(a.lastModified)
@@ -225,21 +250,17 @@ export default class Attachments extends Component {
   }
 
   handleDeleteImage = name => async () => {
-    const {
-      userInfo,
-      match: {
-        params: { id },
-      },
-      setUpdatedAt,
-    } = this.props
+    const { userInfo, setUpdatedAt, type } = this.props
 
     const databaseName = getDatabaseName(
       userInfo.organization.databaseInfo.name
     )
-    await MediaApi.deleteAttachment(databaseName, id, name)
-    setUpdatedAt()
+    const id = this.getId()
+
+    await MediaApi.deleteAttachment(databaseName, id, name, type)
+    type === 'ticket' && setUpdatedAt()
     this.fetchData()
-    notification.success({ message: i18n().notificationSuccess })
+    this.getNotification()
   }
 
   handleDownFile = async attachment => {
@@ -257,8 +278,9 @@ export default class Attachments extends Component {
 
   render() {
     const { attachments, loading } = this.state
+
     return (
-      <div>
+      <Container>
         <Flex justifyContent="space-between">
           <b>{translate('ticket.label.incident.attachment')}</b>
           <Upload
@@ -299,7 +321,7 @@ export default class Attachments extends Component {
             ))}
           </Row>
         </Spin>
-      </div>
+      </Container>
     )
   }
 }
