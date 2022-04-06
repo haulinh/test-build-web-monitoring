@@ -172,15 +172,14 @@ export default class Attachments extends Component {
   getId = () => {
     const {
       match: {
-        params: { id },
+        params: { id, key },
       },
       type,
-      reportId,
     } = this.props
 
     const result = {
       ticket: id,
-      report: reportId,
+      report: key,
     }
 
     return result[type]
