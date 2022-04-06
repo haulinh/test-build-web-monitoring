@@ -156,15 +156,18 @@ export const FilterList = props => {
                         onClickMenuItem(filterItem._id, filterItem)
                       }}
                     >
-                      <div
-                        style={{
-                          flex: 1,
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                        }}
-                      >
-                        {getHighlightedText(filterItem.name)}
-                      </div>
+                      <Tooltip title={filterItem.name}>
+                        <div
+                          style={{
+                            flex: 1,
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                          }}
+                        >
+                          {getHighlightedText(filterItem.name)}
+                        </div>
+                      </Tooltip>
+
                       <div>
                         {isDisable && (
                           <Tooltip title={i18n().menu.tooltip}>

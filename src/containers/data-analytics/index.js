@@ -61,6 +61,7 @@ class DataAnalytics extends Component {
     filterItem: {},
     filterId: '',
     filterDefault: {},
+    activeKey: null,
   }
 
   formSearchRef = React.createRef()
@@ -97,6 +98,7 @@ class DataAnalytics extends Component {
         const stationAutoKeys = filterDefault.stationAuto
         this.setState({
           filterItem: {},
+          activeKey: null,
         })
 
         this.formSearchRef.current.updateForm({ stationAutoKeys })
@@ -248,8 +250,9 @@ class DataAnalytics extends Component {
         await CalculateApi.updateFilter(filterId, queryParams)
         message.success(t('storageFilter.message.updateSuccess'))
       } else {
-        await CalculateApi.createFilter(queryParams)
-
+        const response = await CalculateApi.createFilter(queryParams)
+        this.onClickFilter(response._id, response)
+        this.setState({ activeKey: response._id })
         message.success(t('storageFilter.message.saveSuccess'))
       }
 
@@ -374,6 +377,7 @@ class DataAnalytics extends Component {
     this.setState({
       filterItem,
       filterId,
+      activeKey: filterId,
     })
     const { breadcrumbs, updateBreadcrumb, addBreadcrumb, history } = this.props
 
@@ -467,6 +471,7 @@ class DataAnalytics extends Component {
       highlightText,
       filterList,
       filterItem,
+      activeKey,
     } = this.state
 
     const { form } = this.props
@@ -503,6 +508,7 @@ class DataAnalytics extends Component {
           >
             <FilterList
               list={filterListSearched}
+              selectedKeys={[activeKey]}
               onClickMenuItem={this.onClickFilter}
               onChangeSearch={this.onChangeSearch}
               highlightText={highlightText}
