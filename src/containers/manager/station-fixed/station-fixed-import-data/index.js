@@ -1,22 +1,21 @@
-import React from 'react'
-import { Alert, Button, Col, Form, Icon, Row, Spin, Select } from 'antd'
-import styled from 'styled-components'
-import { isEmpty } from 'lodash'
+import { Alert, Button, Col, Form, Icon, Row, Select, Spin } from 'antd'
 import Dragger from 'antd/lib/upload/Dragger'
-import { translate as t } from 'hoc/create-lang'
-
 import {
-  importDataStationFixed,
-  exportDataTemplate,
-  exportSimpleDataTemplate,
-  importSimpleDataStationFixed,
-} from 'api/station-fixed/StationFixedPointApi'
-import SelectPhase from './select-phase'
-import SelectMeasuring from './select-measuring'
+  exportDataTemplateMonitoring,
+  exportSimpleDataTemplateMonitoring,
+  importDataExcelMonitoring,
+  importDataExcelMonitoringSimple,
+} from 'api/station-fixed/StationFixedPeriodic'
 import Clearfix from 'components/elements/clearfix'
-import { downFileExcel } from 'utils/downFile'
 import ROLE from 'constants/role'
+import { translate as t } from 'hoc/create-lang'
 import protectRole from 'hoc/protect-role'
+import { isEmpty } from 'lodash'
+import React from 'react'
+import styled from 'styled-components'
+import { downFileExcel } from 'utils/downFile'
+import SelectMeasuring from './select-measuring'
+import SelectPhase from './select-phase'
 
 const Header = styled.div`
   padding: 20px 24px;
@@ -205,9 +204,9 @@ class StationFixedImportData extends React.Component {
       this.setState({ isLoading: true, errorDetail: null, isSuccess: false })
       let result
       if (typeImport === 'complex') {
-        result = await importDataStationFixed(formData)
+        result = await importDataExcelMonitoring(formData)
       } else {
-        result = await importSimpleDataStationFixed(formData)
+        result = await importDataExcelMonitoringSimple(formData)
       }
 
       if (result.success) {
@@ -232,10 +231,10 @@ class StationFixedImportData extends React.Component {
     const measurings = form.getFieldValue(FIELDS.MEASURING)
     const typeForm = form.getFieldValue(FIELDS.typeExport)
     if (typeForm === 'complex') {
-      const result = await exportDataTemplate(measurings)
+      const result = await exportDataTemplateMonitoring(measurings)
       downFileExcel(result.data, 'data-template')
     } else {
-      const result = await exportSimpleDataTemplate(measurings)
+      const result = await exportSimpleDataTemplateMonitoring(measurings)
       downFileExcel(result.data, 'simple-data-template')
     }
     this.setState({ isDownloadingFile: false })
