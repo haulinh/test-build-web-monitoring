@@ -294,7 +294,9 @@ export default class ReportDetail extends Component {
       return {
         key: measuring.key,
         value: measuring.value,
-        textValue: measuring.value,
+        textValue: /^kph$/gi.test(measuring.value)
+          ? measuring.value.toUpperCase()
+          : measuring.value,
       }
     })
 
