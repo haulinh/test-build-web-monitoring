@@ -129,3 +129,7 @@ li.ant-menu-item {
 .ant-modal-title {
   font-weight: 700;
 }
+
+.ant-radio-wrapper span {
+  font-weight: 600;
+}
