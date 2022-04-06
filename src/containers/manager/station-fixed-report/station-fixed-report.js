@@ -1,5 +1,8 @@
 import { Button, Checkbox, Form, Popover, Tabs } from 'antd'
-import { exportDataPoint, getDataPoint } from 'api/station-fixed/DataPointApi'
+import {
+  exportExcelDataStations,
+  getDataStations,
+} from 'api/station-fixed/DataPointApi'
 import ROLE from 'constants/role'
 import { translate as t } from 'hoc/create-lang'
 import protectRole from 'hoc/protect-role'
@@ -10,6 +13,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { downFileExcel } from 'utils/downFile'
+import { getParamArray } from 'utils/params'
 import Breadcrumb from './breadcrumb'
 import ReportTable from './ReportTable'
 import { SearchForm } from './search-form'
@@ -44,6 +48,10 @@ export function i18n() {
     exportExcelButton: t('dataPointReport.button.exportExcel'),
     dataTab: t('dataPointReport.tab.data'),
     numberOrder: t('dataPointReport.title.numberOrder'),
+    titleExcel: {
+      title: t('dataPointReport.titleExcel.title'),
+      to: t('dataPointReport.titleExcel.to'),
+    },
   }
 }
 
@@ -148,101 +156,83 @@ export default class StationFixedReport extends React.Component {
     this.setState({ queryParam })
   }
 
-  queryDataPoint = async pageNumber => {
+  getQueryParams = () => {
+    const { pageNumber, queryParam } = this.state
     const {
-      phaseIds,
-      pointKeys,
+      stationKeys,
       startDate,
       endDate,
       isExceeded,
-      stationTypeId,
       standardsVN,
-    } = this.state.queryParam
-    this.setState({ loading: true, loadingSearch: true })
+    } = queryParam
 
-    const dataPoints = await getDataPoint({
-      point: {
-        pointKeys,
-      },
-      isExceeded,
-      filter: {
-        order: 'datetime desc',
-        where: {
-          stationTypeId,
-          'phase._id': {
-            inq: phaseIds,
-          },
-          datetime: {
-            between: [startDate, endDate],
-          },
-        },
-      },
-      standardsVN,
+    const params = {
       pageNumber,
-      pageSize: PAGE_SIZE,
-    })
+      from: startDate.toDate(),
+      itemPerPage: PAGE_SIZE,
+      to: endDate.toDate(),
+      isExceeded,
+      stationKeys: stationKeys.join(','),
+      standardsVN: getParamArray(standardsVN),
+    }
 
-    this.setState({
-      dataPoints: dataPoints,
-      total: dataPoints.total,
-      loading: false,
-      loadingSearch: false,
-    })
+    return params
   }
 
-  handleOnSearch = async (pageNumber = 1) => {
-    this.queryDataPoint(this.state.pageNumber)
+  handleOnSearch = async () => {
+    const params = this.getQueryParams()
+
+    this.setState({
+      loading: true,
+      loadingSearch: true,
+    })
+
+    try {
+      const response = await getDataStations(params)
+
+      this.setState({
+        loading: false,
+        loadingSearch: false,
+        dataPoints: response,
+        total: response.total,
+      })
+    } catch (error) {
+      console.error({ error })
+
+      this.setState({
+        loading: false,
+        loadingSearch: false,
+      })
+    }
   }
 
   handleExportExcel = async () => {
-    const {
-      phaseIds,
-      pointKeys,
-      startDate,
-      endDate,
-      isExceeded,
-      stationTypeId,
-    } = this.state.queryParam
-
     const { lang } = this.props
+    const params = this.getQueryParams()
+    const { startDate, endDate } = params
 
-    this.setState({ loadingExport: true })
-    const params = {
-      title: `${moment(startDate).format('DD/MM/YYYY')} - ${moment(
-        endDate
-      ).format('DD/MM/YYYY')}`,
-      point: {
-        pointKeys,
-      },
-      isExceeded,
-      filter: {
-        order: 'datetime desc',
-        where: {
-          stationTypeId,
-          'phase._id': {
-            inq: phaseIds,
-          },
-          datetime: {
-            between: [startDate, endDate],
-          },
-        },
-      },
+    const title = `${moment(startDate).format('DD/MM/YYYY')} - ${moment(
+      endDate
+    ).format('DD/MM/YYYY')}`
+    const maxNumber = Number.MAX_SAFE_INTEGER
+
+    const newParams = {
+      ...params,
+      itemPerPage: maxNumber,
+      title,
       optionalInfo: this.props.form.getFieldsValue(),
-      pageNumber: 1,
-      pageSize: 9999,
-      standardsVN: this.state.queryParam.standardsVN
-        ? this.state.queryParam.standardsVN
-        : [],
     }
-    const res = await exportDataPoint(lang, params)
-    this.setState({ loadingExport: false })
 
-    downFileExcel(
-      res.data,
-      `Dữ liệu liệu trạm quan trắc thủ công từ ${moment(startDate).format(
-        'DD-MM-YYYY hh:mm a'
-      )} đến ${moment(endDate).format('DD-MM-YYYY hh:mm a')}`
-    )
+    const titleExcel = `${i18n().titleExcel.title} ${moment(startDate).format(
+      'DD-MM-YYYY hh:mm a'
+    )} ${i18n().titleExcel.to} ${moment(endDate).format('DD-MM-YYYY hh:mm a')}`
+
+    try {
+      const response = await exportExcelDataStations(lang, newParams)
+      downFileExcel(response.data, titleExcel)
+    } catch (error) {
+      console.error({ error })
+    }
   }
 
   setStandardVNObject = value => {

@@ -3055,6 +3055,10 @@ export default {
         range: 'Time is required',
       },
     },
+    titleExcel: {
+      title: 'Manual monitoring station data from',
+      to: 'to',
+    },
   },
   menuApp: {
     dashboard: {

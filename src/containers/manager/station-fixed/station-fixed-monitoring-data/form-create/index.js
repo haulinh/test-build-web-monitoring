@@ -151,10 +151,9 @@ export default class FormMonitoring extends Component {
     const { form, type } = this.props
 
     const value = form.getFieldsValue()
+    const paramMeasuringLogs = this.getParamMeasuringLogs()
 
     const { measuringLogs, otherInfo, ...otherValue } = value
-
-    const paramMeasuringLogs = this.getParamMeasuringLogs()
 
     const params = {
       ...otherValue,

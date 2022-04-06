@@ -1,6 +1,6 @@
 import { Table, Tooltip } from 'antd'
 import { colorLevels } from 'constants/warningLevels'
-import _ from 'lodash'
+import _, { get } from 'lodash'
 import moment from 'moment'
 import React from 'react'
 import { i18n, PAGE_SIZE } from './station-fixed-report'
@@ -38,21 +38,12 @@ const ReportTable = ({
       },
     }
 
-    const columnPhase = {
-      title: i18n().phaseName,
-      dataIndex: 'phase',
-      key: 'phase',
-      render(value) {
-        return <div>{value.name}</div>
-      },
-    }
-
     const columnPoint = {
       title: i18n().pointName,
-      dataIndex: 'point',
-      key: 'point',
+      dataIndex: 'station',
+      key: 'station',
       render(value) {
-        return <div>{value.name}</div>
+        return <div>{get(value, 'name')}</div>
       },
     }
 
@@ -138,7 +129,6 @@ const ReportTable = ({
     return [
       columnIndex,
       columnReceivedAt,
-      columnPhase,
       columnPoint,
       ...optionalInfoColumn,
       ...columnsMeasuring,
@@ -187,7 +177,6 @@ const ReportTable = ({
                 <tr className="ant-table-row">
                   <td />
                   <td />
-                  <td />
                   <td>
                     <Tooltip title={startTime + endTime}>
                       {standard.name}
@@ -227,7 +216,7 @@ const ReportTable = ({
       size="small"
       rowKey="_id"
       columns={getColumns()}
-      dataSource={dataPoints.data}
+      dataSource={dataPoints.result}
       loading={loading}
       pagination={pagination}
     />
