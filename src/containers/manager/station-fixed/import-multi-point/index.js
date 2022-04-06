@@ -1,16 +1,15 @@
-import React from 'react'
 import { Alert, Breadcrumb, Button, Col, Form, Icon, Row, Spin } from 'antd'
-import styled from 'styled-components'
-import { isEmpty } from 'lodash'
 import Dragger from 'antd/lib/upload/Dragger'
-import { translate as t } from 'hoc/create-lang'
-
 import {
-  importMultiPoint,
-  exportMonitoringPointTemplate,
-} from 'api/station-fixed/StationFixedPointApi'
-import { downFileExcel } from 'utils/downFile'
+  exportStationFixedPointTemplate,
+  importMultiplePoint,
+} from 'api/station-fixed/StationFixedPeriodic'
 import slug from 'constants/slug'
+import { translate as t } from 'hoc/create-lang'
+import { isEmpty } from 'lodash'
+import React from 'react'
+import styled from 'styled-components'
+import { downFileExcel } from 'utils/downFile'
 
 const Header = styled.div`
   padding: 20px 24px;
@@ -216,7 +215,7 @@ class StationFixedImportData extends React.Component {
 
     try {
       this.setState({ isLoading: true, errorDetail: null, isSuccess: false })
-      const result = await importMultiPoint(formData)
+      const result = await importMultiplePoint(formData)
       if (result.success) {
         this.setState({
           isLoading: false,
@@ -235,9 +234,15 @@ class StationFixedImportData extends React.Component {
 
   onDownloadFile = async () => {
     this.setState({ isDownloadingFile: true })
-    const result = await exportMonitoringPointTemplate()
-    downFileExcel(result.data, 'point-template')
-    this.setState({ isDownloadingFile: false })
+
+    try {
+      const result = await exportStationFixedPointTemplate()
+      downFileExcel(result.data, 'point-template')
+      this.setState({ isDownloadingFile: false })
+    } catch (error) {
+      console.error({ error })
+      this.setState({ isDownloadingFile: false })
+    }
   }
 
   onSubmit = e => {

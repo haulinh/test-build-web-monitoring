@@ -82,6 +82,7 @@ export default class MinutesDataSearch extends React.Component {
     visibleModalSave: false,
     highlightText: '',
     filterDefault: {},
+    activeKey: null,
   }
   searchFormRef = React.createRef()
 
@@ -107,6 +108,7 @@ export default class MinutesDataSearch extends React.Component {
         this.searchFormRef.current.setFieldsValue(filterDefault)
         this.setState({
           filterItem: {},
+          activeKey: null,
         })
 
         this.handleOnSearch()
@@ -324,7 +326,11 @@ export default class MinutesDataSearch extends React.Component {
         await CalculateApi.updateFilter(filterId, queryParams)
         message.success(t('storageFilter.message.updateSuccess'))
       } else {
-        await CalculateApi.createFilter(queryParams)
+        const response = await CalculateApi.createFilter(queryParams)
+        this.onClickFilter(response._id, response)
+        this.setState({
+          activeKey: response._id,
+        })
 
         message.success(t('storageFilter.message.saveSuccess'))
       }
@@ -365,7 +371,9 @@ export default class MinutesDataSearch extends React.Component {
       measuringList: params.measuringList.split(','),
     })
 
-    this.setState({ filterItem, filterId }, () => this.handleOnSearch())
+    this.setState({ filterItem, filterId, activeKey: filterId }, () =>
+      this.handleOnSearch()
+    )
   }
 
   onDeleteFilter = async filterId => {
@@ -419,6 +427,7 @@ export default class MinutesDataSearch extends React.Component {
       visibleModalSave,
       highlightText,
       filterItem,
+      activeKey,
     } = this.state
 
     const { form } = this.props
@@ -449,6 +458,7 @@ export default class MinutesDataSearch extends React.Component {
             highlightText={highlightText}
             onClickMenuItem={this.onClickFilter}
             key={filterList}
+            selectedKeys={[activeKey]}
             onDeleteFilter={this.onDeleteFilter}
           />
           <Col style={{ flex: 1, overflowX: 'hidden' }}>

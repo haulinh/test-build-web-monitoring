@@ -53,9 +53,8 @@ const Col = styled(ColAnt)`
     font-weight: 600;
     font-size: 16px;
   }
-  :hover {
-    overflow-y: auto;
-  }
+
+  overflow-y: auto;
 `
 
 export const FilterList = props => {
@@ -147,52 +146,63 @@ export const FilterList = props => {
 
                 return (
                   <Menu.Item key={filterItem._id} disabled={isDisable}>
-                    <Row
-                      type="flex"
-                      justify="space-between"
-                      align="middle"
-                      style={{ gap: 8 }}
-                      onClick={() => {
-                        if (isDisable) return
-                        onClickMenuItem(filterItem._id, filterItem)
-                      }}
-                    >
-                      <div
-                        style={{
-                          flex: 1,
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
+                    <Tooltip title={filterItem.name} placement="right">
+                      <Row
+                        type="flex"
+                        justify="space-between"
+                        align="middle"
+                        style={{ gap: 8 }}
+                        onClick={() => {
+                          if (isDisable) return
+                          onClickMenuItem(filterItem._id, filterItem)
                         }}
                       >
-                        {getHighlightedText(filterItem.name)}
-                      </div>
-                      {isDisable && (
-                        <Tooltip title={i18n().menu.tooltip}>
-                          <Icon type="info-circle" theme="twoTone" />
-                        </Tooltip>
-                      )}
-                      {!isDisable && (
-                        <Popconfirm
-                          title={i18n().menu.popupConfirm.title}
-                          onCancel={event => {
-                            event.stopPropagation()
-                          }}
-                          cancelText={i18n().button.cancel}
-                          okText={i18n().button.ok}
-                          onConfirm={event => {
-                            event.stopPropagation()
-                            onDeleteFilter(filterItem._id, filterItem)
+                        <div
+                          style={{
+                            flex: 1,
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
                           }}
                         >
-                          <Icon
-                            onClick={event => event.stopPropagation()}
-                            className="icon-delete"
-                            type="close-circle"
-                            theme="filled"
-                          />
-                        </Popconfirm>
-                      )}
-                    </Row>
+                          {getHighlightedText(filterItem.name)}
+                        </div>
+
+                        <div>
+                          {isDisable && (
+                            <Tooltip
+                              title={i18n().menu.tooltip}
+                              overlayStyle={{ width: 150 }}
+                            >
+                              <Icon
+                                type="info-circle"
+                                theme="twoTone"
+                                style={{ justifySelf: 'end' }}
+                              />
+                            </Tooltip>
+                          )}
+
+                          <Popconfirm
+                            title={i18n().menu.popupConfirm.title}
+                            onCancel={event => {
+                              event.stopPropagation()
+                            }}
+                            cancelText={i18n().button.cancel}
+                            okText={i18n().button.ok}
+                            onConfirm={event => {
+                              event.stopPropagation()
+                              onDeleteFilter(filterItem._id, filterItem)
+                            }}
+                          >
+                            <Icon
+                              onClick={event => event.stopPropagation()}
+                              className="icon-delete"
+                              type="close-circle"
+                              theme="filled"
+                            />
+                          </Popconfirm>
+                        </div>
+                      </Row>
+                    </Tooltip>
                   </Menu.Item>
                 )
               })}
