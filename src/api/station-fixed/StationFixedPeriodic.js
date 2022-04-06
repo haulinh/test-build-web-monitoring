@@ -92,6 +92,16 @@ export const importMultiplePoint = params => {
   return postFetch(url, params)
 }
 
+export const exportStationFixedPointTemplate = () => {
+  const lang = getLanguage()
+
+  const url = getStationFixedPeriodicUrl(
+    `export-monitoring-station-template/${lang}`
+  )
+
+  return getFetchDownFile(url)
+}
+
 export default {
   getStationFixedPeriodics,
   getStationFixedPeriodic,
@@ -102,6 +112,7 @@ export default {
   updateStationFixedPeriodic,
   exportDataTemplateMonitoring,
   exportSimpleDataTemplateMonitoring,
+  exportStationFixedPointTemplate,
   importDataExcelMonitoring,
   importDataExcelMonitoringSimple,
   importMultiplePoint,
