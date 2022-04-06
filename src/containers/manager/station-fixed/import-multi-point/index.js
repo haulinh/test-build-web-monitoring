@@ -11,6 +11,7 @@ import {
 } from 'api/station-fixed/StationFixedPointApi'
 import { downFileExcel } from 'utils/downFile'
 import slug from 'constants/slug'
+import { importMultiplePoint } from 'api/station-fixed/StationFixedPeriodic'
 
 const Header = styled.div`
   padding: 20px 24px;
@@ -216,7 +217,7 @@ class StationFixedImportData extends React.Component {
 
     try {
       this.setState({ isLoading: true, errorDetail: null, isSuccess: false })
-      const result = await importMultiPoint(formData)
+      const result = await importMultiplePoint(formData)
       if (result.success) {
         this.setState({
           isLoading: false,

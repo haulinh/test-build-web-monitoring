@@ -86,6 +86,12 @@ export const importDataExcelMonitoringSimple = params => {
   return postFetch(url, params)
 }
 
+export const importMultiplePoint = params => {
+  const url = getStationFixedPeriodicUrl('import-multi-point')
+
+  return postFetch(url, params)
+}
+
 export default {
   getStationFixedPeriodics,
   getStationFixedPeriodic,
@@ -98,4 +104,5 @@ export default {
   exportSimpleDataTemplateMonitoring,
   importDataExcelMonitoring,
   importDataExcelMonitoringSimple,
+  importMultiplePoint,
 }
