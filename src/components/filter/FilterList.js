@@ -53,9 +53,8 @@ const Col = styled(ColAnt)`
     font-weight: 600;
     font-size: 16px;
   }
-  :hover {
-    overflow-y: auto;
-  }
+
+  overflow-y: auto;
 `
 
 export const FilterList = props => {
@@ -157,21 +156,29 @@ export const FilterList = props => {
                         onClickMenuItem(filterItem._id, filterItem)
                       }}
                     >
-                      <div
-                        style={{
-                          flex: 1,
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                        }}
-                      >
-                        {getHighlightedText(filterItem.name)}
-                      </div>
-                      {isDisable && (
-                        <Tooltip title={i18n().menu.tooltip}>
-                          <Icon type="info-circle" theme="twoTone" />
-                        </Tooltip>
-                      )}
-                      {!isDisable && (
+                      <Tooltip title={filterItem.name}>
+                        <div
+                          style={{
+                            flex: 1,
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                          }}
+                        >
+                          {getHighlightedText(filterItem.name)}
+                        </div>
+                      </Tooltip>
+
+                      <div>
+                        {isDisable && (
+                          <Tooltip title={i18n().menu.tooltip}>
+                            <Icon
+                              type="info-circle"
+                              theme="twoTone"
+                              style={{ justifySelf: 'end' }}
+                            />
+                          </Tooltip>
+                        )}
+
                         <Popconfirm
                           title={i18n().menu.popupConfirm.title}
                           onCancel={event => {
@@ -191,7 +198,7 @@ export const FilterList = props => {
                             theme="filled"
                           />
                         </Popconfirm>
-                      )}
+                      </div>
                     </Row>
                   </Menu.Item>
                 )
