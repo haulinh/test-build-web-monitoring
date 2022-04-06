@@ -7,12 +7,13 @@ import ROLE from 'constants/role'
 import { translate as t } from 'hoc/create-lang'
 import protectRole from 'hoc/protect-role'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import _, { isEmpty } from 'lodash'
+import _ from 'lodash'
 import moment from 'moment'
 import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { downFileExcel } from 'utils/downFile'
+import { getParamArray } from 'utils/params'
 import Breadcrumb from './breadcrumb'
 import ReportTable from './ReportTable'
 import { SearchForm } from './search-form'
@@ -172,7 +173,7 @@ export default class StationFixedReport extends React.Component {
       to: endDate.toDate(),
       isExceeded,
       stationKeys: stationKeys.join(','),
-      standardsVN: !isEmpty(standardsVN) ? standardsVN.join(',') : null,
+      standardsVN: getParamArray(standardsVN),
     }
 
     return params
