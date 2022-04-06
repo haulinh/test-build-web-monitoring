@@ -247,7 +247,6 @@ export default class StationFixedReport extends React.Component {
       loading,
       standardsVNObject,
     } = this.state
-
     const pagination = {
       current: this.state.pageNumber,
       total: total,

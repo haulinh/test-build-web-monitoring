@@ -1,6 +1,6 @@
 import { Table, Tooltip } from 'antd'
 import { colorLevels } from 'constants/warningLevels'
-import _ from 'lodash'
+import _, { get } from 'lodash'
 import moment from 'moment'
 import React from 'react'
 import { i18n, PAGE_SIZE } from './station-fixed-report'
@@ -43,7 +43,7 @@ const ReportTable = ({
       dataIndex: 'station',
       key: 'station',
       render(value) {
-        return <div>{value.name}</div>
+        return <div>{get(value, 'name')}</div>
       },
     }
 
