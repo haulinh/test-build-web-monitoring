@@ -1,6 +1,5 @@
 import { Button, Col, DatePicker, Form, Row, Switch } from 'antd'
 import CategoryApi from 'api/CategoryApi'
-import { getPhase } from 'api/station-fixed/StationFixedPhaseApi'
 import { getPoint } from 'api/station-fixed/StationFixedPointApi'
 import { default as BoxShadowStyle } from 'components/elements/box-shadow'
 import Heading from 'components/elements/heading'
@@ -11,7 +10,6 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 import { getTimes } from 'utils/datetime'
-import SelectPhase from './SelectPhase'
 import SelectPoint from './SelectPoint'
 import SelectProvinceForm from './SelectProvince'
 import SelectQCVNForm from './SelectQCVN'
@@ -86,27 +84,6 @@ export class SearchForm extends React.Component {
     })
   }
 
-  fetchPhase = async () => {
-    this.setState({
-      isLoading: true,
-    })
-    const stationTypeId = this.props.form.getFieldValue(FIELDS.STATION_TYPE_ID)
-    const filterPhase = {
-      limit: 100,
-      skip: 0,
-      where: {
-        stationTypeId: stationTypeId ? stationTypeId : undefined,
-      },
-      include: [{ relation: 'stationType' }],
-    }
-    const phases = await getPhase({ filter: filterPhase })
-
-    this.setState({
-      isLoading: false,
-      phases,
-    })
-  }
-
   fetchPoints = async () => {
     this.setState({
       isLoading: true,
@@ -133,10 +110,8 @@ export class SearchForm extends React.Component {
   handleOnSelectStationType = stationTypeIdSelected => {
     const { form } = this.props
     form.setFieldsValue({
-      [FIELDS.PHASE]: undefined,
       [FIELDS.POINT]: undefined,
     })
-    this.fetchPhase()
     this.fetchPoints()
   }
 
@@ -160,8 +135,7 @@ export class SearchForm extends React.Component {
     const { from, to } = getTimes(ranges)
 
     const paramQuery = {
-      phaseIds: values.phase,
-      pointKeys: values.point,
+      stationKeys: values.point,
       startDate: from,
       endDate: to,
       stationTypeId: values.stationTypeId,
@@ -186,7 +160,7 @@ export class SearchForm extends React.Component {
       setStandardVNObject,
       form,
     } = this.props
-    const { phases, points, stationTypes, isOpenRangePicker } = this.state
+    const { points, stationTypes, isOpenRangePicker } = this.state
 
     const rangeConfig = {
       rules: [
@@ -239,7 +213,7 @@ export class SearchForm extends React.Component {
                 />
               </Col>
             </Row>
-            <Row>
+            {/* <Row>
               <Col span={24}>
                 <SelectPhase
                   form={form}
@@ -248,7 +222,7 @@ export class SearchForm extends React.Component {
                   getConfig={() => this.getConfig(i18n().phaseRequired)}
                 />
               </Col>
-            </Row>
+            </Row> */}
             <Row>
               <Col span={24}>
                 <SelectPoint
