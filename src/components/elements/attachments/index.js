@@ -25,10 +25,6 @@ const uploadProps = {
   },
 }
 
-const Container = styled.div`
-  height: 200px;
-`
-
 const AttachmentItem = styled(Col)`
   width: 100px;
   height: 100px;
@@ -280,7 +276,7 @@ export default class Attachments extends Component {
     const { attachments, loading } = this.state
 
     return (
-      <Container>
+      <div>
         <Flex justifyContent="space-between">
           <b>{translate('ticket.label.incident.attachment')}</b>
           <Upload
@@ -321,7 +317,7 @@ export default class Attachments extends Component {
             ))}
           </Row>
         </Spin>
-      </Container>
+      </div>
     )
   }
 }
