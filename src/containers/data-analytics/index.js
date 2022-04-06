@@ -358,7 +358,10 @@ class DataAnalytics extends Component {
     this.setState({ isShowQcvn: toogle })
   }
 
-  onClickSaveFilter = () => {
+  onClickSaveFilter = async () => {
+    const { form } = this.formSearchRef.current.props
+
+    await form.validateFields()
     this.setState({ visibleModalSave: true })
   }
 
