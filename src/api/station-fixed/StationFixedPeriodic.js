@@ -25,12 +25,17 @@ export async function getStationFixedPeriodics(
     }
   }
 
+  const nameReplaced = (name || '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+
   filter = {
     ...filter,
     where: {
-      additionalProp1: {},
+      name: nameReplaced ? { regexp: nameReplaced, options: 'i' } : undefined,
+      stationTypeId,
+      ...where,
     },
   }
+
   let url = getStationFixedPeriodicUrl()
   return getFetch(url, { filter })
 }
