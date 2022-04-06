@@ -169,7 +169,10 @@ export const FilterList = props => {
 
                         <div>
                           {isDisable && (
-                            <Tooltip title={i18n().menu.tooltip}>
+                            <Tooltip
+                              title={i18n().menu.tooltip}
+                              overlayStyle={{ width: 150 }}
+                            >
                               <Icon
                                 type="info-circle"
                                 theme="twoTone"
