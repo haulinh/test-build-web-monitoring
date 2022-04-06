@@ -1,5 +1,9 @@
 import { Button, Checkbox, Form, Popover, Tabs } from 'antd'
-import { exportDataPoint, getDataPoint } from 'api/station-fixed/DataPointApi'
+import {
+  exportDataPoint,
+  getDataPoint,
+  getDataStations,
+} from 'api/station-fixed/DataPointApi'
 import ROLE from 'constants/role'
 import { translate as t } from 'hoc/create-lang'
 import protectRole from 'hoc/protect-role'
@@ -97,6 +101,8 @@ export default class StationFixedReport extends React.Component {
     standardsVNObject: {},
   }
 
+  searchFormRef = React.createRef()
+
   componentDidUpdate(prevProps, prevState) {
     if (!_.isEqual(prevState.queryParam, this.state.queryParam)) {
       this.setState({ pageNumber: 1 })
@@ -159,6 +165,8 @@ export default class StationFixedReport extends React.Component {
       standardsVN,
     } = this.state.queryParam
     this.setState({ loading: true, loadingSearch: true })
+
+    // const dataStation = await getDataStations({})
 
     const dataPoints = await getDataPoint({
       point: {
@@ -257,7 +265,10 @@ export default class StationFixedReport extends React.Component {
       pageNumber,
       loading,
       standardsVNObject,
+      queryParam,
     } = this.state
+
+    console.log({ queryParam })
     const pagination = {
       current: this.state.pageNumber,
       total: total,
