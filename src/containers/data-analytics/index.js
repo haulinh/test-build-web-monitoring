@@ -377,7 +377,7 @@ class DataAnalytics extends Component {
     })
     const { breadcrumbs, updateBreadcrumb, addBreadcrumb, history } = this.props
 
-    const url = `${slug.dataAnalytics.base}/${filterId}`
+    const url = `${slug.dataAnalytics.base}?filterId=${filterId}`
     if (breadcrumbs.length === 2) {
       updateBreadcrumb({
         id: 'detail',

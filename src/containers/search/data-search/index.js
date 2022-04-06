@@ -338,7 +338,7 @@ export default class MinutesDataSearch extends React.Component {
   onClickFilter = (filterId, filterItem) => {
     const { breadcrumbs, updateBreadcrumb, addBreadcrumb, history } = this.props
 
-    const url = `${slug.dataSearch.base}/${filterId}`
+    const url = `${slug.dataSearch.base}?filterId=${filterId}`
     if (breadcrumbs.length === 2) {
       updateBreadcrumb({
         id: 'detail',
