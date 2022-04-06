@@ -279,7 +279,9 @@ export default class MinutesDataSearch extends React.Component {
     this.setState({ standardObjectList })
   }
 
-  onClickSaveFilter = () => {
+  onClickSaveFilter = async () => {
+    await this.searchFormRef.current.validateFields()
+
     this.setState({ visibleModalSave: true })
   }
 
