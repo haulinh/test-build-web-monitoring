@@ -17,6 +17,8 @@ export const ModalSaveFilter = ({
       closable
       onCancel={onCancel}
       {...otherProps}
+      okText={i18n().button.saveFilter}
+      cancelText={i18n().button.cancel}
       width={600}
       onOk={onSubmitSaveFilter}
     >
