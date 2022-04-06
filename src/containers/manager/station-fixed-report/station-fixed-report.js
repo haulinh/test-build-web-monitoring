@@ -104,8 +104,6 @@ export default class StationFixedReport extends React.Component {
     standardsVNObject: {},
   }
 
-  searchFormRef = React.createRef()
-
   componentDidUpdate(prevProps, prevState) {
     if (!_.isEqual(prevState.queryParam, this.state.queryParam)) {
       this.setState({ pageNumber: 1 })
