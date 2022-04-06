@@ -4596,4 +4596,47 @@ export default {
       message: 'Cập nhật báo cáo thành công!',
     },
   },
+
+  storageFilter: {
+    button: {
+      ok: 'Đồng ý',
+      cancel: 'Hủy',
+      saveFilter: 'Lưu bộ lọc',
+    },
+    menu: {
+      search: 'Nhập tên bộ lọc',
+      popupConfirm: {
+        title: 'Bạn có chắc chắn muốn xóa bộ lọc?',
+      },
+      tooltip: 'Một vài trạm bị ẩn do bạn không có quyền.',
+    },
+    modalFilter: {
+      title: 'Lưu bộ lọc',
+      desc:
+        'Dữ liệu chọn lọc theo các trường được tạo bởi bạn sẽ được lưu trữ khi bạn đặt tên cho bộ lọc này.',
+      nameInput: {
+        title: 'Tên bộ lọc',
+        placeholder: 'Nhập tên bộ lọc',
+        rules: {
+          require: 'Vui lòng nhập tên báo cáo',
+          max64: 'Không được nhập quá 64 kí tự',
+        },
+      },
+    },
+    option: {
+      update: {
+        title: 'Cập nhật bộ lọc',
+        hint: 'Cập nhật bộ lọc cũ dựa trên các trường thông tin.',
+      },
+      create: {
+        title: 'Tạo mới bộ lọc',
+        hint: 'Tạo một bộ lọc mới dựa trên các trường thông tin.',
+      },
+    },
+    message: {
+      updateSuccess: 'Cập nhật bộ lọc thành công',
+      saveSuccess: 'Lưu bộ lọc mới thành công',
+      deleteSuccess: 'Xóa bộ lọc thành công',
+    },
+  },
 }

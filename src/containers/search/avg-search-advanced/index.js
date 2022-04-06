@@ -141,8 +141,6 @@ export default class AvgSearchAdvanced extends React.Component {
             autoDestroy: true,
           })
         }
-      } else {
-        this.props.deleteBreadcrumb({ id: 'detail' })
       }
     }
   }

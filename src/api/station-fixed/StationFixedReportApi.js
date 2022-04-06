@@ -17,7 +17,6 @@ export function getStationFixedReport(id) {
 
 export const createManualReport = params => {
   let url = getStationFixedReportUrl()
-  console.log({ url })
 
   return postFetch(url, params)
 }

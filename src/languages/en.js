@@ -4584,4 +4584,47 @@ export default {
       message: 'Update report successfully!',
     },
   },
+
+  storageFilter: {
+    button: {
+      ok: 'Accepct',
+      cancel: 'Cancel',
+      saveFilter: 'Save filter',
+    },
+    menu: {
+      search: 'Enter the filter name',
+      popupConfirm: {
+        title: 'Are you sure you want to delete the filter?',
+      },
+      tooltip: 'Some stations are hidden because you do not have permission',
+    },
+    modalFilter: {
+      title: 'Save filter',
+      desc:
+        'Filter data by fields created by you will be stored when you name this filter.',
+      nameInput: {
+        title: 'Filter name',
+        placeholder: 'Enter the filter name',
+        rules: {
+          require: 'Please enter report name',
+          max64: 'Do not enter more than 64 characters',
+        },
+      },
+    },
+    option: {
+      update: {
+        title: 'Update filter',
+        hint: 'Update old filter based on information fields.',
+      },
+      create: {
+        title: 'Create filter',
+        hint: 'Create a new filter based on the information fields.',
+      },
+    },
+    message: {
+      updateSuccess: 'Update filter successful',
+      saveSuccess: 'Create filter successfully',
+      deleteSuccess: 'Delete filter successfully',
+    },
+  },
 }
