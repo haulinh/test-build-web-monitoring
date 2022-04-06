@@ -22,7 +22,7 @@ import styled from 'styled-components'
 import { getTimeUTC } from 'utils/datetime'
 import ModalConfirmCancel from '../station-fixed-monitoring-data/components/ModalConfirmCancel'
 import FormMonitoring from '../station-fixed-monitoring-data/form-create'
-import Attachments from './Attachments'
+import Attachments from './attachments'
 import { EditWrapper } from './components/index'
 
 const Flex = styled.div`
@@ -407,7 +407,7 @@ export default class ReportDetail extends Component {
           loading={loading}
         />
         <Clearfix height={16} />
-        <Attachments />
+        <Attachments reportId={reportId} />
         <Drawer
           key={visibleDrawer}
           title={

@@ -26,10 +26,22 @@ export function getAttachment(databaseName, id) {
   return getFetch(url)
 }
 
+export function getReportAttachment(databaseName, id) {
+  const url = generateMinioUrl(databaseName, `/report/${id}`)
+  return getFetch(url)
+}
+
 export function deleteAttachment(databaseName, id, name) {
   const url = `${
     getConfigApi().minio
   }/buckets/${databaseName}?prefix=ticket/${id}/${name}`
+  return deleteFetch(url)
+}
+
+export function deleteReportAttachment(databaseName, id, name) {
+  const url = `${
+    getConfigApi().minio
+  }/buckets/${databaseName}?prefix=report/${id}/${name}`
   return deleteFetch(url)
 }
 
@@ -64,4 +76,6 @@ export default {
   deleteImage,
   getAttachment,
   deleteAttachment,
+  getReportAttachment,
+  deleteReportAttachment,
 }

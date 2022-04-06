@@ -4592,5 +4592,8 @@ export default {
         downloadSuccess: 'Tải xuống mẫu báo cáo thành công',
       },
     },
+    attachment: {
+      message: 'Cập nhật báo cáo thành công!',
+    },
   },
 }
