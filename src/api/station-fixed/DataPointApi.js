@@ -17,8 +17,12 @@ export const getDataPoint = queryParam => {
 
 export const getDataStations = queryParam => {
   const url = getStationFixedUrl('data-stations')
-  console.log({ url })
   return getFetch(url, queryParam)
+}
+
+export const exportExcelDataStations = (lang, queryParam) => {
+  const url = getStationFixedUrl(`export-data-stations/${lang}`)
+  return getFetchDownFile(url, queryParam)
 }
 
 // Api Data Point export Excel

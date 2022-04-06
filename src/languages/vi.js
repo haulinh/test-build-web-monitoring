@@ -3055,6 +3055,10 @@ export default {
         range: 'Vui lòng chọn thời gian',
       },
     },
+    titleExcel: {
+      title: 'Dữ liệu liệu trạm quan trắc thủ công từ',
+      to: 'đến',
+    },
   },
   menuApp: {
     dashboard: {
