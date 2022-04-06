@@ -146,17 +146,17 @@ export const FilterList = props => {
 
                 return (
                   <Menu.Item key={filterItem._id} disabled={isDisable}>
-                    <Row
-                      type="flex"
-                      justify="space-between"
-                      align="middle"
-                      style={{ gap: 8 }}
-                      onClick={() => {
-                        if (isDisable) return
-                        onClickMenuItem(filterItem._id, filterItem)
-                      }}
-                    >
-                      <Tooltip title={filterItem.name}>
+                    <Tooltip title={filterItem.name} placement="right">
+                      <Row
+                        type="flex"
+                        justify="space-between"
+                        align="middle"
+                        style={{ gap: 8 }}
+                        onClick={() => {
+                          if (isDisable) return
+                          onClickMenuItem(filterItem._id, filterItem)
+                        }}
+                      >
                         <div
                           style={{
                             flex: 1,
@@ -166,40 +166,40 @@ export const FilterList = props => {
                         >
                           {getHighlightedText(filterItem.name)}
                         </div>
-                      </Tooltip>
 
-                      <div>
-                        {isDisable && (
-                          <Tooltip title={i18n().menu.tooltip}>
+                        <div>
+                          {isDisable && (
+                            <Tooltip title={i18n().menu.tooltip}>
+                              <Icon
+                                type="info-circle"
+                                theme="twoTone"
+                                style={{ justifySelf: 'end' }}
+                              />
+                            </Tooltip>
+                          )}
+
+                          <Popconfirm
+                            title={i18n().menu.popupConfirm.title}
+                            onCancel={event => {
+                              event.stopPropagation()
+                            }}
+                            cancelText={i18n().button.cancel}
+                            okText={i18n().button.ok}
+                            onConfirm={event => {
+                              event.stopPropagation()
+                              onDeleteFilter(filterItem._id, filterItem)
+                            }}
+                          >
                             <Icon
-                              type="info-circle"
-                              theme="twoTone"
-                              style={{ justifySelf: 'end' }}
+                              onClick={event => event.stopPropagation()}
+                              className="icon-delete"
+                              type="close-circle"
+                              theme="filled"
                             />
-                          </Tooltip>
-                        )}
-
-                        <Popconfirm
-                          title={i18n().menu.popupConfirm.title}
-                          onCancel={event => {
-                            event.stopPropagation()
-                          }}
-                          cancelText={i18n().button.cancel}
-                          okText={i18n().button.ok}
-                          onConfirm={event => {
-                            event.stopPropagation()
-                            onDeleteFilter(filterItem._id, filterItem)
-                          }}
-                        >
-                          <Icon
-                            onClick={event => event.stopPropagation()}
-                            className="icon-delete"
-                            type="close-circle"
-                            theme="filled"
-                          />
-                        </Popconfirm>
-                      </div>
-                    </Row>
+                          </Popconfirm>
+                        </div>
+                      </Row>
+                    </Tooltip>
                   </Menu.Item>
                 )
               })}
