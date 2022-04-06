@@ -4584,6 +4584,9 @@ export default {
         downloadSuccess: 'Download the success report form',
       },
     },
+    attachment: {
+      message: 'Update report successfully!',
+    },
   },
 
   storageFilter: {

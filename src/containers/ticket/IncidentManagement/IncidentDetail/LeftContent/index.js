@@ -1,11 +1,11 @@
 import { Divider } from 'antd'
+import Attachments from 'components/elements/attachments'
 import { Clearfix, FormItem } from 'components/layouts/styles'
 import { EditWrapper2 } from 'containers/ticket/Component'
 import { translate } from 'hoc/create-lang'
 import React from 'react'
 import { i18n } from '../../index'
 import { Fields } from '../index'
-import Attachments from './Attachments'
 
 const LeftContent = ({ form, record, updateTicket, setName, setUpdatedAt }) => {
   const handleUpdateField = fieldName => {
@@ -68,7 +68,7 @@ const LeftContent = ({ form, record, updateTicket, setName, setUpdatedAt }) => {
 
       <Clearfix height={12} />
       <Divider />
-      <Attachments setUpdatedAt={setUpdatedAt} />
+      <Attachments type="ticket" setUpdatedAt={setUpdatedAt} />
     </React.Fragment>
   )
 }

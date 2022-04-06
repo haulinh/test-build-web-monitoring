@@ -21,15 +21,15 @@ export function getImages(databaseName, stationKey) {
   return getFetch(url)
 }
 
-export function getAttachment(databaseName, id) {
-  const url = generateMinioUrl(databaseName, `/ticket/${id}`)
+export function getAttachment(databaseName, id, type) {
+  const url = generateMinioUrl(databaseName, `/${type}/${id}`)
   return getFetch(url)
 }
 
-export function deleteAttachment(databaseName, id, name) {
+export function deleteAttachment(databaseName, id, name, type) {
   const url = `${
     getConfigApi().minio
-  }/buckets/${databaseName}?prefix=ticket/${id}/${name}`
+  }/buckets/${databaseName}?prefix=${type}/${id}/${name}`
   return deleteFetch(url)
 }
 
