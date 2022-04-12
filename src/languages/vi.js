@@ -4344,14 +4344,12 @@ export default {
     },
     type1_exceed: {
       excel: {
-        year: 'Bao Cao Vuot Nguong Nam_',
+        year: 'Bao Cao Ty Le Gia Tri Vuot QCVN_',
         date: 'Bao Cao Vuot Nguong Ngay_',
       },
       detailTitle: {
-        reportYear:
-          'Các số liệu thống kê về tỷ lệ giá trị vượt quy chuẩn trong năm ',
-        reportMonth:
-          'Các số liệu thống kê về tỷ lệ giá trị vượt quy chuẩn trong tháng ',
+        reportYear: 'Các số liệu thống kê về tỷ lệ giá trị vượt quy chuẩn ',
+        reportMonth: 'Các số liệu thống kê về tỷ lệ giá trị vượt quy chuẩn ',
         reportDay: 'Các số liệu thống kê về dữ liệu vượt ngưỡng trong ngày ',
       },
       title: {
@@ -4360,7 +4358,7 @@ export default {
       },
       option: {
         reportYear: 'Báo cáo tỷ lệ giá trị vượt QCVN',
-        reportDay: 'Báo cáo thống kê lần vượt ngưỡng',
+        reportDay: 'Báo cáo vượt ngưỡng theo ngày',
         year: 'Năm',
         day: 'Ngày',
         month: 'Tháng',

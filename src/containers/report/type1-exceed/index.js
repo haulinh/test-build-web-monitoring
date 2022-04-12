@@ -9,7 +9,7 @@ import { translate as t } from 'hoc/create-lang'
 import translateManual from 'hoc/create-lang'
 import protectRole from 'hoc/protect-role/forMenu'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import _ from 'lodash'
+import _, { get } from 'lodash'
 import moment from 'moment'
 import React, { Component } from 'react'
 import styled from 'styled-components'
@@ -137,25 +137,48 @@ export default class ReportExceed extends Component {
   getDetailTitle = () => {
     const { form } = this.props
     const values = form.getFieldsValue()
+    console.log({ values: values })
 
-    if (values.reportType === 'year') {
-      const startTitle =
-        t('report.type1_exceed.detailTitle.reportYear') +
-        moment(values.time.value, YYYY).format(YYYY)
-      return startTitle
-    }
-
-    if (values.reportType === 'month') {
-      const startTitle =
-        t('report.type1_exceed.detailTitle.reportMonth') +
-        moment(values.time.value, YYYY).format(YYYY)
-      return startTitle
-    }
-
-    if (values.reportType === 'date') {
+    const reportType = get(values, 'time.type', 'date')
+    const time = get(values, 'time.value', [])
+    if (reportType === 'date') {
       const startTitle =
         t('report.type1_exceed.detailTitle.reportDay') +
-        moment(values.time.value).format(DD_MM_YYYY)
+        moment(time).format(DD_MM_YYYY)
+      return startTitle
+    }
+    if (reportType === 'year') {
+      console.log({ values: values })
+      const startTitle =
+        t('report.type1_exceed.detailTitle.reportYear') +
+        t('report.type2_flow.range.from') +
+        ' ' +
+        t('report.type2_flow.range.year') +
+        ' ' +
+        moment(time[0], YYYY).format(YYYY) +
+        ' ' +
+        t('report.type2_flow.range.to') +
+        ' ' +
+        t('report.type2_flow.range.year') +
+        ' ' +
+        moment(time[1], YYYY).format(YYYY)
+      return startTitle
+    }
+
+    if (reportType === 'month') {
+      const startTitle =
+        t('report.type1_exceed.detailTitle.reportMonth') +
+        t('report.type2_flow.range.from') +
+        ' ' +
+        t('report.type2_flow.range.month') +
+        ' ' +
+        moment(time[0], YYYY).format('MM/YYYY') +
+        ' ' +
+        t('report.type2_flow.range.to') +
+        ' ' +
+        t('report.type2_flow.range.month') +
+        ' ' +
+        moment(time[1], YYYY).format('MM/YYYY')
       return startTitle
     }
   }
@@ -188,6 +211,8 @@ export default class ReportExceed extends Component {
     this.setState({
       isLoadingExcel: false,
     })
+
+    console.log(params)
     downFileExcel(
       result.data,
       `${translateManual(
@@ -195,10 +220,12 @@ export default class ReportExceed extends Component {
         null,
         null,
         this.state.langExport
-      )} ${
+      )}${
         params.reportType === 'date'
           ? moment(params.time).format('DDMMYYYY')
-          : moment(params.time).format('YYYY')
+          : moment(params.time[0]).format('YYYY') +
+            '_' +
+            moment(params.time[1]).format('YYYY')
       }`
     )
   }

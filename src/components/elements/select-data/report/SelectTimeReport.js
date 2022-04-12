@@ -1,10 +1,7 @@
 import { Col, DatePicker, Row, Select } from 'antd'
-import {
-  DatePickerRangeYear,
-  DatePickerYear,
-} from 'components/core/date-picker'
+import { DatePickerRangeYear } from 'components/core/date-picker'
+import DatePickerRangeMonth from 'components/core/date-picker/DatePickerRangeMonth'
 import { translate as t } from 'hoc/create-lang'
-import _ from 'lodash'
 import React from 'react'
 
 const { MonthPicker, RangePicker } = DatePicker
@@ -41,16 +38,7 @@ function PickTimes({ type, onChange, value }) {
     )
   }
   if (type === 'month') {
-    return (
-      <MonthPicker
-        placeholder={t('report.type2_flow.option.chooseMonth')}
-        style={{ width: '100%' }}
-        onChange={onChange}
-        allowClear={false}
-        value={value[0]}
-        format="MM/YYYY"
-      />
-    )
+    return <DatePickerRangeMonth value={value} onChange={onChange} />
   }
 
   if (type === 'year') {
@@ -77,7 +65,10 @@ const TimeReport = ({ value: valueField = {}, reportType, onChange }) => {
     reportType === 'year' || reportType === 'month' ? false : true
 
   const getTimeOption = reportType => {
-    const time = reportType === 'year' ? yearTimeOption : dateTimeOption
+    const time =
+      reportType === 'year' || reportType === 'month'
+        ? yearTimeOption
+        : dateTimeOption
     return time
   }
 

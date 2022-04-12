@@ -38,7 +38,6 @@ export default class Filter extends React.Component {
 
     // const time = form.getFieldValue(FIELDS.TIME)
     if (type === 'date') {
-      console.log('OKE year')
       resetData()
       form.resetFields()
       form.setFieldsValue({
@@ -48,7 +47,6 @@ export default class Filter extends React.Component {
         [FIELDS.TIME]: { value: [moment(), moment()], type: type },
       })
     } else if (type === 'year') {
-      console.log('OKE year')
       resetData()
       form.resetFields()
       form.setFieldsValue({
@@ -60,16 +58,17 @@ export default class Filter extends React.Component {
     }
   }
 
-  handleOnChangeTimeType = type => {
+  handleOnChangeTimeType = value => {
     const { form, resetData } = this.props
 
     // const time = form.getFieldValue(FIELDS.TIME)
-
-    console.log(type.type)
-    if (type.type === 'month') {
+    // form.setFieldsValue({
+    //   [FIELDS.REPORT_TYPE]: value.type,
+    // })
+    if (value.type === 'month') {
       console.log('OKEEEEEEEE')
       form.setFieldsValue({
-        [FIELDS.TIME]: { value: type.value, type: type },
+        [FIELDS.TIME]: { value: value.value, type: value.type },
       })
     }
   }
