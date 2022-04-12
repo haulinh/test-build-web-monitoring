@@ -1,6 +1,6 @@
 import React from 'react'
 import { Col, Menu, Input, Tooltip, Icon, Popconfirm } from 'antd'
-import _, { escapeRegExp } from 'lodash'
+import _, { escapeRegExp, get, isEmpty } from 'lodash'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
@@ -172,15 +172,34 @@ export default class FilterListMenu extends React.Component {
             .stationType,
         }))
       : []
-    return _.groupBy(filters, 'stationType')
+
+    const stationGroupByType = filters.reduce((base, currentStation) => {
+      const currentType = get(currentStation, 'stationType') || 'ALL'
+
+      if (base[currentType]) {
+        base[currentType].push(currentStation)
+      } else {
+        base[currentType] = [currentStation]
+      }
+
+      return base
+    }, {})
+
+    return stationGroupByType
   }
 
   getStationType = filterKey => {
+    if (filterKey === 'ALL') {
+      return translate('dataSearchFilterForm.table.all')
+    }
+
     if (!this.props.stations.length) {
       return ''
     }
-    const station = this.state.stationTypes.get(filterKey)
-    if (station) return station.name
+
+    const stationType = this.state.stationTypes.get(filterKey)
+    if (stationType) return stationType.name
+
     return ''
   }
 
@@ -209,7 +228,7 @@ export default class FilterListMenu extends React.Component {
               />
             </Tooltip>
           </SearchWrapper>
-          {Object.keys(filters).length ? (
+          {!isEmpty(Object.keys(filters)) && (
             <Menu
               style={{
                 overflowX: 'hidden',
@@ -217,18 +236,15 @@ export default class FilterListMenu extends React.Component {
                 backgroundColor: '#F4F5F7',
               }}
               defaultSelectedKeys={[this.props.filterId]}
-              defaultOpenKeys={[...Object.keys(filters), 'ALL']}
+              defaultOpenKeys={Object.keys(filters)}
               mode="inline"
             >
               {Object.keys(filters)
                 .sort()
                 .map(filterKey => (
                   <SubMenu
-                    key={filterKey || 'ALL'}
-                    title={
-                      this.getStationType(filterKey) ||
-                      translate('dataSearchFilterForm.table.all')
-                    }
+                    key={filterKey}
+                    title={this.getStationType(filterKey)}
                   >
                     {filters[filterKey].map(filter => (
                       <Flex
@@ -273,7 +289,7 @@ export default class FilterListMenu extends React.Component {
                   </SubMenu>
                 ))}
             </Menu>
-          ) : null}
+          )}
         </MenuWrapper>
       </React.Fragment>
     )
