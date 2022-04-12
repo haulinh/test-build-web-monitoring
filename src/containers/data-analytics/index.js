@@ -11,6 +11,7 @@ import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import { get, isEmpty, isEqual } from 'lodash'
 import moment from 'moment'
 import React, { Component } from 'react'
+
 import { withRouter } from 'react-router'
 import { connectAutoDispatch } from 'redux/connect'
 import {
@@ -469,7 +470,6 @@ class DataAnalytics extends Component {
       visibleModalSave,
       filterListSearched,
       highlightText,
-      filterList,
       filterItem,
       activeKey,
     } = this.state
@@ -512,7 +512,7 @@ class DataAnalytics extends Component {
               onClickMenuItem={this.onClickFilter}
               onChangeSearch={this.onChangeSearch}
               highlightText={highlightText}
-              key={filterList}
+              // key={filterList}
               onDeleteFilter={this.onDeleteFilter}
             />
             <Col style={{ flex: 1, overflowX: 'hidden' }}>

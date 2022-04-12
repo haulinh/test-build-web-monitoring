@@ -1,6 +1,6 @@
 import React from 'react'
 import { Col, Menu, Input, Tooltip, Icon, Popconfirm } from 'antd'
-import _ from 'lodash'
+import _, { escapeRegExp } from 'lodash'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
@@ -120,7 +120,9 @@ export default class FilterListMenu extends React.Component {
 
   getHighlightedText = (text, highlightText) => {
     //Split text on highlight term, include term itself into parts, ignore case
-    const parts = text.split(new RegExp(`(${highlightText})`, 'gi'))
+    const parts = text.split(
+      new RegExp(`(${escapeRegExp(highlightText)})`, 'gi')
+    )
     return (
       <span>
         {parts.map((part, i) => {

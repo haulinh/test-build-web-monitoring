@@ -9,7 +9,7 @@ import {
   Tooltip,
 } from 'antd'
 import { Clearfix } from 'components/layouts/styles'
-import _ from 'lodash'
+import _, { escapeRegExp, isEmpty } from 'lodash'
 import React from 'react'
 import styled from 'styled-components'
 import { i18n } from './constants'
@@ -57,15 +57,13 @@ const Col = styled(ColAnt)`
   overflow-y: auto;
 `
 
-export const FilterList = props => {
-  const {
-    list,
-    onClickMenuItem,
-    onDeleteFilter,
-    onChangeSearch,
-    highlightText,
-  } = props
-
+export const FilterList = ({
+  list,
+  onClickMenuItem,
+  onDeleteFilter,
+  onChangeSearch,
+  highlightText,
+}) => {
   const filterGroupByStationType = list.reduce((base, current) => {
     const stationType = _.get(current, ['stationType'])
     const stationKey = stationType.key
@@ -94,8 +92,12 @@ export const FilterList = props => {
 
   const getHighlightedText = text => {
     if (!highlightText) return text
+
     //Split text on highlight term, include term itself into parts, ignore case
-    const parts = text.split(new RegExp(`(${highlightText})`, 'gi'))
+    const parts = text.split(
+      new RegExp(`(${escapeRegExp(highlightText)})`, 'gi')
+    )
+
     return (
       <span>
         {parts.map((part, i) => {
@@ -116,9 +118,8 @@ export const FilterList = props => {
     )
   }
 
-  const menuSource = Object.values(filterGroupByStationType)
-
   const defaultOpenKeys = Object.keys(filterGroupByStationType)
+  const menuSource = Object.values(filterGroupByStationType)
 
   return (
     <Affix offsetTop={58}>
@@ -133,82 +134,82 @@ export const FilterList = props => {
         </Row>
         <Clearfix height={10} />
 
-        <Menu
-          forceSubMenuRender={true}
-          {...props}
-          mode="inline"
-          defaultOpenKeys={defaultOpenKeys}
-        >
-          {menuSource.map(menu => (
-            <SubMenu key={menu.stationKey} title={menu.stationName}>
-              {menu.filterList.map(filterItem => {
-                const isDisable = !filterItem.allowed
-
-                return (
-                  <Menu.Item key={filterItem._id} disabled={isDisable}>
-                    <Tooltip title={filterItem.name} placement="right">
-                      <Row
-                        type="flex"
-                        justify="space-between"
-                        align="middle"
-                        style={{ gap: 8 }}
-                        onClick={() => {
-                          if (isDisable) return
-                          onClickMenuItem(filterItem._id, filterItem)
-                        }}
-                      >
-                        <div
-                          style={{
-                            flex: 1,
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
+        {!isEmpty(list) && (
+          <Menu
+            forceSubMenuRender={true}
+            mode="inline"
+            defaultOpenKeys={defaultOpenKeys}
+          >
+            {menuSource.map(menu => (
+              <SubMenu key={menu.stationKey} title={menu.stationName}>
+                {menu.filterList.map(filterItem => {
+                  const isDisable = !filterItem.allowed
+                  return (
+                    <Menu.Item key={filterItem._id} disabled={isDisable}>
+                      <Tooltip title={filterItem.name} placement="right">
+                        <Row
+                          type="flex"
+                          justify="space-between"
+                          align="middle"
+                          style={{ gap: 8 }}
+                          onClick={() => {
+                            if (isDisable) return
+                            onClickMenuItem(filterItem._id, filterItem)
                           }}
                         >
-                          {getHighlightedText(filterItem.name)}
-                        </div>
-
-                        <div>
-                          {isDisable && (
-                            <Tooltip
-                              title={i18n().menu.tooltip}
-                              overlayStyle={{ width: 150 }}
-                            >
-                              <Icon
-                                type="info-circle"
-                                theme="twoTone"
-                                style={{ justifySelf: 'end' }}
-                              />
-                            </Tooltip>
-                          )}
-
-                          <Popconfirm
-                            title={i18n().menu.popupConfirm.title}
-                            onCancel={event => {
-                              event.stopPropagation()
-                            }}
-                            cancelText={i18n().button.cancel}
-                            okText={i18n().button.ok}
-                            onConfirm={event => {
-                              event.stopPropagation()
-                              onDeleteFilter(filterItem._id, filterItem)
+                          <div
+                            style={{
+                              flex: 1,
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
                             }}
                           >
-                            <Icon
-                              onClick={event => event.stopPropagation()}
-                              className="icon-delete"
-                              type="close-circle"
-                              theme="filled"
-                            />
-                          </Popconfirm>
-                        </div>
-                      </Row>
-                    </Tooltip>
-                  </Menu.Item>
-                )
-              })}
-            </SubMenu>
-          ))}
-        </Menu>
+                            {getHighlightedText(filterItem.name)}
+                          </div>
+
+                          <div>
+                            {isDisable && (
+                              <Tooltip
+                                title={i18n().menu.tooltip}
+                                overlayStyle={{ width: 150 }}
+                              >
+                                <Icon
+                                  type="info-circle"
+                                  theme="twoTone"
+                                  style={{ justifySelf: 'end' }}
+                                />
+                              </Tooltip>
+                            )}
+
+                            <Popconfirm
+                              title={i18n().menu.popupConfirm.title}
+                              onCancel={event => {
+                                event.stopPropagation()
+                              }}
+                              cancelText={i18n().button.cancel}
+                              okText={i18n().button.ok}
+                              onConfirm={event => {
+                                event.stopPropagation()
+                                onDeleteFilter(filterItem._id, filterItem)
+                              }}
+                            >
+                              <Icon
+                                onClick={event => event.stopPropagation()}
+                                className="icon-delete"
+                                type="close-circle"
+                                theme="filled"
+                              />
+                            </Popconfirm>
+                          </div>
+                        </Row>
+                      </Tooltip>
+                    </Menu.Item>
+                  )
+                })}
+              </SubMenu>
+            ))}
+          </Menu>
+        )}
       </Col>
     </Affix>
   )
