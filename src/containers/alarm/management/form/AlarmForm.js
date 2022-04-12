@@ -104,7 +104,6 @@ export default class AlarmForm extends Component {
   }
 
   getParam = type => {
-    console.log({ type })
     const param = {
       disconnect: this.getParamDisconnect,
       advance: this.getParamAdvance,

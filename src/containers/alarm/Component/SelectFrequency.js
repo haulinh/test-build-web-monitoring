@@ -31,7 +31,6 @@ const frequency = {
 }
 
 const SelectFrequency = props => {
-  console.log({ valueFrequency: props.value })
   return (
     <Select {...props}>
       {Object.values(frequency).map(frequencyItem => (
