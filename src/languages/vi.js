@@ -4348,18 +4348,22 @@ export default {
         date: 'Bao Cao Vuot Nguong Ngay_',
       },
       detailTitle: {
-        reportYear: 'Các số liệu thống kê về dữ liệu vượt ngưỡng trong năm ',
+        reportYear:
+          'Các số liệu thống kê về tỷ lệ giá trị vượt quy chuẩn trong năm ',
+        reportMonth:
+          'Các số liệu thống kê về tỷ lệ giá trị vượt quy chuẩn trong tháng ',
         reportDay: 'Các số liệu thống kê về dữ liệu vượt ngưỡng trong ngày ',
       },
       title: {
-        year: 'BÁO CÁO THỐNG KÊ VƯỢT NGƯỠNG THEO NĂM',
+        year: 'BÁO CÁO TỶ LỆ GIÁ TRỊ VƯỢT QUY CHUẨN',
         date: 'BÁO CÁO DỮ LIỆU VƯỢT NGƯỠNG THEO NGÀY',
       },
       option: {
-        reportYear: 'Báo cáo năm',
-        reportDay: 'Báo cáo ngày',
+        reportYear: 'Báo cáo tỷ lệ giá trị vượt QCVN',
+        reportDay: 'Báo cáo thống kê lần vượt ngưỡng',
         year: 'Năm',
         day: 'Ngày',
+        month: 'Tháng',
       },
       table: {
         data_day: 'Số liệu trong ngày',

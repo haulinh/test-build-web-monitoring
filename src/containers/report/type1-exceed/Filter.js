@@ -36,13 +36,42 @@ export default class Filter extends React.Component {
       stationTypes
     )
 
-    resetData()
-    form.resetFields()
-    form.setFieldsValue({
-      [FIELDS.STATION_KEY]: stationAutoKeys,
-    })
-    const time = form.getFieldValue(FIELDS.TIME)
-    form.setFieldsValue({ [FIELDS.TIME]: { ...time, type } })
+    // const time = form.getFieldValue(FIELDS.TIME)
+    if (type === 'date') {
+      console.log('OKE year')
+      resetData()
+      form.resetFields()
+      form.setFieldsValue({
+        [FIELDS.STATION_KEY]: stationAutoKeys,
+      })
+      form.setFieldsValue({
+        [FIELDS.TIME]: { value: [moment(), moment()], type: type },
+      })
+    } else if (type === 'year') {
+      console.log('OKE year')
+      resetData()
+      form.resetFields()
+      form.setFieldsValue({
+        [FIELDS.STATION_KEY]: stationAutoKeys,
+      })
+      form.setFieldsValue({
+        [FIELDS.TIME]: { value: [moment(), moment()], type: type },
+      })
+    }
+  }
+
+  handleOnChangeTimeType = type => {
+    const { form, resetData } = this.props
+
+    // const time = form.getFieldValue(FIELDS.TIME)
+
+    console.log(type.type)
+    if (type.type === 'month') {
+      console.log('OKEEEEEEEE')
+      form.setFieldsValue({
+        [FIELDS.TIME]: { value: type.value, type: type },
+      })
+    }
   }
 
   handleOnChangeFilter = value => {
@@ -93,6 +122,8 @@ export default class Filter extends React.Component {
     const { form, loading } = this.props
     const { reportType } = form.getFieldsValue() || {}
     const province = form.getFieldValue('province')
+
+    console.log(reportType)
     return (
       <React.Fragment>
         <Row gutter={12}>
@@ -108,6 +139,7 @@ export default class Filter extends React.Component {
             <FormItem label={i18n().time.label}>
               {form.getFieldDecorator(FIELDS.TIME, {
                 initialValue: { type: 'date', value: moment() },
+                onChange: this.handleOnChangeTimeType,
                 rules: [
                   {
                     required: true,

@@ -4334,18 +4334,21 @@ export default {
       },
       detailTitle: {
         reportYear:
-          'Statistics about the percentage of data over the threshold in ',
+          'Statistics about the percentage of data over the threshold in  ',
+        reportMonth:
+          'Statistics about the percentage of data over the threshold in  ',
         reportDay: 'Statistics about data over the threshold in ',
       },
       title: {
-        year: 'REPORT DATA OVER THE THRESHOLD BY YEAR',
+        year: 'REPORT PERCENTAGE DATA OVER THE THRESHOLD',
         date: 'REPORT DATA OVER THE THRESHOLD BY DAY',
       },
       option: {
-        reportYear: 'Year Report',
-        reportDay: 'Day Report',
+        reportYear: 'Report the rate of value exceed standard',
+        reportDay: 'Report data over the threshold',
         year: 'Year',
         day: 'Day',
+        month: 'Month',
       },
       table: {
         data_day: 'Statistics For The Day',
