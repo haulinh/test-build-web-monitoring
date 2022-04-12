@@ -166,11 +166,12 @@ export default class AlarmConfig extends Component {
 
   //#region set
   setInitValues = (alarmList, qcvnList) => {
+    const { isEdit } = this.props
     const { alarmDisconnect, alarmStandard } = getAlarmGroupByType(alarmList)
 
     this.setState({ qcvnList })
 
-    if (!isEmpty(alarmDisconnect)) {
+    if (!isEmpty(alarmDisconnect) && isEdit) {
       this.setState({ alarmDisconnect }, () =>
         this.setFormValues(FIELDS.DISCONNECT, alarmDisconnect)
       )
@@ -178,7 +179,7 @@ export default class AlarmConfig extends Component {
       this.setFormValues(FIELDS.DISCONNECT, ALARM_LIST_INIT.DISCONNECT)
     }
 
-    if (!isEmpty(alarmStandard)) {
+    if (!isEmpty(alarmStandard) && isEdit) {
       this.setState({ alarmStandard }, () =>
         this.setFormValues(FIELDS.BY_STANDARD, alarmStandard)
       )
