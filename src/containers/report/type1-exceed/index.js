@@ -28,6 +28,7 @@ export const FIELDS = {
   STATION_KEY: 'stationKeys',
   SELECT_TIME: 'selectTime',
   IS_FILTER: 'isFilter',
+  TYPE: 'type',
 }
 
 const Text = styled.div`
@@ -106,6 +107,7 @@ export default class ReportExceed extends Component {
   getQueryParamsGeneral = () => {
     const { form } = this.props
     const values = form.getFieldsValue()
+
     const params = {
       ...values,
       [FIELDS.IS_FILTER]: values[FIELDS.IS_FILTER],
@@ -116,11 +118,16 @@ export default class ReportExceed extends Component {
 
   getQueryParamsYear = () => {
     const paramsGeneral = this.getQueryParamsGeneral()
+
     const params = {
       ...paramsGeneral,
-      [FIELDS.TIME]: getTimeUTC(
+      from: getTimeUTC(
         moment(paramsGeneral[FIELDS.TIME].value, 'YYYY').startOf('year')
       ),
+      to: getTimeUTC(
+        moment(paramsGeneral[FIELDS.TIME].value, 'YYYY').endOf('year')
+      ),
+      type: paramsGeneral[FIELDS.TIME].type,
     }
     return params
   }
@@ -137,7 +144,6 @@ export default class ReportExceed extends Component {
   getDetailTitle = () => {
     const { form } = this.props
     const values = form.getFieldsValue()
-    console.log({ values: values })
 
     const reportType = get(values, 'time.type', 'date')
     const time = get(values, 'time.value', [])
@@ -148,20 +154,9 @@ export default class ReportExceed extends Component {
       return startTitle
     }
     if (reportType === 'year') {
-      console.log({ values: values })
       const startTitle =
         t('report.type1_exceed.detailTitle.reportYear') +
-        t('report.type2_flow.range.from') +
-        ' ' +
-        t('report.type2_flow.range.year') +
-        ' ' +
-        moment(time[0], YYYY).format(YYYY) +
-        ' ' +
-        t('report.type2_flow.range.to') +
-        ' ' +
-        t('report.type2_flow.range.year') +
-        ' ' +
-        moment(time[1], YYYY).format(YYYY)
+        moment(time[0], YYYY).format(YYYY)
       return startTitle
     }
 
@@ -185,14 +180,16 @@ export default class ReportExceed extends Component {
 
   handleOnSearch = async () => {
     const params = await this.getQueryParams()
-    try {
-      this.setState({ loading: true })
-      const results = await DataInsight.getExceedData(params.reportType, params)
-      this.setState({ data: results, loading: false })
-    } catch (err) {
-      this.setState({ loading: false })
-      console.log(err)
-    }
+
+    console.log(params)
+    // try {
+    //   this.setState({ loading: true })
+    //   const results = await DataInsight.getExceedData(params.reportType, params)
+    //   this.setState({ data: results, loading: false })
+    // } catch (err) {
+    //   this.setState({ loading: false })
+    //   console.log(err)
+    // }
   }
 
   handleExportExceed = async () => {

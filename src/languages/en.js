@@ -4119,7 +4119,7 @@ export default {
       dataLookup: {},
       incident: {
         drawer: 'Create new issue',
-        report: 'REPORT PROBLEM',
+        report: 'Report_Incident Management_',
       },
       configProperties: {
         drawer: {
@@ -4334,7 +4334,7 @@ export default {
       },
       detailTitle: {
         reportYear:
-          'Statistics about the percentage of value over the threshold from ',
+          'Statistics about the percentage of value over the threshold in ',
         reportMonth:
           'Statistics about the percentage of value over the threshold from ',
         reportDay: 'Statistics about data over the threshold in ',

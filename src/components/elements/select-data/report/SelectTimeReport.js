@@ -1,10 +1,13 @@
 import { Col, DatePicker, Row, Select } from 'antd'
-import { DatePickerRangeYear } from 'components/core/date-picker'
+import {
+  DatePickerRangeYear,
+  DatePickerYear,
+} from 'components/core/date-picker'
 import DatePickerRangeMonth from 'components/core/date-picker/DatePickerRangeMonth'
 import { translate as t } from 'hoc/create-lang'
 import React from 'react'
-
-const { MonthPicker, RangePicker } = DatePicker
+import moment from 'moment'
+import _ from 'lodash'
 
 const dateTimeOption = [
   {
@@ -43,10 +46,12 @@ function PickTimes({ type, onChange, value }) {
 
   if (type === 'year') {
     return (
-      <DatePickerRangeYear
+      <DatePickerYear
         style={{ with: '100%' }}
         onChange={onChange}
-        value={value}
+        value={
+          _.isNumber(value[0]) ? value[0] : moment(value[0]).format('YYYY')
+        }
       />
     )
   }
@@ -58,6 +63,7 @@ const TimeReport = ({ value: valueField = {}, reportType, onChange }) => {
   }
 
   const handleOnPicker = value => {
+    console.log(value)
     onChange({ ...valueField, value })
   }
 
@@ -73,7 +79,7 @@ const TimeReport = ({ value: valueField = {}, reportType, onChange }) => {
   }
 
   console.log(valueField)
-  console.log(reportType)
+
   return (
     <Row gutter={16}>
       <Col span={7}>

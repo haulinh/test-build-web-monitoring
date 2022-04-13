@@ -36,41 +36,38 @@ export default class Filter extends React.Component {
       stationTypes
     )
 
-    // const time = form.getFieldValue(FIELDS.TIME)
-    if (type === 'date') {
-      resetData()
-      form.resetFields()
-      form.setFieldsValue({
-        [FIELDS.STATION_KEY]: stationAutoKeys,
-      })
-      form.setFieldsValue({
-        [FIELDS.TIME]: { value: [moment(), moment()], type: type },
-      })
-    } else if (type === 'year') {
-      resetData()
-      form.resetFields()
-      form.setFieldsValue({
-        [FIELDS.STATION_KEY]: stationAutoKeys,
-      })
+    resetData()
+    form.resetFields()
+    form.setFieldsValue({
+      [FIELDS.STATION_KEY]: stationAutoKeys,
+    })
+
+    if (type === 'year') {
       form.setFieldsValue({
         [FIELDS.TIME]: { value: [moment(), moment()], type: type },
       })
+      return
     }
+    form.setFieldsValue({
+      [FIELDS.TIME]: { value: moment(), type: type },
+    })
   }
 
   handleOnChangeTimeType = value => {
-    const { form, resetData } = this.props
+    const { form } = this.props
 
-    // const time = form.getFieldValue(FIELDS.TIME)
-    // form.setFieldsValue({
-    //   [FIELDS.REPORT_TYPE]: value.type,
-    // })
-    if (value.type === 'month') {
-      console.log('OKEEEEEEEE')
-      form.setFieldsValue({
-        [FIELDS.TIME]: { value: value.value, type: value.type },
-      })
-    }
+    // if (value.type === 'month') {
+    //   console.log(value)
+    //   console.log('go to month type')
+    //   setTimeout(() => {
+    //     form.setFieldsValue({
+    //       [FIELDS.TIME]: {
+    //         value: [value.value, value.value],
+    //         type: value.type,
+    //       },
+    //     })
+    //   })
+    // }
   }
 
   handleOnChangeFilter = value => {
@@ -122,7 +119,6 @@ export default class Filter extends React.Component {
     const { reportType } = form.getFieldsValue() || {}
     const province = form.getFieldValue('province')
 
-    console.log(reportType)
     return (
       <React.Fragment>
         <Row gutter={12}>
@@ -138,7 +134,6 @@ export default class Filter extends React.Component {
             <FormItem label={i18n().time.label}>
               {form.getFieldDecorator(FIELDS.TIME, {
                 initialValue: { type: 'date', value: moment() },
-                onChange: this.handleOnChangeTimeType,
                 rules: [
                   {
                     required: true,
@@ -153,7 +148,7 @@ export default class Filter extends React.Component {
               {form.getFieldDecorator(FIELDS.PROVINCE, {
                 initialValue: '',
                 onChange: this.handleOnProvinceChange,
-              })(<SelectProvince isShowAll allowClear={false} />)}
+              })(<SelectProvince isShowAll allowClear={false} form={form} />)}
             </FormItem>
           </Col>
         </Row>

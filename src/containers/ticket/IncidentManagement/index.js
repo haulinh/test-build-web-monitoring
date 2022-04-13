@@ -1,21 +1,20 @@
 import { Button, Col, Form, Icon, Row } from 'antd'
-import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import React, { Component } from 'react'
-import { translate as t } from 'hoc/create-lang'
-import IncidentCreate from './IncidentCreate'
 import CalculateApi from 'api/CalculateApi'
-import { Search, BoxShadow, Clearfix } from 'components/layouts/styles'
-import Filter from './Filter'
-import { getParamArray } from 'utils/params'
-import { TableData } from './TableData'
-import { getLanguage } from 'utils/localStorage'
-import { downFileExcel } from 'utils/downFile'
-import { DD_MM_YYYY } from 'constants/format-date'
-import _ from 'lodash'
-import createBreadcrumb from 'shared/breadcrumb/hoc'
-import protectRole from 'hoc/protect-role'
+import { BoxShadow, Clearfix, Search } from 'components/layouts/styles'
 import ROLE from 'constants/role'
+import { translate as t } from 'hoc/create-lang'
+import protectRole from 'hoc/protect-role'
+import PageContainer from 'layout/default-sidebar-layout/PageContainer'
+import _ from 'lodash'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import createBreadcrumb from 'shared/breadcrumb/hoc'
+import { downFileExcel } from 'utils/downFile'
+import { getLanguage } from 'utils/localStorage'
+import { getParamArray } from 'utils/params'
+import Filter from './Filter'
+import IncidentCreate from './IncidentCreate'
+import { TableData } from './TableData'
 
 const Breadcrumb = createBreadcrumb()
 
@@ -143,8 +142,8 @@ export default class IncidentManagement extends Component {
   getTimes = () => {
     const { form } = this.props
     const values = form.getFieldsValue()
-    const from = values[Fields.time][0].format(DD_MM_YYYY)
-    const to = values[Fields.time][1].format(DD_MM_YYYY)
+    const from = values[Fields.time][0].format('DDMMYYYY')
+    const to = values[Fields.time][1].format('DDMMYYYY')
     return { from, to }
   }
 
@@ -157,7 +156,7 @@ export default class IncidentManagement extends Component {
     const { from, to } = this.getTimes()
     downFileExcel(
       result.data,
-      `${t('ticket.title.incident.report')} ${from} - ${to}`
+      `${t('ticket.title.incident.report')}${from}_${to}`
     )
   }
 
@@ -195,8 +194,13 @@ export default class IncidentManagement extends Component {
 
             <Row type="flex" justify="end">
               <Col>
-                <Button onClick={this.handleExport} type="primary">
-                  {t('billing.button.exportReport')}
+                <Button
+                  style={{ marginRight: '12px' }}
+                  type="primary"
+                  onClick={this.handleExport}
+                  icon="file-excel"
+                >
+                  {t('report.exportExcel')}
                 </Button>
               </Col>
             </Row>

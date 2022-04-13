@@ -4131,7 +4131,7 @@ export default {
       dataLookup: {},
       incident: {
         drawer: 'Tạo mới sự cố',
-        report: 'BÁO CÁO SỰ CỐ',
+        report: 'Bao Cao Su Co_',
       },
       configProperties: {
         drawer: {
@@ -4348,7 +4348,7 @@ export default {
         date: 'Bao Cao Vuot Nguong Ngay_',
       },
       detailTitle: {
-        reportYear: 'Các số liệu thống kê về tỷ lệ giá trị vượt quy chuẩn ',
+        reportYear: 'Các số liệu thống kê về tỷ lệ giá trị vượt quy chuẩn năm ',
         reportMonth: 'Các số liệu thống kê về tỷ lệ giá trị vượt quy chuẩn ',
         reportDay: 'Các số liệu thống kê về dữ liệu vượt ngưỡng trong ngày ',
       },

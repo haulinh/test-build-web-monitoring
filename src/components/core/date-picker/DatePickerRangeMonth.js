@@ -15,6 +15,9 @@ export default class DatePickerRangeMonth extends Component {
   }
 
   handlePanelChange = (value, mode) => {
+    const { onChange } = this.props
+
+    onChange(value)
     this.setState({
       value,
       mode: [
@@ -25,14 +28,13 @@ export default class DatePickerRangeMonth extends Component {
   }
 
   render() {
-    const { value, onChange } = this.state
+    const { value } = this.state
     return (
       <RangePicker
         placeholder={['Start month', 'End month']}
         format="MM-YYYY"
         value={value}
         mode={['month', 'month']}
-        onChange={onChange}
         onPanelChange={this.handlePanelChange}
       />
     )
