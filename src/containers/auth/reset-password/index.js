@@ -2,6 +2,7 @@ import React, { PureComponent, Fragment, createRef } from 'react'
 import { Form, Input, notification } from 'antd'
 import styled from 'styled-components'
 import { withRouter } from 'react-router'
+import createLang from 'hoc/create-lang'
 
 import AuthApi from 'api/AuthApi'
 import Errors from 'constants/errors'
@@ -36,6 +37,7 @@ const FIELDS = {
 
 @withRouter
 @Form.create()
+@createLang
 export default class EmailConfirm extends PureComponent {
   state = {
     isLoading: false,
@@ -143,7 +145,12 @@ export default class EmailConfirm extends PureComponent {
   }
 
   render() {
-    const { history, form } = this.props
+    const {
+      history,
+      form,
+      lang: { t },
+    } = this.props
+
     const {
       isLoading,
       isShowOtpForm,
@@ -157,14 +164,14 @@ export default class EmailConfirm extends PureComponent {
           onSubmit={this.onSubmit}
           hidden={isShowOtpForm || isShowResetPasswordForm}
         >
-          <Heading fontSize={16}>{translate('resetPassword.key')}</Heading>
+          <Heading fontSize={16}>{t('resetPassword.key')}</Heading>
           {form.getFieldDecorator(FIELDS.CODE)(<Input hidden />)}
           <Form.Item>
             {form.getFieldDecorator(FIELDS.EMAIL, {
               rules: [requireRule, emailRule],
             })(<Input autoFocus placeholder="Your email" size="large" />)}
           </Form.Item>
-          <Note>{translate('resetPassword.key2')}</Note>
+          <Note>{t('resetPassword.key2')}</Note>
           <Button
             block
             size="small"
@@ -172,10 +179,10 @@ export default class EmailConfirm extends PureComponent {
             isLoading={isLoading}
             disabled={isLoading}
           >
-            {translate('global.submit')}
+            {t('global.submit')}
           </Button>
           <CustomButton margin="16px 0 0 0" onClick={history.goBack}>
-            {translate('global.cancel')}
+            {t('global.cancel')}
           </CustomButton>
         </Form>
         {isShowOtpForm && (
