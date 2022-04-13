@@ -4,7 +4,7 @@ import Clearfix from 'components/elements/clearfix'
 import ModalLangExport from 'components/elements/modal-lang-export'
 import { DD_MM_YYYY, MM_YYYY } from 'constants/format-date.js'
 import ROLE from 'constants/role'
-import { translate } from 'hoc/create-lang'
+import createLanguage, { translate } from 'hoc/create-lang'
 import protectRole from 'hoc/protect-role/forMenu'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import { get as _get } from 'lodash'
@@ -14,31 +14,13 @@ import { connect } from 'react-redux'
 import { getTimeUTC } from 'utils/datetime'
 import { downFileExcel } from 'utils/downFile'
 import Breadcrumb from '../breadcrumb'
+import { REPORT_TYPE } from './constants'
 import SearchForm from './Form'
-import { TableMonth, TabStation } from './TableData'
-import createLanguage from 'hoc/create-lang'
+import { TableDate, TableMonth } from './Table'
+import { FIELDS, i18n } from './constants'
+// import { TableMonth } from './TableData'
 
 const { Title, Text } = Typography
-
-export const FIELDS = {
-  STATION_KEYS: 'stationKeys',
-  STATISTIC: 'statistic',
-  TIME_VALUE: 'timeValue',
-  TIME_TYPE: 'timeType',
-}
-
-export function i18n() {
-  return {
-    header1: translate('avgSearchFrom.table.header1'),
-    header2: translate('avgSearchFrom.table.header2'),
-    header3: translate('avgSearchFrom.table.header3'),
-    header4: translate('avgSearchFrom.table.header4'),
-    header5: translate('avgSearchFrom.table.header5'),
-    header6: translate('avgSearchFrom.table.header6'),
-    title: translate('avgSearchFrom.table.title'),
-    titleDay: translate('avgSearchFrom.table.titleDay'),
-  }
-}
 
 @protectRole(ROLE.TILE_DULIEU_THUDUOC.VIEW)
 @connect(state => ({
@@ -60,6 +42,7 @@ export default class ReportType10 extends React.Component {
       stationAutos: [],
       visableModal: false,
       langExport: 'vi',
+      reportType: REPORT_TYPE.OBTAINED,
     }
     this.tabStationRef = React.createRef()
   }
@@ -192,6 +175,10 @@ export default class ReportType10 extends React.Component {
     })
   }
 
+  setReportType = reportType => {
+    this.setState({ reportType })
+  }
+
   resetData = () => this.setState({ dataSource: [] })
   setStationAutos = stationAutos => this.setState({ stationAutos })
 
@@ -203,6 +190,7 @@ export default class ReportType10 extends React.Component {
       stationAutos,
       visableModal,
       langExport,
+      reportType,
     } = this.state
     const stationKeys = dataSearch.stationKeys
       ? dataSearch.stationKeys.split(',')
@@ -215,6 +203,7 @@ export default class ReportType10 extends React.Component {
         <Breadcrumb items={['type10']} />
         <Clearfix height={16} />
         <SearchForm
+          setReportType={this.setReportType}
           cbSubmit={this.handleSubmit}
           resetData={this.resetData}
           setStationAutos={this.setStationAutos}
@@ -255,13 +244,16 @@ export default class ReportType10 extends React.Component {
           onChangeModal={this.onChangeModal}
           langExport={langExport}
         />
+
         <TableMonth
           hidden={type !== 'month'}
           dataSource={dataSource}
           loading={isLoading}
           parentProps={this.props}
         />
-        <TabStation
+
+        <TableDate
+          reportType={reportType}
           stationAutos={stationAutos}
           hidden={type !== 'date'}
           ref={this.tabStationRef}

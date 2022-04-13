@@ -1,7 +1,7 @@
 import { Col, DatePicker, Form, Row, Select } from 'antd'
 import { translate } from 'hoc/create-lang'
 import React from 'react'
-import { FIELDS } from '../index'
+import { FIELDS } from '../constants'
 import moment from 'moment'
 
 const { RangePicker } = DatePicker
@@ -38,7 +38,7 @@ const SelectDatePickerType = ({ timeType, ...props }) => {
     return <DatePickerRangeMonth {...props} />
   }
 
-  return <RangePicker allowClear={false} format='DD/MM/YYYY' {...props} />
+  return <RangePicker allowClear={false} format="DD/MM/YYYY" {...props} />
 }
 
 class DatePickerRangeMonth extends React.Component {
