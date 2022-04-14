@@ -3,12 +3,11 @@ import { DD_MM_YYYY } from 'constants/format-date'
 import { getFormatNumber } from 'constants/format-number'
 import { translate } from 'hoc/create-lang'
 import _ from 'lodash'
-import get from 'lodash/get'
 import moment from 'moment-timezone'
 import React from 'react'
 import { i18n } from '../../constants'
 
-const TableMonthObtained = ({ dataSource, loading, hidden, parentProps }) => {
+const TableMonthObtained = ({ dataSource, loading }) => {
   const dataSortByStationType = dataSource.sort((a, b) =>
     _.get(b.station, 'stationType.key', '').localeCompare(
       _.get(a.station, 'stationType.key', '')
@@ -18,7 +17,7 @@ const TableMonthObtained = ({ dataSource, loading, hidden, parentProps }) => {
   const columns = [
     {
       title: i18n().header1,
-      dataIndex: 'name',
+      dataIndex: 'station.name',
       align: 'left',
       render: value => {
         return <div>{value}</div>
@@ -26,7 +25,7 @@ const TableMonthObtained = ({ dataSource, loading, hidden, parentProps }) => {
     },
     {
       title: i18n().header6,
-      dataIndex: 'activatedAt',
+      dataIndex: 'station.activatedAt',
       align: 'left',
       render: value => {
         if (!value) {
@@ -34,16 +33,14 @@ const TableMonthObtained = ({ dataSource, loading, hidden, parentProps }) => {
         }
         return (
           <div style={{ textAlign: 'left' }}>
-            {moment(value)
-              .tz(get(parentProps, 'timeZone.value', ''))
-              .format(DD_MM_YYYY)}
+            {moment(value).format(DD_MM_YYYY)}
           </div>
         )
       },
     },
     {
       title: i18n().header2,
-      dataIndex: 'dataFrequency',
+      dataIndex: 'station.dataFrequency',
       align: 'center',
       render: value => {
         return (
@@ -55,7 +52,7 @@ const TableMonthObtained = ({ dataSource, loading, hidden, parentProps }) => {
     },
     {
       title: i18n().header3,
-      dataIndex: 'totalDesign',
+      dataIndex: 'data[0].record',
       align: 'center',
       render: value => {
         return (
@@ -67,7 +64,7 @@ const TableMonthObtained = ({ dataSource, loading, hidden, parentProps }) => {
     },
     {
       title: i18n().header4,
-      dataIndex: 'totalFact',
+      dataIndex: 'data[0].total',
       align: 'center',
       render: value => {
         return (
@@ -79,7 +76,7 @@ const TableMonthObtained = ({ dataSource, loading, hidden, parentProps }) => {
     },
     {
       title: i18n().header5,
-      dataIndex: 'percentageReceived',
+      dataIndex: 'data[0].obtainedRatio',
       align: 'right',
       render: value => {
         return (
@@ -90,20 +87,18 @@ const TableMonthObtained = ({ dataSource, loading, hidden, parentProps }) => {
   ]
 
   return (
-    <div style={{ display: hidden && 'none' }}>
-      <Table
-        loading={loading}
-        size="small"
-        rowKey="_id"
-        columns={columns}
-        bordered={true}
-        dataSource={dataSortByStationType}
-        locale={{
-          emptyText: translate('dataSearchFrom.table.emptyText'),
-        }}
-        pagination={false}
-      />
-    </div>
+    <Table
+      loading={loading}
+      size="small"
+      rowKey="_id"
+      columns={columns}
+      bordered={true}
+      dataSource={dataSortByStationType}
+      locale={{
+        emptyText: translate('dataSearchFrom.table.emptyText'),
+      }}
+      pagination={false}
+    />
   )
 }
 

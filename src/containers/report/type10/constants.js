@@ -1,16 +1,27 @@
 import { translate } from 'hoc/create-lang'
 
 export const REPORT_TYPE = {
-  OBTAINED: 'obtained',
-  MONITORING: 'monitoring',
+  BASIC: 'basic',
+  ADVANCED: 'advanced',
 }
 
 export const FIELDS = {
   STATION_KEYS: 'stationKeys',
   STATISTIC: 'statistic',
   TIME_VALUE: 'timeValue',
-  TIME_TYPE: 'timeType',
+  TIME_TYPE: 'time',
   REPORT_TYPE: 'reportType',
+}
+
+export const STATISTIC_TYPE = {
+  MONTH: 'month',
+  DATE: 'date',
+}
+
+export const TIME = {
+  DATE: 'date',
+  MONTH: 'month',
+  YEAR: 'year',
 }
 
 export function i18n() {

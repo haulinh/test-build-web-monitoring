@@ -9,7 +9,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { FIELDS, i18n } from '../constants'
+import { FIELDS, i18n, REPORT_TYPE } from '../constants'
 import SelectReportType from './SelectReportType'
 import SelectStatisticType from './SelectStatisticType'
 import SelectTime from './SelectTime'
@@ -110,10 +110,10 @@ export default class SearchForm extends React.Component {
   }
 
   handleOnStatisticChange = value => {
-    const { form, resetData } = this.props
+    const { form } = this.props
     const { stationAutos } = this.state
-    resetData()
-    // form.resetFields()
+
+    form.resetFields()
     const stationAutoKeys = stationAutos.map(stationAuto => stationAuto.key)
     form.setFieldsValue({
       [FIELDS.STATION_KEYS]: stationAutoKeys,
@@ -122,10 +122,17 @@ export default class SearchForm extends React.Component {
   }
 
   handleOnReportTypeChange = type => {
-    const { setReportType } = this.props
+    const { form } = this.props
+    const { stationAutos } = this.state
 
-    setReportType(type)
+    form.resetFields()
+    const stationAutoKeys = stationAutos.map(stationAuto => stationAuto.key)
+    form.setFieldsValue({
+      [FIELDS.STATION_KEYS]: stationAutoKeys,
+      [FIELDS.REPORT_TYPE]: type,
+    })
   }
+
   render() {
     const { form } = this.props
 
@@ -156,7 +163,7 @@ export default class SearchForm extends React.Component {
               <Item label="Loại báo cáo">
                 {form.getFieldDecorator(FIELDS.REPORT_TYPE, {
                   onChange: this.handleOnReportTypeChange,
-                  initialValue: 'obtained',
+                  initialValue: REPORT_TYPE.BASIC,
                 })(<SelectReportType />)}
               </Item>
             </Col>
