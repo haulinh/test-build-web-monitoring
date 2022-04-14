@@ -54,21 +54,17 @@ export default class ReportType10 extends React.Component {
     const timeValue = {
       [TIME.DATE]: {
         from: moment(values[FIELDS.TIME_VALUE][0])
-          .clone()
           .startOf('day')
           .toDate(),
         to: moment(values[FIELDS.TIME_VALUE][1])
-          .clone()
           .endOf('day')
           .toDate(),
       },
       [TIME.MONTH]: {
         from: moment(values[FIELDS.TIME_VALUE][0])
-          .clone()
           .startOf('month')
           .toDate(),
         to: moment(values[FIELDS.TIME_VALUE][1])
-          .clone()
           .endOf('month')
           .toDate(),
       },
