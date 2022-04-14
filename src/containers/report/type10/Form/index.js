@@ -2,6 +2,7 @@ import { Button, Col, Form, Row } from 'antd'
 import { default as SearchFormContainer } from 'components/elements/box-shadow'
 import Heading from 'components/elements/heading'
 import TreeSelectStation from 'components/elements/select-data/TreeSelectStation'
+import SelectStationAuto from 'containers/search/common/select-station-auto'
 import SelectStationType from 'components/elements/select-station-type'
 import { Clearfix } from 'containers/fixed-map/map-default/components/box-analytic-list/style'
 import { translate } from 'hoc/create-lang'
@@ -135,6 +136,7 @@ export default class SearchForm extends React.Component {
 
   render() {
     const { form } = this.props
+    const stationType = form.getFieldValue('stationType')
 
     return (
       <SearchFormContainer>
@@ -207,8 +209,11 @@ export default class SearchForm extends React.Component {
                     },
                   ],
                 })(
-                  <TreeSelectStation
-                    onStationAutosFetchSuccess={this.fetchStationAutoSuccess}
+                  <SelectStationAuto
+                    onFetchSuccess={this.fetchStationAutoSuccess}
+                    mode="multiple"
+                    style={{ width: '100%' }}
+                    stationTypeKey={stationType}
                   />
                 )}
               </Item>
