@@ -6,14 +6,9 @@ import _ from 'lodash'
 import get from 'lodash/get'
 import moment from 'moment-timezone'
 import React from 'react'
-import { i18n } from '../index'
+import { i18n } from '../../constants'
 
-export default function TableMonth({
-  dataSource,
-  loading,
-  hidden,
-  parentProps,
-}) {
+const TableMonthObtained = ({ dataSource, loading, hidden, parentProps }) => {
   const dataSortByStationType = dataSource.sort((a, b) =>
     _.get(b.station, 'stationType.key', '').localeCompare(
       _.get(a.station, 'stationType.key', '')
@@ -93,6 +88,7 @@ export default function TableMonth({
       },
     },
   ]
+
   return (
     <div style={{ display: hidden && 'none' }}>
       <Table
@@ -110,3 +106,5 @@ export default function TableMonth({
     </div>
   )
 }
+
+export default TableMonthObtained

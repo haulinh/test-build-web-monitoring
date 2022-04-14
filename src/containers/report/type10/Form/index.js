@@ -1,7 +1,7 @@
 import { Button, Col, Form, Row } from 'antd'
 import { default as SearchFormContainer } from 'components/elements/box-shadow'
 import Heading from 'components/elements/heading'
-import SelectStationAuto from 'containers/search/common/select-station-auto' //'.././common/select-station-auto'
+import TreeSelectStation from 'components/elements/select-data/TreeSelectStation'
 import SelectStationType from 'components/elements/select-station-type'
 import { Clearfix } from 'containers/fixed-map/map-default/components/box-analytic-list/style'
 import { translate } from 'hoc/create-lang'
@@ -9,27 +9,10 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { FIELDS } from '../index'
+import { FIELDS, i18n } from '../constants'
 import SelectReportType from './SelectReportType'
+import SelectStatisticType from './SelectStatisticType'
 import SelectTime from './SelectTime'
-
-function i18n() {
-  return {
-    error: {
-      stationType: translate('avgSearchFrom.form.stationType.error'),
-      fromMonth: translate('avgSearchFrom.form.fromMonth.error'),
-      toMonth: translate('avgSearchFrom.form.toMonth.error'),
-      toMonth_1: translate('avgSearchFrom.form.toMonth.error1'),
-      toMonth_2: translate('avgSearchFrom.form.toMonth.error2'),
-    },
-    label: {
-      stationType: translate('avgSearchFrom.form.stationType.label'),
-      fromMonth: translate('avgSearchFrom.form.fromMonth.label'),
-      toMonth: translate('avgSearchFrom.form.toMonth.label'),
-      station: translate('apiSharingNew.fields.stationKeys'),
-    },
-  }
-}
 
 const Label = styled.label`
   ::before {
@@ -130,7 +113,7 @@ export default class SearchForm extends React.Component {
     const { form, resetData } = this.props
     const { stationAutos } = this.state
     resetData()
-    form.resetFields()
+    // form.resetFields()
     const stationAutoKeys = stationAutos.map(stationAuto => stationAuto.key)
     form.setFieldsValue({
       [FIELDS.STATION_KEYS]: stationAutoKeys,
@@ -138,10 +121,13 @@ export default class SearchForm extends React.Component {
     })
   }
 
+  handleOnReportTypeChange = type => {
+    const { setReportType } = this.props
+
+    setReportType(type)
+  }
   render() {
     const { form } = this.props
-
-    const stationType = form.getFieldValue('stationType')
 
     return (
       <SearchFormContainer>
@@ -167,11 +153,19 @@ export default class SearchForm extends React.Component {
         <div style={{ padding: '8px 16px' }}>
           <Row gutter={16}>
             <Col span={8}>
+              <Item label="Loại báo cáo">
+                {form.getFieldDecorator(FIELDS.REPORT_TYPE, {
+                  onChange: this.handleOnReportTypeChange,
+                  initialValue: 'obtained',
+                })(<SelectReportType />)}
+              </Item>
+            </Col>
+            <Col span={8}>
               <Item label={translate('report.label.dataRatio.statistic')}>
                 {form.getFieldDecorator(FIELDS.STATISTIC, {
                   onChange: this.handleOnStatisticChange,
                   initialValue: 'month',
-                })(<SelectReportType />)}
+                })(<SelectStatisticType />)}
               </Item>
             </Col>
             <Col span={8}>
@@ -183,6 +177,9 @@ export default class SearchForm extends React.Component {
                 <SelectTime form={form} />
               </Item>
             </Col>
+          </Row>
+
+          <Row gutter={16}>
             <Col span={8}>
               <Item label={i18n().label.stationType}>
                 {form.getFieldDecorator('stationType', {
@@ -191,10 +188,7 @@ export default class SearchForm extends React.Component {
                 })(<SelectStationType isShowAll />)}
               </Item>
             </Col>
-          </Row>
-
-          <Row gutter={16}>
-            <Col span={24}>
+            <Col span={16}>
               <Item label={i18n().label.station}>
                 {form.getFieldDecorator(FIELDS.STATION_KEYS, {
                   rules: [
@@ -206,11 +200,8 @@ export default class SearchForm extends React.Component {
                     },
                   ],
                 })(
-                  <SelectStationAuto
-                    onFetchSuccess={this.fetchStationAutoSuccess}
-                    mode="multiple"
-                    style={{ width: '100%' }}
-                    stationTypeKey={stationType}
+                  <TreeSelectStation
+                    onStationAutosFetchSuccess={this.fetchStationAutoSuccess}
                   />
                 )}
               </Item>

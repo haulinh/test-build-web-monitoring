@@ -1,23 +1,18 @@
-import React, { Component } from 'react'
-import { get } from 'lodash'
-import swal from 'sweetalert2'
-import styled from 'styled-components'
-import { getConfigApi } from 'config'
 import { Divider, Form, Input, notification } from 'antd'
-import { Link, withRouter } from 'react-router-dom'
-
-import slug from 'constants/slug'
-import Errors from 'constants/errors'
-
-import { requiredFieldRule, validateEmail } from 'utils/rules'
-import createLang, { translate } from 'hoc/create-lang'
-
-import Heading from 'components/elements/heading'
 import Button from 'components/elements/button'
-
-import { connectAutoDispatch } from 'redux/connect'
+import Heading from 'components/elements/heading'
+import { getConfigApi } from 'config'
+import Errors from 'constants/errors'
+import slug from 'constants/slug'
+import createLang from 'hoc/create-lang'
+import { get } from 'lodash'
+import React, { Component } from 'react'
+import { Link, withRouter } from 'react-router-dom'
 import { userLogin, userLogin2Factor } from 'redux/actions/authAction'
-
+import { connectAutoDispatch } from 'redux/connect'
+import styled from 'styled-components'
+import swal from 'sweetalert2'
+import { requiredFieldRule, validateEmail } from 'utils/rules'
 import { getAuthError } from '../helper'
 
 const FIELDS = {
@@ -168,7 +163,7 @@ export default class EmailForm extends Component {
           <FormVerify hidden={isTwoFactorAuth}>
             <Heading fontSize={16}>
               <Link to={slug.password.emailConfirm}>
-                {translate('resetPassword.key')}
+                {t('resetPassword.key')}
               </Link>
             </Heading>
           </FormVerify>

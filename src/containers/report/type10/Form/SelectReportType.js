@@ -1,15 +1,16 @@
 import React from 'react'
 import { Select } from 'antd'
-import { translate } from 'hoc/create-lang'
+import { REPORT_TYPE } from '../constants'
+// import { translate } from 'hoc/create-lang'
 
 const SelectReportType = props => {
   return (
     <Select style={{ width: '100%' }} {...props}>
-      <Select.Option value="month">
-        {translate('report.label.dataRatio.type.rangeTime')}
+      <Select.Option value={REPORT_TYPE.OBTAINED}>
+        Báo cáo tỷ lệ dữ liệu thu được
       </Select.Option>
-      <Select.Option value="date">
-        {translate('report.label.dataRatio.type.date')}
+      <Select.Option value={REPORT_TYPE.MONITORING}>
+        Báo cáo tỷ lệ số liệu quan trắc
       </Select.Option>
     </Select>
   )
