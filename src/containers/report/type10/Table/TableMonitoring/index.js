@@ -3,7 +3,7 @@ import { TIME } from '../../constants'
 import TabStationMonitoring from './TableDateMonitoring'
 import TableMonthMonitoring from './TableMonthMonitoring'
 
-const DataMonitoring = ({
+const TableMonitoring = ({
   timeType,
   dataSource,
   stationKeys,
@@ -28,4 +28,4 @@ const DataMonitoring = ({
   return TableDataMonitoring[timeType]
 }
 
-export default DataMonitoring
+export default TableMonitoring

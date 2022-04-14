@@ -112,12 +112,24 @@ export default class SearchForm extends React.Component {
   handleOnStatisticChange = value => {
     const { form } = this.props
     const { stationAutos } = this.state
-    // resetData()
-    // form.resetFields()
+
+    form.resetFields()
     const stationAutoKeys = stationAutos.map(stationAuto => stationAuto.key)
     form.setFieldsValue({
       [FIELDS.STATION_KEYS]: stationAutoKeys,
       [FIELDS.TIME_TYPE]: value,
+    })
+  }
+
+  handleOnReportTypeChange = type => {
+    const { form } = this.props
+    const { stationAutos } = this.state
+
+    form.resetFields()
+    const stationAutoKeys = stationAutos.map(stationAuto => stationAuto.key)
+    form.setFieldsValue({
+      [FIELDS.STATION_KEYS]: stationAutoKeys,
+      [FIELDS.REPORT_TYPE]: type,
     })
   }
 
@@ -150,6 +162,7 @@ export default class SearchForm extends React.Component {
             <Col span={8}>
               <Item label="Loại báo cáo">
                 {form.getFieldDecorator(FIELDS.REPORT_TYPE, {
+                  onChange: this.handleOnReportTypeChange,
                   initialValue: REPORT_TYPE.BASIC,
                 })(<SelectReportType />)}
               </Item>

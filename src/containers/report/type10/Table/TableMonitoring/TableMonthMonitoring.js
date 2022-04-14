@@ -2,7 +2,7 @@ import { Table } from 'antd'
 import { DD_MM_YYYY } from 'constants/format-date'
 import { getFormatNumber } from 'constants/format-number'
 import { translate } from 'hoc/create-lang'
-import _, { isEmpty, isNumber } from 'lodash'
+import _, { flatten, isEmpty, isNumber } from 'lodash'
 import get from 'lodash/get'
 import moment from 'moment-timezone'
 import React from 'react'
@@ -16,37 +16,35 @@ const TableMonthMonitoring = ({ dataSource, loading, measuresObj }) => {
   )
 
   const getDataSource = () => {
-    const dataStation = dataSortByStationType.reduce(
-      (baseStation, currentStation) => {
-        const data = currentStation.data.reduce((base, current) => {
-          if (isEmpty(current.logs)) return []
+    const dataStation = dataSortByStationType.map(dataStationItem => {
+      const data = dataStationItem.data.reduce((base, current) => {
+        if (isEmpty(current.logs)) return []
 
-          const measureKeys = Object.keys(get(current, 'logs'))
-          const dataMeasuringLogs = measureKeys.map((measure, index) => {
-            return {
-              measure,
-              date: current.date,
-              key: current.date,
-              station: currentStation.station,
-              ...current.logs[measure],
-              ...(index === 0 && {
-                spanMerge: measureKeys.length || 0,
-                indexMerge: true,
-              }),
-            }
-          })
-          return [...base, ...dataMeasuringLogs]
-        }, [])
+        const measureKeys = Object.keys(get(current, 'logs'))
+        const dataMeasuringLogs = measureKeys.map((measure, index) => {
+          return {
+            measure,
+            date: current.date,
+            key: current.date,
+            station: dataStationItem.station,
+            ...current.logs[measure],
+            ...(index === 0 && {
+              spanMerge: measureKeys.length || 0,
+              indexMerge: true,
+            }),
+          }
+        })
+        return [...base, ...dataMeasuringLogs]
+      }, [])
 
-        return [...baseStation, ...data]
-      },
-      []
-    )
+      return data
+    }, [])
 
-    return dataStation
+    return flatten(dataStation)
   }
 
   const dataSourceTable = getDataSource()
+  console.log({ dataSourceTable })
 
   const columns = [
     {

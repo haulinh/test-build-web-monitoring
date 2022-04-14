@@ -15,8 +15,8 @@ import { downFileExcel } from 'utils/downFile'
 import Breadcrumb from '../breadcrumb'
 import { FIELDS, i18n, REPORT_TYPE, TIME } from './constants'
 import SearchForm from './Form'
-import DataMonitoring from './Table/TableMonitoring'
-import DataObtained from './Table/TableObtained'
+import TableMonitoring from './Table/TableMonitoring'
+import TableObtained from './Table/TableObtained'
 
 const { Title, Text } = Typography
 
@@ -225,7 +225,7 @@ export default class ReportType10 extends React.Component {
 
     const TableData = {
       [REPORT_TYPE.BASIC]: (
-        <DataObtained
+        <TableObtained
           dataSource={dataSource}
           timeType={timeType}
           loading={isLoading}
@@ -236,7 +236,7 @@ export default class ReportType10 extends React.Component {
       ),
 
       [REPORT_TYPE.ADVANCED]: (
-        <DataMonitoring
+        <TableMonitoring
           timeType={timeType}
           dataSource={dataSource}
           measuresObj={measuresObj}

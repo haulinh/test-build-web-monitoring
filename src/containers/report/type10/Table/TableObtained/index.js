@@ -3,7 +3,7 @@ import { TIME } from '../../constants'
 import TabStationObtained from './TableDateObtained'
 import TableMonthObtained from './TableMonthObtained'
 
-const DataObtained = ({
+const TableObtained = ({
   dataSource,
   timeType,
   loading,
@@ -28,4 +28,4 @@ const DataObtained = ({
   return TableDataObtained[timeType]
 }
 
-export default DataObtained
+export default TableObtained
