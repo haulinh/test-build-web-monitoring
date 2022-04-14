@@ -11,14 +11,12 @@ import { get as _get } from 'lodash'
 import moment from 'moment-timezone'
 import React from 'react'
 import { connect } from 'react-redux'
-import { getTimeUTC } from 'utils/datetime'
 import { downFileExcel } from 'utils/downFile'
 import Breadcrumb from '../breadcrumb'
-import { REPORT_TYPE } from './constants'
+import { FIELDS, i18n, REPORT_TYPE, TIME } from './constants'
 import SearchForm from './Form'
-import { TableDate, TableMonth } from './Table'
-import { FIELDS, i18n } from './constants'
-// import { TableMonth } from './TableData'
+import DataMonitoring from './Table/TableMonitoring'
+import DataObtained from './Table/TableObtained'
 
 const { Title, Text } = Typography
 
@@ -26,6 +24,7 @@ const { Title, Text } = Typography
 @connect(state => ({
   timeZone: _get(state, 'auth.userInfo.organization.timeZone', null),
   locale: state.language.locale,
+  measuresObj: state.global.measuresObj,
 }))
 @createLanguage
 export default class ReportType10 extends React.Component {
@@ -42,57 +41,77 @@ export default class ReportType10 extends React.Component {
       stationAutos: [],
       visableModal: false,
       langExport: 'vi',
-      reportType: REPORT_TYPE.OBTAINED,
+      tabKeyActive: '',
     }
     this.tabStationRef = React.createRef()
+    this.formSearchRef = React.createRef()
   }
 
-  handleSubmit = async (values = {}) => {
+  getParams = () => {
+    const { tabKeyActive } = this.state
+    const values = this.formSearchRef.current.getFieldsValue()
+
+    const timeValue = {
+      [TIME.DATE]: {
+        from: moment(values[FIELDS.TIME_VALUE][0])
+          .startOf('d')
+          .toDate(),
+        to: moment(values[FIELDS.TIME_VALUE][1])
+          .endOf('d')
+          .toDate(),
+      },
+      [TIME.MONTH]: {
+        from: moment(values[FIELDS.TIME_VALUE][0])
+          .startOf('m')
+          .toDate(),
+        to: moment(values[FIELDS.TIME_VALUE][1])
+          .endOf('m')
+          .toDate(),
+      },
+    }
+
+    const timeType = values[FIELDS.TIME_TYPE]
+    const stationKeys = values[FIELDS.STATION_KEYS]
+
+    const newStationKeys =
+      timeType === TIME.DATE
+        ? tabKeyActive || stationKeys[0]
+        : stationKeys.join(',')
+
+    const params = {
+      stationKeys: newStationKeys,
+      from: timeValue[timeType].from,
+      to: timeValue[timeType].to,
+      [FIELDS.TIME_TYPE]: values[FIELDS.TIME_TYPE],
+      [FIELDS.REPORT_TYPE]: values[FIELDS.REPORT_TYPE],
+    }
+
+    return { params, stationKeys }
+  }
+
+  handleSubmit = async () => {
+    const { params, stationKeys } = this.getParams()
+
     this.setState({
       isHaveData: false,
       isLoading: true,
     })
 
-    const params = {
-      stationKeys: values[FIELDS.STATION_KEYS].join(','),
-      from: getTimeUTC(values.from),
-      to: getTimeUTC(values.to),
-      [FIELDS.TIME_TYPE]: values[FIELDS.TIME_TYPE],
-    }
-
-    if (values[FIELDS.TIME_TYPE] === 'date') {
-      this.setState(
-        {
-          dataSearch: params,
-          isHaveData: true,
-          from: moment(values.from).format(
-            params[FIELDS.TIME_TYPE] === 'month' ? MM_YYYY : DD_MM_YYYY
-          ),
-          to: moment(values.to).format(
-            params[FIELDS.TIME_TYPE] === 'month' ? MM_YYYY : DD_MM_YYYY
-          ),
-        },
-        () => {
-          if (this.tabStationRef) this.tabStationRef.current.onSearch()
-        }
-      )
-      return
-    }
-
     try {
-      const result = await DataInsight.getDataRatio(
-        values[FIELDS.TIME_TYPE],
-        params
-      )
+      const result = await DataInsight.getDataRatio(params)
+
       this.setState({
         dataSource: result,
         isHaveData: true,
         isLoading: false,
-        dataSearch: params,
-        from: moment(values.from).format(
+        dataSearch: {
+          ...params,
+          stationKeys,
+        },
+        from: moment(params.from).format(
           params[FIELDS.TIME_TYPE] === 'month' ? MM_YYYY : DD_MM_YYYY
         ),
-        to: moment(values.to).format(
+        to: moment(params.to).format(
           params[FIELDS.TIME_TYPE] === 'month' ? MM_YYYY : DD_MM_YYYY
         ),
       })
@@ -175,8 +194,13 @@ export default class ReportType10 extends React.Component {
     })
   }
 
-  setReportType = reportType => {
-    this.setState({ reportType })
+  onChangeTabStation = tabKey => {
+    this.setState(
+      {
+        tabKeyActive: tabKey,
+      },
+      () => this.handleSubmit()
+    )
   }
 
   resetData = () => this.setState({ dataSource: [] })
@@ -190,13 +214,39 @@ export default class ReportType10 extends React.Component {
       stationAutos,
       visableModal,
       langExport,
-      reportType,
+      // reportType,
     } = this.state
-    const stationKeys = dataSearch.stationKeys
-      ? dataSearch.stationKeys.split(',')
-      : []
+    const { measuresObj } = this.props
 
-    const type = dataSearch[FIELDS.TIME_TYPE]
+    const stationKeys = dataSearch.stationKeys
+
+    const timeType = dataSearch[FIELDS.TIME_TYPE]
+    const reportType = dataSearch[FIELDS.REPORT_TYPE]
+
+    const TableData = {
+      [REPORT_TYPE.BASIC]: (
+        <DataObtained
+          dataSource={dataSource}
+          timeType={timeType}
+          loading={isLoading}
+          stationKeys={stationKeys}
+          stationAutos={stationAutos}
+          onChangeTabStation={this.onChangeTabStation}
+        />
+      ),
+
+      [REPORT_TYPE.ADVANCED]: (
+        <DataMonitoring
+          timeType={timeType}
+          dataSource={dataSource}
+          measuresObj={measuresObj}
+          loading={isLoading}
+          stationKeys={stationKeys}
+          stationAutos={stationAutos}
+          onChangeTabStation={this.onChangeTabStation}
+        />
+      ),
+    }
 
     return (
       <PageContainer>
@@ -206,14 +256,15 @@ export default class ReportType10 extends React.Component {
           setReportType={this.setReportType}
           cbSubmit={this.handleSubmit}
           resetData={this.resetData}
+          ref={this.formSearchRef}
           setStationAutos={this.setStationAutos}
         />
         <Clearfix height={16} />
         <div style={{ position: 'relative', textAlign: 'center' }}>
           <Title level={4}>
-            {type === 'date' ? i18n().titleDay : i18n().title}
+            {timeType === 'date' ? i18n().titleDay : i18n().title}
           </Title>
-          {type && <Text>{this.getDetailTitle()}</Text>}
+          {timeType && <Text>{this.getDetailTitle()}</Text>}
           {this.state.isHaveData && (
             <div
               style={{
@@ -245,21 +296,8 @@ export default class ReportType10 extends React.Component {
           langExport={langExport}
         />
 
-        <TableMonth
-          hidden={type !== 'month'}
-          dataSource={dataSource}
-          loading={isLoading}
-          parentProps={this.props}
-        />
+        {TableData[reportType]}
 
-        <TableDate
-          reportType={reportType}
-          stationAutos={stationAutos}
-          hidden={type !== 'date'}
-          ref={this.tabStationRef}
-          dataSearch={dataSearch}
-          stationKeys={stationKeys}
-        />
         <Clearfix height={50} />
       </PageContainer>
     )

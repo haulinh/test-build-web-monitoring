@@ -9,7 +9,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { FIELDS, i18n } from '../constants'
+import { FIELDS, i18n, REPORT_TYPE } from '../constants'
 import SelectReportType from './SelectReportType'
 import SelectStatisticType from './SelectStatisticType'
 import SelectTime from './SelectTime'
@@ -110,9 +110,9 @@ export default class SearchForm extends React.Component {
   }
 
   handleOnStatisticChange = value => {
-    const { form, resetData } = this.props
+    const { form } = this.props
     const { stationAutos } = this.state
-    resetData()
+    // resetData()
     // form.resetFields()
     const stationAutoKeys = stationAutos.map(stationAuto => stationAuto.key)
     form.setFieldsValue({
@@ -121,11 +121,6 @@ export default class SearchForm extends React.Component {
     })
   }
 
-  handleOnReportTypeChange = type => {
-    const { setReportType } = this.props
-
-    setReportType(type)
-  }
   render() {
     const { form } = this.props
 
@@ -155,8 +150,7 @@ export default class SearchForm extends React.Component {
             <Col span={8}>
               <Item label="Loại báo cáo">
                 {form.getFieldDecorator(FIELDS.REPORT_TYPE, {
-                  onChange: this.handleOnReportTypeChange,
-                  initialValue: 'obtained',
+                  initialValue: REPORT_TYPE.BASIC,
                 })(<SelectReportType />)}
               </Item>
             </Col>

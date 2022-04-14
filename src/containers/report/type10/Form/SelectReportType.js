@@ -6,10 +6,10 @@ import { REPORT_TYPE } from '../constants'
 const SelectReportType = props => {
   return (
     <Select style={{ width: '100%' }} {...props}>
-      <Select.Option value={REPORT_TYPE.OBTAINED}>
+      <Select.Option value={REPORT_TYPE.BASIC}>
         Báo cáo tỷ lệ dữ liệu thu được
       </Select.Option>
-      <Select.Option value={REPORT_TYPE.MONITORING}>
+      <Select.Option value={REPORT_TYPE.ADVANCED}>
         Báo cáo tỷ lệ số liệu quan trắc
       </Select.Option>
     </Select>
