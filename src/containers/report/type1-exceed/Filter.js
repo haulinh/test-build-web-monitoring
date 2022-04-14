@@ -17,6 +17,7 @@ const ColSwitch = styled(Col)`
     margin: 20px 0 4px;
   }
 `
+
 @Form.create()
 export default class Filter extends React.Component {
   constructor(props) {
@@ -41,8 +42,24 @@ export default class Filter extends React.Component {
     form.setFieldsValue({
       [FIELDS.STATION_KEY]: stationAutoKeys,
     })
-    const time = form.getFieldValue(FIELDS.TIME)
-    form.setFieldsValue({ [FIELDS.TIME]: { ...time, type } })
+
+    if (type === 'year') {
+      form.setFieldsValue({
+        [FIELDS.TIME]: { value: [moment(), moment()], type: type },
+      })
+      return
+    }
+    form.setFieldsValue({
+      [FIELDS.TIME]: { value: moment(), type: type },
+    })
+  }
+
+  handleOnChangeTimeType = value => {
+    const { form } = this.props
+
+    form.setFieldsValue({
+      [FIELDS.TIME]: { value: value.time, type: value.type },
+    })
   }
 
   handleOnChangeFilter = value => {
@@ -93,6 +110,7 @@ export default class Filter extends React.Component {
     const { form, loading } = this.props
     const { reportType } = form.getFieldsValue() || {}
     const province = form.getFieldValue('province')
+
     return (
       <React.Fragment>
         <Row gutter={12}>
@@ -108,6 +126,7 @@ export default class Filter extends React.Component {
             <FormItem label={i18n().time.label}>
               {form.getFieldDecorator(FIELDS.TIME, {
                 initialValue: { type: 'date', value: moment() },
+                onChange: this.handleOnChangeTimeType,
                 rules: [
                   {
                     required: true,

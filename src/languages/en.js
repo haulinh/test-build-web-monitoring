@@ -4119,7 +4119,7 @@ export default {
       dataLookup: {},
       incident: {
         drawer: 'Create new issue',
-        report: 'REPORT PROBLEM',
+        report: 'Report_Incident Management_',
       },
       configProperties: {
         drawer: {
@@ -4329,23 +4329,26 @@ export default {
     },
     type1_exceed: {
       excel: {
-        year: 'Report_Data Over The Threshold_',
+        year: 'Report Percentage Of Value Over Threshold_',
         date: 'Report_Data Over The Threshold_',
       },
       detailTitle: {
         reportYear:
-          'Statistics about the percentage of data over the threshold in ',
+          'Statistics about the percentage of value over the threshold in ',
+        reportMonth:
+          'Statistics about the percentage of value over the threshold from ',
         reportDay: 'Statistics about data over the threshold in ',
       },
       title: {
-        year: 'REPORT DATA OVER THE THRESHOLD BY YEAR',
+        year: 'REPORT PERCENTAGE DATA OVER THE THRESHOLD',
         date: 'REPORT DATA OVER THE THRESHOLD BY DAY',
       },
       option: {
-        reportYear: 'Year Report',
-        reportDay: 'Day Report',
+        reportYear: 'Report percentage of value over threshold',
+        reportDay: 'Report data over the threshold by day',
         year: 'Year',
         day: 'Day',
+        month: 'Month',
       },
       table: {
         data_day: 'Statistics For The Day',

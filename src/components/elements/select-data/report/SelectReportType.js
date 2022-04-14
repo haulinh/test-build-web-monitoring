@@ -13,8 +13,7 @@ const options = [
   },
 ]
 
-const ReportType = (props) => {
-
+const ReportType = props => {
   return (
     <Select style={{ width: '100%' }} {...props}>
       {options.map(option => (

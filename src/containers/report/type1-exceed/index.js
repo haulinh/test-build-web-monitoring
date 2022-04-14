@@ -9,7 +9,7 @@ import { translate as t } from 'hoc/create-lang'
 import translateManual from 'hoc/create-lang'
 import protectRole from 'hoc/protect-role/forMenu'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import _ from 'lodash'
+import _, { get } from 'lodash'
 import moment from 'moment'
 import React, { Component } from 'react'
 import styled from 'styled-components'
@@ -28,6 +28,7 @@ export const FIELDS = {
   STATION_KEY: 'stationKeys',
   SELECT_TIME: 'selectTime',
   IS_FILTER: 'isFilter',
+  TYPE: 'type',
 }
 
 const Text = styled.div`
@@ -56,7 +57,16 @@ export function i18n() {
       required: t('report.required.station'),
     },
     excel: {
-      title: (value, lang) => translateManual(`report.type1_exceed.excel.${value}`, null, null, lang),
+      title: (value, lang) =>
+        translateManual(`report.type1_exceed.excel.${value}`, null, null, lang),
+    },
+    detailTitle: {
+      date: t('report.type1_exceed.detailTitle.reportDay'),
+      year: t('report.type1_exceed.detailTitle.reportYear'),
+      month: t('report.type1_exceed.detailTitle.reportMonth'),
+      from: t('report.type2_flow.range.from'),
+      to: t('report.type2_flow.range.to'),
+      monthText: t('report.type2_flow.range.month'),
     },
   }
 }
@@ -70,7 +80,7 @@ export default class ReportExceed extends Component {
     loading: false,
     isLoadingExcel: false,
     visableModal: false,
-    langExport: 'vi'
+    langExport: 'vi',
   }
 
   getQueryParams = async () => {
@@ -105,6 +115,7 @@ export default class ReportExceed extends Component {
   getQueryParamsGeneral = () => {
     const { form } = this.props
     const values = form.getFieldsValue()
+
     const params = {
       ...values,
       [FIELDS.IS_FILTER]: values[FIELDS.IS_FILTER],
@@ -115,11 +126,25 @@ export default class ReportExceed extends Component {
 
   getQueryParamsYear = () => {
     const paramsGeneral = this.getQueryParamsGeneral()
+
+    const isYearType = paramsGeneral[FIELDS.TIME].type === 'year'
+    const [from, to] = [
+      isYearType
+        ? getTimeUTC(
+            moment(paramsGeneral[FIELDS.TIME].value[0], 'YYYY').startOf('year')
+          )
+        : getTimeUTC(paramsGeneral[FIELDS.TIME].value[0]),
+      isYearType
+        ? getTimeUTC(
+            moment(paramsGeneral[FIELDS.TIME].value[1], 'YYYY').endOf('year')
+          )
+        : getTimeUTC(paramsGeneral[FIELDS.TIME].value[1]),
+    ]
     const params = {
       ...paramsGeneral,
-      [FIELDS.TIME]: getTimeUTC(
-        moment(paramsGeneral[FIELDS.TIME].value, 'YYYY').startOf('year')
-      ),
+      from,
+      to,
+      type: paramsGeneral[FIELDS.TIME].type,
     }
     return params
   }
@@ -137,23 +162,27 @@ export default class ReportExceed extends Component {
     const { form } = this.props
     const values = form.getFieldsValue()
 
-    if (values.reportType === 'year') {
-      const startTitle =
-        t('report.type1_exceed.detailTitle.reportYear') +
-        moment(values.time.value, YYYY).format(YYYY)
-      return startTitle
+    const reportType = get(values, 'time.type', 'date')
+    const time = get(values, 'time.value', [])
+
+    const title = {
+      date: `${i18n().detailTitle.date}${moment(time).format(DD_MM_YYYY)}`,
+      year: `${i18n().detailTitle.year}${moment(time[0], YYYY).format(YYYY)}`,
+      month: `${i18n().detailTitle.month}
+      ${i18n().detailTitle.from}
+      ${i18n().detailTitle.monthText}
+      ${moment(time[0], YYYY).format('MM/YYYY')}
+      ${i18n().detailTitle.to}
+      ${i18n().detailTitle.monthText}
+      ${moment(time[1], YYYY).format('MM/YYYY')}`,
     }
 
-    if (values.reportType === 'date') {
-      const startTitle =
-        t('report.type1_exceed.detailTitle.reportDay') +
-        moment(values.time.value).format(DD_MM_YYYY)
-      return startTitle
-    }
+    return title[reportType]
   }
 
   handleOnSearch = async () => {
     const params = await this.getQueryParams()
+
     try {
       this.setState({ loading: true })
       const results = await DataInsight.getExceedData(params.reportType, params)
@@ -165,10 +194,12 @@ export default class ReportExceed extends Component {
   }
 
   handleExportExceed = async () => {
-    const {lang: { translateManual }} = this.props
+    const {
+      lang: { translateManual },
+    } = this.props
     this.setState({
       isLoadingExcel: true,
-      visableModal: false
+      visableModal: false,
     })
     const params = await this.getQueryParams()
     const result = await DataInsight.getExportReportExceed(params.reportType, {
@@ -178,32 +209,49 @@ export default class ReportExceed extends Component {
     this.setState({
       isLoadingExcel: false,
     })
+
+    console.log(params)
+
+    const time = {
+      date: moment(params.time).format('DDMMYYYY'),
+      year: params.time.value[0],
+      month:
+        moment(params.time.value[0]).format('MMYYYY') +
+        '_' +
+        moment(params.time.value[1]).format('MMYYYY'),
+    }
+
+    const type =
+      params.reportType === 'date' ? params.reportType : params.time.type
+
     downFileExcel(
       result.data,
-      `${translateManual(`report.type1_exceed.excel.${params.reportType}`, null, null, this.state.langExport)} ${params.reportType === 'date'
-        ? moment(params.time).format('DDMMYYYY')
-        : moment(params.time).format('YYYY')
-      }`
+      `${translateManual(
+        `report.type1_exceed.excel.${params.reportType}`,
+        null,
+        null,
+        this.state.langExport
+      )}${time[type]}`
     )
   }
 
   handleOkModal = e => {
     this.setState({
-      visableModal: true
-    });
-  };
+      visableModal: true,
+    })
+  }
 
   handleCancelModal = e => {
     this.setState({
       isLoadingExcel: false,
-      visableModal: false
-    });
-  };
+      visableModal: false,
+    })
+  }
 
   onChangeModal = e => {
     this.setState({
       langExport: e.target.value,
-    });
+    })
   }
 
   resetData = () => this.setState({ data: [] })
@@ -216,11 +264,13 @@ export default class ReportExceed extends Component {
     const Report = {
       date: <TableDate data={data} />,
       year: <TableYear data={data} />,
+      month: <TableYear data={data} />,
     }
     const getTitle = () => {
       const title = {
         year: t('report.type1_exceed.title.year'),
         date: t('report.type1_exceed.title.date'),
+        month: t('report.type1_exceed.title.year'),
       }
 
       return title[type]
@@ -269,12 +319,17 @@ export default class ReportExceed extends Component {
                   {t('report.exportExcel')}
                 </Button>
               )}
-
             </Row>
           </Col>
         </Row>
         <Clearfix height={31} />
-        <ModalLangExport showModal={visableModal} handleOkModal={this.handleExportExceed} handleCancelModal={this.handleCancelModal} onChangeModal={this.onChangeModal} langExport={langExport} />
+        <ModalLangExport
+          showModal={visableModal}
+          handleOkModal={this.handleExportExceed}
+          handleCancelModal={this.handleCancelModal}
+          onChangeModal={this.onChangeModal}
+          langExport={langExport}
+        />
         <Spin spinning={this.state.loading}>{Report[type]}</Spin>
         <Clearfix height={50} />
       </PageContainer>

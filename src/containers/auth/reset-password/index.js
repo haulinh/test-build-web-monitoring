@@ -1,19 +1,16 @@
-import React, { PureComponent, Fragment, createRef } from 'react'
 import { Form, Input, notification } from 'antd'
-import styled from 'styled-components'
-import { withRouter } from 'react-router'
-import createLang from 'hoc/create-lang'
-
 import AuthApi from 'api/AuthApi'
-import Errors from 'constants/errors'
-import { translate } from 'hoc/create-lang'
 import Button from 'components/elements/button'
 import Heading from 'components/elements/heading'
-import OTPForm from 'containers/auth/otp-form'
+import Errors from 'constants/errors'
 import { getAuthError, getRemainTime } from 'containers/auth/helper'
-
+import OTPForm from 'containers/auth/otp-form'
+import createLang from 'hoc/create-lang'
+import React, { createRef, Fragment, PureComponent } from 'react'
+import { withRouter } from 'react-router'
+import styled from 'styled-components'
+import { emailRule, requireRule } from '../rules'
 import NewPassword from './new-password'
-import { requireRule, emailRule } from '../rules'
 
 const Note = styled.p`
   font-style: italic;

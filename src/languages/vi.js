@@ -4131,7 +4131,7 @@ export default {
       dataLookup: {},
       incident: {
         drawer: 'Tạo mới sự cố',
-        report: 'BÁO CÁO SỰ CỐ',
+        report: 'Bao Cao Su Co_',
       },
       configProperties: {
         drawer: {
@@ -4344,22 +4344,24 @@ export default {
     },
     type1_exceed: {
       excel: {
-        year: 'Bao Cao Vuot Nguong Nam_',
+        year: 'Bao Cao Ty Le Gia Tri Vuot QCVN_',
         date: 'Bao Cao Vuot Nguong Ngay_',
       },
       detailTitle: {
-        reportYear: 'Các số liệu thống kê về dữ liệu vượt ngưỡng trong năm ',
+        reportYear: 'Các số liệu thống kê về tỷ lệ giá trị vượt quy chuẩn năm ',
+        reportMonth: 'Các số liệu thống kê về tỷ lệ giá trị vượt quy chuẩn ',
         reportDay: 'Các số liệu thống kê về dữ liệu vượt ngưỡng trong ngày ',
       },
       title: {
-        year: 'BÁO CÁO THỐNG KÊ VƯỢT NGƯỠNG THEO NĂM',
+        year: 'BÁO CÁO TỶ LỆ GIÁ TRỊ VƯỢT QUY CHUẨN',
         date: 'BÁO CÁO DỮ LIỆU VƯỢT NGƯỠNG THEO NGÀY',
       },
       option: {
-        reportYear: 'Báo cáo năm',
-        reportDay: 'Báo cáo ngày',
+        reportYear: 'Báo cáo tỷ lệ giá trị vượt QCVN',
+        reportDay: 'Báo cáo vượt ngưỡng theo ngày',
         year: 'Năm',
         day: 'Ngày',
+        month: 'Tháng',
       },
       table: {
         data_day: 'Số liệu trong ngày',
