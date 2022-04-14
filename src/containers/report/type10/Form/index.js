@@ -1,7 +1,8 @@
 import { Button, Col, Form, Row } from 'antd'
 import { default as SearchFormContainer } from 'components/elements/box-shadow'
 import Heading from 'components/elements/heading'
-import TreeSelectStation from 'components/elements/select-data/TreeSelectStation'
+// import TreeSelectStation from 'components/elements/select-data/TreeSelectStation'
+import SelectStationAuto from 'containers/search/common/select-station-auto'
 import SelectStationType from 'components/elements/select-station-type'
 import { Clearfix } from 'containers/fixed-map/map-default/components/box-analytic-list/style'
 import { translate } from 'hoc/create-lang'
@@ -113,7 +114,12 @@ export default class SearchForm extends React.Component {
     const { form } = this.props
     const { stationAutos } = this.state
 
-    form.resetFields()
+    form.resetFields([
+      FIELDS.STATION_KEYS,
+      FIELDS.STATION_KEYS,
+      FIELDS.TIME_VALUE,
+      FIELDS.STATION_TYPE,
+    ])
     const stationAutoKeys = stationAutos.map(stationAuto => stationAuto.key)
     form.setFieldsValue({
       [FIELDS.STATION_KEYS]: stationAutoKeys,
@@ -135,6 +141,7 @@ export default class SearchForm extends React.Component {
 
   render() {
     const { form } = this.props
+    const stationType = form.getFieldValue('stationType')
 
     return (
       <SearchFormContainer>
@@ -189,7 +196,7 @@ export default class SearchForm extends React.Component {
           <Row gutter={16}>
             <Col span={8}>
               <Item label={i18n().label.stationType}>
-                {form.getFieldDecorator('stationType', {
+                {form.getFieldDecorator(FIELDS.STATION_TYPE, {
                   onChange: this.handleOnStationTypeChange,
                   initialValue: '',
                 })(<SelectStationType isShowAll />)}
@@ -207,8 +214,11 @@ export default class SearchForm extends React.Component {
                     },
                   ],
                 })(
-                  <TreeSelectStation
-                    onStationAutosFetchSuccess={this.fetchStationAutoSuccess}
+                  <SelectStationAuto
+                    onFetchSuccess={this.fetchStationAutoSuccess}
+                    mode="multiple"
+                    style={{ width: '100%' }}
+                    stationTypeKey={stationType}
                   />
                 )}
               </Item>

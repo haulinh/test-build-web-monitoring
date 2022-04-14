@@ -11,6 +11,7 @@ export const FIELDS = {
   TIME_VALUE: 'timeValue',
   TIME_TYPE: 'time',
   REPORT_TYPE: 'reportType',
+  STATION_TYPE: 'stationType',
 }
 
 export const STATISTIC_TYPE = {
