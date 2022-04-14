@@ -17,6 +17,7 @@ const ColSwitch = styled(Col)`
     margin: 20px 0 4px;
   }
 `
+
 @Form.create()
 export default class Filter extends React.Component {
   constructor(props) {
@@ -56,18 +57,9 @@ export default class Filter extends React.Component {
   handleOnChangeTimeType = value => {
     const { form } = this.props
 
-    // if (value.type === 'month') {
-    //   console.log(value)
-    //   console.log('go to month type')
-    //   setTimeout(() => {
-    //     form.setFieldsValue({
-    //       [FIELDS.TIME]: {
-    //         value: [value.value, value.value],
-    //         type: value.type,
-    //       },
-    //     })
-    //   })
-    // }
+    form.setFieldsValue({
+      [FIELDS.TIME]: { value: value.time, type: value.type },
+    })
   }
 
   handleOnChangeFilter = value => {
@@ -134,6 +126,7 @@ export default class Filter extends React.Component {
             <FormItem label={i18n().time.label}>
               {form.getFieldDecorator(FIELDS.TIME, {
                 initialValue: { type: 'date', value: moment() },
+                onChange: this.handleOnChangeTimeType,
                 rules: [
                   {
                     required: true,

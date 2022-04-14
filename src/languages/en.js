@@ -4329,7 +4329,7 @@ export default {
     },
     type1_exceed: {
       excel: {
-        year: 'Report_Data Over The Threshold_',
+        year: 'Report Percentage Of Value Over Threshold_',
         date: 'Report_Data Over The Threshold_',
       },
       detailTitle: {

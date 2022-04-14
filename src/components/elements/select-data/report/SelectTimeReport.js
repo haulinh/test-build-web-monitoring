@@ -1,13 +1,10 @@
 import { Col, DatePicker, Row, Select } from 'antd'
-import {
-  DatePickerRangeYear,
-  DatePickerYear,
-} from 'components/core/date-picker'
+import { DatePickerYear } from 'components/core/date-picker'
 import DatePickerRangeMonth from 'components/core/date-picker/DatePickerRangeMonth'
 import { translate as t } from 'hoc/create-lang'
-import React from 'react'
-import moment from 'moment'
 import _ from 'lodash'
+import moment from 'moment'
+import React from 'react'
 
 const dateTimeOption = [
   {
@@ -27,7 +24,7 @@ const yearTimeOption = [
   },
 ]
 
-function PickTimes({ type, onChange, value }) {
+const PickTimes = ({ type, onChange, value }) => {
   if (type === 'date') {
     return (
       <DatePicker
@@ -43,7 +40,6 @@ function PickTimes({ type, onChange, value }) {
   if (type === 'month') {
     return <DatePickerRangeMonth value={value} onChange={onChange} />
   }
-
   if (type === 'year') {
     return (
       <DatePickerYear
@@ -59,11 +55,21 @@ function PickTimes({ type, onChange, value }) {
 
 const TimeReport = ({ value: valueField = {}, reportType, onChange }) => {
   const handleOnChangeOption = type => {
-    onChange({ ...valueField, type })
+    const currentTime = [moment(), moment()]
+    onChange({ type: type, value: currentTime })
   }
 
   const handleOnPicker = value => {
-    console.log(value)
+    if (valueField.type === 'year') {
+      const time = [value, value]
+      onChange({ type: valueField.type, value: time })
+      return
+    }
+    if (valueField.type === 'month') {
+      const time = [value[0], value[1]]
+      onChange({ type: valueField.type, value: time })
+      return
+    }
     onChange({ ...valueField, value })
   }
 
@@ -77,8 +83,6 @@ const TimeReport = ({ value: valueField = {}, reportType, onChange }) => {
         : dateTimeOption
     return time
   }
-
-  console.log(valueField)
 
   return (
     <Row gutter={16}>
