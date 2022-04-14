@@ -141,7 +141,7 @@ export default class Filter extends React.Component {
               {form.getFieldDecorator(FIELDS.PROVINCE, {
                 initialValue: '',
                 onChange: this.handleOnProvinceChange,
-              })(<SelectProvince isShowAll allowClear={false} form={form} />)}
+              })(<SelectProvince isShowAll allowClear={false} />)}
             </FormItem>
           </Col>
         </Row>
