@@ -114,7 +114,12 @@ export default class SearchForm extends React.Component {
     const { form } = this.props
     const { stationAutos } = this.state
 
-    form.resetFields()
+    form.resetFields([
+      FIELDS.STATION_KEYS,
+      FIELDS.STATION_KEYS,
+      FIELDS.TIME_VALUE,
+      FIELDS.STATION_TYPE,
+    ])
     const stationAutoKeys = stationAutos.map(stationAuto => stationAuto.key)
     form.setFieldsValue({
       [FIELDS.STATION_KEYS]: stationAutoKeys,
@@ -191,7 +196,7 @@ export default class SearchForm extends React.Component {
           <Row gutter={16}>
             <Col span={8}>
               <Item label={i18n().label.stationType}>
-                {form.getFieldDecorator('stationType', {
+                {form.getFieldDecorator(FIELDS.STATION_TYPE, {
                   onChange: this.handleOnStationTypeChange,
                   initialValue: '',
                 })(<SelectStationType isShowAll />)}
