@@ -166,21 +166,15 @@ export default class ReportExceed extends Component {
     const time = get(values, 'time.value', [])
 
     const title = {
-      date: i18n().detailTitle.date + moment(time).format(DD_MM_YYYY),
-      year: i18n().detailTitle.year + moment(time[0], YYYY).format(YYYY),
-      month:
-        i18n().detailTitle.month +
-        i18n().detailTitle.from +
-        ' ' +
-        i18n().detailTitle.monthText +
-        ' ' +
-        moment(time[0], YYYY).format('MM/YYYY') +
-        ' ' +
-        i18n().detailTitle.to +
-        ' ' +
-        i18n().detailTitle.monthText +
-        ' ' +
-        moment(time[1], YYYY).format('MM/YYYY'),
+      date: `${i18n().detailTitle.date}${moment(time).format(DD_MM_YYYY)}`,
+      year: `${i18n().detailTitle.year}${moment(time[0], YYYY).format(YYYY)}`,
+      month: `${i18n().detailTitle.month}
+      ${i18n().detailTitle.from}
+      ${i18n().detailTitle.monthText}
+      ${moment(time[0], YYYY).format('MM/YYYY')}
+      ${i18n().detailTitle.to}
+      ${i18n().detailTitle.monthText}
+      ${moment(time[1], YYYY).format('MM/YYYY')}`,
     }
 
     return title[reportType]

@@ -6,14 +6,14 @@ import _ from 'lodash'
 import moment from 'moment'
 import React from 'react'
 
-const dateTimeOption = [
+const dateTimeOptions = [
   {
     key: 'date',
     name: t('report.type1_exceed.option.day'),
   },
 ]
 
-const yearTimeOption = [
+const yearTimeOptions = [
   {
     key: 'month',
     name: t('report.type1_exceed.option.month'),
@@ -79,10 +79,12 @@ const TimeReport = ({ value: valueField = {}, reportType, onChange }) => {
   const getTimeOption = reportType => {
     const time =
       reportType === 'year' || reportType === 'month'
-        ? yearTimeOption
-        : dateTimeOption
+        ? yearTimeOptions
+        : dateTimeOptions
     return time
   }
+
+  const timeOption = getTimeOption(reportType)
 
   return (
     <Row gutter={16}>
@@ -93,7 +95,7 @@ const TimeReport = ({ value: valueField = {}, reportType, onChange }) => {
           value={valueField.type}
           onChange={handleOnChangeOption}
         >
-          {getTimeOption(reportType).map(option => (
+          {timeOption.map(option => (
             <Select.Option key={option.key} value={option.key}>
               {option.name}
             </Select.Option>
