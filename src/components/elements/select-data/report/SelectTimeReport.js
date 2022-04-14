@@ -15,12 +15,12 @@ const dateTimeOptions = [
 
 const yearTimeOptions = [
   {
-    key: 'month',
-    name: t('report.type1_exceed.option.month'),
-  },
-  {
     key: 'year',
     name: t('report.type1_exceed.option.year'),
+  },
+  {
+    key: 'month',
+    name: t('report.type1_exceed.option.month'),
   },
 ]
 
@@ -46,7 +46,9 @@ const PickTimes = ({ type, onChange, value }) => {
         style={{ with: '100%' }}
         onChange={onChange}
         value={
-          _.isNumber(value[0]) ? value[0] : moment(value[0]).format('YYYY')
+          _.isNumber(value[0])
+            ? value[0]
+            : Number(moment(value[0]).format('YYYY'))
         }
       />
     )
