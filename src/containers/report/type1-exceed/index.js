@@ -133,12 +133,16 @@ export default class ReportExceed extends Component {
         ? getTimeUTC(
             moment(paramsGeneral[FIELDS.TIME].value[0], 'YYYY').startOf('year')
           )
-        : getTimeUTC(paramsGeneral[FIELDS.TIME].value[0]),
+        : getTimeUTC(
+            moment(paramsGeneral[FIELDS.TIME].value[0]).startOf('month')
+          ),
       isYearType
         ? getTimeUTC(
             moment(paramsGeneral[FIELDS.TIME].value[1], 'YYYY').endOf('year')
           )
-        : getTimeUTC(paramsGeneral[FIELDS.TIME].value[1]),
+        : getTimeUTC(
+            moment(paramsGeneral[FIELDS.TIME].value[1]).endOf('month')
+          ),
     ]
     const params = {
       ...paramsGeneral,
@@ -209,8 +213,6 @@ export default class ReportExceed extends Component {
     this.setState({
       isLoadingExcel: false,
     })
-
-    console.log(params)
 
     const time = {
       date: moment(params.time).format('DDMMYYYY'),
