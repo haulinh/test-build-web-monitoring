@@ -52,7 +52,7 @@ const TableMonthObtained = ({ dataSource, loading }) => {
     },
     {
       title: i18n().header3,
-      dataIndex: 'data[0].record',
+      dataIndex: 'data[0].total',
       align: 'center',
       render: value => {
         return (
@@ -64,7 +64,7 @@ const TableMonthObtained = ({ dataSource, loading }) => {
     },
     {
       title: i18n().header4,
-      dataIndex: 'data[0].total',
+      dataIndex: 'data[0].record',
       align: 'center',
       render: value => {
         return (
@@ -90,7 +90,7 @@ const TableMonthObtained = ({ dataSource, loading }) => {
     <Table
       loading={loading}
       size="small"
-      rowKey="_id"
+      rowKey={record => record.station._id}
       columns={columns}
       bordered={true}
       dataSource={dataSortByStationType}

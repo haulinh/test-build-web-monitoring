@@ -45,7 +45,11 @@ const TabStationMonitoring = ({
   ))
 
   return (
-    <Tabs defaultActiveKey={stationKeys[0]} onChange={onChangeTabStation}>
+    <Tabs
+      defaultActiveKey={stationKeys[0]}
+      onChange={onChangeTabStation}
+      key={stationKeys.join(',')}
+    >
       {tabPaneList}
     </Tabs>
   )
@@ -175,7 +179,7 @@ const TableDateMonitoring = ({ loading, dataSource, station, measuresObj }) => {
     <Table
       loading={loading}
       size="small"
-      rowKey="_id"
+      rowKey={record => record.measure}
       columns={columns}
       bordered={true}
       dataSource={dataSourceTable.data}

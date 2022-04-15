@@ -43,7 +43,11 @@ const TabStationObtained = ({
   ))
 
   return (
-    <Tabs defaultActiveKey={stationKeys[0]} onChange={onChangeTabStation}>
+    <Tabs
+      defaultActiveKey={stationKeys[0]}
+      key={stationKeys.join(',')}
+      onChange={onChangeTabStation}
+    >
       {tabPaneList}
     </Tabs>
   )
@@ -100,7 +104,7 @@ const TableDateObtained = ({ loading, dataSource, station }) => {
     <Table
       loading={loading}
       size="small"
-      rowKey="_id"
+      rowKey={record => record.date}
       columns={columns}
       bordered={true}
       dataSource={dataSource}

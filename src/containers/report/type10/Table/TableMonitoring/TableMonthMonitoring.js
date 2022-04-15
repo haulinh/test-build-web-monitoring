@@ -181,7 +181,7 @@ const TableMonthMonitoring = ({ dataSource, loading, measuresObj }) => {
     <Table
       loading={loading}
       size="small"
-      rowKey="_id"
+      rowKey={record => record.measure}
       columns={columns}
       bordered={true}
       dataSource={dataSourceTable}

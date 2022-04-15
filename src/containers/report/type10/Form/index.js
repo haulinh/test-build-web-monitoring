@@ -115,12 +115,9 @@ export default class SearchForm extends React.Component {
 
   handleOnStatisticChange = value => {
     const { form } = this.props
-    const { stationAutos } = this.state
 
-    form.resetFields([FIELDS.STATION_KEYS, FIELDS.TIME_VALUE, FIELDS.PROVINCE])
-    const stationAutoKeys = stationAutos.map(stationAuto => stationAuto.key)
+    form.resetFields([FIELDS.TIME_VALUE])
     form.setFieldsValue({
-      [FIELDS.STATION_KEYS]: stationAutoKeys,
       [FIELDS.TIME_TYPE]: value,
     })
   }
