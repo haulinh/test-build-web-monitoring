@@ -44,7 +44,6 @@ const TableMonthMonitoring = ({ dataSource, loading, measuresObj }) => {
   }
 
   const dataSourceTable = getDataSource()
-  console.log({ dataSourceTable })
 
   const columns = [
     {
