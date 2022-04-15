@@ -925,6 +925,10 @@ export default {
         'Các số liệu thống kê về tỷ lệ số liệu thu được của các trạm quan trắc từ tháng {{=it.from}} đến tháng {{=it.to}}',
       descriptionRatioDate:
         'Các số liệu thống kê về tỷ lệ số liệu thu được của các trạm quan trắc từ ngày {{=it.from}} đến ngày {{=it.to}}',
+      descriptionRatioMonitoringMonth:
+        'Các số liệu thống kê về tỷ lệ số liệu quan trắc từ tháng {{=it.from}} đến tháng {{=it.to}}',
+      descriptionRatioMonitoringDate:
+        'Các số liệu thống kê về tỷ lệ số liệu quan trắc từ ngày {{=it.from}} đến ngày {{=it.to}}',
       title2: 'BÁO CÁO KẾT QUẢ QUAN TRẮC TRUNG BÌNH 24 GIỜ',
       description2:
         'Các số liệu thống kê về kết quả quan trắc trung bình 24 giờ của trạm {{=it.stationName}} trong tháng {{=it.monthYear}}',
@@ -4429,6 +4433,27 @@ export default {
     },
     type11: {
       fileNameExcel: 'Bao Cao Trung Binh 1h_',
+    },
+    type10: {
+      select: {
+        reportType: {
+          obtained: 'Báo cáo tỷ lệ dữ liệu thu được',
+          monitoring: 'Báo cáo tỷ lệ số liệu quan trắc',
+        },
+      },
+      table: {
+        title: {
+          measure: 'Thông số',
+          valuesByDesign: 'Số giá trị quan trắc theo thiết kế',
+          valuesReceived: 'Số giá trị quan trắc nhận được',
+          numberOfError: 'Số giá trị quan trắc lỗi/ bất thường',
+          percentageReceived:
+            'Tỷ lệ số liệu nhận được so với số giá trị theo thiết kế (%)',
+          percentageError:
+            'Tỷ lệ số liệu lỗi/bất thường so với số giá trị nhận được (%)',
+        },
+      },
+      nameReport: 'Các số liệu thống kê về tỷ lệ số liệu quan trắc',
     },
   },
   modalExportLang: {

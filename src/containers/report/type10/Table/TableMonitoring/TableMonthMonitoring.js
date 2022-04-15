@@ -106,7 +106,7 @@ const TableMonthMonitoring = ({ dataSource, loading, measuresObj }) => {
       },
     },
     {
-      title: 'Thông số',
+      title: i18n().table.title.measure,
       dataIndex: 'measure',
       align: 'left',
       render: value => {
@@ -116,7 +116,7 @@ const TableMonthMonitoring = ({ dataSource, loading, measuresObj }) => {
       },
     },
     {
-      title: 'Số giá trị quan trắc theo thiết kế',
+      title: i18n().table.title.valuesByDesign,
       dataIndex: 'total',
       align: 'right',
       render: value => {
@@ -128,7 +128,7 @@ const TableMonthMonitoring = ({ dataSource, loading, measuresObj }) => {
       },
     },
     {
-      title: 'Số giá trị quan trắc nhận được',
+      title: i18n().table.title.valuesReceived,
       dataIndex: 'record',
       align: 'right',
       render: value => {
@@ -140,7 +140,7 @@ const TableMonthMonitoring = ({ dataSource, loading, measuresObj }) => {
       },
     },
     {
-      title: 'Số giá trị quan trắc lỗi/ bất thường',
+      title: i18n().table.title.numberOfError,
       dataIndex: 'error',
       align: 'right',
       render: value => {
@@ -152,7 +152,7 @@ const TableMonthMonitoring = ({ dataSource, loading, measuresObj }) => {
       },
     },
     {
-      title: 'Tỷ lệ số liệu nhận được so với số giá trị theo thiết kế (%)',
+      title: i18n().table.title.percentageReceived,
       dataIndex: 'obtainedRatio',
       align: 'right',
       render: value => {
@@ -164,7 +164,7 @@ const TableMonthMonitoring = ({ dataSource, loading, measuresObj }) => {
       },
     },
     {
-      title: 'Tỷ lệ số liệu lỗi/bất thường so với số giá trị nhận được (%)',
+      title: i18n().table.title.percentageError,
       dataIndex: 'errorRatio',
       align: 'right',
       render: value => {

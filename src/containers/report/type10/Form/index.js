@@ -7,13 +7,16 @@ import SelectStationType from 'components/elements/select-station-type'
 import { Clearfix } from 'containers/fixed-map/map-default/components/box-analytic-list/style'
 import { translate } from 'hoc/create-lang'
 import PropTypes from 'prop-types'
+import SelectProvince from 'components/elements/select-province'
 import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { FIELDS, i18n, REPORT_TYPE } from '../constants'
 import SelectReportType from './SelectReportType'
+import TreeSelectStation from 'components/elements/select-data/TreeSelectStation'
 import SelectStatisticType from './SelectStatisticType'
 import SelectTime from './SelectTime'
+import { get } from 'lodash'
 
 const Label = styled.label`
   ::before {
@@ -114,17 +117,24 @@ export default class SearchForm extends React.Component {
     const { form } = this.props
     const { stationAutos } = this.state
 
-    form.resetFields([
-      FIELDS.STATION_KEYS,
-      FIELDS.STATION_KEYS,
-      FIELDS.TIME_VALUE,
-      FIELDS.STATION_TYPE,
-    ])
+    form.resetFields([FIELDS.STATION_KEYS, FIELDS.TIME_VALUE, FIELDS.PROVINCE])
     const stationAutoKeys = stationAutos.map(stationAuto => stationAuto.key)
     form.setFieldsValue({
       [FIELDS.STATION_KEYS]: stationAutoKeys,
       [FIELDS.TIME_TYPE]: value,
     })
+  }
+
+  handleOnProvinceChange = value => {
+    const { form } = this.props
+    let { stationAutos } = this.state
+    if (value) {
+      stationAutos = stationAutos.filter(
+        station => get(station, 'province.key') === value
+      )
+    }
+    const stationAutoKeys = stationAutos.map(stationAuto => stationAuto.key)
+    form.setFieldsValue({ [FIELDS.STATION_KEYS]: stationAutoKeys })
   }
 
   handleOnReportTypeChange = type => {
@@ -141,7 +151,8 @@ export default class SearchForm extends React.Component {
 
   render() {
     const { form } = this.props
-    const stationType = form.getFieldValue('stationType')
+    // const stationType = form.getFieldValue('stationType')
+    const province = form.getFieldValue(FIELDS.PROVINCE)
 
     return (
       <SearchFormContainer>
@@ -167,7 +178,7 @@ export default class SearchForm extends React.Component {
         <div style={{ padding: '8px 16px' }}>
           <Row gutter={16}>
             <Col span={8}>
-              <Item label="Loại báo cáo">
+              <Item label={i18n().label.typeReport}>
                 {form.getFieldDecorator(FIELDS.REPORT_TYPE, {
                   onChange: this.handleOnReportTypeChange,
                   initialValue: REPORT_TYPE.BASIC,
@@ -195,11 +206,11 @@ export default class SearchForm extends React.Component {
 
           <Row gutter={16}>
             <Col span={8}>
-              <Item label={i18n().label.stationType}>
-                {form.getFieldDecorator(FIELDS.STATION_TYPE, {
-                  onChange: this.handleOnStationTypeChange,
+              <Item label={i18n().label.province}>
+                {form.getFieldDecorator(FIELDS.PROVINCE, {
                   initialValue: '',
-                })(<SelectStationType isShowAll />)}
+                  onChange: this.handleOnProvinceChange,
+                })(<SelectProvince isShowAll allowClear={false} />)}
               </Item>
             </Col>
             <Col span={16}>
@@ -214,11 +225,9 @@ export default class SearchForm extends React.Component {
                     },
                   ],
                 })(
-                  <SelectStationAuto
-                    onFetchSuccess={this.fetchStationAutoSuccess}
-                    mode="multiple"
-                    style={{ width: '100%' }}
-                    stationTypeKey={stationType}
+                  <TreeSelectStation
+                    onStationAutosFetchSuccess={this.fetchStationAutoSuccess}
+                    province={province}
                   />
                 )}
               </Item>

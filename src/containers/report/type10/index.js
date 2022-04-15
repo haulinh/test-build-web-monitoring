@@ -121,17 +121,23 @@ export default class ReportType10 extends React.Component {
   getDetailTitle = () => {
     const { dataSearch, from, to } = this.state
     const type = dataSearch[FIELDS.TIME_TYPE]
-    const title = translate(
-      `avgSearchFrom.table.${
-        type === 'month' ? 'descriptionRatioMonth' : 'descriptionRatioDate'
-      }`,
-      {
-        from,
-        to,
-      }
-    )
+    const reportType = dataSearch[FIELDS.REPORT_TYPE]
 
-    return title
+    let title
+
+    if (reportType === REPORT_TYPE.BASIC) {
+      title = `avgSearchFrom.table.${
+        type === 'month' ? 'descriptionRatioMonth' : 'descriptionRatioDate'
+      }`
+    } else {
+      title = `avgSearchFrom.table.${
+        type === 'month'
+          ? 'descriptionRatioMonitoringMonth'
+          : 'descriptionRatioMonitoringDate'
+      }`
+    }
+
+    return translate(title, { from, to })
   }
 
   hanldeExcel = async () => {
@@ -214,7 +220,6 @@ export default class ReportType10 extends React.Component {
       stationAutos,
       visableModal,
       langExport,
-      // reportType,
     } = this.state
     const { measuresObj } = this.props
 
