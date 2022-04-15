@@ -74,7 +74,7 @@ export default class ReportType10 extends React.Component {
     const stationKeys = values[FIELDS.STATION_KEYS]
 
     if (!tabKeyActive) {
-      this.setTabKeyActive(stationKeys)
+      this.setTabKeyActive(stationKeys[0])
     }
 
     const newStationKeys =
@@ -213,9 +213,9 @@ export default class ReportType10 extends React.Component {
     )
   }
 
-  setTabKeyActive = stationKeys => {
+  setTabKeyActive = tabKeyActive => {
     this.setState({
-      tabKeyActive: stationKeys[0],
+      tabKeyActive: tabKeyActive,
     })
   }
   setStationAutos = stationAutos => this.setState({ stationAutos })

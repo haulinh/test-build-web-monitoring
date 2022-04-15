@@ -119,7 +119,7 @@ export default class SearchForm extends React.Component {
     const stationAutoKeys = stationAutosByProvince.map(
       stationAuto => stationAuto.key
     )
-    setTabKeyActive(stationAutoKeys)
+    setTabKeyActive(stationAutoKeys[0])
     form.setFieldsValue({ [FIELDS.STATION_KEYS]: stationAutoKeys })
   }
 
@@ -129,7 +129,7 @@ export default class SearchForm extends React.Component {
 
     form.resetFields()
     const stationAutoKeys = stationAutos.map(stationAuto => stationAuto.key)
-    setTabKeyActive(stationAutoKeys)
+    setTabKeyActive(stationAutoKeys[0])
 
     form.setFieldsValue({
       [FIELDS.STATION_KEYS]: stationAutoKeys,
@@ -140,7 +140,7 @@ export default class SearchForm extends React.Component {
   handleStationKeysChange = stationKeys => {
     const { setTabKeyActive } = this.props
 
-    setTabKeyActive(stationKeys)
+    setTabKeyActive(stationKeys[0])
   }
 
   render() {
