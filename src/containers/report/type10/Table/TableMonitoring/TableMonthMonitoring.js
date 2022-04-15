@@ -50,6 +50,7 @@ const TableMonthMonitoring = ({ dataSource, loading, measuresObj }) => {
       title: i18n().header1,
       dataIndex: 'station.name',
       align: 'left',
+      width: '16%',
       render: (value, record) => {
         const obj = {
           children: <div>{value}</div>,
@@ -68,6 +69,7 @@ const TableMonthMonitoring = ({ dataSource, loading, measuresObj }) => {
       title: i18n().header6,
       dataIndex: 'station.activatedAt',
       align: 'left',
+      width: '8%',
       render: (value, record) => {
         const obj = {
           children: (
@@ -90,9 +92,10 @@ const TableMonthMonitoring = ({ dataSource, loading, measuresObj }) => {
       title: i18n().header2,
       dataIndex: 'station.dataFrequency',
       align: 'right',
+      width: '8%',
       render: (value, record) => {
         const obj = {
-          children: <div>{value}</div>,
+          children: <div>{_.isNumber(value) ? value : '-'}</div>,
           props: {},
         }
 
@@ -107,16 +110,16 @@ const TableMonthMonitoring = ({ dataSource, loading, measuresObj }) => {
     {
       title: i18n().table.title.measure,
       dataIndex: 'measure',
+      width: '8%',
       align: 'left',
       render: value => {
-        return (
-          <div style={{ textAlign: 'right' }}>{measuresObj[value].name}</div>
-        )
+        return <div>{measuresObj[value].name}</div>
       },
     },
     {
       title: i18n().table.title.valuesByDesign,
       dataIndex: 'total',
+      width: '10%',
       align: 'right',
       render: value => {
         return (
@@ -130,6 +133,7 @@ const TableMonthMonitoring = ({ dataSource, loading, measuresObj }) => {
       title: i18n().table.title.valuesReceived,
       dataIndex: 'record',
       align: 'right',
+      width: '10%',
       render: value => {
         return (
           <div style={{ textAlign: 'right' }}>
@@ -142,6 +146,7 @@ const TableMonthMonitoring = ({ dataSource, loading, measuresObj }) => {
       title: i18n().table.title.numberOfError,
       dataIndex: 'error',
       align: 'right',
+      width: '10%',
       render: value => {
         return (
           <div style={{ textAlign: 'right' }}>
@@ -154,6 +159,7 @@ const TableMonthMonitoring = ({ dataSource, loading, measuresObj }) => {
       title: i18n().table.title.percentageReceived,
       dataIndex: 'obtainedRatio',
       align: 'right',
+      width: '10%',
       render: value => {
         return (
           <div style={{ textAlign: 'right' }}>
@@ -166,6 +172,7 @@ const TableMonthMonitoring = ({ dataSource, loading, measuresObj }) => {
       title: i18n().table.title.percentageError,
       dataIndex: 'errorRatio',
       align: 'right',
+      width: '10%',
       render: value => {
         return (
           <div style={{ textAlign: 'right' }}>

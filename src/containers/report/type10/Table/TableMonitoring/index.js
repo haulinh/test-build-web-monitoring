@@ -8,6 +8,7 @@ const TableMonitoring = ({
   dataSource,
   stationKeys,
   stationAutos,
+  tabKeyActive,
   onChangeTabStation,
   measuresObj,
 }) => {
@@ -17,6 +18,7 @@ const TableMonitoring = ({
         onChangeTabStation={onChangeTabStation}
         stationKeys={stationKeys}
         dataSource={dataSource}
+        tabKeyActive={tabKeyActive}
         measuresObj={measuresObj}
         stationAutos={stationAutos}
       />

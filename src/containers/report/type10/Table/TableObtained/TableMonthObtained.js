@@ -19,6 +19,7 @@ const TableMonthObtained = ({ dataSource, loading }) => {
       title: i18n().header1,
       dataIndex: 'station.name',
       align: 'left',
+      width: '30%',
       render: value => {
         return <div>{value}</div>
       },
@@ -27,6 +28,7 @@ const TableMonthObtained = ({ dataSource, loading }) => {
       title: i18n().header6,
       dataIndex: 'station.activatedAt',
       align: 'left',
+      width: '14%',
       render: value => {
         if (!value) {
           return '-'
@@ -41,47 +43,37 @@ const TableMonthObtained = ({ dataSource, loading }) => {
     {
       title: i18n().header2,
       dataIndex: 'station.dataFrequency',
-      align: 'center',
+      align: 'right',
+      width: '14%',
       render: value => {
-        return (
-          <div style={{ textAlign: 'right' }}>
-            {_.isNumber(value) ? value : '-'}
-          </div>
-        )
+        return <div>{_.isNumber(value) ? value : '-'}</div>
       },
     },
     {
       title: i18n().header3,
       dataIndex: 'data[0].total',
-      align: 'center',
+      align: 'right',
+      width: '14%',
       render: value => {
-        return (
-          <div style={{ textAlign: 'right' }}>
-            {_.isNumber(value) ? value : '-'}
-          </div>
-        )
+        return <div>{_.isNumber(value) ? value : '-'}</div>
       },
     },
     {
       title: i18n().header4,
       dataIndex: 'data[0].record',
-      align: 'center',
+      align: 'right',
+      width: '14%',
       render: value => {
-        return (
-          <div style={{ textAlign: 'right' }}>
-            {_.isNumber(value) ? value : '-'}
-          </div>
-        )
+        return <div>{_.isNumber(value) ? value : '-'}</div>
       },
     },
     {
       title: i18n().header5,
       dataIndex: 'data[0].obtainedRatio',
       align: 'right',
+      width: '14%',
       render: value => {
-        return (
-          <div style={{ textAlign: 'right' }}>{getFormatNumber(value, 2)}</div>
-        )
+        return <div>{getFormatNumber(value, 2)}</div>
       },
     },
   ]

@@ -73,6 +73,10 @@ export default class ReportType10 extends React.Component {
     const timeType = values[FIELDS.TIME_TYPE]
     const stationKeys = values[FIELDS.STATION_KEYS]
 
+    if (!tabKeyActive) {
+      this.setTabKeyActive(stationKeys)
+    }
+
     const newStationKeys =
       timeType === TIME.DATE
         ? tabKeyActive || stationKeys[0]
@@ -209,7 +213,11 @@ export default class ReportType10 extends React.Component {
     )
   }
 
-  resetData = () => this.setState({ dataSource: [] })
+  setTabKeyActive = stationKeys => {
+    this.setState({
+      tabKeyActive: stationKeys[0],
+    })
+  }
   setStationAutos = stationAutos => this.setState({ stationAutos })
 
   render() {
@@ -219,6 +227,7 @@ export default class ReportType10 extends React.Component {
       dataSearch,
       stationAutos,
       visableModal,
+      tabKeyActive,
       langExport,
     } = this.state
     const { measuresObj } = this.props
@@ -234,6 +243,7 @@ export default class ReportType10 extends React.Component {
           dataSource={dataSource}
           timeType={timeType}
           loading={isLoading}
+          tabKeyActive={tabKeyActive}
           stationKeys={stationKeys}
           stationAutos={stationAutos}
           onChangeTabStation={this.onChangeTabStation}
@@ -243,6 +253,7 @@ export default class ReportType10 extends React.Component {
       [REPORT_TYPE.ADVANCED]: (
         <TableMonitoring
           timeType={timeType}
+          tabKeyActive={tabKeyActive}
           dataSource={dataSource}
           measuresObj={measuresObj}
           loading={isLoading}
@@ -258,9 +269,8 @@ export default class ReportType10 extends React.Component {
         <Breadcrumb items={['type10']} />
         <Clearfix height={16} />
         <SearchForm
-          setReportType={this.setReportType}
           cbSubmit={this.handleSubmit}
-          resetData={this.resetData}
+          setTabKeyActive={this.setTabKeyActive}
           ref={this.formSearchRef}
           setStationAutos={this.setStationAutos}
         />

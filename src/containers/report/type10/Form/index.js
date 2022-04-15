@@ -70,20 +70,6 @@ export default class SearchForm extends React.Component {
     this.submit()
   }
 
-  handleOnStationTypeChange = value => {
-    const { form } = this.props
-    let { stationAutos } = this.state
-
-    if (value) {
-      stationAutos = this.state.stationAutos.filter(
-        station => station.stationType.key === value
-      )
-    }
-
-    const stationAutoKeys = stationAutos.map(stationAuto => stationAuto.key)
-    form.setFieldsValue({ [FIELDS.STATION_KEYS]: stationAutoKeys })
-  }
-
   submit = () => {
     this.props.form.validateFields((err, values) => {
       if (!err) {
@@ -120,32 +106,45 @@ export default class SearchForm extends React.Component {
   }
 
   handleOnProvinceChange = value => {
-    const { form } = this.props
-    let { stationAutos } = this.state
+    const { form, setTabKeyActive } = this.props
+    const { stationAutos } = this.state
+
+    let stationAutosByProvince = stationAutos
     if (value) {
-      stationAutos = stationAutos.filter(
+      stationAutosByProvince = stationAutosByProvince.filter(
         station => get(station, 'province.key') === value
       )
     }
-    const stationAutoKeys = stationAutos.map(stationAuto => stationAuto.key)
+
+    const stationAutoKeys = stationAutosByProvince.map(
+      stationAuto => stationAuto.key
+    )
+    setTabKeyActive(stationAutoKeys)
     form.setFieldsValue({ [FIELDS.STATION_KEYS]: stationAutoKeys })
   }
 
   handleOnReportTypeChange = type => {
-    const { form } = this.props
+    const { form, setTabKeyActive } = this.props
     const { stationAutos } = this.state
 
     form.resetFields()
     const stationAutoKeys = stationAutos.map(stationAuto => stationAuto.key)
+    setTabKeyActive(stationAutoKeys)
+
     form.setFieldsValue({
       [FIELDS.STATION_KEYS]: stationAutoKeys,
       [FIELDS.REPORT_TYPE]: type,
     })
   }
 
+  handleStationKeysChange = stationKeys => {
+    const { setTabKeyActive } = this.props
+
+    setTabKeyActive(stationKeys)
+  }
+
   render() {
     const { form } = this.props
-    // const stationType = form.getFieldValue('stationType')
     const province = form.getFieldValue(FIELDS.PROVINCE)
 
     return (
@@ -210,6 +209,7 @@ export default class SearchForm extends React.Component {
             <Col span={16}>
               <Item label={i18n().label.station}>
                 {form.getFieldDecorator(FIELDS.STATION_KEYS, {
+                  onChange: this.handleStationKeysChange,
                   rules: [
                     {
                       required: true,

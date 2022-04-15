@@ -16,6 +16,7 @@ const TabStationMonitoring = ({
   stationAutos,
   onChangeTabStation,
   loading,
+  tabKeyActive,
   measuresObj,
 }) => {
   const stationAutoByKey = _.keyBy(stationAutos, 'key')
@@ -46,9 +47,9 @@ const TabStationMonitoring = ({
 
   return (
     <Tabs
-      defaultActiveKey={stationKeys[0]}
       onChange={onChangeTabStation}
-      key={stationKeys.join(',')}
+      defaultActiveKey={tabKeyActive}
+      activeKey={tabKeyActive}
     >
       {tabPaneList}
     </Tabs>
@@ -90,6 +91,7 @@ const TableDateMonitoring = ({ loading, dataSource, station, measuresObj }) => {
       title: translate('dataSearchFilterForm.form.time'),
       dataIndex: 'date',
       align: 'left',
+      width: '9%',
       render: (value, record) => {
         const obj = {
           children: <div>{value ? moment(value).format(DD_MM_YYYY) : '-'}</div>,
@@ -107,6 +109,7 @@ const TableDateMonitoring = ({ loading, dataSource, station, measuresObj }) => {
     {
       title: i18n().header2,
       align: 'right',
+      width: '10%',
       render: (value, record) => {
         const obj = {
           children: (
@@ -129,6 +132,7 @@ const TableDateMonitoring = ({ loading, dataSource, station, measuresObj }) => {
       title: i18n().table.title.measure,
       dataIndex: 'measure',
       align: 'left',
+      width: '8%',
       render: value => {
         return <div>{measuresObj[value].name}</div>
       },
@@ -137,6 +141,7 @@ const TableDateMonitoring = ({ loading, dataSource, station, measuresObj }) => {
       title: i18n().table.title.valuesByDesign,
       dataIndex: 'total',
       align: 'right',
+      width: '15%',
       render: value => {
         return <div>{_.isNumber(value) ? value : '-'}</div>
       },
@@ -145,6 +150,7 @@ const TableDateMonitoring = ({ loading, dataSource, station, measuresObj }) => {
       title: i18n().table.title.valuesReceived,
       dataIndex: 'record',
       align: 'right',
+      width: '15%',
       render: value => {
         return <div>{_.isNumber(value) ? value : '-'}</div>
       },
@@ -153,6 +159,7 @@ const TableDateMonitoring = ({ loading, dataSource, station, measuresObj }) => {
       title: i18n().table.title.numberOfError,
       dataIndex: 'error',
       align: 'right',
+      width: '15%',
       render: value => {
         return <div>{_.isNumber(value) ? value : '-'}</div>
       },
@@ -161,6 +168,7 @@ const TableDateMonitoring = ({ loading, dataSource, station, measuresObj }) => {
       title: i18n().table.title.percentageReceived,
       dataIndex: 'obtainedRatio',
       align: 'right',
+      width: '14%',
       render: value => {
         return <div>{_.isNumber(value) ? getFormatNumber(value, 2) : '-'}</div>
       },
@@ -169,6 +177,7 @@ const TableDateMonitoring = ({ loading, dataSource, station, measuresObj }) => {
       title: i18n().table.title.percentageError,
       dataIndex: 'errorRatio',
       align: 'right',
+      width: '14%',
       render: value => {
         return <div>{_.isNumber(value) ? getFormatNumber(value, 2) : '-'}</div>
       },
