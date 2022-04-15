@@ -7,6 +7,7 @@ const TableObtained = ({
   dataSource,
   timeType,
   loading,
+  tabKeyActive,
   stationKeys,
   stationAutos,
   onChangeTabStation,
@@ -16,6 +17,7 @@ const TableObtained = ({
       <TabStationObtained
         dataSource={dataSource}
         stationKeys={stationKeys}
+        tabKeyActive={tabKeyActive}
         stationAutos={stationAutos}
         onChangeTabStation={onChangeTabStation}
       />

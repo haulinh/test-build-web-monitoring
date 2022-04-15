@@ -1,11 +1,11 @@
 import { Button, Col, Form, Row } from 'antd'
 import { default as SearchFormContainer } from 'components/elements/box-shadow'
 import Heading from 'components/elements/heading'
-// import TreeSelectStation from 'components/elements/select-data/TreeSelectStation'
-import SelectStationAuto from 'containers/search/common/select-station-auto'
-import SelectStationType from 'components/elements/select-station-type'
+import TreeSelectStation from 'components/elements/select-data/TreeSelectStation'
+import SelectProvince from 'components/elements/select-province'
 import { Clearfix } from 'containers/fixed-map/map-default/components/box-analytic-list/style'
 import { translate } from 'hoc/create-lang'
+import { get } from 'lodash'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { connect } from 'react-redux'
@@ -70,20 +70,6 @@ export default class SearchForm extends React.Component {
     this.submit()
   }
 
-  handleOnStationTypeChange = value => {
-    const { form } = this.props
-    let { stationAutos } = this.state
-
-    if (value) {
-      stationAutos = this.state.stationAutos.filter(
-        station => station.stationType.key === value
-      )
-    }
-
-    const stationAutoKeys = stationAutos.map(stationAuto => stationAuto.key)
-    form.setFieldsValue({ [FIELDS.STATION_KEYS]: stationAutoKeys })
-  }
-
   submit = () => {
     this.props.form.validateFields((err, values) => {
       if (!err) {
@@ -112,36 +98,54 @@ export default class SearchForm extends React.Component {
 
   handleOnStatisticChange = value => {
     const { form } = this.props
-    const { stationAutos } = this.state
 
-    form.resetFields([
-      FIELDS.STATION_KEYS,
-      FIELDS.STATION_KEYS,
-      FIELDS.TIME_VALUE,
-      FIELDS.STATION_TYPE,
-    ])
-    const stationAutoKeys = stationAutos.map(stationAuto => stationAuto.key)
+    form.resetFields([FIELDS.TIME_VALUE])
     form.setFieldsValue({
-      [FIELDS.STATION_KEYS]: stationAutoKeys,
       [FIELDS.TIME_TYPE]: value,
     })
   }
 
+  handleOnProvinceChange = value => {
+    const { form, setTabKeyActive } = this.props
+    const { stationAutos } = this.state
+
+    let stationAutosByProvince = stationAutos
+    if (value) {
+      stationAutosByProvince = stationAutosByProvince.filter(
+        station => get(station, 'province.key') === value
+      )
+    }
+
+    const stationAutoKeys = stationAutosByProvince.map(
+      stationAuto => stationAuto.key
+    )
+    setTabKeyActive(stationAutoKeys[0])
+    form.setFieldsValue({ [FIELDS.STATION_KEYS]: stationAutoKeys })
+  }
+
   handleOnReportTypeChange = type => {
-    const { form } = this.props
+    const { form, setTabKeyActive } = this.props
     const { stationAutos } = this.state
 
     form.resetFields()
     const stationAutoKeys = stationAutos.map(stationAuto => stationAuto.key)
+    setTabKeyActive(stationAutoKeys[0])
+
     form.setFieldsValue({
       [FIELDS.STATION_KEYS]: stationAutoKeys,
       [FIELDS.REPORT_TYPE]: type,
     })
   }
 
+  handleStationKeysChange = stationKeys => {
+    const { setTabKeyActive } = this.props
+
+    setTabKeyActive(stationKeys[0])
+  }
+
   render() {
     const { form } = this.props
-    const stationType = form.getFieldValue('stationType')
+    const province = form.getFieldValue(FIELDS.PROVINCE)
 
     return (
       <SearchFormContainer>
@@ -167,7 +171,7 @@ export default class SearchForm extends React.Component {
         <div style={{ padding: '8px 16px' }}>
           <Row gutter={16}>
             <Col span={8}>
-              <Item label="Loại báo cáo">
+              <Item label={i18n().label.typeReport}>
                 {form.getFieldDecorator(FIELDS.REPORT_TYPE, {
                   onChange: this.handleOnReportTypeChange,
                   initialValue: REPORT_TYPE.BASIC,
@@ -195,16 +199,17 @@ export default class SearchForm extends React.Component {
 
           <Row gutter={16}>
             <Col span={8}>
-              <Item label={i18n().label.stationType}>
-                {form.getFieldDecorator(FIELDS.STATION_TYPE, {
-                  onChange: this.handleOnStationTypeChange,
+              <Item label={i18n().label.province}>
+                {form.getFieldDecorator(FIELDS.PROVINCE, {
                   initialValue: '',
-                })(<SelectStationType isShowAll />)}
+                  onChange: this.handleOnProvinceChange,
+                })(<SelectProvince isShowAll allowClear={false} />)}
               </Item>
             </Col>
             <Col span={16}>
               <Item label={i18n().label.station}>
                 {form.getFieldDecorator(FIELDS.STATION_KEYS, {
+                  onChange: this.handleStationKeysChange,
                   rules: [
                     {
                       required: true,
@@ -214,11 +219,9 @@ export default class SearchForm extends React.Component {
                     },
                   ],
                 })(
-                  <SelectStationAuto
-                    onFetchSuccess={this.fetchStationAutoSuccess}
-                    mode="multiple"
-                    style={{ width: '100%' }}
-                    stationTypeKey={stationType}
+                  <TreeSelectStation
+                    onStationAutosFetchSuccess={this.fetchStationAutoSuccess}
+                    province={province}
                   />
                 )}
               </Item>

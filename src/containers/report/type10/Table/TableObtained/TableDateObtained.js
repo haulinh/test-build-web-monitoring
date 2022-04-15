@@ -14,6 +14,7 @@ const TabStationObtained = ({
   dataSource,
   stationKeys,
   stationAutos,
+  tabKeyActive,
   onChangeTabStation,
   loading,
 }) => {
@@ -43,7 +44,11 @@ const TabStationObtained = ({
   ))
 
   return (
-    <Tabs defaultActiveKey={stationKeys[0]} onChange={onChangeTabStation}>
+    <Tabs
+      defaultActiveKey={tabKeyActive}
+      activeKey={tabKeyActive}
+      onChange={onChangeTabStation}
+    >
       {tabPaneList}
     </Tabs>
   )
@@ -55,6 +60,7 @@ const TableDateObtained = ({ loading, dataSource, station }) => {
       title: translate('dataSearchFilterForm.form.time'),
       dataIndex: 'date',
       align: 'left',
+      width: '20%',
       render: (value, record) => {
         return <div>{value ? moment(value).format(DD_MM_YYYY) : '-'}</div>
       },
@@ -62,6 +68,7 @@ const TableDateObtained = ({ loading, dataSource, station }) => {
     {
       title: i18n().header2,
       align: 'right',
+      width: '20%',
       render: () => {
         return (
           <div>
@@ -73,6 +80,7 @@ const TableDateObtained = ({ loading, dataSource, station }) => {
     {
       title: i18n().header3,
       dataIndex: 'total',
+      width: '20%',
       align: 'right',
       render: value => {
         return <div>{_.isNumber(value) ? value : '-'}</div>
@@ -82,6 +90,7 @@ const TableDateObtained = ({ loading, dataSource, station }) => {
       title: i18n().header4,
       dataIndex: 'record',
       align: 'right',
+      width: '20%',
       render: value => {
         return <div>{_.isNumber(value) ? value : '-'}</div>
       },
@@ -90,6 +99,7 @@ const TableDateObtained = ({ loading, dataSource, station }) => {
       title: i18n().header5,
       dataIndex: 'obtainedRatio',
       align: 'right',
+      width: '20%',
       render: value => {
         return <div>{getFormatNumber(value, 2)}</div>
       },
@@ -100,7 +110,7 @@ const TableDateObtained = ({ loading, dataSource, station }) => {
     <Table
       loading={loading}
       size="small"
-      rowKey="_id"
+      rowKey={record => record.date}
       columns={columns}
       bordered={true}
       dataSource={dataSource}
