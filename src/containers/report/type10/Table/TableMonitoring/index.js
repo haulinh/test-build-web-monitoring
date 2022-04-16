@@ -11,6 +11,7 @@ const TableMonitoring = ({
   tabKeyActive,
   onChangeTabStation,
   measuresObj,
+  loading,
 }) => {
   const TableDataMonitoring = {
     [TIME.DATE]: (
@@ -20,11 +21,16 @@ const TableMonitoring = ({
         dataSource={dataSource}
         tabKeyActive={tabKeyActive}
         measuresObj={measuresObj}
+        loading={loading}
         stationAutos={stationAutos}
       />
     ),
     [TIME.MONTH]: (
-      <TableMonthMonitoring dataSource={dataSource} measuresObj={measuresObj} />
+      <TableMonthMonitoring
+        dataSource={dataSource}
+        measuresObj={measuresObj}
+        loading={loading}
+      />
     ),
   }
   return TableDataMonitoring[timeType]
