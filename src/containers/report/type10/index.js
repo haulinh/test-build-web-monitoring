@@ -145,43 +145,58 @@ export default class ReportType10 extends React.Component {
   }
 
   hanldeExcel = async () => {
-    const {
-      lang: { translateManual },
-    } = this.props
+    const { lang } = this.props
+    const { translateManual } = lang
+
+    const { params, stationKeys } = this.getParams()
+    const { reportType, from, to, time } = params
+    const language = lang.locale
+
+    const queryParams = {
+      from,
+      to,
+      type: reportType,
+      time,
+      stationKeys: stationKeys.join(','),
+      lang: language,
+    }
+
+    const fromFormat =
+      time === 'month'
+        ? moment(from).format('MMYYYY')
+        : moment(from).format('DDMMYYYY')
+
+    const toFormat =
+      time === 'month'
+        ? moment(to).format('MMYYYY')
+        : moment(to).format('DDMMYYYY')
+
+    const title =
+      reportType === REPORT_TYPE.BASIC
+        ? 'report.typeRatio.titleExport'
+        : 'report.typeMonitoring.titleExport'
+
+    const nameFileExcel = translateManual(
+      title,
+      null,
+      null,
+      this.state.langExport
+    )
+
     this.setState({
       isLoadingExcel: true,
     })
-    const { timeType, ...param } = this.state.dataSearch
 
     try {
-      let res = await DataInsight.exportDataRatio(timeType, {
-        ...param,
-        lang: this.state.langExport,
-      })
+      let res = await DataInsight.exportDataRatio(queryParams)
+      console.log({ res })
 
       this.setState({
         isLoadingExcel: false,
         visableModal: false,
       })
 
-      const fromFormat =
-        timeType === 'month'
-          ? moment(param.from).format('MMYYYY')
-          : moment(param.from).format('DDMMYYYY')
-
-      const toFormat =
-        timeType === 'month'
-          ? moment(param.to).format('MMYYYY')
-          : moment(param.to).format('DDMMYYYY')
-
-      const titleName = translateManual(
-        'report.typeRatio.titleExport',
-        null,
-        null,
-        this.state.langExport
-      )
-
-      downFileExcel(res.data, `${titleName}${fromFormat}_${toFormat}`)
+      downFileExcel(res.data, `${nameFileExcel}${fromFormat}_${toFormat}`)
     } catch (error) {}
   }
 

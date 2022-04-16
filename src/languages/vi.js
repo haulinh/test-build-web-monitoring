@@ -4428,6 +4428,9 @@ export default {
       titleExport: 'Bao Cao Ty Le Du Lieu Thu Duoc_',
       notUpdate: 'Chưa cập nhật',
     },
+    typeMonitoring: {
+      titleExport: 'Bao Cao Ty Le So Lieu Quan Trac_',
+    },
     type2: {
       fileNameExcel: 'Bao Cao Trung Binh 24h_',
     },

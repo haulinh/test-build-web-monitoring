@@ -72,8 +72,8 @@ export default {
     const url = getDataInsightUrl(`report/data-ratio`)
     return getFetch(url, param)
   },
-  exportDataRatio: (type, param) => {
-    const url = getDataInsightUrl(`report/data-ratio/${type}/export`)
+  exportDataRatio: param => {
+    const url = getDataInsightUrl(`report/data-ratio/export`)
     return getFetchDownFile(url, param)
   },
   getDataOriginal: (stationKey, params) => {
