@@ -3,7 +3,7 @@ import { Clearfix } from 'components/layouts/styles'
 import { DD_MM_YYYY } from 'constants/format-date'
 import { getFormatNumber } from 'constants/format-number'
 import { translate } from 'hoc/create-lang'
-import _, { get } from 'lodash'
+import _, { get, isEmpty } from 'lodash'
 import moment from 'moment'
 import React from 'react'
 import { i18n } from '../../constants'
@@ -58,6 +58,8 @@ const TabStationMonitoring = ({
 
 const TableDateMonitoring = ({ loading, dataSource, station, measuresObj }) => {
   const getDataSource = () => {
+    if (isEmpty(dataSource)) return []
+
     const dataStation = dataSource.reduce((base, current) => {
       if (!current.logs) return []
 
@@ -91,7 +93,7 @@ const TableDateMonitoring = ({ loading, dataSource, station, measuresObj }) => {
       title: translate('dataSearchFilterForm.form.time'),
       dataIndex: 'date',
       align: 'left',
-      width: '9%',
+      width: '12%',
       render: (value, record) => {
         const obj = {
           children: <div>{value ? moment(value).format(DD_MM_YYYY) : '-'}</div>,
@@ -132,7 +134,7 @@ const TableDateMonitoring = ({ loading, dataSource, station, measuresObj }) => {
       title: i18n().table.title.measure,
       dataIndex: 'measure',
       align: 'left',
-      width: '8%',
+      width: '12%',
       render: value => {
         return <div>{measuresObj[value].name}</div>
       },
@@ -141,7 +143,7 @@ const TableDateMonitoring = ({ loading, dataSource, station, measuresObj }) => {
       title: i18n().table.title.valuesByDesign,
       dataIndex: 'total',
       align: 'right',
-      width: '15%',
+      width: '10%',
       render: value => {
         return <div>{_.isNumber(value) ? value : '-'}</div>
       },
@@ -150,7 +152,7 @@ const TableDateMonitoring = ({ loading, dataSource, station, measuresObj }) => {
       title: i18n().table.title.valuesReceived,
       dataIndex: 'record',
       align: 'right',
-      width: '15%',
+      width: '10%',
       render: value => {
         return <div>{_.isNumber(value) ? value : '-'}</div>
       },
@@ -159,7 +161,7 @@ const TableDateMonitoring = ({ loading, dataSource, station, measuresObj }) => {
       title: i18n().table.title.numberOfError,
       dataIndex: 'error',
       align: 'right',
-      width: '15%',
+      width: '10%',
       render: value => {
         return <div>{_.isNumber(value) ? value : '-'}</div>
       },
@@ -184,6 +186,8 @@ const TableDateMonitoring = ({ loading, dataSource, station, measuresObj }) => {
     },
   ]
 
+  // if (isEmpty(dataSourceTable)) return null
+
   return (
     <Table
       loading={loading}
@@ -191,7 +195,7 @@ const TableDateMonitoring = ({ loading, dataSource, station, measuresObj }) => {
       rowKey={record => record.measure}
       columns={columns}
       bordered={true}
-      dataSource={dataSourceTable.data}
+      dataSource={dataSourceTable ? dataSourceTable.data : []}
       locale={{
         emptyText: translate('dataSearchFrom.table.emptyText'),
       }}

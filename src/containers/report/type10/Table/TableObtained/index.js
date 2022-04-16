@@ -19,6 +19,7 @@ const TableObtained = ({
         stationKeys={stationKeys}
         tabKeyActive={tabKeyActive}
         stationAutos={stationAutos}
+        loading={loading}
         onChangeTabStation={onChangeTabStation}
       />
     ),

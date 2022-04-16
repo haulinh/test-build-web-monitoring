@@ -208,6 +208,7 @@ export default class ReportType10 extends React.Component {
     this.setState(
       {
         tabKeyActive: tabKey,
+        dataSource: [],
       },
       () => this.handleSubmit()
     )
