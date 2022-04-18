@@ -925,6 +925,10 @@ export default {
         'Statistics about the Percentage of data obtained of stations from {{=it.from}} to {{=it.to}}',
       descriptionRatioDate:
         'Statistics about the Percentage of data obtained of stations from {{=it.from}} to {{=it.to}}',
+      descriptionRatioMonitoringMonth:
+        'Statistics about the percentage of monitoring data from {{=it.from}} to {{=it.to}}',
+      descriptionRatioMonitoringDate:
+        'Statistics about the percentage of monitoring data from {{=it.from}} to {{=it.to}}',
       title2: 'REPORT THE RESULTS OF 24-HOUR AVERAGE MONITORING',
       description2:
         'Statistics about Results of 24-hour average monitoring of {{=it.stationName}} station in {{=it.monthYear}}',
@@ -4420,6 +4424,26 @@ export default {
     },
     type11: {
       fileNameExcel: 'Report_1 hour average_',
+    },
+    type10: {
+      select: {
+        reportType: {
+          obtained: 'Report the percentage of',
+          monitoring: 'Report the percentage of monitoring data',
+        },
+      },
+      table: {
+        title: {
+          measure: 'Parameter',
+          valuesByDesign: 'Number of monitoring values by design',
+          valuesReceived: 'Number of monitoring values received',
+          numberOfError: 'Number of error/ abnormal monitoring values',
+          percentageReceived: 'Percentage of received data to design value (%)',
+          percentageError:
+            'Percentage of error/abnormal data to received value (%)',
+        },
+      },
+      nameReport: 'Statistics about the percentage of monitoring data',
     },
   },
   modalExportLang: {
