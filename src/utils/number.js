@@ -1,4 +1,4 @@
 import { isNumber } from 'lodash'
-export const formatNumberValue = (checkValue, returnValue) => {
-  return isNumber(checkValue) ? checkValue : returnValue
+export const formatNumberValue = (value, defaultValue = '-') => {
+  return isNumber(value) ? value : defaultValue
 }
