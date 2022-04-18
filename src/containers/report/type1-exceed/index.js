@@ -20,6 +20,7 @@ import Filter from './Filter'
 import { TableDate, TableYear } from './TableData'
 import ModalLangExport from 'components/elements/modal-lang-export'
 import createLanguage from 'hoc/create-lang'
+import { formatNumberValue } from 'utils/number'
 
 export const FIELDS = {
   REPORT_TYPE: 'reportType',
@@ -216,7 +217,10 @@ export default class ReportExceed extends Component {
 
     const time = {
       date: moment(params.time).format('DDMMYYYY'),
-      year: params.time.value[0],
+      year: formatNumberValue(
+        params.time.value[0],
+        moment(params.time.value[0]).format('YYYY')
+      ),
       month:
         moment(params.time.value[0]).format('MMYYYY') +
         '_' +
