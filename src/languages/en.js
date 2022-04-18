@@ -4419,6 +4419,9 @@ export default {
       titleExport: 'Report__Percentage Of Obtained Data_',
       notUpdate: 'Not updated',
     },
+    typeMonitoring: {
+      titleExport: 'Report_Percentage Of Monitoring Data_',
+    },
     type2: {
       fileNameExcel: 'Report_24 hour average_',
     },
