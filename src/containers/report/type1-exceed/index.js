@@ -218,13 +218,13 @@ export default class ReportExceed extends Component {
     const time = {
       date: moment(params.time).format('DDMMYYYY'),
       year: formatNumberValue(
-        params.time.value[0],
-        moment(params.time.value[0]).format('YYYY')
+        get(params.time, 'value.0', '-'),
+        moment(get(params.time, 'value.0', '-')).format('YYYY')
       ),
       month:
-        moment(params.time.value[0]).format('MMYYYY') +
+        moment(get(params.time, 'value.0', '-')).format('MMYYYY') +
         '_' +
-        moment(params.time.value[1]).format('MMYYYY'),
+        moment(get(params.time, 'value.1', '-')).format('MMYYYY'),
     }
 
     const type =
