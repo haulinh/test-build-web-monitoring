@@ -1,15 +1,19 @@
 import { Button, Col, Form, Row, Spin } from 'antd'
 import DataInsight from 'api/DataInsight'
 import Clearfix from 'components/elements/clearfix'
+import ModalLangExport from 'components/elements/modal-lang-export'
 import { Search } from 'components/layouts/styles'
 import { DD_MM_YYYY, YYYY } from 'constants/format-date'
 import ROLE from 'constants/role'
 import { BoxShadow } from 'containers/api-sharing/layout/styles'
-import { translate as t } from 'hoc/create-lang'
-import translateManual from 'hoc/create-lang'
+import {
+  default as createLanguage,
+  default as translateManual,
+  translate as t,
+} from 'hoc/create-lang'
 import protectRole from 'hoc/protect-role/forMenu'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import _, { get } from 'lodash'
+import _, { get, isNumber } from 'lodash'
 import moment from 'moment'
 import React, { Component } from 'react'
 import styled from 'styled-components'
@@ -18,9 +22,6 @@ import { downFileExcel } from 'utils/downFile'
 import Breadcrumb from '../breadcrumb'
 import Filter from './Filter'
 import { TableDate, TableYear } from './TableData'
-import ModalLangExport from 'components/elements/modal-lang-export'
-import createLanguage from 'hoc/create-lang'
-import { formatNumberValue } from 'utils/number'
 
 export const FIELDS = {
   REPORT_TYPE: 'reportType',
@@ -202,31 +203,31 @@ export default class ReportExceed extends Component {
     const {
       lang: { translateManual },
     } = this.props
+
     this.setState({
       isLoadingExcel: true,
       visableModal: false,
     })
+
     const params = await this.getQueryParams()
     const result = await DataInsight.getExportReportExceed(params.reportType, {
       ...params,
       lang: this.state.langExport,
     })
+
     this.setState({
       isLoadingExcel: false,
     })
 
     const time = {
       date: moment(params.time).format('DDMMYYYY'),
-      year: formatNumberValue(
-        get(params.time, 'value.0'),
-        moment(get(params.time, 'value.0')).format('YYYY')
-      ),
-      month:
-        moment(get(params.time, 'value.0')).format('MMYYYY') +
-        '_' +
-        moment(get(params.time, 'value.1')).format('MMYYYY'),
+      year: isNumber(get(params.time, 'value.0'))
+        ? get(params.time, 'value.0')
+        : moment(get(params.time, 'value.0')).format('YYYY'),
+      month: `${moment(get(params.time, 'value.0')).format('MMYYYY')}_${moment(
+        get(params.time, 'value.1')
+      ).format('MMYYYY')}`,
     }
-
     const type =
       params.reportType === 'date' ? params.reportType : params.time.type
 

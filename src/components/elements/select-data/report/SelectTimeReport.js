@@ -4,7 +4,7 @@ import DatePickerRangeMonth from 'components/core/date-picker/DatePickerRangeMon
 import { translate as t } from 'hoc/create-lang'
 import moment from 'moment'
 import React from 'react'
-import { formatNumberValue } from 'utils/number'
+import { isNumber } from 'lodash'
 
 const dateTimeOptions = [
   {
@@ -45,10 +45,11 @@ const PickTimes = ({ type, onChange, value }) => {
       <DatePickerYear
         style={{ with: '100%' }}
         onChange={onChange}
-        value={formatNumberValue(
-          value[0],
-          Number(moment(value[0]).format('YYYY'))
-        )}
+        value={
+          isNumber(value[0])
+            ? value[0]
+            : Number(moment(value[0]).format('YYYY'))
+        }
       />
     )
   }
