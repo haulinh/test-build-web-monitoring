@@ -146,19 +146,16 @@ export default class ReportType10 extends React.Component {
 
   hanldeExcel = async () => {
     const { lang } = this.props
+    const { langExport } = this.state
     const { translateManual } = lang
 
     const { params, stationKeys } = this.getParams()
     const { reportType, from, to, time } = params
-    const language = lang.locale
 
     const queryParams = {
-      from,
-      to,
-      reportType,
-      time,
+      ...params,
       stationKeys: stationKeys.join(','),
-      lang: language,
+      lang: langExport,
     }
 
     const fromFormat =
@@ -176,12 +173,7 @@ export default class ReportType10 extends React.Component {
         ? 'report.typeRatio.titleExport'
         : 'report.typeMonitoring.titleExport'
 
-    const nameFileExcel = translateManual(
-      title,
-      null,
-      null,
-      this.state.langExport
-    )
+    const nameFileExcel = translateManual(title, null, null, langExport)
 
     this.setState({
       isLoadingExcel: true,
