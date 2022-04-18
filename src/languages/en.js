@@ -4340,7 +4340,7 @@ export default {
         reportYear:
           'Statistics about the percentage of value over the threshold in ',
         reportMonth:
-          'Statistics about the percentage of value over the threshold from ',
+          'Statistics about the percentage of value over the threshold ',
         reportDay: 'Statistics about data over the threshold in ',
       },
       title: {
