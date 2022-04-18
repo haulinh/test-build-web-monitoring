@@ -155,7 +155,7 @@ export default class ReportType10 extends React.Component {
     const queryParams = {
       from,
       to,
-      type: reportType,
+      reportType,
       time,
       stationKeys: stationKeys.join(','),
       lang: language,
