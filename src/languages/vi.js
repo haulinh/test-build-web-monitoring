@@ -920,7 +920,7 @@ export default {
       header8: 'Giờ',
       header9: 'TỶ lệ số liệu vượt ngưỡng (%)',
       title: 'BÁO CÁO TỶ LỆ SỐ LIỆU THU ĐƯỢC',
-      titleDay: 'BÁO CÁO TỶ LỆ SỐ LIỆU THU ĐƯỢC THEO NGÀY',
+      titleMonitoring: 'BÁO CÁO TỶ LỆ SỐ LIỆU QUAN TRẮC',
       descriptionRatioMonth:
         'Các số liệu thống kê về tỷ lệ số liệu thu được của các trạm quan trắc từ tháng {{=it.from}} đến tháng {{=it.to}}',
       descriptionRatioDate:
