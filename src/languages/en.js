@@ -4008,7 +4008,7 @@ export default {
       timeEnd: 'Time end',
       note: 'Note',
       time: 'Time',
-      reportType: 'Report Type',
+      reportType: 'Types Of Report',
       stationType: 'Types Of Station',
       stationName: 'Station Name',
       billingConfig: 'Set Of Recipes',
@@ -4428,7 +4428,7 @@ export default {
     type10: {
       select: {
         reportType: {
-          obtained: 'Report the percentage of',
+          obtained: 'Report the percentage of obtained data',
           monitoring: 'Report the percentage of monitoring data',
         },
       },
