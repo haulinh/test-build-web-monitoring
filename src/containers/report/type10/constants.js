@@ -35,7 +35,8 @@ export function i18n() {
     header5: translate('avgSearchFrom.table.header5'),
     header6: translate('avgSearchFrom.table.header6'),
     title: translate('avgSearchFrom.table.title'),
-    titleDay: translate('avgSearchFrom.table.titleDay'),
+    titleMonitoring: translate('avgSearchFrom.table.titleMonitoring'),
+    byDay: translate('report.type2_flow.by.byDay'),
 
     error: {
       stationType: translate('avgSearchFrom.form.stationType.error'),

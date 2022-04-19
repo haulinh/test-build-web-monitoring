@@ -181,7 +181,6 @@ export default class ReportType10 extends React.Component {
 
     try {
       let res = await DataInsight.exportDataRatio(queryParams)
-      console.log({ res })
 
       this.setState({
         isLoadingExcel: false,
@@ -226,6 +225,21 @@ export default class ReportType10 extends React.Component {
       tabKeyActive: tabKeyActive,
     })
   }
+
+  getTitle = () => {
+    const { dataSearch } = this.state
+    const { reportType, time } = dataSearch
+    let title = i18n().title
+
+    if (reportType === REPORT_TYPE.ADVANCED) {
+      title = i18n().titleMonitoring
+    }
+
+    if (time === TIME.DATE) return `${title} ${i18n().byDay}`
+
+    return title
+  }
+
   setStationAutos = stationAutos => this.setState({ stationAutos })
 
   render() {
@@ -237,19 +251,19 @@ export default class ReportType10 extends React.Component {
       visableModal,
       tabKeyActive,
       langExport,
+      isHaveData,
+      isLoadingExcel,
     } = this.state
     const { measuresObj } = this.props
 
-    const stationKeys = dataSearch.stationKeys
-
-    const timeType = dataSearch[FIELDS.TIME_TYPE]
-    const reportType = dataSearch[FIELDS.REPORT_TYPE]
+    const { stationKeys, time, reportType } = dataSearch
+    const title = this.getTitle()
 
     const TableData = {
       [REPORT_TYPE.BASIC]: (
         <TableObtained
           dataSource={dataSource}
-          timeType={timeType}
+          timeType={time}
           loading={isLoading}
           tabKeyActive={tabKeyActive}
           stationKeys={stationKeys}
@@ -260,7 +274,7 @@ export default class ReportType10 extends React.Component {
 
       [REPORT_TYPE.ADVANCED]: (
         <TableMonitoring
-          timeType={timeType}
+          timeType={time}
           tabKeyActive={tabKeyActive}
           dataSource={dataSource}
           measuresObj={measuresObj}
@@ -284,11 +298,11 @@ export default class ReportType10 extends React.Component {
         />
         <Clearfix height={16} />
         <div style={{ position: 'relative', textAlign: 'center' }}>
-          <Title level={4}>
-            {timeType === 'date' ? i18n().titleDay : i18n().title}
+          <Title level={4} style={{ textTransform: 'uppercase' }}>
+            {title}
           </Title>
-          {timeType && <Text>{this.getDetailTitle()}</Text>}
-          {this.state.isHaveData && (
+          {time && <Text>{this.getDetailTitle()}</Text>}
+          {isHaveData && (
             <div
               style={{
                 position: 'absolute',
@@ -301,7 +315,7 @@ export default class ReportType10 extends React.Component {
                   style={{ marginRight: 16 }}
                   type="primary"
                   icon="file-excel"
-                  loading={this.state.isLoadingExcel}
+                  loading={isLoadingExcel}
                   onClick={this.handleOkModal}
                 >
                   {translate('avgSearchFrom.tab.exportExcel')}
