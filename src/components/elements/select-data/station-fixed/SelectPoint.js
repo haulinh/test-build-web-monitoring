@@ -11,7 +11,7 @@ export class SelectPoint extends React.Component {
   fetchPoints = async () => {
     const { condition } = this.props
     const filterPoint = {
-      limit: 100,
+      limit: 10000,
       skip: 0,
       where: {
         active: true,
