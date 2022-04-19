@@ -1,13 +1,7 @@
 {
-<<<<<<< HEAD
   "apiGateway": "https://qa-api.ilotusland.asia",
   "apiMedia": "https://qa-media.ilotusland.asia",
   "apiMediaMinio": "https://qa-minio.ilotusland.asia",
-=======
-  "apiGateway": "http://113.161.161.111:5000",
-  "apiMedia": "https://test-media.ilotusland.asia",
-  "apiMediaMinio": "https://test-minio.ilotusland.asia",
->>>>>>> d7805bac... fix bug
   "apiCamera": "http://27.74.251.0:5020",
   "googleMapKey": "AIzaSyB59vFoavqxzGMzUU0sfKdfygL4lPkuiyY",
   "camera": {
