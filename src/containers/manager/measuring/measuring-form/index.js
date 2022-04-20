@@ -42,15 +42,18 @@ export default class MeasuringForm extends React.PureComponent {
     e.preventDefault()
     this.props.form.validateFields(async (err, values) => {
       if (err) return
+
       const data = {
         key: values.key,
         name: (values.name || '').trim(),
         unit: values.unit ? values.unit : '',
         numericalOrder: values.numericalOrder,
       }
+
       // Callback submit form Container Component
       const res = await this.props.onSubmit(data)
-      this.updateLanguage(this._id)
+      this.updateLanguage()
+
       if (res && res.error) {
         if (res.message === 'KEY_EXISTED') {
           this.props.form.setFields({
@@ -70,8 +73,10 @@ export default class MeasuringForm extends React.PureComponent {
 
   updateLanguage(type = 'Measure') {
     const { form, updateLanguageContent } = this.props
+
     const values = form.getFieldsValue()
     const language = getLanguageContents(values)
+
     updateLanguageContent({
       itemId: this._id,
       itemKey: values.key,

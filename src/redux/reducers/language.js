@@ -78,9 +78,16 @@ function getListLanguageContents(state, { payload }) {
   const groupData = payload.reduce(
     (prev, item) => ({
       ...prev,
+
       [item.type]: {
         ...prev[item.type],
+
         [item.itemId]: item,
+
+        // check have itemKey then add to content
+        ...(item.itemKey && {
+          [item.itemKey]: item,
+        }),
       },
     }),
     {}
