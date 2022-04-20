@@ -1,16 +1,15 @@
-import React from 'react'
-import { Form, Input, Button, Row, Col } from 'antd'
-import PropTypes from 'prop-types'
-import { autobind } from 'core-decorators'
-import { PATTERN_KEY, PATTERN_NAME } from 'constants/format-string'
-import { mapPropsToFields } from 'utils/form'
-import createLanguage, { langPropTypes } from 'hoc/create-lang'
+import { Button, Col, Form, Input, Row } from 'antd'
 import InputNumberCell from 'components/elements/input-number-cell'
 import LanguageInput, { getLanguageContents } from 'components/language'
+import { PATTERN_KEY, PATTERN_NAME } from 'constants/format-string'
+import { autobind } from 'core-decorators'
+import createLanguage, { langPropTypes } from 'hoc/create-lang'
 import { get } from 'lodash'
+import PropTypes from 'prop-types'
+import React from 'react'
 import { connect } from 'react-redux'
-import { updateLanguageContent } from 'redux/actions/languageAction'
 import { withRouter } from 'react-router'
+import { updateLanguageContent } from 'redux/actions/languageAction'
 
 const FormItem = Form.Item
 
@@ -73,7 +72,12 @@ export default class MeasuringForm extends React.PureComponent {
     const { form, updateLanguageContent } = this.props
     const values = form.getFieldsValue()
     const language = getLanguageContents(values)
-    updateLanguageContent({ itemId: this._id, type, language })
+    updateLanguageContent({
+      itemId: this._id,
+      itemKey: values.key,
+      type,
+      language,
+    })
   }
   onChangeLanguage(language, field = 'name') {
     const { form, isEdit } = this.props

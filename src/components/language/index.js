@@ -43,6 +43,8 @@ class Language extends React.Component {
     values: [],
   }
 
+  currentId = getLanguage()
+
   componentWillReceiveProps(props) {
     const { content } = this.state
     const {
@@ -60,7 +62,7 @@ class Language extends React.Component {
         `${type}.${itemId}.language.${field}`
       )
       let content = props.value
-      if (language) content = language[getLanguage()]
+      if (language) content = language[this.currentId]
       this.setState({ content }, () => {
         onChange(content)
         onChangeLanguage(language)
@@ -68,26 +70,24 @@ class Language extends React.Component {
     }
   }
 
-  getLanguages = () => {
+  getContent = lang => {
     const { content } = this.state
     const { language } = this.props
 
-    const getContent = lang =>
-      lang === getLanguage() && !!content && get(language, lang) !== content
-        ? content
-        : get(language, lang, content)
-
-    return {
-      vi: getContent('vi'),
-      en: getContent('en'),
-      tw: getContent('tw'),
-    }
+    if (lang === this.currentId && !!content && get(language, lang) !== content)
+      return content
+    return get(language, lang, content)
   }
-
   setInitValues = () => {
     const { form } = this.props
-    const initialValues = this.getLanguages()
-    form.setFieldsValue(initialValues)
+
+    const langContents = LangConfig.map(langConfigItem => [
+      langConfigItem.lang,
+      this.getContent(langConfigItem.lang),
+    ])
+    const initialValuesLangContents = Object.fromEntries(langContents) // convert array to object
+
+    form.setFieldsValue(initialValuesLangContents)
   }
 
   openLanguageModal = () => {
