@@ -7,10 +7,10 @@ import createLanguageHoc, { langPropTypes, translate } from 'hoc/create-lang'
 import * as _ from 'lodash'
 import PropTypes from 'prop-types'
 import React from 'react'
-import LanguageInput, {getLanguageContents} from 'components/language'
+import LanguageInput, { getLanguageContents } from 'components/language'
 import get from 'lodash/get'
-import {connect} from 'react-redux'
-import {updateLanguageContent} from 'redux/actions/languageAction'
+import { connect } from 'react-redux'
+import { updateLanguageContent } from 'redux/actions/languageAction'
 
 function i18n() {
   return {
@@ -22,10 +22,7 @@ function i18n() {
 
 const FormItem = Form.Item
 
-@connect(
-  () => ({}), 
-  {updateLanguageContent}
-)
+@connect(() => ({}), { updateLanguageContent })
 @Form.create({})
 @createLanguageHoc
 @autobind
@@ -48,7 +45,7 @@ class StationTypeForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault()
-    const {form, onSubmit} = this.props
+    const { form, onSubmit } = this.props
     form.validateFields(async (err, values) => {
       if (err) return
       const data = {
@@ -60,8 +57,8 @@ class StationTypeForm extends React.Component {
         numericalOrder: values.numericalOrder,
       }
       // Callback submit form Container Component
-      const onSuccess = (data) => {
-        this.updateLanguage(data._id) 
+      const onSuccess = data => {
+        this.updateLanguage(data._id)
       }
       const res = await onSubmit(data, onSuccess)
 
@@ -83,20 +80,20 @@ class StationTypeForm extends React.Component {
   }
 
   updateLanguage(itemId, type = 'StationType') {
-    const {form, updateLanguageContent} = this.props
+    const { form, updateLanguageContent } = this.props
     const values = form.getFieldsValue()
     const language = getLanguageContents(values)
-    updateLanguageContent({itemId, type, language})
+    updateLanguageContent({ itemId, type, language })
   }
 
-  onChangeLanguage(language, field='name') {
-    const {form, isEdit, initialValues} = this.props
-    const languageFieldName = `language.${field}`;
-    const content = form.getFieldValue(languageFieldName);
-    form.setFieldsValue({[languageFieldName]: language})
+  onChangeLanguage(language, field = 'name') {
+    const { form, isEdit, initialValues } = this.props
+    const languageFieldName = `language.${field}`
+    const content = form.getFieldValue(languageFieldName)
+    form.setFieldsValue({ [languageFieldName]: language })
 
     // don't process save for initial data or creation flow
-    if(!isEdit || !content) return
+    if (!isEdit || !content) return
     this.updateLanguage(initialValues._id)
   }
 
@@ -110,20 +107,19 @@ class StationTypeForm extends React.Component {
   }
 
   async componentDidMount() {
-    const {isEdit, initialValues, form} = this.props
+    const { isEdit, initialValues, form } = this.props
     if (isEdit) {
       form.setFieldsValue({
         key: initialValues.key,
         name: initialValues.name,
         numericalOrder: initialValues.numericalOrder,
-        isAuto: initialValues.isAuto
+        isAuto: initialValues.isAuto,
       })
 
       let updateState = {}
       if (initialValues.icon && initialValues.icon !== '')
         updateState.urlIcon = initialValues.icon
-      if (initialValues.color)
-        updateState.color = initialValues.color
+      if (initialValues.color) updateState.color = initialValues.color
       this.setState(updateState)
     }
   }
@@ -136,10 +132,9 @@ class StationTypeForm extends React.Component {
   }
 
   render() {
-
-    const {form, lang, initialValues} = this.props
-    const {getFieldDecorator} = form
-    const {t} = lang
+    const { form, lang, initialValues } = this.props
+    const { getFieldDecorator } = form
+    const { t } = lang
 
     const formItemLayout = {
       labelCol: {
@@ -206,13 +201,15 @@ class StationTypeForm extends React.Component {
                   size="large"
                   placeholder={t('stationTypeManager.form.name.label')}
                   itemId={get(initialValues, '_id')}
-                  type='StationType'
+                  type="StationType"
                   language={form.getFieldValue('language.name')}
-                  rules={[{
-                    max: 64,
-                    message: t('stationTypeManager.form.name.max'),
-                  }]}
-                  onChangeLanguage={(language) => this.onChangeLanguage(language)}
+                  rules={[
+                    {
+                      max: 64,
+                      message: t('stationTypeManager.form.name.max'),
+                    },
+                  ]}
+                  onChangeLanguage={language => this.onChangeLanguage(language)}
                 />
               )}
             </FormItem>

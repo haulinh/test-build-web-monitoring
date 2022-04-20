@@ -181,7 +181,6 @@ export default class ReportType10 extends React.Component {
 
     try {
       let res = await DataInsight.exportDataRatio(queryParams)
-      console.log({ res })
 
       this.setState({
         isLoadingExcel: false,
