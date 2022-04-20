@@ -1,24 +1,41 @@
-import React from 'react'
-import { Form, Input, Button, Row, Col } from 'antd'
-import PropTypes from 'prop-types'
-import { autobind } from 'core-decorators'
-import { PATTERN_KEY, PATTERN_NAME } from 'constants/format-string'
-import { mapPropsToFields } from 'utils/form'
-import createLanguage, { langPropTypes } from 'hoc/create-lang'
+import { Button, Col, Form, Input, Row } from 'antd'
 import InputNumberCell from 'components/elements/input-number-cell'
+import LanguageInput, { getLanguageContents } from 'components/language'
+import { PATTERN_KEY, PATTERN_NAME } from 'constants/format-string'
+import { autobind } from 'core-decorators'
+import createLanguage, { langPropTypes } from 'hoc/create-lang'
+import { get } from 'lodash'
+import PropTypes from 'prop-types'
+import React from 'react'
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router'
+import { updateLanguageContent } from 'redux/actions/languageAction'
 
 const FormItem = Form.Item
 
 @Form.create({
-  mapPropsToFields: mapPropsToFields,
+  // mapPropsToFields: mapPropsToFields,
 })
 @createLanguage
+@connect(null, { updateLanguageContent })
+@withRouter
 @autobind
 export default class MeasuringForm extends React.PureComponent {
   static propTypes = {
     onSubmit: PropTypes.func,
     lang: langPropTypes,
     isEdit: PropTypes.bool,
+  }
+
+  componentDidMount() {
+    const { form, initialValues } = this.props
+    form.setFieldsValue(initialValues)
+  }
+
+  constructor(props) {
+    super(props)
+    const { match } = props
+    this._id = get(match, 'params.key')
   }
 
   handleSubmit(e) {
@@ -33,6 +50,7 @@ export default class MeasuringForm extends React.PureComponent {
       }
       // Callback submit form Container Component
       const res = await this.props.onSubmit(data)
+      this.updateLanguage(this._id)
       if (res && res.error) {
         if (res.message === 'KEY_EXISTED') {
           this.props.form.setFields({
@@ -50,11 +68,35 @@ export default class MeasuringForm extends React.PureComponent {
     })
   }
 
+  updateLanguage(type = 'Measure') {
+    const { form, updateLanguageContent } = this.props
+    const values = form.getFieldsValue()
+    const language = getLanguageContents(values)
+    updateLanguageContent({
+      itemId: this._id,
+      itemKey: values.key,
+      type,
+      language,
+    })
+  }
+  onChangeLanguage(language, field = 'name') {
+    const { form, isEdit } = this.props
+    const languageFieldName = `language.${field}`
+
+    form.setFieldsValue({ [languageFieldName]: language })
+    const content = form.getFieldValue(languageFieldName)
+
+    // don't process save for initial data or creation flow
+    if (!isEdit || !content) return
+    this.updateLanguage()
+  }
+
   render() {
     const {
-      form: { getFieldDecorator },
+      form: { getFieldDecorator, getFieldValue },
       lang: { t },
     } = this.props
+
     const formItemLayout = {
       labelCol: {
         // sm: { span: 2, offset: 0 }
@@ -67,6 +109,8 @@ export default class MeasuringForm extends React.PureComponent {
         sm: { span: 24 },
       },
     }
+
+    getFieldDecorator('language.name')
 
     return (
       <Form onSubmit={this.handleSubmit}>
@@ -121,9 +165,26 @@ export default class MeasuringForm extends React.PureComponent {
                   },
                 ],
               })(
-                <Input
-                  size="large"
-                  placeholder={t('measuringManager.form.name.placeholder')}
+                <LanguageInput
+                  itemId={this._id}
+                  type="Measure"
+                  language={getFieldValue('language.name')}
+                  placeholder={t('stationAutoManager.form.name.placeholder')}
+                  rules={[
+                    {
+                      required: true,
+                      message: t('measuringManager.form.name.error'),
+                    },
+                    {
+                      pattern: PATTERN_NAME,
+                      message: t('measuringManager.form.name.pattern'),
+                    },
+                    {
+                      max: 64,
+                      message: t('measuringManager.form.name.max'),
+                    },
+                  ]}
+                  onChangeLanguage={language => this.onChangeLanguage(language)}
                 />
               )}
             </FormItem>
@@ -144,7 +205,6 @@ export default class MeasuringForm extends React.PureComponent {
           <Col span={12}>
             <FormItem
               {...formItemLayout}
-              // labelCol={{ span: 7}}
               label={t('measuringManager.form.numericalOrder.label')}
             >
               {getFieldDecorator('numericalOrder', {

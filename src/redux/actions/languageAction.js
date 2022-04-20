@@ -51,7 +51,6 @@ export function getListLanguageContents() {
 export function updateLanguageContent(params) {
   return async dispatch => {
     const data = await CalculateApi.updateLanguageContent(params)
-
     dispatch({
       type: UPDATE_LANGUAGE_CONTENT,
       payload: data,

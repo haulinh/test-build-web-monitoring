@@ -1,15 +1,15 @@
-import {Form, Input, Modal} from 'antd'
+import { Form, Input, Modal } from 'antd'
 import iconLanguage from 'assets/svg-icons/IconLanguage.svg'
-import {translate as t} from 'hoc/create-lang'
+import { translate as t } from 'hoc/create-lang'
 import get from 'lodash/get'
 import React from 'react'
-import {FlagIcon} from 'react-flag-kit'
-import {connect} from 'react-redux'
+import { FlagIcon } from 'react-flag-kit'
+import { connect } from 'react-redux'
 import styled from 'styled-components'
-import {getLanguage} from 'utils/localStorage'
-import {LangConfig} from './helper'
-import {FlagLabel, FormItem, FormWrapper} from './styled'
-import {Warning} from './warning'
+import { getLanguage } from 'utils/localStorage'
+import { LangConfig } from './helper'
+import { FlagLabel, FormItem, FormWrapper } from './styled'
+import { Warning } from './warning'
 export * from './helper'
 
 const i18n = {
@@ -18,10 +18,10 @@ const i18n = {
   cancelText: t('global.back'),
 }
 const InputWrapper = styled(Input)`
-  span.ant-input-group-addon{
+  span.ant-input-group-addon {
     cursor: pointer;
     background: #ffffff;
-    &:hover{
+    &:hover {
       background: rgb(230, 247, 255);
     }
   }
@@ -32,108 +32,116 @@ const IconWrapper = styled.img`
 `
 
 @Form.create({})
-@connect(
-  state => ({
-    languageContents: get(state, 'language.languageContents')
-  })
-)
+@connect(state => ({
+  languageContents: get(state, 'language.languageContents'),
+}))
 class Language extends React.Component {
   state = {
     content: null,
     isVisible: false,
     isWarning: false,
-    values: []
+    values: [],
   }
 
-  componentWillReceiveProps(props){
-    const {content} = this.state
-    const {itemId, type, id: field, languageContents, onChange, onChangeLanguage} = this.props
+  currentId = getLanguage()
 
-    if(content === null && props.value) {
-      const language = get(languageContents, `${type}.${itemId}.language.${field}`);
+  componentWillReceiveProps(props) {
+    const { content } = this.state
+    const {
+      itemId,
+      type,
+      id: field,
+      languageContents,
+      onChange,
+      onChangeLanguage,
+    } = this.props
+
+    if (content === null && props.value) {
+      const language = get(
+        languageContents,
+        `${type}.${itemId}.language.${field}`
+      )
       let content = props.value
-      if(language) content = language[getLanguage()]
-      this.setState({content}, () => {
+      if (language) content = language[this.currentId]
+      this.setState({ content }, () => {
         onChange(content)
         onChangeLanguage(language)
       })
     }
   }
 
-  getLanguages = () => {
-    const {content} = this.state
-    const {language} = this.props
+  getContent = lang => {
+    const { content } = this.state
+    const { language } = this.props
 
-    const getContent = (lang) =>
-      lang === getLanguage() && !!content && get(language, lang) !== content
-        ? content
-        : get(language, lang, content)
-
-    return {
-      vi: getContent('vi'),
-      en: getContent('en'),
-      tw: getContent('tw'),
-    }
+    if (lang === this.currentId && !!content && get(language, lang) !== content)
+      return content
+    return get(language, lang, content)
   }
-
   setInitValues = () => {
-    const {form} = this.props
-    const initialValues = this.getLanguages()
-    form.setFieldsValue(initialValues)
+    const { form } = this.props
+
+    const langContents = LangConfig.map(langConfigItem => [
+      langConfigItem.lang,
+      this.getContent(langConfigItem.lang),
+    ])
+    const initialValuesLangContents = Object.fromEntries(langContents) // convert array to object
+
+    form.setFieldsValue(initialValuesLangContents)
   }
 
   openLanguageModal = () => {
-    this.setState({isVisible: true}, this.setInitValues)
+    this.setState({ isVisible: true }, this.setInitValues)
   }
 
-  closeLanguageModal = (cb) => {
-    const {form} = this.props
-    this.setState({isVisible: false}, () => {
+  closeLanguageModal = cb => {
+    const { form } = this.props
+    this.setState({ isVisible: false }, () => {
       typeof cb === 'function' && cb()
       form.resetFields()
     })
   }
 
   timeOut = null
-  onChange = (content) => {
-    this.setState({content})
+  onChange = content => {
+    this.setState({ content })
     clearTimeout(this.timeOut)
     this.timeOut = setTimeout(() => {
-      const {onChange} = this.props
-      onChange(content);
+      const { onChange } = this.props
+      onChange(content)
     }, 500)
   }
 
   getValues = async () => {
-    const {form} = this.props
-    const formValues = await form.validateFields();
+    const { form } = this.props
+    const formValues = await form.validateFields()
 
     const values = Object.keys(formValues)
       .map(lang => {
         const content = (formValues[lang] || '').trim()
-        if (!!content) return {lang, content}
+        if (!!content) return { lang, content }
         return null
       })
       .filter(Boolean)
 
-    return values;
+    return values
   }
 
   handleSubmit = async () => {
     const values = await this.getValues()
-    this.setState({values})
+    this.setState({ values })
 
-    if(values.length === 0) {
+    if (values.length === 0) {
       this.closeLanguageModal()
       return
     }
 
-    if(values.length < LangConfig.length) {
-      this.setState({isWarning: true})
+    if (values.length < LangConfig.length) {
+      this.setState({ isWarning: true })
       return
     }
 
-    const {form, onChange, onChangeLanguage} = this.props
+    const { form, onChange, onChangeLanguage } = this.props
     const formValues = form.getFieldsValue()
 
     this.closeLanguageModal(() => {
@@ -146,33 +154,34 @@ class Language extends React.Component {
   }
 
   handleConfirm = () => {
-    this.setState(
-      {isWarning: false},
-      () => {
-        this.fillEmpty()
-        this.handleSubmit()
-      }
-    );
+    this.setState({ isWarning: false }, () => {
+      this.fillEmpty()
+      this.handleSubmit()
+    })
   }
 
   fillEmpty = () => {
-    const {form} = this.props
-    const {values} = this.state
+    const { form } = this.props
+    const { values } = this.state
 
     const valueMaps = new Map(values.map(item => [item.lang, item]))
     const defaultValue = values[0]
 
-    const results = LangConfig
-      .map(item => valueMaps.get(item.lang) || {...item, content: defaultValue.content})
-      .reduce((prev, item) => ({
+    const results = LangConfig.map(
+      item =>
+        valueMaps.get(item.lang) || { ...item, content: defaultValue.content }
+    ).reduce(
+      (prev, item) => ({
         ...prev,
-        [item.lang]: item.content
-      }), {})
+        [item.lang]: item.content,
+      }),
+      {}
+    )
 
     form.setFieldsValue(results)
   }
 
-  renderFormItemLabel = (item) => {
+  renderFormItemLabel = item => {
     return (
       <FlagLabel>
         <FlagIcon code={item.code} size={22} />
@@ -187,18 +196,17 @@ class Language extends React.Component {
     okText: i18n.okText,
     cancelText: i18n.cancelText,
     title: i18n.title,
-    bodyStyle: {height: 300}
+    bodyStyle: { height: 300 },
   })
 
-  render(){
-    const {form, rules, placeholder, itemId, size} = this.props
-    const {isWarning, isVisible, content, values} = this.state
+  render() {
+    const { form, rules, placeholder, itemId, size } = this.props
+    const { isWarning, isVisible, content, values } = this.state
     const formValues = form.getFieldsValue()
 
-    const disabled = !!itemId &&
-      Object.values(formValues).every(item => !item)
+    const disabled = !!itemId && Object.values(formValues).every(item => !item)
 
-      return (
+    return (
       <React.Fragment>
         <InputWrapper
           size={size}
@@ -219,16 +227,16 @@ class Language extends React.Component {
           visible={isVisible}
           onCancel={this.closeLanguageModal}
           onOk={this.handleSubmit}
-          okButtonProps={{disabled}}
+          okButtonProps={{ disabled }}
         >
           <FormWrapper className="form-language">
-            {LangConfig.map(item =>
+            {LangConfig.map(item => (
               <FormItem key={item.lang} label={this.renderFormItemLabel(item)}>
-                {form.getFieldDecorator(item.lang, {rules})(
+                {form.getFieldDecorator(item.lang, { rules })(
                   <Input autoFocus={getLanguage() === item.lang} />
                 )}
               </FormItem>
-            )}
+            ))}
           </FormWrapper>
         </Modal>
 
@@ -236,7 +244,7 @@ class Language extends React.Component {
           {...this.getModalOptions()}
           cancelText={i18n.cancelText}
           visible={isWarning}
-          onCancel={() => this.setState({isWarning: false})}
+          onCancel={() => this.setState({ isWarning: false })}
           onOk={this.handleConfirm}
         >
           <Warning lang={get(values, '0.content')} />
