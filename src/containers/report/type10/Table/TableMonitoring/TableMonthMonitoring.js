@@ -15,8 +15,12 @@ const TableMonthMonitoring = ({ dataSource, loading, measuresObj }) => {
     )
   )
 
+  console.log({ dataSortByStationType })
+
   const getDataSource = () => {
-    const dataStation = dataSortByStationType.map(dataStationItem => {
+    const dataStation = dataSortByStationType.map((dataStationItem, index) => {
+      const stationKey = dataStationItem.station.key
+
       const data = dataStationItem.data.reduce((base, current) => {
         if (isEmpty(current.logs)) return []
 
@@ -25,7 +29,7 @@ const TableMonthMonitoring = ({ dataSource, loading, measuresObj }) => {
           return {
             measure,
             date: current.date,
-            key: current.date,
+            key: `${current.date}-${stationKey}-${measure}`,
             station: dataStationItem.station,
             ...current.logs[measure],
             ...(index === 0 && {
@@ -36,6 +40,14 @@ const TableMonthMonitoring = ({ dataSource, loading, measuresObj }) => {
         })
         return [...base, ...dataMeasuringLogs]
       }, [])
+
+      if (isEmpty(data))
+        return {
+          key: `${index}-${stationKey}`,
+          station: dataStationItem.station,
+          spanMerge: 1,
+          indexMerge: true,
+        }
 
       return data
     }, [])
@@ -53,7 +65,7 @@ const TableMonthMonitoring = ({ dataSource, loading, measuresObj }) => {
       width: '16%',
       render: (value, record) => {
         const obj = {
-          children: <div>{value}</div>,
+          children: value,
           props: {},
         }
 
@@ -95,7 +107,7 @@ const TableMonthMonitoring = ({ dataSource, loading, measuresObj }) => {
       width: '8%',
       render: (value, record) => {
         const obj = {
-          children: <div>{_.isNumber(value) ? value : '-'}</div>,
+          children: <div>{isNumber(value) ? value : '-'}</div>,
           props: {},
         }
 
@@ -113,7 +125,8 @@ const TableMonthMonitoring = ({ dataSource, loading, measuresObj }) => {
       width: '8%',
       align: 'left',
       render: value => {
-        return <div>{measuresObj[value].name}</div>
+        const measureName = get(measuresObj, [value, 'name'])
+        return <div>{measureName ? measureName : '-'}</div>
       },
     },
     {
@@ -187,7 +200,7 @@ const TableMonthMonitoring = ({ dataSource, loading, measuresObj }) => {
     <Table
       loading={loading}
       size="small"
-      rowKey={record => record.measure}
+      rowKey={record => record.key}
       columns={columns}
       bordered={true}
       dataSource={dataSourceTable}
