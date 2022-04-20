@@ -4,6 +4,7 @@ import StationAutoApi from 'api/StationAuto'
 import { get } from 'lodash-es'
 import { TreeSelect } from 'antd'
 import _ from 'lodash'
+import { replaceVietnameseStr } from 'utils/string'
 
 export default class TreeSelectStation extends Component {
   state = {
@@ -119,7 +120,7 @@ export default class TreeSelectStation extends Component {
   }
 
   render() {
-    const tProps = {
+    const internalProps = {
       treeData: this.getTreeData(),
       treeCheckable: true,
       onChange: this.handleOnChange,
@@ -129,8 +130,16 @@ export default class TreeSelectStation extends Component {
         width: '100%',
       },
       allowClear: true,
+      treeNodeFilterProp: 'title',
+      filterTreeNode: (inputValue, treeNode) => {
+        const inputValueRemoveVietNamese = replaceVietnameseStr(inputValue)
+        const stationNameRemoveVietNamese = replaceVietnameseStr(
+          get(treeNode, 'props.title', '')
+        )
+        return stationNameRemoveVietNamese.includes(inputValueRemoveVietNamese)
+      },
     }
 
-    return <TreeSelect {...tProps} {...this.props} />
+    return <TreeSelect {...internalProps} {...this.props} />
   }
 }
