@@ -1,6 +1,7 @@
 import { Button, Divider, Icon } from 'antd'
 import CategoryApi from 'api/CategoryApi'
 import DynamicTable from 'components/elements/dynamic-table'
+import LanguageContent from 'components/language/language-content'
 import ROLE from 'constants/role'
 import slug from 'constants/slug'
 import { autobind } from 'core-decorators'
@@ -107,7 +108,14 @@ export default class MeasuringList extends React.Component {
         content: row.key,
       },
       {
-        content: row.name,
+        content: (
+          <LanguageContent
+            type="Measure"
+            itemKey={row.key}
+            value={row.name}
+            field="name"
+          />
+        ),
       },
       {
         content: row.unit,
