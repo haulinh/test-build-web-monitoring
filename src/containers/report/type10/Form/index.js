@@ -213,9 +213,7 @@ export default class SearchForm extends React.Component {
                   rules: [
                     {
                       required: true,
-                      message: translate(
-                        'ticket.required.incident.stationName'
-                      ),
+                      message: translate('report.required.station'),
                     },
                   ],
                 })(

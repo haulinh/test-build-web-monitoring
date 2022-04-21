@@ -920,7 +920,7 @@ export default {
       header8: 'Giờ',
       header9: 'TỶ lệ số liệu vượt ngưỡng (%)',
       title: 'BÁO CÁO TỶ LỆ SỐ LIỆU THU ĐƯỢC',
-      titleDay: 'BÁO CÁO TỶ LỆ SỐ LIỆU THU ĐƯỢC THEO NGÀY',
+      titleMonitoring: 'BÁO CÁO TỶ LỆ SỐ LIỆU QUAN TRẮC',
       descriptionRatioMonth:
         'Các số liệu thống kê về tỷ lệ số liệu thu được của các trạm quan trắc từ tháng {{=it.from}} đến tháng {{=it.to}}',
       descriptionRatioDate:
@@ -4455,6 +4455,9 @@ export default {
     type2: {
       fileNameExcel: 'Bao Cao Trung Binh 24h_',
     },
+    statusData: {
+      fileNameExcel: 'Bao Cao Tinh Trang Du Lieu_',
+    },
     type11: {
       fileNameExcel: 'Bao Cao Trung Binh 1h_',
     },
@@ -4470,7 +4473,7 @@ export default {
           measure: 'Thông số',
           valuesByDesign: 'Số giá trị quan trắc theo thiết kế',
           valuesReceived: 'Số giá trị quan trắc nhận được',
-          numberOfError: 'Số giá trị quan trắc lỗi/ bất thường',
+          numberOfError: 'Số giá trị quan trắc lỗi/bất thường',
           percentageReceived:
             'Tỷ lệ số liệu nhận được so với số giá trị theo thiết kế (%)',
           percentageError:

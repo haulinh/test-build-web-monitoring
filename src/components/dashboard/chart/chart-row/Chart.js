@@ -13,8 +13,8 @@ import {
   DATETIME_TOOLTIP_FORMAT,
 } from 'constants/chart-format'
 import { ROUND_DIGIT } from 'constants/format-number'
-import {connect} from 'react-redux'
-import {getContent} from 'components/language/language-content'
+import { connect } from 'react-redux'
+import { getContent } from 'components/language/language-content'
 
 const ChartWrapper = styled.div``
 const SelectWrapper = styled.span`
@@ -274,16 +274,28 @@ export default class ChartRowToChart extends React.Component {
     let minLimit = null
     let maxChart = undefined
     let minChart = undefined
-    const {station, languageContents} = this.props
-    let title = getContent(languageContents, {type: 'Station', itemId: station._id, value: station.name, field: 'name'})
+    const { station, languageContents } = this.props
+    const { current } = this.state
+    let title = getContent(languageContents, {
+      type: 'Station',
+      itemId: station._id,
+      value: station.name,
+      field: 'name',
+    })
     if (!this.state.isShowAll) {
       dataSeries = []
       maxLimit = _.get(this.state.current, '0.maxLimit', undefined)
       minLimit = _.get(this.state.current, '0.minLimit', undefined)
+      const measureName = getContent(languageContents, {
+        type: 'Measure',
+        itemKey: _.get(current, '0.key'),
+        value: _.get(current, '0.name'),
+      })
 
       dataSeries.push({
         type: 'spline',
-        name: _.get(this.state.current, '0.name', ''),
+        // name: _.get(this.state.current, '0.name', ''),
+        name: measureName,
         data: _.get(
           this.state.data,
           _.get(this.state.current, '0.key', ''),
@@ -298,7 +310,8 @@ export default class ChartRowToChart extends React.Component {
       if (_.isNumber(minLimit)) {
         dataSeries.push({
           type: 'spline',
-          name: _.get(this.state.current, '0.name', ''),
+          // name: _.get(this.state.current, '0.name', ''),
+          name: measureName,
           data: _.get(
             this.state.data,
             _.get(this.state.current, '0.key', ''),
@@ -316,14 +329,19 @@ export default class ChartRowToChart extends React.Component {
       title += `- ${_.get(this.state.current, '0.name', '')}`
     } else {
       dataSeries = []
-      _.map(this.state.current, ({ key, name, maxLimit }) =>
-        dataSeries.push({
+      _.map(this.state.current, ({ key, name, maxLimit }) => {
+        const measureName = getContent(languageContents, {
+          type: 'Measure',
+          itemKey: key,
+          value: name,
+        })
+        return dataSeries.push({
           type: 'spline',
-          name: name,
+          name: measureName,
           data: _.get(this.state.data, key, []),
           lineWidth: 2,
         })
-      )
+      })
     }
     return configChart(
       dataSeries,
@@ -336,6 +354,7 @@ export default class ChartRowToChart extends React.Component {
   }
 
   render() {
+    const { languageContents } = this.props
     return (
       <ChartWrapper>
         <Dropdown overlay={this.menu()} trigger={['click']}>
@@ -361,12 +380,19 @@ export default class ChartRowToChart extends React.Component {
           onTabClick={this.handleClick}
         >
           <Tabs.TabPane tab={translate('dashboard.all')} key="1" />
-          {_.map(this.state.categories, ({ key, name, unit }) => (
-            <Tabs.TabPane
-              tab={unit ? `${name} (${unit})` : `${name}`}
-              key={key}
-            />
-          ))}
+          {_.map(this.state.categories, ({ key, name, unit }) => {
+            const measureName = getContent(languageContents, {
+              type: 'Measure',
+              itemKey: key,
+              value: name,
+            })
+            return (
+              <Tabs.TabPane
+                tab={unit ? `${measureName} (${unit})` : `${measureName}`}
+                key={key}
+              />
+            )
+          })}
         </Tabs>
       </ChartWrapper>
     )

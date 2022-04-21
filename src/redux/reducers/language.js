@@ -31,7 +31,7 @@ const initialState = {
   isLoading: true,
   dataSource: {},
   listLanguage: [],
-  languageContents: []
+  languageContents: [],
 }
 
 export default function createReducer(state = initialState, action) {
@@ -54,15 +54,22 @@ export default function createReducer(state = initialState, action) {
 function updateLanguageContent(state, { payload }) {
   const newContents = {
     ...state.languageContents,
+
     [payload.type]: {
       ...state.languageContents[payload.type],
-      [payload.itemId]: payload
-    }
+
+      [payload.itemId]: payload,
+
+      // check have itemKey then add to content
+      ...(payload.itemKey && {
+        [payload.itemKey]: payload,
+      }),
+    },
   }
 
   return update(state, {
     languageContents: {
-      $set: newContents
+      $set: newContents,
     },
   })
 }
@@ -71,11 +78,20 @@ function getListLanguageContents(state, { payload }) {
   const groupData = payload.reduce(
     (prev, item) => ({
       ...prev,
+
       [item.type]: {
         ...prev[item.type],
-        [item.itemId]: item
-      }
-    }), {})
+
+        [item.itemId]: item,
+
+        // check have itemKey then add to content
+        ...(item.itemKey && {
+          [item.itemKey]: item,
+        }),
+      },
+    }),
+    {}
+  )
 
   return update(state, {
     languageContents: {

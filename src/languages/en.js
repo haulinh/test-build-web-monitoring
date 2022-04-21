@@ -920,7 +920,7 @@ export default {
       header8: 'Hours',
       header9: 'Percentage of exceeded data (%)',
       title: 'REPORT THE PERCENTAGE OF OBTAINED DATA',
-      titleDay: 'REPORT THE PERCENTAGE OF OBTAINED DATA BY DAY',
+      titleMonitoring: 'REPORT THE PERCENTAGE OF MONITORING DATA',
       descriptionRatioMonth:
         'Statistics about the Percentage of data obtained of stations from {{=it.from}} to {{=it.to}}',
       descriptionRatioDate:
@@ -4008,7 +4008,7 @@ export default {
       timeEnd: 'Time end',
       note: 'Note',
       time: 'Time',
-      reportType: 'Report Type',
+      reportType: 'Types Of Report',
       stationType: 'Types Of Station',
       stationName: 'Station Name',
       billingConfig: 'Set Of Recipes',
@@ -4360,7 +4360,7 @@ export default {
         reportYear:
           'Statistics about the percentage of value over the threshold in ',
         reportMonth:
-          'Statistics about the percentage of value over the threshold from ',
+          'Statistics about the percentage of value over the threshold ',
         reportDay: 'Statistics about data over the threshold in ',
       },
       title: {
@@ -4445,13 +4445,16 @@ export default {
     type2: {
       fileNameExcel: 'Report_24 hour average_',
     },
+    statusData: {
+      fileNameExcel: 'Report_Status Data_',
+    },
     type11: {
       fileNameExcel: 'Report_1 hour average_',
     },
     type10: {
       select: {
         reportType: {
-          obtained: 'Report the percentage of',
+          obtained: 'Report the percentage of obtained data',
           monitoring: 'Report the percentage of monitoring data',
         },
       },
@@ -4460,7 +4463,7 @@ export default {
           measure: 'Parameter',
           valuesByDesign: 'Number of monitoring values by design',
           valuesReceived: 'Number of monitoring values received',
-          numberOfError: 'Number of error/ abnormal monitoring values',
+          numberOfError: 'Number of error/abnormal monitoring values',
           percentageReceived: 'Percentage of received data to design value (%)',
           percentageError:
             'Percentage of error/abnormal data to received value (%)',

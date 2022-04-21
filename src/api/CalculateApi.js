@@ -25,6 +25,8 @@ export default {
   getStationTypeCalculateByWQI: () => {
     return getFetch(calc('wqi/station-types'))
   },
+
+  //#region billing
   getReportBilling: params => {
     const url = calc('billing/query-data')
     return getFetch(url, params)
@@ -33,6 +35,7 @@ export default {
     const url = calc('billing/export-data')
     return getFetchDownFile(url, params)
   },
+  //#endregion billing
 
   //#region ticket config
   getConfigs: () => {
@@ -178,10 +181,9 @@ export default {
 
     return pathFetch(url, params)
   },
-  //endregion
+  //#endregion filter
 
-  //#language setup for content
-
+  //#region language setup for content
   getAllLanguageContent: params => {
     const url = calc(`${prefixSetupLanguage}`)
     return getFetch(url, params)
@@ -190,4 +192,5 @@ export default {
     const url = calc(`${prefixSetupLanguage}`)
     return pathFetch(url, params)
   },
+  //#endregion language setup for content
 }

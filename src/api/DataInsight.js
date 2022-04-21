@@ -109,4 +109,18 @@ export default {
     return getFetchDownFile(url, params)
   },
   //#endregion
+
+  //#region data-status
+  getReportStatusData: params => {
+    const url = getDataInsightUrl('report/data-status')
+
+    return getFetch(url, params)
+  },
+
+  exportExcelReportStatusData(params) {
+    const url = getDataInsightUrl('report/data-status/export')
+
+    return getFetchDownFile(url, params)
+  },
+  //#endregion data-status
 }

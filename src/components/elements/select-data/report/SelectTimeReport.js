@@ -2,9 +2,9 @@ import { Col, DatePicker, Row, Select } from 'antd'
 import { DatePickerYear } from 'components/core/date-picker'
 import DatePickerRangeMonth from 'components/core/date-picker/DatePickerRangeMonth'
 import { translate as t } from 'hoc/create-lang'
-import _ from 'lodash'
 import moment from 'moment'
 import React from 'react'
+import { isNumber } from 'lodash'
 
 const dateTimeOptions = [
   {
@@ -46,7 +46,7 @@ const PickTimes = ({ type, onChange, value }) => {
         style={{ with: '100%' }}
         onChange={onChange}
         value={
-          _.isNumber(value[0])
+          isNumber(value[0])
             ? value[0]
             : Number(moment(value[0]).format('YYYY'))
         }

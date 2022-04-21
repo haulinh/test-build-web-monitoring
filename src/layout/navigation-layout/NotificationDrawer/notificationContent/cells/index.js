@@ -11,7 +11,10 @@ import iconTendToExceed from 'assets/svg-icons/Tend-To-Exceed.svg'
 import iconError from 'assets/svg-icons/Error.svg'
 import iconCalibration from 'assets/svg-icons/Calibration.svg'
 import iconDeviceGood from 'assets/svg-icons/Device-status-good.svg'
-import {getContent} from 'components/language/language-content'
+import {
+  getContent,
+  withLanguageContent,
+} from 'components/language/language-content'
 
 import { default as NotificationItem } from './_defaultCell'
 
@@ -99,55 +102,92 @@ const getNotificationInfo = status => {
   }
 }
 
-const NotificationContent = ({ languageContents, notification, statusText, inline }) => {
-  // console.log("NotificationConten=====?")
-  // console.log(notification.status, '==notification.status==')
-  return (
-    <Row type={inline ? 'flex' : ''} gutter={12}>
-      <Col>
-        <Text>
-          {i18n().station} <b>{getContent(languageContents, {type: 'Station', itemId: notification.stationID, field: 'name', value: notification.station})}</b> {statusText}
-        </Text>
-      </Col>
-      <Col>
-        {notification.status === NOTIFY_TYPE.DATA_GOOD && (
-          <Row className="list" type={inline ? 'flex' : ''} gutter={10}>
-            {(notification.measures || []).map(mea => (
-              <ListItem key={mea.key} className="list-item">
-                <b>{mea.key}</b> {mea.value} {mea.unit}
-              </ListItem>
-            ))}
-          </Row>
-        )}
-        {[
-          NOTIFY_TYPE.DATA_EXCEEDED,
-          NOTIFY_TYPE.DATA_EXCEEDED_PREPARED,
-        ].includes(notification.status) && (
-          <Row className="list" type={inline ? 'flex' : ''} gutter={10}>
-            {(notification.measures || []).map(mea => (
-              <ListItem key={mea.key} className="list-item">
-                <b>{mea.key}</b> {mea.value} {mea.unit} {mea.moreContent || ''}
-              </ListItem>
-            ))}
-          </Row>
-        )}
-        {![
-          NOTIFY_TYPE.DATA_EXCEEDED,
-          NOTIFY_TYPE.DATA_EXCEEDED_PREPARED,
-          NOTIFY_TYPE.DATA_GOOD,
-        ].includes(notification.status) && (
-          <Row className="list" type={inline ? 'flex' : ''} gutter={10}>
-            {(notification.measures || []).map(mea => (
-              <ListItem key={mea.key} className="list-item">
-                <b>{mea.key}</b>
-              </ListItem>
-            ))}
-          </Row>
-        )}
-      </Col>
-    </Row>
-  )
-}
+const NotificationContent = withLanguageContent(
+  ({
+    translateContent,
+    languageContents,
+    notification,
+    statusText,
+    inline,
+  }) => {
+    // console.log("NotificationConten=====?")
+    // console.log(notification.status, '==notification.status==')
+    return (
+      <Row type={inline ? 'flex' : ''} gutter={12}>
+        <Col>
+          <Text>
+            {i18n().station}{' '}
+            <b>
+              {getContent(languageContents, {
+                type: 'Station',
+                itemId: notification.stationID,
+                field: 'name',
+                value: notification.station,
+              })}
+            </b>{' '}
+            {statusText}
+          </Text>
+        </Col>
+        <Col>
+          {notification.status === NOTIFY_TYPE.DATA_GOOD && (
+            <Row className="list" type={inline ? 'flex' : ''} gutter={10}>
+              {(notification.measures || []).map(mea => (
+                <ListItem key={mea.key} className="list-item">
+                  <b>
+                    {translateContent({
+                      type: 'Measure',
+                      itemKey: mea.key,
+                      value: mea.key,
+                    })}
+                  </b>{' '}
+                  {mea.value} {mea.unit}
+                </ListItem>
+              ))}
+            </Row>
+          )}
+          {[
+            NOTIFY_TYPE.DATA_EXCEEDED,
+            NOTIFY_TYPE.DATA_EXCEEDED_PREPARED,
+          ].includes(notification.status) && (
+            <Row className="list" type={inline ? 'flex' : ''} gutter={10}>
+              {(notification.measures || []).map(mea => (
+                <ListItem key={mea.key} className="list-item">
+                  <b>
+                    {translateContent({
+                      type: 'Measure',
+                      itemKey: mea.key,
+                      value: mea.key,
+                    })}
+                  </b>{' '}
+                  {mea.value} {mea.unit} {mea.moreContent || ''}
+                </ListItem>
+              ))}
+            </Row>
+          )}
+          {![
+            NOTIFY_TYPE.DATA_EXCEEDED,
+            NOTIFY_TYPE.DATA_EXCEEDED_PREPARED,
+            NOTIFY_TYPE.DATA_GOOD,
+          ].includes(notification.status) && (
+            <Row className="list" type={inline ? 'flex' : ''} gutter={10}>
+              {(notification.measures || []).map(mea => (
+                <ListItem key={mea.key} className="list-item">
+                  <b>
+                    {translateContent({
+                      type: 'Measure',
+                      itemKey: mea.key,
+                      value: mea.key,
+                    })}
+                  </b>
+                </ListItem>
+              ))}
+            </Row>
+          )}
+        </Col>
+      </Row>
+    )
+  }
+)
 
 export default function Cells(props) {
   const { dataSource, inline, languageContents } = props

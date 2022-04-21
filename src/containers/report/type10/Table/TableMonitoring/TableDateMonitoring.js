@@ -68,7 +68,7 @@ const TableDateMonitoring = ({ loading, dataSource, station, measuresObj }) => {
         return {
           measure,
           date: current.date,
-          key: current.date,
+          key: `${current.date}-${measure}`,
           ...current.logs[measure],
           ...(index === 0 && {
             spanMerge: dataMeasureKeys.length || 0,
@@ -186,13 +186,11 @@ const TableDateMonitoring = ({ loading, dataSource, station, measuresObj }) => {
     },
   ]
 
-  // if (isEmpty(dataSourceTable)) return null
-
   return (
     <Table
       loading={loading}
       size="small"
-      rowKey={record => record.measure}
+      rowKey={record => record.key}
       columns={columns}
       bordered={true}
       dataSource={dataSourceTable ? dataSourceTable.data : []}

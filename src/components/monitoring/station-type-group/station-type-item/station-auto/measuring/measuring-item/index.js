@@ -1,4 +1,5 @@
 import { Tooltip } from 'antd'
+import { withLanguageContent } from 'components/language/language-content'
 import { getFormatNumber } from 'constants/format-number'
 import { STATUS_STATION } from 'constants/stationStatus'
 import { autobind } from 'core-decorators'
@@ -103,6 +104,8 @@ const LimitContainer = styled.div`
   position: relative;
 `
 //#endregion style
+
+@withLanguageContent
 @autobind
 export default class MeasuringItem extends React.PureComponent {
   static propTypes = {
@@ -206,7 +209,7 @@ export default class MeasuringItem extends React.PureComponent {
   }
 
   render() {
-    const { value, unit, name } = this.props
+    const { value, unit, name, measureKey, translateContent } = this.props
 
     let colorDeviceStatus =
       COLOR_DEVICE_STATUS[get(this.props, 'statusDevice', '')]
@@ -216,13 +219,21 @@ export default class MeasuringItem extends React.PureComponent {
     )
       colorDeviceStatus = DATA_COLOR[STATUS_STATION.HIGHTGEST]
 
+    const measureName = translateContent({
+      type: 'Measure',
+      itemKey: measureKey,
+      value: name,
+    })
+
     return (
       <MeasuringItemWrapper
         onClick={this.props.onClick}
         color={this.getColorLevel()}
       >
         <Tooltip title={name}>
-          <MeasuringName color={this.getColorLevel()}>{name}</MeasuringName>
+          <MeasuringName color={this.getColorLevel()}>
+            {measureName}
+          </MeasuringName>
         </Tooltip>
         <Flex onClick={this.props.onClick} color={this.getColorLevel()}>
           <LeftContainer>

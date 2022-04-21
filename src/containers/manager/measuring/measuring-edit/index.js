@@ -1,21 +1,23 @@
-import React from 'react'
-import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import { Button, Icon } from 'antd'
-import { autobind } from 'core-decorators'
 import CategoryApi from 'api/CategoryApi'
-import MeasuringForm from '../measuring-form'
-import slug from '/constants/slug'
+import { withLanguageContent } from 'components/language/language-content'
+import ROLE from 'constants/role'
+import { autobind } from 'core-decorators'
+import createLanguage, { langPropTypes } from 'hoc/create-lang'
 import createManagerDelete from 'hoc/manager-delete'
 import createManagerEdit from 'hoc/manager-edit'
-import createLanguage, { langPropTypes } from 'hoc/create-lang'
-import PropTypes from 'prop-types'
-import Breadcrumb from '../breadcrumb'
-import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
+import PageContainer from 'layout/default-sidebar-layout/PageContainer'
+import PropTypes from 'prop-types'
+import React from 'react'
 import { connect } from 'react-redux'
 import { updateMeasure } from 'redux/actions/globalAction'
+import Breadcrumb from '../breadcrumb'
+import MeasuringForm from '../measuring-form'
+import slug from '/constants/slug'
 
 @protectRole(ROLE.MEASURING.EDIT)
+@withLanguageContent
 @connect(null, dispatch => ({
   updateMeasure: measure => dispatch(updateMeasure(measure)),
 }))
@@ -80,6 +82,14 @@ export default class MeasuringEdit extends React.PureComponent {
   }
 
   render() {
+    const { data, translateContent } = this.props
+
+    const measureName = translateContent({
+      type: 'Measure',
+      itemKey: data.key,
+      value: data.name,
+    })
+
     return (
       <PageContainer button={this.buttonDelete()} {...this.props.wrapperProps}>
         <Breadcrumb
@@ -87,7 +97,7 @@ export default class MeasuringEdit extends React.PureComponent {
             'list',
             {
               id: 'edit',
-              name: this.props.isLoaded ? this.cleanData().name : null,
+              name: this.props.isLoaded ? measureName : null,
             },
           ]}
         />

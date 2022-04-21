@@ -142,18 +142,12 @@ export default class StationAutoItem extends React.PureComponent {
       return a.numericalOrder - b.numericalOrder
     })
 
-    measuringList.forEach(item => {
-      if (measuringLogs[item.key]) {
-        item.value = measuringLogs[item.key].value
-        item.warningLevel = measuringLogs[item.key].warningLevel
-        item.maxLimit = measuringLogs[item.key].maxLimit
-        item.minLimit = measuringLogs[item.key].minLimit
-        item.minTend = measuringLogs[item.key].minTend
-        item.maxTend = measuringLogs[item.key].maxTend
-        item.statusDevice = measuringLogs[item.key].statusDevice
-      }
-    })
-    return measuringList
+    const measuringListMappingLogs = measuringList.map(measure => ({
+      ...measure,
+      ...measuringLogs[measure.key],
+    }))
+
+    return measuringListMappingLogs
   }
 
   componentDidMount = () => {
