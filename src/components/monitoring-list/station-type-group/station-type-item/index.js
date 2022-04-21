@@ -1,4 +1,6 @@
 import { Affix, Icon, Select } from 'antd'
+import LanguageContent from 'components/language/language-content'
+import { STATUS_STATION } from 'constants/stationStatus'
 import { autobind } from 'core-decorators'
 import { filter, forEach as _forEach, uniqBy } from 'lodash'
 import PropTypes from 'prop-types'
@@ -7,8 +9,6 @@ import { Collapse } from 'reactstrap'
 import styled from 'styled-components'
 import HeadStationType from './HeadStationType'
 import StationAutoList from './station-auto-list'
-import { STATUS_STATION } from 'constants/stationStatus'
-import LanguageContent from 'components/language/language-content'
 
 const { Option } = Select
 
@@ -101,7 +101,7 @@ export default class StationTypeSummary extends React.Component {
     const { dataSource } = this.state
     const goodTotal = filter(
       dataSource || [],
-      ({ status }) => status ===  STATUS_STATION.DATA_CONNECTED
+      ({ status }) => status === STATUS_STATION.DATA_CONNECTED
     ).length
     if (dataSource.length === 0) return null
 
@@ -113,7 +113,12 @@ export default class StationTypeSummary extends React.Component {
               <IconToggle isOpen={this.state.isOpen}>
                 <Icon type="caret-right" />
               </IconToggle>
-              <LanguageContent type="StationType" itemId={stationType._id} value={stationType.name}/> ({goodTotal}/{dataSource.length})
+              <LanguageContent
+                type="StationType"
+                itemId={stationType._id}
+                value={stationType.name}
+              />{' '}
+              ({goodTotal}/{dataSource.length})
             </TextSpan>
             <Select
               mode="multiple"
@@ -131,7 +136,11 @@ export default class StationTypeSummary extends React.Component {
               {this.state.measureSource.map(item => {
                 return (
                   <Option key={item.key} value={item.key}>
-                    {item.name}
+                    <LanguageContent
+                      type="Measure"
+                      itemKey={item.key}
+                      value={item.name}
+                    />
                   </Option>
                 )
               })}

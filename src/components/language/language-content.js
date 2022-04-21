@@ -1,4 +1,3 @@
-import { T } from 'antd/lib/upload/utils'
 import { autobind } from 'core-decorators'
 import get from 'lodash/get'
 import PropTypes from 'prop-types'
