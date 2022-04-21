@@ -4436,6 +4436,9 @@ export default {
     type2: {
       fileNameExcel: 'Bao Cao Trung Binh 24h_',
     },
+    statusData: {
+      fileNameExcel: 'Bao Cao Tinh Trang Du Lieu_',
+    },
     type11: {
       fileNameExcel: 'Bao Cao Trung Binh 1h_',
     },
