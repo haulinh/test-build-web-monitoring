@@ -32,11 +32,12 @@ export default class MeasuringList extends React.PureComponent {
     receivedAt: PropTypes.string.isRequired,
   }
   render() {
+    const { data } = this.props
     return (
       <MeasuringListWrapper>
-        {this.props.data &&
-          this.props.data.length !== 0 &&
-          this.props.data.map(item => {
+        {data &&
+          data.length !== 0 &&
+          data.map(item => {
             /* thêm receivedAt để search dữ liệu gốc trong 24h khi click vào measuring item */
             item.receivedAt = this.props.receivedAt
 
@@ -48,6 +49,7 @@ export default class MeasuringList extends React.PureComponent {
               >
                 <MeasuringItem
                   {...item}
+                  measureKey={item.key}
                   minLimit={
                     typeof item.minLimit === 'number' ? item.minLimit : null
                   }

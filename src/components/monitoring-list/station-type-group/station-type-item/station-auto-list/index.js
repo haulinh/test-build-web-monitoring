@@ -11,7 +11,9 @@ import { translate } from 'hoc/create-lang'
 import stationStatus from 'constants/stationStatus'
 import './style.css'
 import moment from 'moment'
-import LanguageContent from 'components/language/language-content'
+import LanguageContent, {
+  withLanguageContent,
+} from 'components/language/language-content'
 
 function i18n() {
   return {
@@ -208,6 +210,7 @@ const noStationStatus = {
   image: '/images/warning/disconnection.jpg',
 }
 
+@withLanguageContent
 class TableData extends React.Component {
   static propTypes = {
     isLoading: PropTypes.bool,
@@ -215,6 +218,7 @@ class TableData extends React.Component {
   }
 
   khoiTaoColumn() {
+    const { translateContent } = this.props
     let columns = [
       {
         title: '#',
@@ -262,7 +266,12 @@ class TableData extends React.Component {
         render: row => {
           return (
             <div className="stationName">
-              <LanguageContent type="Station" itemId={row._id} field="name" value={row.name} />
+              <LanguageContent
+                type="Station"
+                itemId={row._id}
+                field="name"
+                value={row.name}
+              />
             </div>
           )
         },
@@ -309,8 +318,13 @@ class TableData extends React.Component {
     /* #endregion */
 
     let tampColumnMeasure = measureData.map(item => {
+      const measureName = translateContent({
+        type: 'Measure',
+        itemKey: item.key,
+        value: item.name,
+      })
       return {
-        title: <TextWithToolTip IsEllipsis={true} text={item.name} />,
+        title: <TextWithToolTip IsEllipsis={true} text={measureName} />,
         dataIndex: `lastLog.measuringLogs.${item.key}`,
         width: 110,
         align: 'left',
