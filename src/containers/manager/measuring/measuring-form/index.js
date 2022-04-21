@@ -177,14 +177,6 @@ export default class MeasuringForm extends React.PureComponent {
                   placeholder={t('stationAutoManager.form.name.placeholder')}
                   rules={[
                     {
-                      required: true,
-                      message: t('measuringManager.form.name.error'),
-                    },
-                    {
-                      pattern: PATTERN_NAME,
-                      message: t('measuringManager.form.name.pattern'),
-                    },
-                    {
                       max: 64,
                       message: t('measuringManager.form.name.max'),
                     },
