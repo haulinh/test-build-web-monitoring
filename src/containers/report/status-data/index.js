@@ -1,22 +1,20 @@
-import React from 'react'
+import { Button, Spin, Table, Typography } from 'antd'
+import DataInsight from 'api/DataInsight'
+import Clearfix from 'components/elements/clearfix'
+import ModalLangExport from 'components/elements/modal-lang-export'
+import { DD_MM_YYYY_HH_MM } from 'constants/format-date.js'
+import { getFormatNumber } from 'constants/format-number'
+import ROLE from 'constants/role'
+import createLanguage, { translate } from 'hoc/create-lang'
+import protectRole from 'hoc/protect-role/forMenu'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import { translate } from 'hoc/create-lang'
+import { get as _get, isNumber } from 'lodash'
+import moment from 'moment-timezone'
+import React from 'react'
+import { connect } from 'react-redux'
+import { downFileExcel } from 'utils/downFile'
 import Breadcrumb from '../breadcrumb'
 import SearchForm from './search-form'
-import {
-  getUrlReportStatusData,
-  getUrlReportStatusDataExcel,
-} from 'api/DataStationAutoApi'
-import moment from 'moment-timezone'
-import { DD_MM_YYYY, DD_MM_YYYY_HH_MM, HH_MM } from 'constants/format-date.js'
-import { Typography, Spin, Table, Divider, Button } from 'antd'
-import _, { get as _get } from 'lodash'
-import Clearfix from 'components/elements/clearfix'
-import { getFormatNumber, ROUND_DIGIT } from 'constants/format-number'
-import { connect } from 'react-redux'
-import protectRole from 'hoc/protect-role/forMenu'
-import ROLE from 'constants/role'
-import { getLanguage } from 'utils/lang'
 
 const { Title, Text } = Typography
 
@@ -46,12 +44,13 @@ function i18n() {
     note: translate('menuApp.report.table.header.note'),
   }
 }
+
 @protectRole(ROLE.TINH_TRANG_DU_LIEU.VIEW)
 @connect(state => ({
   token: state.auth.token,
   timeZone: _get(state, 'auth.userInfo.organization.timeZone', null),
-  locale: state.language.locale,
 }))
+@createLanguage
 export default class StatusDataReport extends React.Component {
   state = {
     isHaveData: false,
@@ -61,7 +60,11 @@ export default class StatusDataReport extends React.Component {
     stationAutos: [],
     from: null,
     to: null,
+    visibleModal: false,
+    langExport: 'vi',
   }
+
+  formSearchRef = React.createRef()
 
   async handleSubmit(values) {
     this.setState({
@@ -69,186 +72,171 @@ export default class StatusDataReport extends React.Component {
       isLoading: true,
       stationAutos: values.stationAutos,
     })
+    const { stationAutos, time } = values
+    const [from, to] = time
 
-    const res = await getUrlReportStatusData(
-      values.stationAutos,
-      values.time[0],
-      values.time[1]
-    )
-    if (res.success) {
+    const params = {
+      stationKeys: stationAutos.join(','),
+      from: moment(from)
+        .startOf('day')
+        .toDate(),
+      to: moment(to)
+        .endOf('day')
+        .toDate(),
+    }
+
+    try {
+      const res = await DataInsight.getReportStatusData(params)
       this.setState({
-        dataSource: res.data,
+        dataSource: res,
         isHaveData: true,
         isLoading: false,
         from: values.time[0],
         to: values.time[1],
       })
+    } catch (error) {
+      console.error({ error })
     }
   }
 
   handleExcel = async () => {
-    const { stationAutos, from, to } = this.state
+    const { langExport } = this.state
+    const { lang } = this.props
+    const { translateManual } = lang
+    const values = this.formSearchRef.current.getFieldsValue()
+    const { stationAutos, time } = values
+    const [from, to] = time
+
+    const params = {
+      stationKeys: stationAutos.join(','),
+      from: moment(from)
+        .startOf('day')
+        .toDate(),
+      to: moment(to)
+        .endOf('day')
+        .toDate(),
+      lang: langExport,
+    }
     this.setState({
       isLoadingExcel: true,
     })
 
-    let url = await getUrlReportStatusDataExcel(
-      this.props.token,
-      stationAutos,
-      from,
-      to,
-      getLanguage(this.props.locale)
-    )
-    if (url) {
-      this.setState({ isLoadingExcel: false })
-      window.open(url)
+    const title = {
+      name: 'report.statusData.fileNameExcel',
+      time: {
+        fromFormat: moment(from).format('DDMMYYYY'),
+        toFormat: moment(to).format('DDMMYYYY'),
+      },
     }
+
+    const nameFileExcel = translateManual(title.name, null, null, langExport)
+
+    try {
+      const res = await DataInsight.exportExcelReportStatusData(params)
+      downFileExcel(
+        res.data,
+        `${nameFileExcel}${title.time.fromFormat}_${title.time.toFormat}`
+      )
+
+      this.setState({
+        isLoadingExcel: false,
+        visibleModal: false,
+      })
+    } catch (error) {
+      console.error({ error })
+      this.setState({
+        isLoadingExcel: false,
+        visibleModal: false,
+      })
+    }
+  }
+
+  getDataSource = () => {
+    const { dataSource } = this.state
+    const dataStation = dataSource.reduce((base, current) => {
+      const dataMeasuring = current.data.map((dataMeasure, index) => {
+        return {
+          station: current.station,
+          ...dataMeasure.measure,
+          ...dataMeasure.data,
+          key: `${current.station.key}-${dataMeasure.measure.key}`,
+          ...(index === 0 && {
+            spanMerge: current.data.length || 0,
+            indexMerge: true,
+          }),
+        }
+      })
+      return [...base, ...dataMeasuring]
+    }, [])
+
+    return dataStation
+  }
+
+  handleCancelModal = () => {
+    this.setState({
+      visibleModal: false,
+    })
+  }
+
+  onChangeModalExport = e => {
+    this.setState({
+      langExport: e.target.value,
+    })
   }
 
   getColumns = () => {
     return [
       {
         title: i18n().station,
-        dataIndex: 'name',
-        align: 'center',
-        width: 100,
-        fixed: 'left',
-        key: '1',
-        render: value => {
-          return (
-            <div style={{ marginLeft: '5px', textAlign: 'left' }}>{value}</div>
-          )
+        dataIndex: 'station.name',
+        width: 200,
+        render: (value, record) => {
+          const obj = {
+            children: value,
+            props: {},
+          }
+
+          if (record.indexMerge) {
+            obj.props.rowSpan = record.spanMerge
+          } else {
+            obj.props.rowSpan = 0
+          }
+
+          return obj
         },
       },
       {
         title: i18n().parameter,
-        align: 'center',
-        dataIndex: 'analyze',
-        width: 120,
-        key: '2',
-        render: value => {
-          if (!value) {
-            return null
-          }
-          return (
-            <div style={{ textAlign: 'center' }}>
-              {value.map((item, index) => (
-                <div key={item.key}>
-                  <span>{item.key}</span>
-                  {index !== value.length - 1 && (
-                    <Divider style={{ margin: 0 }} />
-                  )}
-                </div>
-              ))}
-            </div>
-          )
-        },
+        dataIndex: 'name',
       },
       {
         title: i18n().dischargeThreshold,
-        dataIndex: 'measuringList',
-        align: 'center',
-        width: 80,
-        key: '3',
-        render: measuringList => {
+        render: (value, record) => {
           return (
-            <div style={{ textAlign: 'center' }}>
-              {measuringList &&
-                measuringList.map((item, index) => (
-                  <div key={item.key}>
-                    <span>
-                      {getTextFromMinMax(item.minLimit, item.maxLimit)}
-                    </span>
-                    {index !== measuringList.length - 1 && (
-                      <Divider style={{ margin: 0 }} />
-                    )}
-                  </div>
-                ))}
-            </div>
+            <div>{getTextFromMinMax(record.minLimit, record.maxLimit)}</div>
           )
         },
       },
       {
         title: i18n().unit,
-        dataIndex: 'analyze',
-        align: 'center',
-        key: '4',
-        width: 80,
-        render: value => {
-          return (
-            <div style={{ textAlign: 'center' }}>
-              {value.map((item, index) => (
-                <div key={item.key}>
-                  <span>{item.unit ? item.unit : '-'}</span>
-                  {index !== value.length - 1 && (
-                    <Divider style={{ margin: 0 }} />
-                  )}
-                </div>
-              ))}
-            </div>
-          )
-        },
+        dataIndex: 'unit',
       },
       {
         title: i18n().minValue,
-        key: '5',
         children: [
           {
             title: i18n().value,
-            dataIndex: 'analyze',
-            align: 'center',
-            width: 100,
-            key: 'minValue',
+            dataIndex: 'minLimit',
             render: value => {
-              return (
-                <div style={{ textAlign: 'center' }}>
-                  {value.map((item, index) => (
-                    <div key={item.key}>
-                      {item.min.data && item.min.data.length ? (
-                        <span>
-                          {getFormatNumber(item.min.data[0].value, ROUND_DIGIT)}
-                        </span>
-                      ) : (
-                        '-'
-                      )}
-                      {index !== value.length - 1 && (
-                        <Divider style={{ margin: 0 }} />
-                      )}
-                    </div>
-                  ))}
-                </div>
-              )
+              return <div>{isNumber(value) ? value : '-'}</div>
             },
           },
           {
             title: i18n().time,
-            dataIndex: 'analyze',
-            align: 'center',
-            key: '7',
-            width: 180,
+            dataIndex: 'minTime',
             render: value => {
               return (
-                <div style={{ textAlign: 'center' }}>
-                  {value.map((item, index) => (
-                    <div key={item.key}>
-                      {item.min.data && (
-                        <span>
-                          {item.min.data.length ? (
-                            <DateRender
-                              receivedAt={item.min.data[0].receivedAt}
-                              timeZone={_get(this.props, 'timeZone.value', '')}
-                            />
-                          ) : (
-                            '-'
-                          )}
-                        </span>
-                      )}
-                      {index !== value.length - 1 && (
-                        <Divider style={{ margin: 0 }} />
-                      )}
-                    </div>
-                  ))}
-                </div>
+                <div>{value ? moment(value).format('DD/MM/YYYY') : '-'}</div>
               )
             },
           },
@@ -256,64 +244,20 @@ export default class StatusDataReport extends React.Component {
       },
       {
         title: i18n().maxValue,
-        key: '8',
         children: [
           {
             title: i18n().value,
-            dataIndex: 'analyze',
-            align: 'center',
-            key: 'maxValue',
-            width: 100,
+            dataIndex: 'maxLimit',
             render: value => {
-              return (
-                <div style={{ textAlign: 'center' }}>
-                  {value.map((item, index) => (
-                    <div key={item.key}>
-                      {item.max.data && item.max.data.length ? (
-                        <span>
-                          {getFormatNumber(item.max.data[0].value, ROUND_DIGIT)}
-                        </span>
-                      ) : (
-                        '-'
-                      )}
-                      {index !== value.length - 1 && (
-                        <Divider style={{ margin: 0 }} />
-                      )}
-                    </div>
-                  ))}
-                </div>
-              )
+              return <div>{isNumber(value) ? value : '-'}</div>
             },
           },
           {
             title: i18n().time,
-            dataIndex: 'analyze',
-            align: 'center',
-            key: 'minTime',
-            width: 180,
+            dataIndex: 'maxTime',
             render: value => {
               return (
-                <div style={{ textAlign: 'center' }}>
-                  {value.map((item, index) => (
-                    <div key={item.key}>
-                      {item.max.data && (
-                        <span>
-                          {item.max.data.length ? (
-                            <DateRender
-                              receivedAt={item.max.data[0].receivedAt}
-                              timeZone={_get(this.props, 'timeZone.value', '')}
-                            />
-                          ) : (
-                            '-'
-                          )}
-                        </span>
-                      )}
-                      {index !== value.length - 1 && (
-                        <Divider style={{ margin: 0 }} />
-                      )}
-                    </div>
-                  ))}
-                </div>
+                <div>{value ? moment(value).format('DD/MM/YYYY') : '-'}</div>
               )
             },
           },
@@ -321,78 +265,27 @@ export default class StatusDataReport extends React.Component {
       },
       {
         title: i18n().averageValue,
-        dataIndex: 'analyze',
-        align: 'center',
-        width: 100,
-        key: '11',
+        dataIndex: 'avg',
         render: value => {
-          return (
-            <div style={{ textAlign: 'center' }}>
-              {value.map((item, index) => (
-                <div key={item.key}>
-                  {item.avg.data && item.avg.data.length ? (
-                    <span>
-                      {getFormatNumber(item.avg.data[0].value, ROUND_DIGIT)}
-                    </span>
-                  ) : (
-                    '-'
-                  )}
-                  {index !== value.length - 1 && (
-                    <Divider style={{ margin: 0 }} />
-                  )}
-                </div>
-              ))}
-            </div>
-          )
+          return <div>{isNumber(value) ? getFormatNumber(value, 2) : '-'}</div>
         },
       },
       {
         title: i18n().metricReceived,
-        key: '12',
         children: [
           {
             title: i18n().totalValue,
-            dataIndex: 'totalFact',
-            align: 'center',
-            width: 100,
-            key: '13',
-            render: (noUse, record) => {
-              const analyze = record.analyze
-              return (
-                <div style={{ textAlign: 'center' }}>
-                  {analyze.map((item, index) => (
-                    <div key={item.key}>
-                      <span>{getFormatNumber(item.count, 0)}</span>
-                      {index !== analyze.length - 1 && (
-                        <Divider style={{ margin: 0 }} />
-                      )}
-                    </div>
-                  ))}
-                </div>
-              )
+            dataIndex: 'record',
+            render: value => {
+              return <div>{isNumber(value) ? value : '-'}</div>
             },
           },
           {
             title: i18n().percentData,
-            dataIndex: 'percentage',
-            align: 'center',
-            width: 80,
-            key: '14',
-            render: (noUse, record) => {
-              const analyze = record.analyze
+            dataIndex: 'obtainedRatio',
+            render: value => {
               return (
-                <div style={{ textAlign: 'center' }}>
-                  {analyze.map((item, index) => (
-                    <div key={item.key}>
-                      <span>
-                        {getFormatNumber(item.percentageReceived, ROUND_DIGIT)}
-                      </span>
-                      {index !== analyze.length - 1 && (
-                        <Divider style={{ margin: 0 }} />
-                      )}
-                    </div>
-                  ))}
-                </div>
+                <div>{isNumber(value) ? getFormatNumber(value, 2) : '-'}</div>
               )
             },
           },
@@ -400,72 +293,32 @@ export default class StatusDataReport extends React.Component {
       },
       {
         title: i18n().dataExceedsStandard,
-        key: '15',
         children: [
           {
             title: i18n().totalValue,
-            dataIndex: 'analyze',
-            align: 'center',
-            width: 100,
-            key: '16',
+            dataIndex: 'error',
             render: value => {
-              return (
-                <div style={{ textAlign: 'center' }}>
-                  {value.map((item, index) => (
-                    <div key={item.key}>
-                      <span>
-                        {_.isNumber(item.totalVuotNguong)
-                          ? getFormatNumber(item.totalVuotNguong, 0)
-                          : '-'}
-                      </span>
-                      {index !== value.length - 1 && (
-                        <Divider style={{ margin: 0 }} />
-                      )}
-                    </div>
-                  ))}
-                </div>
-              )
+              return <div>{isNumber(value) ? value : '-'}</div>
             },
           },
           {
             title: i18n().percentData,
-            dataIndex: 'analyze',
-            align: 'center',
-            width: 100,
-            key: '17',
+            dataIndex: 'thresholdRatio',
             render: value => {
               return (
-                <div style={{ textAlign: 'center' }}>
-                  {value.map((item, index) => (
-                    <div key={item.key}>
-                      <span>
-                        {getFormatNumber(item.persenVuotNguong, ROUND_DIGIT)}
-                      </span>
-                      {index !== value.length - 1 && (
-                        <Divider style={{ margin: 0 }} />
-                      )}
-                    </div>
-                  ))}
-                </div>
+                <div>{isNumber(value) ? getFormatNumber(value, 2) : '-'}</div>
               )
             },
           },
         ],
       },
-      {
-        title: i18n().timeUsuallyExceeds,
-        align: 'center',
-        width: 100,
-      },
-      {
-        title: i18n().note,
-        align: 'center',
-        width: 100,
-      },
     ]
   }
 
   render() {
+    const { visibleModal, langExport } = this.state
+    const dataSource = this.getDataSource()
+
     return (
       <PageContainer>
         <Breadcrumb items={['status_data']} />
@@ -473,6 +326,7 @@ export default class StatusDataReport extends React.Component {
         <SearchForm
           cbSubmit={this.handleSubmit.bind(this)}
           isDatePicker={true}
+          ref={this.formSearchRef}
         />
         <Clearfix height={16} />
         <div style={{ position: 'relative', textAlign: 'center' }}>
@@ -498,7 +352,11 @@ export default class StatusDataReport extends React.Component {
                     type="primary"
                     icon="file-excel"
                     loading={this.state.isLoadingExcel}
-                    onClick={this.handleExcel}
+                    onClick={() =>
+                      this.setState({
+                        visibleModal: true,
+                      })
+                    }
                   >
                     {translate('avgSearchFrom.tab.exportExcel')}
                   </Button>
@@ -511,35 +369,29 @@ export default class StatusDataReport extends React.Component {
         <Spin spinning={this.state.isLoading}>
           <Table
             size="small"
-            rowKey="key"
+            rowKey={record => record.key}
             columns={this.getColumns()}
             bordered={true}
-            dataSource={this.state.dataSource}
+            dataSource={dataSource}
             scroll={{ x: 1000 }}
             locale={{ emptyText: translate('dataSearchFrom.table.emptyText') }}
             pagination={false}
           />
         </Spin>
+        <ModalLangExport
+          showModal={visibleModal}
+          handleOkModal={this.handleExcel}
+          handleCancelModal={this.handleCancelModal}
+          onChangeModal={this.onChangeModalExport}
+          langExport={langExport}
+        />
       </PageContainer>
     )
   }
 }
 
 function getTextFromMinMax(minLimit = '', maxLimit = '') {
-  if (!maxLimit && !minLimit) return <span>&nbsp;</span>
+  if (!minLimit && maxLimit) return maxLimit
   if (maxLimit && minLimit) return `${minLimit} - ${maxLimit}`
-  else return maxLimit || minLimit
-}
-
-const DateRender = props => {
-  if (!props.receivedAt) return '-'
-  const timeM = moment(props.receivedAt).tz(props.timeZone)
-  const dateStr = timeM.format(DD_MM_YYYY)
-  const timeStr = timeM.format(HH_MM)
-  return `${dateStr} ${timeStr}`
-  // return (
-  //   <span>
-  //     {dateStr} <br /> {timeStr}
-  //   </span>
-  // )
+  else return '-'
 }

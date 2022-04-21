@@ -4425,6 +4425,9 @@ export default {
     type2: {
       fileNameExcel: 'Report_24 hour average_',
     },
+    statusData: {
+      fileNameExcel: 'Report_Status Data_',
+    },
     type11: {
       fileNameExcel: 'Report_1 hour average_',
     },

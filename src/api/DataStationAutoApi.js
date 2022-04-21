@@ -1,7 +1,6 @@
 import { getConfigApi } from 'config'
-import { getFetch, putFetch, postFetch } from 'utils/fetch'
-import qs from 'query-string'
 import { upperCase as _upperCase } from 'lodash'
+import { getFetch, postFetch, putFetch } from 'utils/fetch'
 
 export function getDataStationAutoUrl(prefix = '') {
   return getConfigApi().dataStationAuto + '/' + prefix
@@ -538,35 +537,6 @@ export function downloadExcel_reportType11(
   return url
 }
 
-export function getUrlReportStatusData(stationKeys, from, to, language = 'EN') {
-  const stringified = qs.stringify({
-    from: from.toDate(),
-    to: to.toDate(),
-    listKey: stationKeys.join(','),
-  })
-  var url = getReportUrl(`assess-status?${stringified}&language=${language}`)
-  return getFetch(url)
-}
-
-export function getUrlReportStatusDataExcel(
-  token,
-  stationKeys,
-  from,
-  to,
-  language = 'EN'
-) {
-  const stringified = qs.stringify({
-    token,
-    from: from.toDate(),
-    to: to.toDate(),
-    listKey: stationKeys.join(','),
-  })
-  var url = getReportUrl(
-    `assess-status-excel?${stringified}&language=${language}`
-  )
-  return url
-}
-
 export function searchStationAuto({
   stationType,
   provinceKey,
@@ -621,6 +591,5 @@ export default {
   getUrlReportType11,
   downloadExcel_reportType11,
   downloadExcel_DataStationAutov1,
-  getUrlReportStatusData,
   searchStationAuto,
 }
