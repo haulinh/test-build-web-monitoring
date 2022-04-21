@@ -51,8 +51,7 @@ export default class MeasuringForm extends React.PureComponent {
       }
 
       // Callback submit form Container Component
-      const res = await this.props.onSubmit(data)
-      this.updateLanguage()
+      const res = await this.props.onSubmit(data, this.updateLanguage)
 
       if (res && res.error) {
         if (res.message === 'KEY_EXISTED') {

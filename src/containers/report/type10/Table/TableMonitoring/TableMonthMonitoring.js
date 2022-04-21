@@ -15,8 +15,6 @@ const TableMonthMonitoring = ({ dataSource, loading, measuresObj }) => {
     )
   )
 
-  console.log({ dataSortByStationType })
-
   const getDataSource = () => {
     const dataStation = dataSortByStationType.map((dataStationItem, index) => {
       const stationKey = dataStationItem.station.key
