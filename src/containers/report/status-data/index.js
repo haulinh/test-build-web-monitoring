@@ -225,9 +225,11 @@ export default class StatusDataReport extends React.Component {
         children: [
           {
             title: i18n().value,
-            dataIndex: 'minLimit',
+            dataIndex: 'min',
             render: value => {
-              return <div>{isNumber(value) ? value : '-'}</div>
+              return (
+                <div>{isNumber(value) ? getFormatNumber(value, 2) : '-'}</div>
+              )
             },
           },
           {
@@ -246,9 +248,11 @@ export default class StatusDataReport extends React.Component {
         children: [
           {
             title: i18n().value,
-            dataIndex: 'maxLimit',
+            dataIndex: 'max',
             render: value => {
-              return <div>{isNumber(value) ? value : '-'}</div>
+              return (
+                <div>{isNumber(value) ? getFormatNumber(value, 2) : '-'}</div>
+              )
             },
           },
           {
