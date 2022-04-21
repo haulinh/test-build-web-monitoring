@@ -4440,7 +4440,7 @@ export default {
           measure: 'Parameter',
           valuesByDesign: 'Number of monitoring values by design',
           valuesReceived: 'Number of monitoring values received',
-          numberOfError: 'Number of error/ abnormal monitoring values',
+          numberOfError: 'Number of error/abnormal monitoring values',
           percentageReceived: 'Percentage of received data to design value (%)',
           percentageError:
             'Percentage of error/abnormal data to received value (%)',

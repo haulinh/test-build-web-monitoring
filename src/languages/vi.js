@@ -4451,7 +4451,7 @@ export default {
           measure: 'Thông số',
           valuesByDesign: 'Số giá trị quan trắc theo thiết kế',
           valuesReceived: 'Số giá trị quan trắc nhận được',
-          numberOfError: 'Số giá trị quan trắc lỗi/ bất thường',
+          numberOfError: 'Số giá trị quan trắc lỗi/bất thường',
           percentageReceived:
             'Tỷ lệ số liệu nhận được so với số giá trị theo thiết kế (%)',
           percentageError:
