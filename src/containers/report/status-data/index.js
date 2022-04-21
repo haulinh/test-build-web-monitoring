@@ -91,8 +91,8 @@ export default class StatusDataReport extends React.Component {
         dataSource: res,
         isHaveData: true,
         isLoading: false,
-        from: values.time[0],
-        to: values.time[1],
+        from,
+        to,
       })
     } catch (error) {
       console.error({ error })
@@ -101,8 +101,7 @@ export default class StatusDataReport extends React.Component {
 
   handleExcel = async () => {
     const { langExport } = this.state
-    const { lang } = this.props
-    const { translateManual } = lang
+    const { lang: translateManual } = this.props
     const values = this.formSearchRef.current.getFieldsValue()
     const { stationAutos, time } = values
     const [from, to] = time
