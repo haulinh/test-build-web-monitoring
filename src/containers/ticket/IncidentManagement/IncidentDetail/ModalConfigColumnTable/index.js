@@ -4,7 +4,7 @@ import ConfigTicket from 'api/ConfigTicket'
 import { Clearfix } from 'components/elements'
 import Text from 'components/elements/text'
 import { translate as t } from 'hoc/create-lang'
-import { isEmpty, isNil, get } from 'lodash'
+import { isEmpty, isNil, get, flatten } from 'lodash'
 import React, { Component } from 'react'
 import { downFileExcel } from 'utils/downFile'
 import { getLanguage } from 'utils/localStorage'
@@ -39,7 +39,10 @@ export default class ModalConfigTable extends Component {
           checked: true,
         }
       })
-    const defaultColumnList = [...INCIDENT_INFORMATION, configActiveList].flat()
+    const defaultColumnList = flatten([
+      ...INCIDENT_INFORMATION,
+      configActiveList,
+    ])
 
     if (isEmpty(configTicket)) {
       this.setState({
@@ -74,10 +77,10 @@ export default class ModalConfigTable extends Component {
       column => configActiveList.some(config => config.key === column.key)
     )
 
-    const columnListWithConfigActive = [
+    const columnListWithConfigActive = flatten([
       ...columnListWithConfigUpdated,
       configActiveListFormat,
-    ].flat()
+    ])
 
     if (isEmpty(configListActiveInColumn) && !isEmpty(configActiveList)) {
       this.setState({
