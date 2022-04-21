@@ -1,29 +1,28 @@
 import {
   Button,
-  Form,
-  Input,
-  Select,
-  InputNumber,
-  message,
-  Row,
   Col,
-  Icon,
   Divider,
+  Form,
+  Icon,
+  Input,
+  message,
   Modal,
+  Row,
+  Select,
 } from 'antd'
-import { FormItem, Flex } from 'components/layouts/styles'
-import React, { Component } from 'react'
-import { FIELDS, optionSelectType } from './index'
-import { translate as t } from 'hoc/create-lang'
 import CalculateApi from 'api/CalculateApi'
-import Categories from './Categories'
-import { ILLDrawer } from '../Component'
-import { get, isEmpty } from 'lodash-es'
-import styled from 'styled-components'
 import { rgb } from 'color'
-import uuid from 'uuid'
-import protectRole from 'hoc/protect-role'
+import { Flex, FormItem } from 'components/layouts/styles'
 import ROLE from 'constants/role'
+import { translate as t } from 'hoc/create-lang'
+import protectRole from 'hoc/protect-role'
+import { get, isEmpty } from 'lodash-es'
+import React, { Component } from 'react'
+import styled from 'styled-components'
+import uuid from 'uuid'
+import { ILLDrawer } from '../Component'
+import Categories from './Categories'
+import { FIELDS, optionSelectType } from './index'
 
 const i18n = () => ({
   drawer: {
@@ -181,12 +180,17 @@ export default class ConfigForm extends Component {
   }
 
   handleOnClose = async () => {
-    const { form } = this.props
+    const { form, onClose } = this.props
     const values = form.getFieldsValue()
     const isValue = Object.values(values).some(value => value)
     const { isSubmitted } = this.state
+
+    if (!form.isFieldsTouched()) {
+      onClose()
+      return
+    }
     if (isSubmitted || !isValue) {
-      this.props.onClose()
+      onClose()
       return
     }
     if (!isSubmitted && isValue) {
@@ -303,22 +307,6 @@ export default class ConfigForm extends Component {
                         </Select.Option>
                       ))}
                     </Select>
-                  )}
-                </FormItem>
-                <FormItem label={i18n().form.label.order}>
-                  {form.getFieldDecorator(FIELDS.ORDER, {
-                    rules: [
-                      {
-                        pattern: RegExp('^[0-9]*$'),
-                        message: i18n().error.isNumber,
-                      },
-                    ],
-                  })(
-                    <InputNumber
-                      placeholder={i18n().form.placeholder.order}
-                      type="number"
-                      style={{ width: '100%' }}
-                    />
                   )}
                 </FormItem>
                 {type === 'category' && (

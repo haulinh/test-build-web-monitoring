@@ -4074,6 +4074,26 @@ export default {
       station: 'Incident of monitoring station',
       measure: 'Observation parameter problem',
     },
+    modal: {
+      title: 'Set up the download report template',
+      description:
+        'Select and arrange the order for information columns in the report',
+      button: {
+        cancel: 'Cancel',
+        download: 'Download',
+      },
+    },
+    excel: {
+      name: 'Incident Name',
+      type: 'Incident Type',
+      createdAt: 'Input Time',
+      province: 'Site',
+      stations: 'Station Name',
+      measures: 'Parameter',
+      status: 'Status',
+      timeStart: 'Start Time',
+      timeEnd: 'End Time',
+    },
     label: {
       dataLookup: {},
       incident: {

@@ -4087,6 +4087,25 @@ export default {
       station: 'Sự cố trạm quan trắc',
       measure: 'Sự cố thông số quan trắc',
     },
+    modal: {
+      title: 'Thiết lập mẫu báo cáo tải xuống',
+      description: 'Chọn và sắp xếp thứ tự cho các cột thông tin trong báo cáo',
+      button: {
+        cancel: 'Hủy',
+        download: 'Tải xuống',
+      },
+    },
+    excel: {
+      name: 'Tên sự cố',
+      type: 'Loại sự cố',
+      createdAt: 'Thời gian nhập',
+      province: 'Xưởng',
+      stations: 'Trạm quan trắc',
+      measures: 'Thông số',
+      status: 'Trạng thái',
+      timeStart: 'Thời gian bắt đầu',
+      timeEnd: 'Thời gian kết thúc',
+    },
     label: {
       incident: {
         name: 'Tên sự cố',

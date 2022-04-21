@@ -9,32 +9,32 @@ const Row = styled(RowAnt)`
   border-radius: 4px;
   padding: 6px 16px;
 
-  .measure {
+  .item {
     font-size: 16px;
   }
-
-  /* .icon-drag {
-    cursor: pointer;
-  } */
 `
 
-const MeasureItemDrag = ({ name, measureKey, form }) => {
-  const onChangeCheckBox = () => {
-    const valueCheckBox = form.getFieldValue(`selectedList.${measureKey}`)
+const ItemDrag = ({ name, itemKey, form, checked = true }) => {
+  const onChangeCheckBox = e => {
+    e.stopPropagation()
+
+    const valueCheckBox = form.getFieldValue(`selectedList.${itemKey}`)
 
     form.setFieldsValue({
-      [`selectedList.${measureKey}`]: !valueCheckBox,
+      [`selectedList.${itemKey}`]: !valueCheckBox,
     })
   }
   return (
     <Row type="flex" justify="space-between" align="middle">
-      <Col style={{ flex: 1 }} onClick={onChangeCheckBox}>
+      <Col style={{ flex: 1 }}>
         <Row type="flex" style={{ gap: '12px' }}>
-          {form.getFieldDecorator(`selectedList.${measureKey}`, {
+          {form.getFieldDecorator(`selectedList.${itemKey}`, {
             valuePropName: 'checked',
-            initialValue: true,
+            initialValue: checked,
           })(<Checkbox />)}
-          <div className="measure">{name}</div>
+          <div className="item" onClick={onChangeCheckBox}>
+            {name}
+          </div>
         </Row>
       </Col>
 
@@ -45,4 +45,4 @@ const MeasureItemDrag = ({ name, measureKey, form }) => {
   )
 }
 
-export default MeasureItemDrag
+export default ItemDrag

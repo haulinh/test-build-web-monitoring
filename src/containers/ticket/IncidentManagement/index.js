@@ -9,11 +9,10 @@ import _ from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import createBreadcrumb from 'shared/breadcrumb/hoc'
-import { downFileExcel } from 'utils/downFile'
-import { getLanguage } from 'utils/localStorage'
 import { getParamArray } from 'utils/params'
 import Filter from './Filter'
 import IncidentCreate from './IncidentCreate'
+import ModalConfigColumnTable from './IncidentDetail/ModalConfigColumnTable'
 import { TableData } from './TableData'
 
 const Breadcrumb = createBreadcrumb()
@@ -66,14 +65,14 @@ export default class IncidentManagement extends Component {
     loading: false,
     page: 1,
     total: null,
+    isShowModalConfigColumn: false,
+    params: {},
   }
 
-  // componentDidMount() {
-  //   const { type, form } = this.props
-  //   if (type) {
-  //     form.setFieldsValue({ [Fields.type]: type })
-  //   }
-  // }
+  componentDidMount = async () => {
+    const params = await this.getParams()
+    this.setState({ params })
+  }
 
   showDrawer = () => {
     this.setState({
@@ -139,37 +138,30 @@ export default class IncidentManagement extends Component {
     })
   }
 
-  getTimes = () => {
-    const { form } = this.props
-    const values = form.getFieldsValue()
-    const from = values[Fields.time][0].format('DDMMYYYY')
-    const to = values[Fields.time][1].format('DDMMYYYY')
-    return { from, to }
-  }
-
-  handleExport = async () => {
-    const params = await this.getParams()
-    const result = await CalculateApi.exportTicket({
-      ...params,
-      lang: getLanguage(),
-    })
-    const { from, to } = this.getTimes()
-    downFileExcel(
-      result.data,
-      `${t('ticket.title.incident.report')}${from}_${to}`
-    )
-  }
-
   setPage = page => {
     this.setState({ page })
   }
 
+  showModalConfigColumn = () => {
+    this.setState({ isShowModalConfigColumn: true })
+  }
+
+  cancelModalConfigColumn = () => {
+    this.setState({ isShowModalConfigColumn: false })
+  }
+
   render() {
-    const { visible, result, page, loading } = this.state
+    const {
+      visible,
+      result,
+      page,
+      loading,
+      isShowModalConfigColumn,
+      params,
+    } = this.state
     const { form } = this.props
 
     const type = form.getFieldValue(Fields.type)
-
     return (
       <PageContainer right={this.ButtonAdd()}>
         <Breadcrumb
@@ -197,7 +189,7 @@ export default class IncidentManagement extends Component {
                 <Button
                   style={{ marginRight: '12px' }}
                   type="primary"
-                  onClick={this.handleExport}
+                  onClick={this.showModalConfigColumn}
                   icon="file-excel"
                 >
                   {t('report.exportExcel')}
@@ -216,6 +208,13 @@ export default class IncidentManagement extends Component {
           loading={loading}
           type={type}
         />
+
+        <ModalConfigColumnTable
+          visible={isShowModalConfigColumn}
+          onCancel={this.cancelModalConfigColumn}
+          form={form}
+          params={params}
+        ></ModalConfigColumnTable>
 
         <IncidentCreate
           visible={visible}
