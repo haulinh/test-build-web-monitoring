@@ -23,7 +23,6 @@ export const optionSelectType = [
 export const FIELDS = {
   NAME: 'name',
   TYPE: 'type',
-  ORDER: 'order',
   CATEGORIES: 'categories',
   HIDDEN: 'hidden',
 }
