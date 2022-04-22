@@ -233,7 +233,9 @@ export default class StatusDataReport extends React.Component {
             dataIndex: 'minTime',
             render: value => {
               return (
-                <div>{value ? moment(value).format('DD/MM/YYYY') : '-'}</div>
+                <div>
+                  {value ? moment(value).format(DD_MM_YYYY_HH_MM) : '-'}
+                </div>
               )
             },
           },
@@ -257,7 +259,9 @@ export default class StatusDataReport extends React.Component {
             dataIndex: 'maxTime',
             render: value => {
               return (
-                <div>{value ? moment(value).format('DD/MM/YYYY') : '-'}</div>
+                <div>
+                  {value ? moment(value).format(DD_MM_YYYY_HH_MM) : '-'}
+                </div>
               )
             },
           },
