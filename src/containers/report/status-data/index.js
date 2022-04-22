@@ -77,12 +77,8 @@ export default class StatusDataReport extends React.Component {
 
     const params = {
       stationKeys: stationAutos.join(','),
-      from: moment(from)
-        .startOf('day')
-        .toDate(),
-      to: moment(to)
-        .endOf('day')
-        .toDate(),
+      from: moment(from).toDate(),
+      to: moment(to).toDate(),
     }
 
     try {
@@ -110,12 +106,8 @@ export default class StatusDataReport extends React.Component {
 
     const params = {
       stationKeys: stationAutos.join(','),
-      from: moment(from)
-        .startOf('day')
-        .toDate(),
-      to: moment(to)
-        .endOf('day')
-        .toDate(),
+      from: moment(from).toDate(),
+      to: moment(to).toDate(),
       lang: langExport,
     }
     this.setState({
