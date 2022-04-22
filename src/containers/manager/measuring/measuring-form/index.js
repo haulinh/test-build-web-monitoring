@@ -4,7 +4,7 @@ import LanguageInput, { getLanguageContents } from 'components/language'
 import { PATTERN_KEY, PATTERN_NAME } from 'constants/format-string'
 import { autobind } from 'core-decorators'
 import createLanguage, { langPropTypes } from 'hoc/create-lang'
-import { get } from 'lodash'
+import { get, isEqual } from 'lodash'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { connect } from 'react-redux'
@@ -32,6 +32,14 @@ export default class MeasuringForm extends React.PureComponent {
     form.setFieldsValue(initialValues)
   }
 
+  componentDidUpdate(prevProps) {
+    const { initialValues, form } = this.props
+
+    if (!isEqual(initialValues.name, prevProps.initialValues.name)) {
+      form.setFieldsValue({ name: initialValues.name })
+    }
+  }
+
   constructor(props) {
     super(props)
     const { match } = props
@@ -42,7 +50,7 @@ export default class MeasuringForm extends React.PureComponent {
     e.preventDefault()
     this.props.form.validateFields(async (err, values) => {
       if (err) return
-
+      const { isEdit } = this.props
       const data = {
         key: values.key,
         name: (values.name || '').trim(),
@@ -51,7 +59,10 @@ export default class MeasuringForm extends React.PureComponent {
       }
 
       // Callback submit form Container Component
-      const res = await this.props.onSubmit(data, this.updateLanguage)
+      const res = await this.props.onSubmit(data)
+      if (!isEdit) {
+        this._id = get(res, 'data._id')
+      }
 
       if (res && res.error) {
         if (res.message === 'KEY_EXISTED') {
@@ -66,7 +77,10 @@ export default class MeasuringForm extends React.PureComponent {
             },
           })
         }
+        return
       }
+
+      this.updateLanguage()
     })
   }
 

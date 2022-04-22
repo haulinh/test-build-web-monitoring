@@ -2,6 +2,7 @@ import { Col, Row, Skeleton, Tabs } from 'antd'
 import { getDataStationAutoAvg_v2 } from 'api/DataStationAutoApi'
 import InputEditCell from 'components/elements/input-edit-cell'
 import Label from 'components/elements/label'
+import { withLanguageContent } from 'components/language/language-content'
 import { DD_MM_YYYY, DD_MM_YYYY_HH_MM, HH_MM } from 'constants/format-date'
 import { getFormatNumber } from 'constants/format-number'
 import { translate } from 'hoc/create-lang'
@@ -175,6 +176,7 @@ const configChart = (dataSeries, dataXs, title, minLimit, maxLimit) => {
 @connect(state => ({
   isOpen: state.theme.navigation.isOpen,
 }))
+@withLanguageContent
 export default class ChartRowToChart extends React.Component {
   constructor(props) {
     super(props)
@@ -398,6 +400,7 @@ export default class ChartRowToChart extends React.Component {
   }
 
   getConfigData = () => {
+    const { translateContent } = this.props
     if (this.state.current.length === 0) {
       return {}
     }
@@ -412,11 +415,15 @@ export default class ChartRowToChart extends React.Component {
 
     // console.log(this.state.data, this.state.current, 'getConfigData')
     //console.log(this.state.data, this.state.current, 'getConfigData')
-
+    const measureName = translateContent({
+      type: 'Measure',
+      itemKey: _.get(this.state.current, '0.key', ''),
+      value: _.get(this.state.current, '0.name', ''),
+    })
     dataSeries.push({
       type: 'column',
       min: minLimit,
-      name: _.get(this.state.current, '0.name', ''),
+      name: measureName,
       data: _.get(this.state.data, _.get(this.state.current, '0.key', ''), []),
     })
     if (dataSeries.length > 0) {
@@ -428,6 +435,7 @@ export default class ChartRowToChart extends React.Component {
 
   render() {
     // console.log(this.state, this.props, 'this.state.categories')
+    const { translateContent } = this.props
     return (
       <ChartWrapper className="monitoring-chart">
         <div className="monitoring-chart--to-from">
@@ -479,12 +487,20 @@ export default class ChartRowToChart extends React.Component {
                 defaultActiveKey={_.get(this.state.current[0], 'key', '')}
                 onTabClick={this.handleClick}
               >
-                {_.map(this.state.categories, ({ key, name, unit }) => (
-                  <TabPane
-                    tab={unit ? `${name} (${unit})` : `${name}`}
-                    key={key}
-                  />
-                ))}
+                {_.map(this.state.categories, ({ key, name, unit }) => {
+                  const measureName = translateContent({
+                    type: 'Measure',
+                    itemKey: key,
+                    name,
+                  })
+
+                  return (
+                    <TabPane
+                      tab={unit ? `${measureName} (${unit})` : `${measureName}`}
+                      key={key}
+                    />
+                  )
+                })}
               </Tabs>
             )}
           </div>
