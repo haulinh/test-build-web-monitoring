@@ -139,7 +139,8 @@ export default class ConfigForm extends Component {
     }
     const isEdit = !isEmpty(currentActive)
 
-    const configColumnListAfterUpdateName = configList.map(config => {
+    const configColumnList = configList.map(config => {
+      // assign new config's name to editing config
       if (get(config, '_id') === currentActive._id) {
         return { ...config, name: params.name }
       }
@@ -150,9 +151,9 @@ export default class ConfigForm extends Component {
       await this.handleEdit(params)
       await ConfigTicket.updateConfigTicket({
         key: 'ticket-export-params',
-        value: configColumnListAfterUpdateName,
+        value: configColumnList,
       })
-      this.setState({ configList: configColumnListAfterUpdateName })
+      this.setState({ configList: configColumnList })
     }
     if (!isEdit) await this.handleCreate(params)
 
