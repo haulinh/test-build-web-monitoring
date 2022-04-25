@@ -30,23 +30,19 @@ export default class MeasuringCreate extends React.PureComponent {
     lang: langPropTypes,
   }
 
-  async handleSubmit(data) {
+  async handleSubmit(data, callback) {
     let result
     const { createMeasure } = this.props
     await this.props.onCreateItem(data, res => {
       result = res
       if (res.success) {
         message.info(this.props.lang.t('addon.onSave.add.success'))
+        if (callback) {
+          callback('Measure', res.data)
+        }
         createMeasure(res.data)
         this.props.history.push(slug.measuring.list)
       }
-      //  else {
-      // 	if (res.message === 'KEY_EXISTED')
-      // 		message.error(
-      // 			this.props.lang.t('measuringManager.create.keyExisted')
-      // 		);
-      // 	else message.error(this.props.lang.t('addon.onSave.add.error'));
-      // }
     })
     return result
   }
