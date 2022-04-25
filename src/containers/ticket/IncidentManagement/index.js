@@ -150,6 +150,10 @@ export default class IncidentManagement extends Component {
     this.setState({ isShowModalConfigColumn: false })
   }
 
+  closeModalConfigColumn = () => {
+    this.setState({ isShowModalConfigColumn: false })
+  }
+
   render() {
     const {
       visible,
@@ -214,6 +218,7 @@ export default class IncidentManagement extends Component {
           onCancel={this.cancelModalConfigColumn}
           form={form}
           params={params}
+          onClose={this.closeModalConfigColumn}
         ></ModalConfigColumnTable>
 
         <IncidentCreate
