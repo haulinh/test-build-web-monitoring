@@ -322,7 +322,6 @@ export default class ConfigForm extends Component {
                 type="primary"
                 htmlType="submit"
                 style={{
-                  marginRight: 24,
                   alignSelf: 'end',
                   height: 32,
                   minHeight: 32,
