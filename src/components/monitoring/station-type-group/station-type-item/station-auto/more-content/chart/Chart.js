@@ -420,6 +420,7 @@ export default class ChartRowToChart extends React.Component {
       itemKey: _.get(this.state.current, '0.key', ''),
       value: _.get(this.state.current, '0.name', ''),
     })
+    console.log({ measureName })
     dataSeries.push({
       type: 'column',
       min: minLimit,
@@ -491,7 +492,7 @@ export default class ChartRowToChart extends React.Component {
                   const measureName = translateContent({
                     type: 'Measure',
                     itemKey: key,
-                    name,
+                    value: name,
                   })
 
                   return (

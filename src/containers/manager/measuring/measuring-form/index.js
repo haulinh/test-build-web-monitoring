@@ -10,6 +10,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { updateLanguageContent } from 'redux/actions/languageAction'
+import { getLanguage } from 'utils/localStorage'
 
 const FormItem = Form.Item
 
@@ -26,6 +27,8 @@ export default class MeasuringForm extends React.PureComponent {
     lang: langPropTypes,
     isEdit: PropTypes.bool,
   }
+
+  currentLanguage = getLanguage()
 
   componentDidMount() {
     const { form, initialValues } = this.props
@@ -55,7 +58,6 @@ export default class MeasuringForm extends React.PureComponent {
     e.preventDefault()
     this.props.form.validateFields(async (err, values) => {
       if (err) return
-      const { isEdit } = this.props
       const data = {
         key: values.key,
         name: (values.name || '').trim(),
@@ -64,10 +66,7 @@ export default class MeasuringForm extends React.PureComponent {
       }
 
       // Callback submit form Container Component
-      const res = await this.props.onSubmit(data)
-      if (!isEdit) {
-        this._id = get(res, 'data._id')
-      }
+      const res = await this.props.onSubmit(data, this.updateLanguage)
 
       if (res && res.error) {
         if (res.message === 'KEY_EXISTED') {
@@ -84,20 +83,25 @@ export default class MeasuringForm extends React.PureComponent {
         }
         return
       }
-
-      this.updateLanguage()
     })
   }
 
-  updateLanguage(type = 'Measure') {
-    const { form, updateLanguageContent } = this.props
+  updateLanguage(type = 'Measure', dataResponse) {
+    const { form, updateLanguageContent, isEdit } = this.props
 
-    const values = form.getFieldsValue()
+    if (!isEdit) {
+      this._id = get(dataResponse, '_id')
+    }
+
+    let values = form.getFieldsValue()
+    const languageFieldName = `language.name.${this.currentLanguage}`
+    form.setFieldsValue({ [languageFieldName]: values.name })
+    values = form.getFieldsValue()
     const language = getLanguageContents(values)
 
     updateLanguageContent({
       itemId: this._id,
-      itemKey: values.key,
+      itemKey: get(values, 'key'),
       type,
       language,
     })
@@ -116,9 +120,11 @@ export default class MeasuringForm extends React.PureComponent {
 
   render() {
     const {
-      form: { getFieldDecorator, getFieldValue },
+      form: { getFieldDecorator, getFieldValue, getFieldsValue },
       lang: { t },
     } = this.props
+
+    console.log('render', { values: getFieldsValue() })
 
     const formItemLayout = {
       labelCol: {

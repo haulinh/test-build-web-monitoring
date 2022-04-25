@@ -42,12 +42,13 @@ export default class MeasuringEdit extends React.PureComponent {
     dataSource: null,
   }
 
-  async handleSubmit(data) {
+  async handleSubmit(data, callback) {
     const { updateMeasure } = this.props
     this.setState({
       dataSource: data,
     })
-    this.props.onUpdateItem(data)
+    await this.props.onUpdateItem(data)
+    callback && callback()
     updateMeasure(data)
   }
 
