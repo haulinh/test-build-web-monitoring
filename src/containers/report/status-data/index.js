@@ -77,12 +77,8 @@ export default class StatusDataReport extends React.Component {
 
     const params = {
       stationKeys: stationAutos.join(','),
-      from: moment(from)
-        .startOf('day')
-        .toDate(),
-      to: moment(to)
-        .endOf('day')
-        .toDate(),
+      from: moment(from).toDate(),
+      to: moment(to).toDate(),
     }
 
     try {
@@ -101,19 +97,17 @@ export default class StatusDataReport extends React.Component {
 
   handleExcel = async () => {
     const { langExport } = this.state
-    const { lang: translateManual } = this.props
+    const {
+      lang: { translateManual },
+    } = this.props
     const values = this.formSearchRef.current.getFieldsValue()
     const { stationAutos, time } = values
     const [from, to] = time
 
     const params = {
       stationKeys: stationAutos.join(','),
-      from: moment(from)
-        .startOf('day')
-        .toDate(),
-      to: moment(to)
-        .endOf('day')
-        .toDate(),
+      from: moment(from).toDate(),
+      to: moment(to).toDate(),
       lang: langExport,
     }
     this.setState({
@@ -210,6 +204,7 @@ export default class StatusDataReport extends React.Component {
       },
       {
         title: i18n().dischargeThreshold,
+        align: 'right',
         render: (value, record) => {
           return (
             <div>{getTextFromMinMax(record.minLimit, record.maxLimit)}</div>
@@ -226,6 +221,7 @@ export default class StatusDataReport extends React.Component {
           {
             title: i18n().value,
             dataIndex: 'min',
+            align: 'right',
             render: value => {
               return (
                 <div>{isNumber(value) ? getFormatNumber(value, 2) : '-'}</div>
@@ -237,7 +233,9 @@ export default class StatusDataReport extends React.Component {
             dataIndex: 'minTime',
             render: value => {
               return (
-                <div>{value ? moment(value).format('DD/MM/YYYY') : '-'}</div>
+                <div>
+                  {value ? moment(value).format(DD_MM_YYYY_HH_MM) : '-'}
+                </div>
               )
             },
           },
@@ -249,6 +247,7 @@ export default class StatusDataReport extends React.Component {
           {
             title: i18n().value,
             dataIndex: 'max',
+            align: 'right',
             render: value => {
               return (
                 <div>{isNumber(value) ? getFormatNumber(value, 2) : '-'}</div>
@@ -260,7 +259,9 @@ export default class StatusDataReport extends React.Component {
             dataIndex: 'maxTime',
             render: value => {
               return (
-                <div>{value ? moment(value).format('DD/MM/YYYY') : '-'}</div>
+                <div>
+                  {value ? moment(value).format(DD_MM_YYYY_HH_MM) : '-'}
+                </div>
               )
             },
           },
@@ -269,6 +270,8 @@ export default class StatusDataReport extends React.Component {
       {
         title: i18n().averageValue,
         dataIndex: 'avg',
+        align: 'right',
+        width: 90,
         render: value => {
           return <div>{isNumber(value) ? getFormatNumber(value, 2) : '-'}</div>
         },
@@ -279,6 +282,7 @@ export default class StatusDataReport extends React.Component {
           {
             title: i18n().totalValue,
             dataIndex: 'record',
+            align: 'right',
             render: value => {
               return <div>{isNumber(value) ? value : '-'}</div>
             },
@@ -286,6 +290,7 @@ export default class StatusDataReport extends React.Component {
           {
             title: i18n().percentData,
             dataIndex: 'obtainedRatio',
+            align: 'right',
             render: value => {
               return (
                 <div>{isNumber(value) ? getFormatNumber(value, 2) : '-'}</div>
@@ -300,6 +305,7 @@ export default class StatusDataReport extends React.Component {
           {
             title: i18n().totalValue,
             dataIndex: 'error',
+            align: 'right',
             render: value => {
               return <div>{isNumber(value) ? value : '-'}</div>
             },
@@ -307,6 +313,7 @@ export default class StatusDataReport extends React.Component {
           {
             title: i18n().percentData,
             dataIndex: 'thresholdRatio',
+            align: 'right',
             render: value => {
               return (
                 <div>{isNumber(value) ? getFormatNumber(value, 2) : '-'}</div>

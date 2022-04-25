@@ -45,8 +45,7 @@ class Language extends React.Component {
 
   currentId = getLanguage()
 
-  componentWillReceiveProps(props) {
-    const { content } = this.state
+  componentDidUpdate(prevProps, prevState) {
     const {
       itemId,
       type,
@@ -54,14 +53,16 @@ class Language extends React.Component {
       languageContents,
       onChange,
       onChangeLanguage,
+      // content,
+      value,
     } = this.props
 
-    if (content === null && props.value) {
+    if (this.state.content === null && prevProps.value !== value) {
       const language = get(
         languageContents,
         `${type}.${itemId}.language.${field}`
       )
-      let content = props.value
+      let content = this.props.value
       if (language) content = language[this.currentId]
       this.setState({ content }, () => {
         onChange(content)
