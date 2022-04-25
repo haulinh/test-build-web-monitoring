@@ -38,7 +38,12 @@ export default class MeasuringForm extends React.PureComponent {
   componentDidUpdate(prevProps) {
     const { initialValues, form } = this.props
 
-    if (!isEqual(initialValues, prevProps.initialValues)) {
+    if (
+      !isEqual(
+        get(initialValues, ['name']),
+        get(prevProps, ['initialValues', 'name'])
+      )
+    ) {
       form.setFieldsValue({ name: initialValues.name })
     }
   }

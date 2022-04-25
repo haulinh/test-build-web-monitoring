@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import styled from 'styled-components'
-import MeasureItemDrag from '../components/MeasureItemDrag'
+import ItemDrag from 'components/elements/item-drag'
 
 const DragDropWrapper = styled.div`
   .drag-drop-wrapper {
@@ -43,10 +43,10 @@ export default class DragDropMeasure extends Component {
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
                       >
-                        <MeasureItemDrag
+                        <ItemDrag
                           form={form}
                           name={measure.name}
-                          measureKey={measure.key}
+                          itemKey={measure.key}
                           onChangeCheckBox={onChangeCheckBox}
                         />
                       </div>
