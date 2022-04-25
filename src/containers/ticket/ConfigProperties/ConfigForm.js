@@ -11,6 +11,7 @@ import {
   Select,
 } from 'antd'
 import CalculateApi from 'api/CalculateApi'
+import ConfigTicket from 'api/ConfigTicket'
 import { rgb } from 'color'
 import { Flex, FormItem } from 'components/layouts/styles'
 import ROLE from 'constants/role'
@@ -70,6 +71,7 @@ export default class ConfigForm extends Component {
   state = {
     isModalVisible: false,
     categories: [],
+    configList: [],
   }
 
   componentWillReceiveProps(nextProps) {
@@ -86,6 +88,12 @@ export default class ConfigForm extends Component {
 
       this.setState({ categories })
     }
+  }
+
+  componentDidMount = async () => {
+    const result = await ConfigTicket.getConfigTicket()
+
+    this.setState({ configList: result.data.value.value })
   }
 
   clearFields = () => {
@@ -168,7 +176,16 @@ export default class ConfigForm extends Component {
 
   handleDel = async param => {
     const { delConfig, onClose } = this.props
+    const { configList } = this.state
+    const newConfigColumnList = configList.filter(
+      config => get(config, '_id') !== param._id
+    )
+
     try {
+      await ConfigTicket.updateConfigTicket({
+        key: 'ticket-export-params',
+        value: newConfigColumnList,
+      })
       await CalculateApi.delConfig(param._id)
       message.info(i18n().message.success(i18n().button.del))
       delConfig(param)
