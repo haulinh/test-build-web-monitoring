@@ -195,10 +195,11 @@ export default class MeasuringForm extends React.PureComponent {
                 ],
               })(
                 <LanguageInput
+                  size="large"
                   itemId={this._id}
                   type="Measure"
                   language={getFieldValue('language.name')}
-                  placeholder={t('stationAutoManager.form.name.placeholder')}
+                  placeholder={t('measuringManager.form.name.placeholder')}
                   rules={[
                     {
                       max: 64,
