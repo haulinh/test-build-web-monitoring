@@ -4,7 +4,7 @@ import ConfigTicket from 'api/ConfigTicket'
 import { Clearfix } from 'components/elements'
 import Text from 'components/elements/text'
 import { translate as t } from 'hoc/create-lang'
-import { isEmpty, isNil, get, flatten } from 'lodash'
+import { isEmpty, isNil, get } from 'lodash'
 import React, { Component } from 'react'
 import { downFileExcel } from 'utils/downFile'
 import { getLanguage } from 'utils/localStorage'
@@ -16,6 +16,7 @@ export default class ModalConfigTable extends Component {
   state = {
     columnList: [],
     configList: [],
+    loading: false,
   }
 
   async componentDidMount() {
@@ -39,10 +40,7 @@ export default class ModalConfigTable extends Component {
           checked: true,
         }
       })
-    const defaultColumnList = flatten([
-      ...INCIDENT_INFORMATION,
-      configActiveList,
-    ])
+    const defaultColumnList = [...INCIDENT_INFORMATION, ...configActiveList]
 
     if (isEmpty(configTicket)) {
       this.setState({
@@ -77,10 +75,10 @@ export default class ModalConfigTable extends Component {
       column => configActiveList.some(config => config.key === column.key)
     )
 
-    const columnListWithConfigActive = flatten([
+    const columnListWithConfigActive = [
       ...columnListWithConfigUpdated,
-      configActiveListFormat,
-    ])
+      ...configActiveListFormat,
+    ]
 
     if (isEmpty(configListActiveInColumn) && !isEmpty(configActiveList)) {
       this.setState({
@@ -139,7 +137,7 @@ export default class ModalConfigTable extends Component {
 
   handleExportExcel = async () => {
     const { columnList } = this.state
-    const { form, params } = this.props
+    const { form, params, onClose } = this.props
     const { from, to } = this.getTimes()
 
     const columnListFormat = columnList.map(column => {
@@ -153,6 +151,8 @@ export default class ModalConfigTable extends Component {
       .filter(column => column.checked)
       .map(column => column.key)
 
+    this.setState({ loading: true })
+
     try {
       await ConfigTicket.updateConfigTicket({
         key: 'ticket-export-params',
@@ -165,16 +165,21 @@ export default class ModalConfigTable extends Component {
         columns: ['order'].concat(selectedColumnKeyList).join(','),
       })
 
+      this.setState({ loading: false })
+      onClose()
+
       downFileExcel(
         excelResult.data,
         `${t('ticket.title.incident.report')}${from}_${to}`
       )
-    } catch (error) {}
+    } catch (error) {
+      this.setState({ loading: false })
+    }
   }
 
   render() {
     const { visible, onCancel, form } = this.props
-    const { columnList } = this.state
+    const { columnList, loading } = this.state
 
     return (
       <Modal
@@ -210,7 +215,11 @@ export default class ModalConfigTable extends Component {
             </Button>
           </Col>
           <Col>
-            <Button onClick={this.handleExportExcel} type="primary">
+            <Button
+              onClick={this.handleExportExcel}
+              type="primary"
+              loading={loading}
+            >
               {i18n().button.download}
             </Button>
           </Col>
