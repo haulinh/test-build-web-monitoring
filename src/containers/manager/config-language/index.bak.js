@@ -1,34 +1,34 @@
-import { Icon, message, Skeleton, Tabs, Typography } from 'antd'
+import React from 'react'
+import { Typography, message, Icon, Skeleton, Tabs } from 'antd'
+import * as _ from 'lodash'
+import { connectAutoDispatch } from 'redux/connect'
+
+import DynamicTable from 'components/elements/dynamic-table'
+import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import languageApi from 'api/languageApi'
+import DataSearchForm from './search-form'
+import Breadcrumb from './breadcrumb'
 import Clearfix from 'components/elements/clearfix'
 import HeaderSearchWrapper from 'components/elements/header-search-wrapper'
-import ROLE from 'constants/role'
 import { translate } from 'hoc/create-lang'
+import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
-import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import * as _ from 'lodash'
-import { get } from 'lodash'
-import React from 'react'
-import { connectAutoDispatch } from 'redux/connect'
-import Breadcrumb from './breadcrumb'
 import JsonViewCustom from './json-view-custom'
 import ListLanguage from './list-language'
-import DataSearchForm from './search-form'
-import TableTranslate from './translate'
 
 const { Text } = Typography
 const { TabPane } = Tabs
 
-export function i18n() {
+function i18n() {
   return {
     emptyView: translate('language.list.emptyView'),
     colSTT: translate('language.list.colSTT'),
     colKey: translate('language.list.colKey'),
     colDevice: translate('language.list.colDevice'),
     colFeature: translate('language.list.colFeature'),
-    vi: translate('language.list.colVI'),
-    en: translate('language.list.colEN'),
-    tw: translate('language.list.colTW'),
+    colVI: translate('language.list.colVI'),
+    colEN: translate('language.list.colEN'),
+    colTW: translate('language.list.colTW'),
     success: translate('addon.onSave.update.success'),
     error: translate('addon.onSave.update.error'),
     tab1: translate('language.tabs.tab1'),
@@ -56,7 +56,6 @@ class ConfigLanguagePage extends React.Component {
     isMobile: true,
     isWeb: true,
     tabKey: '',
-    isExpandAllRows: false,
   }
 
   componentDidMount = async () => {
@@ -189,7 +188,6 @@ class ConfigLanguagePage extends React.Component {
         dataVI = this.getContent(dataInitialMobile, VI, key, MOBILE)
         dataEN = this.getContent(dataInitialMobile, EN, key, MOBILE)
         dataTW = this.getContent(dataInitialMobile, TW, key, MOBILE)
-        console.log({ dataTW, dataVI })
 
         index++
         return [
@@ -279,7 +277,6 @@ class ConfigLanguagePage extends React.Component {
   handleOnSearch = async value => {
     this.setState({
       isLoading: true,
-      isExpandAllRows: Boolean(value.pattern),
     })
     let res = await languageApi.getListLanguageAll(value)
     let { success, data } = res
@@ -295,7 +292,6 @@ class ConfigLanguagePage extends React.Component {
   }
 
   render() {
-    const { dataSource, isLoading, isExpandAllRows } = this.state
     return (
       <PageContainer
         center={
@@ -327,11 +323,17 @@ class ConfigLanguagePage extends React.Component {
               <ListLanguage />
             </TabPane>
             <TabPane tab={i18n().tab2} key={TABS[1]}>
-              {/* <TableTranslate
-                isExpandAllRows={isExpandAllRows}
-                loading={isLoading}
-                dataSource={get(dataSource, ['WEB'])}
-              /> */}
+              {!this.state.isLoading && (
+                <DynamicTable
+                  loading={this.props.isLoading}
+                  rows={this.getRows()}
+                  head={this.getHead()}
+                  paginationOptions={{
+                    isSticky: true,
+                  }}
+                  emptyView={this.getRenderEmpty()}
+                />
+              )}
             </TabPane>
           </Tabs>
         </React.Fragment>
