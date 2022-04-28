@@ -1,11 +1,11 @@
 import { Form, Icon, Input, message, Skeleton, Table, Typography } from 'antd'
 import languageApi from 'api/languageApi'
 import Editable from 'components/core/editable'
+import HighlightedText from 'components/core/HighlightedText'
 import { FormItem } from 'components/layouts/styles'
 import { flatten, unflatten } from 'flat'
 import { get, isEmpty, set } from 'lodash'
 import React from 'react'
-import { getHighlightedText } from 'utils/string'
 import { DEVICE, i18n } from '../index'
 
 const { Text } = Typography
@@ -105,7 +105,7 @@ const TableTranslate = ({
     .reduce(
       (base, [keyDevice, value]) => {
         // util logic help dataLanguage
-        const dataLanguage = Object.keys(value.vi).map(key => {
+        const dataLanguage = Object.keys(value.vi || {}).map(key => {
           return getValueMappingLanguage(key, value)
         })
 
@@ -176,8 +176,9 @@ const TableTranslate = ({
               <React.Fragment>
                 {value && (
                   <Editable
-                    prevValue={value}
-                    text={getHighlightedText(valueSave, pattern)}
+                    text={
+                      <HighlightedText text={valueSave} pattern={pattern} />
+                    }
                     onOk={() =>
                       handleSave({
                         value: valueSave,
