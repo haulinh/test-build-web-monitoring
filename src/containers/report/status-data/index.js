@@ -401,7 +401,8 @@ export default class StatusDataReport extends React.Component {
 }
 
 function getTextFromMinMax(minLimit = '', maxLimit = '') {
-  if (!minLimit && maxLimit) return maxLimit
-  if (maxLimit && minLimit) return `${minLimit} - ${maxLimit}`
+  if (!isNumber(minLimit) && isNumber(maxLimit)) return maxLimit
+  if (isNumber(minLimit) && isNumber(maxLimit))
+    return `${minLimit} - ${maxLimit}`
   else return '-'
 }

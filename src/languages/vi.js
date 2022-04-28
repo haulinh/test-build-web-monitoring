@@ -942,7 +942,7 @@ export default {
       description5:
         'Các số liệu thống kê về kết quả quan trắc trung bình 8 giờ lớn nhất trong ngày tại trạm {{=it.stationName}}  trong tháng {{=it.monthYear}}',
       descriptionStatusData:
-        'Các số liệu thống kê về đánh giá trình trạng dữ liệu thời gian từ {{=it.from}} đến {{=it.to}}',
+        'Các số liệu thống kê về đánh giá tình trạng dữ liệu thời gian từ {{=it.from}} đến {{=it.to}}',
       title6: 'BÁO CÁO KẾT QUẢ QUAN TRẮC TRUNG BÌNH 1 GIỜ',
       description6:
         'Các số liệu thống kê về kết quả quan trắc trung bình 1 giờ của trạm {{=it.stationName}}  trong ngày {{=it.dayFormat}}',

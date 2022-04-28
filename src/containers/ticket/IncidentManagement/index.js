@@ -116,6 +116,7 @@ export default class IncidentManagement extends Component {
       params = _.omit(params, Fields.stationIds)
     }
 
+    this.setState({ params })
     return params
   }
 

@@ -11,6 +11,7 @@ import {
   Select,
 } from 'antd'
 import CalculateApi from 'api/CalculateApi'
+import ConfigTicket from 'api/ConfigTicket'
 import { rgb } from 'color'
 import { Flex, FormItem } from 'components/layouts/styles'
 import ROLE from 'constants/role'
@@ -70,6 +71,7 @@ export default class ConfigForm extends Component {
   state = {
     isModalVisible: false,
     categories: [],
+    configList: [],
   }
 
   componentWillReceiveProps(nextProps) {
@@ -86,6 +88,12 @@ export default class ConfigForm extends Component {
 
       this.setState({ categories })
     }
+  }
+
+  componentDidMount = async () => {
+    const result = await ConfigTicket.getConfigTicket()
+
+    this.setState({ configList: result.data.value.value })
   }
 
   clearFields = () => {
@@ -110,6 +118,8 @@ export default class ConfigForm extends Component {
   onSubmit = async e => {
     e.preventDefault()
     const { form, onClose, currentActive } = this.props
+    const { configList } = this.state
+
     const values = await form.validateFields()
     const { name, order, type, categories = [] } = values
 
@@ -129,7 +139,22 @@ export default class ConfigForm extends Component {
     }
     const isEdit = !isEmpty(currentActive)
 
-    if (isEdit) await this.handleEdit(params)
+    const configColumnList = configList.map(config => {
+      // assign new config's name to editing config
+      if (get(config, '_id') === currentActive._id) {
+        return { ...config, name: params.name }
+      }
+      return { ...config }
+    })
+
+    if (isEdit) {
+      await this.handleEdit(params)
+      await ConfigTicket.updateConfigTicket({
+        key: 'ticket-export-params',
+        value: configColumnList,
+      })
+      this.setState({ configList: configColumnList })
+    }
     if (!isEdit) await this.handleCreate(params)
 
     form.resetFields()
@@ -168,7 +193,16 @@ export default class ConfigForm extends Component {
 
   handleDel = async param => {
     const { delConfig, onClose } = this.props
+    const { configList } = this.state
+    const newConfigColumnList = configList.filter(
+      config => get(config, '_id') !== param._id
+    )
+
     try {
+      await ConfigTicket.updateConfigTicket({
+        key: 'ticket-export-params',
+        value: newConfigColumnList,
+      })
       await CalculateApi.delConfig(param._id)
       message.info(i18n().message.success(i18n().button.del))
       delConfig(param)

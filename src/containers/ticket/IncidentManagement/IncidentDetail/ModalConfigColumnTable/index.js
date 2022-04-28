@@ -57,12 +57,17 @@ export default class ModalConfigTable extends Component {
       return { ...prevConfig, [currentConfig._id]: currentConfig }
     }, {})
 
-    const configActiveListFormat = configActiveList.map(config => {
-      return {
-        ...config,
-        checked: false,
-      }
-    })
+    const configActiveListFormat = configActiveList
+      .map(config => {
+        return {
+          ...config,
+          checked: false,
+        }
+      })
+      .filter(
+        config =>
+          !columnListExcel.some(column => get(column, '_id') === config.key)
+      )
 
     const columnListWithConfigUpdated = columnListExcel.filter(column => {
       const configKey = objConfigList[column.key]
@@ -80,7 +85,7 @@ export default class ModalConfigTable extends Component {
       ...configActiveListFormat,
     ]
 
-    if (isEmpty(configListActiveInColumn) && !isEmpty(configActiveList)) {
+    if (isEmpty(configListActiveInColumn) || !isEmpty(configActiveList)) {
       this.setState({
         configList: configActiveList,
         columnList: this.getTranslateColumnList(columnListWithConfigActive),

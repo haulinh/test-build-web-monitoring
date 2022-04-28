@@ -8,13 +8,21 @@ import SelectQCVN from 'components/elements/select-qcvn-v2'
 import { FilterList, ModalSaveFilter } from 'components/filter'
 import { ACTION_TYPE, MODULE_TYPE } from 'components/filter/constants'
 import ROLE from 'constants/role'
-import createLang, { translate } from 'hoc/create-lang'
+import slug from 'constants/slug'
+import createLang, { translate as t, translate } from 'hoc/create-lang'
 import protectRole from 'hoc/protect-role'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import _, { isEmpty, isEqual } from 'lodash'
+import _, { isEqual } from 'lodash'
 import moment from 'moment-timezone'
 import React from 'react'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
+import { connectAutoDispatch } from 'redux/connect'
+import {
+  addBreadcrumb,
+  deleteBreadcrumb,
+  updateBreadcrumb,
+} from 'shared/breadcrumb/action'
 import { getTimes, getTimesUTC } from 'utils/datetime'
 import { downFileExcel } from 'utils/downFile'
 import { getParamArray } from 'utils/params'
@@ -23,15 +31,6 @@ import Breadcrumb from './breadcrumb'
 import SearchFrom from './search-form'
 import TabList from './tab-list'
 import DataAnalyze from './tab-list/tab-table-data-list/data-analyze'
-import { withRouter } from 'react-router-dom'
-import slug from 'constants/slug'
-import { connectAutoDispatch } from 'redux/connect'
-import {
-  addBreadcrumb,
-  deleteBreadcrumb,
-  updateBreadcrumb,
-} from 'shared/breadcrumb/action'
-import { translate as t } from 'hoc/create-lang'
 
 export const fields = {
   stationKey: 'stationKey',
@@ -88,8 +87,14 @@ export default class MinutesDataSearch extends React.Component {
 
   componentDidMount = () => {
     const { history } = this.props
+    const {
+      location: { state },
+    } = history
+
+    if (state) history.push(slug.dataSearch.base)
+
     this.getFilterList()
-    history.push(slug.dataSearch.base)
+    this.handleOnSearch()
   }
 
   componentWillUnmount = () => {
@@ -109,6 +114,7 @@ export default class MinutesDataSearch extends React.Component {
         this.setState({
           filterItem: {},
           activeKey: null,
+          standardObjectList: {},
         })
 
         this.handleOnSearch()
@@ -131,15 +137,12 @@ export default class MinutesDataSearch extends React.Component {
     }
   }
 
-  getValuesForm = e => {
-    if (!e) return null
-    if (e.hasOwnProperty('valuesForm')) return e.valuesForm
-    return null
+  setFilterDefault = filterDefault => {
+    this.setState({ filterDefault })
   }
 
-  getQueryParam = e => {
-    const valuesForm = this.getValuesForm(e)
-    const values = valuesForm || this.searchFormRef.current.getFieldsValue()
+  getQueryParam = () => {
+    const values = this.searchFormRef.current.getFieldsValue()
     const { standards, page } = this.state
 
     const times = getTimes(values[fields.rangesDate])
@@ -154,6 +157,7 @@ export default class MinutesDataSearch extends React.Component {
       itemPerPage: ITEM_PER_PAGE,
       standards: getParamArray(standards),
     }
+
     return params
   }
 
@@ -173,21 +177,9 @@ export default class MinutesDataSearch extends React.Component {
     return stationKey || ''
   }
 
-  handleOnSearch = async valuesForm => {
-    const { filterItem } = this.state
-
-    const valueForm = await this.searchFormRef.current.validateFields()
-
-    const { stationKey, rangesDate, ...queryParams } = this.getQueryParam(
-      valuesForm
-    )
-
-    if (isEmpty(filterItem)) {
-      this.setState({
-        filterDefault: valueForm,
-      })
-    }
-
+  handleOnSearch = async () => {
+    const { stationKey, rangesDate, ...queryParams } = this.getQueryParam()
+    await this.searchFormRef.current.validateFields()
     this.setState({
       loadingData: true,
       loadingSummary: true,
@@ -486,6 +478,7 @@ export default class MinutesDataSearch extends React.Component {
               <SearchFrom
                 ref={this.searchFormRef}
                 onSearch={this.handleOnSearch}
+                setFilterDefault={this.setFilterDefault}
               />
             </BoxShadowStyle>
 
