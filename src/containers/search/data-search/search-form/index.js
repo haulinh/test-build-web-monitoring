@@ -10,7 +10,7 @@ import { getMeasuringListFromStationAutos } from 'containers/api-sharing/util'
 import { autobind } from 'core-decorators'
 import createLang, { translate } from 'hoc/create-lang'
 import createQueryFormDataBrowser from 'hoc/query-formdata-browser'
-import _ from 'lodash'
+import _, { get, isEmpty } from 'lodash'
 import React from 'react'
 import styled from 'styled-components'
 import { fields } from '../index'
@@ -94,14 +94,34 @@ export default class SearchFormHistoryData extends React.Component {
     stationTypes: [],
   }
 
-  componentDidMount() {
-    const { form, onSearch, formData } = this.props
-    if (_.isEmpty(formData)) return
+  componentDidMount = () => {
+    const { formData, form } = this.props
+    if (isEmpty(formData)) return
 
     const initValues = this.getInitValuesFormData()
     form.setFieldsValue(initValues)
-    const values = form.getFieldsValue()
-    onSearch({ valuesForm: values })
+  }
+
+  getFilterDefault = () => {
+    const { stationAutos, stationTypes } = this.state
+
+    const firstStationType = get(stationTypes, ['0', 'key'])
+    const firstStationKey = this.getInitialStationKey(
+      stationAutos,
+      firstStationType
+    )
+    const initMeasuring = this.getMeasureKeys(firstStationKey)
+
+    const firstValues = {
+      [fields.rangesDate]: 1,
+      [fields.stationKey]: firstStationKey,
+      [fields.stationType]: firstStationType,
+      [fields.measuringList]: initMeasuring,
+      [fields.province]: '',
+      [fields.dataType]: 'origin',
+      [fields.isExceeded]: false,
+    }
+    return firstValues
   }
 
   getInitValuesFormData = () => {
@@ -153,41 +173,59 @@ export default class SearchFormHistoryData extends React.Component {
 
   onFetchSuccessStationAuto = stationAutos => {
     this.setState({ stationAutos })
-    const { onSearch, formData } = this.props
+    const { onSearch, formData, setFilterDefault } = this.props
+    const filterDefault = this.getFilterDefault()
+    setFilterDefault(filterDefault)
+
     if (!_.isEmpty(formData)) return
     const success = this.setInitValues(stationAutos)
 
     if (success) onSearch()
   }
 
-  setFieldValueMeasuringOption = stationAuto => {
+  setFieldValueMeasuringOption = () => {
     const { form } = this.props
 
-    const measuringOptions = this.getMeasureOptions(stationAuto || '')
-    const measuringOptionsKey = measuringOptions.map(measure => measure.value)
+    const measuringOptionsKey = this.getMeasureKeys()
     form.setFieldsValue({
       [fields.measuringList]: measuringOptionsKey,
     })
   }
 
+  getMeasureKeys = stationAuto => {
+    const measuringOptions = this.getMeasureOptions(stationAuto || '')
+    const measuringOptionsKey = measuringOptions.map(measure => measure.value)
+    return measuringOptionsKey
+  }
+
   setInitValues = stationAutos => {
     const { form } = this.props
+
     const stationTypeSelected = form.getFieldValue(fields.stationType)
+
     if (!stationTypeSelected) return false
 
-    const stationAutosBelongStationTypeSelect =
-      stationAutos.find(
-        stationAuto =>
-          _.get(stationAuto, 'stationType.key') === stationTypeSelected
-      ) || {}
+    const initialStationKey = this.getInitialStationKey(
+      stationAutos,
+      stationTypeSelected
+    )
 
     form.setFieldsValue({
-      [fields.stationKey]: stationAutosBelongStationTypeSelect.key,
+      [fields.stationKey]: initialStationKey,
     })
 
     this.setFieldValueMeasuringOption()
 
     return true
+  }
+
+  getInitialStationKey = (stationAutos, stationKey) => {
+    const stationAutosBelongStationTypeSelect =
+      stationAutos.find(
+        stationAuto => _.get(stationAuto, 'stationType.key') === stationKey
+      ) || {}
+
+    return stationAutosBelongStationTypeSelect.key
   }
 
   handleOnChangeStationAuto = stationAutoValue => {

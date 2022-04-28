@@ -63,6 +63,7 @@ export const FilterList = ({
   onDeleteFilter,
   onChangeSearch,
   highlightText,
+  selectedKeys,
 }) => {
   const filterGroupByStationType = list.reduce((base, current) => {
     const stationType = _.get(current, ['stationType'])
@@ -136,9 +137,10 @@ export const FilterList = ({
 
         {!isEmpty(list) && (
           <Menu
-            forceSubMenuRender={true}
+            forceSubMenuRender
             mode="inline"
             defaultOpenKeys={defaultOpenKeys}
+            selectedKeys={selectedKeys}
           >
             {menuSource.map(menu => (
               <SubMenu key={menu.stationKey} title={menu.stationName}>
