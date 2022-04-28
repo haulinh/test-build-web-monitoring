@@ -105,23 +105,23 @@ export default class SearchFormHistoryData extends React.Component {
   getFilterDefault = () => {
     const { stationAutos, stationTypes } = this.state
 
-    const initStationType = get(stationTypes, ['0', 'key'])
-    const initStationKey = this.getInitialStationKey(
+    const firstStationType = get(stationTypes, ['0', 'key'])
+    const firstStationKey = this.getInitialStationKey(
       stationAutos,
-      initStationType
+      firstStationType
     )
-    const initMeasuring = this.getMeasureKeys(initStationKey)
+    const initMeasuring = this.getMeasureKeys(firstStationKey)
 
-    const initValues = {
+    const firstValues = {
       [fields.rangesDate]: 1,
-      [fields.stationKey]: initStationKey,
-      [fields.stationType]: initStationType,
+      [fields.stationKey]: firstStationKey,
+      [fields.stationType]: firstStationType,
       [fields.measuringList]: initMeasuring,
       [fields.province]: '',
       [fields.dataType]: 'origin',
       [fields.isExceeded]: false,
     }
-    return initValues
+    return firstValues
   }
 
   getInitValuesFormData = () => {
@@ -201,7 +201,14 @@ export default class SearchFormHistoryData extends React.Component {
   setInitValues = stationAutos => {
     const { form } = this.props
 
-    const initialStationKey = this.getInitialStationKey(stationAutos)
+    const stationTypeSelected = form.getFieldValue(fields.stationType)
+
+    if (!stationTypeSelected) return false
+
+    const initialStationKey = this.getInitialStationKey(
+      stationAutos,
+      stationTypeSelected
+    )
 
     form.setFieldsValue({
       [fields.stationKey]: initialStationKey,
@@ -213,16 +220,9 @@ export default class SearchFormHistoryData extends React.Component {
   }
 
   getInitialStationKey = (stationAutos, stationKey) => {
-    const { form } = this.props
-    const stationTypeSelected =
-      stationKey || form.getFieldValue(fields.stationType)
-
-    if (!stationTypeSelected) return false
-
     const stationAutosBelongStationTypeSelect =
       stationAutos.find(
-        stationAuto =>
-          _.get(stationAuto, 'stationType.key') === stationTypeSelected
+        stationAuto => _.get(stationAuto, 'stationType.key') === stationKey
       ) || {}
 
     return stationAutosBelongStationTypeSelect.key
