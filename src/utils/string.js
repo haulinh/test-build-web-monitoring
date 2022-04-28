@@ -70,28 +70,3 @@ export function formatCurrency(currency) {
     minimumFractionDigits: 0,
   }).format(Math.ceil(currency))
 }
-
-export const getHighlightedText = (text, pattern) => {
-  if (!pattern) return text
-
-  const parts = text.split(new RegExp(`(${escapeRegExp(pattern)})`, 'gi'))
-
-  return (
-    <span>
-      {parts.map((part, i) => {
-        return (
-          <span
-            key={i}
-            style={
-              part.toLowerCase() === pattern.toLowerCase()
-                ? { backgroundColor: 'yellow' }
-                : {}
-            }
-          >
-            {part}
-          </span>
-        )
-      })}
-    </span>
-  )
-}

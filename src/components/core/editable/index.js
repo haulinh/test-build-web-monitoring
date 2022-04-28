@@ -18,20 +18,6 @@ export default class Editable extends React.Component {
 
   ref = React.createRef()
 
-  componentDidMount() {
-    window.addEventListener('click', this.handleOnClickOutSide)
-  }
-
-  handleOnClickOutSide = e => {
-    if (
-      this.state.isEditing &&
-      this.ref.current &&
-      !this.ref.current.contains(e.target)
-    ) {
-      this.setState({ isEditing: false })
-    }
-  }
-
   toggleEdit = () => {
     this.setState(prevState => ({ isEditing: !prevState.isEditing }))
   }
@@ -52,6 +38,7 @@ export default class Editable extends React.Component {
   render() {
     const { text, type, placeholder, children, onOk, ...props } = this.props
     const { isEditing } = this.state
+    console.log({ isEditing })
 
     return (
       <div ref={this.ref} {...props}>
@@ -77,8 +64,12 @@ export default class Editable extends React.Component {
             </React.Fragment>
           </div>
         ) : (
-          <div onClick={() => this.setState({ isEditing: true })}>
-            {text || placeholder || 'Editable content'}
+          <div onClick={this.toggleEdit}>
+            {React.cloneElement(text, {
+              onClick: this.toggleEdit,
+            }) ||
+              placeholder ||
+              'Editable content'}
           </div>
         )}
       </div>
