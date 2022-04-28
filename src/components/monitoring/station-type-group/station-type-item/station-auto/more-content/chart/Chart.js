@@ -420,7 +420,6 @@ export default class ChartRowToChart extends React.Component {
       itemKey: _.get(this.state.current, '0.key', ''),
       value: _.get(this.state.current, '0.name', ''),
     })
-
     dataSeries.push({
       type: 'column',
       min: minLimit,
