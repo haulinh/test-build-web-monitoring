@@ -179,7 +179,7 @@ export default class MinutesDataSearch extends React.Component {
 
   handleOnSearch = async () => {
     const { stationKey, rangesDate, ...queryParams } = this.getQueryParam()
-
+    await this.searchFormRef.current.validateFields()
     this.setState({
       loadingData: true,
       loadingSummary: true,
