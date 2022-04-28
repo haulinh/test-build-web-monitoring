@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-import { toLower as _toLower } from 'lodash'
+import { escapeRegExp, toLower as _toLower } from 'lodash'
 
 export function replaceVietnameseStr(alias) {
   var str = alias
@@ -69,4 +69,29 @@ export function formatCurrency(currency) {
     maximumFractionDigits: 4,
     minimumFractionDigits: 0,
   }).format(Math.ceil(currency))
+}
+
+export const getHighlightedText = (text, pattern) => {
+  if (!pattern) return text
+
+  const parts = text.split(new RegExp(`(${escapeRegExp(pattern)})`, 'gi'))
+
+  return (
+    <span>
+      {parts.map((part, i) => {
+        return (
+          <span
+            key={i}
+            style={
+              part.toLowerCase() === pattern.toLowerCase()
+                ? { backgroundColor: 'yellow' }
+                : {}
+            }
+          >
+            {part}
+          </span>
+        )
+      })}
+    </span>
+  )
 }

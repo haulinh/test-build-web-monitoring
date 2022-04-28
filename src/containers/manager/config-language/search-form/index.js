@@ -1,19 +1,24 @@
-import React from 'react'
-import { Row, Col, Button, Form, Select, Input } from 'antd'
-import PropTypes from 'prop-types'
+import { Button, Col, Form, Input, Row, Select } from 'antd'
 import { translate } from 'hoc/create-lang'
 import * as _ from 'lodash'
+import PropTypes from 'prop-types'
+import React from 'react'
 import { connect } from 'react-redux'
-import { FlagIcon } from 'react-flag-kit'
+import { DEVICE } from '..'
 
-const InputGroup = Input.Group
 const { Option } = Select
 
 function i18n() {
   return {
     all: translate('dataSearchFrom.form.all'),
     devicePlaceholder: translate('dataSearchFrom.form.device.placeholder'),
+    search: translate('dataSearchFrom.form.search'),
   }
+}
+
+const FIELDS = {
+  DEVICE: 'device',
+  PATTERN: 'pattern',
 }
 
 @connect(state => ({
@@ -31,16 +36,12 @@ class DataSearchForm extends React.Component {
     isLoading: false,
   }
 
-  async componentDidMount() {}
-
   onSubmit = e => {
     if (e) {
       e.preventDefault()
     }
     this.props.form.validateFields((err, values) => {
-      // console.log('validateFields', err, values)
       if (err) return
-      if (values.isMobile === 'all') delete values.isMobile
       if (!values.pattern) delete values.locale
 
       if (this.props.onSubmit) this.props.onSubmit(values)
@@ -53,36 +54,17 @@ class DataSearchForm extends React.Component {
       <Form style={{ marginTop: '8px' }} onSubmit={this.onSubmit}>
         <Row gutter={8}>
           <Col span={12}>
-            <InputGroup compact>
-              {getFieldDecorator(`locale`, {
-                initialValue: this.props.language,
-              })(
-                <Select>
-                  {this.props.listLanguage &&
-                    this.props.listLanguage.map((obj, idx) => {
-                      return (
-                        <Option key={idx} value={obj.locale}>
-                          <FlagIcon code={obj.flag} size={20} />
-                        </Option>
-                      )
-                    })}
-                </Select>
-              )}
-              {getFieldDecorator(`pattern`)(<Input style={{ width: '80%' }} />)}
-            </InputGroup>
+            {getFieldDecorator(FIELDS.PATTERN)(
+              <Input placeholder={i18n().search} style={{ width: '80%' }} />
+            )}
           </Col>
 
           <Col span={10}>
-            {getFieldDecorator(`isMobile`)(
-              <Select
-                placeholder={i18n().devicePlaceholder}
-                // onSelect={() => {
-                //   this.onSubmit()
-                // }}
-              >
-                <Option value={'all'}>{i18n().all}</Option>
-                <Option value={true}>Mobile</Option>
-                <Option value={false}>Web</Option>
+            {getFieldDecorator(FIELDS.DEVICE)(
+              <Select placeholder={i18n().devicePlaceholder}>
+                <Option value="">{i18n().all}</Option>
+                <Option value={DEVICE.MOBILE}>Mobile</Option>
+                <Option value={DEVICE.WEB}>Web</Option>
               </Select>
             )}
           </Col>

@@ -1,22 +1,18 @@
-import { Icon, message, Skeleton, Tabs, Typography } from 'antd'
+import { message, Skeleton, Tabs } from 'antd'
 import languageApi from 'api/languageApi'
-import Clearfix from 'components/elements/clearfix'
 import HeaderSearchWrapper from 'components/elements/header-search-wrapper'
 import ROLE from 'constants/role'
 import { translate } from 'hoc/create-lang'
 import protectRole from 'hoc/protect-role'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import * as _ from 'lodash'
-import { get } from 'lodash'
 import React from 'react'
 import { connectAutoDispatch } from 'redux/connect'
 import Breadcrumb from './breadcrumb'
-import JsonViewCustom from './json-view-custom'
 import ListLanguage from './list-language'
 import DataSearchForm from './search-form'
 import TableTranslate from './translate'
 
-const { Text } = Typography
 const { TabPane } = Tabs
 
 export function i18n() {
@@ -36,11 +32,11 @@ export function i18n() {
   }
 }
 
-const VI = 'vi'
-const EN = 'en'
-const TW = 'tw'
-const MOBILE = 'MOBILE'
-const WEB = 'WEB'
+export const DEVICE = {
+  MOBILE: 'MOBILE',
+  WEB: 'WEB',
+}
+
 const TABS = ['list', 'detail']
 
 @protectRole(ROLE.LANGUAGES.VIEW)
@@ -53,10 +49,11 @@ class ConfigLanguagePage extends React.Component {
   state = {
     isLoading: true,
     dataSource: null,
-    isMobile: true,
-    isWeb: true,
+    data: {},
     tabKey: '',
     isExpandAllRows: false,
+    device: '',
+    pattern: '',
   }
 
   componentDidMount = async () => {
@@ -66,9 +63,9 @@ class ConfigLanguagePage extends React.Component {
     if (success) {
       this.setState({
         dataSource: data,
-        isLoading: false,
       })
     }
+    this.setState({ isLoading: false })
   }
 
   handleOnChangeLanguage = async (value, locale, key, device) => {
@@ -91,191 +88,6 @@ class ConfigLanguagePage extends React.Component {
     return data
   }
 
-  getRows = () => {
-    let index = 0
-    let dataWeb = []
-    let dataMobile = []
-
-    //get data language web
-    if (this.state.isWeb) {
-      const dataInitialWeb = _.get(this.state.dataSource, [WEB, VI])
-      dataWeb = _.map(_.keys(dataInitialWeb), key => {
-        let dataEN = null
-        let dataVI = null
-        let dataTW = null
-        const title = _.get(
-          _.get(this.state.dataSource, [WEB]),
-          `${this.props.language}.language.content.${key}`,
-          key
-        )
-        dataVI = this.getContent(this.state.dataSource[WEB], VI, key, WEB)
-        dataEN = this.getContent(this.state.dataSource[WEB], EN, key, WEB)
-        dataTW = this.getContent(this.state.dataSource[WEB], TW, key, WEB)
-
-        index++
-
-        return [
-          {
-            content: <strong>{index}</strong>,
-          },
-          {
-            content: (
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <Icon style={{ fontSize: '1rem' }} type="global" />
-              </div>
-            ),
-          },
-          {
-            content: key.toLocaleUpperCase(),
-          },
-          {
-            content: title,
-          },
-          {
-            content: (
-              <JsonViewCustom
-                onChange={data => {
-                  this.handleOnChangeLanguage(data, VI, key, WEB)
-                }}
-                isEdit={true}
-                dataStructure={dataVI}
-                title={title}
-                content={dataVI}
-              />
-            ),
-          },
-          {
-            content: (
-              <JsonViewCustom
-                onChange={data => {
-                  this.handleOnChangeLanguage(data, EN, key, WEB)
-                }}
-                isEdit={true}
-                dataStructure={dataVI}
-                title={title}
-                content={dataEN}
-              />
-            ),
-          },
-          {
-            content: (
-              <JsonViewCustom
-                onChange={data => {
-                  this.handleOnChangeLanguage(data, TW, key, WEB)
-                }}
-                isEdit={true}
-                dataStructure={dataVI}
-                title={title}
-                content={dataTW}
-              />
-            ),
-          },
-        ]
-      })
-    }
-
-    //get data language Mobile
-    if (this.state.isMobile) {
-      const dataInitialMobile = _.get(this.state.dataSource, [MOBILE, VI])
-      dataMobile = _.map(_.keys(dataInitialMobile), key => {
-        let dataEN = null
-        let dataVI = null
-        let dataTW = null
-        const title = _.get(
-          this.props.dataInitial,
-          `${this.props.language}.language.content.${key}`,
-          key
-        )
-        dataVI = this.getContent(dataInitialMobile, VI, key, MOBILE)
-        dataEN = this.getContent(dataInitialMobile, EN, key, MOBILE)
-        dataTW = this.getContent(dataInitialMobile, TW, key, MOBILE)
-        console.log({ dataTW, dataVI })
-
-        index++
-        return [
-          {
-            content: <strong>{index}</strong>,
-          },
-          {
-            content: (
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <Icon style={{ fontSize: '1rem' }} type="mobile" />
-              </div>
-            ),
-          },
-          {
-            content: key.toLocaleUpperCase(),
-          },
-          {
-            content: title,
-          },
-          {
-            content: (
-              <JsonViewCustom
-                onChange={data => {
-                  this.handleOnChangeLanguage(data, VI, key, MOBILE)
-                }}
-                isEdit={true}
-                dataStructure={dataVI}
-                title={title}
-                content={dataVI}
-              />
-            ),
-          },
-          {
-            content: (
-              <JsonViewCustom
-                onChange={data => {
-                  this.handleOnChangeLanguage(data, EN, key, MOBILE)
-                }}
-                isEdit={true}
-                title={title}
-                dataStructure={dataVI}
-                content={dataEN}
-              />
-            ),
-          },
-          {
-            content: (
-              <JsonViewCustom
-                onChange={data => {
-                  this.handleOnChangeLanguage(data, TW, key, MOBILE)
-                }}
-                isEdit={true}
-                dataStructure={dataVI}
-                title={title}
-                content={dataTW}
-              />
-            ),
-          },
-        ]
-      })
-    }
-
-    return [...dataWeb, ...dataMobile]
-  }
-
-  getHead = () => {
-    return [
-      { content: i18n().colSTT, width: 2 },
-      { content: i18n().colDevice, width: 6 },
-      { content: i18n().colKey },
-      { content: i18n().colFeature },
-      { content: i18n().colVI },
-      { content: i18n().colEN },
-      { content: i18n().colTW },
-    ]
-  }
-
-  getRenderEmpty = () => {
-    return (
-      <div>
-        <Clearfix heigth={16} />
-        <Text disabled>{i18n().emptyView}</Text>
-      </div>
-    )
-  }
-
   handleOnSearch = async value => {
     this.setState({
       isLoading: true,
@@ -287,15 +99,24 @@ class ConfigLanguagePage extends React.Component {
     if (success) {
       this.setState({
         dataSource: data,
-        isLoading: false,
-        isMobile: value.isMobile === false ? false : true,
-        isWeb: value.isMobile === true ? false : true,
+        device: value.device,
+        pattern: value.pattern,
       })
     }
+
+    this.setState({
+      isLoading: false,
+    })
   }
 
   render() {
-    const { dataSource, isLoading, isExpandAllRows } = this.state
+    const {
+      dataSource,
+      isLoading,
+      isExpandAllRows,
+      device,
+      pattern,
+    } = this.state
     return (
       <PageContainer
         center={
@@ -327,11 +148,13 @@ class ConfigLanguagePage extends React.Component {
               <ListLanguage />
             </TabPane>
             <TabPane tab={i18n().tab2} key={TABS[1]}>
-              {/* <TableTranslate
+              <TableTranslate
                 isExpandAllRows={isExpandAllRows}
                 loading={isLoading}
-                dataSource={get(dataSource, ['WEB'])}
-              /> */}
+                dataSource={dataSource}
+                device={device}
+                pattern={pattern}
+              />
             </TabPane>
           </Tabs>
         </React.Fragment>
