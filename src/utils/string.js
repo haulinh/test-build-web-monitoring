@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-import { toLower as _toLower } from 'lodash'
+import { escapeRegExp, toLower as _toLower } from 'lodash'
 
 export function replaceVietnameseStr(alias) {
   var str = alias
