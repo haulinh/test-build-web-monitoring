@@ -97,7 +97,7 @@ export default class MapDefault extends React.PureComponent {
       {
         center: stationSelected.mapLocation,
         stationSelected,
-        zoom: 20,
+        zoom: 22,
       },
       () => {
         this.props.getStationAuto(
@@ -108,7 +108,7 @@ export default class MapDefault extends React.PureComponent {
   }
 
   handleMarkerClick = center => {
-    this.setState({ zoom: 20, center })
+    this.setState({ zoom: 22, center })
   }
 
   componentDidMount() {

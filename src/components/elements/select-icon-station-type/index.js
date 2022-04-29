@@ -98,23 +98,18 @@ export default class SelectImage extends PureComponent {
     })
   }
 
-  async componentWillMount() {
-    if (this.props.initialValues) {
-      let updateState = {}
-      if (
-        this.props.initialValues.urlIcon &&
-        this.props.initialValues.urlIcon !== ''
-      ) {
-        updateState.urlIcon = this.props.initialValues.urlIcon
-        updateState.urlIconList = _.union(this.state.urlIconList || [], [
-          this.props.initialValues.urlIcon,
-        ])
-      }
-      if (this.props.initialValues.color)
-        updateState.color = this.props.initialValues.color
+  async componentDidUpdate() {
+    const {initialValues: {urlIcon, color} = {}} = this.props
+    const {urlIcon: currentUrl} = this.state
+    if(!urlIcon || currentUrl) return
 
-      this.setState(updateState)
+    const urlIconList = _.union(this.state.urlIconList);
+    const params = {
+      urlIcon, 
+      color, 
+      urlIconList,
     }
+    this.setState(params)
   }
 
   beforeUpload = file => {
