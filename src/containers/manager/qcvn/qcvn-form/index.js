@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Input, Button, Row, Col, DatePicker } from 'antd'
+import { Form, Input, Button, Row, Col, DatePicker, message } from 'antd'
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
 import createLanguageHoc, { langPropTypes, translate } from 'hoc/create-lang'
@@ -32,6 +32,7 @@ function i18n() {
       validate2: translate('qcvn.form.measuringList.validate2'),
       validate3: translate('qcvn.form.measuringList.validate3'),
       validate4: translate('qcvn.form.measuringList.validate4'),
+      validateMinLimit: translate('stationAutoManager.form.errorMinMax'),
     },
   }
 }
@@ -315,17 +316,15 @@ export default class QCVNForm extends React.PureComponent {
     const errorArr = _.map(value, item => {
       let isBound = false
       if (item.key) {
-        let strItem = item.name
         if (
           _.isNumber(item.minLimit) &&
           _.isNumber(item.maxLimit) &&
           item.minLimit >= item.maxLimit
         ) {
-          strItem = _.concat(strItem, ` -- ${i18n().measuringList.validate1}`)
           isBound = true
         }
 
-        if (isBound) return <div>{strItem}</div>
+        if (isBound) message.error(`${i18n().measuringList.validateMinLimit}`)
       }
     })
 
