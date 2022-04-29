@@ -319,7 +319,7 @@ export default class QCVNForm extends React.PureComponent {
         if (
           _.isNumber(item.minLimit) &&
           _.isNumber(item.maxLimit) &&
-          item.minLimit > item.maxLimit
+          item.minLimit >= item.maxLimit
         ) {
           strItem = _.concat(strItem, ` -- ${i18n().measuringList.validate1}`)
           isBound = true
