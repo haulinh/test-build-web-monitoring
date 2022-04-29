@@ -199,6 +199,7 @@ export default class StationAutoItem extends React.PureComponent {
       stationType,
       options,
       status,
+      measuringList,
       _id,
     } = this.props
     let receivedAt = ''
@@ -215,6 +216,7 @@ export default class StationAutoItem extends React.PureComponent {
     }
 
     const lastLogMeasureAdvancedList = this.getLastLogMeasureListAdvanced()
+    const measuringMap = new Map(measuringList.map(item => [item.key, item]))
 
     return (
       <StationAutoWrapper className="stationAutoWrapper">
@@ -235,6 +237,7 @@ export default class StationAutoItem extends React.PureComponent {
           stationKey={stationID}
         />
         <MeasuringList
+          measuringMap={measuringMap}
           statusStation={status}
           onClickItem={this.handleClickDataSearchWithMeasuring}
           data={this.measuringLastLog()}

@@ -4,6 +4,7 @@ import { autobind } from 'core-decorators'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 import MeasuringItem from '../measuring-item'
+import {get} from 'lodash-es'
 
 const MeasuringListWrapper = styled.div`
   width: 100%;
@@ -32,7 +33,8 @@ export default class MeasuringList extends React.PureComponent {
     receivedAt: PropTypes.string.isRequired,
   }
   render() {
-    const { data } = this.props
+    const { data, measuringMap } = this.props
+
     return (
       <MeasuringListWrapper>
         {data &&
@@ -57,6 +59,7 @@ export default class MeasuringList extends React.PureComponent {
                     typeof item.maxLimit === 'number' ? item.maxLimit : null
                   }
                   statusStation={this.props.statusStation}
+                  unit={get(measuringMap.get(item.key), 'unit', item.unit)}
                 />
               </MeasuringItemWrapper>
             )
