@@ -11,6 +11,7 @@ import { autobind } from 'core-decorators'
 import createLang, { translate } from 'hoc/create-lang'
 import createQueryFormDataBrowser from 'hoc/query-formdata-browser'
 import _, { get, isEmpty } from 'lodash'
+import moment from 'moment-timezone'
 import React from 'react'
 import styled from 'styled-components'
 import { fields } from '../index'
@@ -126,13 +127,16 @@ export default class SearchFormHistoryData extends React.Component {
 
   getInitValuesFormData = () => {
     const { formData } = this.props
+    const from = moment(formData.fromDate)
+    const to = moment(formData.toDate)
 
     const initValues = {
-      [fields.rangesDate]: 1,
+      [fields.rangesDate]: [from, to],
       [fields.stationKey]: formData.stationAuto,
       [fields.stationType]: formData.stationType,
       [fields.measuringList]: formData.measuringList,
     }
+
     return initValues
   }
 
