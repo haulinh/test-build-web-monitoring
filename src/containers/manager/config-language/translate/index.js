@@ -86,11 +86,11 @@ const TableTranslate = ({
     )
 
   const handleSave = async ({ value, path, locale, device }) => {
-    const dataSourceUpdate = set(dataSource, path, value)
+    const dataSourceUpdate = set(get(dataSource, [device, locale]), path, value)
 
     const res = await languageApi.updateLanguage(
       locale,
-      dataSourceUpdate[locale],
+      dataSourceUpdate,
       device
     )
     if (res && res.success) {

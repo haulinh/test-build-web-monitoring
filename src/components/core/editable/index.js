@@ -23,7 +23,6 @@ export default class Editable extends React.Component {
   }
 
   handleOnOk = async () => {
-    console.log('fuck click')
     const { onOk } = this.props
     await onOk()
     this.toggleEdit()
@@ -38,7 +37,6 @@ export default class Editable extends React.Component {
   render() {
     const { text, type, placeholder, children, onOk, ...props } = this.props
     const { isEditing } = this.state
-    console.log({ isEditing })
 
     return (
       <div ref={this.ref} {...props}>
