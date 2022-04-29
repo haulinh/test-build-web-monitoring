@@ -85,14 +85,20 @@ export default class MapDefault extends React.PureComponent {
   setStateZoom = zoom => this.setState({ zoom })
 
   handleSelectStation(stationSelected) {
-    // const defaultZoom = 12
-    // let updateState = { stationSelected }
-    // updateState.center = stationSelected.mapLocation
-    // if (this.state.map && this.state.map.getZoom() !== defaultZoom)
-    //   updateState.zoom = defaultZoom
-    // this.setState(updateState, () => {
-    //   this.props.getStationAuto(_pick(stationSelected, ['_id', 'key', 'name']))
-    // })
+    const {stationSelected: current} = this.state
+    if(current._id === stationSelected._id) {
+      this.setState(
+        {
+          center: null,
+          stationSelected: {},
+          zoom: null,
+        },
+        () => {
+          this.setState({center: stationSelected.mapLocation, stationSelected, zoom: 22})
+        }
+      )
+      return 
+    }
     this.setState(
       {
         center: stationSelected.mapLocation,
