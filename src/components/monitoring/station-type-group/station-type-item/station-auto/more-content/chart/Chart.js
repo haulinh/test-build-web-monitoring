@@ -113,16 +113,20 @@ const configChart = (dataSeries, dataXs, title, minLimit, maxLimit) => {
     maxLimitValue = null
   }
 
-  // console.log(minLimitValue, maxLimitValue, 'min max')
-
   return {
     chart: {
-      type: 'column',
       zoomType: 'x',
       height: 350,
     },
     title: {
       text: title,
+    },
+    plotOptions: {
+      line: {
+        marker: {
+          enabled: false,
+        },
+      },
     },
     xAxis: {
       categories: dataXs,
@@ -131,29 +135,6 @@ const configChart = (dataSeries, dataXs, title, minLimit, maxLimit) => {
       title: {
         text: '', // tiêu đề của cột Y
       },
-      min: minLimitValue,
-      max: maxLimitValue, //maxLimitValue,
-      plotLines: [
-        {
-          value: typeof minLimit === 'number' ? minLimit : null,
-          color: 'red',
-          width: 1,
-          label: {
-            text: `${i18n().minLimit}: ${getFormatNumber(minLimit)}`,
-          },
-          zIndex: 4,
-        },
-        {
-          value: typeof maxLimit === 'number' ? maxLimit : null,
-          color: 'red',
-          width: 1,
-          label: {
-            text: `${i18n().maxLimit}: ${getFormatNumber(maxLimit)}`,
-            y: 12,
-          },
-          zIndex: 4,
-        },
-      ],
     },
     series: dataSeries,
     legend: {
@@ -401,9 +382,11 @@ export default class ChartRowToChart extends React.Component {
 
   getConfigData = () => {
     const { translateContent } = this.props
+
     if (this.state.current.length === 0) {
       return {}
     }
+
     let dataSeries = []
     let dataXs = []
     let maxLimit = null
@@ -413,13 +396,19 @@ export default class ChartRowToChart extends React.Component {
     maxLimit = _.get(this.state.current, '0.maxLimit', null)
     minLimit = _.get(this.state.current, '0.minLimit', null)
 
-    // console.log(this.state.data, this.state.current, 'getConfigData')
-    //console.log(this.state.data, this.state.current, 'getConfigData')
+    console.log({ maxLimit, minLimit })
+
     const measureName = translateContent({
       type: 'Measure',
       itemKey: _.get(this.state.current, '0.key', ''),
       value: _.get(this.state.current, '0.name', ''),
     })
+
+    const dataX = _.get(
+      this.state.data,
+      _.get(this.state.current, '0.key', ''),
+      []
+    )
 
     dataSeries.push({
       type: 'column',
@@ -427,6 +416,27 @@ export default class ChartRowToChart extends React.Component {
       name: measureName,
       data: _.get(this.state.data, _.get(this.state.current, '0.key', ''), []),
     })
+
+    // eslint-disable-next-line no-sequences
+    const arrayLimit = [
+      {
+        color: 'red',
+        name: `${i18n().maxLimit}: `,
+        type: 'line',
+        data: dataX.map(() => maxLimit),
+      },
+      {
+        color: 'red',
+        name: `${i18n().minLimit}: `,
+        type: 'line',
+        data: dataX.map(() => minLimit),
+      },
+    ]
+
+    arrayLimit.forEach(limit => {
+      dataSeries.push(limit)
+    })
+
     if (dataSeries.length > 0) {
       dataXs = this.state.dataX
     }
