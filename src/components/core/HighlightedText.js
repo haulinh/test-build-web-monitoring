@@ -15,7 +15,7 @@ const HighlightedText = ({ text, pattern, ...props }) => {
             key={i}
             style={
               part.toLowerCase() === pattern.toLowerCase()
-                ? { backgroundColor: 'yellow' }
+                ? { color: 'orange' }
                 : {}
             }
           >
