@@ -1452,7 +1452,7 @@ export default {
       },
       measuringList: {
         required: 'Please enter parameters',
-        validate1: '[Limit over threshold: Min> Max]',
+        validate1: '[Limit over threshold: Min >= Max]',
         validate2: '[Preparing to exceed the threshold: Min> Max]',
         validate3: '[Limit Exceeds: Min Exceeds> Min Prepare To Pass]',
         validate4: '[Limit Exceeds: Max Exceeds <Max Prepare To Pass]',
