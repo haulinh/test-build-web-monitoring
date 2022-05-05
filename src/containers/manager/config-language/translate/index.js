@@ -72,6 +72,7 @@ const TableTranslate = ({
   isExpandAllRows,
   loading,
   dataSource,
+  dataSourceOriginal,
   device,
   pattern,
   ...props
@@ -86,7 +87,7 @@ const TableTranslate = ({
     )
 
   const handleSave = async ({ value, path, locale, device }) => {
-    const dataDeviceLocale = get(dataSource, [device, locale])
+    const dataDeviceLocale = get(dataSourceOriginal, [device, locale])
     set(dataDeviceLocale, path, value)
 
     const res = await languageApi.updateLanguage(
@@ -111,6 +112,8 @@ const TableTranslate = ({
         const dataLanguage = Object.keys(value.vi || {}).map(key => {
           return getValueMappingLanguage(key, value)
         })
+
+        console.log({ dataLanguage })
 
         const dataTree = dataLanguage.reduce((base, dataLanguageItem) => {
           const key = Object.keys(flatten(dataLanguageItem.vi)).reduce(
