@@ -81,4 +81,4 @@ class DataSearchForm extends React.Component {
     )
   }
 }
-export default Form.create({})(DataSearchForm)
+export default DataSearchForm

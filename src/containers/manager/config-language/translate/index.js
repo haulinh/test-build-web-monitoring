@@ -3,7 +3,7 @@ import languageApi from 'api/languageApi'
 import Editable from 'components/core/editable'
 import HighlightedText from 'components/core/HighlightedText'
 import { FormItem } from 'components/layouts/styles'
-import { flatten, unflatten } from 'flat'
+import { flatten } from 'flat'
 import { get, isEmpty, set } from 'lodash'
 import React from 'react'
 import { DEVICE, i18n } from '../index'
@@ -16,57 +16,6 @@ const languageConfig = {
   tw: 'tw',
 }
 
-function getOptions(obj) {
-  return Object.keys(obj).reduce((acc, cur) => {
-    acc.push({
-      key: cur,
-      children: recurseList(obj[cur], cur),
-    })
-    return acc
-  }, [])
-}
-
-function recurseList(obj, keyParent) {
-  return Object.keys(obj).reduce((acc, cur) => {
-    if (obj[cur] instanceof Object) {
-      let data = {
-        key: `${keyParent}.${cur}`,
-        ...obj[cur],
-      }
-      const children = recurseList(obj[cur], data.key)
-      if (children.length) {
-        data.children = children
-      }
-      acc.push(data)
-    }
-    return acc
-  }, [])
-}
-
-const getValueMappingLanguage = (key, value) => {
-  const valueMappingLanguage = Object.values(languageConfig).reduce(
-    (base, currentLanguageConfigKey) => {
-      const defaultValuePathLanguage = get(value, ['vi', key])
-      const valuePathLanguage = {
-        [key]: get(
-          value,
-          [currentLanguageConfigKey, key],
-          defaultValuePathLanguage
-        ),
-      }
-
-      return {
-        ...base,
-        [currentLanguageConfigKey]: valuePathLanguage,
-      }
-    },
-
-    {} // initialValue
-  )
-
-  return valueMappingLanguage
-}
-
 const TableTranslate = ({
   form,
   isExpandAllRows,
@@ -75,6 +24,7 @@ const TableTranslate = ({
   dataSourceOriginal,
   device,
   pattern,
+  getData = () => {},
   ...props
 }) => {
   if (loading) return <Skeleton />
@@ -98,6 +48,7 @@ const TableTranslate = ({
 
     if (res && res.success) {
       message.success(i18n().success)
+      await getData()
       return
     }
 
@@ -109,34 +60,24 @@ const TableTranslate = ({
     .reduce(
       (base, [keyDevice, value]) => {
         // util logic help dataLanguage
+
         const dataLanguage = Object.keys(value.vi || {}).map(key => {
-          return getValueMappingLanguage(key, value)
+          const valueFlat = flatten(value.vi[key])
+          return {
+            key: key,
+            children: Object.keys(valueFlat).map(keyLang => {
+              return {
+                key: `${key}.${keyLang}`,
+                keyDevice,
+                vi: get(value, `vi.${key}.${keyLang}`, '-'),
+                tw: get(value, `tw.${key}.${keyLang}`, '-'),
+                en: get(value, `en.${key}.${keyLang}`, '-'),
+              }
+            }),
+          }
         })
 
-        console.log({ dataLanguage })
-
-        const dataTree = dataLanguage.reduce((base, dataLanguageItem) => {
-          const key = Object.keys(flatten(dataLanguageItem.vi)).reduce(
-            (base, currentKey) => {
-              return {
-                ...base,
-                [currentKey]: {
-                  keyDevice,
-                  vi: get(dataLanguageItem, `vi.${currentKey}`),
-                  en: get(dataLanguageItem, `en.${currentKey}`),
-                  tw: get(dataLanguageItem, `tw.${currentKey}`),
-                },
-              }
-            },
-            {}
-          )
-
-          const keyUnflat = unflatten(key)
-
-          return { ...base, ...keyUnflat }
-        }, {})
-
-        return [...base, ...getOptions(dataTree)]
+        return [...base, ...dataLanguage]
       },
 
       [] // initialValue
@@ -180,31 +121,27 @@ const TableTranslate = ({
             const valueSave = form.getFieldValue(fieldNamePath) || value
             return (
               <React.Fragment>
-                {value && (
-                  <Editable
-                    text={
-                      <HighlightedText text={valueSave} pattern={pattern} />
-                    }
-                    onOk={() =>
-                      handleSave({
-                        value: valueSave,
-                        path: record.key,
-                        locale: languageConfigItemKey,
-                        device: record.keyDevice,
-                      })
-                    }
-                    onCancel={() => {
-                      form.setFieldsValue({ [fieldNamePath]: value })
-                    }}
-                  >
-                    <FormItem>
-                      {form.getFieldDecorator(
-                        fieldNamePath,
-                        optionsField
-                      )(<Input />)}
-                    </FormItem>
-                  </Editable>
-                )}
+                <Editable
+                  text={<HighlightedText text={valueSave} pattern={pattern} />}
+                  onOk={() =>
+                    handleSave({
+                      value: valueSave,
+                      path: record.key,
+                      locale: languageConfigItemKey,
+                      device: record.keyDevice,
+                    })
+                  }
+                  onCancel={() => {
+                    form.setFieldsValue({ [fieldNamePath]: value })
+                  }}
+                >
+                  <FormItem>
+                    {form.getFieldDecorator(
+                      fieldNamePath,
+                      optionsField
+                    )(<Input />)}
+                  </FormItem>
+                </Editable>
               </React.Fragment>
             )
           }
