@@ -1,4 +1,5 @@
 import { message, Skeleton, Tabs, Form } from 'antd'
+import { T } from 'antd/lib/upload/utils'
 import languageApi from 'api/languageApi'
 import HeaderSearchWrapper from 'components/elements/header-search-wrapper'
 import ROLE from 'constants/role'
@@ -6,7 +7,6 @@ import { translate } from 'hoc/create-lang'
 import protectRole from 'hoc/protect-role'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import * as _ from 'lodash'
-import { get } from 'lodash'
 import React from 'react'
 import { connectAutoDispatch } from 'redux/connect'
 import Breadcrumb from './breadcrumb'
@@ -41,7 +41,6 @@ export const DEVICE = {
 const TABS = ['list', 'detail']
 
 @protectRole(ROLE.LANGUAGES.VIEW)
-@Form.create()
 @connectAutoDispatch(state => ({
   language: _.get(state, 'language.locale'),
   dataInitial: _.get(state, 'language.dataInitial'),
@@ -92,11 +91,10 @@ class ConfigLanguagePage extends React.Component {
     return data
   }
 
-  getData = async () => {
-    const { form } = this.props
-    const value = form.getFieldsValue()
+  handleOnSearch = async value => {
     this.setState({
       isLoading: true,
+      isExpandAllRows: Boolean(value.pattern),
     })
     let res = await languageApi.getListLanguageAll(value)
     let { success, data } = res
@@ -114,29 +112,11 @@ class ConfigLanguagePage extends React.Component {
     })
   }
 
-  handleOnSearch = async () => {
-    const { form } = this.props
-    const value = form.getFieldsValue()
+  setData = (newDataSourceOrigin, newDataSource) => {
     this.setState({
-      // isLoading: true,
-      isExpandAllRows: Boolean(get(value, 'pattern')),
+      dataSource: newDataSource,
+      dataSourceOriginal: newDataSourceOrigin,
     })
-    await this.getData()
-
-    // let res = await languageApi.getListLanguageAll(value)
-    // let { success, data } = res
-
-    // if (success) {
-    //   this.setState({
-    //     dataSource: data,
-    //     device: value.device,
-    //     pattern: value.pattern,
-    //   })
-    // }
-
-    // this.setState({
-    //   isLoading: false,
-    // })
   }
 
   render() {
@@ -148,14 +128,12 @@ class ConfigLanguagePage extends React.Component {
       device,
       pattern,
     } = this.state
-    const { form } = this.props
     return (
       <PageContainer
         center={
           <HeaderSearchWrapper>
             {this.state.tabKey === TABS[1] && (
               <DataSearchForm
-                form={form}
                 listLanguage={this.props.listLanguage}
                 language={this.props.language}
                 onSubmit={this.handleOnSearch}
@@ -182,7 +160,7 @@ class ConfigLanguagePage extends React.Component {
             </TabPane>
             <TabPane tab={i18n().tab2} key={TABS[1]}>
               <TableTranslate
-                getData={this.getData}
+                setData={this.setData}
                 isExpandAllRows={isExpandAllRows}
                 loading={isLoading}
                 dataSource={dataSource}
