@@ -24,7 +24,7 @@ const TableTranslate = ({
   dataSourceOriginal,
   device,
   pattern,
-  getData = () => {},
+  setData,
   ...props
 }) => {
   if (loading) return <Skeleton />
@@ -37,18 +37,19 @@ const TableTranslate = ({
     )
 
   const handleSave = async ({ value, path, locale, device }) => {
-    const dataDeviceLocale = get(dataSourceOriginal, [device, locale])
-    set(dataDeviceLocale, path, value)
+    set(dataSourceOriginal, `${device}.${locale}.${path}`, value)
+    set(dataSource, `${device}.${locale}.${path}`, value)
+
+    setData(dataSourceOriginal, dataSource)
 
     const res = await languageApi.updateLanguage(
       locale,
-      dataDeviceLocale,
+      get(dataSourceOriginal, [device, locale]),
       device
     )
 
     if (res && res.success) {
       message.success(i18n().success)
-      await getData()
       return
     }
 
