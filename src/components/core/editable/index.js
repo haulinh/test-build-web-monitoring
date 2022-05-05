@@ -17,6 +17,7 @@ export default class Editable extends React.Component {
   }
 
   ref = React.createRef()
+  refInput = React.createRef()
 
   toggleEdit = () => {
     this.setState(prevState => ({ isEditing: !prevState.isEditing }))
@@ -24,14 +25,24 @@ export default class Editable extends React.Component {
 
   handleOnOk = async () => {
     const { onOk } = this.props
-    await onOk()
     this.toggleEdit()
+    await onOk()
   }
 
   handleOnCancel = async () => {
     const { onCancel } = this.props
     onCancel()
     this.toggleEdit()
+  }
+
+  // Event handler while pressing any key while editing
+  handleKeyDown = (event, type) => {
+    const { key } = event
+    if (key === 'Enter') {
+      event.target.blur()
+      this.handleOnOk()
+      return
+    }
   }
 
   render() {
@@ -41,7 +52,7 @@ export default class Editable extends React.Component {
     return (
       <div ref={this.ref} {...props}>
         {isEditing ? (
-          <div>
+          <div onKeyDown={e => this.handleKeyDown(e)}>
             <React.Fragment>
               {children}
               <Flex justifyContent="end">

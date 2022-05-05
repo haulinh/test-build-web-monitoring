@@ -119,7 +119,10 @@ const TableTranslate = ({
               valuePropName: 'defaultValue',
             }
 
-            const valueSave = form.getFieldValue(fieldNamePath) || value
+            const valueSave = (
+              form.getFieldValue(fieldNamePath) || value
+            ).trim()
+
             return (
               <React.Fragment>
                 <Editable

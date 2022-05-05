@@ -345,8 +345,6 @@ export default class ChartRowToChart extends React.Component {
     maxLimit = _.get(this.state.current, '0.maxLimit', null)
     minLimit = _.get(this.state.current, '0.minLimit', null)
 
-    console.log({ maxLimit, minLimit })
-
     const measureName = translateContent({
       type: 'Measure',
       itemKey: _.get(this.state.current, '0.key', ''),
