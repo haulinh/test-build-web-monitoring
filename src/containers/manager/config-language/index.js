@@ -1,5 +1,4 @@
-import { message, Skeleton, Tabs, Form } from 'antd'
-import { T } from 'antd/lib/upload/utils'
+import { message, Skeleton, Tabs } from 'antd'
 import languageApi from 'api/languageApi'
 import HeaderSearchWrapper from 'components/elements/header-search-wrapper'
 import ROLE from 'constants/role'
