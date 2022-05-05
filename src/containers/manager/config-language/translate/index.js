@@ -86,18 +86,21 @@ const TableTranslate = ({
     )
 
   const handleSave = async ({ value, path, locale, device }) => {
-    const dataSourceUpdate = set(get(dataSource, [device, locale]), path, value)
+    const dataDeviceLocale = get(dataSource, [device, locale])
+    set(dataDeviceLocale, path, value)
 
     const res = await languageApi.updateLanguage(
       locale,
-      dataSourceUpdate,
+      dataDeviceLocale,
       device
     )
+
     if (res && res.success) {
       message.success(i18n().success)
-    } else {
-      message.error(i18n().error)
+      return
     }
+
+    message.error(i18n().error)
   }
 
   const dataOptions = Object.entries(dataSource)
@@ -182,7 +185,7 @@ const TableTranslate = ({
                     onOk={() =>
                       handleSave({
                         value: valueSave,
-                        path: fieldNamePath,
+                        path: record.key,
                         locale: languageConfigItemKey,
                         device: record.keyDevice,
                       })

@@ -61,57 +61,6 @@ const configChart = (dataSeries, dataXs, title, minLimit, maxLimit) => {
   if (dataSeries.length === 0 || dataSeries[0].data.length === 0) {
     return {}
   }
-  let minLimitValue = null
-  let maxLimitValue = null
-
-  const isMinLimit = typeof minLimit === 'number'
-  const isMaxLimit = typeof maxLimit === 'number'
-  // console.log(minLimit, maxLimit, 'input limit')
-  // console.log(dataSeries[0].data, isMinLimit, isMaxLimit, 'ABC')
-
-  // console.log(dataSeries[0], 'dataSeries[0].data[0].y')
-  // lay so nho nhất
-  const tempMin = _.reduce(
-    dataSeries[0].data,
-    (tempMin, item) => {
-      return item.y < tempMin ? item.y : tempMin
-    },
-    dataSeries[0].data[0].y
-  )
-
-  //lấy số lơn nhất
-  const tempMax = _.reduce(
-    dataSeries[0].data,
-    (tempMax, item) => {
-      return item.y > tempMax ? item.y : tempMax
-    },
-    dataSeries[0].data[0].y
-  )
-
-  const plusMax = 10
-  // console.log(tempMin, tempMax, 'tempMin, tempMax')
-  if (isMinLimit && isMaxLimit) {
-    if (tempMin < minLimit) {
-      minLimitValue = tempMin
-      maxLimitValue = maxLimit
-    }
-    if (tempMax > maxLimit) {
-      maxLimitValue = tempMax
-    }
-  } else if (isMinLimit && isMaxLimit === false) {
-    if (tempMax > minLimit) {
-      maxLimitValue = tempMax + plusMax // cong them
-    } else if (tempMin < minLimit) {
-      maxLimitValue = minLimit + plusMax // cong them
-    }
-  } else if (isMinLimit === false && isMaxLimit) {
-    if (tempMax > maxLimit) {
-      maxLimitValue = tempMax
-    }
-  } else {
-    minLimitValue = null
-    maxLimitValue = null
-  }
 
   return {
     chart: {

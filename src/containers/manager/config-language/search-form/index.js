@@ -53,13 +53,13 @@ class DataSearchForm extends React.Component {
     return (
       <Form style={{ marginTop: '8px' }} onSubmit={this.onSubmit}>
         <Row gutter={8}>
-          <Col span={12}>
+          <Col span={8}>
             {getFieldDecorator(FIELDS.PATTERN)(
-              <Input placeholder={i18n().search} style={{ width: '80%' }} />
+              <Input placeholder={i18n().search} style={{ width: '100%' }} />
             )}
           </Col>
 
-          <Col span={10}>
+          <Col span={8}>
             {getFieldDecorator(FIELDS.DEVICE)(
               <Select placeholder={i18n().devicePlaceholder}>
                 <Option value="">{i18n().all}</Option>
