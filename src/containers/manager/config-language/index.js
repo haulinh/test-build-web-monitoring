@@ -54,6 +54,7 @@ class ConfigLanguagePage extends React.Component {
     isExpandAllRows: false,
     device: '',
     pattern: '',
+    dataSourceOriginal: {},
   }
 
   componentDidMount = async () => {
@@ -63,6 +64,7 @@ class ConfigLanguagePage extends React.Component {
     if (success) {
       this.setState({
         dataSource: data,
+        dataSourceOriginal: data,
       })
     }
     this.setState({ isLoading: false })
@@ -112,6 +114,7 @@ class ConfigLanguagePage extends React.Component {
   render() {
     const {
       dataSource,
+      dataSourceOriginal,
       isLoading,
       isExpandAllRows,
       device,
@@ -152,6 +155,7 @@ class ConfigLanguagePage extends React.Component {
                 isExpandAllRows={isExpandAllRows}
                 loading={isLoading}
                 dataSource={dataSource}
+                dataSourceOriginal={dataSourceOriginal}
                 device={device}
                 pattern={pattern}
               />
