@@ -187,10 +187,10 @@ export default class SearchFormHistoryData extends React.Component {
     if (success) onSearch()
   }
 
-  setFieldValueMeasuringOption = () => {
+  setFieldValueMeasuringOption = stationAutoValue => {
     const { form } = this.props
 
-    const measuringOptionsKey = this.getMeasureKeys()
+    const measuringOptionsKey = this.getMeasureKeys(stationAutoValue)
     form.setFieldsValue({
       [fields.measuringList]: measuringOptionsKey,
     })
