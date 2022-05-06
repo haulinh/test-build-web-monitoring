@@ -1,77 +1,41 @@
-import { Col, Dropdown, Icon, InputNumber, Row, Switch, Tooltip } from 'antd'
+import {
+  Button,
+  Col,
+  Dropdown,
+  Form,
+  Icon,
+  InputNumber,
+  Row,
+  Switch,
+  Tooltip,
+} from 'antd'
 import { default as BoxShadowStyle } from 'components/elements/box-shadow'
-import SelectDatePicker from 'components/elements/datetime-picker'
 import Heading from 'components/elements/heading'
-import createValidateComponent from 'components/elements/redux-form-validate'
 import SelectAnt from 'components/elements/select-ant'
 import SelectProvince from 'components/elements/select-province'
 import SelectQCVN from 'components/elements/select-qcvn'
 import SelectStationType from 'components/elements/select-station-type'
+import { FormItem } from 'components/layouts/styles'
 import { dataStatusOptions } from 'constants/dataStatus'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date'
+import SelectMeasureParameter from 'containers/data-analytics/filter/select-measure-parameter'
+import SelectStationAuto from 'containers/data-analytics/filter/select-station-auto'
 import { autobind } from 'core-decorators'
 import createLang, { translate } from 'hoc/create-lang'
 import update from 'immutability-helper'
 import * as _ from 'lodash'
+import { get } from 'lodash'
 import moment from 'moment-timezone'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { connect } from 'react-redux'
-import { clearFields, Field, reduxForm, unregisterField } from 'redux-form'
 import styled from 'styled-components'
 import { getTimes } from 'utils/datetime'
 import OptionsTimeRange from '../../common/options-time-range'
-// import SelectStationAuto from '../../common/select-station-auto'
 import SelectTimeRange from '../../common/select-time-range'
-import { listFilter } from '../constants'
+import { FIELDS, listFilter } from '../constants'
 import FilterList from '../filter'
-import validate from '../utils/validate'
 import { ToolTip } from './../../common/tooltip'
-
-const FSelectProvince = createValidateComponent(SelectProvince)
-const FSelectQCVN = createValidateComponent(SelectQCVN)
-const FInputNumber = createValidateComponent(InputNumber)
-const FSelectStationType = createValidateComponent(SelectStationType)
-// const FSelectStationAuto = createValidateComponent(SelectStationAuto)
-const FSelectTimeRange = createValidateComponent(SelectTimeRange)
-const FSelectAnt = createValidateComponent(SelectAnt)
-const FOptionsTimeRange = createValidateComponent(OptionsTimeRange)
-const FOptionsDatePicker = createValidateComponent(SelectDatePicker)
-const FSwitchFilter = createValidateComponent(Switch)
-
-const initializeValue = (props, callback) => {
-  const initialValues = props.initialValues
-    ? {
-        stationType: 'ALL',
-        provinceKey: '',
-        ...props.initialValues,
-        rangesDate:
-          Number(props.initialValues.rangesDate) ||
-          props.initialValues.rangesDate ||
-          1,
-        type:
-          Number(props.initialValues.type) || props.initialValues.type || 15,
-        fromDate: props.initialValues.fromDate
-          ? props.initialValues.fromDate
-          : moment()
-              .subtract(props.initialValues.rangesDate || 1, 'days')
-              .toISOString(),
-        toDate: props.initialValues.toDate
-          ? props.initialValues.toDate
-          : moment().toISOString(),
-      }
-    : {
-        stationType: '',
-        provinceKey: '',
-        rangesDate: 1,
-        type: 15,
-        fromDate: moment()
-          .subtract(1, 'days')
-          .toISOString(),
-        toDate: moment().toISOString(),
-      }
-  callback(initialValues)
-}
 
 const HeaderWrapper = styled.div`
   color: blue;
@@ -113,24 +77,13 @@ const Container = styled.div`
 `
 
 const options = {
-  typeSampling: [
-    { name: 'FTP', value: 'FTP' },
-    { name: 'INVENTIA', value: 'INVENTIA' },
-  ],
   dataStatus: dataStatusOptions.map(option => ({
     ...option,
     name: translate(option.label),
   })),
 }
 
-// rangeView
-@reduxForm({
-  form: 'dataSearchFilterForm',
-  validate,
-  enableReinitialize: true,
-  keepDirtyOnReinitialize: true,
-  updateUnregisteredFields: true,
-})
+@Form.create()
 @connect(state => ({
   values: _.get(state, 'form.dataSearchFilterForm.values', {}),
 }))
@@ -150,9 +103,10 @@ export default class SearchAvgForm extends React.Component {
     initialValues: {},
   }
 
+  stationAutos = new Map()
+
   constructor(props) {
     super(props)
-    initializeValue(props, props.initialize)
     const { fromDate, toDate } = props.values
     let rangesView = null
 
@@ -167,28 +121,28 @@ export default class SearchAvgForm extends React.Component {
         filter => props.initialValues[filter.key]
       ),
       isFilter: false,
+      measuringList: [],
     }
   }
 
   async componentDidMount() {
-    // console.log("componentDidMount -> search form")
+    const {
+      searchNow,
+      initialValues,
+      onSearchStationAuto,
+      handleSubmit,
+    } = this.props
 
-    if (this.props.searchNow) {
-      // console.log("Start search")
-      const searchStationData = this.getSearchStationData(
-        this.props.initialValues
-      )
-      await this.props.onSearchStationAuto(searchStationData)
-      this.props.handleSubmit(this.handleSubmit)()
+    if (searchNow) {
+      const searchStationData = this.getSearchStationData(initialValues)
+      await onSearchStationAuto(searchStationData)
+      handleSubmit(this.handleSubmit)()
     }
   }
   getSearchStationData = newProps => {
-    // console.log(JSON.stringify(newProps, null, 2))
-    // console.log("getSearchStationDatagetSearchStationData")
     return {
       stationType: newProps.stationType,
       provinceKey: newProps.provinceKey,
-      // dataStatus: newProps.dataStatus,
       standardKey: newProps.standardKey,
       frequent: newProps.frequent,
       activatedAt: newProps.activatedAt,
@@ -198,12 +152,10 @@ export default class SearchAvgForm extends React.Component {
   }
 
   async componentWillReceiveProps(nextProps) {
-    // console.log(JSON.stringify(nextProps, null, 2))
     if (
       !_.isEqual(nextProps.initialValues, this.props.initialValues) ||
       !_.isEqual(nextProps.flagResetForm, this.props.flagResetForm)
     ) {
-      initializeValue(nextProps, this.props.initialize)
       // Change time
       const { fromDate, toDate } = nextProps.values
       let rangesView = null
@@ -252,9 +204,6 @@ export default class SearchAvgForm extends React.Component {
   handleChangeRanges = ranges => {
     const { change } = this.props
 
-    // trong khoang
-
-    // cac truong hop khac
     const { from, to } = getTimes(ranges)
     change('fromDate', from.toISOString())
     change('toDate', to.toISOString())
@@ -266,37 +215,24 @@ export default class SearchAvgForm extends React.Component {
   }
 
   handleChangeFilter = filter => {
-    const { dispatch, form, change } = this.props
-    const index = this.state.filterList.findIndex(
-      item => item.key === filter.key
-    )
+    const { filterList } = this.state
+    console.log(filter)
+    const index = filterList.findIndex(item => item.key === filter.key)
     if (index < 0) {
-      this.setState(
-        prevState =>
-          update(prevState, {
-            filterList: {
-              $push: [filter],
-            },
-          }),
-        () => {
-          if (filter.default) {
-            change(filter.key, filter.default)
-          }
-        }
+      this.setState(prevState =>
+        update(prevState, {
+          filterList: {
+            $push: [filter],
+          },
+        })
       )
     } else {
-      this.setState(
-        prevState =>
-          update(prevState, {
-            filterList: {
-              $splice: [[index, 1]],
-            },
-          }),
-        () => {
-          change(filter.key, null)
-          dispatch(unregisterField(form, filter.key))
-          dispatch(clearFields(form, false, false, filter.key))
-        }
+      this.setState(prevState =>
+        update(prevState, {
+          filterList: {
+            $splice: [[index, 1]],
+          },
+        })
       )
     }
   }
@@ -309,84 +245,130 @@ export default class SearchAvgForm extends React.Component {
     this.props.array.remove('advanced', index)
   }
 
-  getComponent = key => {
-    switch (key) {
-      // case 'stationStatus':
-      //   return FSelectAnt
-      case 'dataStatus':
-      case 'typeSampling':
-        return FSelectAnt
-      case 'frequent':
-        return FInputNumber
-      case 'standardKey':
-        return FSelectQCVN
-      case 'activatedAt':
-        return FOptionsDatePicker
-      default:
-        return FInputNumber
-    }
-  }
-
-  getMeasuringList = () => {
-    const stations = this.props.stations.filter(station =>
-      this.props.stationKeys.includes(station.key)
-    )
-    const measuringList = stations.reduce((arr, station) => {
-      if (station.measuringList) {
-        arr = [...arr, ...station.measuringList]
-      }
-      return arr
-    }, [])
-
-    // let measuringListKey = measuringList.map(measuring => measuring.key)
-
-    // const measuringListKeyUnit = [...new Set(measuringListKey)]
-    const measuringListDuplicate = Object.values(
-      measuringList.reduce((acc, measuring) => {
-        let key = measuring.key
-        acc[key] = acc[key] || []
-        acc[key].push(measuring)
-        return acc
-      }, {})
-    ).reduce((acc, measuringByKey, index, array) => {
-      // if (measuringByKey.length === stations.length) {
-      acc = [...acc, measuringByKey[0]]
-      // }
-      return acc
-    }, [])
-    return measuringListDuplicate.map(measuring => ({
-      value: measuring.key,
-      name: measuring.name,
-    }))
-  }
+  getMeasuringList = stationAutoKeys =>
+    (stationAutoKeys || []).reduce((map, key) => {
+      const stationAuto = this.stationAutos.get(key) || {}
+      const measuringList = stationAuto.measuringList || []
+      measuringList.forEach(measure => map.set(measure.key, measure))
+      return map
+    }, new Map())
 
   handleRemoveField = filterKey => () => {
-    const { dispatch, form, change } = this.props
     if (this.filterListRef) {
       this.filterListRef.handleOnChange(filterKey)()
     } else {
-      this.setState(
-        prevState =>
-          update(prevState, {
-            filterList: {
-              $apply: oldData =>
-                oldData.filter(filter => filter.key !== filterKey),
-            },
-          }),
-        () => {
-          change(filterKey, null)
-          dispatch(unregisterField(form, filterKey))
-          dispatch(clearFields(form, false, false, filterKey))
-        }
+      this.setState(prevState =>
+        update(prevState, {
+          filterList: {
+            $apply: oldData =>
+              oldData.filter(filter => filter.key !== filterKey),
+          },
+        })
       )
     }
   }
 
+  onFetchStationTypeSuccess = stationTypes => {
+    const { form } = this.props
+    this.stationTypes = stationTypes
+    const stationType = get(stationTypes, '0.key')
+    form.setFieldsValue({ [FIELDS.STATION_TYPE]: stationType })
+  }
+
+  onFetchStationAutoSuccess = stationAutos => {
+    const { form } = this.props
+    this.setStationAutos(stationAutos)
+
+    const stationType = form.getFieldValue(FIELDS.STATION_TYPE)
+    const province = form.getFieldValue(FIELDS.PROVINCE)
+    const stationAutoKeys = this.getStationAutoKeys({ stationType, province })
+
+    this.updateForm({ stationAutoKeys })
+  }
+
+  setStationAutos = stationAutos =>
+    stationAutos.map(item => this.stationAutos.set(item.key, item))
+
+  getStationAutoKeys = ({ province, stationType }) => {
+    return [...this.stationAutos]
+      .filter(item => get(item, `1.stationType.key`) === stationType)
+      .filter(item => !province || get(item, `1.province.key`) === province)
+      .map(item => get(item, '1.key'))
+  }
+
+  updateForm = ({ stationAutoKeys }) => {
+    const { form } = this.props
+
+    const measuringList = this.getMeasuringList(stationAutoKeys)
+    const getMap = (map, order) => [...map].map(item => item[order])
+
+    this.setState({ measuringList: getMap(measuringList, 1) })
+
+    form.setFieldsValue({
+      [FIELDS.STATION_AUTO]: stationAutoKeys,
+      [FIELDS.MEASURING_LIST]: getMap(measuringList, 0),
+    })
+  }
+
+  getComponent = (key, mode) => {
+    switch (key) {
+      case 'dataStatus':
+        return (
+          <SelectAnt
+            options={options.dataStatus}
+            style={{ width: '100%' }}
+            mode={mode}
+            maxTagTextLength={window.innerWidth > 1600 ? 20 : 5}
+            placeholder="Chọn tình trạng dữ liệu"
+          />
+        )
+      case 'frequent':
+        return (
+          <InputNumber
+            style={{ width: '100%' }}
+            placeholder="Nhập tần suất (phút/lần)"
+          />
+        )
+      case 'standardKey':
+        return <SelectQCVN placeholder="Chọn quy chuẩn" />
+      default:
+        return <InputNumber />
+    }
+  }
+
+  getFilterInitialValue = key => {
+    if (key === 'dataStatus')
+      return dataStatusOptions.map(option => option.value)
+    return
+  }
+
   render() {
     const t = this.props.lang.createNameSpace('dataSearchFilterForm.form')
+    const { form } = this.props
+    const { measuringList, filterList } = this.state
+
+    const values = form.getFieldsValue([
+      FIELDS.STATION_AUTO,
+      FIELDS.MEASURING_LIST,
+    ])
+
+    const numberStation = (values[FIELDS.STATION_AUTO] || []).length
+    const numberMeasure = (values[FIELDS.MEASURING_LIST] || []).length
+
     return (
       <SearchFormContainer>
         <Heading
+          rightChildren={
+            <Button
+              type="primary"
+              icon="search"
+              size="small"
+              // onClick={this.handleSearch}
+              // loading={isLoadingData}
+            >
+              {'Tìm kiếm'}
+            </Button>
+          }
           textColor="#ffffff"
           isBackground
           fontSize={14}
@@ -395,69 +377,77 @@ export default class SearchAvgForm extends React.Component {
           {this.props.lang.t('addon.searchSelect')}
         </Heading>
         <Container>
-          <Row type="flex" gutter={[16, 24]}>
-            <Col span={4}>
-              <Field
-                label={t(`province.label`)}
-                name="provinceKey"
-                size="large"
-                showSearch
-                isShowAll
-                placeholder={t('province.placeholder')}
-                component={FSelectProvince}
-                // onHandleChange={this.handleProvinceChange}
-              />
+          <Row gutter={20}>
+            <Col md={6} lg={6} sm={12}>
+              <FormItem label={t(`province.label`)}>
+                {form.getFieldDecorator(FIELDS.PROVINCE, {
+                  initialValue: '',
+                })(<SelectProvince isShowAll />)}
+              </FormItem>
             </Col>
-            <Col span={4}>
-              <Field
-                showSearch
-                isShowAll
-                label={t('stationType.label')}
-                name="stationType"
-                size="large"
-                placeholder={t('stationType.placeholder')}
-                component={FSelectStationType}
-                getRef={ref => {
-                  this.StationType = ref
-                }}
-              />
+            <Col md={6} lg={6} sm={12}>
+              <FormItem label={t('stationType.label')}>
+                {form.getFieldDecorator(
+                  FIELDS.STATION_TYPE,
+                  {}
+                )(
+                  <SelectStationType
+                    onFetchSuccess={this.onFetchStationTypeSuccess}
+                  />
+                )}
+              </FormItem>
             </Col>
 
-            <Col span={10}>
-              <Field
-                label={t('time')}
-                name="rangesDate"
-                size="large"
-                onChangeObject={this.handleChangeRanges}
-                component={FOptionsTimeRange}
-                now={this.props.now}
-                rangesView={this.state.rangesView}
-                setNow={this.props.setNow}
-              />
+            <Col md={8} lg={8} sm={12}>
+              <FormItem label={t(`time`)}>
+                {form.getFieldDecorator(FIELDS.RANGE_TIME, {
+                  initialValue: 1,
+                })(<OptionsTimeRange style={{ width: '100%' }} />)}
+              </FormItem>
             </Col>
-            <Col span={5}>
-              <Field
-                label={t('type.label')}
-                name="type"
-                size="large"
-                component={FSelectTimeRange}
-              />
+            <Col md={4} lg={4} sm={12}>
+              <FormItem label={t('type.label')}>
+                {form.getFieldDecorator(FIELDS.TYPE, { initialValue: 15 })(
+                  <SelectTimeRange style={{ width: '100%' }} />
+                )}
+              </FormItem>
             </Col>
-            {this.state.filterList.map(filter => (
-              <Col span={6} key={filter.key}>
-                <Flex>
-                  <Field
-                    label={t(`${filter.key}.label`)}
-                    name={filter.key}
-                    size="large"
-                    showSearch
-                    style={{ width: '100%' }}
-                    // alowClear
-                    mode={filter.mode}
-                    options={options[filter.key]}
-                    placeholder={t(`${filter.key}.placeholder`)}
-                    component={this.getComponent(filter.key)}
+          </Row>
+          <Row gutter={20}>
+            <Col>
+              <FormItem label={`Trạm quan trắc (${numberStation} trạm)`}>
+                {form.getFieldDecorator(
+                  FIELDS.STATION_AUTO,
+                  {}
+                )(
+                  <SelectStationAuto
+                    stationType={form.getFieldValue(FIELDS.STATION_TYPE)}
+                    province={form.getFieldValue(FIELDS.PROVINCE)}
+                    onFetchSuccess={this.onFetchStationAutoSuccess}
                   />
+                )}
+              </FormItem>
+            </Col>
+            <Col>
+              <FormItem
+                label={`Các thông số quan trắc (${numberMeasure} thông số)`}
+              >
+                {form.getFieldDecorator(
+                  FIELDS.MEASURING_LIST,
+                  {}
+                )(<SelectMeasureParameter options={measuringList} />)}
+              </FormItem>
+            </Col>
+          </Row>
+          <Row gutter={20}>
+            {filterList.map(filter => (
+              <Col span={8}>
+                <Flex>
+                  <FormItem label={t(`${filter.key}.label`)}>
+                    {form.getFieldDecorator(filter.key, {
+                      initialValue: this.getFilterInitialValue(filter.key),
+                    })(this.getComponent(filter.key, filter.mode))}
+                  </FormItem>
                   <Icon
                     onClick={this.handleRemoveField(filter.key)}
                     className="remove-field"
@@ -467,43 +457,47 @@ export default class SearchAvgForm extends React.Component {
                 </Flex>
               </Col>
             ))}
-            <Col span={6} style={{ alignSelf: 'center' }}>
-              <HeaderWrapper
-                top={this.state.filterList.length % 4 === 0 ? 0 : 28}
-              >
-                <Tooltip
-                  placement="top"
-                  title={translate('dataSearchFilterForm.tooltip.addCondition')}
+            {filterList.length < 3 && (
+              <Col span={6} style={{ alignSelf: 'center' }}>
+                <HeaderWrapper
+                  top={this.state.filterList.length % 4 === 0 ? 0 : 28}
                 >
-                  <Dropdown
-                    trigger={['click']}
-                    ref={ref => (this.a = ref)}
-                    overlay={
-                      <FilterList
-                        listFilter={this.state.filterList}
-                        ref={ref => (this.filterListRef = ref)}
-                        onChange={this.handleChangeFilter}
-                      />
-                    }
+                  <Tooltip
+                    placement="top"
+                    title={translate(
+                      'dataSearchFilterForm.tooltip.addCondition'
+                    )}
                   >
-                    <a
-                      className="ant-dropdown-link"
-                      onClick={e => e.preventDefault()}
+                    <Dropdown
+                      trigger={['click']}
+                      ref={ref => (this.a = ref)}
+                      overlay={
+                        <FilterList
+                          listFilter={this.state.filterList}
+                          ref={ref => (this.filterListRef = ref)}
+                          onChange={this.handleChangeFilter}
+                        />
+                      }
                     >
-                      <Icon type="plus" />{' '}
-                      {this.props.lang.t('addon.addCondition')}
-                    </a>
-                  </Dropdown>
-                </Tooltip>
-              </HeaderWrapper>
-            </Col>
+                      <a
+                        className="ant-dropdown-link"
+                        onClick={e => e.preventDefault()}
+                      >
+                        <Icon type="plus" />{' '}
+                        {this.props.lang.t('addon.addCondition')}
+                      </a>
+                    </Dropdown>
+                  </Tooltip>
+                </HeaderWrapper>
+              </Col>
+            )}
           </Row>
           <Row type="flex" justify="end">
             <Col>
               <div
                 style={{
                   display: 'flex',
-                  width: '170px',
+                  width: '205px',
                   justifyContent: 'space-between',
                   alignItems: 'center',
                 }}
@@ -512,22 +506,15 @@ export default class SearchAvgForm extends React.Component {
                 <div style={{ fontSize: '14px', fontWeight: '600' }}>
                   {translate('dataSearchFrom.processData')}
                 </div>
-                <Field name="isFilter" size="large" component={FSwitchFilter} />
+                <FormItem>
+                  {form.getFieldDecorator(
+                    'isFilter',
+                    {}
+                  )(<Switch style={{ marginTop: '18px' }} />)}
+                </FormItem>
               </div>
             </Col>
           </Row>
-
-          {/* {measuringList.length ? (
-            <React.Fragment>
-              <Clearfix height={40} />
-              <AdvancedOperator
-                onReset={this.handleResetAdvanced}
-                onRemoveItem={this.handleRemoveItemAdvanced}
-                measuringList={measuringList}
-                value={this.props.values.advanced}
-              />
-            </React.Fragment>
-          ) : null} */}
         </Container>
       </SearchFormContainer>
     )

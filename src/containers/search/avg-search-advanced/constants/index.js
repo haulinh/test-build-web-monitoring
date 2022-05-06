@@ -39,3 +39,12 @@ export function listFilter() {
     // },
   ]
 }
+
+export const FIELDS = {
+  PROVINCE: 'provinceKey',
+  STATION_TYPE: 'stationType',
+  RANGE_TIME: 'rangeTime',
+  TYPE: 'type',
+  STATION_AUTO: 'stationAuto',
+  MEASURING_LIST: 'measuringList',
+}

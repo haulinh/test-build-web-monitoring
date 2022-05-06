@@ -23,6 +23,7 @@ import {
 import styled from 'styled-components'
 import { replaceVietnameseStr } from 'utils/string'
 import Breadcrumb from './breadcrumb'
+import Data from './data'
 import FormFilter from './form/ModalForm'
 import SearchFrom from './form/SearchForm'
 import StationForm from './form/StationForm'
@@ -519,7 +520,7 @@ export default class AvgSearchAdvanced extends React.Component {
               setNow={this.setNow}
             />
             <Clearfix height={16} />
-            <Spin
+            {/* <Spin
               size="large"
               tip="Searching..."
               spinning={this.state.isSearchingStation}
@@ -531,9 +532,10 @@ export default class AvgSearchAdvanced extends React.Component {
                 stationKeys={this.state.stationKeys}
                 formData={this.props.formData}
               />
-            </Spin>
+            </Spin> */}
             <Clearfix height={40} />
-            <Row type="flex" align="middle">
+            <Data />
+            {/* <Row type="flex" align="middle">
               <Col
                 span={3}
                 style={{
@@ -553,7 +555,7 @@ export default class AvgSearchAdvanced extends React.Component {
                   onChange={this.onChangeQcvn}
                 />
               </Col>
-            </Row>
+            </Row> */}
             <Clearfix height={40} />
             {this.state.isSearchingData && this.state.stationsData.length && (
               <StationList
