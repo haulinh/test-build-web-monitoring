@@ -16,7 +16,7 @@ const TabWrapper = styled.div`
     padding: 12px 0px 12px 0px;
   }
   .ant-tabs-extra-content {
-    width: 420-px;
+    width: 420px;
     height: 67px;
   }
 `
