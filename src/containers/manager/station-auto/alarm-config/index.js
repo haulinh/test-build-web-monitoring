@@ -3,8 +3,7 @@ import CalculateApi from 'api/CalculateApi'
 import QCVNApi from 'api/QCVNApi'
 import RoleApi from 'api/RoleApi'
 import UserApi from 'api/UserApi'
-import { Clearfix } from 'components/elements'
-import { HeaderSearch, Title } from 'components/layouts/styles'
+import { FormItem } from 'components/layouts/styles'
 import {
   ALARM_LIST_INIT,
   getHiddenParam,
@@ -13,28 +12,12 @@ import { translate } from 'hoc/create-lang'
 import { flatten, get, isEmpty, isNil, keyBy } from 'lodash'
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
-import styled from 'styled-components'
 import { v4 as uuidv4 } from 'uuid'
 import AlarmConfigDisconnect from './alarm-config-disconnect'
 import AlarmConfigExceed from './alarm-config-exceed'
 import { i18n } from './constants'
 
 const { Panel } = Collapse
-
-const PanelAnt = styled(Panel)`
-  .ant-collapse-header {
-    display: flex;
-    height: 46px;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .title {
-    font-size: 18px;
-    font-weight: 500;
-    margin-bottom: 12px;
-  }
-`
 
 export const FIELDS = {
   DISCONNECT: 'disconnect',
@@ -321,13 +304,8 @@ export default class AlarmConfig extends Component {
 
     return (
       <React.Fragment>
-        <HeaderSearch>
-          <Title>
-            {translate('stationAutoManager.configAlarm.tabConfigAlarm')}
-          </Title>
-        </HeaderSearch>
-        <Collapse defaultActiveKey={'1'}>
-          <PanelAnt header={translate('menuApp.alarm')} key="1">
+        <Collapse defaultActiveKey={['disconnect', 'exceed']}>
+          <Panel key="disconnect" header={i18n().alarmDisconnect}>
             <AlarmConfigDisconnect
               form={form}
               alarmList={alarmDisconnect}
@@ -336,9 +314,8 @@ export default class AlarmConfig extends Component {
               users={users}
               roles={roles}
             />
-
-            <Clearfix height={24} />
-
+          </Panel>
+          <Panel key="exceed" header={i18n().alarmExceed}>
             <AlarmConfigExceed
               qcvnList={qcvnList}
               form={form}
@@ -348,16 +325,17 @@ export default class AlarmConfig extends Component {
               users={users}
               roles={roles}
             />
-
-            <Button
-              style={{ width: '100%', marginTop: '10px' }}
-              type="primary"
-              onClick={this.handleSubmit}
-            >
-              {i18n().button.save}
-            </Button>
-          </PanelAnt>
+          </Panel>
         </Collapse>
+        <FormItem>
+          <Button
+            style={{ width: '100%', marginTop: '10px' }}
+            type="primary"
+            onClick={this.handleSubmit}
+          >
+            {i18n().button.save}
+          </Button>
+        </FormItem>
       </React.Fragment>
     )
   }
