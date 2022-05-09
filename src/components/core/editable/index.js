@@ -37,12 +37,12 @@ export default class Editable extends React.Component {
 
   // Event handler while pressing any key while editing
   handleKeyDown = (event, type) => {
-    const { key } = event
-    if (key === 'Enter') {
-      event.target.blur()
-      this.handleOnOk()
-      return
-    }
+    // const { key } = event
+    // if (key === 'Enter') {
+    //   event.target.blur()
+    //   this.handleOnOk()
+    //   return
+    // }
   }
 
   render() {
