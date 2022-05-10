@@ -1,8 +1,6 @@
-import { Button, Col, Dropdown, Menu, message, Row, Spin, Tooltip } from 'antd'
-import DataStationAutoApi from 'api/DataStationAutoApi'
+import { Button, Col, Dropdown, Menu, message, Row, Tooltip } from 'antd'
 import OrganizationApi from 'api/OrganizationApi'
 import Clearfix from 'components/elements/clearfix'
-import SelectQCVN from 'components/elements/select-qcvn-v2'
 import ROLE from 'constants/role'
 import slug from 'constants/slug'
 import { translate } from 'hoc/create-lang'
@@ -23,12 +21,10 @@ import {
 import styled from 'styled-components'
 import { replaceVietnameseStr } from 'utils/string'
 import Breadcrumb from './breadcrumb'
-import Data from './data'
+import DataSearch from './data'
 import FormFilter from './form/ModalForm'
-import SearchFrom from './form/SearchForm'
-import StationForm from './form/StationForm'
+import SearchForm from './form/SearchForm'
 import FilterListMenu from './menu'
-import StationList from './station-list'
 
 const Flex = styled.div`
   display: flex;
@@ -68,11 +64,10 @@ export default class AvgSearchAdvanced extends React.Component {
 
       isSearchingData: false,
       isSearchingStation: false,
+      searchFormData: {},
 
       filteredConfigFilter: [],
       configFilter: [],
-      standardsVN: [],
-      qcvns: [],
 
       stationKeys: props.stations.length
         ? props.stations.map(station => station.key)
@@ -81,12 +76,6 @@ export default class AvgSearchAdvanced extends React.Component {
         ? this.getStationsData(props.stations)
         : [],
     }
-  }
-
-  setNow = newNow => {
-    this.setState({
-      now: newNow,
-    })
   }
 
   componentDidMount() {
@@ -215,6 +204,10 @@ export default class AvgSearchAdvanced extends React.Component {
     this.props.deleteBreadcrumb({ id: 'detail' })
   }
 
+  handleOnChangeSearchField = () => {
+    this.setState({ isSearchingData: false })
+  }
+
   getStationsData = stations => {
     if (!stations.length) return []
     return stations.map((station, index) => ({
@@ -230,39 +223,11 @@ export default class AvgSearchAdvanced extends React.Component {
     }))
   }
 
-  handleChangeStationsData = stationsData => {
-    this.setState({ stationsData })
-  }
-
-  handleSearchAvgData = newNow => {
-    // console.log("Big component => handleSearchAvgData" + newNow.format('DD/MM/YYYY HH:mm:ss'))
-    if (!this.state.stationKeys.length) {
-      // message.warn(translate('avgSearchFrom.table.emptyText'))
-      return
-    }
-
-    this.setState(
-      {
-        now: newNow,
-      },
-
-      () => this.setState({ isSearchingData: true })
-    )
-  }
-
-  handleSearchStation = searchStationData => {
-    // console.log("Search station")
-    // console.log(JSON.stringify(searchStationData, null, 2))
-    return new Promise(resolve => {
-      this.setState({ isSearchingStation: true }, async () => {
-        const {
-          data: stationKeys,
-        } = await DataStationAutoApi.searchStationAuto(searchStationData)
-        if (stationKeys) {
-          this.setState({ stationKeys, isSearchingStation: false })
-          resolve(stationKeys)
-        }
-      })
+  handleChangeStationsData = (stationsData, searchFormData) => {
+    this.setState({
+      stationsData: this.getStationsData(stationsData),
+      isSearchingData: true,
+      searchFormData,
     })
   }
 
@@ -321,7 +286,6 @@ export default class AvgSearchAdvanced extends React.Component {
 
   rightChildren() {
     const isEdit = this.getIsEdit()
-    // const allowSave = this.getAllowSave()
     if (isEdit) {
       return (
         <Flex>
@@ -473,23 +437,20 @@ export default class AvgSearchAdvanced extends React.Component {
     if (data) message.success(translate('dataSearchFilterForm.update.success'))
   }
 
-  onChangeQcvn = (qcvnIds, list) => {
-    const qcvnSelected = qcvnIds.map(id => {
-      return {
-        ...list.find(l => l._id === id),
-      }
-    })
-
-    this.setState({
-      standardsVN: qcvnSelected.map(qcvn => qcvn.key),
-      qcvns: qcvnSelected,
-    })
-  }
-
   render() {
+    const {
+      filteredConfigFilter,
+      isSearchingData,
+      searchFormData,
+      visible,
+      confirmLoading,
+      stationsData,
+    } = this.state
+    const { formData, values, wrapperProps } = this.props
+
     return (
       <PageContainer
-        {...this.props.wrapperProps}
+        {...wrapperProps}
         backgroundColor="#fafbfb"
         right={this.rightChildren()}
       >
@@ -501,76 +462,31 @@ export default class AvgSearchAdvanced extends React.Component {
         >
           <FilterListMenu
             handleDeleteFilter={this.handleDeleteFilter}
-            configFilter={this.state.filteredConfigFilter}
+            configFilter={filteredConfigFilter}
             handleSearch={this.handleSearch}
-            filterId={this.props.formData.filterId}
+            filterId={formData.filterId}
           />
 
           <Col style={{ flex: 1, overflowX: 'hidden' }}>
-            <SearchFrom
-              flagResetForm={this.state.flagResetForm}
-              onSubmit={this.handleSearchAvgData}
-              onSearchStationAuto={this.handleSearchStation}
-              initialValues={this.props.formData}
-              searchNow={this.props.formData.searchNow}
-              // advanced operator
-              stationKeys={this.state.stationKeys}
-              stations={this.props.stations}
-              now={this.state.now}
-              setNow={this.setNow}
+            <SearchForm
+              onChangeStationData={this.handleChangeStationsData}
+              initialValues={formData}
+              onChangeField={this.handleOnChangeSearchField}
             />
             <Clearfix height={16} />
-            {/* <Spin
-              size="large"
-              tip="Searching..."
-              spinning={this.state.isSearchingStation}
-            >
-              <StationForm
-                onChangeStationsData={this.handleChangeStationsData}
-                onSearchAvgData={this.handleSearchAvgData}
-                stations={this.props.stations}
-                stationKeys={this.state.stationKeys}
-                formData={this.props.formData}
-              />
-            </Spin> */}
+            <DataSearch
+              stationsData={stationsData}
+              type={values.type}
+              isSearchingData={isSearchingData}
+              searchFormData={searchFormData}
+            />
             <Clearfix height={40} />
-            <Data />
-            {/* <Row type="flex" align="middle">
-              <Col
-                span={3}
-                style={{
-                  textAlign: 'left',
-                  paddingLeft: '16px',
-                  fontSize: '14px',
-                  fontWeight: 600,
-                }}
-              >
-                {translate('dataAnalytics.standardViews')}
-              </Col>
-              <Col span={20}>
-                <SelectQCVN
-                  mode="multiple"
-                  maxTagCount={3}
-                  maxTagTextLength={18}
-                  onChange={this.onChangeQcvn}
-                />
-              </Col>
-            </Row> */}
-            <Clearfix height={40} />
-            {this.state.isSearchingData && this.state.stationsData.length && (
-              <StationList
-                standardsVN={this.state.standardsVN}
-                stationsData={this.state.stationsData}
-                type={this.props.values.type}
-                qcvns={this.state.qcvns}
-              />
-            )}
           </Col>
         </Row>
         <FormFilter
           wrappedComponentRef={this.saveFormRef}
-          visible={this.state.visible}
-          confirmLoading={this.state.confirmLoading}
+          visible={visible}
+          confirmLoading={confirmLoading}
           onCancel={this.handleCancel}
           onCreate={this.handleCreateFilter}
         />
