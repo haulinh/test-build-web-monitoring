@@ -129,7 +129,13 @@ export default class SearchAvgForm extends React.Component {
   onFetchStationTypeSuccess = stationTypes => {
     const { form } = this.props
     const stationType = get(stationTypes, '0.key')
+    const province = form.getFieldValue(FIELDS.PROVINCE)
+
     form.setFieldsValue({ [FIELDS.STATION_TYPE]: stationType })
+
+    this.updateForm({
+      stationAutoKeys: this.getStationAutoKeys({ stationType, province }),
+    })
   }
 
   onFetchStationAutoSuccess = stationAutos => {
@@ -193,6 +199,7 @@ export default class SearchAvgForm extends React.Component {
             options={options.dataStatus}
             style={{ width: '100%' }}
             mode={mode}
+            maxTagCount={2}
             maxTagTextLength={window.innerWidth > 1600 ? 20 : 5}
             placeholder="Chọn tình trạng dữ liệu"
           />

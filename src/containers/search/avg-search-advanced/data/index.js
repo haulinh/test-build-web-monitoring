@@ -71,7 +71,6 @@ export default class Data extends Component {
   render() {
     const { tab1Style, tab2Style } = this.state
 
-    console.log(tab2Style)
     return (
       <TabWrapper>
         {/* <ButtonAbsolute>
