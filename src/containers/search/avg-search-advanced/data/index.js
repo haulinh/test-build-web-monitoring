@@ -3,8 +3,8 @@ import SelectQCVN from 'components/elements/select-qcvn-v2'
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { ToolTip } from '../component/ToolTip'
-import StationList from '../station-list'
-import OverviewData from './OverviewData'
+import StationList from './station'
+import OverviewData from './overview'
 
 const { TabPane } = Tabs
 const TabWrapper = styled.div`
