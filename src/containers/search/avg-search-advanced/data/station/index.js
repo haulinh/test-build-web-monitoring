@@ -11,10 +11,17 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 import { downFileExcel } from 'utils/downFile'
-import TabList from '../tab-list'
+import TabList from '../../tab-list'
 
 const TableListWrapper = styled(BoxShadow)`
   padding: 0px 16px 16px 16px;
+  .ant-tabs-ink-bar {
+    background-color: #1890ff !important;
+  }
+  .ant-tabs-nav .ant-tabs-tab {
+    margin: 6px;
+    padding: 12px 16px 12px 16px !important;
+  }
 `
 
 const TitleWrapper = styled.div`

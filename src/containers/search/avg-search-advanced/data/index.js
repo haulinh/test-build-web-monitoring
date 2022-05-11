@@ -1,9 +1,10 @@
-import { Button, Col, Row, Tabs, Tooltip } from 'antd'
-import SelectQCVN from 'components/elements/select-qcvn'
+import { Button, Col, Row, Tabs } from 'antd'
+import SelectQCVN from 'components/elements/select-qcvn-v2'
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { ToolTip } from '../component/ToolTip'
-import OverviewData from './OverviewData'
+import StationList from './station'
+import OverviewData from './overview'
 
 const { TabPane } = Tabs
 const TabWrapper = styled.div`
@@ -21,13 +22,7 @@ const TabWrapper = styled.div`
   }
 `
 
-const ButtonAbsolute = styled.div`
-  width: 300px;
-  position: absolute;
-  right: 16px;
-  z-index: 3;
-`
-export default class Data extends Component {
+export default class DataSearch extends Component {
   state = {
     tab1Style: {
       type: 'primary',
@@ -37,8 +32,10 @@ export default class Data extends Component {
       type: 'default',
       ghost: false,
     },
+    standardsVN: [],
+    qcvns: [],
   }
-  componentDidMount = () => {}
+
   handleChangeTab = key => {
     if (key === '2') {
       const tab1Style = {
@@ -68,25 +65,25 @@ export default class Data extends Component {
       tab2Style,
     })
   }
+
+  onChangeQcvn = (qcvnIds, qcvnList) => {
+    const qcvnSelected = qcvnIds.map(id => {
+      return {
+        ...qcvnList.find(qcvn => qcvn._id === id),
+      }
+    })
+
+    this.setState({
+      standardsVN: qcvnSelected.map(qcvn => qcvn.key),
+      qcvns: qcvnSelected,
+    })
+  }
   render() {
-    const { tab1Style, tab2Style } = this.state
+    const { tab1Style, tab2Style, standardsVN, qcvns } = this.state
+    const { stationsData, type, isSearchingData, searchFormData } = this.props
 
     return (
       <TabWrapper>
-        {/* <ButtonAbsolute>
-          <Row type="flex">
-            <Col>
-              <p>Quy chuẩn: </p>
-            </Col>
-            <Col span={18}>
-              <SelectQCVN
-                mode="multiple"
-                maxTagCount={3}
-                maxTagTextLength={18}
-              />
-            </Col>
-          </Row>
-        </ButtonAbsolute> */}
         <Tabs
           defaultActiveKey="1"
           animated={{ inkBar: false }}
@@ -112,6 +109,7 @@ export default class Data extends Component {
                   mode="multiple"
                   maxTagCount={1}
                   maxTagTextLength={18}
+                  onChange={this.onChangeQcvn}
                   placeholder="Lựa chọn quy chuẩn so sánh"
                 />
               </Col>
@@ -125,7 +123,17 @@ export default class Data extends Component {
                 Xem dữ liệu theo trạm
               </Button>
             }
-          ></TabPane>
+          >
+            {isSearchingData && stationsData.length && (
+              <StationList
+                standardsVN={standardsVN}
+                stationsData={stationsData}
+                type={type}
+                qcvns={qcvns}
+                searchFormData={searchFormData}
+              />
+            )}
+          </TabPane>
           <TabPane
             key="2"
             tab={

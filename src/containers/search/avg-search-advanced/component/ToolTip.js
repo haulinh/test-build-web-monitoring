@@ -1,9 +1,8 @@
+import ToolTipIcon from 'assets/svg-icons/TooltipSmall.svg'
+import { autobind } from 'core-decorators'
+import createLang from 'hoc/create-lang'
 import React from 'react'
 import styled from 'styled-components'
-import ToolTipIcon from 'assets/svg-icons/Tooltip.svg'
-import { translate } from 'hoc/create-lang'
-import createLang from 'hoc/create-lang'
-import { autobind } from 'core-decorators'
 
 const TootipContainer = styled.div`
   .tooltip {

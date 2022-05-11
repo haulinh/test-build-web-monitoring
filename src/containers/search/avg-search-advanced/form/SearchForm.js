@@ -22,8 +22,10 @@ import SelectMeasureParameter from 'containers/data-analytics/filter/select-meas
 import SelectStationAuto from 'containers/data-analytics/filter/select-station-auto'
 import createLang, { translate } from 'hoc/create-lang'
 import { get } from 'lodash'
+import moment from 'moment-timezone'
 import React from 'react'
 import styled from 'styled-components'
+import { getTimes } from 'utils/datetime'
 import SelectTimeRange from '../../common/select-time-range'
 import { FIELDS, listFilter } from '../constants'
 import FilterList from '../filter'
@@ -75,7 +77,12 @@ const options = {
   })),
 }
 
-@Form.create()
+@Form.create({
+  onFieldsChange: props => {
+    const { onChangeField } = props
+    onChangeField()
+  },
+})
 @createLang
 export default class SearchAvgForm extends React.Component {
   static defaultProps = {
@@ -91,7 +98,13 @@ export default class SearchAvgForm extends React.Component {
         filter => props.initialValues[filter.key]
       ),
       isFilter: false,
+      fromDate: moment()
+        .subtract(1, 'days')
+        .toISOString(),
+      toDate: moment().toISOString(),
       measuringList: [],
+      stationsData: [],
+      triggerRerender: true,
     }
   }
 
@@ -132,10 +145,9 @@ export default class SearchAvgForm extends React.Component {
     const province = form.getFieldValue(FIELDS.PROVINCE)
 
     form.setFieldsValue({ [FIELDS.STATION_TYPE]: stationType })
+    const stationAutoKeys = this.getStationAutoKeys({ stationType, province })
 
-    this.updateForm({
-      stationAutoKeys: this.getStationAutoKeys({ stationType, province }),
-    })
+    this.updateForm({ stationAutoKeys })
   }
 
   onFetchStationAutoSuccess = stationAutos => {
@@ -278,6 +290,49 @@ export default class SearchAvgForm extends React.Component {
     this.updateForm({ stationAutoKeys })
   }
 
+  handleSearch = () => {
+    const { form, onChangeStationData } = this.props
+    const { fromDate, toDate } = this.state
+
+    const stationType = form.getFieldValue(FIELDS.STATION_TYPE)
+    const province = form.getFieldValue(FIELDS.PROVINCE)
+
+    const frequency = form.getFieldValue('frequent')
+    const standard = form.getFieldValue('standardKey')
+
+    const stationsData = [...this.stationAutos]
+      .filter(item => get(item, `1.stationType.key`) === stationType)
+      .filter(item => !province || get(item, `1.province.key`) === province)
+      .filter(item =>
+        frequency ? get(item, `1.dataFrequency`) === frequency : true
+      )
+      .filter(item =>
+        standard ? get(item, `1.standardsVN.key`) === standard : true
+      )
+      .map(item => item[1])
+
+    const formData = form.getFieldsValue()
+    const searchFormData = {
+      advanced: [],
+      dataStatus: get(formData, 'dataStatus', []),
+      fromDate: fromDate,
+      isFilter: formData.isFilter,
+      toDate: toDate,
+      type: formData.type,
+    }
+
+    onChangeStationData(stationsData, searchFormData)
+  }
+
+  handleChangeRanges = ranges => {
+    const { from, to } = getTimes(ranges)
+
+    this.setState({
+      fromDate: from.toISOString(),
+      toDate: to.toISOString(),
+    })
+  }
+
   render() {
     const t = this.props.lang.createNameSpace('dataSearchFilterForm.form')
     const { form } = this.props
@@ -295,7 +350,12 @@ export default class SearchAvgForm extends React.Component {
       <SearchFormContainer>
         <Heading
           rightChildren={
-            <Button type="primary" icon="search" size="small">
+            <Button
+              type="primary"
+              icon="search"
+              size="small"
+              onClick={this.handleSearch}
+            >
               {'Tìm kiếm'}
             </Button>
           }
@@ -332,14 +392,15 @@ export default class SearchAvgForm extends React.Component {
               <FormItem label={t(`time`)}>
                 {form.getFieldDecorator(FIELDS.RANGE_TIME, {
                   initialValue: 1,
+                  onChange: this.handleChangeRanges,
                 })(<OptionsTimeRange style={{ width: '100%' }} />)}
               </FormItem>
             </Col>
             <Col md={4} lg={4} sm={12}>
               <FormItem label={t('type.label')}>
-                {form.getFieldDecorator(FIELDS.TYPE, { initialValue: 15 })(
-                  <SelectTimeRange style={{ width: '100%' }} />
-                )}
+                {form.getFieldDecorator(FIELDS.TYPE, {
+                  initialValue: 15,
+                })(<SelectTimeRange style={{ width: '100%' }} />)}
               </FormItem>
             </Col>
           </Row>
@@ -437,10 +498,9 @@ export default class SearchAvgForm extends React.Component {
                   {translate('dataSearchFrom.processData')}
                 </div>
                 <FormItem>
-                  {form.getFieldDecorator(
-                    'isFilter',
-                    {}
-                  )(<Switch style={{ marginTop: '18px' }} />)}
+                  {form.getFieldDecorator('isFilter', {
+                    initialValue: false,
+                  })(<Switch style={{ marginTop: '18px' }} />)}
                 </FormItem>
               </div>
             </Col>
