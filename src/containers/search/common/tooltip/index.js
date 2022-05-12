@@ -51,7 +51,9 @@ class ToolTip extends React.Component {
             style={{ marginRight: '8px', width: '20px' }}
           />
           <span className="tooltiptext">
-            {translate('dataSearchFrom.tooltip')}
+            {
+              'Loại bỏ một số dữ liệu không hợp lệ trước khi tính toán (áp dụng cấu hình kiểm duyệt dữ liệu)'
+            }
           </span>
         </div>
       </TootipContainer>

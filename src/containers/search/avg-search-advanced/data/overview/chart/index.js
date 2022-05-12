@@ -6,7 +6,7 @@ import {
 } from 'constants/chart-format'
 import { getFormatNumberChart } from 'constants/format-number'
 import Highcharts from 'highcharts'
-import { get, isNil, keyBy } from 'lodash'
+import { get, isNil, keyBy, isEmpty } from 'lodash'
 import moment from 'moment-timezone'
 import React, { Component } from 'react'
 import ReactHighcharts from 'react-highcharts'
@@ -22,7 +22,6 @@ ReactHighcharts.Highcharts.setOptions({
 })
 
 const configChart = (data, title) => {
-  console.log(data)
   return {
     chart: {
       type: 'spline',
@@ -86,7 +85,7 @@ const configChart = (data, title) => {
       enabled: false,
     },
     tooltip: {
-      xDateFormat: '%d/%m/%Y, %H:%M',
+      xDateFormat: '%d/%m/%Y %H:%M',
       dateTimeLabelFormats: DATETIME_TOOLTIP_FORMAT,
       formatter: function(tooltip) {
         return tooltip.defaultFormatter.call(this, tooltip)
@@ -118,19 +117,20 @@ export default class ChartOverview extends Component {
     const { key, name, unit } = current[0]
     const title = this.getMeasureName(key, name, unit)
 
-    data.stations.forEach(station => {
+    data.stations.reverse().forEach(station => {
       const stationName = getContent(languageContents, {
         type: 'Station',
         itemKey: station.key,
         value: station.name,
       })
 
-      dataSeries.push({
-        type: 'spline',
-        name: stationName,
-        data: this.getDataWithStation(station),
-        lineWidth: 2,
-      })
+      !isEmpty(this.getDataWithStation(station)) &&
+        dataSeries.push({
+          type: 'spline',
+          name: stationName,
+          data: this.getDataWithStation(station),
+          lineWidth: 2,
+        })
     })
 
     return configChart(dataSeries, title)
