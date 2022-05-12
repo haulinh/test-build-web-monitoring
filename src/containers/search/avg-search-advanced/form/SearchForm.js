@@ -21,7 +21,8 @@ import { dataStatusOptions } from 'constants/dataStatus'
 import SelectMeasureParameter from 'containers/data-analytics/filter/select-measure-parameter'
 import SelectStationAuto from 'containers/data-analytics/filter/select-station-auto'
 import createLang, { translate } from 'hoc/create-lang'
-import { get } from 'lodash'
+import createQueryFormDataBrowser from 'hoc/query-formdata-browser'
+import { get, isEmpty } from 'lodash'
 import moment from 'moment-timezone'
 import React from 'react'
 import styled from 'styled-components'
@@ -84,6 +85,7 @@ const options = {
   },
 })
 @createLang
+@createQueryFormDataBrowser()
 export default class SearchAvgForm extends React.Component {
   static defaultProps = {
     initialValues: {},
@@ -106,6 +108,34 @@ export default class SearchAvgForm extends React.Component {
       stationsData: [],
       triggerRerender: true,
     }
+  }
+
+  componentDidMount = () => {
+    const { formData, form } = this.props
+    if (isEmpty(formData)) return
+    const initValues = this.getInitValuesFormData()
+    form.setFieldsValue(initValues)
+    this.handleSearch()
+  }
+
+  getInitValuesFormData = () => {
+    const { formData } = this.props
+    const from = moment(formData.fromDate).toDate()
+    const to = moment(formData.toDate).toDate()
+    const time = [from, to]
+
+    const initValues = {
+      [FIELDS.PROVINCE]: '',
+      [FIELDS.STATION_TYPE]: formData.stationType,
+      [FIELDS.MEASURING_LIST]: formData.measuringList,
+      [FIELDS.RANGE_TIME]: time,
+      [FIELDS.TYPE]: 15,
+      [FIELDS.STATION_AUTO]: formData.stationAuto.split(','),
+      isFilter: false,
+      frequent: undefined,
+    }
+
+    return initValues
   }
 
   handleChangeFilter = filter => {
@@ -140,9 +170,11 @@ export default class SearchAvgForm extends React.Component {
   }
 
   onFetchStationTypeSuccess = stationTypes => {
-    const { form } = this.props
+    const { form, formData } = this.props
     const stationType = get(stationTypes, '0.key')
     const province = form.getFieldValue(FIELDS.PROVINCE)
+
+    if (!isEmpty(formData)) return
 
     form.setFieldsValue({ [FIELDS.STATION_TYPE]: stationType })
     const stationAutoKeys = this.getStationAutoKeys({ stationType, province })
@@ -151,14 +183,17 @@ export default class SearchAvgForm extends React.Component {
   }
 
   onFetchStationAutoSuccess = stationAutos => {
-    const { form } = this.props
+    const { form, formData } = this.props
     this.setStationAutos(stationAutos)
 
     const stationType = form.getFieldValue(FIELDS.STATION_TYPE)
     const province = form.getFieldValue(FIELDS.PROVINCE)
     const stationAutoKeys = this.getStationAutoKeys({ stationType, province })
 
+    if (!isEmpty(formData)) return
+
     this.updateForm({ stationAutoKeys })
+    this.handleSearch()
   }
 
   setStationAutos = stationAutos =>
@@ -311,7 +346,10 @@ export default class SearchAvgForm extends React.Component {
       )
       .map(item => item[1])
 
+    console.log({ stationsData })
+
     const formData = form.getFieldsValue()
+    console.log({ formSearch: formData })
     const searchFormData = {
       advanced: [],
       dataStatus: get(formData, 'dataStatus', []),
@@ -335,7 +373,7 @@ export default class SearchAvgForm extends React.Component {
 
   render() {
     const t = this.props.lang.createNameSpace('dataSearchFilterForm.form')
-    const { form } = this.props
+    const { form, formData } = this.props
     const { measuringList, filterList } = this.state
 
     const values = form.getFieldsValue([

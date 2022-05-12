@@ -1,5 +1,4 @@
-import { Button, Col, Dropdown, Form, Menu, message, Row, Tooltip } from 'antd'
-import DataStationAutoApi from 'api/DataStationAutoApi'
+import { Button, Col, Form, Menu, Row, Tooltip } from 'antd'
 import OrganizationApi from 'api/OrganizationApi'
 import Clearfix from 'components/elements/clearfix'
 import { FilterList, ModalSaveFilter } from 'components/filter'
@@ -8,9 +7,8 @@ import slug from 'constants/slug'
 import { translate as t, translate } from 'hoc/create-lang'
 import protectRole from 'hoc/protect-role'
 import queryFormDataBrowser from 'hoc/query-formdata-browser'
-import update from 'immutability-helper'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import _ from 'lodash'
+import _, { isEqual } from 'lodash'
 import moment from 'moment'
 import React from 'react'
 import { toggleNavigation } from 'redux/actions/themeAction'
@@ -21,12 +19,15 @@ import {
   updateBreadcrumb,
 } from 'shared/breadcrumb/action'
 import styled from 'styled-components'
+import {
+  addBreadcrumbFilter,
+  updateBreadcrumbFilter,
+} from 'utils/breadcrumbFilter'
 import { replaceVietnameseStr } from 'utils/string'
 import Breadcrumb from './breadcrumb'
 import DataSearch from './data'
 import FormFilter from './form/ModalForm'
 import SearchForm from './form/SearchForm'
-import FilterListMenu from './menu'
 
 const Flex = styled.div`
   display: flex;
@@ -37,6 +38,53 @@ const Flex = styled.div`
     font-size: 15px;
   }
 `
+
+const ListFilter = [
+  {
+    allowed: true,
+    createAt: '2022-04-06T08:46:46.338Z',
+    name: 'Kinh Test 01',
+    params: {
+      frequent: undefined,
+      isFilter: false,
+      measuringList: 'pH,Temp',
+      provinceKey: '',
+      rangeTime: 1,
+      standardKey: undefined,
+      stationAuto: 'TramNuocLanThap',
+      type: 15,
+    },
+    stationType: {
+      _id: '5f75aee3684ff600114d96aa',
+      key: 'Waste_Water',
+      name: 'Nước Thải',
+    },
+    type: 'Average',
+    _id: '624d56fc00bc21bdeea38cf8',
+  },
+  {
+    allowed: true,
+    createAt: '2022-04-06T08:46:46.338Z',
+    name: 'Kinh Test 02',
+    params: {
+      frequent: undefined,
+      isFilter: false,
+      measuringList: 'pH,TSS',
+      provinceKey: '',
+      rangeTime: 15,
+      standardKey: undefined,
+      stationAuto: 'TramNuocLanThap',
+      type: 60,
+    },
+    stationType: {
+      _id: '5f75aee3684ff600114d96aa',
+      key: 'Waste_Water',
+      name: 'Nước Thải',
+    },
+    type: 'Average',
+    _id: '624d56fc00bc21bdeea38c787',
+  },
+]
 
 @Form.create()
 @connectAutoDispatch(
@@ -55,6 +103,8 @@ const Flex = styled.div`
 export default class AvgSearchAdvanced extends React.Component {
   constructor(props) {
     super(props)
+    this.searchFormRef = React.createRef()
+
     this.state = {
       now: moment(),
       visible: false,
@@ -81,6 +131,11 @@ export default class AvgSearchAdvanced extends React.Component {
       stationsData: props.stations.length
         ? this.getStationsData(props.stations)
         : [],
+
+      filterList: ListFilter,
+      filterListSearched: ListFilter,
+      highlightText: '',
+      activeKeyMenu: '',
     }
   }
 
@@ -290,159 +345,6 @@ export default class AvgSearchAdvanced extends React.Component {
     )
   }
 
-  rightChildren() {
-    const isEdit = this.getIsEdit()
-    if (isEdit) {
-      return (
-        <Flex>
-          <span className="label">{translate('addon.edited')}</span>
-          <Clearfix width={32} />
-          <Button.Group>
-            <Tooltip
-              placement="top"
-              title={translate('dataSearchFilterForm.tooltip.update')}
-            >
-              <Button
-                type="primary"
-                icon="save"
-                size="default"
-                onClick={this.handleUpdateFilter}
-              >
-                {translate('addon.update')}
-              </Button>
-            </Tooltip>
-            <Dropdown overlay={this.menu()}>
-              <Button type="primary" icon="down" />
-            </Dropdown>
-          </Button.Group>
-        </Flex>
-      )
-    }
-    // if (!allowSave) return null
-    return (
-      <Tooltip
-        placement="top"
-        title={translate('dataSearchFilterForm.tooltip.save')}
-      >
-        <Button
-          type="primary"
-          icon="save"
-          size="default"
-          onClick={this.showModal}
-        >
-          {translate('addon.save')}
-        </Button>
-      </Tooltip>
-    )
-  }
-
-  // handleCreateFilter = () => {
-  //   const { form } = this.formRef.props
-  //   const { organizationId } = this.props
-  //   const rawValues = _.clone(this.props.values)
-  //   delete rawValues.searchNow
-  //   delete rawValues.filterId
-  //   if (rawValues.rangesDate !== 'ranges') {
-  //     delete rawValues.fromDate
-  //     delete rawValues.toDate
-  //   }
-  //   if (rawValues.stationType === '') {
-  //     rawValues.stationType = 'ALL'
-  //   }
-  //   form.validateFields((err, values) => {
-  //     if (err) return
-  //     let params = {
-  //       name: (values.name || '').trim(),
-  //       searchUrl: encodeURIComponent(JSON.stringify(rawValues)),
-  //     }
-  //     this.setState({ confirmLoading: true }, async () => {
-  //       let {
-  //         data,
-  //         error,
-  //         message: messageErr,
-  //       } = await OrganizationApi.createFilter(organizationId, params)
-  //       if (error && messageErr === 'CONFIG_FILTER_NAME_EXISTED') {
-  //         this.setState({
-  //           confirmLoading: false,
-  //         })
-  //         form.setFields({
-  //           name: {
-  //             value: values.name,
-  //             errors: [
-  //               new Error(translate('avgSearchFrom.filterForm.name.isExist')),
-  //             ],
-  //           },
-  //         })
-  //       }
-  //       if (data && data._id) {
-  //         message.success(translate('dataSearchFilterForm.create.success'))
-  //         this.setState({
-  //           confirmLoading: false,
-  //           allowSave: false,
-  //           visible: false,
-  //           configFilter: data.configFilter,
-  //           filteredConfigFilter: data.configFilter,
-  //         })
-  //         form.resetFields()
-  //       }
-  //     })
-  //   })
-  // }
-
-  // handleUpdateFilter = () => {
-  //   const filter = this.state.configFilter.find(
-  //     filter => filter._id === this.props.formData.filterId
-  //   )
-  //   const { organizationId } = this.props
-  //   const rawValues = _.clone(this.props.values)
-  //   delete rawValues.searchNow
-  //   delete rawValues.filterId
-  //   if (rawValues.rangesDate !== 'ranges') {
-  //     delete rawValues.fromDate
-  //     delete rawValues.toDate
-  //   }
-  //   let params = {
-  //     name: filter.name,
-  //     searchUrl: encodeURIComponent(JSON.stringify(rawValues)),
-  //   }
-  //   this.setState({ confirmLoading: true }, async () => {
-  //     let { data } = await OrganizationApi.updateFilter(
-  //       organizationId,
-  //       filter._id,
-  //       params
-  //     )
-  //     this.setState({
-  //       confirmLoading: false,
-  //       allowSave: false,
-  //     })
-  //     if (data._id) {
-  //       message.success(translate('dataSearchFilterForm.update.success'))
-  //       this.setState({
-  //         visible: false,
-  //         configFilter: data.configFilter,
-  //         filteredConfigFilter: data.configFilter,
-  //       })
-  //     }
-  //   })
-  // }
-
-  // handleDeleteFilter = async _id => {
-  //   const indexDelete = this.state.filteredConfigFilter.findIndex(
-  //     configFilterItem => configFilterItem._id === _id
-  //   )
-  //   this.setState(prevState =>
-  //     update(prevState, {
-  //       filteredConfigFilter: { $splice: [[indexDelete, 1]] },
-  //       configFilter: { $splice: [[indexDelete, 1]] },
-  //     })
-  //   )
-  //   const { data } = await OrganizationApi.deleteFilter(
-  //     this.props.organizationId,
-  //     _id
-  //   )
-  //   if (data) message.success(translate('dataSearchFilterForm.update.success'))
-  // }
-
   handleOnClickSaveFilter = () => {
     this.setState({
       visibleModalSave: true,
@@ -461,17 +363,79 @@ export default class AvgSearchAdvanced extends React.Component {
     console.log({ value })
   }
 
+  handleOnChangeSearch = event => {
+    const { filterList } = this.state
+    const value = event.target.value
+
+    const newFilterListSearched = filterList.filter(({ name }) => {
+      name = replaceVietnameseStr(name)
+
+      return name.includes(replaceVietnameseStr(value))
+    })
+
+    this.setState({
+      highlightText: value,
+      filterListSearched: newFilterListSearched,
+    })
+  }
+
+  handleOnClickFilter = (filterId, filterItem) => {
+    const { breadcrumbs, updateBreadcrumb, addBreadcrumb, history } = this.props
+    const { params } = filterItem
+    const { setFieldsValue } = this.searchFormRef.current
+    const url = `${slug.avgSearchAdvanced.base}?filterId=${filterId}`
+
+    if (breadcrumbs.length === 2) {
+      updateBreadcrumbFilter(updateBreadcrumb, url, filterItem.name)
+    } else {
+      addBreadcrumbFilter(addBreadcrumb, url, filterItem.name)
+    }
+
+    history.push(url, { filterId })
+
+    const valuesForm = {
+      ...params,
+      stationAuto: params.stationAuto.split(','),
+      measuringList: params.measuringList.split(','),
+    }
+
+    setFieldsValue(valuesForm)
+    this.setState({
+      activeKeyMenu: filterId,
+    })
+  }
+
+  componentDidUpdate = (prevProps, prevState) => {
+    // const { filterDefault } = this.state
+    const { location } = this.props
+
+    if (!isEqual(prevProps.location, location)) {
+      if (!location.state) {
+        // this.searchFormRef.current.setFieldsValue(filterDefault)
+        this.setState({
+          filterItem: {},
+          activeKeyMenu: null,
+          // standardObjectList: {},
+        })
+
+        // this.handleOnSearch()
+      }
+    }
+  }
   render() {
     const {
-      filteredConfigFilter,
       isSearchingData,
       searchFormData,
       visible,
       confirmLoading,
       stationsData,
       visibleModalSave,
+      filterListSearched,
+      highlightText,
+      activeKeyMenu,
     } = this.state
     const { formData, values, wrapperProps, form } = this.props
+    console.log({ ref: this.searchFormRef })
 
     return (
       <PageContainer
@@ -489,19 +453,20 @@ export default class AvgSearchAdvanced extends React.Component {
           type="flex"
           gutter={[32, 0]}
         >
-          {/* <FilterListMenu
-            handleDeleteFilter={this.handleDeleteFilter}
-            configFilter={filteredConfigFilter}
-            handleSearch={this.handleSearch}
-            filterId={this.props.formData.filterId}
-          /> */}
-          <FilterList list={[]} />
+          <FilterList
+            list={filterListSearched}
+            onChangeSearch={this.handleOnChangeSearch}
+            highlightText={highlightText}
+            onClickMenuItem={this.handleOnClickFilter}
+            selectedKeys={[activeKeyMenu]}
+          />
 
           <Col style={{ flex: 1, overflowX: 'hidden' }}>
             <SearchForm
               onChangeStationData={this.handleChangeStationsData}
               initialValues={formData}
               onChangeField={this.handleOnChangeSearchField}
+              ref={this.searchFormRef}
             />
             <Clearfix height={16} />
             <DataSearch
