@@ -1,12 +1,14 @@
 import { Clearfix } from 'components/elements'
 import { getMeasuringListFromStationAutos } from 'containers/api-sharing/util'
-import { keyBy } from 'lodash'
+import { get, keyBy } from 'lodash'
 import React, { Component } from 'react'
 import { FIELDS } from '../index'
 import TableAlarmExceedForm from './TableAlarmExceedForm'
 import TableQCVN from './TableQCVN'
 
 export default class AlarmConfigExceed extends Component {
+  refForm = React.createRef()
+
   getMeasuringList = () => {
     const qcvnsSelected = this.getQcvnSelected()
 
@@ -19,16 +21,17 @@ export default class AlarmConfigExceed extends Component {
     const qcvnListObj = keyBy(qcvnList, '_id')
 
     const values = form.getFieldsValue()
-    const qcvnsForm = Object.values(values[FIELDS.BY_STANDARD] || {})
-    const qcvnsSelected = qcvnsForm.filter(qcvn => qcvn[FIELDS.STANDARD_ID])
+    const qcvnsForm = Object.values(values[FIELDS.DATA_LEVEL] || {})
+    const qcvnsSelected = qcvnsForm.filter(
+      qcvn => qcvn[FIELDS.CONFIG][FIELDS.STANDARD_ID]
+    )
     const qcvnsSelectedMapValue = qcvnsSelected.map(qcvn => ({
-      ...qcvnListObj[qcvn[FIELDS.STANDARD_ID]],
+      ...qcvnListObj[qcvn[FIELDS.CONFIG][FIELDS.STANDARD_ID]],
     }))
     return qcvnsSelectedMapValue
   }
 
   render() {
-    // const { qcvnList } = this.state
     const {
       qcvnList,
       alarmList,
@@ -37,10 +40,13 @@ export default class AlarmConfigExceed extends Component {
       onAdd,
       users,
       roles,
+      standardFormRef,
     } = this.props
 
     const measuringList = this.getMeasuringList()
     const qcvnListSelected = this.getQcvnSelected()
+
+    const measureListValue = get(alarmList[0], 'config.measureListEnable', [])
 
     return (
       <div>
@@ -55,7 +61,12 @@ export default class AlarmConfigExceed extends Component {
           roles={roles}
         />
         <Clearfix height={12} />
-        <TableQCVN qcvnList={qcvnListSelected} dataSource={measuringList} />
+        <TableQCVN
+          ref={standardFormRef}
+          qcvnList={qcvnListSelected}
+          dataSource={measuringList}
+          measureListValue={measureListValue}
+        />
       </div>
     )
   }

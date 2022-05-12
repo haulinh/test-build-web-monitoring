@@ -1,27 +1,29 @@
-import { Button, Collapse, Form, message } from 'antd'
+import { Button, Collapse, message, Skeleton } from 'antd'
 import CalculateApi from 'api/CalculateApi'
 import QCVNApi from 'api/QCVNApi'
 import RoleApi from 'api/RoleApi'
 import UserApi from 'api/UserApi'
 import { FormItem } from 'components/layouts/styles'
-import {
-  ALARM_LIST_INIT,
-  getHiddenParam,
-} from 'containers/manager/station-auto/alarm-config/constants'
+import { ALARM_LIST_INIT } from 'containers/manager/station-auto/alarm-config/constants'
 import { translate } from 'hoc/create-lang'
-import { flatten, get, isEmpty, isNil, keyBy } from 'lodash'
+import { flatten, get, isEmpty } from 'lodash'
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 import AlarmConfigDisconnect from './alarm-config-disconnect'
 import AlarmConfigExceed from './alarm-config-exceed'
 import { i18n } from './constants'
+import withAlarmForm from './hoc/withAlarmForm'
 
 const { Panel } = Collapse
 
 export const FIELDS = {
   DISCONNECT: 'disconnect',
   BY_STANDARD: 'by_standard',
+  DATA_LEVEL: 'data_level',
+
+  EXCEED_PREPARING: 'exceed_preparing',
+  EXCEED: 'exceed',
 
   STATUS: 'status',
   TIME_DISCONNECT: 'maxDisconnectionTime',
@@ -29,16 +31,13 @@ export const FIELDS = {
   STANDARD_ID: 'standardId',
   IS_CREATE_LOCAL: 'isCreateLocal',
   ID: '_id',
-}
 
-const getStatusAlarm = status => {
-  if (status) return 'enable'
-  return 'disable'
-}
-
-const getStatusAlarmBoolean = status => {
-  if (status === 'enable') return true
-  return false
+  //#region config
+  TYPE: 'type',
+  CONFIG: 'config',
+  NAME: 'name',
+  MEASURING_LIST_ENABLED: 'measuringListEnabled',
+  //#endregion config
 }
 
 const getAlarmGroupByType = alarmList => {
@@ -50,7 +49,7 @@ const getAlarmGroupByType = alarmList => {
   const alarmGroupByType = alarmList.reduce((base, current) => {
     if (current.type === FIELDS.DISCONNECT) {
       base.alarmDisconnect.push(current)
-    } else if (current.type === FIELDS.BY_STANDARD) {
+    } else if (current.type === FIELDS.DATA_LEVEL) {
       base.alarmStandard.push(current)
     }
     return base
@@ -60,7 +59,7 @@ const getAlarmGroupByType = alarmList => {
 }
 
 @withRouter
-@Form.create()
+@withAlarmForm
 export default class AlarmConfig extends Component {
   constructor(props) {
     super(props)
@@ -70,21 +69,24 @@ export default class AlarmConfig extends Component {
 
   state = {
     alarmDisconnect: ALARM_LIST_INIT.DISCONNECT,
-    alarmStandard: ALARM_LIST_INIT.BY_STANDARD,
+    alarmStandard: ALARM_LIST_INIT.DATA_LEVEL,
     alarmList: [],
     qcvnList: [],
     alarmIdsDeleted: [],
     users: [],
     roles: [],
+    loading: false,
   }
 
   componentDidMount = async () => {
+    this.setState({ loading: true })
     const [alarmList, qcvnList] = await Promise.all([
       this.getAlarmByStationId(),
       this.getQCVNList(),
       this.getUsers(),
       this.getRoles(),
     ])
+    this.setState({ loading: false })
 
     this.setInitValues(alarmList, qcvnList)
   }
@@ -118,84 +120,41 @@ export default class AlarmConfig extends Component {
     }
   }
 
-  getQueryParam = (alarmType, stationId) => {
-    const { form } = this.props
-    const value = form.getFieldsValue()
-
-    const paramsForm = Object.values(value[alarmType] || {})
-    const params = paramsForm
-      .map(({ isCreateLocal, ...paramItem }) => ({
-        ...paramItem,
-        recipients: get(paramItem, 'recipients', []).flat(),
-        _id: !isCreateLocal ? paramItem._id : null,
-        status: getStatusAlarm(paramItem.status),
-        ...getHiddenParam(alarmType, stationId, paramItem.maxDisconnectionTime),
-      }))
-      .filter(paramItem => {
-        if (alarmType === 'by_standard') {
-          return !isNil(paramItem.standardId)
-        }
-        return !isEmpty(paramItem.recipients)
-      })
-      .filter(paramItem => {
-        if (alarmType === 'by_standard') {
-          return !isEmpty(paramItem.recipients)
-        }
-        return true
-      })
-    return params
-  }
   //#endregion get
 
   //#region set
   setInitValues = (alarmList, qcvnList) => {
-    const { isEdit } = this.props
+    const { isEdit, setFormValues } = this.props
     const { alarmDisconnect, alarmStandard } = getAlarmGroupByType(alarmList)
 
     this.setState({ qcvnList })
 
     if (!isEmpty(alarmDisconnect) && isEdit) {
       this.setState({ alarmDisconnect }, () =>
-        this.setFormValues(FIELDS.DISCONNECT, alarmDisconnect)
+        setFormValues(FIELDS.DISCONNECT, alarmDisconnect)
       )
     } else {
-      this.setFormValues(FIELDS.DISCONNECT, ALARM_LIST_INIT.DISCONNECT)
+      setFormValues(FIELDS.DISCONNECT, ALARM_LIST_INIT.DISCONNECT)
     }
 
     if (!isEmpty(alarmStandard) && isEdit) {
       this.setState({ alarmStandard }, () =>
-        this.setFormValues(FIELDS.BY_STANDARD, alarmStandard)
+        setFormValues(FIELDS.DATA_LEVEL, alarmStandard)
       )
     } else {
-      this.setFormValues(FIELDS.BY_STANDARD, ALARM_LIST_INIT.BY_STANDARD)
+      setFormValues(FIELDS.DATA_LEVEL, ALARM_LIST_INIT.DATA_LEVEL)
     }
   }
 
-  setFormValues = (alarmType, alarmList) => {
-    const { form } = this.props
-    const alarmFormValues = keyBy(alarmList, '_id')
-    const alarmFormValuesFormat = Object.values(alarmFormValues)
-      .map(item => ({
-        ...item,
-        status:
-          typeof item.status === 'boolean'
-            ? item.status
-            : getStatusAlarmBoolean(item.status),
-      }))
-      .reduce((base, current) => ({ ...base, [current._id]: current }), {})
-    const alarmFormValuesType = {
-      [alarmType]: alarmFormValuesFormat,
-    }
-    form.setFieldsValue(alarmFormValuesType)
-  }
   //#endregion set
 
   handleSubmit = async () => {
     const { alarmIdsDeleted, qcvnList } = this.state
+    const { getQueryParam } = this.props
 
-    const paramsArray = [FIELDS.DISCONNECT, FIELDS.BY_STANDARD].map(
+    const paramsArray = [FIELDS.DISCONNECT, FIELDS.DATA_LEVEL].map(
       alarmType => {
-        const paramType = this.getQueryParam(alarmType, this.stationId)
+        const paramType = getQueryParam(alarmType, this.stationId)
         return paramType
       }
     )
@@ -216,28 +175,29 @@ export default class AlarmConfig extends Component {
     }
   }
 
-  //region management state Alarm
+  //#region management state Alarm
   handleDelete = (alarmType, id) => {
     const { alarmDisconnect, alarmStandard, alarmIdsDeleted } = this.state
-    const { form } = this.props
+    const { form, setFormValues } = this.props
     const newIdsDeleted = [...alarmIdsDeleted, id]
     this.setState({ alarmIdsDeleted: newIdsDeleted })
 
     const actionsDelete = {
-      [FIELDS.BY_STANDARD]: () => {
+      [FIELDS.DATA_LEVEL]: () => {
         const newAlarmList = alarmStandard.filter(item => item._id !== id)
         this.setState({ alarmStandard: newAlarmList }, () => {
-          this.setFormValues(
-            FIELDS.BY_STANDARD,
-            Object.values(get(form.getFieldsValue(), 'by_standard', {}))
+          setFormValues(
+            FIELDS.DATA_LEVEL,
+            Object.values(get(form.getFieldsValue(), FIELDS.DATA_LEVEL, {}))
           )
         })
       },
+
       [FIELDS.DISCONNECT]: () => {
         const newAlarmList = alarmDisconnect.filter(item => item._id !== id)
         this.setState({ alarmDisconnect: newAlarmList }, () => {
-          this.setFormValues(
-            FIELDS.BY_STANDARD,
+          setFormValues(
+            FIELDS.DATA_LEVEL,
             Object.values(get(form.getFieldsValue(), 'disconnect', {}))
           )
         })
@@ -249,7 +209,7 @@ export default class AlarmConfig extends Component {
 
   handleAdd = alarmType => {
     const { alarmDisconnect, alarmStandard } = this.state
-    const { form } = this.props
+    const { form, setFormValues } = this.props
     const uuid = uuidv4()
     const newData = {
       _id: uuid,
@@ -258,16 +218,16 @@ export default class AlarmConfig extends Component {
     }
 
     const actionsAdd = {
-      [FIELDS.BY_STANDARD]: () => {
+      [FIELDS.DATA_LEVEL]: () => {
         const newAlarmList = [...alarmStandard, newData]
         this.setState(
           {
             alarmStandard: newAlarmList,
           },
           () => {
-            this.setFormValues(
-              FIELDS.BY_STANDARD,
-              Object.values(get(form.getFieldsValue(), 'by_standard', {}))
+            setFormValues(
+              FIELDS.DATA_LEVEL,
+              Object.values(get(form.getFieldsValue(), FIELDS.DATA_LEVEL, {}))
             )
           }
         )
@@ -279,7 +239,7 @@ export default class AlarmConfig extends Component {
             alarmDisconnect: newAlarmList,
           },
           () => {
-            this.setFormValues(
+            setFormValues(
               FIELDS.DISCONNECT,
               Object.values(get(form.getFieldsValue(), 'disconnect', {}))
             )
@@ -290,17 +250,20 @@ export default class AlarmConfig extends Component {
 
     actionsAdd[alarmType]()
   }
-  //endregion
+  //#endregion management state Alarm
 
   render() {
-    const { form } = this.props
+    const { form, standardFormRef } = this.props
     const {
       alarmDisconnect,
       alarmStandard,
       qcvnList,
       users,
       roles,
+      loading,
     } = this.state
+
+    if (loading) return <Skeleton />
 
     return (
       <React.Fragment>
@@ -317,6 +280,7 @@ export default class AlarmConfig extends Component {
           </Panel>
           <Panel key="exceed" header={i18n().alarmExceed}>
             <AlarmConfigExceed
+              standardFormRef={standardFormRef}
               qcvnList={qcvnList}
               form={form}
               alarmList={alarmStandard}
