@@ -2,6 +2,8 @@ import { Button, Tabs } from 'antd'
 import React, { Component } from 'react'
 import TableStation from './TableStation'
 import styled from 'styled-components'
+import ChartOverview from './chart'
+import { isEmpty } from 'lodash'
 
 const { TabPane } = Tabs
 
@@ -23,6 +25,7 @@ const ButtonAbsolute = styled.div`
 `
 export default class OverviewData extends Component {
   render() {
+    const { data } = this.props
     return (
       <TabWrapper>
         <ButtonAbsolute>
@@ -38,7 +41,9 @@ export default class OverviewData extends Component {
           <TabPane key={1} tab="Dữ liệu">
             <TableStation />
           </TabPane>
-          <TabPane key={2} tab="Biểu đồ"></TabPane>
+          <TabPane key={2} tab="Biểu đồ">
+            {!isEmpty(data) && <ChartOverview data={data} />}
+          </TabPane>
         </Tabs>
       </TabWrapper>
     )

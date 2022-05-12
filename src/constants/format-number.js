@@ -21,6 +21,22 @@ export function getFormatNumber(
   return '-'
 }
 
+export function getFormatNumberChart(
+  value,
+  numberToFixed = FORMAT_VALUE_MEASURING,
+  maximum = numberToFixed
+) {
+  if (_.isNumber(value) || value) {
+    let tempNumber = Number(value).toLocaleString(FORMAT_LOCAL, {
+      minimumFractionDigits: numberToFixed,
+      maximumFractionDigits: maximum,
+    })
+    return Number(tempNumber)
+  }
+
+  return null
+}
+
 export default {
   FORMAT_VALUE_MEASURING,
   getFormatNumber,

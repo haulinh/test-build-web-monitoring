@@ -311,6 +311,7 @@ export default class SearchAvgForm extends React.Component {
       .map(item => item[1])
 
     const formData = form.getFieldsValue()
+
     const searchFormData = {
       advanced: [],
       dataStatus: get(formData, 'dataStatus', []),
@@ -318,6 +319,8 @@ export default class SearchAvgForm extends React.Component {
       isFilter: formData.isFilter,
       toDate: toDate,
       type: formData.type,
+      stationKeys: get(formData, 'stationAuto', []).join(','),
+      measuringList: get(formData, 'measuringList', []).join(','),
     }
 
     onChangeStationData(stationsData, searchFormData)

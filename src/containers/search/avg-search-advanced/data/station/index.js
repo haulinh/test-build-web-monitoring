@@ -13,7 +13,7 @@ import styled from 'styled-components'
 import { downFileExcel } from 'utils/downFile'
 import TabList from '../../tab-list'
 
-const TableListWrapper = styled(BoxShadow)`
+const StationDataWrapper = styled(BoxShadow)`
   padding: 0px 16px 16px 16px;
   .ant-tabs-ink-bar {
     background-color: #1890ff !important;
@@ -36,7 +36,7 @@ const TitleWrapper = styled.div`
 `
 
 @autobind
-export default class TableList extends React.PureComponent {
+export default class StationData extends React.PureComponent {
   static propTypes = {
     standardsVN: PropTypes.array,
     stationsData: PropTypes.array,
@@ -113,6 +113,7 @@ export default class TableList extends React.PureComponent {
 
   getSearchFormData = (stationKey, standards) => {
     const { searchFormData, standardsVN } = this.props
+    const { advanced, dataStatus, fromDate, toDate, type } = searchFormData
     if (!stationKey) return
     const station = this.getStation(stationKey)
 
@@ -127,7 +128,11 @@ export default class TableList extends React.PureComponent {
       }
     })
     const result = {
-      ...searchFormData,
+      advanced: advanced,
+      dataStatus: dataStatus,
+      fromDate: fromDate,
+      toDate: toDate,
+      type: type,
       key: station.key,
       name: station.name,
       measuringListUnitStr,
@@ -342,13 +347,13 @@ export default class TableList extends React.PureComponent {
 
     if (!stations.length) return null
     return (
-      <TableListWrapper>
+      <StationDataWrapper>
         <TitleWrapper>
           <h4>{translate('dataSearchFilterForm.table.heading')}</h4>
         </TitleWrapper>
 
         {this.renderTabStations(stations)}
-      </TableListWrapper>
+      </StationDataWrapper>
     )
   }
 }
