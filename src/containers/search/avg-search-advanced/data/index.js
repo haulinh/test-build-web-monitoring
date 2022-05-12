@@ -75,7 +75,7 @@ export default class DataSearch extends Component {
       stationKeys: searchFormData.stationKeys,
       from: searchFormData.fromDate,
       to: searchFormData.toDate,
-      measuringList: searchFormData.measuringList,
+      measuringList: searchFormData.measuringList.join(','),
       isFilter: searchFormData.isFilter,
       groupType: ['month', 'year'].includes(searchFormData.type)
         ? searchFormData.type

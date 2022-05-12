@@ -6,7 +6,7 @@ import BoxShadow from 'components/elements/box-shadow'
 import { dataStatusOptions } from 'constants/dataStatus'
 import { autobind } from 'core-decorators'
 import { translate } from 'hoc/create-lang'
-import { get, isEqual, map, maxBy, find } from 'lodash'
+import { find, get, isEqual, map, maxBy } from 'lodash'
 import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
@@ -79,21 +79,32 @@ export default class StationData extends React.PureComponent {
   }
 
   renderOneStation(station) {
+    const { searchFormData } = this.props
+    const { measuringList } = searchFormData.measuringList.filter(measureForm =>
+      station.measuringList.some(
+        measureStation => measureStation === measureForm
+      )
+    )
+    const measuringData = station.measuringData.filter(measureStation =>
+      searchFormData.measuringList.some(
+        measureForm => measureForm === measureStation.key
+      )
+    )
     return (
       <Tabs.TabPane tab={station.name} key={station.key}>
         <TabList
           qcvns={this.props.qcvns}
           isActive={this.state.tabKey === station.key}
           isLoading={this.state.isLoading}
-          measuringData={station.measuringData}
-          measuringList={station.measuringList}
+          measuringData={measuringData}
+          measuringList={measuringList}
           dataStationAuto={this.state.dataStationAuto}
           pagination={this.state.pagination}
           onChangePage={this.handleChangePage}
           onExportExcel={this.handleExportExcel}
           onExportExcelAll={this.handleExportAllStation}
           nameChart={station.name}
-          typeReport={`${this.props.type}`}
+          typeReport={`${searchFormData.type}`}
           isExporting={this.state.isExporting}
           isExportingAll={this.state.isExportingAll}
         />
@@ -127,6 +138,7 @@ export default class StationData extends React.PureComponent {
         return ''
       }
     })
+
     const result = {
       advanced: advanced,
       dataStatus: dataStatus,
@@ -136,7 +148,11 @@ export default class StationData extends React.PureComponent {
       key: station.key,
       name: station.name,
       measuringListUnitStr,
-      measuringList: station.measuringList,
+      measuringList: searchFormData.measuringList.filter(measureForm =>
+        station.measuringList.some(
+          measureStation => measureStation === measureForm
+        )
+      ),
       measuringData: station.measuringData,
       standardsVN: standards ? standards : standardsVN,
     }
