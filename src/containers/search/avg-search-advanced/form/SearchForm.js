@@ -329,27 +329,12 @@ export default class SearchAvgForm extends React.Component {
     const { form, onChangeStationData } = this.props
     const { fromDate, toDate } = this.state
 
-    const stationType = form.getFieldValue(FIELDS.STATION_TYPE)
-    const province = form.getFieldValue(FIELDS.PROVINCE)
-
-    const frequency = form.getFieldValue('frequent')
-    const standard = form.getFieldValue('standardKey')
-
-    const stationsData = [...this.stationAutos]
-      .filter(item => get(item, `1.stationType.key`) === stationType)
-      .filter(item => !province || get(item, `1.province.key`) === province)
-      .filter(item =>
-        frequency ? get(item, `1.dataFrequency`) === frequency : true
-      )
-      .filter(item =>
-        standard ? get(item, `1.standardsVN.key`) === standard : true
-      )
-      .map(item => item[1])
-
-    console.log({ stationsData })
-
     const formData = form.getFieldsValue()
-    console.log({ formSearch: formData })
+    const stationKeyList = form.getFieldValue(FIELDS.STATION_AUTO)
+    const stationsData = stationKeyList.map(stationKey =>
+      this.stationAutos.get(stationKey)
+    )
+
     const searchFormData = {
       advanced: [],
       dataStatus: get(formData, 'dataStatus', []),
@@ -357,6 +342,8 @@ export default class SearchAvgForm extends React.Component {
       isFilter: formData.isFilter,
       toDate: toDate,
       type: formData.type,
+      stationKeys: get(formData, 'stationAuto', []).join(','),
+      measuringList: get(formData, 'measuringList', []),
     }
 
     onChangeStationData(stationsData, searchFormData)

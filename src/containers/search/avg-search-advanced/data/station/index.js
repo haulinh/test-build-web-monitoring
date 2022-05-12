@@ -6,14 +6,14 @@ import BoxShadow from 'components/elements/box-shadow'
 import { dataStatusOptions } from 'constants/dataStatus'
 import { autobind } from 'core-decorators'
 import { translate } from 'hoc/create-lang'
-import { get, isEqual, map, maxBy, find } from 'lodash'
+import { find, get, isEqual, map, maxBy } from 'lodash'
 import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 import { downFileExcel } from 'utils/downFile'
 import TabList from '../../tab-list'
 
-const TableListWrapper = styled(BoxShadow)`
+const StationDataWrapper = styled(BoxShadow)`
   padding: 0px 16px 16px 16px;
   .ant-tabs-ink-bar {
     background-color: #1890ff !important;
@@ -36,7 +36,7 @@ const TitleWrapper = styled.div`
 `
 
 @autobind
-export default class TableList extends React.PureComponent {
+export default class StationData extends React.PureComponent {
   static propTypes = {
     standardsVN: PropTypes.array,
     stationsData: PropTypes.array,
@@ -79,21 +79,32 @@ export default class TableList extends React.PureComponent {
   }
 
   renderOneStation(station) {
+    const { searchFormData } = this.props
+    const { measuringList } = searchFormData.measuringList.filter(measureForm =>
+      station.measuringList.some(
+        measureStation => measureStation === measureForm
+      )
+    )
+    const measuringData = station.measuringData.filter(measureStation =>
+      searchFormData.measuringList.some(
+        measureForm => measureForm === measureStation.key
+      )
+    )
     return (
       <Tabs.TabPane tab={station.name} key={station.key}>
         <TabList
           qcvns={this.props.qcvns}
           isActive={this.state.tabKey === station.key}
           isLoading={this.state.isLoading}
-          measuringData={station.measuringData}
-          measuringList={station.measuringList}
+          measuringData={measuringData}
+          measuringList={measuringList}
           dataStationAuto={this.state.dataStationAuto}
           pagination={this.state.pagination}
           onChangePage={this.handleChangePage}
           onExportExcel={this.handleExportExcel}
           onExportExcelAll={this.handleExportAllStation}
           nameChart={station.name}
-          typeReport={`${this.props.type}`}
+          typeReport={`${searchFormData.type}`}
           isExporting={this.state.isExporting}
           isExportingAll={this.state.isExportingAll}
         />
@@ -113,6 +124,7 @@ export default class TableList extends React.PureComponent {
 
   getSearchFormData = (stationKey, standards) => {
     const { searchFormData, standardsVN } = this.props
+    const { advanced, dataStatus, fromDate, toDate, type } = searchFormData
     if (!stationKey) return
     const station = this.getStation(stationKey)
 
@@ -126,12 +138,21 @@ export default class TableList extends React.PureComponent {
         return ''
       }
     })
+
     const result = {
-      ...searchFormData,
+      advanced: advanced,
+      dataStatus: dataStatus,
+      fromDate: fromDate,
+      toDate: toDate,
+      type: type,
       key: station.key,
       name: station.name,
       measuringListUnitStr,
-      measuringList: station.measuringList,
+      measuringList: searchFormData.measuringList.filter(measureForm =>
+        station.measuringList.some(
+          measureStation => measureStation === measureForm
+        )
+      ),
       measuringData: station.measuringData,
       standardsVN: standards ? standards : standardsVN,
     }
@@ -342,13 +363,13 @@ export default class TableList extends React.PureComponent {
 
     if (!stations.length) return null
     return (
-      <TableListWrapper>
+      <StationDataWrapper>
         <TitleWrapper>
           <h4>{translate('dataSearchFilterForm.table.heading')}</h4>
         </TitleWrapper>
 
         {this.renderTabStations(stations)}
-      </TableListWrapper>
+      </StationDataWrapper>
     )
   }
 }

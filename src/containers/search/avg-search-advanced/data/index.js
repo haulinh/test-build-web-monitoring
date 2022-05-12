@@ -3,8 +3,9 @@ import SelectQCVN from 'components/elements/select-qcvn-v2'
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { ToolTip } from '../component/ToolTip'
-import StationList from './station'
+import StationData from './station'
 import OverviewData from './overview'
+import DataInsight from 'api/DataInsight'
 
 const { TabPane } = Tabs
 const TabWrapper = styled.div`
@@ -34,6 +35,7 @@ export default class DataSearch extends Component {
     },
     standardsVN: [],
     qcvns: [],
+    dataOverview: {},
   }
 
   handleChangeTab = key => {
@@ -50,6 +52,7 @@ export default class DataSearch extends Component {
         tab1Style,
         tab2Style,
       })
+      this.getDataOverview()
       return
     }
     const tab1Style = {
@@ -66,6 +69,29 @@ export default class DataSearch extends Component {
     })
   }
 
+  getDataOverview = async () => {
+    const { searchFormData } = this.props
+    const params = {
+      stationKeys: searchFormData.stationKeys,
+      from: searchFormData.fromDate,
+      to: searchFormData.toDate,
+      measuringList: searchFormData.measuringList.join(','),
+      isFilter: searchFormData.isFilter,
+      groupType: ['month', 'year'].includes(searchFormData.type)
+        ? searchFormData.type
+        : 'custom',
+      timeInterval: Number(searchFormData.type) ? searchFormData.type : 0,
+      status: ['GOOD', 'EXCEEDED', 'EXCEEDED_PREPARING'].join(','),
+    }
+    try {
+      const result = await DataInsight.getDataAverageOverview(params)
+
+      this.setState({ dataOverview: result })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   onChangeQcvn = (qcvnIds, qcvnList) => {
     const qcvnSelected = qcvnIds.map(id => {
       return {
@@ -79,7 +105,13 @@ export default class DataSearch extends Component {
     })
   }
   render() {
-    const { tab1Style, tab2Style, standardsVN, qcvns } = this.state
+    const {
+      tab1Style,
+      tab2Style,
+      standardsVN,
+      qcvns,
+      dataOverview,
+    } = this.state
     const { stationsData, type, isSearchingData, searchFormData } = this.props
 
     return (
@@ -125,7 +157,7 @@ export default class DataSearch extends Component {
             }
           >
             {isSearchingData && stationsData.length && (
-              <StationList
+              <StationData
                 standardsVN={standardsVN}
                 stationsData={stationsData}
                 type={type}
@@ -142,7 +174,7 @@ export default class DataSearch extends Component {
               </Button>
             }
           >
-            <OverviewData />
+            <OverviewData data={dataOverview} />
           </TabPane>
         </Tabs>
       </TabWrapper>
