@@ -4317,6 +4317,8 @@ export default {
       alarmExceed: 'Threshold alarm',
       threshold: 'Threshold',
       selectThreshold: 'Select threshold',
+      disconnect: 'Disconnect',
+      nameThreshold: 'Threshold name',
       add: 'Add',
       save: 'Save',
       require: {

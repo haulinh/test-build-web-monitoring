@@ -2,12 +2,7 @@ import animateScrollTo from 'animated-scroll-to'
 import {
   Button,
   Col,
-  // Radio,
-  // Checkbox,
   Collapse,
-  // Icon,
-  // Upload,
-  // Modal,
   DatePicker,
   Form,
   Input,
@@ -15,16 +10,15 @@ import {
   message,
   Row,
   Select,
+  Tabs,
 } from 'antd'
 import CategoryApi from 'api/CategoryApi'
-import { Clearfix } from 'components/elements'
-// import InputNumberCell from 'components/elements/input-number-cell'
 import InputPhoneNumber from 'components/elements/input-phone-number'
 import SelectProvice from 'components/elements/select-province'
 import SelectQCVN from 'components/elements/select-qcvn'
 import SelectStationFix from 'components/elements/select-station-fixed'
 import SelectStationType from 'components/elements/select-station-type'
-import { HeaderSearch, Title } from 'components/layouts/styles'
+import LanguageInput, { getLanguageContents } from 'components/language'
 import { PATTERN_KEY, PATTERN_NAME } from 'constants/format-string'
 import { autobind } from 'core-decorators'
 import createLanguageHoc, { langPropTypes, translate } from 'hoc/create-lang'
@@ -32,17 +26,14 @@ import _, { get, omit } from 'lodash'
 import moment from 'moment'
 import PropTypes from 'prop-types'
 import React from 'react'
-// import { mapPropsToFields } from 'utils/form'
+import { connect } from 'react-redux'
+import { updateLanguageContent } from 'redux/actions/languageAction'
 import styled from 'styled-components'
-// import MediaApi from 'api/MediaApi'
 import swal from 'sweetalert2'
 import { v4 as uuidv4 } from 'uuid'
 import AlarmConfig from '../alarm-config'
 import MeasuringTableAdvanced from '../station-auto-formTable-advanced/'
 import MeasuringTable from '../station-auto-formTable/'
-import LanguageInput, {getLanguageContents} from 'components/language'
-import {updateLanguageContent} from 'redux/actions/languageAction'
-import {connect} from 'react-redux'
 
 const { TextArea } = Input
 const { Panel } = Collapse
@@ -72,10 +63,7 @@ function i18n() {
   }
 }
 
-@connect(
-  () => ({}), 
-  {updateLanguageContent}
-)
+@connect(() => ({}), { updateLanguageContent })
 @Form.create({})
 @createLanguageHoc
 @autobind
@@ -443,7 +431,7 @@ class StationAutoForm extends React.PureComponent {
 
       // Callback submit form Container Component
       if (!isDisableSave && !isDisableSaveAdvanced && this.props.onSubmit) {
-        const onSuccess = (data) => {
+        const onSuccess = data => {
           this.updateLanguage(data._id)
         }
         await this.props.onSubmit(data, onSuccess)
@@ -460,20 +448,20 @@ class StationAutoForm extends React.PureComponent {
   }
 
   updateLanguage(itemId, type = 'Station') {
-    const {form, updateLanguageContent} = this.props
+    const { form, updateLanguageContent } = this.props
     const values = form.getFieldsValue()
     const language = getLanguageContents(values)
-    updateLanguageContent({itemId, type, language})
+    updateLanguageContent({ itemId, type, language })
   }
 
-  onChangeLanguage(language, field='name') {
-    const {form, isEdit, initialValues} = this.props
-    const languageFieldName = `language.${field}`;
-    const content = form.getFieldValue(languageFieldName);
-    form.setFieldsValue({[languageFieldName]: language})
+  onChangeLanguage(language, field = 'name') {
+    const { form, isEdit, initialValues } = this.props
+    const languageFieldName = `language.${field}`
+    const content = form.getFieldValue(languageFieldName)
+    form.setFieldsValue({ [languageFieldName]: language })
 
     // don't process save for initial data or creation flow
-    if(!isEdit || !content) return
+    if (!isEdit || !content) return
     this.updateLanguage(initialValues._id)
   }
 
@@ -613,18 +601,17 @@ class StationAutoForm extends React.PureComponent {
   }
 
   handleOnChangeMeasuringUnit = isOnChangeMeasuringUnit => {
-    this.setState({isOnChangeMeasuringUnit: isOnChangeMeasuringUnit})
+    this.setState({ isOnChangeMeasuringUnit: isOnChangeMeasuringUnit })
   }
 
   handleOnChangeMeasuringAdvanced = dataMeasuringAdvanced => {
-    this.setState({measuringListAdvanced: dataMeasuringAdvanced})
+    this.setState({ measuringListAdvanced: dataMeasuringAdvanced })
   }
 
-  onChangeStandardsVN = value => this.setState({isStandardsVN: value})
-
+  onChangeStandardsVN = value => this.setState({ isStandardsVN: value })
 
   render() {
-    const { otherForm, form, initialValues } = this.props
+    const { otherForm, form, initialValues, isEdit } = this.props
     const { getFieldDecorator } = form
     const { t } = this.props.lang
 
@@ -641,828 +628,787 @@ class StationAutoForm extends React.PureComponent {
 
     return (
       <div>
-        <Clearfix height={32} />
-        <Form onSubmit={this.handleSubmit}>
-          <HeaderSearch>
-            <Title>
-              {t('stationAutoManager.configStationAuto.tabConfigStationAuto')}
-            </Title>
-          </HeaderSearch>
-          <Collapse
-            onChange={this.handleChange}
-            activeKey={this.state.tabKey}
-            defaultActiveKey={otherForm ? ['1', '2'] : ['1']}
+        <Tabs defaultActiveKey="config" animated={false}>
+          <Tabs.TabPane
+            key="config"
+            tab={t('stationAutoManager.configStationAuto.tabConfigStationAuto')}
           >
-            <Panel
-              id="form1"
-              header={t('stationAutoManager.form.panel1')}
-              key="1"
-            >
-              <Row gutter={8}>
-                <Col span={12}>
-                  <FormItem
-                    {...formItemLayout}
-                    label={t('stationAutoManager.form.key.label')}
-                  >
-                    {getFieldDecorator('key', {
-                      rules: this.props.isEdit
-                        ? []
-                        : [
+            <Form onSubmit={this.handleSubmit}>
+              <Collapse
+                onChange={this.handleChange}
+                activeKey={this.state.tabKey}
+                defaultActiveKey={otherForm ? ['1', '2'] : ['1']}
+              >
+                <Panel
+                  id="form1"
+                  header={t('stationAutoManager.form.panel1')}
+                  key="1"
+                >
+                  <Row gutter={8}>
+                    <Col span={12}>
+                      <FormItem
+                        {...formItemLayout}
+                        label={t('stationAutoManager.form.key.label')}
+                      >
+                        {getFieldDecorator('key', {
+                          rules: this.props.isEdit
+                            ? []
+                            : [
+                                {
+                                  required: true,
+                                  message: i18n().key.required,
+                                },
+                                {
+                                  pattern: PATTERN_KEY,
+                                  message: i18n().key.pattern,
+                                },
+                                {
+                                  max: 64,
+                                  message: i18n().key.max,
+                                },
+                              ],
+                        })(
+                          <Input
+                            disabled={this.props.isEdit}
+                            placeholder={t(
+                              'stationAutoManager.form.key.placeholder'
+                            )}
+                          />
+                        )}
+                      </FormItem>
+                    </Col>
+                    <Col span={12}>
+                      <FormItem
+                        {...formItemLayout}
+                        labelCol={{
+                          sm: { span: 8, offset: 0 },
+                        }}
+                        wrapperCol={{
+                          sm: { span: 15, offset: 0 },
+                        }}
+                        label={t('stationAutoManager.form.name.label')}
+                      >
+                        {getFieldDecorator('name', {
+                          rules: [
                             {
                               required: true,
-                              message: i18n().key.required,
+                              whitespace: true,
+                              message: i18n().name.required,
                             },
                             {
-                              pattern: PATTERN_KEY,
-                              message: i18n().key.pattern,
+                              pattern: PATTERN_NAME,
+                              message: i18n().name.pattern,
                             },
                             {
                               max: 64,
-                              message: i18n().key.max,
+                              message: i18n().name.max,
                             },
                           ],
-                    })(
-                      <Input
-                        disabled={this.props.isEdit}
-                        placeholder={t(
-                          'stationAutoManager.form.key.placeholder'
+                        })(
+                          <LanguageInput
+                            itemId={get(initialValues, '_id')}
+                            type="Station"
+                            language={form.getFieldValue('language.name')}
+                            placeholder={t(
+                              'stationAutoManager.form.name.placeholder'
+                            )}
+                            rules={[
+                              {
+                                max: 64,
+                                message: i18n().name.max,
+                              },
+                            ]}
+                            onChangeLanguage={language =>
+                              this.onChangeLanguage(language)
+                            }
+                          />
                         )}
-                      />
-                    )}
-                  </FormItem>
-                </Col>
-                <Col span={12}>
-                  <FormItem
-                    {...formItemLayout}
-                    labelCol={{
-                      sm: { span: 8, offset: 0 },
-                    }}
-                    wrapperCol={{
-                      sm: { span: 15, offset: 0 },
-                    }}
-                    label={t('stationAutoManager.form.name.label')}
-                  >
-                    {getFieldDecorator('name', {
-                      rules: [
-                        {
-                          required: true,
-                          whitespace: true,
-                          message: i18n().name.required,
-                        },
-                        {
-                          pattern: PATTERN_NAME,
-                          message: i18n().name.pattern,
-                        },
-                        {
-                          max: 64,
-                          message: i18n().name.max,
-                        },
-                      ],
-                    })(
-                      <LanguageInput
-                        itemId={get(initialValues, '_id')}
-                        type='Station'
-                        language={form.getFieldValue('language.name')}
-                        placeholder={t('stationAutoManager.form.name.placeholder')}
-                        rules={[{
-                          max: 64,
-                          message: i18n().name.max,
-                        }]}
-                        onChangeLanguage={(language) => this.onChangeLanguage(language)}
-                      />
-                    )}
-                  </FormItem>
-                </Col>
-              </Row>
-              <Row gutter={8}>
-                <Col span={12}>
-                  <FormItem
-                    {...formItemLayout}
-                    label={t('stationAutoManager.form.province.label')}
-                  >
-                    {getFieldDecorator('province', {
-                      rules: [
-                        {
-                          required: false,
-                          message: t('stationAutoManager.form.province.error'),
-                        },
-                      ],
-                    })(
-                      <SelectProvice
-                        //  label={t('stationAutoManager.form.province.label')}
-                        placeholder={t(
-                          'stationAutoManager.form.province.placeholder'
+                      </FormItem>
+                    </Col>
+                  </Row>
+                  <Row gutter={8}>
+                    <Col span={12}>
+                      <FormItem
+                        {...formItemLayout}
+                        label={t('stationAutoManager.form.province.label')}
+                      >
+                        {getFieldDecorator('province', {
+                          rules: [
+                            {
+                              required: false,
+                              message: t(
+                                'stationAutoManager.form.province.error'
+                              ),
+                            },
+                          ],
+                        })(
+                          <SelectProvice
+                            //  label={t('stationAutoManager.form.province.label')}
+                            placeholder={t(
+                              'stationAutoManager.form.province.placeholder'
+                            )}
+                            onHandleChange={this.changeProvince}
+                          />
                         )}
-                        onHandleChange={this.changeProvince}
-                      />
-                    )}
-                  </FormItem>
-                </Col>
-                <Col span={12}>
-                  <FormItem
-                    {...formItemLayout}
-                    label={t('stationAutoManager.form.qcvn.label')}
-                    labelCol={{
-                      sm: { span: 8, offset: 0 },
-                    }}
-                    wrapperCol={{
-                      sm: { span: 15, offset: 0 },
-                    }}
-                  >
-                    {getFieldDecorator('standardsVN', {
-                      rules: [
-                        {
-                          required: false,
-                          message: t('stationAutoManager.form.qcvn.error'),
-                        },
-                      ],
-                    })(
-                      <SelectQCVN
-                        placeholder={t(
-                          'stationAutoManager.form.qcvn.placeholder'
+                      </FormItem>
+                    </Col>
+                    <Col span={12}>
+                      <FormItem
+                        {...formItemLayout}
+                        label={t('stationAutoManager.form.qcvn.label')}
+                        labelCol={{
+                          sm: { span: 8, offset: 0 },
+                        }}
+                        wrapperCol={{
+                          sm: { span: 15, offset: 0 },
+                        }}
+                      >
+                        {getFieldDecorator('standardsVN', {
+                          rules: [
+                            {
+                              required: false,
+                              message: t('stationAutoManager.form.qcvn.error'),
+                            },
+                          ],
+                        })(
+                          <SelectQCVN
+                            placeholder={t(
+                              'stationAutoManager.form.qcvn.placeholder'
+                            )}
+                            onHandleChange={this.changeQCVN}
+                          />
                         )}
-                        onHandleChange={this.changeQCVN}
-                      />
-                    )}
-                  </FormItem>
-                </Col>
-              </Row>
-              <Row gutter={8}>
-                <Col span={12}>
-                  <FormItem
-                    {...formItemLayout}
-                    label={t('stationAutoManager.form.long.label')}
-                  >
-                    {getFieldDecorator('long', {
-                      rules: [
-                        {
-                          required: true,
-                          message: t('stationAutoManager.form.long.error'),
-                        },
-                      ],
-                    })(
-                      <InputNumber
-                        style={{ flex: 1, width: '100%' }}
-                        placeholder={t(
-                          'stationAutoManager.form.long.placeholder'
+                      </FormItem>
+                    </Col>
+                  </Row>
+                  <Row gutter={8}>
+                    <Col span={12}>
+                      <FormItem
+                        {...formItemLayout}
+                        label={t('stationAutoManager.form.long.label')}
+                      >
+                        {getFieldDecorator('long', {
+                          rules: [
+                            {
+                              required: true,
+                              message: t('stationAutoManager.form.long.error'),
+                            },
+                          ],
+                        })(
+                          <InputNumber
+                            style={{ flex: 1, width: '100%' }}
+                            placeholder={t(
+                              'stationAutoManager.form.long.placeholder'
+                            )}
+                          />
                         )}
-                      />
-                    )}
-                  </FormItem>
-                </Col>
-                <Col span={12}>
-                  <FormItem
-                    {...formItemLayout}
-                    labelCol={{
-                      sm: { span: 8, offset: 0 },
-                    }}
-                    wrapperCol={{
-                      sm: { span: 15, offset: 0 },
-                    }}
-                    label={t('stationAutoManager.form.lat.label')}
-                  >
-                    {getFieldDecorator('lat', {
-                      rules: [
-                        {
-                          required: true,
-                          message: t('stationAutoManager.form.lat.error'),
-                        },
-                      ],
-                    })(
-                      <InputNumber
-                        style={{ flex: 1, width: '100%' }}
-                        placeholder={t(
-                          'stationAutoManager.form.lat.placeholder'
+                      </FormItem>
+                    </Col>
+                    <Col span={12}>
+                      <FormItem
+                        {...formItemLayout}
+                        labelCol={{
+                          sm: { span: 8, offset: 0 },
+                        }}
+                        wrapperCol={{
+                          sm: { span: 15, offset: 0 },
+                        }}
+                        label={t('stationAutoManager.form.lat.label')}
+                      >
+                        {getFieldDecorator('lat', {
+                          rules: [
+                            {
+                              required: true,
+                              message: t('stationAutoManager.form.lat.error'),
+                            },
+                          ],
+                        })(
+                          <InputNumber
+                            style={{ flex: 1, width: '100%' }}
+                            placeholder={t(
+                              'stationAutoManager.form.lat.placeholder'
+                            )}
+                          />
                         )}
-                      />
-                    )}
-                  </FormItem>
-                </Col>
-              </Row>
-              <Row gutter={8}>
-                <Col span={12}>
-                  <FormItem
-                    {...formItemLayout}
-                    label={t('stationAutoManager.form.longVn2000.label')}
-                  >
-                    {getFieldDecorator('longVn2000')(
-                      <InputNumber
-                        style={{ flex: 1, width: '100%' }}
-                        placeholder={t(
-                          'stationAutoManager.form.longVn2000.placeholder'
+                      </FormItem>
+                    </Col>
+                  </Row>
+                  <Row gutter={8}>
+                    <Col span={12}>
+                      <FormItem
+                        {...formItemLayout}
+                        label={t('stationAutoManager.form.longVn2000.label')}
+                      >
+                        {getFieldDecorator('longVn2000')(
+                          <InputNumber
+                            style={{ flex: 1, width: '100%' }}
+                            placeholder={t(
+                              'stationAutoManager.form.longVn2000.placeholder'
+                            )}
+                          />
                         )}
-                      />
-                    )}
-                  </FormItem>
-                </Col>
-                <Col span={12}>
-                  <FormItem
-                    {...formItemLayout}
-                    labelCol={{
-                      sm: { span: 8, offset: 0 },
-                    }}
-                    wrapperCol={{
-                      sm: { span: 15, offset: 0 },
-                    }}
-                    label={t('stationAutoManager.form.latVn2000.label')}
-                  >
-                    {getFieldDecorator('latVn2000')(
-                      <InputNumber
-                        style={{ flex: 1, width: '100%' }}
-                        placeholder={t(
-                          'stationAutoManager.form.latVn2000.placeholder'
+                      </FormItem>
+                    </Col>
+                    <Col span={12}>
+                      <FormItem
+                        {...formItemLayout}
+                        labelCol={{
+                          sm: { span: 8, offset: 0 },
+                        }}
+                        wrapperCol={{
+                          sm: { span: 15, offset: 0 },
+                        }}
+                        label={t('stationAutoManager.form.latVn2000.label')}
+                      >
+                        {getFieldDecorator('latVn2000')(
+                          <InputNumber
+                            style={{ flex: 1, width: '100%' }}
+                            placeholder={t(
+                              'stationAutoManager.form.latVn2000.placeholder'
+                            )}
+                          />
                         )}
-                      />
-                    )}
-                  </FormItem>
-                </Col>
-              </Row>
-              <Row gutter={8}>
-                <Col span={12}>
-                  <FormItem
-                    {...formItemLayout}
-                    label={t('stationAutoManager.form.address.label')}
-                  >
-                    {getFieldDecorator('address')(
-                      <Input
-                        placeholder={t(
-                          'stationAutoManager.form.address.placeholder'
+                      </FormItem>
+                    </Col>
+                  </Row>
+                  <Row gutter={8}>
+                    <Col span={12}>
+                      <FormItem
+                        {...formItemLayout}
+                        label={t('stationAutoManager.form.address.label')}
+                      >
+                        {getFieldDecorator('address')(
+                          <Input
+                            placeholder={t(
+                              'stationAutoManager.form.address.placeholder'
+                            )}
+                          />
                         )}
-                      />
-                    )}
-                  </FormItem>
-                </Col>
-                <Col span={12}>
-                  <FormItem
-                    {...formItemLayout}
-                    labelCol={{
-                      sm: { span: 8, offset: 0 },
-                    }}
-                    wrapperCol={{
-                      sm: { span: 15, offset: 0 },
-                    }}
-                    label={t('stationAutoManager.form.stationType.label')}
-                  >
-                    {getFieldDecorator('stationType', {
-                      rules: [
-                        {
-                          required: true,
-                          message: t(
-                            'stationAutoManager.form.stationType.error'
-                          ),
-                        },
-                      ],
-                    })(
-                      <SelectStationType
+                      </FormItem>
+                    </Col>
+                    <Col span={12}>
+                      <FormItem
+                        {...formItemLayout}
+                        labelCol={{
+                          sm: { span: 8, offset: 0 },
+                        }}
+                        wrapperCol={{
+                          sm: { span: 15, offset: 0 },
+                        }}
                         label={t('stationAutoManager.form.stationType.label')}
-                        placeholder={t(
-                          'stationAutoManager.form.stationType.placeholder'
+                      >
+                        {getFieldDecorator('stationType', {
+                          rules: [
+                            {
+                              required: true,
+                              message: t(
+                                'stationAutoManager.form.stationType.error'
+                              ),
+                            },
+                          ],
+                        })(
+                          <SelectStationType
+                            label={t(
+                              'stationAutoManager.form.stationType.label'
+                            )}
+                            placeholder={t(
+                              'stationAutoManager.form.stationType.placeholder'
+                            )}
+                            onHandleChange={this.changeStationType}
+                          />
                         )}
-                        onHandleChange={this.changeStationType}
-                      />
-                    )}
-                  </FormItem>
-                </Col>
-              </Row>
-              <Row gutter={8}>
-                <Col span={12}>
-                  <FormItem
-                    {...formItemLayout}
-                    labelCol={{
-                      sm: { span: 6, offset: 0 },
-                    }}
-                    wrapperCol={{
-                      sm: { span: 17, offset: 0 },
-                    }}
-                    label={t('stationAutoManager.form.frequency.label')}
-                  >
-                    {getFieldDecorator('dataFrequency', {
-                      rules: [{ required: false }],
-                    })(
-                      <InputNumber
-                        style={{ width: '100%' }}
-                        editable={true}
-                        min={1}
-                        max={1000000}
-                      />
-                    )}
-                  </FormItem>
-                </Col>
-                {/* <Col span={12}>
-                <FormItem
-                  {...formItemLayout}
-                  label={t('stationAutoManager.form.typeSampling.label')}
-                >
-                  {getFieldDecorator('typeSampling', {
-                    rules: [],
-                  })(
-                    <Radio.Group buttonStyle="solid">
-                      <Radio.Button value="FTP">FTP</Radio.Button>
-                      <Radio.Button value="INVENTIA">INVENTIA</Radio.Button>
-                    </Radio.Group>
-                  )}
-                </FormItem>
-              </Col> */}
-                <Col span={12}>
-                  <FormItem
-                    {...formItemLayout}
-                    labelCol={{
-                      sm: { span: 8, offset: 0 },
-                    }}
-                    wrapperCol={{
-                      sm: { span: 15, offset: 0 },
-                    }}
-                    label={t('stationAutoManager.form.dayOfOperation.label')}
-                  >
-                    {getFieldDecorator('activatedAt', {
-                      rules: [{ required: false }],
-                    })(
-                      <DatePicker
-                        format="DD-MM-YYYY"
-                        placeholder={t(
-                          'stationAutoManager.form.dayOfOperation.placeholder'
+                      </FormItem>
+                    </Col>
+                  </Row>
+                  <Row gutter={8}>
+                    <Col span={12}>
+                      <FormItem
+                        {...formItemLayout}
+                        labelCol={{
+                          sm: { span: 6, offset: 0 },
+                        }}
+                        wrapperCol={{
+                          sm: { span: 17, offset: 0 },
+                        }}
+                        label={t('stationAutoManager.form.frequency.label')}
+                      >
+                        {getFieldDecorator('dataFrequency', {
+                          rules: [{ required: false }],
+                        })(
+                          <InputNumber
+                            style={{ width: '100%' }}
+                            editable={true}
+                            min={1}
+                            max={1000000}
+                          />
                         )}
-                      />
-                    )}
-                  </FormItem>
-                </Col>
-                {/* <Col span={12}>
-                <FormItem
-                  {...formItemLayout}
-                  label={t('stationAutoManager.form.isStopWorking.label')}
-                >
-                  {getFieldDecorator('isStopWorking', {
-                    valuePropName: 'checked',
-                  })(<Checkbox />)}
-                </FormItem>
-              </Col> */}
-              </Row>
+                      </FormItem>
+                    </Col>
 
-              {/* remove config diameter */}
+                    <Col span={12}>
+                      <FormItem
+                        {...formItemLayout}
+                        labelCol={{
+                          sm: { span: 8, offset: 0 },
+                        }}
+                        wrapperCol={{
+                          sm: { span: 15, offset: 0 },
+                        }}
+                        label={t(
+                          'stationAutoManager.form.dayOfOperation.label'
+                        )}
+                      >
+                        {getFieldDecorator('activatedAt', {
+                          rules: [{ required: false }],
+                        })(
+                          <DatePicker
+                            format="DD-MM-YYYY"
+                            placeholder={t(
+                              'stationAutoManager.form.dayOfOperation.placeholder'
+                            )}
+                          />
+                        )}
+                      </FormItem>
+                    </Col>
+                  </Row>
 
-              {/* <Row gutter={8}>
-              <Col span={12}>
-                <FormItem
-                  {...formItemLayout}
-                  labelCol={{
-                    sm: { span: 8, offset: 0 },
-                  }}
-                  wrapperCol={{
-                    sm: { span: 15, offset: 0 },
-                  }}
-                  label={t('stationAutoManager.form.diameter.label')}
-                >
-                  {getFieldDecorator('diameter')(
-                    <InputNumber
-                      placeholder={t(
-                        'stationAutoManager.form.diameter.placeholder'
-                      )}
-                      style={{ width: '100%' }}
-                    />
-                  )}
-                </FormItem>
-              </Col>
-            </Row> */}
-              <ConnectionStatusWrapper>
-                <div style={{ width: '44em' }}>
-                  <FormItem
-                    {...formItemLayout}
-                    labelCol={{
-                      sm: { span: 7, offset: 0 },
-                    }}
-                    wrapperCol={{
-                      sm: { span: 16, offset: 0 },
-                    }}
-                    label={t('stationAutoManager.form.connectionStatus.label')}
-                  >
-                    {getFieldDecorator('connectionStatusNumber', {
-                      rules: [
-                        {
-                          required: true,
-                          message: t(
-                            'stationAutoManager.form.connectionStatus.error'
-                          ),
-                        },
-                      ],
-                    })(<InputNumber min={1} initialValue={1} />)}
-                  </FormItem>
-                </div>
-
-                <div style={{ marginLeft: '-24em' }}>
-                  <FormItem {...formItemLayout}>
-                    {getFieldDecorator('connectionStatusTimeRange', {
-                      rules: [
-                        {
-                          required: true,
-                          message: t(
-                            'stationAutoManager.form.connectionStatus.error'
-                          ),
-                        },
-                      ],
-                    })(
-                      <Select
-                        placeholder={t(
+                  <ConnectionStatusWrapper>
+                    <div style={{ width: '44em' }}>
+                      <FormItem
+                        {...formItemLayout}
+                        labelCol={{
+                          sm: { span: 7, offset: 0 },
+                        }}
+                        wrapperCol={{
+                          sm: { span: 16, offset: 0 },
+                        }}
+                        label={t(
                           'stationAutoManager.form.connectionStatus.label'
                         )}
-                        style={{ width: 120 }}
                       >
-                        <Option value="MINUTES">
-                          {t(
-                            'stationAutoManager.form.connectionStatus.time.options.minutes'
-                          )}
-                        </Option>
-                        <Option value="HOURS">
-                          {t(
-                            'stationAutoManager.form.connectionStatus.time.options.hours'
-                          )}
-                        </Option>
-                        <Option value="DAYS">
-                          {t(
-                            'stationAutoManager.form.connectionStatus.time.options.days'
-                          )}
-                        </Option>
-                      </Select>
-                    )}
-                  </FormItem>
-                </div>
-                <i
-                  style={{
-                    marginTop: '14px',
-                    marginLeft: '8px',
-                  }}
-                >
-                  {t('stationAutoManager.form.connectionStatus.description')}
-                </i>
-              </ConnectionStatusWrapper>
-              <Row gutter={8}>
-                {/* <Col span={24} style={{ paddingRight: 40 }}>
-                <FormItem
-                  {...formItemLayout}
-                  labelCol={{
-                    sm: { span: 3, offset: 0 },
-                  }}
-                  wrapperCol={{
-                    sm: { span: 21, offset: 0 },
-                  }}
-                  label={t('stationAutoManager.form.emails.label')}
-                >
-                  {getFieldDecorator(
-                    'emails',
-                    {}
-                  )(
-                    <Select
-                      mode="tags"
-                      placeholder={t(
-                        'stationAutoManager.form.emails.placeholder'
+                        {getFieldDecorator('connectionStatusNumber', {
+                          rules: [
+                            {
+                              required: true,
+                              message: t(
+                                'stationAutoManager.form.connectionStatus.error'
+                              ),
+                            },
+                          ],
+                        })(<InputNumber min={1} initialValue={1} />)}
+                      </FormItem>
+                    </div>
+
+                    <div style={{ marginLeft: '-24em' }}>
+                      <FormItem {...formItemLayout}>
+                        {getFieldDecorator('connectionStatusTimeRange', {
+                          rules: [
+                            {
+                              required: true,
+                              message: t(
+                                'stationAutoManager.form.connectionStatus.error'
+                              ),
+                            },
+                          ],
+                        })(
+                          <Select
+                            placeholder={t(
+                              'stationAutoManager.form.connectionStatus.label'
+                            )}
+                            style={{ width: 120 }}
+                          >
+                            <Option value="MINUTES">
+                              {t(
+                                'stationAutoManager.form.connectionStatus.time.options.minutes'
+                              )}
+                            </Option>
+                            <Option value="HOURS">
+                              {t(
+                                'stationAutoManager.form.connectionStatus.time.options.hours'
+                              )}
+                            </Option>
+                            <Option value="DAYS">
+                              {t(
+                                'stationAutoManager.form.connectionStatus.time.options.days'
+                              )}
+                            </Option>
+                          </Select>
+                        )}
+                      </FormItem>
+                    </div>
+                    <i
+                      style={{
+                        marginTop: '14px',
+                        marginLeft: '8px',
+                      }}
+                    >
+                      {t(
+                        'stationAutoManager.form.connectionStatus.description'
                       )}
-                      onChange={this.handleEmailsChange}
-                    />
-                  )}
-                  <i>{t('stationAutoManager.form.emails.description')}</i>
-                </FormItem>
-              </Col> */}
-                <Col
-                  span={12}
-                  style={{
-                    display: 'none',
-                  }}
-                >
-                  <FormItem
-                    {...formItemLayout}
-                    label={t('stationAutoManager.form.phones.label')}
-                  >
-                    {getFieldDecorator(
-                      'phones',
-                      {}
-                    )(
-                      <Select
-                        mode="tags"
-                        placeholder={t(
-                          'stationAutoManager.form.phones.placeholder'
+                    </i>
+                  </ConnectionStatusWrapper>
+                  <Row gutter={8}>
+                    <Col
+                      span={12}
+                      style={{
+                        display: 'none',
+                      }}
+                    >
+                      <FormItem
+                        {...formItemLayout}
+                        label={t('stationAutoManager.form.phones.label')}
+                      >
+                        {getFieldDecorator(
+                          'phones',
+                          {}
+                        )(
+                          <Select
+                            mode="tags"
+                            placeholder={t(
+                              'stationAutoManager.form.phones.placeholder'
+                            )}
+                            onChange={this.handlePhonesChange}
+                          />
                         )}
-                        onChange={this.handlePhonesChange}
+                      </FormItem>
+                    </Col>
+                  </Row>
+                  <Row gutter={8}>
+                    <Col span={24} style={{ paddingRight: 40 }}>
+                      <FormItem
+                        {...formItemLayout}
+                        labelCol={{
+                          sm: { span: 3, offset: 0 },
+                        }}
+                        wrapperCol={{
+                          sm: { span: 21, offset: 0 },
+                        }}
+                        label={t('stationAutoManager.form.note.label')}
+                      >
+                        {getFieldDecorator('note')(
+                          <TextArea
+                            placeholder={t(
+                              'stationAutoManager.form.note.placeholder'
+                            )}
+                          />
+                        )}
+                      </FormItem>
+                    </Col>
+                  </Row>
+
+                  <Row gutter={8} type="flex" justify="center">
+                    <Col span={11}>
+                      <FormItem
+                        {...formItemLayout}
+                        label={t('stationAutoManager.form.linkStation.label')}
+                        labelCol={{
+                          sm: { span: 12, offset: 0 },
+                        }}
+                        wrapperCol={{
+                          sm: { span: 12, offset: 0 },
+                        }}
+                      >
+                        {getFieldDecorator('linkedStation')(
+                          <SelectStationFix
+                            fieldValue="key"
+                            onChangeObject={this.handleLinkedStationChange()}
+                          ></SelectStationFix>
+                        )}
+                      </FormItem>
+                    </Col>
+                    <i
+                      style={{
+                        paddingTop: '10px',
+                        marginLeft: '8px',
+                      }}
+                    >
+                      {t('stationAutoManager.form.linkStation.description')}
+                    </i>
+                  </Row>
+
+                  <Row gutter={8}>
+                    <Col span={24} />
+                  </Row>
+                </Panel>
+                <Panel header={t('stationAutoManager.form.panel3')} key="3">
+                  {this.state.measuringListSource &&
+                    this.state.measuringListSource.length > 0 &&
+                    this.state.tabKey.indexOf('3') >= 0 && (
+                      <MeasuringTable
+                        onChangeMeasuring={this.handleOnChangeMeasuring}
+                        onChangeMeasuringUnit={this.handleOnChangeMeasuringUnit}
+                        isEdit={this.props.isEdit}
+                        lang={this.props.lang}
+                        form={this.props.form}
+                        isStandardsVN={this.state.isStandardsVN}
+                        onChangeStandardsVN={this.onChangeStandardsVN}
+                        measuringListAdvanced={this.state.measuringListAdvanced}
+                        standardsVN={get(
+                          this.state.standardsVNObject,
+                          'measuringList',
+                          []
+                        )}
+                        dataSource={
+                          this.state.measuringList
+                            ? this.state.measuringList
+                            : [
+                                {
+                                  key: '',
+                                  name: '',
+                                  unit: '',
+                                  id: uuidv4(),
+                                },
+                              ]
+                        }
+                        measuringListSource={this.state.measuringListSource}
                       />
                     )}
-                  </FormItem>
-                </Col>
-              </Row>
-              <Row gutter={8}>
-                <Col span={24} style={{ paddingRight: 40 }}>
-                  <FormItem
-                    {...formItemLayout}
-                    labelCol={{
-                      sm: { span: 3, offset: 0 },
-                    }}
-                    wrapperCol={{
-                      sm: { span: 21, offset: 0 },
-                    }}
-                    label={t('stationAutoManager.form.note.label')}
-                  >
-                    {getFieldDecorator('note')(
-                      <TextArea
-                        placeholder={t(
-                          'stationAutoManager.form.note.placeholder'
-                        )}
-                      />
-                    )}
-                  </FormItem>
-                </Col>
-              </Row>
-
-              <Row gutter={8} type="flex" justify="center">
-                <Col span={11}>
-                  <FormItem
-                    {...formItemLayout}
-                    label={t('stationAutoManager.form.linkStation.label')}
-                    labelCol={{
-                      sm: { span: 12, offset: 0 },
-                    }}
-                    wrapperCol={{
-                      sm: { span: 12, offset: 0 },
-                    }}
-                  >
-                    {getFieldDecorator('linkedStation')(
-                      <SelectStationFix
-                        fieldValue="key"
-                        onChangeObject={this.handleLinkedStationChange()}
-                      ></SelectStationFix>
-                    )}
-                  </FormItem>
-                </Col>
-                <i
-                  style={{
-                    paddingTop: '10px',
-                    marginLeft: '8px',
-                  }}
-                >
-                  {t('stationAutoManager.form.linkStation.description')}
-                </i>
-              </Row>
-
-              <Row gutter={8}>
-                <Col span={24} />
-              </Row>
-            </Panel>
-            <Panel header={t('stationAutoManager.form.panel3')} key="3">
-              {this.state.measuringListSource &&
-                this.state.measuringListSource.length > 0 &&
-                this.state.tabKey.indexOf('3') >= 0 && (
-                  <MeasuringTable
-                    onChangeMeasuring={this.handleOnChangeMeasuring}
-                    onChangeMeasuringUnit={this.handleOnChangeMeasuringUnit}
+                </Panel>
+                <Panel header={t('stationAutoManager.form.panel4')} key="4">
+                  <MeasuringTableAdvanced
+                    onChangeMeasuring={this.handleOnChangeMeasuringAdvanced}
                     isEdit={this.props.isEdit}
                     lang={this.props.lang}
                     form={this.props.form}
                     isStandardsVN={this.state.isStandardsVN}
                     onChangeStandardsVN={this.onChangeStandardsVN}
-                    measuringListAdvanced={this.state.measuringListAdvanced}
+                    measuringList={this.state.measuringList}
                     standardsVN={get(
                       this.state.standardsVNObject,
-                      'measuringList',
+                      'measuringListAdvanced',
                       []
                     )}
                     dataSource={
-                      this.state.measuringList
-                        ? this.state.measuringList
-                        : [
-                            {
-                              key: '',
-                              name: '',
-                              unit: '',
-                              id: uuidv4(),
-                            },
-                          ]
+                      this.state.measuringListAdvanced
+                        ? this.state.measuringListAdvanced
+                        : []
                     }
-                    measuringListSource={this.state.measuringListSource}
+                    measuringListSource={this.state.measuringListSourceAdvanced}
+                    isOnChangeMeasuringUnit={this.state.isOnChangeMeasuringUnit}
                   />
-                )}
-            </Panel>
-            <Panel header={t('stationAutoManager.form.panel4')} key="4">
-              <MeasuringTableAdvanced
-                onChangeMeasuring={this.handleOnChangeMeasuringAdvanced}
-                isEdit={this.props.isEdit}
-                lang={this.props.lang}
-                form={this.props.form}
-                isStandardsVN={this.state.isStandardsVN}
-                onChangeStandardsVN={this.onChangeStandardsVN}
-                measuringList={this.state.measuringList}
-                standardsVN={get(
-                  this.state.standardsVNObject,
-                  'measuringListAdvanced',
-                  []
-                )}
-                dataSource={
-                  this.state.measuringListAdvanced
-                    ? this.state.measuringListAdvanced
-                    : []
-                }
-                measuringListSource={this.state.measuringListSourceAdvanced}
-                isOnChangeMeasuringUnit={this.state.isOnChangeMeasuringUnit}
-              />
-            </Panel>
-            <Panel header={t('stationAutoManager.form.panel2')} key="2">
-              <Row gutter={8}>
-                <Col span={12}>
-                  <FormItem
-                    {...formItemLayout}
-                    label={t('stationAutoManager.form.website.label')}
-                  >
-                    {getFieldDecorator(
-                      'website',
-                      {}
-                    )(
-                      <Input
-                        placeholder={t(
-                          'stationAutoManager.form.website.placeholder'
+                </Panel>
+                <Panel header={t('stationAutoManager.form.panel2')} key="2">
+                  <Row gutter={8}>
+                    <Col span={12}>
+                      <FormItem
+                        {...formItemLayout}
+                        label={t('stationAutoManager.form.website.label')}
+                      >
+                        {getFieldDecorator(
+                          'website',
+                          {}
+                        )(
+                          <Input
+                            placeholder={t(
+                              'stationAutoManager.form.website.placeholder'
+                            )}
+                          />
                         )}
-                      />
-                    )}
-                  </FormItem>
-                </Col>
-                <Col span={12}>
-                  <FormItem
-                    {...formItemLayout}
-                    label={t('stationAutoManager.form.capacity.label')}
-                  >
-                    {getFieldDecorator(
-                      'capacity',
-                      {}
-                    )(
-                      <Input
-                        placeholder={t(
-                          'stationAutoManager.form.capacity.placeholder'
+                      </FormItem>
+                    </Col>
+                    <Col span={12}>
+                      <FormItem
+                        {...formItemLayout}
+                        label={t('stationAutoManager.form.capacity.label')}
+                      >
+                        {getFieldDecorator(
+                          'capacity',
+                          {}
+                        )(
+                          <Input
+                            placeholder={t(
+                              'stationAutoManager.form.capacity.placeholder'
+                            )}
+                          />
                         )}
-                      />
-                    )}
-                  </FormItem>
-                </Col>
-              </Row>
-              <Row gutter={8}>
-                <Col span={12}>
-                  <FormItem
-                    {...formItemLayout}
-                    label={t('stationAutoManager.form.career.label')}
-                  >
-                    {getFieldDecorator(
-                      'career',
-                      {}
-                    )(
-                      <Input
-                        placeholder={t(
-                          'stationAutoManager.form.career.placeholder'
+                      </FormItem>
+                    </Col>
+                  </Row>
+                  <Row gutter={8}>
+                    <Col span={12}>
+                      <FormItem
+                        {...formItemLayout}
+                        label={t('stationAutoManager.form.career.label')}
+                      >
+                        {getFieldDecorator(
+                          'career',
+                          {}
+                        )(
+                          <Input
+                            placeholder={t(
+                              'stationAutoManager.form.career.placeholder'
+                            )}
+                          />
                         )}
-                      />
-                    )}
-                  </FormItem>
-                </Col>
-                <Col span={12}>
-                  <FormItem
-                    {...formItemLayout}
-                    label={t('stationAutoManager.form.yearOperate.label')}
-                  >
-                    {getFieldDecorator(
-                      'yearOperate',
-                      {}
-                    )(
-                      <InputNumber
-                        style={{ flex: 1, width: '100%' }}
-                        min={1800}
-                        max={2050}
-                      />
-                    )}
-                  </FormItem>
-                </Col>
-              </Row>
-              <Row gutter={8}>
-                <Col span={12}>
-                  <FormItem
-                    {...formItemLayout}
-                    label={t('stationAutoManager.form.userResponsible.label')}
-                  >
-                    {getFieldDecorator(
-                      'userResponsible',
-                      {}
-                    )(
-                      <Input
-                        placeholder={t(
-                          'stationAutoManager.form.userResponsible.placeholder'
+                      </FormItem>
+                    </Col>
+                    <Col span={12}>
+                      <FormItem
+                        {...formItemLayout}
+                        label={t('stationAutoManager.form.yearOperate.label')}
+                      >
+                        {getFieldDecorator(
+                          'yearOperate',
+                          {}
+                        )(
+                          <InputNumber
+                            style={{ flex: 1, width: '100%' }}
+                            min={1800}
+                            max={2050}
+                          />
                         )}
-                      />
-                    )}
-                  </FormItem>
-                </Col>
-                <Col span={12}>
-                  <FormItem
-                    {...formItemLayout}
-                    label={t('stationAutoManager.form.phoneResponsible.label')}
-                  >
-                    {getFieldDecorator(
-                      'phoneResponsible',
-                      {}
-                    )(<InputPhoneNumber size="medium" />)}
-                  </FormItem>
-                </Col>
-              </Row>
-              <Row gutter={8}>
-                <Col span={12}>
-                  <FormItem
-                    {...formItemLayout}
-                    label={t('stationAutoManager.form.userSupervisor.label')}
-                  >
-                    {getFieldDecorator(
-                      'userSupervisor',
-                      {}
-                    )(
-                      <Input
-                        placeholder={t(
-                          'stationAutoManager.form.userSupervisor.placeholder'
+                      </FormItem>
+                    </Col>
+                  </Row>
+                  <Row gutter={8}>
+                    <Col span={12}>
+                      <FormItem
+                        {...formItemLayout}
+                        label={t(
+                          'stationAutoManager.form.userResponsible.label'
                         )}
-                      />
-                    )}
-                  </FormItem>
-                </Col>
-                <Col span={12}>
-                  <FormItem
-                    {...formItemLayout}
-                    label={t('stationAutoManager.form.phoneSupervisor.label')}
-                  >
-                    {getFieldDecorator(
-                      'phoneSupervisor',
-                      {}
-                    )(<InputPhoneNumber size="medium" />)}
-                  </FormItem>
-                </Col>
-              </Row>
-              <Row gutter={8}>
-                <Col span={24} style={{ paddingRight: 40 }}>
-                  <FormItem
-                    {...formItemLayout}
-                    labelCol={{
-                      sm: { span: 3, offset: 0 },
-                    }}
-                    wrapperCol={{
-                      sm: { span: 21, offset: 0 },
-                    }}
-                    label={t('stationAutoManager.form.material.label')}
-                  >
-                    {getFieldDecorator(
-                      'material',
-                      {}
-                    )(
-                      <Input
-                        placeholder={t(
-                          'stationAutoManager.form.material.placeholder'
+                      >
+                        {getFieldDecorator(
+                          'userResponsible',
+                          {}
+                        )(
+                          <Input
+                            placeholder={t(
+                              'stationAutoManager.form.userResponsible.placeholder'
+                            )}
+                          />
                         )}
-                      />
-                    )}
-                  </FormItem>
-                </Col>
-              </Row>
-              <Row gutter={8}>
-                <Col span={24} style={{ paddingRight: 40 }}>
-                  <FormItem
-                    {...formItemLayout}
-                    labelCol={{
-                      sm: { span: 3, offset: 0 },
-                    }}
-                    wrapperCol={{
-                      sm: { span: 21, offset: 0 },
-                    }}
-                    label={t('stationAutoManager.form.processProduction.label')}
-                  >
-                    {getFieldDecorator(
-                      'processProduction',
-                      {}
-                    )(
-                      <TextArea
-                        placeholder={t(
-                          'stationAutoManager.form.processProduction.placeholder'
+                      </FormItem>
+                    </Col>
+                    <Col span={12}>
+                      <FormItem
+                        {...formItemLayout}
+                        label={t(
+                          'stationAutoManager.form.phoneResponsible.label'
                         )}
-                      />
-                    )}
-                  </FormItem>
-                </Col>
-              </Row>
-            </Panel>
-          </Collapse>
+                      >
+                        {getFieldDecorator(
+                          'phoneResponsible',
+                          {}
+                        )(<InputPhoneNumber size="medium" />)}
+                      </FormItem>
+                    </Col>
+                  </Row>
+                  <Row gutter={8}>
+                    <Col span={12}>
+                      <FormItem
+                        {...formItemLayout}
+                        label={t(
+                          'stationAutoManager.form.userSupervisor.label'
+                        )}
+                      >
+                        {getFieldDecorator(
+                          'userSupervisor',
+                          {}
+                        )(
+                          <Input
+                            placeholder={t(
+                              'stationAutoManager.form.userSupervisor.placeholder'
+                            )}
+                          />
+                        )}
+                      </FormItem>
+                    </Col>
+                    <Col span={12}>
+                      <FormItem
+                        {...formItemLayout}
+                        label={t(
+                          'stationAutoManager.form.phoneSupervisor.label'
+                        )}
+                      >
+                        {getFieldDecorator(
+                          'phoneSupervisor',
+                          {}
+                        )(<InputPhoneNumber size="medium" />)}
+                      </FormItem>
+                    </Col>
+                  </Row>
+                  <Row gutter={8}>
+                    <Col span={24} style={{ paddingRight: 40 }}>
+                      <FormItem
+                        {...formItemLayout}
+                        labelCol={{
+                          sm: { span: 3, offset: 0 },
+                        }}
+                        wrapperCol={{
+                          sm: { span: 21, offset: 0 },
+                        }}
+                        label={t('stationAutoManager.form.material.label')}
+                      >
+                        {getFieldDecorator(
+                          'material',
+                          {}
+                        )(
+                          <Input
+                            placeholder={t(
+                              'stationAutoManager.form.material.placeholder'
+                            )}
+                          />
+                        )}
+                      </FormItem>
+                    </Col>
+                  </Row>
+                  <Row gutter={8}>
+                    <Col span={24} style={{ paddingRight: 40 }}>
+                      <FormItem
+                        {...formItemLayout}
+                        labelCol={{
+                          sm: { span: 3, offset: 0 },
+                        }}
+                        wrapperCol={{
+                          sm: { span: 21, offset: 0 },
+                        }}
+                        label={t(
+                          'stationAutoManager.form.processProduction.label'
+                        )}
+                      >
+                        {getFieldDecorator(
+                          'processProduction',
+                          {}
+                        )(
+                          <TextArea
+                            placeholder={t(
+                              'stationAutoManager.form.processProduction.placeholder'
+                            )}
+                          />
+                        )}
+                      </FormItem>
+                    </Col>
+                  </Row>
+                </Panel>
+              </Collapse>
 
-          <FormItem
-            style={{
-              marginTop: '10px',
-            }}
-          >
-            <Button
-              style={{ width: '100%' }}
-              type="primary"
-              loading={this.props.isLoading}
-              htmlType="submit"
+              <FormItem
+                style={{
+                  marginTop: '10px',
+                }}
+              >
+                <Button
+                  style={{ width: '100%' }}
+                  type="primary"
+                  loading={this.props.isLoading}
+                  htmlType="submit"
+                >
+                  {t('addon.save')}
+                </Button>
+              </FormItem>
+            </Form>
+          </Tabs.TabPane>
+
+          {isEdit && (
+            <Tabs.TabPane
+              key="alarm"
+              tab={translate('stationAutoManager.configAlarm.tabConfigAlarm')}
             >
-              {t('addon.save')}
-            </Button>
-          </FormItem>
-
-          <AlarmConfig isEdit={this.props.isEdit} />
-        </Form>
+              <AlarmConfig isEdit={this.props.isEdit} />
+            </Tabs.TabPane>
+          )}
+        </Tabs>
       </div>
     )
   }

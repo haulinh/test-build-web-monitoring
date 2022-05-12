@@ -4331,6 +4331,8 @@ export default {
       alarmExceed: 'Cảnh báo vượt ngưỡng',
       threshold: 'Ngưỡng',
       selectThreshold: 'Chọn ngưỡng',
+      disconnect: 'Mất tín hiệu',
+      nameThreshold: 'Tên ngưỡng',
       add: 'Thêm',
       save: 'Lưu',
       require: {
