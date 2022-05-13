@@ -22,7 +22,7 @@ import SelectMeasureParameter from 'containers/data-analytics/filter/select-meas
 import SelectStationAuto from 'containers/data-analytics/filter/select-station-auto'
 import createLang, { translate } from 'hoc/create-lang'
 import createQueryFormDataBrowser from 'hoc/query-formdata-browser'
-import { get, isEmpty } from 'lodash'
+import { get, isEmpty, isEqual } from 'lodash'
 import moment from 'moment-timezone'
 import React, { forwardRef } from 'react'
 import styled from 'styled-components'
@@ -32,6 +32,7 @@ import { FIELDS, listFilter } from '../constants'
 import FilterList from '../filter'
 import { ToolTip } from './../../common/tooltip'
 import { translate as t } from 'hoc/create-lang'
+import { getMeasuringListFromStationAutos } from 'containers/api-sharing/util'
 
 const HeaderWrapper = styled.div`
   color: blue;
@@ -180,6 +181,36 @@ export default class SearchAvgForm extends React.Component {
     this.updateForm({ stationAutoKeys })
   }
 
+  componentDidUpdate = (prevProps, prevState) => {
+    const { formData, setFilterDefault } = this.props
+    if (!isEqual(prevProps.formData, formData)) {
+      const filterDefault = this.getFilterDefault()
+      setFilterDefault(filterDefault)
+    }
+  }
+
+  getFilterDefault = () => {
+    const { stationTypes } = this.state
+    const stationAutos = this.getStationAutoKeys({
+      province: '',
+      stationType: stationTypes[0],
+    })
+    const measuringList = this.getMeasuringList(stationAutos)
+    const measuringKeys = measuringList.keys()
+
+    const filterDefault = {
+      [FIELDS.PROVINCE]: '',
+      [FIELDS.STATION_TYPE]: stationTypes[0],
+      [FIELDS.MEASURING_LIST]: Array.from(measuringKeys),
+      [FIELDS.RANGE_TIME]: 1,
+      [FIELDS.TYPE]: 15,
+      [FIELDS.STATION_AUTO]: stationAutos,
+      isFilter: false,
+      frequent: undefined,
+    }
+    return filterDefault
+  }
+
   onFetchStationAutoSuccess = stationAutos => {
     const { form, formData } = this.props
     this.setStationAutos(stationAutos)
@@ -226,7 +257,9 @@ export default class SearchAvgForm extends React.Component {
   }
 
   updateForm = ({ stationAutoKeys }) => {
-    const { form } = this.props
+    const { form, setFilterDefault } = this.props
+    const filterDefault = this.getFilterDefault()
+    setFilterDefault(filterDefault)
 
     const measuringList = this.getMeasuringList(stationAutoKeys)
     const getMap = (map, order) => [...map].map(item => item[order])

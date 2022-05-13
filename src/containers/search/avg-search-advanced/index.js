@@ -137,6 +137,7 @@ export default class AvgSearchAdvanced extends React.Component {
       filterListSearched: ListFilter,
       highlightText: '',
       activeKeyMenu: '',
+      filterDefault: {},
     }
   }
 
@@ -401,20 +402,28 @@ export default class AvgSearchAdvanced extends React.Component {
     )
   }
 
+  setFilterDefault = filterDefault => {
+    this.setState({
+      filterDefault,
+    })
+  }
+
   componentDidUpdate = (prevProps, prevState) => {
-    // const { filterDefault } = this.state
+    const { filterDefault } = this.state
     const { location } = this.props
+    const { form } = this.searchFormRef.current.props
+    const { handleSearch } = this.searchFormRef.current.forwardRef.current
 
     if (!isEqual(prevProps.location, location)) {
       if (!location.state) {
-        // this.searchFormRef.current.setFieldsValue(filterDefault)
+        form.setFieldsValue(filterDefault)
         this.setState({
           filterItem: {},
           activeKeyMenu: null,
           // standardObjectList: {},
         })
 
-        // this.handleOnSearch()
+        handleSearch()
       }
     }
   }
@@ -431,7 +440,7 @@ export default class AvgSearchAdvanced extends React.Component {
       activeKeyMenu,
     } = this.state
     const { formData, values, wrapperProps, form } = this.props
-    console.log({ ref: this.searchFormRef })
+    // console.log({ ref: this.searchFormRef })
 
     return (
       <PageContainer
@@ -463,6 +472,7 @@ export default class AvgSearchAdvanced extends React.Component {
               initialValues={formData}
               onChangeField={this.handleOnChangeSearchField}
               wrappedComponentRef={this.searchFormRef}
+              setFilterDefault={this.setFilterDefault}
             />
             <Clearfix height={16} />
             <DataSearch
