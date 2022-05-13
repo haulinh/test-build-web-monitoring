@@ -8,7 +8,7 @@ import { translate as t, translate } from 'hoc/create-lang'
 import protectRole from 'hoc/protect-role'
 import queryFormDataBrowser from 'hoc/query-formdata-browser'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import _, { isEqual } from 'lodash'
+import _, { get, isEqual } from 'lodash'
 import moment from 'moment'
 import React from 'react'
 import { toggleNavigation } from 'redux/actions/themeAction'
@@ -104,6 +104,7 @@ export default class AvgSearchAdvanced extends React.Component {
   constructor(props) {
     super(props)
     this.searchFormRef = React.createRef()
+    this.testRef = React.createRef()
 
     this.state = {
       now: moment(),
@@ -273,7 +274,7 @@ export default class AvgSearchAdvanced extends React.Component {
     if (!stations.length) return []
     return stations.map((station, index) => ({
       index,
-      _id: station._id,
+      _id: get(station._id),
       key: station.key,
       name: station.name,
       view: true,
@@ -289,18 +290,6 @@ export default class AvgSearchAdvanced extends React.Component {
       stationsData: this.getStationsData(stationsData),
       isSearchingData: true,
       searchFormData,
-    })
-  }
-
-  handleSearch = searchText => {
-    const { configFilter } = this.state
-    const filteredConfigFilter = configFilter.filter(({ name }) => {
-      name = replaceVietnameseStr(name)
-      return name.includes(replaceVietnameseStr(searchText))
-    })
-
-    this.setState({
-      filteredConfigFilter,
     })
   }
 
@@ -382,7 +371,9 @@ export default class AvgSearchAdvanced extends React.Component {
   handleOnClickFilter = (filterId, filterItem) => {
     const { breadcrumbs, updateBreadcrumb, addBreadcrumb, history } = this.props
     const { params } = filterItem
-    const { setFieldsValue } = this.searchFormRef.current
+    const { form } = this.searchFormRef.current.props
+    const { handleSearch } = this.searchFormRef.current.forwardRef.current
+
     const url = `${slug.avgSearchAdvanced.base}?filterId=${filterId}`
 
     if (breadcrumbs.length === 2) {
@@ -399,10 +390,15 @@ export default class AvgSearchAdvanced extends React.Component {
       measuringList: params.measuringList.split(','),
     }
 
-    setFieldsValue(valuesForm)
-    this.setState({
-      activeKeyMenu: filterId,
-    })
+    form.setFieldsValue(valuesForm)
+    this.setState(
+      {
+        activeKeyMenu: filterId,
+      },
+      () => {
+        handleSearch()
+      }
+    )
   }
 
   componentDidUpdate = (prevProps, prevState) => {
@@ -466,7 +462,7 @@ export default class AvgSearchAdvanced extends React.Component {
               onChangeStationData={this.handleChangeStationsData}
               initialValues={formData}
               onChangeField={this.handleOnChangeSearchField}
-              ref={this.searchFormRef}
+              wrappedComponentRef={this.searchFormRef}
             />
             <Clearfix height={16} />
             <DataSearch

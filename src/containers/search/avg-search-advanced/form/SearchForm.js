@@ -24,13 +24,14 @@ import createLang, { translate } from 'hoc/create-lang'
 import createQueryFormDataBrowser from 'hoc/query-formdata-browser'
 import { get, isEmpty } from 'lodash'
 import moment from 'moment-timezone'
-import React from 'react'
+import React, { forwardRef } from 'react'
 import styled from 'styled-components'
 import { getTimes } from 'utils/datetime'
 import SelectTimeRange from '../../common/select-time-range'
 import { FIELDS, listFilter } from '../constants'
 import FilterList from '../filter'
 import { ToolTip } from './../../common/tooltip'
+import { translate as t } from 'hoc/create-lang'
 
 const HeaderWrapper = styled.div`
   color: blue;
@@ -84,7 +85,7 @@ const options = {
     onChangeField()
   },
 })
-@createLang
+// @createLang
 @createQueryFormDataBrowser()
 export default class SearchAvgForm extends React.Component {
   static defaultProps = {
@@ -112,10 +113,10 @@ export default class SearchAvgForm extends React.Component {
 
   componentDidMount = () => {
     const { formData, form } = this.props
+    console.log({ formData })
     if (isEmpty(formData)) return
     const initValues = this.getInitValuesFormData()
     form.setFieldsValue(initValues)
-    this.handleSearch()
   }
 
   getInitValuesFormData = () => {
@@ -178,7 +179,6 @@ export default class SearchAvgForm extends React.Component {
 
     form.setFieldsValue({ [FIELDS.STATION_TYPE]: stationType })
     const stationAutoKeys = this.getStationAutoKeys({ stationType, province })
-
     this.updateForm({ stationAutoKeys })
   }
 
@@ -190,7 +190,10 @@ export default class SearchAvgForm extends React.Component {
     const province = form.getFieldValue(FIELDS.PROVINCE)
     const stationAutoKeys = this.getStationAutoKeys({ stationType, province })
 
-    if (!isEmpty(formData)) return
+    if (!isEmpty(formData)) {
+      this.handleSearch()
+      return
+    }
 
     this.updateForm({ stationAutoKeys })
     this.handleSearch()
@@ -331,6 +334,7 @@ export default class SearchAvgForm extends React.Component {
 
     const formData = form.getFieldsValue()
     const stationKeyList = form.getFieldValue(FIELDS.STATION_AUTO)
+    console.log({ stationKeyList })
     const stationsData = stationKeyList.map(stationKey =>
       this.stationAutos.get(stationKey)
     )
@@ -359,7 +363,6 @@ export default class SearchAvgForm extends React.Component {
   }
 
   render() {
-    const t = this.props.lang.createNameSpace('dataSearchFilterForm.form')
     const { form, formData } = this.props
     const { measuringList, filterList } = this.state
 
@@ -389,12 +392,12 @@ export default class SearchAvgForm extends React.Component {
           fontSize={14}
           style={{ padding: '8px 16px' }}
         >
-          {this.props.lang.t('addon.searchSelect')}
+          {t('addon.searchSelect')}
         </Heading>
         <Container>
           <Row gutter={20}>
             <Col md={6} lg={6} sm={12}>
-              <FormItem label={t(`province.label`)}>
+              <FormItem label={t('dataSearchFilterForm.form.province.label')}>
                 {form.getFieldDecorator(FIELDS.PROVINCE, {
                   initialValue: '',
                   onChange: this.onChange,
@@ -402,7 +405,9 @@ export default class SearchAvgForm extends React.Component {
               </FormItem>
             </Col>
             <Col md={6} lg={6} sm={12}>
-              <FormItem label={t('stationType.label')}>
+              <FormItem
+                label={t('dataSearchFilterForm.form.stationType.label')}
+              >
                 {form.getFieldDecorator(FIELDS.STATION_TYPE, {
                   onChange: this.onChange,
                 })(
@@ -414,7 +419,7 @@ export default class SearchAvgForm extends React.Component {
             </Col>
 
             <Col md={8} lg={8} sm={12}>
-              <FormItem label={t(`time`)}>
+              <FormItem label={t('dataSearchFilterForm.form.time')}>
                 {form.getFieldDecorator(FIELDS.RANGE_TIME, {
                   initialValue: 1,
                   onChange: this.handleChangeRanges,
@@ -422,7 +427,7 @@ export default class SearchAvgForm extends React.Component {
               </FormItem>
             </Col>
             <Col md={4} lg={4} sm={12}>
-              <FormItem label={t('type.label')}>
+              <FormItem label={t('dataSearchFilterForm.form.type.label')}>
                 {form.getFieldDecorator(FIELDS.TYPE, {
                   initialValue: 15,
                 })(<SelectTimeRange style={{ width: '100%' }} />)}
@@ -499,8 +504,7 @@ export default class SearchAvgForm extends React.Component {
                         className="ant-dropdown-link"
                         onClick={e => e.preventDefault()}
                       >
-                        <Icon type="plus" />{' '}
-                        {this.props.lang.t('addon.addCondition')}
+                        <Icon type="plus" /> {t('addon.addCondition')}
                       </a>
                     </Dropdown>
                   </Tooltip>
