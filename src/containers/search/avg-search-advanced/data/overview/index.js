@@ -37,12 +37,12 @@ export default class OverviewData extends Component {
             Xuất dữ liệu excel
           </Button>
         </ButtonAbsolute>
-        <Tabs defaultActiveKey="1">
-          <TabPane key={1} tab="Dữ liệu">
+        <Tabs defaultActiveKey="data">
+          <TabPane key="data" tab="Dữ liệu">
             <TableStation />
           </TabPane>
-          <TabPane key={2} tab="Biểu đồ">
-            {!isEmpty(data) && <ChartOverview data={data} />}
+          <TabPane key="chart" tab="Biểu đồ">
+            {!isEmpty(data) && <ChartOverview dataChart={data} />}
           </TabPane>
         </Tabs>
       </TabWrapper>

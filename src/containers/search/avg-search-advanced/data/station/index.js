@@ -24,17 +24,6 @@ const StationDataWrapper = styled(BoxShadow)`
   }
 `
 
-const TitleWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
-  h4 {
-    margin-bottom: 0px;
-    font-size: 22px;
-  }
-`
-
 @autobind
 export default class StationData extends React.PureComponent {
   static propTypes = {
@@ -65,11 +54,12 @@ export default class StationData extends React.PureComponent {
   }
 
   renderTabStations(stations) {
+    const { tabKey } = this.state
     return (
       <Tabs
-        defaultActiveKey={this.state.tabKey}
+        defaultActiveKey={tabKey}
         onChange={this.handleChangeTab}
-        activeKey={this.state.tabKey}
+        activeKey={tabKey}
       >
         {stations.map(station => {
           return this.renderOneStation(station)
@@ -79,7 +69,15 @@ export default class StationData extends React.PureComponent {
   }
 
   renderOneStation(station) {
-    const { searchFormData } = this.props
+    const { searchFormData, qcvns } = this.props
+    const {
+      tabKey,
+      isLoading,
+      dataStationAuto,
+      pagination,
+      isExporting,
+      isExportingAll,
+    } = this.state
     const { measuringList } = searchFormData.measuringList.filter(measureForm =>
       station.measuringList.some(
         measureStation => measureStation === measureForm
@@ -93,20 +91,20 @@ export default class StationData extends React.PureComponent {
     return (
       <Tabs.TabPane tab={station.name} key={station.key}>
         <TabList
-          qcvns={this.props.qcvns}
-          isActive={this.state.tabKey === station.key}
-          isLoading={this.state.isLoading}
+          qcvns={qcvns}
+          isActive={tabKey === station.key}
+          isLoading={isLoading}
           measuringData={measuringData}
           measuringList={measuringList}
-          dataStationAuto={this.state.dataStationAuto}
-          pagination={this.state.pagination}
+          dataStationAuto={dataStationAuto}
+          pagination={pagination}
           onChangePage={this.handleChangePage}
           onExportExcel={this.handleExportExcel}
           onExportExcelAll={this.handleExportAllStation}
           nameChart={station.name}
           typeReport={`${searchFormData.type}`}
-          isExporting={this.state.isExporting}
-          isExportingAll={this.state.isExportingAll}
+          isExporting={isExporting}
+          isExportingAll={isExportingAll}
         />
       </Tabs.TabPane>
     )
@@ -118,7 +116,6 @@ export default class StationData extends React.PureComponent {
     if (stationKey) {
       station = stationsData.find(station => station.key === stationKey)
     }
-
     return station
   }
 
@@ -139,6 +136,12 @@ export default class StationData extends React.PureComponent {
       }
     })
 
+    const measuringList = searchFormData.measuringList.filter(measureForm =>
+      station.measuringList.some(
+        measureStation => measureStation === measureForm
+      )
+    )
+
     const result = {
       advanced: advanced,
       dataStatus: dataStatus,
@@ -148,11 +151,7 @@ export default class StationData extends React.PureComponent {
       key: station.key,
       name: station.name,
       measuringListUnitStr,
-      measuringList: searchFormData.measuringList.filter(measureForm =>
-        station.measuringList.some(
-          measureStation => measureStation === measureForm
-        )
-      ),
+      measuringList,
       measuringData: station.measuringData,
       standardsVN: standards ? standards : standardsVN,
     }
@@ -165,6 +164,7 @@ export default class StationData extends React.PureComponent {
 
     const stationsDataView = this.getStationDataView(stationsData)
     const stationKey = get(stationsDataView, '[0].key', undefined)
+
     if (!stationKey) return
 
     this.handleChangeTab(stationKey)
@@ -209,17 +209,21 @@ export default class StationData extends React.PureComponent {
     const dataStatus = searchFormData.dataStatus.join(',')
     const defaultStatus = dataStatusOptions.map(item => item.value).join(',')
 
+    const groupType = ['month', 'year'].includes(searchFormData.type)
+      ? searchFormData.type
+      : 'custom'
+    const status = dataStatus.length === 0 ? defaultStatus : dataStatus
+    const timeInterval = Number(searchFormData.type) ? searchFormData.type : 0
+
     const params = {
       from: searchFormData.fromDate,
       to: searchFormData.toDate,
       measuringList: searchFormData.measuringList.join(','),
       standards: searchFormData.standardsVN.join(','),
       isFilter: searchFormData.isFilter,
-      status: dataStatus.length === 0 ? defaultStatus : dataStatus,
-      groupType: ['month', 'year'].includes(searchFormData.type)
-        ? searchFormData.type
-        : 'custom',
-      timeInterval: Number(searchFormData.type) ? searchFormData.type : 0,
+      status,
+      groupType,
+      timeInterval,
     }
 
     return params
@@ -364,10 +368,6 @@ export default class StationData extends React.PureComponent {
     if (!stations.length) return null
     return (
       <StationDataWrapper>
-        <TitleWrapper>
-          <h4>{translate('dataSearchFilterForm.table.heading')}</h4>
-        </TitleWrapper>
-
         {this.renderTabStations(stations)}
       </StationDataWrapper>
     )

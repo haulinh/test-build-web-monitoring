@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import ToolTipIcon from 'assets/svg-icons/tooltip.svg'
-import { translate } from 'hoc/create-lang'
 import createLang from 'hoc/create-lang'
 import { autobind } from 'core-decorators'
 

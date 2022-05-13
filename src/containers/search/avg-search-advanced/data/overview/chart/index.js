@@ -51,7 +51,6 @@ const configChart = (data, title) => {
         },
       },
       spline: {
-        // area: {
         fillColor: {
           linearGradient: {
             x1: 0,
@@ -100,24 +99,21 @@ const configChart = (data, title) => {
 }))
 export default class ChartOverview extends Component {
   state = {
-    dataChart: {},
-    current: [
-      get(
-        keyBy(this.props.data.measuringList, 'key'),
-        this.props.data.measuringList[0].key,
-        null
-      ),
-    ],
+    current: get(
+      keyBy(this.props.dataChart.measuringList, 'key'),
+      this.props.dataChart.measuringList[0].key,
+      null
+    ),
   }
 
   getConfigData = () => {
-    let dataSeries = []
-    const { data, languageContents } = this.props
+    const { dataChart, languageContents } = this.props
     const { current } = this.state
-    const { key, name, unit } = current[0]
+    const { key, name, unit } = current
     const title = this.getMeasureName(key, name, unit)
+    let dataSeries = []
 
-    data.stations.reverse().forEach(station => {
+    dataChart.stations.reverse().forEach(station => {
       const stationName = getContent(languageContents, {
         type: 'Station',
         itemKey: station.key,
@@ -138,11 +134,11 @@ export default class ChartOverview extends Component {
 
   getDataWithStation = station => {
     const { current } = this.state
-    const { data } = this.props
+    const { dataChart } = this.props
 
     let results = []
 
-    Object.entries(data.data)
+    Object.entries(dataChart.data)
       .map(([key, value]) => ({
         key,
         value,
@@ -151,10 +147,10 @@ export default class ChartOverview extends Component {
         const keyList = Object.keys(value)
 
         if (keyList.some(item => item === get(station, 'key'))) {
-          const getValue = get(value, station.key, null).logs
-          const getValueWithMeasure = get(getValue, current[0].key, null)
+          const stationLogs = get(value, station.key, null).logs
+          const measureKey = get(stationLogs, current.key, null)
           const valueInChart = getFormatNumberChart(
-            get(getValueWithMeasure, 'value', null),
+            get(measureKey, 'value', null),
             2
           )
 
@@ -177,23 +173,23 @@ export default class ChartOverview extends Component {
     return unit ? `${measureName} (${unit})` : `${measureName}`
   }
   handleClick = key => {
-    const { measuringList } = this.props.data
-    const current = [get(keyBy(measuringList, 'key'), key, null)]
+    const { measuringList } = this.props.dataChart
+    const current = get(keyBy(measuringList, 'key'), key, null)
 
     this.setState({ current })
   }
   render() {
-    const { data } = this.props
+    const { dataChart } = this.props
 
     return (
       <ChartWrapper>
         <ReactHighcharts config={this.getConfigData()} />
         <Tabs
           style={{ paddingLeft: 8, paddingRight: 8, marginBottom: 8 }}
-          defaultActiveKey={data.measuringList[0].key}
+          defaultActiveKey={dataChart.measuringList[0].key}
           onTabClick={this.handleClick}
         >
-          {data.measuringList.map(({ key, name, unit }) => {
+          {dataChart.measuringList.map(({ key, name, unit }) => {
             return (
               <Tabs.TabPane
                 tab={this.getMeasureName(key, name, unit)}

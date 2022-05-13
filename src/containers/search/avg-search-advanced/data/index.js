@@ -6,6 +6,7 @@ import { ToolTip } from '../component/ToolTip'
 import StationData from './station'
 import OverviewData from './overview'
 import DataInsight from 'api/DataInsight'
+import { ACTIVE_TAB, DEFAULT_TAB } from '../constants'
 
 const { TabPane } = Tabs
 const TabWrapper = styled.div`
@@ -25,70 +26,55 @@ const TabWrapper = styled.div`
 
 export default class DataSearch extends Component {
   state = {
-    tab1Style: {
-      type: 'primary',
-      ghost: true,
-    },
-    tab2Style: {
-      type: 'default',
-      ghost: false,
-    },
+    tab1Style: ACTIVE_TAB,
+    tab2Style: DEFAULT_TAB,
     standardsVN: [],
     qcvns: [],
     dataOverview: {},
-    activeKey: '1',
+    activeKey: 'station',
   }
 
   handleChangeTab = key => {
-    if (key === '2') {
-      const tab1Style = {
-        type: 'default',
-        ghost: false,
-      }
-      const tab2Style = {
-        type: 'primary',
-        ghost: true,
-      }
+    if (key === 'overview') {
       this.setState({
-        tab1Style,
-        tab2Style,
-        activeKey: '2',
+        tab1Style: DEFAULT_TAB,
+        tab2Style: ACTIVE_TAB,
+        activeKey: 'overview',
       })
       this.getDataOverview()
       return
     }
-    const tab1Style = {
-      type: 'primary',
-      ghost: true,
-    }
-    const tab2Style = {
-      type: 'default',
-      ghost: false,
-    }
+
     this.setState({
-      tab1Style,
-      tab2Style,
-      activeKey: '1',
+      tab1Style: ACTIVE_TAB,
+      tab2Style: DEFAULT_TAB,
+      activeKey: 'station',
     })
   }
 
   getDataOverview = async () => {
     const { searchFormData } = this.props
+
+    const measuringList = searchFormData.measuringList.join(',')
+    const groupType = ['month', 'year'].includes(searchFormData.type)
+      ? searchFormData.type
+      : 'custom'
+    const timeInterval = Number(searchFormData.type) ? searchFormData.type : 0
+    const status = ['GOOD', 'EXCEEDED', 'EXCEEDED_PREPARING'].join(',')
+
     const params = {
       stationKeys: searchFormData.stationKeys,
       from: searchFormData.fromDate,
       to: searchFormData.toDate,
-      measuringList: searchFormData.measuringList.join(','),
+      measuringList,
       isFilter: searchFormData.isFilter,
-      groupType: ['month', 'year'].includes(searchFormData.type)
-        ? searchFormData.type
-        : 'custom',
-      timeInterval: Number(searchFormData.type) ? searchFormData.type : 0,
-      status: ['GOOD', 'EXCEEDED', 'EXCEEDED_PREPARING'].join(','),
+      groupType,
+      timeInterval,
+      status,
     }
+
     try {
       const result = await DataInsight.getDataAverageOverview(params)
-
       this.setState({ dataOverview: result })
     } catch (error) {
       console.log(error)
@@ -112,18 +98,10 @@ export default class DataSearch extends Component {
     const { isSearchingData } = this.props
 
     if (prevProps.isSearchingData !== isSearchingData) {
-      const tab1Style = {
-        type: 'primary',
-        ghost: true,
-      }
-      const tab2Style = {
-        type: 'default',
-        ghost: false,
-      }
       this.setState({
-        tab1Style,
-        tab2Style,
-        activeKey: '1',
+        tab1Style: ACTIVE_TAB,
+        tab2Style: DEFAULT_TAB,
+        activeKey: 'station',
       })
       this.getDataOverview()
     }
@@ -142,7 +120,7 @@ export default class DataSearch extends Component {
     return (
       <TabWrapper>
         <Tabs
-          defaultActiveKey="1"
+          defaultActiveKey="station"
           activeKey={activeKey}
           animated={{ inkBar: false }}
           onChange={this.handleChangeTab}
@@ -174,7 +152,7 @@ export default class DataSearch extends Component {
           }
         >
           <TabPane
-            key="1"
+            key="station"
             tab={
               <Button type={tab1Style.type} ghost={tab1Style.ghost}>
                 Xem dữ liệu theo trạm
@@ -192,7 +170,7 @@ export default class DataSearch extends Component {
             )}
           </TabPane>
           <TabPane
-            key="2"
+            key="overview"
             tab={
               <Button type={tab2Style.type} ghost={tab2Style.ghost}>
                 Xem dữ liệu tổng hợp
