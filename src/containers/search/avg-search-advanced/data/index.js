@@ -36,6 +36,7 @@ export default class DataSearch extends Component {
     standardsVN: [],
     qcvns: [],
     dataOverview: {},
+    activeKey: '1',
   }
 
   handleChangeTab = key => {
@@ -51,6 +52,7 @@ export default class DataSearch extends Component {
       this.setState({
         tab1Style,
         tab2Style,
+        activeKey: '2',
       })
       this.getDataOverview()
       return
@@ -66,6 +68,7 @@ export default class DataSearch extends Component {
     this.setState({
       tab1Style,
       tab2Style,
+      activeKey: '1',
     })
   }
 
@@ -104,6 +107,27 @@ export default class DataSearch extends Component {
       qcvns: qcvnSelected,
     })
   }
+
+  componentDidUpdate = prevProps => {
+    const { isSearchingData } = this.props
+
+    if (prevProps.isSearchingData !== isSearchingData) {
+      const tab1Style = {
+        type: 'primary',
+        ghost: true,
+      }
+      const tab2Style = {
+        type: 'default',
+        ghost: false,
+      }
+      this.setState({
+        tab1Style,
+        tab2Style,
+        activeKey: '1',
+      })
+      this.getDataOverview()
+    }
+  }
   render() {
     const {
       tab1Style,
@@ -111,6 +135,7 @@ export default class DataSearch extends Component {
       standardsVN,
       qcvns,
       dataOverview,
+      activeKey,
     } = this.state
     const { stationsData, type, isSearchingData, searchFormData } = this.props
 
@@ -118,6 +143,7 @@ export default class DataSearch extends Component {
       <TabWrapper>
         <Tabs
           defaultActiveKey="1"
+          activeKey={activeKey}
           animated={{ inkBar: false }}
           onChange={this.handleChangeTab}
           tabBarExtraContent={
@@ -128,13 +154,12 @@ export default class DataSearch extends Component {
               style={{ height: '68px' }}
             >
               <Col>
-                <div style={{ marginRight: '4px' }}>Quy chuẩn</div>
-              </Col>
-              <Col>
                 <ToolTip />
               </Col>
               <Col>
-                <div style={{ marginRight: '8px' }}>:</div>
+                <div style={{ marginLeft: '4px', marginRight: '4px' }}>
+                  Quy chuẩn:
+                </div>
               </Col>
               <Col span={18}>
                 <SelectQCVN
@@ -174,7 +199,7 @@ export default class DataSearch extends Component {
               </Button>
             }
           >
-            <OverviewData data={dataOverview} />
+            {isSearchingData && <OverviewData data={dataOverview} />}
           </TabPane>
         </Tabs>
       </TabWrapper>
