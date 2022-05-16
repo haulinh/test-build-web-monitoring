@@ -108,6 +108,12 @@ export default class SearchAvgForm extends React.Component {
     }
   }
 
+  componentDidMount = () => {
+    setTimeout(() => {
+      this.handleSearch()
+    }, 500)
+  }
+
   handleChangeFilter = filter => {
     const { filterList } = this.state
 
@@ -358,7 +364,7 @@ export default class SearchAvgForm extends React.Component {
   }
 
   render() {
-    const { form, lang } = this.props
+    const { form, lang, loading } = this.props
     const t = lang.createNameSpace('dataSearchFilterForm.form')
     const { measuringList, filterList } = this.state
 
@@ -382,6 +388,7 @@ export default class SearchAvgForm extends React.Component {
               type="primary"
               icon="search"
               size="small"
+              loading={loading}
               onClick={this.handleSearch}
             >
               {'Tìm kiếm'}

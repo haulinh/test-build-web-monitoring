@@ -106,6 +106,12 @@ export default class DataSearch extends Component {
       this.getDataOverview()
     }
   }
+
+  setLoading = loading => {
+    const { setLoadingButton } = this.props
+
+    setLoadingButton(loading)
+  }
   render() {
     const {
       tab1Style,
@@ -161,6 +167,7 @@ export default class DataSearch extends Component {
           >
             {isSearchingData && stationsData.length && (
               <StationData
+                setLoading={this.setLoading}
                 standardsVN={standardsVN}
                 stationsData={stationsData}
                 type={type}

@@ -56,6 +56,7 @@ export default class AvgSearchAdvanced extends React.Component {
       now: moment(),
       visible: false,
       confirmLoading: false,
+      loading: false,
       initialData: false,
 
       flagResetForm: false,
@@ -437,6 +438,10 @@ export default class AvgSearchAdvanced extends React.Component {
     if (data) message.success(translate('dataSearchFilterForm.update.success'))
   }
 
+  setLoading = loading => {
+    this.setState({ loading })
+  }
+
   render() {
     const {
       filteredConfigFilter,
@@ -445,6 +450,7 @@ export default class AvgSearchAdvanced extends React.Component {
       visible,
       confirmLoading,
       stationsData,
+      loading,
     } = this.state
     const { formData, values, wrapperProps } = this.props
 
@@ -472,6 +478,7 @@ export default class AvgSearchAdvanced extends React.Component {
               onChangeStationData={this.handleChangeStationsData}
               initialValues={formData}
               onChangeField={this.handleOnChangeSearchField}
+              loading={loading}
             />
             <Clearfix height={16} />
             <DataSearch
@@ -479,6 +486,7 @@ export default class AvgSearchAdvanced extends React.Component {
               type={values.type}
               isSearchingData={isSearchingData}
               searchFormData={searchFormData}
+              setLoadingButton={this.setLoading}
             />
             <Clearfix height={40} />
           </Col>

@@ -230,6 +230,7 @@ export default class StationData extends React.PureComponent {
   }
 
   async loadData(pagination, searchFormData) {
+    const { setLoading } = this.props
     let paginationQuery = pagination
     const params = Object.assign(this.getQueryParams(searchFormData), {
       page: paginationQuery.current,
@@ -237,6 +238,7 @@ export default class StationData extends React.PureComponent {
     })
 
     this.setState({ isLoading: true }, async () => {
+      setLoading(true)
       const dataStationAuto = await DataInsight.getDataAverage(
         searchFormData.key,
         params
@@ -245,6 +247,7 @@ export default class StationData extends React.PureComponent {
         message.error('ERROR')
         return
       }
+      setLoading(false)
       this.setState(
         {
           isLoading: false,

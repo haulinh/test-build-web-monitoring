@@ -86,10 +86,22 @@ const configChart = (data, title) => {
     tooltip: {
       xDateFormat: '%d/%m/%Y %H:%M',
       dateTimeLabelFormats: DATETIME_TOOLTIP_FORMAT,
-      formatter: function(tooltip) {
-        return tooltip.defaultFormatter.call(this, tooltip)
+      formatter: function() {
+        let format = `<div style="font-weight: 700; height: 6px">${moment(
+          this.x
+        ).format('DD/MM/YYYY hh:mm')}</div><br>`
+
+        this.points.forEach(p => {
+          format += `<div style="display: flex; height: 6px" >
+              <div style="color: ${p.color}">${p.series.name}:  </div>&nbsp
+              <div style="font-weight: 700">${p.y}</div>
+              </div><br>`
+        })
+
+        return format
       },
       shared: true,
+      useHTML: true,
     },
   }
 }
