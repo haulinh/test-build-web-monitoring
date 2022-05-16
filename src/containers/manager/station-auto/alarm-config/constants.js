@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid'
 import { translate } from 'hoc/create-lang'
 
-const AlarmType = {
+export const AlarmType = {
   Disconnect: 'disconnect',
   Advance: 'advance',
   Exceed: 'exceed',
@@ -52,7 +52,6 @@ export const ALARM_LIST_INIT = {
       status: false,
       config: {
         type: 'exceed',
-        name: '',
         standardID: '',
         measuringListEnable: [],
       },
@@ -64,7 +63,6 @@ export const ALARM_LIST_INIT = {
       status: false,
       config: {
         type: 'exceed_preparing',
-        name: '',
         standardID: '',
         measuringListEnable: [],
       },
@@ -76,7 +74,6 @@ export const ALARM_LIST_INIT = {
       status: false,
       config: {
         type: 'standard',
-        name: '',
         standardID: '',
         measuringListEnable: [],
       },
@@ -114,6 +111,7 @@ export const i18n = () => {
     alarm: translate('menuApp.alarm'),
     alarmDisconnect: translate('alarm.config.alarmDisconnect'),
     timeDisconnect: translate('alarm.config.timeDisconnect'),
+    timeLabel: translate('alarm.config.time'),
     alarmExceed: translate('alarm.config.alarmExceed'),
     threshold: translate('alarm.config.threshold'),
     exceed: translate('stationAutoManager.form.qcvn.label'),

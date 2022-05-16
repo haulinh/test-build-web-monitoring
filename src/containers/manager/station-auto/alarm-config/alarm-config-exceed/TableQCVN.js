@@ -1,9 +1,11 @@
 import { Checkbox, Form, Table } from 'antd'
 import { get, isEqual, keyBy } from 'lodash'
 import React, { Component } from 'react'
+import { withRouter } from 'react-router'
 import { i18n } from '../constants'
 
 @Form.create()
+@withRouter
 export default class TableQCVN extends Component {
   componentDidUpdate(prevProps) {
     const { form, measureListValue, qcvnList } = this.props
@@ -18,7 +20,9 @@ export default class TableQCVN extends Component {
   }
 
   getColumns = () => {
-    const { qcvnList } = this.props
+    const { qcvnList, measuringListStation } = this.props
+
+    //#region column standard
     const columns = qcvnList.map(qcvn => {
       const measuringQcvnObj = keyBy(qcvn.measuringList, 'key')
 
@@ -57,6 +61,49 @@ export default class TableQCVN extends Component {
         ],
       }
     })
+    //#endregion column standard
+
+    //#region column default measure station
+    const defaultDataLevels = [
+      { title: i18n().exceed_preparing, dataIndex: 'Tend' },
+      { title: i18n().exceed, dataIndex: 'Limit' },
+    ]
+
+    const measuringStationObj = keyBy(measuringListStation, 'key')
+    const defaultDataLevelColumns = defaultDataLevels.map(level => ({
+      title: level.title,
+      key: level.dataIndex,
+      children: [
+        {
+          key: `min${level.dataIndex}}`,
+          title: i18n().qcvnMin,
+          align: 'left',
+          dataIndex: 'key',
+          render: measureKey => {
+            const measureValue = get(measuringStationObj, [
+              measureKey,
+              `min${level.dataIndex}`,
+            ])
+            return <div>{measureValue}</div>
+          },
+        },
+        {
+          key: `max${level.dataIndex}}`,
+          title: i18n().qcvnMax,
+          dataIndex: 'key',
+          render: measureKey => {
+            const measureValue = get(measuringStationObj, [
+              measureKey,
+              `max${level.dataIndex}`,
+            ])
+            return <div>{measureValue}</div>
+          },
+          align: 'left',
+        },
+      ],
+    }))
+    //#endregion column default measure station
+
     return [
       {
         title: i18n().measure,
@@ -65,6 +112,7 @@ export default class TableQCVN extends Component {
         align: 'left',
         width: '10%',
       },
+      ...defaultDataLevelColumns,
       ...columns,
       {
         title: '',

@@ -253,7 +253,7 @@ export default class AlarmConfig extends Component {
   //#endregion management state Alarm
 
   render() {
-    const { form, standardFormRef } = this.props
+    const { form, standardFormRef, measuringListStation } = this.props
     const {
       alarmDisconnect,
       alarmStandard,
@@ -280,6 +280,7 @@ export default class AlarmConfig extends Component {
           </Panel>
           <Panel key="exceed" header={i18n().alarmExceed}>
             <AlarmConfigExceed
+              measuringListStation={measuringListStation}
               standardFormRef={standardFormRef}
               qcvnList={qcvnList}
               form={form}
