@@ -48,3 +48,13 @@ export const FIELDS = {
   STATION_AUTO: 'stationAuto',
   MEASURING_LIST: 'measuringList',
 }
+
+export const ACTIVE_TAB = {
+  type: 'primary',
+  ghost: true,
+}
+
+export const DEFAULT_TAB = {
+  type: 'default',
+  ghost: false,
+}

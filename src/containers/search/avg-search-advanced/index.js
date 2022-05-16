@@ -110,6 +110,7 @@ export default class AvgSearchAdvanced extends React.Component {
       now: moment(),
       visible: false,
       confirmLoading: false,
+      loading: false,
       initialData: false,
 
       flagResetForm: false,
@@ -438,6 +439,7 @@ export default class AvgSearchAdvanced extends React.Component {
       filterListSearched,
       highlightText,
       activeKeyMenu,
+      loading,
     } = this.state
     const { formData, values, wrapperProps, form } = this.props
     // console.log({ ref: this.searchFormRef })
@@ -473,6 +475,7 @@ export default class AvgSearchAdvanced extends React.Component {
               onChangeField={this.handleOnChangeSearchField}
               wrappedComponentRef={this.searchFormRef}
               setFilterDefault={this.setFilterDefault}
+              loading={loading}
             />
             <Clearfix height={16} />
             <DataSearch
@@ -480,6 +483,7 @@ export default class AvgSearchAdvanced extends React.Component {
               type={values.type}
               isSearchingData={isSearchingData}
               searchFormData={searchFormData}
+              setLoadingButton={this.setLoading}
             />
             <Clearfix height={40} />
           </Col>

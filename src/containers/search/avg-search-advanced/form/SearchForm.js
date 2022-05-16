@@ -92,7 +92,6 @@ export default class SearchAvgForm extends React.Component {
   static defaultProps = {
     initialValues: {},
   }
-
   stationAutos = new Map()
 
   constructor(props) {
@@ -171,6 +170,7 @@ export default class SearchAvgForm extends React.Component {
   onFetchStationTypeSuccess = stationTypes => {
     const { form, formData } = this.props
     this.setState({ stationTypes: stationTypes.map(type => type.key) })
+
     const stationType = get(stationTypes, '0.key')
     const province = form.getFieldValue(FIELDS.PROVINCE)
 
@@ -231,29 +231,24 @@ export default class SearchAvgForm extends React.Component {
   setStationAutos = stationAutos =>
     stationAutos.map(item => this.stationAutos.set(item.key, item))
 
-  getStationAutoKeys = ({ province, stationType }) => {
-    return [...this.stationAutos]
-      .filter(item => get(item, `1.stationType.key`) === stationType)
-      .filter(item => !province || get(item, `1.province.key`) === province)
-      .map(item => get(item, '1.key'))
-  }
-
-  getStationAutoKeysWithFilterOptions = ({
+  getStationAutoKeys = ({
     province,
     stationType,
-    frequency,
-    standard,
+    frequency = undefined,
+    standard = undefined,
   }) => {
     return [...this.stationAutos]
-      .filter(item => get(item, `1.stationType.key`) === stationType)
-      .filter(item => !province || get(item, `1.province.key`) === province)
-      .filter(item =>
-        frequency ? get(item, `1.dataFrequency`) === frequency : true
+      .filter(([_, station]) => get(station, `stationType.key`) === stationType)
+      .filter(
+        ([_, station]) => !province || get(station, `province.key`) === province
       )
-      .filter(item =>
-        standard ? get(item, `1.standardsVN.key`) === standard : true
+      .filter(([_, station]) =>
+        frequency ? get(station, `dataFrequency`) === frequency : true
       )
-      .map(item => get(item, '1.key'))
+      .filter(([_, station]) =>
+        standard ? get(station, `standardsVN.key`) === standard : true
+      )
+      .map(([_, station]) => get(station, 'key'))
   }
 
   updateForm = ({ stationAutoKeys }) => {
@@ -314,7 +309,7 @@ export default class SearchAvgForm extends React.Component {
   getStationTypes = province => {
     const { stationTypes } = this.state
     const stationAutoTypeKeys = [...this.stationAutos]
-      .map(item => item[1])
+      .map(([_, station]) => station)
       .filter(stationAuto => {
         const provinceValue = get(stationAuto, ['province', 'key'], '')
         return provinceValue === province
@@ -331,12 +326,12 @@ export default class SearchAvgForm extends React.Component {
     const { form } = this.props
     setTimeout(() => {
       const province = form.getFieldValue(FIELDS.PROVINCE)
-
       const stationTypeKeys = this.getStationTypes(province)
       const stationType = stationTypeKeys[0]
       form.setFieldsValue({
         [FIELDS.STATION_TYPE]: stationTypeKeys[0],
       })
+
       this.updateForm({
         stationAutoKeys: this.getStationAutoKeys({ stationType, province }),
       })
@@ -348,12 +343,11 @@ export default class SearchAvgForm extends React.Component {
     setTimeout(() => {
       const stationType = form.getFieldValue(FIELDS.STATION_TYPE)
       const province = form.getFieldValue(FIELDS.PROVINCE)
-
       const frequency = form.getFieldValue('frequent')
       const standard = form.getFieldValue('standardKey')
 
       if (frequency || standard) {
-        const stationAutoKeys = this.getStationAutoKeysWithFilterOptions({
+        const stationAutoKeys = this.getStationAutoKeys({
           stationType,
           province,
           frequency,
@@ -373,12 +367,11 @@ export default class SearchAvgForm extends React.Component {
   onChangeFrequency = frequency => {
     const { form } = this.props
     form.setFieldsValue({ frequent: frequency })
+
     const stationType = form.getFieldValue(FIELDS.STATION_TYPE)
     const province = form.getFieldValue(FIELDS.PROVINCE)
-
     const standard = form.getFieldValue('standardKey')
-
-    const stationAutoKeys = this.getStationAutoKeysWithFilterOptions({
+    const stationAutoKeys = this.getStationAutoKeys({
       stationType,
       province,
       frequency,
@@ -391,12 +384,11 @@ export default class SearchAvgForm extends React.Component {
   onChangeStandard = standard => {
     const { form } = this.props
     form.setFieldsValue({ standardKey: standard })
+
     const stationType = form.getFieldValue(FIELDS.STATION_TYPE)
     const province = form.getFieldValue(FIELDS.PROVINCE)
-
     const frequency = form.getFieldValue('frequent')
-
-    const stationAutoKeys = this.getStationAutoKeysWithFilterOptions({
+    const stationAutoKeys = this.getStationAutoKeys({
       stationType,
       province,
       frequency,
@@ -411,9 +403,7 @@ export default class SearchAvgForm extends React.Component {
     const { fromDate, toDate } = this.state
 
     const formData = form.getFieldsValue()
-    const stationKeyList = form.getFieldValue(FIELDS.STATION_AUTO)
-    console.log({ stationKeyList })
-    const stationsData = stationKeyList.map(stationKey =>
+    const stationsData = formData[FIELDS.STATION_AUTO].map(stationKey =>
       this.stationAutos.get(stationKey)
     )
 
@@ -441,7 +431,7 @@ export default class SearchAvgForm extends React.Component {
   }
 
   render() {
-    const { form, formData } = this.props
+    const { form, loading } = this.props
     const { measuringList, filterList } = this.state
 
     const values = form.getFieldsValue([
@@ -454,7 +444,7 @@ export default class SearchAvgForm extends React.Component {
     const numberMeasure = (values[FIELDS.MEASURING_LIST] || []).length
 
     const province = values[FIELDS.PROVINCE]
-    const stationAutos = [...this.stationAutos].map(item => item[1])
+    const stationAutos = [...this.stationAutos].map(([_, station]) => station)
 
     return (
       <SearchFormContainer>
@@ -464,6 +454,7 @@ export default class SearchAvgForm extends React.Component {
               type="primary"
               icon="search"
               size="small"
+              loading={loading}
               onClick={this.handleSearch}
             >
               {'Tìm kiếm'}

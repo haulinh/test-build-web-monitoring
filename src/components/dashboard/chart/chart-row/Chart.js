@@ -214,8 +214,6 @@ export default class ChartRowToChart extends React.Component {
         })
       })
 
-      console.log('results in here-->', results)
-
       current = _.toArray(categories)
     }
 
