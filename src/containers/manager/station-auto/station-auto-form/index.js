@@ -611,6 +611,8 @@ class StationAutoForm extends React.PureComponent {
   onChangeStandardsVN = value => this.setState({ isStandardsVN: value })
 
   render() {
+    const { measuringList } = this.state
+
     const { otherForm, form, initialValues, isEdit } = this.props
     const { getFieldDecorator } = form
     const { t } = this.props.lang
@@ -1405,7 +1407,10 @@ class StationAutoForm extends React.PureComponent {
               key="alarm"
               tab={translate('stationAutoManager.configAlarm.tabConfigAlarm')}
             >
-              <AlarmConfig isEdit={this.props.isEdit} />
+              <AlarmConfig
+                isEdit={this.props.isEdit}
+                measuringListStation={measuringList}
+              />
             </Tabs.TabPane>
           )}
         </Tabs>

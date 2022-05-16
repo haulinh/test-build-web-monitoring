@@ -8,7 +8,7 @@ import { FIELDS } from '../index'
 export default class TableAlarmDisconnect extends Component {
   columns = [
     {
-      title: i18n().alarmDisconnect,
+      title: i18n().timeLabel,
       width: '15%',
       align: 'center',
       dataIndex: FIELDS.TIME_DISCONNECT,

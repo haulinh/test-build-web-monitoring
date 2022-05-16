@@ -1,28 +1,35 @@
 import { Clearfix } from 'components/elements'
 import { getMeasuringListFromStationAutos } from 'containers/api-sharing/util'
-import { get, keyBy } from 'lodash'
+import { get, keyBy, uniqBy } from 'lodash'
 import React, { Component } from 'react'
 import { FIELDS } from '../index'
 import TableAlarmExceedForm from './TableAlarmExceedForm'
 import TableQCVN from './TableQCVN'
 
 export default class AlarmConfigExceed extends Component {
-  refForm = React.createRef()
-
   getMeasuringList = () => {
+    const { measuringListStation } = this.props
     const qcvnsSelected = this.getQcvnSelected()
 
     const measuringList = getMeasuringListFromStationAutos(qcvnsSelected)
-    return measuringList || []
+
+    const uniqueMeasuringList = uniqBy(
+      [...measuringList, ...measuringListStation],
+      'key'
+    )
+
+    return uniqueMeasuringList || []
   }
 
   getQcvnSelected = () => {
     const { form, qcvnList } = this.props
+
     const qcvnListObj = keyBy(qcvnList, '_id')
 
-    const values = form.getFieldsValue()
-    const qcvnsForm = Object.values(values[FIELDS.DATA_LEVEL] || {})
-    const qcvnsSelected = qcvnsForm.filter(
+    const qcvnsFormValues = form.getFieldValue(FIELDS.DATA_LEVEL)
+
+    const qcvnsFormArray = Object.values(qcvnsFormValues || {})
+    const qcvnsSelected = qcvnsFormArray.filter(
       qcvn => qcvn[FIELDS.CONFIG][FIELDS.STANDARD_ID]
     )
     const qcvnsSelectedMapValue = qcvnsSelected.map(qcvn => ({
@@ -41,6 +48,7 @@ export default class AlarmConfigExceed extends Component {
       users,
       roles,
       standardFormRef,
+      measuringListStation,
     } = this.props
 
     const measuringList = this.getMeasuringList()
@@ -66,6 +74,7 @@ export default class AlarmConfigExceed extends Component {
           qcvnList={qcvnListSelected}
           dataSource={measuringList}
           measureListValue={measureListValue}
+          measuringListStation={measuringListStation}
         />
       </div>
     )

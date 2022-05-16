@@ -1,10 +1,13 @@
 import { Button, Checkbox, Icon, Input, Popconfirm, Table } from 'antd'
 import TreeSelectUser from 'components/elements/select-data/TreeSelectUser'
-import { get } from 'lodash'
+import { get, keyBy } from 'lodash'
 import React, { Component } from 'react'
 import { SelectQCVNExceed } from '../components'
 import { i18n } from '../constants'
 import { FIELDS } from '../index'
+
+const isDefaultDataLevel = alarmConfigType =>
+  [FIELDS.EXCEED, FIELDS.EXCEED_PREPARING].includes(alarmConfigType)
 
 export default class TableAlarmConfigExceed extends Component {
   columns = [
@@ -45,11 +48,26 @@ export default class TableAlarmConfigExceed extends Component {
     {
       title: i18n().nameThreshold,
       render: (_, record) => {
-        const { form } = this.props
+        const { form, qcvnList } = this.props
+
+        const configAlarmType = get(record, 'config.type')
+        let standardName = ''
+
+        if (isDefaultDataLevel(configAlarmType)) {
+          standardName = i18n()[configAlarmType]
+        } else {
+          const qcvnListObj = keyBy(qcvnList, '_id')
+          const standardId = form.getFieldValue(
+            `${FIELDS.DATA_LEVEL}.${record._id}.${FIELDS.CONFIG}.${FIELDS.STANDARD_ID}`
+          )
+          standardName = get(qcvnListObj, [standardId, 'name'])
+        }
+
         return (
           <React.Fragment>
             {form.getFieldDecorator(
-              `${FIELDS.DATA_LEVEL}.${record._id}.${FIELDS.CONFIG}.${FIELDS.NAME}`
+              `${FIELDS.DATA_LEVEL}.${record._id}.${FIELDS.CONFIG}.${FIELDS.NAME}`,
+              { initialValue: standardName }
             )(<Input />)}
           </React.Fragment>
         )
