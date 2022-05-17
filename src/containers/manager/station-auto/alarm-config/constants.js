@@ -1,11 +1,19 @@
 import { v4 as uuidv4 } from 'uuid'
 import { translate } from 'hoc/create-lang'
 
+export const AlarmType = {
+  Disconnect: 'disconnect',
+  Advance: 'advance',
+  Exceed: 'exceed',
+  Device: 'device',
+  DataLevel: 'data_level',
+}
+
 export const alarmTypeObject = {
-  disconnect: {
+  [AlarmType.Disconnect]: {
     template: `Station: {{station}} disconnected at {{time}}`,
   },
-  by_standard: {
+  [AlarmType.DataLevel]: {
     template: `{{station}}: ({{time}})
 [STATUS_DATA]- {{measure}}: {{value}} {{unit}} ({{sign}} {{config}})
 [STATUS_DEVICE]- {{measure}}: Sensor {{status}}`,
@@ -16,44 +24,59 @@ export const ALARM_LIST_INIT = {
   DISCONNECT: [
     {
       _id: uuidv4(),
-      type: 'disconnect',
+      type: AlarmType.Disconnect,
       isCreateLocal: true,
       maxDisconnectionTime: 30 * 60,
       status: false,
     },
     {
       _id: uuidv4(),
-      type: 'disconnect',
+      type: AlarmType.Disconnect,
       isCreateLocal: true,
       maxDisconnectionTime: 60 * 60,
       status: false,
     },
     {
       _id: uuidv4(),
-      type: 'disconnect',
+      type: AlarmType.Disconnect,
       isCreateLocal: true,
       maxDisconnectionTime: 2 * 60 * 60,
       status: false,
     },
   ],
-  BY_STANDARD: [
+  DATA_LEVEL: [
     {
       _id: uuidv4(),
       isCreateLocal: true,
-      type: 'by_standard',
+      type: AlarmType.DataLevel,
       status: false,
+      config: {
+        type: 'exceed',
+        standardID: '',
+        measuringListEnable: [],
+      },
     },
     {
       _id: uuidv4(),
       isCreateLocal: true,
-      type: 'by_standard',
+      type: AlarmType.DataLevel,
       status: false,
+      config: {
+        type: 'exceed_preparing',
+        standardID: '',
+        measuringListEnable: [],
+      },
     },
     {
       _id: uuidv4(),
       isCreateLocal: true,
-      type: 'by_standard',
+      type: AlarmType.DataLevel,
       status: false,
+      config: {
+        type: 'standard',
+        standardID: '',
+        measuringListEnable: [],
+      },
     },
   ],
 }
@@ -88,10 +111,16 @@ export const i18n = () => {
     alarm: translate('menuApp.alarm'),
     alarmDisconnect: translate('alarm.config.alarmDisconnect'),
     timeDisconnect: translate('alarm.config.timeDisconnect'),
+    timeLabel: translate('alarm.config.time'),
     alarmExceed: translate('alarm.config.alarmExceed'),
     threshold: translate('alarm.config.threshold'),
+    exceed: translate('stationAutoManager.form.qcvn.label'),
+    exceed_preparing: translate('stationAutoManager.form.tendToExceed.label'),
+    nameThreshold: translate('alarm.config.nameThreshold'),
+    disconnect: translate('alarm.config.disconnect'),
     selectThreshold: translate('alarm.config.selectThreshold'),
     recipient: translate('alarm.label.management.recipient'),
+
     require: {
       selectUser: translate('alarm.config.require.selectUser'),
       selectThreshold: translate('alarm.config.require.selectThreshold'),

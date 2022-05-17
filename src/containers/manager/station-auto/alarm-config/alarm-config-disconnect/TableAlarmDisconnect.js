@@ -1,28 +1,28 @@
-import { Button, Checkbox, Icon, Popconfirm, Table, Form } from 'antd'
+import { Button, Checkbox, Icon, Popconfirm, Table } from 'antd'
+import TreeSelectUser from 'components/elements/select-data/TreeSelectUser'
 import React, { Component } from 'react'
 import { SelectTime } from '../components'
-import { FIELDS } from '../index'
-import TreeSelectUser from 'components/elements/select-data/TreeSelectUser'
 import { i18n } from '../constants'
+import { FIELDS } from '../index'
 
 export default class TableAlarmDisconnect extends Component {
   columns = [
     {
-      title: i18n().alarmDisconnect,
+      title: i18n().timeLabel,
       width: '15%',
       align: 'center',
       dataIndex: FIELDS.TIME_DISCONNECT,
-      render: (value, record) => {
+      render: (_, record) => {
         const { form } = this.props
         return (
-          <Form.Item>
+          <React.Fragment>
             {form.getFieldDecorator(
               `${FIELDS.DISCONNECT}.${record._id}.${FIELDS.TIME_DISCONNECT}`,
               {
                 initialValue: 1800,
               }
             )(<SelectTime />)}
-          </Form.Item>
+          </React.Fragment>
         )
       },
     },
@@ -31,14 +31,14 @@ export default class TableAlarmDisconnect extends Component {
       dataIndex: 'recipients',
       align: 'center',
       width: '40%',
-      render: (value, record) => {
+      render: (_, record) => {
         const { form, users, roles } = this.props
         return (
-          <Form.Item>
+          <React.Fragment>
             {form.getFieldDecorator(
               `${FIELDS.DISCONNECT}.${record._id}.${FIELDS.RECIPIENTS}`
             )(<TreeSelectUser users={users} roles={roles} />)}
-          </Form.Item>
+          </React.Fragment>
         )
       },
     },
@@ -47,10 +47,10 @@ export default class TableAlarmDisconnect extends Component {
       width: '15%',
       align: 'center',
       dataIndex: 'status',
-      render: (value, record) => {
+      render: (_, record) => {
         const { form } = this.props
         return (
-          <Form.Item>
+          <React.Fragment>
             {form.getFieldDecorator(
               `${FIELDS.DISCONNECT}.${record._id}.${FIELDS.STATUS}`,
               {
@@ -64,7 +64,7 @@ export default class TableAlarmDisconnect extends Component {
             {form.getFieldDecorator(
               `${FIELDS.DISCONNECT}.${record._id}.${FIELDS.IS_CREATE_LOCAL}`
             )(<div />)}
-          </Form.Item>
+          </React.Fragment>
         )
       },
     },

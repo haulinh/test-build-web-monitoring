@@ -1,35 +1,44 @@
 import { Clearfix } from 'components/elements'
 import { getMeasuringListFromStationAutos } from 'containers/api-sharing/util'
-import { keyBy } from 'lodash'
+import { get, keyBy, uniqBy } from 'lodash'
 import React, { Component } from 'react'
 import { FIELDS } from '../index'
 import TableAlarmExceedForm from './TableAlarmExceedForm'
 import TableQCVN from './TableQCVN'
-import { i18n } from '../constants'
 
 export default class AlarmConfigExceed extends Component {
   getMeasuringList = () => {
+    const { measuringListStation } = this.props
     const qcvnsSelected = this.getQcvnSelected()
 
     const measuringList = getMeasuringListFromStationAutos(qcvnsSelected)
-    return measuringList || []
+
+    const uniqueMeasuringList = uniqBy(
+      [...measuringList, ...measuringListStation],
+      'key'
+    )
+
+    return uniqueMeasuringList || []
   }
 
   getQcvnSelected = () => {
     const { form, qcvnList } = this.props
+
     const qcvnListObj = keyBy(qcvnList, '_id')
 
-    const values = form.getFieldsValue()
-    const qcvnsForm = Object.values(values[FIELDS.BY_STANDARD] || {})
-    const qcvnsSelected = qcvnsForm.filter(qcvn => qcvn[FIELDS.STANDARD_ID])
+    const qcvnsFormValues = form.getFieldValue(FIELDS.DATA_LEVEL)
+
+    const qcvnsFormArray = Object.values(qcvnsFormValues || {})
+    const qcvnsSelected = qcvnsFormArray.filter(
+      qcvn => qcvn[FIELDS.CONFIG][FIELDS.STANDARD_ID]
+    )
     const qcvnsSelectedMapValue = qcvnsSelected.map(qcvn => ({
-      ...qcvnListObj[qcvn[FIELDS.STANDARD_ID]],
+      ...qcvnListObj[qcvn[FIELDS.CONFIG][FIELDS.STANDARD_ID]],
     }))
     return qcvnsSelectedMapValue
   }
 
   render() {
-    // const { qcvnList } = this.state
     const {
       qcvnList,
       alarmList,
@@ -38,15 +47,17 @@ export default class AlarmConfigExceed extends Component {
       onAdd,
       users,
       roles,
+      standardFormRef,
+      measuringListStation,
     } = this.props
 
     const measuringList = this.getMeasuringList()
     const qcvnListSelected = this.getQcvnSelected()
 
+    const measureListValue = get(alarmList[0], 'config.measureListEnable', [])
+
     return (
       <div>
-        <div className="title">{i18n().alarmExceed}</div>
-
         <TableAlarmExceedForm
           qcvnList={qcvnList}
           form={form}
@@ -58,7 +69,13 @@ export default class AlarmConfigExceed extends Component {
           roles={roles}
         />
         <Clearfix height={12} />
-        <TableQCVN qcvnList={qcvnListSelected} dataSource={measuringList} />
+        <TableQCVN
+          ref={standardFormRef}
+          qcvnList={qcvnListSelected}
+          dataSource={measuringList}
+          measureListValue={measureListValue}
+          measuringListStation={measuringListStation}
+        />
       </div>
     )
   }
