@@ -109,6 +109,7 @@ export default class TableQCVN extends Component {
   }
 
   getColumns = () => {
+    const { measuresObj } = this.props
     const standardColumns = this.getStandardColumns()
     const defaultDataLevelColumns = this.getDefaultDataLevelColumns()
 
@@ -119,6 +120,7 @@ export default class TableQCVN extends Component {
         dataIndex: 'key',
         align: 'left',
         width: '10%',
+        render: value => <div>{measuresObj[value].name}</div>,
       },
       ...defaultDataLevelColumns,
       ...standardColumns,
