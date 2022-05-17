@@ -5,7 +5,7 @@ import SelectQCVN from 'components/elements/select-qcvn-v2'
 import { ToolTip } from 'components/elements/tooltip'
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { ACTIVE_TAB, DEFAULT_TAB } from '../constants'
+import { ACTIVE_TAB, DEFAULT_TAB, i18n } from '../constants'
 import OverviewData from './overview'
 import StationData from './station'
 
@@ -142,28 +142,28 @@ export default class DataSearch extends Component {
               style={{ height: '68px' }}
             >
               <Col>
-                <div style={{ marginRight: '4px' }}>Quy chuẩn</div>
+                <div style={{ marginRight: '4px' }}>
+                  {i18n().standard.label}
+                </div>
               </Col>
               <Col>
                 <ToolTip
                   marginRight={'4px'}
                   width={'16px'}
-                  text={
-                    'Áp dụng so sánh giá trị thông số theo quy chuẩn đã thiết lập'
-                  }
+                  text={i18n().tooltip.standard}
                   icon={ToolTipIcon}
                 />
               </Col>
               <Col>
                 <div style={{ marginRight: '2px' }}>:</div>
               </Col>
-              <Col span={18}>
+              <Col span={16}>
                 <SelectQCVN
                   mode="multiple"
                   maxTagCount={1}
                   maxTagTextLength={18}
                   onChange={this.onChangeQcvn}
-                  placeholder="Lựa chọn quy chuẩn so sánh"
+                  placeholder={i18n().standard.placeholder}
                 />
               </Col>
             </Row>
@@ -173,7 +173,7 @@ export default class DataSearch extends Component {
             key="station"
             tab={
               <Button type={tab1Style.type} ghost={tab1Style.ghost}>
-                Xem dữ liệu theo trạm
+                {i18n().tabs.station.label}
               </Button>
             }
           >
@@ -192,7 +192,7 @@ export default class DataSearch extends Component {
             key="overview"
             tab={
               <Button type={tab2Style.type} ghost={tab2Style.ghost}>
-                Xem dữ liệu tổng hợp
+                {i18n().tabs.overview.label}
               </Button>
             }
           >

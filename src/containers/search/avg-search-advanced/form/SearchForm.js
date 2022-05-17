@@ -412,7 +412,7 @@ export default class SearchAvgForm extends React.Component {
               </FormItem>
             </Col>
             <Col md={6} lg={6} sm={12}>
-              <FormItem label={t('stationType.label')}>
+              <FormItem label={i18n().form.stationType}>
                 {form.getFieldDecorator(FIELDS.STATION_TYPE, {
                   onChange: this.onChangeStationType,
                 })(
@@ -426,7 +426,7 @@ export default class SearchAvgForm extends React.Component {
             </Col>
 
             <Col md={8} lg={8} sm={12}>
-              <FormItem label={t(`time`)}>
+              <FormItem label={i18n().form.time}>
                 {form.getFieldDecorator(FIELDS.RANGE_TIME, {
                   initialValue: 1,
                   onChange: this.handleChangeRanges,
@@ -434,7 +434,7 @@ export default class SearchAvgForm extends React.Component {
               </FormItem>
             </Col>
             <Col md={4} lg={4} sm={12}>
-              <FormItem label={t('type.label')}>
+              <FormItem label={i18n().form.type}>
                 {form.getFieldDecorator(FIELDS.TYPE, {
                   initialValue: 15,
                 })(<SelectTimeRange style={{ width: '100%' }} />)}
@@ -443,7 +443,7 @@ export default class SearchAvgForm extends React.Component {
           </Row>
           <Row gutter={20}>
             <Col>
-              <FormItem label={`Trạm quan trắc (${numberStation} trạm)`}>
+              <FormItem label={i18n().form.stationAuto(numberStation)}>
                 {form.getFieldDecorator(FIELDS.STATION_AUTO, {
                   onChange: this.onStationAutoChange,
                 })(
@@ -456,9 +456,7 @@ export default class SearchAvgForm extends React.Component {
               </FormItem>
             </Col>
             <Col>
-              <FormItem
-                label={`Các thông số quan trắc (${numberMeasure} thông số)`}
-              >
+              <FormItem label={i18n().form.measuringList(numberMeasure)}>
                 {form.getFieldDecorator(
                   FIELDS.MEASURING_LIST,
                   {}
@@ -489,10 +487,7 @@ export default class SearchAvgForm extends React.Component {
                 <HeaderWrapper
                   top={this.state.filterList.length % 4 === 0 ? 0 : 28}
                 >
-                  <Tooltip
-                    placement="top"
-                    title={'Thêm điều kiện lọc trạm quan trắc'}
-                  >
+                  <Tooltip placement="top" title={i18n().tooltip.addCondition}>
                     <Dropdown
                       trigger={['click']}
                       ref={ref => (this.a = ref)}
@@ -508,8 +503,7 @@ export default class SearchAvgForm extends React.Component {
                         className="ant-dropdown-link"
                         onClick={e => e.preventDefault()}
                       >
-                        <Icon type="plus" />{' '}
-                        {this.props.lang.t('addon.addCondition')}
+                        <Icon type="plus" /> {i18n().form.addCondition}
                       </a>
                     </Dropdown>
                   </Tooltip>
@@ -532,9 +526,7 @@ export default class SearchAvgForm extends React.Component {
                 </div>
                 <ToolTip
                   width={'20px'}
-                  text={
-                    'Loại bỏ một số dữ liệu không hợp lệ trước khi tính toán (áp dụng cấu hình kiểm duyệt dữ liệu)'
-                  }
+                  text={i18n().tooltip.filterData}
                   icon={ToolTipIcon}
                 />
                 <FormItem>

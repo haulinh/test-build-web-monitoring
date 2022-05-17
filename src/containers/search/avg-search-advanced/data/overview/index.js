@@ -4,6 +4,7 @@ import TableStation from './TableStation'
 import styled from 'styled-components'
 import ChartOverview from './chart'
 import { isEmpty } from 'lodash'
+import { i18n } from '../../constants'
 
 const { TabPane } = Tabs
 
@@ -32,15 +33,15 @@ export default class OverviewData extends Component {
                 type="primary"
                 icon="file-excel"
               >
-                Xuất dữ liệu excel
+                {i18n().tabs.exportExcel}
               </Button>
             </Row>
           }
         >
-          <TabPane key="data" tab="Dữ liệu">
+          <TabPane key="data" tab={i18n().tabs.overview.data}>
             <TableStation />
           </TabPane>
-          <TabPane key="chart" tab="Biểu đồ">
+          <TabPane key="chart" tab={i18n().tabs.overview.chart}>
             {!isEmpty(data) && (
               <ChartOverview
                 dataChart={data}
