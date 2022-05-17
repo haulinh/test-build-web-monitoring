@@ -16,6 +16,7 @@ import SelectAnt from 'components/elements/select-ant'
 import SelectProvince from 'components/elements/select-province'
 import SelectQCVN from 'components/elements/select-qcvn'
 import SelectStationType from 'components/elements/select-station-type'
+import { ToolTip } from 'components/elements/tooltip'
 import { FormItem } from 'components/layouts/styles'
 import { dataStatusOptions } from 'constants/dataStatus'
 import SelectMeasureParameter from 'containers/data-analytics/filter/select-measure-parameter'
@@ -28,9 +29,9 @@ import React from 'react'
 import styled from 'styled-components'
 import { getTimes } from 'utils/datetime'
 import SelectTimeRange from '../../common/select-time-range'
-import { FIELDS } from '../constants'
+import { FIELDS, i18n, listFilter } from '../constants'
 import FilterList from '../filter'
-import { ToolTip } from './../../common/tooltip'
+import ToolTipIcon from 'assets/svg-icons/tooltip.svg'
 
 const HeaderWrapper = styled.div`
   color: blue;
@@ -96,12 +97,11 @@ export default class SearchAvgForm extends React.Component {
       otherConditionFilter: [],
       fromDate: moment()
         .subtract(1, 'days')
-        .toISOString(),
-      toDate: moment().toISOString(),
+        .toDate(),
+      toDate: moment().toDate(),
       measuringList: [],
       stationsData: [],
       stationTypes: [],
-      triggerRerender: true,
     }
   }
 
@@ -236,6 +236,7 @@ export default class SearchAvgForm extends React.Component {
     console.log({ stationAutoKeys })
 
     this.updateForm({ stationAutoKeys })
+
     this.handleSearch()
   }
 
@@ -436,9 +437,13 @@ export default class SearchAvgForm extends React.Component {
     const { from, to } = getTimes(ranges)
 
     this.setState({
-      fromDate: from.toISOString(),
-      toDate: to.toISOString(),
+      fromDate: from.toDate(),
+      toDate: to.toDate(),
     })
+  }
+
+  onStationAutoChange = stationAutoKeys => {
+    this.updateForm({ stationAutoKeys })
   }
 
   render() {
@@ -468,7 +473,7 @@ export default class SearchAvgForm extends React.Component {
               loading={loading}
               onClick={this.handleSearch}
             >
-              {'Tìm kiếm'}
+              {i18n().btnSearchText}
             </Button>
           }
           textColor="#ffffff"
@@ -476,12 +481,12 @@ export default class SearchAvgForm extends React.Component {
           fontSize={14}
           style={{ padding: '8px 16px' }}
         >
-          {t('addon.searchSelect')}
+          {i18n().searchSelect}
         </Heading>
         <Container>
           <Row gutter={20}>
             <Col md={6} lg={6} sm={12}>
-              <FormItem label={t('dataSearchFilterForm.form.province.label')}>
+              <FormItem label={i18n().form.province}>
                 {form.getFieldDecorator(FIELDS.PROVINCE, {
                   initialValue: '',
                   onChange: this.onChangeProvince,
@@ -530,6 +535,7 @@ export default class SearchAvgForm extends React.Component {
                       message: t('avgSearchFrom.form.stationAuto.error'),
                     },
                   ],
+                  onChange: this.onStationAutoChange,
                 })(
                   <SelectStationAuto
                     stationType={form.getFieldValue(FIELDS.STATION_TYPE)}
@@ -616,10 +622,16 @@ export default class SearchAvgForm extends React.Component {
                   alignItems: 'center',
                 }}
               >
-                <ToolTip />
                 <div style={{ fontSize: '14px', fontWeight: '600' }}>
                   {translate('dataSearchFrom.processData')}
                 </div>
+                <ToolTip
+                  width={'20px'}
+                  text={
+                    'Loại bỏ một số dữ liệu không hợp lệ trước khi tính toán (áp dụng cấu hình kiểm duyệt dữ liệu)'
+                  }
+                  icon={ToolTipIcon}
+                />
                 <FormItem>
                   {form.getFieldDecorator('isFilter', {
                     initialValue: false,

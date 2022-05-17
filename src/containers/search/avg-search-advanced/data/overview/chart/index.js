@@ -5,15 +5,14 @@ import {
   DATETIME_TOOLTIP_FORMAT,
 } from 'constants/chart-format'
 import { getFormatNumberChart } from 'constants/format-number'
+import { formatTime } from 'containers/search/avg-search-advanced/utils/formatTime'
 import Highcharts from 'highcharts'
-import { get, isNil, keyBy, isEmpty } from 'lodash'
+import { translate } from 'hoc/create-lang'
+import { get, isEmpty, isNil, isNumber, keyBy } from 'lodash'
 import moment from 'moment-timezone'
 import React, { Component } from 'react'
 import ReactHighcharts from 'react-highcharts'
 import { connect } from 'react-redux'
-import styled from 'styled-components'
-
-const ChartWrapper = styled.div``
 
 ReactHighcharts.Highcharts.setOptions({
   global: {
@@ -21,7 +20,7 @@ ReactHighcharts.Highcharts.setOptions({
   },
 })
 
-const configChart = (data, title) => {
+const configChart = (data, title, type) => {
   return {
     chart: {
       type: 'spline',
@@ -48,6 +47,28 @@ const configChart = (data, title) => {
       series: {
         marker: {
           enabled: false,
+        },
+        dataLabels: {
+          enabled: false,
+          crop: false,
+          overflow: 'none',
+          align: 'left',
+          verticalAlign: 'middle',
+          allowOverlap: true,
+          formatter: function() {
+            const isMinLimit = this.series.options.className === 'min'
+
+            const labelMinLimit = `${translate(
+              'monitoring.moreContent.chart.content.minLimit'
+            )} ${this.series.name}: ${this.series.options.valueLimit}`
+            const labelMaxLimit = `${translate(
+              'monitoring.moreContent.chart.content.maxLimit'
+            )} ${this.series.name}: ${this.series.options.valueLimit}`
+
+            const label = isMinLimit ? labelMinLimit : labelMaxLimit
+
+            return `<span style="color: black; font-weight: 300; font-size: 12px">${label}</span>`
+          },
         },
       },
       spline: {
@@ -87,9 +108,10 @@ const configChart = (data, title) => {
       xDateFormat: '%d/%m/%Y %H:%M',
       dateTimeLabelFormats: DATETIME_TOOLTIP_FORMAT,
       formatter: function() {
-        let format = `<div style="font-weight: 700; height: 6px">${moment(
-          this.x
-        ).format('DD/MM/YYYY hh:mm')}</div><br>`
+        let format = `<div style="font-weight: 700; height: 6px">${formatTime(
+          this.x,
+          type
+        )}</div><br>`
 
         this.points.forEach(p => {
           format += `<div style="display: flex; height: 6px" >
@@ -119,13 +141,15 @@ export default class ChartOverview extends Component {
   }
 
   getConfigData = () => {
-    const { dataChart, languageContents } = this.props
+    const { dataChart, languageContents, searchFormData } = this.props
     const { current } = this.state
     const { key, name, unit } = current
+
     const title = this.getMeasureName(key, name, unit)
+    const type = searchFormData.type
     let dataSeries = []
 
-    dataChart.stations.reverse().forEach(station => {
+    dataChart.stations.forEach(station => {
       const stationName = getContent(languageContents, {
         type: 'Station',
         itemKey: station.key,
@@ -141,37 +165,134 @@ export default class ChartOverview extends Component {
         })
     })
 
-    return configChart(dataSeries, title)
+    const qcvnList = this.getQCVNList(current.key)
+    const lineQcvn = {
+      type: 'spline',
+      enableMouseTracking: false,
+    }
+    const firstTimeValue = moment(
+      Object.entries(dataChart.data)
+        .map(([time]) => time)
+        .sort()[0]
+    ).valueOf()
+
+    qcvnList.forEach(qcvn => {
+      const data = dataSeries[0].data
+
+      if (isNumber(qcvn.maxLimit)) {
+        dataSeries = [
+          ...dataSeries,
+          {
+            ...lineQcvn,
+            id: qcvn.id,
+            name: qcvn.name,
+            valueLimit: qcvn.maxLimit,
+            data: data.map((dataItem, index) => {
+              if (index === 0) {
+                return {
+                  x: firstTimeValue,
+                  y: qcvn.maxLimit,
+                  dataLabels: { enabled: true },
+                }
+              } else {
+                return [dataItem[0], qcvn.maxLimit]
+              }
+            }),
+          },
+        ]
+      }
+
+      if (isNumber(qcvn.minLimit)) {
+        dataSeries = [
+          ...dataSeries,
+          {
+            ...lineQcvn,
+            id: qcvn.id,
+            valueLimit: qcvn.minLimit,
+            name: qcvn.name,
+            className: 'min',
+            data: data.map((dataItem, index) => {
+              if (index === 0) {
+                return {
+                  x: firstTimeValue,
+                  y: qcvn.minLimit,
+                  dataLabels: { enabled: true },
+                }
+              } else {
+                return [dataItem[0], qcvn.minLimit]
+              }
+            }),
+          },
+        ]
+      }
+    })
+
+    return configChart(dataSeries, title, type)
+  }
+
+  getQCVNList = measureCurrent => {
+    let qcvnList = this.convertDataQcvn()
+
+    qcvnList = qcvnList.map(qcvn => {
+      const measuringList = qcvn.measuringList[measureCurrent]
+      if (!measuringList) return null
+
+      return {
+        name: qcvn.name,
+        id: qcvn._id,
+        maxLimit: get(measuringList, 'maxLimit'),
+        minLimit: get(measuringList, 'minLimit'),
+      }
+    })
+
+    qcvnList = qcvnList.filter(qcvn => qcvn)
+
+    return qcvnList
+  }
+
+  //convert data measuringList[] to measuringList{}
+  convertDataQcvn = () => {
+    const { qcvnSelected } = this.props
+
+    const newDataQcvn = qcvnSelected.map(qcvn => {
+      const measureObj = qcvn.measuringList.reduce((base, current) => {
+        return {
+          ...base,
+          [current.key]: current,
+        }
+      }, {})
+
+      return {
+        ...qcvn,
+        measuringList: measureObj,
+      }
+    })
+    return newDataQcvn
   }
 
   getDataWithStation = station => {
     const { current } = this.state
     const { dataChart } = this.props
 
-    let results = []
+    let data = []
 
-    Object.entries(dataChart.data)
-      .map(([key, value]) => ({
-        key,
-        value,
-      }))
-      .forEach(({ key, value }) => {
-        const keyList = Object.keys(value)
+    Object.entries(dataChart.data).forEach(([key, value]) => {
+      const keyList = Object.keys(value)
 
-        if (keyList.some(item => item === get(station, 'key'))) {
-          const stationLogs = get(value, station.key, null).logs
-          const measureKey = get(stationLogs, current.key, null)
-          const valueInChart = getFormatNumberChart(
-            get(measureKey, 'value', null),
-            2
-          )
+      if (keyList.some(item => item === get(station, 'key'))) {
+        const stationLogs = get(value, station.key, null).logs
+        const measureKey = get(stationLogs, current.key, null)
+        const valueInChart = getFormatNumberChart(
+          get(measureKey, 'value', null),
+          2
+        )
 
-          !isNil(valueInChart) &&
-            results.push([moment(key).valueOf(), valueInChart])
-        }
-      })
+        //add x, y value to data series chart
+        !isNil(valueInChart) && data.push([moment(key).valueOf(), valueInChart])
+      }
+    })
 
-    return results.reverse()
+    return data
   }
 
   getMeasureName = (key, name, unit) => {
@@ -184,9 +305,10 @@ export default class ChartOverview extends Component {
 
     return unit ? `${measureName} (${unit})` : `${measureName}`
   }
+
   handleClick = key => {
-    const { measuringList } = this.props.dataChart
-    const current = get(keyBy(measuringList, 'key'), key, null)
+    const { dataChart } = this.props
+    const current = get(keyBy(dataChart.measuringList, 'key'), key, null)
 
     this.setState({ current })
   }
@@ -194,23 +316,25 @@ export default class ChartOverview extends Component {
     const { dataChart } = this.props
 
     return (
-      <ChartWrapper>
+      <React.Fragment>
         <ReactHighcharts config={this.getConfigData()} />
         <Tabs
           style={{ paddingLeft: 8, paddingRight: 8, marginBottom: 8 }}
           defaultActiveKey={dataChart.measuringList[0].key}
           onTabClick={this.handleClick}
         >
-          {dataChart.measuringList.map(({ key, name, unit }) => {
-            return (
-              <Tabs.TabPane
-                tab={this.getMeasureName(key, name, unit)}
-                key={key}
-              />
-            )
-          })}
+          {dataChart.measuringList
+            .filter(measuring => !isEmpty(measuring))
+            .map(({ key, name, unit }) => {
+              return (
+                <Tabs.TabPane
+                  tab={this.getMeasureName(key, name, unit)}
+                  key={key}
+                />
+              )
+            })}
         </Tabs>
-      </ChartWrapper>
+      </React.Fragment>
     )
   }
 }

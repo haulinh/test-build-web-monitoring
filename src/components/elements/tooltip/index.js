@@ -1,10 +1,9 @@
-import ToolTipIcon from 'assets/svg-icons/TooltipSmall.svg'
 import { autobind } from 'core-decorators'
 import createLang from 'hoc/create-lang'
 import React from 'react'
 import styled from 'styled-components'
 
-const TootipContainer = styled.div`
+const TooltipContainer = styled.div`
   .tooltip {
     position: relative;
     display: flex;
@@ -41,19 +40,18 @@ const TootipContainer = styled.div`
 @autobind
 class ToolTip extends React.Component {
   render() {
+    const { marginRight, width, text, icon } = this.props
     return (
-      <TootipContainer>
+      <TooltipContainer>
         <div className="tooltip">
           <img
-            src={ToolTipIcon}
+            src={icon}
             alt="tooltipIcon"
-            style={{ marginRight: '4px', width: '16px' }}
+            style={{ marginTop: '2px', marginRight: marginRight, width: width }}
           />
-          <span className="tooltiptext">
-            Áp dụng so sánh giá trị thông số theo quy chuẩn đã thiết lập
-          </span>
+          <span className="tooltiptext">{text}</span>
         </div>
-      </TootipContainer>
+      </TooltipContainer>
     )
   }
 }
