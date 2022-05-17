@@ -5,7 +5,7 @@ import SelectQCVN from 'components/elements/select-qcvn-v2'
 import { ToolTip } from 'components/elements/tooltip'
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { ACTIVE_TAB, DEFAULT_TAB } from '../constants'
+import { ACTIVE_TAB, DEFAULT_TAB, i18n } from '../constants'
 import OverviewData from './overview'
 import StationData from './station'
 
@@ -27,8 +27,8 @@ const TabWrapper = styled.div`
 
 export default class DataSearch extends Component {
   state = {
-    tab1Style: ACTIVE_TAB,
-    tab2Style: DEFAULT_TAB,
+    stationTabStyle: ACTIVE_TAB,
+    overviewTabStyle: DEFAULT_TAB,
     standardsVN: [],
     qcvns: [],
     dataOverview: {},
@@ -38,8 +38,8 @@ export default class DataSearch extends Component {
   handleChangeTab = key => {
     if (key === 'overview') {
       this.setState({
-        tab1Style: DEFAULT_TAB,
-        tab2Style: ACTIVE_TAB,
+        stationTabStyle: DEFAULT_TAB,
+        overviewTabStyle: ACTIVE_TAB,
         activeKey: 'overview',
       })
       this.getDataOverview()
@@ -47,8 +47,8 @@ export default class DataSearch extends Component {
     }
 
     this.setState({
-      tab1Style: ACTIVE_TAB,
-      tab2Style: DEFAULT_TAB,
+      stationTabStyle: ACTIVE_TAB,
+      overviewTabStyle: DEFAULT_TAB,
       activeKey: 'station',
     })
   }
@@ -103,8 +103,8 @@ export default class DataSearch extends Component {
 
     if (prevProps.isSearchingData !== isSearchingData) {
       this.setState({
-        tab1Style: ACTIVE_TAB,
-        tab2Style: DEFAULT_TAB,
+        stationTabStyle: ACTIVE_TAB,
+        overviewTabStyle: DEFAULT_TAB,
         activeKey: 'station',
       })
       this.getDataOverview()
@@ -116,10 +116,11 @@ export default class DataSearch extends Component {
 
     setLoadingButton(loading)
   }
+
   render() {
     const {
-      tab1Style,
-      tab2Style,
+      stationTabStyle,
+      overviewTabStyle,
       standardsVN,
       qcvns,
       dataOverview,
@@ -142,28 +143,28 @@ export default class DataSearch extends Component {
               style={{ height: '68px' }}
             >
               <Col>
-                <div style={{ marginRight: '4px' }}>Quy chuẩn</div>
+                <div style={{ marginRight: '4px' }}>
+                  {i18n().standard.label}
+                </div>
               </Col>
               <Col>
                 <ToolTip
                   marginRight={'4px'}
                   width={'16px'}
-                  text={
-                    'Áp dụng so sánh giá trị thông số theo quy chuẩn đã thiết lập'
-                  }
+                  text={i18n().tooltip.standard}
                   icon={ToolTipIcon}
                 />
               </Col>
               <Col>
                 <div style={{ marginRight: '2px' }}>:</div>
               </Col>
-              <Col span={18}>
+              <Col span={16}>
                 <SelectQCVN
                   mode="multiple"
                   maxTagCount={1}
                   maxTagTextLength={18}
                   onChange={this.onChangeQcvn}
-                  placeholder="Lựa chọn quy chuẩn so sánh"
+                  placeholder={i18n().standard.placeholder}
                 />
               </Col>
             </Row>
@@ -172,8 +173,8 @@ export default class DataSearch extends Component {
           <TabPane
             key="station"
             tab={
-              <Button type={tab1Style.type} ghost={tab1Style.ghost}>
-                Xem dữ liệu theo trạm
+              <Button type={stationTabStyle.type} ghost={stationTabStyle.ghost}>
+                {i18n().tabs.station.label}
               </Button>
             }
           >
@@ -191,8 +192,11 @@ export default class DataSearch extends Component {
           <TabPane
             key="overview"
             tab={
-              <Button type={tab2Style.type} ghost={tab2Style.ghost}>
-                Xem dữ liệu tổng hợp
+              <Button
+                type={overviewTabStyle.type}
+                ghost={overviewTabStyle.ghost}
+              >
+                {i18n().tabs.overview.label}
               </Button>
             }
           >

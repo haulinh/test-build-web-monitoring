@@ -3707,6 +3707,34 @@ export default {
       table: 'Table',
     },
   },
+  dataAverage: {
+    form: {
+      stationAuto: 'Station Name ({{=it.count}} stations):',
+      measuringList: 'Parameters ({{=it.count}} parameters):',
+      addCondition: 'Add Filter Condition',
+    },
+    tooltip: {
+      addCondition: 'Add filter conditions for monitoring stations',
+      filterData:
+        'Filter invalid data with standard before calculating (apply data processing config)',
+      standard:
+        'Apply the comparison of measure values according to established standards',
+    },
+    standard: {
+      label: 'Display Standards',
+      placeholder: 'Selection of the standard of comparison',
+    },
+    tabs: {
+      station: {
+        label: 'View Data By Station',
+      },
+      overview: {
+        label: 'View Aggregated Data',
+        data: 'Data',
+        chart: 'Chart',
+      },
+    },
+  },
   stationFixedDriver: {
     title: {
       search: 'Look up data',
@@ -4309,6 +4337,10 @@ export default {
       by_standard: {
         label: 'Standard',
         value: 'by_standard',
+      },
+      data_level: {
+        label: 'Standard',
+        value: 'data_level',
       },
     },
     config: {

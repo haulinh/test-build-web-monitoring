@@ -4,7 +4,7 @@ import {
   DATETIME_LABEL_FORMAT,
   DATETIME_TOOLTIP_FORMAT,
 } from 'constants/chart-format'
-import { getFormatNumberChart } from 'constants/format-number'
+import { getFormatNumber } from 'constants/format-number'
 import { formatTime } from 'containers/search/avg-search-advanced/utils/formatTime'
 import Highcharts from 'highcharts'
 import { translate } from 'hoc/create-lang'
@@ -41,7 +41,6 @@ const configChart = (data, title, type) => {
     },
     legend: {
       enabled: true,
-      reversed: true,
     },
     plotOptions: {
       series: {
@@ -282,9 +281,11 @@ export default class ChartOverview extends Component {
       if (keyList.some(item => item === get(station, 'key'))) {
         const stationLogs = get(value, station.key, null).logs
         const measureKey = get(stationLogs, current.key, null)
-        const valueInChart = getFormatNumberChart(
+        const valueInChart = getFormatNumber(
           get(measureKey, 'value', null),
-          2
+          2,
+          2,
+          'chart'
         )
 
         //add x, y value to data series chart

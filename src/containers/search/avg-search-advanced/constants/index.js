@@ -7,10 +7,33 @@ export const i18n = () => {
     searchSelect: t('addon.searchSelect'),
     btnSearchText: t('addon.search'),
     form: {
-      province: t('province.label'),
-      stationType: t('stationType.label'),
-      time: t('time'),
-      type: t('type.label'),
+      province: t(`province.list.title`),
+      stationType: t(`avgSearchFrom.form.stationType.label`),
+      time: t(`avgSearchFrom.form.time`),
+      type: t(`avgSearchFrom.form.type.label`),
+      stationAuto: count => t('dataAverage.form.stationAuto', { count }),
+      measuringList: count => t('dataAverage.form.measuringList', { count }),
+      addCondition: t('dataAverage.form.addCondition'),
+    },
+    tooltip: {
+      addCondition: t('dataAverage.tooltip.addCondition'),
+      filterData: t('dataAverage.tooltip.filterData'),
+      standard: t('dataAverage.tooltip.standard'),
+    },
+    standard: {
+      label: t('dataAverage.standard.label'),
+      placeholder: t('dataAverage.standard.placeholder'),
+    },
+    tabs: {
+      station: {
+        label: t('dataAverage.tabs.station.label'),
+      },
+      overview: {
+        label: t('dataAverage.tabs.overview.label'),
+        data: t('dataAverage.tabs.overview.data'),
+        chart: t('dataAverage.tabs.overview.chart'),
+      },
+      exportExcel: t('avgSearchFrom.tab.exportExcel'),
     },
   }
 }

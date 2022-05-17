@@ -25,7 +25,7 @@ import {
 } from 'utils/breadcrumbFilter'
 import { replaceVietnameseStr } from 'utils/string'
 import Breadcrumb from './breadcrumb'
-import { listFilter } from './constants'
+import { FIELDS, listFilter } from './constants'
 import DataSearch from './data'
 import SearchForm from './form/SearchForm'
 
@@ -87,19 +87,26 @@ export default class AvgSearchAdvanced extends React.Component {
     const { filterDefault } = this.state
     const { location } = this.props
     const { form } = this.searchFormRef.current.props
-    const { handleSearch } = this.searchFormRef.current.forwardRef.current
+    const {
+      handleSearch,
+      onStationAutoChange,
+    } = this.searchFormRef.current.forwardRef.current
 
     if (!isEqual(prevProps.location, location)) {
       if (!location.state) {
-        form.setFieldsValue(filterDefault)
-        this.setState({
-          filterItem: {},
-          activeKeyMenu: null,
-          otherCondition: [],
-          filterId: '',
-        })
-
-        handleSearch()
+        this.setState(
+          {
+            filterItem: {},
+            activeKeyMenu: null,
+            otherCondition: [],
+            filterId: '',
+          },
+          () => {
+            form.setFieldsValue(filterDefault)
+            onStationAutoChange(filterDefault.stationAuto)
+            handleSearch()
+          }
+        )
       }
     }
   }
