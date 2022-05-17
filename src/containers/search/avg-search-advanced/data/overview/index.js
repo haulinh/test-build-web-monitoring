@@ -1,4 +1,4 @@
-import { Button, Tabs } from 'antd'
+import { Button, Tabs, Row } from 'antd'
 import React, { Component } from 'react'
 import TableStation from './TableStation'
 import styled from 'styled-components'
@@ -18,31 +18,36 @@ const TabWrapper = styled.div`
   }
 `
 
-const ButtonAbsolute = styled.div`
-  position: absolute;
-  right: 16px;
-  z-index: 3;
-`
 export default class OverviewData extends Component {
   render() {
-    const { data } = this.props
+    const { data, qcvnSelected, searchFormData } = this.props
     return (
       <TabWrapper>
-        <ButtonAbsolute>
-          <Button
-            style={{ marginRight: '12px' }}
-            type="primary"
-            icon="file-excel"
-          >
-            Xuất dữ liệu excel
-          </Button>
-        </ButtonAbsolute>
-        <Tabs defaultActiveKey="data">
+        <Tabs
+          defaultActiveKey="data"
+          tabBarExtraContent={
+            <Row type="flex" justify="end">
+              <Button
+                style={{ marginRight: '12px' }}
+                type="primary"
+                icon="file-excel"
+              >
+                Xuất dữ liệu excel
+              </Button>
+            </Row>
+          }
+        >
           <TabPane key="data" tab="Dữ liệu">
             <TableStation />
           </TabPane>
           <TabPane key="chart" tab="Biểu đồ">
-            {!isEmpty(data) && <ChartOverview dataChart={data} />}
+            {!isEmpty(data) && (
+              <ChartOverview
+                dataChart={data}
+                qcvnSelected={qcvnSelected}
+                searchFormData={searchFormData}
+              />
+            )}
           </TabPane>
         </Tabs>
       </TabWrapper>

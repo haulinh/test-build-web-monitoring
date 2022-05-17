@@ -1,12 +1,13 @@
 import { Button, Col, Row, Tabs } from 'antd'
+import DataInsight from 'api/DataInsight'
+import ToolTipIcon from 'assets/svg-icons/TooltipSmall.svg'
 import SelectQCVN from 'components/elements/select-qcvn-v2'
+import { ToolTip } from 'components/elements/tooltip'
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { ToolTip } from '../component/ToolTip'
-import StationData from './station'
-import OverviewData from './overview'
-import DataInsight from 'api/DataInsight'
 import { ACTIVE_TAB, DEFAULT_TAB } from '../constants'
+import OverviewData from './overview'
+import StationData from './station'
 
 const { TabPane } = Tabs
 const TabWrapper = styled.div`
@@ -52,7 +53,7 @@ export default class DataSearch extends Component {
     })
   }
 
-  getDataOverview = async () => {
+  getDataOverview = async standards => {
     const { searchFormData } = this.props
 
     const measuringList = searchFormData.measuringList.join(',')
@@ -71,6 +72,7 @@ export default class DataSearch extends Component {
       groupType,
       timeInterval,
       status,
+      standards,
     }
 
     try {
@@ -87,6 +89,8 @@ export default class DataSearch extends Component {
         ...qcvnList.find(qcvn => qcvn._id === id),
       }
     })
+
+    this.getDataOverview(qcvnSelected.map(qcvn => qcvn.key).join(','))
 
     this.setState({
       standardsVN: qcvnSelected.map(qcvn => qcvn.key),
@@ -138,12 +142,20 @@ export default class DataSearch extends Component {
               style={{ height: '68px' }}
             >
               <Col>
-                <ToolTip />
+                <div style={{ marginRight: '4px' }}>Quy chuẩn</div>
               </Col>
               <Col>
-                <div style={{ marginLeft: '4px', marginRight: '4px' }}>
-                  Quy chuẩn:
-                </div>
+                <ToolTip
+                  marginRight={'4px'}
+                  width={'16px'}
+                  text={
+                    'Áp dụng so sánh giá trị thông số theo quy chuẩn đã thiết lập'
+                  }
+                  icon={ToolTipIcon}
+                />
+              </Col>
+              <Col>
+                <div style={{ marginRight: '2px' }}>:</div>
               </Col>
               <Col span={18}>
                 <SelectQCVN
@@ -184,7 +196,13 @@ export default class DataSearch extends Component {
               </Button>
             }
           >
-            {isSearchingData && <OverviewData data={dataOverview} />}
+            {isSearchingData && (
+              <OverviewData
+                data={dataOverview}
+                qcvnSelected={qcvns}
+                searchFormData={searchFormData}
+              />
+            )}
           </TabPane>
         </Tabs>
       </TabWrapper>

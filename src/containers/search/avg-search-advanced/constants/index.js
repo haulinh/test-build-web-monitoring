@@ -1,12 +1,22 @@
 import { translate } from 'hoc/create-lang'
 import { dataStatusOptions } from 'constants/dataStatus'
+import { translate as t } from 'hoc/create-lang'
+
+export const i18n = () => {
+  return {
+    searchSelect: t('addon.searchSelect'),
+    btnSearchText: t('addon.search'),
+    form: {
+      province: t(`province.label`),
+      stationType: t('stationType.label'),
+      time: t(`time`),
+      type: t('type.label'),
+    },
+  }
+}
 
 export function listFilter() {
   return [
-    // {
-    //   title: 'Tình trạng thiết bị',
-    //   key: 'stationStatus',
-    // },
     {
       title: translate('dataSearchFilterForm.form.dataStatus.label'),
       key: 'dataStatus',
@@ -23,20 +33,6 @@ export function listFilter() {
       key: 'standardKey',
       mode: 'multiple',
     },
-    // {
-    //   title: translate('dataSearchFilterForm.form.activatedAt.label'),
-    //   key: 'activatedAt',
-    //   default: moment(new Date(), dateFormat),
-    // },
-    // {
-    //   title: translate('dataSearchFilterForm.form.typeSampling.label'),
-    //   key: 'typeSampling',
-    //   default: 'FTP',
-    // },
-    // {
-    //   title: 'Mã trạm',
-    //   key: 'stationKey',
-    // },
   ]
 }
 
