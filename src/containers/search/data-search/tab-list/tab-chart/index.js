@@ -117,20 +117,26 @@ export default class TabChart extends React.PureComponent {
       })
     })
 
-    mesureList.unshift({ code: 'all', name: translate('chart.all') })
+    // mesureList.unshift({ code: 'all', name: translate('chart.all') })
     if (isInit) {
       const { stationAutoCurrent } = this.props
+      const initSeries = [seriesData[measuringList[0]]]
+      const firstMeasure = measuresObj[measuringList[0]]
+      const nameChartInit = this.getNameChart(
+        stationAutoCurrent.name,
+        firstMeasure
+      )
 
       this.state = {
         seriesData,
         mesureList,
         seriesMeasure: [],
         plotLines: [],
-        nameChart: stationAutoCurrent.name,
+        nameChart: nameChartInit,
         minChart: undefined,
         maxChart: undefined,
-        series: _.values(seriesData),
-        measureCurrent: 'all',
+        series: initSeries,
+        measureCurrent: measuringList[0],
         heightChart,
         dataQcvn: [],
         stationAutoCurrent: {},
@@ -141,7 +147,6 @@ export default class TabChart extends React.PureComponent {
         seriesData,
         mesureList,
         plotLines: [],
-        series: _.values(seriesData),
       })
     }
   }
@@ -154,13 +159,19 @@ export default class TabChart extends React.PureComponent {
     ) {
       this.initData(this.props)
       this.setState({
-        measureCurrent: 'all',
         nameChart: stationAutoCurrent.name,
       })
     }
     if (!_.isEqual(this.props.qcvnSelected, prevProps.qcvnSelected)) {
       this.handleDrawChart()
     }
+  }
+
+  getNameChart = (stationName, measure) => {
+    const unitMeasure = measure.unit ? `(${measure.unit})` : ''
+    const nameChart = `${stationName} - ${measure.name} ${unitMeasure}`
+
+    return nameChart
   }
 
   //convert data measuringList[] to measuringList{}
@@ -214,130 +225,124 @@ export default class TabChart extends React.PureComponent {
     let plotLines = []
     let nameChart = stationAutoCurrent.name
 
-    if (measureCurrent !== 'all') {
-      let dataSeries = _.get(this.state.seriesData, [measureCurrent], {})
-      dataSeries = {
-        ...dataSeries,
-        marker: {
-          enabled: true,
-        },
-      }
-
-      const measure = stationAutoCurrent.measuringList.find(
-        measure => measure.key === measureCurrent
-      )
-
-      const minLimit = _.get(dataSeries, 'minLimit')
-      series = [dataSeries]
-
-      if (_.isNumber(minLimit)) {
-        let data = _.clone(dataSeries) //_.get(this.state.seriesData, [measureCurrent], {})
-        _.update(data, 'threshold', () => minLimit)
-        _.update(data, 'color', () => 'transparent')
-        _.update(data, 'negativeColor', () => 'red')
-        series.push(data)
-      }
-
-      // draw line qcvn
-      const qcvnList = this.getDataQcvn(measureCurrent)
-
-      //type line qcvn
-      const lineQcvn = {
-        type: 'line',
-        enableMouseTracking: false,
-      }
-
-      //draw line maxLimit minLimit
-      plotLines = [
-        {
-          value: _.get(measure, 'minLimit', undefined),
-          color: '#ff6666',
-          dashStyle: 'shortDot',
-          width: 1,
-          zIndex: 100,
-          label: {
-            text: translate(`dashboard.chartStatus.min`, {
-              min: _.get(measure, 'minLimit', ''),
-            }),
-            y: 13,
-          },
-        },
-        {
-          value: _.get(measure, 'maxLimit', undefined),
-          color: '#ff6666',
-          dashStyle: 'shortDot',
-          width: 1,
-          zIndex: 100,
-          label: {
-            text: translate(`dashboard.chartStatus.max`, {
-              max: _.get(measure, 'maxLimit', ''),
-            }),
-          },
-        },
-      ]
-
-      qcvnList.forEach(qcvn => {
-        //add line qcvn minLimit & maxLimit
-        const data = dataSeries.data
-
-        if (_.isNumber(qcvn.maxLimit)) {
-          series = [
-            ...series,
-            {
-              ...lineQcvn,
-              id: qcvn.id,
-              name: qcvn.name,
-              valueLimit: qcvn.maxLimit,
-              data: data.map((dataItem, index) => {
-                if (index === 0) {
-                  return {
-                    y: qcvn.maxLimit,
-                    dataLabels: { enabled: true },
-                  }
-                } else {
-                  return [dataItem[0], qcvn.maxLimit]
-                }
-              }),
-            },
-          ]
-
-          plotLines = []
-        }
-
-        if (_.isNumber(qcvn.minLimit)) {
-          series = [
-            ...series,
-            {
-              ...lineQcvn,
-              id: qcvn.id,
-              valueLimit: qcvn.minLimit,
-              name: qcvn.name,
-              className: 'min',
-              data: data.map((dataItem, index) => {
-                if (index === 0) {
-                  return {
-                    y: qcvn.minLimit,
-                    dataLabels: { enabled: true },
-                  }
-                } else {
-                  return [dataItem[0], qcvn.minLimit]
-                }
-              }),
-            },
-          ]
-          plotLines = []
-        }
-      })
-      const unitMeasure = measure.unit ? `(${measure.unit})` : ''
-
-      nameChart = `${stationAutoCurrent.name} - ${measure.name} ${unitMeasure}`
-
-      minChart = _.get(this.state.heightChart, [measureCurrent, 'minChart'])
-      maxChart = _.get(this.state.heightChart, [measureCurrent, 'maxChart']) //_.get(dataSeries,'minLimit', undefined)
-    } else {
-      series = _.values(this.state.seriesData)
-      nameChart = stationAutoCurrent.name
+    let dataSeries = _.get(this.state.seriesData, [measureCurrent], {})
+    dataSeries = {
+      ...dataSeries,
+      marker: {
+        enabled: true,
+      },
     }
+
+    const measure = stationAutoCurrent.measuringList.find(
+      measure => measure.key === measureCurrent
+    )
+
+    const minLimit = _.get(dataSeries, 'minLimit')
+    series = [dataSeries]
+
+    if (_.isNumber(minLimit)) {
+      let data = _.clone(dataSeries) //_.get(this.state.seriesData, [measureCurrent], {})
+      _.update(data, 'threshold', () => minLimit)
+      _.update(data, 'color', () => 'transparent')
+      _.update(data, 'negativeColor', () => 'red')
+      series.push(data)
+    }
+
+    // draw line qcvn
+    const qcvnList = this.getDataQcvn(measureCurrent)
+
+    //type line qcvn
+    const lineQcvn = {
+      type: 'line',
+      enableMouseTracking: false,
+    }
+
+    //draw line maxLimit minLimit
+    plotLines = [
+      {
+        value: _.get(measure, 'minLimit', undefined),
+        color: '#ff6666',
+        dashStyle: 'shortDot',
+        width: 1,
+        zIndex: 100,
+        label: {
+          text: translate(`dashboard.chartStatus.min`, {
+            min: _.get(measure, 'minLimit', ''),
+          }),
+          y: 13,
+        },
+      },
+      {
+        value: _.get(measure, 'maxLimit', undefined),
+        color: '#ff6666',
+        dashStyle: 'shortDot',
+        width: 1,
+        zIndex: 100,
+        label: {
+          text: translate(`dashboard.chartStatus.max`, {
+            max: _.get(measure, 'maxLimit', ''),
+          }),
+        },
+      },
+    ]
+
+    qcvnList.forEach(qcvn => {
+      //add line qcvn minLimit & maxLimit
+      const data = dataSeries.data
+
+      if (_.isNumber(qcvn.maxLimit)) {
+        series = [
+          ...series,
+          {
+            ...lineQcvn,
+            id: qcvn.id,
+            name: qcvn.name,
+            valueLimit: qcvn.maxLimit,
+            data: data.map((dataItem, index) => {
+              if (index === 0) {
+                return {
+                  y: qcvn.maxLimit,
+                  dataLabels: { enabled: true },
+                }
+              } else {
+                return [dataItem[0], qcvn.maxLimit]
+              }
+            }),
+          },
+        ]
+
+        plotLines = []
+      }
+
+      if (_.isNumber(qcvn.minLimit)) {
+        series = [
+          ...series,
+          {
+            ...lineQcvn,
+            id: qcvn.id,
+            valueLimit: qcvn.minLimit,
+            name: qcvn.name,
+            className: 'min',
+            data: data.map((dataItem, index) => {
+              if (index === 0) {
+                return {
+                  y: qcvn.minLimit,
+                  dataLabels: { enabled: true },
+                }
+              } else {
+                return [dataItem[0], qcvn.minLimit]
+              }
+            }),
+          },
+        ]
+        plotLines = []
+      }
+    })
+
+    nameChart = this.getNameChart(stationAutoCurrent.name, measure)
+
+    minChart = _.get(this.state.heightChart, [measureCurrent, 'minChart'])
+    maxChart = _.get(this.state.heightChart, [measureCurrent, 'maxChart']) //_.get(dataSeries,'minLimit', undefined)
     this.setState({
       series,
       nameChart,
@@ -359,7 +364,7 @@ export default class TabChart extends React.PureComponent {
     return {
       chart: {
         type: 'line',
-        width: width - 160,
+        width: width - 300,
         zoomType: 'x',
       },
 
@@ -477,6 +482,7 @@ export default class TabChart extends React.PureComponent {
 
   render() {
     const { measureCurrent, mesureList } = this.state
+
     return (
       <TabChartWrapper>
         <ChartWrapper innerRef={ref => (this.chartWrapper = ref)}>
@@ -496,7 +502,7 @@ export default class TabChart extends React.PureComponent {
           <Tabs
             onChange={this.handleMeasureChange}
             activeKey={measureCurrent}
-            style={{ width: '90%' }}
+            style={{ width: '70%' }}
           >
             {mesureList.map(({ name, code, unit }) => (
               <TabPane tab={`${name} ${unit ? `(${unit})` : ''}`} key={code} />
