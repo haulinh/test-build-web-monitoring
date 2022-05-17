@@ -359,6 +359,10 @@ export default class SearchAvgForm extends React.Component {
     })
   }
 
+  onStationAutoChange = stationAutoKeys => {
+    this.updateForm({ stationAutoKeys })
+  }
+
   render() {
     const { form, lang, loading } = this.props
     const t = lang.createNameSpace('dataSearchFilterForm.form')
@@ -440,10 +444,9 @@ export default class SearchAvgForm extends React.Component {
           <Row gutter={20}>
             <Col>
               <FormItem label={`Trạm quan trắc (${numberStation} trạm)`}>
-                {form.getFieldDecorator(
-                  FIELDS.STATION_AUTO,
-                  {}
-                )(
+                {form.getFieldDecorator(FIELDS.STATION_AUTO, {
+                  onChange: this.onStationAutoChange,
+                })(
                   <SelectStationAuto
                     stationType={form.getFieldValue(FIELDS.STATION_TYPE)}
                     province={form.getFieldValue(FIELDS.PROVINCE)}
