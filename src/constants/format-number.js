@@ -8,37 +8,24 @@ export const ROUND_DIGIT = 2 // Làm tròn số thap phan
 export function getFormatNumber(
   value,
   numberToFixed = FORMAT_VALUE_MEASURING,
-  maximum = numberToFixed
+  maximum = numberToFixed,
+  type = 'table'
 ) {
   if (isNumber(value) || value) {
     let tempNumber = Number(value).toLocaleString(FORMAT_LOCAL, {
       minimumFractionDigits: numberToFixed,
       maximumFractionDigits: maximum,
     })
-    return tempNumber
+
+    const result = type === 'table' ? tempNumber : Number(tempNumber)
+    return result
   }
 
-  return '-'
-}
-
-export function getFormatNumberChart(
-  value,
-  numberToFixed = FORMAT_VALUE_MEASURING,
-  maximum = numberToFixed
-) {
-  if (value) {
-    let tempNumber = Number(value).toLocaleString(FORMAT_LOCAL, {
-      minimumFractionDigits: numberToFixed,
-      maximumFractionDigits: maximum,
-    })
-    return Number(tempNumber)
-  }
-
-  return null
+  const emptyResult = type === 'table' ? '-' : null
+  return emptyResult
 }
 
 export default {
   FORMAT_VALUE_MEASURING,
   getFormatNumber,
-  getFormatNumberChart,
 }
