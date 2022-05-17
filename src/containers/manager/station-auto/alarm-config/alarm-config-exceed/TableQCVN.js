@@ -19,10 +19,8 @@ export default class TableQCVN extends Component {
     }
   }
 
-  getColumns = () => {
-    const { qcvnList, measuringListStation } = this.props
-
-    //#region column standard
+  getStandardColumns = () => {
+    const { qcvnList } = this.props
     const columns = qcvnList.map(qcvn => {
       const measuringQcvnObj = keyBy(qcvn.measuringList, 'key')
 
@@ -61,12 +59,16 @@ export default class TableQCVN extends Component {
         ],
       }
     })
-    //#endregion column standard
 
-    //#region column default measure station
+    return columns
+  }
+
+  getDefaultDataLevelColumns = () => {
+    const { measuringListStation } = this.props
+
     const defaultDataLevels = [
-      { title: i18n().exceed_preparing, dataIndex: 'Tend' },
       { title: i18n().exceed, dataIndex: 'Limit' },
+      { title: i18n().exceed_preparing, dataIndex: 'Tend' },
     ]
 
     const measuringStationObj = keyBy(measuringListStation, 'key')
@@ -102,7 +104,13 @@ export default class TableQCVN extends Component {
         },
       ],
     }))
-    //#endregion column default measure station
+
+    return defaultDataLevelColumns
+  }
+
+  getColumns = () => {
+    const standardColumns = this.getStandardColumns()
+    const defaultDataLevelColumns = this.getDefaultDataLevelColumns()
 
     return [
       {
@@ -113,7 +121,7 @@ export default class TableQCVN extends Component {
         width: '10%',
       },
       ...defaultDataLevelColumns,
-      ...columns,
+      ...standardColumns,
       {
         title: '',
         key: 'enable',
@@ -124,6 +132,7 @@ export default class TableQCVN extends Component {
             <React.Fragment>
               {form.getFieldDecorator(`${measureKey}`, {
                 valuePropName: 'checked',
+                initialValue: true,
               })(<Checkbox />)}
             </React.Fragment>
           )

@@ -4,10 +4,8 @@ import { get, keyBy } from 'lodash'
 import React, { Component } from 'react'
 import { SelectQCVNExceed } from '../components'
 import { i18n } from '../constants'
+import { isDefaultDataLevel } from '../hoc/withAlarmForm'
 import { FIELDS } from '../index'
-
-const isDefaultDataLevel = alarmConfigType =>
-  [FIELDS.EXCEED, FIELDS.EXCEED_PREPARING].includes(alarmConfigType)
 
 export default class TableAlarmConfigExceed extends Component {
   columns = [
@@ -24,9 +22,7 @@ export default class TableAlarmConfigExceed extends Component {
 
         const configAlarmType = get(record, 'config.type')
 
-        if (
-          [FIELDS.EXCEED, FIELDS.EXCEED_PREPARING].includes(configAlarmType)
-        ) {
+        if (isDefaultDataLevel(configAlarmType)) {
           return <React.Fragment>{i18n()[configAlarmType]}</React.Fragment>
         }
 

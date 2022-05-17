@@ -26,7 +26,8 @@ export default class StandardForm extends React.Component {
     if (!_.isEmpty(alarmSelected)) {
       form.setFieldsValue({
         [FIELDS.REPEAT_CONFIG]: alarmSelected[FIELDS.REPEAT_CONFIG],
-        [FIELDS.STANDARD_ID]: alarmSelected[FIELDS.STANDARD_ID],
+
+        [FIELDS.CONFIG]: alarmSelected[FIELDS.CONFIG],
       })
     }
   }
@@ -39,9 +40,12 @@ export default class StandardForm extends React.Component {
       <React.Fragment>
         <Col>
           <FormItem label={i18n().form.label.standard}>
-            {form.getFieldDecorator(`${FIELDS.STANDARD_ID}`)(<SelectQCVN />)}
+            {form.getFieldDecorator(`${FIELDS.CONFIG}.${FIELDS.STANDARD_ID}`)(
+              <SelectQCVN />
+            )}
           </FormItem>
         </Col>
+
         <Row gutter={6}>
           <Col span={8}>
             <FormItem label={i18n().form.label.repeatConfig}>
@@ -51,6 +55,7 @@ export default class StandardForm extends React.Component {
               })(<Switch disabled={isEdit} />)}
             </FormItem>
           </Col>
+
           {(alarmSelected[FIELDS.REPEAT_CONFIG] || repeatConfig) && (
             <Col span={8}>
               <FormItem label={i18n().form.label.frequency}>
