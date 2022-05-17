@@ -29,7 +29,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { getTimes } from 'utils/datetime'
 import SelectTimeRange from '../../common/select-time-range'
-import { FIELDS, i18n, listFilter } from '../constants'
+import { FIELDS, i18n } from '../constants'
 import FilterList from '../filter'
 import ToolTipIcon from 'assets/svg-icons/tooltip.svg'
 
@@ -232,8 +232,6 @@ export default class SearchAvgForm extends React.Component {
       const filterDefault = this.getFilterDefault()
       setFilterDefault(filterDefault)
     }
-
-    console.log({ stationAutoKeys })
 
     this.updateForm({ stationAutoKeys })
 
@@ -486,7 +484,7 @@ export default class SearchAvgForm extends React.Component {
         <Container>
           <Row gutter={20}>
             <Col md={6} lg={6} sm={12}>
-              <FormItem label={i18n().form.province}>
+              <FormItem label={t('dataSearchFilterForm.form.province.label')}>
                 {form.getFieldDecorator(FIELDS.PROVINCE, {
                   initialValue: '',
                   onChange: this.onChangeProvince,

@@ -93,6 +93,31 @@ export default class AvgSearchAdvanced extends React.Component {
     this.getFilterList()
   }
 
+  componentDidUpdate = (prevProps, prevState) => {
+    const { filterDefault } = this.state
+    const { location } = this.props
+    const { form } = this.searchFormRef.current.props
+    const { handleSearch } = this.searchFormRef.current.forwardRef.current
+
+    if (!isEqual(prevProps.location, location)) {
+      if (!location.state) {
+        form.setFieldsValue(filterDefault)
+        this.setState({
+          filterItem: {},
+          activeKeyMenu: null,
+          otherCondition: [],
+          filterId: '',
+        })
+
+        handleSearch()
+      }
+    }
+  }
+
+  componentWillUnmount() {
+    this.props.deleteBreadcrumb({ id: 'detail' })
+  }
+
   initialData = props => {
     if (!props.formData.searchNow) {
       const stationsData = this.getStationsData(props.stations)
@@ -100,50 +125,6 @@ export default class AvgSearchAdvanced extends React.Component {
       this.setState({ stationsData, stationKeys, initialData: true })
     }
   }
-
-  // componentWillReceiveProps(nextProps) {
-  //   if (this.props.stations.length !== nextProps.stations.length) {
-  //     if (!this.state.initialData) {
-  //       this.initialData(nextProps)
-  //     }
-  //   }
-  //   if (!_.isEqual(this.props.values, nextProps.values)) {
-  //     if (this.state.isSearchingData) this.setState({ isSearchingData: false })
-  //   }
-  //   if (this.props.formData.filterId !== nextProps.formData.filterId) {
-  //     const filter = this.state.configFilter.find(
-  //       filter => filter._id === nextProps.formData.filterId
-  //     )
-  //     if (filter) {
-  //       const searchObj = JSON.parse(decodeURIComponent(filter.searchUrl))
-  //       searchObj.searchNow = true
-  //       searchObj.filterId = filter._id
-  //       if (nextProps.breadcrumbs.length === 2) {
-  //         this.props.updateBreadcrumb({
-  //           id: 'detail',
-  //           icon: '',
-  //           href:
-  //             slug.avgSearchAdvanced.base +
-  //             '?formData=' +
-  //             encodeURIComponent(JSON.stringify(searchObj)),
-  //           name: filter.name,
-  //           autoDestroy: true,
-  //         })
-  //       } else {
-  //         this.props.addBreadcrumb({
-  //           id: 'detail',
-  //           icon: '',
-  //           href:
-  //             slug.avgSearchAdvanced.base +
-  //             '?formData=' +
-  //             encodeURIComponent(JSON.stringify(searchObj)),
-  //           name: filter.name,
-  //           autoDestroy: true,
-  //         })
-  //       }
-  //     }
-  //   }
-  // }
 
   getIsEdit = () => {
     const values = _.clone(this.props.values)
@@ -160,10 +141,6 @@ export default class AvgSearchAdvanced extends React.Component {
       // !!this.props.values.stationType &&
       this.state.allowSave && !this.props.values.filterId
     )
-  }
-
-  componentWillUnmount() {
-    this.props.deleteBreadcrumb({ id: 'detail' })
   }
 
   handleOnChangeSearchField = () => {
@@ -271,6 +248,7 @@ export default class AvgSearchAdvanced extends React.Component {
       this.setState({
         filterList: newFilterList,
         filterListSearched: newFilterList,
+        filterItem: {},
       })
       message.success(t('storageFilter.message.deleteSuccess'))
     } catch (error) {
@@ -292,7 +270,7 @@ export default class AvgSearchAdvanced extends React.Component {
         message.success(t('storageFilter.message.updateSuccess'))
       } else {
         const response = await CalculateApi.createFilter(queryParams)
-        this.onClickFilter(response._id, response)
+        this.handleOnClickFilter(response._id, response)
         this.setState({
           activeKeyMenu: response._id,
         })
@@ -327,8 +305,10 @@ export default class AvgSearchAdvanced extends React.Component {
     const { breadcrumbs, updateBreadcrumb, addBreadcrumb, history } = this.props
     const { params } = filterItem
     const { form } = this.searchFormRef.current.props
-    const { handleSearch } = this.searchFormRef.current.forwardRef.current
-
+    const {
+      handleSearch,
+      onStationAutoChange,
+    } = this.searchFormRef.current.forwardRef.current
     const url = `${slug.avgSearchAdvanced.base}?filterId=${filterId}`
 
     if (breadcrumbs.length === 2) {
@@ -339,15 +319,18 @@ export default class AvgSearchAdvanced extends React.Component {
 
     history.push(url, { filterId })
 
+    const stationAuto = params.stationKeys.split(',')
     const valuesForm = {
       ...params,
-      stationAuto: params.stationKeys.split(','),
+      stationAuto,
       measuringList: params.measuringList.split(','),
     }
 
     const otherCondition = listFilter().filter(
       filter => filterItem.params[filter.key]
     )
+
+    onStationAutoChange(stationAuto)
 
     this.setState(
       {
@@ -371,25 +354,6 @@ export default class AvgSearchAdvanced extends React.Component {
     })
   }
 
-  componentDidUpdate = (prevProps, prevState) => {
-    const { filterDefault } = this.state
-    const { location } = this.props
-    const { form } = this.searchFormRef.current.props
-    const { handleSearch } = this.searchFormRef.current.forwardRef.current
-
-    if (!isEqual(prevProps.location, location)) {
-      if (!location.state) {
-        form.setFieldsValue(filterDefault)
-        this.setState({
-          filterItem: {},
-          activeKeyMenu: null,
-          otherCondition: [],
-        })
-
-        handleSearch()
-      }
-    }
-  }
   setLoading = loading => {}
   render() {
     const {
@@ -459,6 +423,7 @@ export default class AvgSearchAdvanced extends React.Component {
           visible={visibleModalSave}
           onCancel={this.handleOnCancelSaveFilter}
           centered
+          key={visibleModalSave}
           isUpdate={isUpdateFilter}
           onSubmitSaveFilter={this.handelOnSubmitSaveFilter}
         />

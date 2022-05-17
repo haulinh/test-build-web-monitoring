@@ -7,9 +7,9 @@ export const i18n = () => {
     searchSelect: t('addon.searchSelect'),
     btnSearchText: t('addon.search'),
     form: {
-      province: t(`province.label`),
+      province: t('province.label'),
       stationType: t('stationType.label'),
-      time: t(`time`),
+      time: t('time'),
       type: t('type.label'),
     },
   }
