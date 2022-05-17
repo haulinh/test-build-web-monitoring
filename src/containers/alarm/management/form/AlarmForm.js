@@ -109,7 +109,7 @@ export default class AlarmForm extends Component {
       advance: this.getParamAdvance,
       exceed: this.getParamExceed,
       device: this.getParamDevice,
-      by_standard: this.processGeneralValue,
+      data_level: this.processGeneralValue,
       undefined: () => ({}),
     }
     return param[type]()

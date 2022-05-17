@@ -4310,6 +4310,10 @@ export default {
         label: 'Standard',
         value: 'by_standard',
       },
+      data_level: {
+        label: 'Standard',
+        value: 'data_level',
+      },
     },
     config: {
       alarmDisconnect: 'Disconnect alarm',

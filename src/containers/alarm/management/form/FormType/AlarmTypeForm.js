@@ -27,7 +27,7 @@ class AlarmTypeForm extends React.Component {
       return <AdvanceForm wrappedComponentRef={innerRef} />
     }
 
-    if (type === alarmType.by_standard.value) {
+    if (type === alarmType.data_level.value) {
       return <StandardForm form={form} />
     }
 

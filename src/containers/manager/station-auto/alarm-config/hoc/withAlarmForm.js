@@ -14,6 +14,9 @@ const getStatusAlarmBoolean = status => {
   return false
 }
 
+export const isDefaultDataLevel = alarmConfigType =>
+  [FIELDS.EXCEED, FIELDS.EXCEED_PREPARING].includes(alarmConfigType)
+
 const withAlarmForm = WrappedComponent => {
   @Form.create()
   class AlarmForm extends React.Component {
@@ -48,18 +51,16 @@ const withAlarmForm = WrappedComponent => {
         }))
 
         .filter(paramItem => {
-          if (isEmpty(paramItem.recipients)) return false
-
           if (alarmType === FIELDS.DATA_LEVEL) {
             const configAlarmType = get(paramItem, 'config.type')
 
-            if (
-              [FIELDS.EXCEED, FIELDS.EXCEED_PREPARING].includes(configAlarmType)
-            )
-              return true
+            if (isDefaultDataLevel(configAlarmType)) return true
 
             if (isNil(get(paramItem, 'config.standardId'))) return false
           }
+
+          if (isEmpty(paramItem.recipients)) return false
+
           return true
         })
 
