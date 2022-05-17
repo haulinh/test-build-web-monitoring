@@ -51,18 +51,8 @@ export default class AvgSearchAdvanced extends React.Component {
       loading: false,
       initialData: false,
 
-      flagResetForm: false,
-
-      allowSave: true,
-
       isSearchingData: false,
-      isSearchingStation: false,
       searchFormData: {},
-
-      filteredConfigFilter: [],
-      configFilter: [],
-      standardsVN: [],
-      qcvns: [],
       visibleModalSave: false,
 
       stationKeys: props.stations.length
@@ -126,23 +116,6 @@ export default class AvgSearchAdvanced extends React.Component {
     }
   }
 
-  getIsEdit = () => {
-    const values = _.clone(this.props.values)
-    const formData = _.clone(this.props.formData)
-    if (formData.rangesDate !== 'ranges') {
-      delete values.fromDate
-      delete values.toDate
-    }
-    return !_.isEqual(values, formData) && !!values.filterId
-  }
-
-  getAllowSave = () => {
-    return (
-      // !!this.props.values.stationType &&
-      this.state.allowSave && !this.props.values.filterId
-    )
-  }
-
   handleOnChangeSearchField = () => {
     this.setState({ isSearchingData: false })
   }
@@ -168,20 +141,6 @@ export default class AvgSearchAdvanced extends React.Component {
       isSearchingData: true,
       searchFormData,
     })
-  }
-
-  handleCancel = () => {
-    const { form } = this.formRef.props
-    form.resetFields()
-    this.setState({ visible: false })
-  }
-
-  saveFormRef = formRef => {
-    this.formRef = formRef
-  }
-
-  resetForm = () => {
-    this.setState(prevState => ({ flagResetForm: !prevState.flagResetForm }))
   }
 
   getFilterList = async () => {

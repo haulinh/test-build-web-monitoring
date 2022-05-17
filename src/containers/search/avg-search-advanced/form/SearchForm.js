@@ -128,7 +128,6 @@ export default class SearchAvgForm extends React.Component {
 
   getInitValuesFormData = () => {
     const { formData } = this.props
-    console.log({ formData })
     const from = moment(formData.fromDate).toDate()
     const to = moment(formData.toDate).toDate()
     const time = [from, to]
