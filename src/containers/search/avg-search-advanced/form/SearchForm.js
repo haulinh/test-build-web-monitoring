@@ -20,19 +20,17 @@ import { FormItem } from 'components/layouts/styles'
 import { dataStatusOptions } from 'constants/dataStatus'
 import SelectMeasureParameter from 'containers/data-analytics/filter/select-measure-parameter'
 import SelectStationAuto from 'containers/data-analytics/filter/select-station-auto'
-import createLang, { translate } from 'hoc/create-lang'
+import { translate as t, translate } from 'hoc/create-lang'
 import createQueryFormDataBrowser from 'hoc/query-formdata-browser'
 import { get, isEmpty, isEqual } from 'lodash'
 import moment from 'moment-timezone'
-import React, { forwardRef } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { getTimes } from 'utils/datetime'
 import SelectTimeRange from '../../common/select-time-range'
-import { FIELDS, listFilter } from '../constants'
+import { FIELDS } from '../constants'
 import FilterList from '../filter'
 import { ToolTip } from './../../common/tooltip'
-import { translate as t } from 'hoc/create-lang'
-import { getMeasuringListFromStationAutos } from 'containers/api-sharing/util'
 
 const HeaderWrapper = styled.div`
   color: blue;
@@ -89,18 +87,13 @@ const options = {
 // @createLang
 @createQueryFormDataBrowser()
 export default class SearchAvgForm extends React.Component {
-  static defaultProps = {
-    initialValues: {},
-  }
   stationAutos = new Map()
 
   constructor(props) {
     super(props)
     this.state = {
-      filterList: listFilter().filter(
-        filter => props.initialValues[filter.key]
-      ),
       isFilter: false,
+      otherConditionFilter: [],
       fromDate: moment()
         .subtract(1, 'days')
         .toISOString(),
@@ -114,14 +107,28 @@ export default class SearchAvgForm extends React.Component {
 
   componentDidMount = () => {
     const { formData, form } = this.props
-    console.log({ formData })
     if (isEmpty(formData)) return
     const initValues = this.getInitValuesFormData()
     form.setFieldsValue(initValues)
   }
 
+  componentDidUpdate = (prevProps, prevState) => {
+    const { formData, setFilterDefault, otherCondition } = this.props
+
+    if (!isEqual(prevProps.formData, formData)) {
+      const filterDefault = this.getFilterDefault()
+      this.setState({ otherConditionFilter: [] })
+      setFilterDefault(filterDefault)
+    }
+
+    if (!isEqual(prevProps.otherCondition, otherCondition)) {
+      this.setState({ otherConditionFilter: otherCondition })
+    }
+  }
+
   getInitValuesFormData = () => {
     const { formData } = this.props
+    console.log({ formData })
     const from = moment(formData.fromDate).toDate()
     const to = moment(formData.toDate).toDate()
     const time = [from, to]
@@ -141,13 +148,18 @@ export default class SearchAvgForm extends React.Component {
   }
 
   handleChangeFilter = filter => {
-    const { filterList } = this.state
+    // const { otherConditionSearch } = this.props
+    const { otherConditionFilter } = this.state
 
-    const index = filterList.findIndex(item => item.key === filter.key)
+    const index = otherConditionFilter.findIndex(
+      item => item.key === filter.key
+    )
     if (index < 0) {
-      this.setState({ filterList: [...filterList, filter] })
+      this.setState({ otherConditionFilter: [...otherConditionFilter, filter] })
     } else {
-      this.setState({ filterList: filterList.splice(index, 1) })
+      this.setState({
+        otherConditionFilter: otherConditionFilter.splice(index, 1),
+      })
     }
   }
 
@@ -160,10 +172,12 @@ export default class SearchAvgForm extends React.Component {
     }, new Map())
 
   handleRemoveField = filterKey => () => {
-    const { filterList } = this.state
+    const { otherConditionFilter } = this.state
 
     this.setState({
-      filterList: filterList.filter(item => item.key !== filterKey),
+      otherConditionFilter: otherConditionFilter.filter(
+        item => item.key !== filterKey
+      ),
     })
   }
 
@@ -179,14 +193,6 @@ export default class SearchAvgForm extends React.Component {
     form.setFieldsValue({ [FIELDS.STATION_TYPE]: stationType })
     const stationAutoKeys = this.getStationAutoKeys({ stationType, province })
     this.updateForm({ stationAutoKeys })
-  }
-
-  componentDidUpdate = (prevProps, prevState) => {
-    const { formData, setFilterDefault } = this.props
-    if (!isEqual(prevProps.formData, formData)) {
-      const filterDefault = this.getFilterDefault()
-      setFilterDefault(filterDefault)
-    }
   }
 
   getFilterDefault = () => {
@@ -212,17 +218,22 @@ export default class SearchAvgForm extends React.Component {
   }
 
   onFetchStationAutoSuccess = stationAutos => {
-    const { form, formData } = this.props
+    const { form, formData, setFilterDefault } = this.props
     this.setStationAutos(stationAutos)
 
     const stationType = form.getFieldValue(FIELDS.STATION_TYPE)
     const province = form.getFieldValue(FIELDS.PROVINCE)
-    const stationAutoKeys = this.getStationAutoKeys({ stationType, province })
+    let stationAutoKeys
 
     if (!isEmpty(formData)) {
-      this.handleSearch()
-      return
+      stationAutoKeys = [formData.stationAuto]
+    } else {
+      stationAutoKeys = this.getStationAutoKeys({ stationType, province })
+      const filterDefault = this.getFilterDefault()
+      setFilterDefault(filterDefault)
     }
+
+    console.log({ stationAutoKeys })
 
     this.updateForm({ stationAutoKeys })
     this.handleSearch()
@@ -398,11 +409,11 @@ export default class SearchAvgForm extends React.Component {
     this.updateForm({ stationAutoKeys })
   }
 
-  handleSearch = () => {
+  handleSearch = async () => {
     const { form, onChangeStationData } = this.props
     const { fromDate, toDate } = this.state
 
-    const formData = form.getFieldsValue()
+    const formData = await form.validateFields()
     const stationsData = formData[FIELDS.STATION_AUTO].map(stationKey =>
       this.stationAutos.get(stationKey)
     )
@@ -432,7 +443,7 @@ export default class SearchAvgForm extends React.Component {
 
   render() {
     const { form, loading } = this.props
-    const { measuringList, filterList } = this.state
+    const { measuringList, otherConditionFilter } = this.state
 
     const values = form.getFieldsValue([
       FIELDS.STATION_AUTO,
@@ -512,10 +523,14 @@ export default class SearchAvgForm extends React.Component {
           <Row gutter={20}>
             <Col>
               <FormItem label={`Trạm quan trắc (${numberStation} trạm)`}>
-                {form.getFieldDecorator(
-                  FIELDS.STATION_AUTO,
-                  {}
-                )(
+                {form.getFieldDecorator(FIELDS.STATION_AUTO, {
+                  rules: [
+                    {
+                      required: true,
+                      message: t('avgSearchFrom.form.stationAuto.error'),
+                    },
+                  ],
+                })(
                   <SelectStationAuto
                     stationType={form.getFieldValue(FIELDS.STATION_TYPE)}
                     province={form.getFieldValue(FIELDS.PROVINCE)}
@@ -528,18 +543,24 @@ export default class SearchAvgForm extends React.Component {
               <FormItem
                 label={`Các thông số quan trắc (${numberMeasure} thông số)`}
               >
-                {form.getFieldDecorator(
-                  FIELDS.MEASURING_LIST,
-                  {}
-                )(<SelectMeasureParameter options={measuringList} />)}
+                {form.getFieldDecorator(FIELDS.MEASURING_LIST, {
+                  rules: [
+                    {
+                      required: true,
+                      message: t('avgSearchFrom.form.measuringList.require'),
+                    },
+                  ],
+                })(<SelectMeasureParameter options={measuringList} />)}
               </FormItem>
             </Col>
           </Row>
           <Row gutter={20}>
-            {filterList.map(filter => (
+            {otherConditionFilter.map(filter => (
               <Col span={8}>
                 <Flex>
-                  <FormItem label={t(`${filter.key}.label`)}>
+                  <FormItem
+                    label={t(`dataSearchFilterForm.form.${filter.key}.label`)}
+                  >
                     {form.getFieldDecorator(filter.key, {
                       initialValue: this.getFilterInitialValue(filter.key),
                     })(this.getComponent(filter.key, filter.mode))}
@@ -553,10 +574,10 @@ export default class SearchAvgForm extends React.Component {
                 </Flex>
               </Col>
             ))}
-            {filterList.length < 3 && (
+            {otherConditionFilter.length < 3 && (
               <Col span={6} style={{ alignSelf: 'center' }}>
                 <HeaderWrapper
-                  top={this.state.filterList.length % 4 === 0 ? 0 : 28}
+                  top={otherConditionFilter.length % 4 === 0 ? 0 : 28}
                 >
                   <Tooltip
                     placement="top"
@@ -567,7 +588,7 @@ export default class SearchAvgForm extends React.Component {
                       ref={ref => (this.a = ref)}
                       overlay={
                         <FilterList
-                          listFilter={this.state.filterList}
+                          listFilter={otherConditionFilter}
                           ref={ref => (this.filterListRef = ref)}
                           onChange={this.handleChangeFilter}
                         />

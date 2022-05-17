@@ -1,10 +1,11 @@
-import { Button, Col, Form, Menu, Row, Tooltip } from 'antd'
-import OrganizationApi from 'api/OrganizationApi'
+import { Button, Col, Form, message, Row } from 'antd'
+import CalculateApi from 'api/CalculateApi'
 import Clearfix from 'components/elements/clearfix'
 import { FilterList, ModalSaveFilter } from 'components/filter'
+import { ACTION_TYPE, MODULE_TYPE } from 'components/filter/constants'
 import ROLE from 'constants/role'
 import slug from 'constants/slug'
-import { translate as t, translate } from 'hoc/create-lang'
+import { translate as t } from 'hoc/create-lang'
 import protectRole from 'hoc/protect-role'
 import queryFormDataBrowser from 'hoc/query-formdata-browser'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
@@ -18,80 +19,20 @@ import {
   deleteBreadcrumb,
   updateBreadcrumb,
 } from 'shared/breadcrumb/action'
-import styled from 'styled-components'
 import {
   addBreadcrumbFilter,
   updateBreadcrumbFilter,
 } from 'utils/breadcrumbFilter'
 import { replaceVietnameseStr } from 'utils/string'
 import Breadcrumb from './breadcrumb'
+import { listFilter } from './constants'
 import DataSearch from './data'
-import FormFilter from './form/ModalForm'
 import SearchForm from './form/SearchForm'
-
-const Flex = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  .label {
-    color: #a1a1a1;
-    font-size: 15px;
-  }
-`
-
-const ListFilter = [
-  {
-    allowed: true,
-    createAt: '2022-04-06T08:46:46.338Z',
-    name: 'Kinh Test 01',
-    params: {
-      frequent: undefined,
-      isFilter: false,
-      measuringList: 'pH,Temp',
-      provinceKey: '',
-      rangeTime: 1,
-      standardKey: undefined,
-      stationAuto: 'TramNuocLanThap',
-      type: 15,
-    },
-    stationType: {
-      _id: '5f75aee3684ff600114d96aa',
-      key: 'Waste_Water',
-      name: 'Nước Thải',
-    },
-    type: 'Average',
-    _id: '624d56fc00bc21bdeea38cf8',
-  },
-  {
-    allowed: true,
-    createAt: '2022-04-06T08:46:46.338Z',
-    name: 'Kinh Test 02',
-    params: {
-      frequent: undefined,
-      isFilter: false,
-      measuringList: 'pH,TSS',
-      provinceKey: '',
-      rangeTime: 15,
-      standardKey: undefined,
-      stationAuto: 'TramNuocLanThap',
-      type: 60,
-    },
-    stationType: {
-      _id: '5f75aee3684ff600114d96aa',
-      key: 'Waste_Water',
-      name: 'Nước Thải',
-    },
-    type: 'Average',
-    _id: '624d56fc00bc21bdeea38c787',
-  },
-]
 
 @Form.create()
 @connectAutoDispatch(
   state => ({
     values: _.get(state, 'form.dataSearchFilterForm.values', {}),
-    organizationId: _.get(state, 'auth.userInfo.organization._id', 'vasoft'),
-    isOpenNavigation: state.theme.navigation.isOpen,
     stations: _.get(state, 'stationAuto.list', []),
     stationAuto: state.stationAuto,
     breadcrumbs: state.breadcrumbs,
@@ -104,12 +45,9 @@ export default class AvgSearchAdvanced extends React.Component {
   constructor(props) {
     super(props)
     this.searchFormRef = React.createRef()
-    this.testRef = React.createRef()
 
     this.state = {
       now: moment(),
-      visible: false,
-      confirmLoading: false,
       loading: false,
       initialData: false,
 
@@ -134,17 +72,25 @@ export default class AvgSearchAdvanced extends React.Component {
         ? this.getStationsData(props.stations)
         : [],
 
-      filterList: ListFilter,
-      filterListSearched: ListFilter,
+      filterList: [],
+      filterListSearched: [],
       highlightText: '',
       activeKeyMenu: '',
       filterDefault: {},
+      filterItem: {},
+      filterId: '',
+      otherCondition: [],
     }
   }
 
   componentDidMount() {
-    this.getDataOrganization()
-    // this.props.toggleNavigation(false)
+    const { history } = this.props
+    const {
+      location: { state },
+    } = history
+
+    if (state) history.push(slug.avgSearchAdvanced.base)
+    this.getFilterList()
   }
 
   initialData = props => {
@@ -155,49 +101,49 @@ export default class AvgSearchAdvanced extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.stations.length !== nextProps.stations.length) {
-      if (!this.state.initialData) {
-        this.initialData(nextProps)
-      }
-    }
-    if (!_.isEqual(this.props.values, nextProps.values)) {
-      if (this.state.isSearchingData) this.setState({ isSearchingData: false })
-    }
-    if (this.props.formData.filterId !== nextProps.formData.filterId) {
-      const filter = this.state.configFilter.find(
-        filter => filter._id === nextProps.formData.filterId
-      )
-      if (filter) {
-        const searchObj = JSON.parse(decodeURIComponent(filter.searchUrl))
-        searchObj.searchNow = true
-        searchObj.filterId = filter._id
-        if (nextProps.breadcrumbs.length === 2) {
-          this.props.updateBreadcrumb({
-            id: 'detail',
-            icon: '',
-            href:
-              slug.avgSearchAdvanced.base +
-              '?formData=' +
-              encodeURIComponent(JSON.stringify(searchObj)),
-            name: filter.name,
-            autoDestroy: true,
-          })
-        } else {
-          this.props.addBreadcrumb({
-            id: 'detail',
-            icon: '',
-            href:
-              slug.avgSearchAdvanced.base +
-              '?formData=' +
-              encodeURIComponent(JSON.stringify(searchObj)),
-            name: filter.name,
-            autoDestroy: true,
-          })
-        }
-      }
-    }
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   if (this.props.stations.length !== nextProps.stations.length) {
+  //     if (!this.state.initialData) {
+  //       this.initialData(nextProps)
+  //     }
+  //   }
+  //   if (!_.isEqual(this.props.values, nextProps.values)) {
+  //     if (this.state.isSearchingData) this.setState({ isSearchingData: false })
+  //   }
+  //   if (this.props.formData.filterId !== nextProps.formData.filterId) {
+  //     const filter = this.state.configFilter.find(
+  //       filter => filter._id === nextProps.formData.filterId
+  //     )
+  //     if (filter) {
+  //       const searchObj = JSON.parse(decodeURIComponent(filter.searchUrl))
+  //       searchObj.searchNow = true
+  //       searchObj.filterId = filter._id
+  //       if (nextProps.breadcrumbs.length === 2) {
+  //         this.props.updateBreadcrumb({
+  //           id: 'detail',
+  //           icon: '',
+  //           href:
+  //             slug.avgSearchAdvanced.base +
+  //             '?formData=' +
+  //             encodeURIComponent(JSON.stringify(searchObj)),
+  //           name: filter.name,
+  //           autoDestroy: true,
+  //         })
+  //       } else {
+  //         this.props.addBreadcrumb({
+  //           id: 'detail',
+  //           icon: '',
+  //           href:
+  //             slug.avgSearchAdvanced.base +
+  //             '?formData=' +
+  //             encodeURIComponent(JSON.stringify(searchObj)),
+  //           name: filter.name,
+  //           autoDestroy: true,
+  //         })
+  //       }
+  //     }
+  //   }
+  // }
 
   getIsEdit = () => {
     const values = _.clone(this.props.values)
@@ -213,54 +159,6 @@ export default class AvgSearchAdvanced extends React.Component {
     return (
       // !!this.props.values.stationType &&
       this.state.allowSave && !this.props.values.filterId
-    )
-  }
-
-  getDataOrganization = async () => {
-    const organizationInfo = await OrganizationApi.getOrganization(
-      this.props.organizationId
-    )
-
-    this.setState(
-      {
-        configFilter: _.get(organizationInfo, ['data', 'configFilter']),
-        filteredConfigFilter: _.get(organizationInfo, ['data', 'configFilter']),
-      },
-      () => {
-        if (this.props.formData.filterId) {
-          const filter = this.state.configFilter.find(
-            filter => filter._id === this.props.formData.filterId
-          )
-          if (filter) {
-            const searchObj = JSON.parse(decodeURIComponent(filter.searchUrl))
-            searchObj.searchNow = true
-            searchObj.filterId = filter._id
-            if (this.props.breadcrumbs.length === 2) {
-              this.props.updateBreadcrumb({
-                id: 'detail',
-                icon: '',
-                href:
-                  slug.avgSearchAdvanced.base +
-                  '?formData=' +
-                  encodeURIComponent(JSON.stringify(searchObj)),
-                name: filter.name,
-                autoDestroy: true,
-              })
-            } else {
-              this.props.addBreadcrumb({
-                id: 'detail',
-                icon: '',
-                href:
-                  slug.avgSearchAdvanced.base +
-                  '?formData=' +
-                  encodeURIComponent(JSON.stringify(searchObj)),
-                name: filter.name,
-                autoDestroy: true,
-              })
-            }
-          }
-        }
-      }
     )
   }
 
@@ -295,10 +193,6 @@ export default class AvgSearchAdvanced extends React.Component {
     })
   }
 
-  showModal = () => {
-    this.setState({ visible: true })
-  }
-
   handleCancel = () => {
     const { form } = this.formRef.props
     form.resetFields()
@@ -313,45 +207,104 @@ export default class AvgSearchAdvanced extends React.Component {
     this.setState(prevState => ({ flagResetForm: !prevState.flagResetForm }))
   }
 
-  menu = () => {
-    return (
-      <Menu style={{ width: 130 }}>
-        <Menu.Item style={{ padding: '8px 12px' }} onClick={this.showModal}>
-          <Tooltip
-            placement="left"
-            title={translate('dataSearchFilterForm.tooltip.saveNew')}
-          >
-            <div>{translate('addon.save')}</div>
-          </Tooltip>
-        </Menu.Item>
-        <Menu.Item style={{ padding: '8px 12px' }} onClick={this.resetForm}>
-          <Tooltip
-            placement="left"
-            title={translate('dataSearchFilterForm.tooltip.reset')}
-          >
-            <div>{translate('addon.reset')}</div>
-          </Tooltip>
-        </Menu.Item>
-      </Menu>
-    )
+  getFilterList = async () => {
+    try {
+      const response = await CalculateApi.getFilterList({
+        type: MODULE_TYPE.AVERAGE,
+      })
+      this.setState({
+        filterList: response,
+        filterListSearched: response,
+      })
+    } catch (error) {
+      console.error({ error })
+    }
   }
 
-  handleOnClickSaveFilter = () => {
+  handleOnClickSaveFilter = async () => {
+    const { form } = this.searchFormRef.current.props
+    await form.validateFields()
     this.setState({
       visibleModalSave: true,
     })
   }
 
   handleOnCancelSaveFilter = () => {
+    const { form } = this.props
     this.setState({
       visibleModalSave: false,
     })
+    form.resetFields()
+  }
+
+  getParamsFilter = () => {
+    const { form: formSearch } = this.searchFormRef.current.props
+    const { form } = this.props
+
+    const filterName = form.getFieldValue('name')
+    const {
+      stationAuto,
+      measuringList,
+      ...otherValues
+    } = formSearch.getFieldsValue()
+
+    const paramsFilter = {
+      name: filterName.trim(),
+      params: {
+        ...otherValues,
+        stationKeys: stationAuto.join(','),
+        measuringList: measuringList.join(','),
+      },
+      type: MODULE_TYPE.AVERAGE,
+    }
+
+    return paramsFilter
+  }
+
+  handleOnDeleteFilter = async filterId => {
+    const { filterList } = this.state
+
+    try {
+      await CalculateApi.deleteFilter(filterId)
+      const newFilterList = filterList.filter(filter => filter._id !== filterId)
+
+      this.setState({
+        filterList: newFilterList,
+        filterListSearched: newFilterList,
+      })
+      message.success(t('storageFilter.message.deleteSuccess'))
+    } catch (error) {
+      console.error({ error })
+    }
   }
 
   handelOnSubmitSaveFilter = async () => {
+    const { filterId } = this.state
     const { form } = this.props
-    const value = await form.validateFields()
-    console.log({ value })
+    const { action } = await form.validateFields()
+
+    const queryParams = this.getParamsFilter()
+
+    try {
+      if (action === ACTION_TYPE.UPDATE) {
+        this.setState({ filterItem: queryParams })
+        await CalculateApi.updateFilter(filterId, queryParams)
+        message.success(t('storageFilter.message.updateSuccess'))
+      } else {
+        const response = await CalculateApi.createFilter(queryParams)
+        this.onClickFilter(response._id, response)
+        this.setState({
+          activeKeyMenu: response._id,
+        })
+
+        message.success(t('storageFilter.message.saveSuccess'))
+      }
+
+      this.getFilterList()
+      this.setState({ visibleModalSave: false })
+    } catch (error) {
+      console.error({ error })
+    }
   }
 
   handleOnChangeSearch = event => {
@@ -388,17 +341,26 @@ export default class AvgSearchAdvanced extends React.Component {
 
     const valuesForm = {
       ...params,
-      stationAuto: params.stationAuto.split(','),
+      stationAuto: params.stationKeys.split(','),
       measuringList: params.measuringList.split(','),
     }
 
-    form.setFieldsValue(valuesForm)
+    const otherCondition = listFilter().filter(
+      filter => filterItem.params[filter.key]
+    )
+
     this.setState(
       {
         activeKeyMenu: filterId,
+        filterId,
+        filterItem,
+        otherCondition,
       },
       () => {
-        handleSearch()
+        setTimeout(() => {
+          form.setFieldsValue(valuesForm)
+          handleSearch()
+        })
       }
     )
   }
@@ -421,28 +383,29 @@ export default class AvgSearchAdvanced extends React.Component {
         this.setState({
           filterItem: {},
           activeKeyMenu: null,
-          // standardObjectList: {},
+          otherCondition: [],
         })
 
         handleSearch()
       }
     }
   }
+  setLoading = loading => {}
   render() {
     const {
       isSearchingData,
       searchFormData,
-      visible,
-      confirmLoading,
       stationsData,
       visibleModalSave,
       filterListSearched,
       highlightText,
       activeKeyMenu,
       loading,
+      filterItem,
+      otherCondition,
     } = this.state
-    const { formData, values, wrapperProps, form } = this.props
-    // console.log({ ref: this.searchFormRef })
+    const { values, wrapperProps, form } = this.props
+    const isUpdateFilter = !_.isEmpty(filterItem)
 
     return (
       <PageContainer
@@ -466,12 +429,13 @@ export default class AvgSearchAdvanced extends React.Component {
             highlightText={highlightText}
             onClickMenuItem={this.handleOnClickFilter}
             selectedKeys={[activeKeyMenu]}
+            onDeleteFilter={this.handleOnDeleteFilter}
           />
 
           <Col style={{ flex: 1, overflowX: 'hidden' }}>
             <SearchForm
               onChangeStationData={this.handleChangeStationsData}
-              initialValues={formData}
+              otherCondition={otherCondition}
               onChangeField={this.handleOnChangeSearchField}
               wrappedComponentRef={this.searchFormRef}
               setFilterDefault={this.setFilterDefault}
@@ -488,17 +452,14 @@ export default class AvgSearchAdvanced extends React.Component {
             <Clearfix height={40} />
           </Col>
         </Row>
-        <FormFilter
-          wrappedComponentRef={this.saveFormRef}
-          visible={visible}
-          confirmLoading={confirmLoading}
-          onCancel={this.handleCancel}
-          onCreate={this.handleCreateFilter}
-        />
+
         <ModalSaveFilter
+          filterName={filterItem.name}
           form={form}
           visible={visibleModalSave}
           onCancel={this.handleOnCancelSaveFilter}
+          centered
+          isUpdate={isUpdateFilter}
           onSubmitSaveFilter={this.handelOnSubmitSaveFilter}
         />
       </PageContainer>
