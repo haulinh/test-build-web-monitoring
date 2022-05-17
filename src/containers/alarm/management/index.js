@@ -40,9 +40,9 @@ export const alarmType = {
 [STATUS_DATA]- {{measure}}: {{value}} {{unit}} ({{sign}} {{config}})
 [STATUS_DEVICE]- {{measure}}: Sensor {{status}}`,
   },
-  by_standard: {
+  data_level: {
     label: () => t('alarm.alarmType.by_standard.label'),
-    value: 'by_standard',
+    value: 'data_level',
     template: () => t('alarm.alarmType.advance.template', undefined, false),
     initialValue: `{{station}}: ({{time}})
     [STATUS_DATA]- {{measure}}: {{value}} {{unit}} ({{sign}} {{config}})
@@ -60,6 +60,8 @@ export const FIELDS = {
   RECIPIENTS: 'recipients',
   CHANNELS: 'channels',
   MAX_DISCONNECTION_TIME: 'maxDisconnectionTime',
+
+  CONFIG: 'config',
   STANDARD_ID: 'standardId',
 }
 

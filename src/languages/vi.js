@@ -4351,6 +4351,10 @@ export default {
         label: 'Quy chuẩn',
         value: 'by_standard',
       },
+      data_level: {
+        label: 'Quy chuẩn',
+        value: 'data_level',
+      },
     },
     config: {
       alarmDisconnect: 'Cảnh báo mất tín hiệu',

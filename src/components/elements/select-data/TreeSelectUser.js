@@ -50,13 +50,14 @@ export default class TreeSelectUser extends Component {
     const userIds = value.reduce((baseUserIds, current) => {
       if (roleIds.includes(current)) {
         const usersOfRole = users
-          .filter(user => user.role._id === current)
+          .filter(user => get(user, 'role._id') === current)
           .map(user => user._id)
 
         return [...baseUserIds, ...usersOfRole]
       }
       return [...baseUserIds, current]
     }, [])
+
     if (onChange) {
       onChange(userIds)
     }
@@ -67,7 +68,6 @@ export default class TreeSelectUser extends Component {
       treeData: this.getTreeData(),
       treeCheckable: true,
       showCheckedStrategy: SHOW_PARENT,
-      onChange: this.handleOnChange,
       maxTagCount: 5,
       style: {
         width: '100%',
@@ -75,6 +75,8 @@ export default class TreeSelectUser extends Component {
       allowClear: true,
     }
 
-    return <TreeSelect {...tProps} {...this.props} />
+    return (
+      <TreeSelect {...tProps} {...this.props} onChange={this.handleOnChange} />
+    )
   }
 }

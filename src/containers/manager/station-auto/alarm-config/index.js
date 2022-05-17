@@ -36,7 +36,7 @@ export const FIELDS = {
   TYPE: 'type',
   CONFIG: 'config',
   NAME: 'name',
-  MEASURING_LIST_ENABLED: 'measuringListEnabled',
+  MEASURING_LIST: 'measuringList',
   //#endregion config
 }
 

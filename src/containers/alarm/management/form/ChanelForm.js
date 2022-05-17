@@ -146,7 +146,7 @@ export class ChanelForm extends React.Component {
                     style={{ height: 150 }}
                     disabled={
                       typeAlarm === alarmType.advance.value ||
-                      typeAlarm === alarmType.by_standard.value
+                      typeAlarm === alarmType.data_level.value
                     }
                   />
                 )}
