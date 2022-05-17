@@ -35,7 +35,7 @@ const withAlarmForm = WrappedComponent => {
           ...(alarmType === FIELDS.DATA_LEVEL && {
             config: {
               ...paramItem.config,
-              measureListEnable: this.getMeasureListEnable(),
+              [FIELDS.MEASURING_LIST]: this.getMeasureListEnable(),
             },
           }),
 
@@ -51,6 +51,8 @@ const withAlarmForm = WrappedComponent => {
         }))
 
         .filter(paramItem => {
+          if (isEmpty(paramItem.recipients)) return false
+
           if (alarmType === FIELDS.DATA_LEVEL) {
             const configAlarmType = get(paramItem, 'config.type')
 
@@ -58,8 +60,6 @@ const withAlarmForm = WrappedComponent => {
 
             if (isNil(get(paramItem, 'config.standardId'))) return false
           }
-
-          if (isEmpty(paramItem.recipients)) return false
 
           return true
         })

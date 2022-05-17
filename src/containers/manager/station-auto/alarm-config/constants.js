@@ -53,7 +53,7 @@ export const ALARM_LIST_INIT = {
       config: {
         type: 'exceed',
         standardID: '',
-        measuringListEnable: [],
+        measuringList: [],
       },
     },
     {
@@ -64,18 +64,7 @@ export const ALARM_LIST_INIT = {
       config: {
         type: 'exceed_preparing',
         standardID: '',
-        measuringListEnable: [],
-      },
-    },
-    {
-      _id: uuidv4(),
-      isCreateLocal: true,
-      type: AlarmType.DataLevel,
-      status: false,
-      config: {
-        type: 'standard',
-        standardID: '',
-        measuringListEnable: [],
+        measuringList: [],
       },
     },
   ],
