@@ -153,8 +153,8 @@ export default class MinutesDataSearch extends React.Component {
       to,
       [fields.measuringList]: getParamArray(values[fields.measuringList]),
       [fields.filterBy]: getParamArray(values[fields.filterBy]),
-      page,
-      itemPerPage: ITEM_PER_PAGE,
+      // page,
+      itemPerPage: 8298923802832,
       standards: getParamArray(standards),
     }
 
@@ -226,6 +226,7 @@ export default class MinutesDataSearch extends React.Component {
       const res = await DataInsight.getDataOriginal(stationKey, {
         ...queryParams,
       })
+      console.log({ res })
       this.setState({
         summary: res.summary,
         data: res.data,

@@ -68,7 +68,8 @@ export default class TabChart extends React.PureComponent {
   }
 
   initData = (props, isInit = false) => {
-    const { measuringList, measuresObj } = props
+    const { measuringList, measuresObj, dataStationAuto } = props
+    console.log({ dataStationAuto })
     const seriesData = {}
     const mesureList = measuringList.map((measure, index) => {
       const { name, key, minLimit, maxLimit } = measuresObj[measure]
@@ -118,9 +119,18 @@ export default class TabChart extends React.PureComponent {
     })
 
     // mesureList.unshift({ code: 'all', name: translate('chart.all') })
+
     if (isInit) {
       const { stationAutoCurrent } = this.props
-      const initSeries = [seriesData[measuringList[0]]]
+      const initSeries = [
+        {
+          ...seriesData[measuringList[0]],
+          marker: {
+            enabled: true,
+          },
+        },
+      ]
+
       const firstMeasure = measuresObj[measuringList[0]]
       const nameChartInit = this.getNameChart(
         stationAutoCurrent.name,
@@ -217,7 +227,7 @@ export default class TabChart extends React.PureComponent {
 
   handleDrawChart = () => {
     const { stationAutoCurrent } = this.props
-    const { measureCurrent } = this.state
+    const { measureCurrent, seriesData } = this.state
 
     let series = []
     let minChart = undefined
@@ -225,7 +235,7 @@ export default class TabChart extends React.PureComponent {
     let plotLines = []
     let nameChart = stationAutoCurrent.name
 
-    let dataSeries = _.get(this.state.seriesData, [measureCurrent], {})
+    let dataSeries = _.get(seriesData, [measureCurrent], {})
     dataSeries = {
       ...dataSeries,
       marker: {
