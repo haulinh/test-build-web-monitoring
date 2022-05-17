@@ -123,7 +123,8 @@ export default class TableQCVN extends Component {
       ...defaultDataLevelColumns,
       ...standardColumns,
       {
-        title: '',
+        title: i18n().alarm,
+        align: 'center',
         key: 'enable',
         dataIndex: 'key',
         render: measureKey => {
