@@ -239,6 +239,7 @@ export default class TabChart extends React.PureComponent {
       }
 
       // draw line qcvn
+      console.log(measureCurrent)
       const qcvnList = this.getDataQcvn(measureCurrent)
 
       //type line qcvn

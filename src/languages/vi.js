@@ -3720,6 +3720,33 @@ export default {
       table: 'Bảng',
     },
   },
+  dataAverage: {
+    form: {
+      stationAuto: 'Trạm quan trắc ({{=it.count}} trạm):',
+      measuringList: 'Các thông số quan trắc ({{=it.count}} thông số):',
+      addCondition: 'Thêm điều kiện',
+    },
+    tooltip: {
+      addCondition: 'Thêm điều kiện lọc trạm quan trắc',
+      filterData:
+        'Loại bỏ một số dữ liệu không hợp lệ trước khi tính toán (áp dụng cấu hình kiểm duyệt dữ liệu)',
+      standard: 'Áp dụng so sánh giá trị thông số theo quy chuẩn đã thiết lập',
+    },
+    standard: {
+      label: 'Quy chuẩn',
+      placeholder: 'Lựa chọn quy chuẩn so sánh',
+    },
+    tabs: {
+      station: {
+        label: 'Xem dữ liệu theo trạm',
+      },
+      overview: {
+        label: 'Xem dữ liệu tổng hợp',
+        data: 'Dữ liệu',
+        chart: 'Biểu đồ',
+      },
+    },
+  },
   stationFixedDriver: {
     title: {
       search: 'Tra cứu dữ liệu',

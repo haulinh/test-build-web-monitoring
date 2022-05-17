@@ -49,7 +49,10 @@ export default class ListFilterComponent extends React.PureComponent {
   }
 
   handleOnChange = key => e => {
-    const index = this.state.listFilter.findIndex(filter => filter.key === key)
+    const { listFilter } = this.state
+    const { onChange } = this.props
+
+    const index = listFilter.findIndex(filter => filter.key === key)
     const isChecked = e && e.target && e.target.checked && e.target.checked
     if (index < 0) return
     this.setState(
@@ -64,17 +67,19 @@ export default class ListFilterComponent extends React.PureComponent {
           },
         }),
       () => {
-        if (this.props.onChange) {
-          this.props.onChange(this.state.listFilter[index])
+        if (onChange) {
+          onChange(listFilter[index])
         }
       }
     )
   }
 
   render() {
+    const { listFilter } = this.state
+
     return (
       <Wrapper>
-        {this.state.listFilter.map(filter => (
+        {listFilter.map(filter => (
           <div key={filter.key} className="filter-item">
             <Checkbox
               checked={filter.checked}

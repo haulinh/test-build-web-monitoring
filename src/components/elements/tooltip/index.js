@@ -1,10 +1,9 @@
+import { autobind } from 'core-decorators'
+import createLang from 'hoc/create-lang'
 import React from 'react'
 import styled from 'styled-components'
-import ToolTipIcon from 'assets/svg-icons/tooltip.svg'
-import createLang from 'hoc/create-lang'
-import { autobind } from 'core-decorators'
 
-const TootipContainer = styled.div`
+const TooltipContainer = styled.div`
   .tooltip {
     position: relative;
     display: flex;
@@ -41,21 +40,18 @@ const TootipContainer = styled.div`
 @autobind
 class ToolTip extends React.Component {
   render() {
+    const { marginRight, width, text, icon } = this.props
     return (
-      <TootipContainer>
+      <TooltipContainer>
         <div className="tooltip">
           <img
-            src={ToolTipIcon}
+            src={icon}
             alt="tooltipIcon"
-            style={{ marginRight: '8px', width: '20px' }}
+            style={{ marginTop: '2px', marginRight: marginRight, width: width }}
           />
-          <span className="tooltiptext">
-            {
-              'Loại bỏ một số dữ liệu không hợp lệ trước khi tính toán (áp dụng cấu hình kiểm duyệt dữ liệu)'
-            }
-          </span>
+          <span className="tooltiptext">{text}</span>
         </div>
-      </TootipContainer>
+      </TooltipContainer>
     )
   }
 }
