@@ -1,11 +1,15 @@
 import { Checkbox, Form, Table } from 'antd'
 import { get, isEqual, keyBy } from 'lodash'
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { i18n } from '../constants'
 
 @Form.create()
 @withRouter
+@connect(state => ({
+  measuresObj: state.global.measuresObj,
+}))
 export default class TableQCVN extends Component {
   componentDidUpdate(prevProps) {
     const { form, measureListValue, qcvnList } = this.props
@@ -109,6 +113,7 @@ export default class TableQCVN extends Component {
   }
 
   getColumns = () => {
+    const { measuresObj } = this.props
     const standardColumns = this.getStandardColumns()
     const defaultDataLevelColumns = this.getDefaultDataLevelColumns()
 
@@ -116,9 +121,10 @@ export default class TableQCVN extends Component {
       {
         title: i18n().measure,
         key: 'measure',
-        dataIndex: 'name',
+        dataIndex: 'key',
         align: 'left',
         width: '10%',
+        render: measureKey => <div>{measuresObj[measureKey].name}</div>,
       },
       ...defaultDataLevelColumns,
       ...standardColumns,
