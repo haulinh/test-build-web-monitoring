@@ -8,6 +8,17 @@ import { isDefaultDataLevel } from '../hoc/withAlarmForm'
 import { FIELDS } from '../index'
 
 export default class TableAlarmConfigExceed extends Component {
+  handleOnChangeStandard = record => value => {
+    const { form, qcvnList } = this.props
+    const qcvnObject = keyBy(qcvnList, '_id')
+
+    const qcvnName = get(qcvnObject, [value, 'name'])
+
+    form.setFieldsValue({
+      [`${FIELDS.DATA_LEVEL}.${record._id}.${FIELDS.CONFIG}.${FIELDS.NAME}`]: qcvnName,
+    })
+  }
+
   columns = [
     {
       title: i18n().threshold,
@@ -29,7 +40,8 @@ export default class TableAlarmConfigExceed extends Component {
         return (
           <React.Fragment>
             {form.getFieldDecorator(
-              `${FIELDS.DATA_LEVEL}.${record._id}.${FIELDS.CONFIG}.${FIELDS.STANDARD_ID}`
+              `${FIELDS.DATA_LEVEL}.${record._id}.${FIELDS.CONFIG}.${FIELDS.STANDARD_ID}`,
+              { onChange: this.handleOnChangeStandard(record) }
             )(
               <SelectQCVNExceed
                 placeholder={i18n().selectThreshold}
