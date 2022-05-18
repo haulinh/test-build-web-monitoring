@@ -6,7 +6,7 @@ import BoxShadow from 'components/elements/box-shadow'
 import { dataStatusOptions } from 'constants/dataStatus'
 import { autobind } from 'core-decorators'
 import { translate } from 'hoc/create-lang'
-import { find, get, isEqual, map, maxBy } from 'lodash'
+import { find, get, isEmpty, isEqual, map, maxBy } from 'lodash'
 import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
@@ -125,6 +125,8 @@ export default class StationData extends React.PureComponent {
     if (!stationKey) return
     const station = this.getStation(stationKey)
 
+    if (!station) return {}
+
     const measuringListUnitStr = station.measuringList.map(item => {
       const itemFind = find(station.measuringData, obj => {
         return obj.key === item
@@ -206,7 +208,8 @@ export default class StationData extends React.PureComponent {
   }
 
   getQueryParams(searchFormData) {
-    const dataStatus = searchFormData.dataStatus.join(',')
+    if (isEmpty(searchFormData)) return {}
+    const dataStatus = get(searchFormData, 'dataStatus').join(',')
     const defaultStatus = dataStatusOptions.map(item => item.value).join(',')
 
     const groupType = ['month', 'year'].includes(searchFormData.type)
@@ -238,11 +241,9 @@ export default class StationData extends React.PureComponent {
     })
 
     this.setState({ isLoading: true }, async () => {
+      const key = get(searchFormData, ['key'])
       setLoading(true)
-      const dataStationAuto = await DataInsight.getDataAverage(
-        searchFormData.key,
-        params
-      )
+      const dataStationAuto = await DataInsight.getDataAverage(key, params)
       if (dataStationAuto.error) {
         message.error('ERROR')
         return
