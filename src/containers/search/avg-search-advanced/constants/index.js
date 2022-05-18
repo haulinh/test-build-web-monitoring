@@ -15,6 +15,11 @@ export const i18n = () => {
       measuringList: count => t('dataAverage.form.measuringList', { count }),
       addCondition: t('dataAverage.form.addCondition'),
     },
+    placeholder: {
+      dataStatus: t('dataAverage.placeholder.dataStatus'),
+      frequency: t('dataAverage.placeholder.frequency'),
+      standard: t('dataAverage.placeholder.standard'),
+    },
     tooltip: {
       addCondition: t('dataAverage.tooltip.addCondition'),
       filterData: t('dataAverage.tooltip.filterData'),
@@ -34,6 +39,10 @@ export const i18n = () => {
         chart: t('dataAverage.tabs.overview.chart'),
       },
       exportExcel: t('avgSearchFrom.tab.exportExcel'),
+    },
+    rules: {
+      stationAuto: t('dataAnalytics.filterForm.stationAuto'),
+      parameter: t('dataAnalytics.filterForm.parameter'),
     },
   }
 }

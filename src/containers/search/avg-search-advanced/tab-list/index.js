@@ -83,6 +83,7 @@ export default class TableList extends React.PureComponent {
   }
 
   renderChartTab = () => {
+    const { qcvns } = this.props
     if (this.props.measuringData.length === 0) {
       return (
         <Tabs.TabPane tab={translate('avgSearchFrom.tab.chart')} key="2">
@@ -94,9 +95,10 @@ export default class TableList extends React.PureComponent {
       <Tabs.TabPane tab={translate('avgSearchFrom.tab.chart')} key="2">
         <TabChart
           dataStationAuto={this.props.dataStationAuto}
-          measuringData={(this.props.measuringData || [])}
+          measuringData={this.props.measuringData || []}
           nameChart={this.props.nameChart}
           typeReport={this.props.typeReport}
+          qcvnSelected={qcvns}
         />
       </Tabs.TabPane>
     )

@@ -20,6 +20,11 @@ ReactHighcharts.Highcharts.setOptions({
   },
 })
 
+const showMarker = type => {
+  const isLongRangeType = ['month', 'year', 1440].includes(type)
+  return isLongRangeType ? true : false
+}
+
 const configChart = (data, title, type) => {
   return {
     chart: {
@@ -45,7 +50,7 @@ const configChart = (data, title, type) => {
     plotOptions: {
       series: {
         marker: {
-          enabled: false,
+          enabled: showMarker(type),
         },
         dataLabels: {
           enabled: false,
@@ -164,67 +169,64 @@ export default class ChartOverview extends Component {
         })
     })
 
-    const qcvnList = this.getQCVNList(current.key)
-    const lineQcvn = {
-      type: 'spline',
-      enableMouseTracking: false,
+    if (!isEmpty(dataSeries)) {
+      const qcvnList = this.getQCVNList(current.key)
+      const lineQcvn = {
+        enableMouseTracking: false,
+        dashStyle: 'Dash',
+      }
+
+      qcvnList.forEach(qcvn => {
+        const data = dataSeries[0].data
+
+        if (isNumber(qcvn.maxLimit)) {
+          dataSeries = [
+            ...dataSeries,
+            {
+              ...lineQcvn,
+              id: qcvn.id,
+              name: qcvn.name,
+              valueLimit: qcvn.maxLimit,
+              data: data.map((dataItem, index) => {
+                if (index === 0) {
+                  return {
+                    x: dataItem[0],
+                    y: qcvn.maxLimit,
+                    dataLabels: { enabled: true },
+                  }
+                } else {
+                  return [dataItem[0], qcvn.maxLimit]
+                }
+              }),
+            },
+          ]
+        }
+
+        if (isNumber(qcvn.minLimit)) {
+          dataSeries = [
+            ...dataSeries,
+            {
+              ...lineQcvn,
+              id: qcvn.id,
+              valueLimit: qcvn.minLimit,
+              name: qcvn.name,
+              className: 'min',
+              data: data.map((dataItem, index) => {
+                if (index === 0) {
+                  return {
+                    x: dataItem[0],
+                    y: qcvn.minLimit,
+                    dataLabels: { enabled: true },
+                  }
+                } else {
+                  return [dataItem[0], qcvn.minLimit]
+                }
+              }),
+            },
+          ]
+        }
+      })
     }
-    const firstTimeValue = moment(
-      Object.entries(dataChart.data)
-        .map(([time]) => time)
-        .sort()[0]
-    ).valueOf()
-
-    qcvnList.forEach(qcvn => {
-      const data = dataSeries[0].data
-
-      if (isNumber(qcvn.maxLimit)) {
-        dataSeries = [
-          ...dataSeries,
-          {
-            ...lineQcvn,
-            id: qcvn.id,
-            name: qcvn.name,
-            valueLimit: qcvn.maxLimit,
-            data: data.map((dataItem, index) => {
-              if (index === 0) {
-                return {
-                  x: firstTimeValue,
-                  y: qcvn.maxLimit,
-                  dataLabels: { enabled: true },
-                }
-              } else {
-                return [dataItem[0], qcvn.maxLimit]
-              }
-            }),
-          },
-        ]
-      }
-
-      if (isNumber(qcvn.minLimit)) {
-        dataSeries = [
-          ...dataSeries,
-          {
-            ...lineQcvn,
-            id: qcvn.id,
-            valueLimit: qcvn.minLimit,
-            name: qcvn.name,
-            className: 'min',
-            data: data.map((dataItem, index) => {
-              if (index === 0) {
-                return {
-                  x: firstTimeValue,
-                  y: qcvn.minLimit,
-                  dataLabels: { enabled: true },
-                }
-              } else {
-                return [dataItem[0], qcvn.minLimit]
-              }
-            }),
-          },
-        ]
-      }
-    })
 
     return configChart(dataSeries, title, type)
   }
@@ -285,7 +287,7 @@ export default class ChartOverview extends Component {
           get(measureKey, 'value', null),
           2,
           2,
-          'chart'
+          null
         )
 
         //add x, y value to data series chart
@@ -293,7 +295,7 @@ export default class ChartOverview extends Component {
       }
     })
 
-    return data
+    return data.sort((a, b) => a[0] - b[0])
   }
 
   getMeasureName = (key, name, unit) => {
