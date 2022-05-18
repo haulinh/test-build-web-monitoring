@@ -133,9 +133,7 @@ export default class TableAlarmConfigExceed extends Component {
         if (disabled) {
           const configAlarmType = get(record, 'config.type')
 
-          if (
-            [FIELDS.EXCEED, FIELDS.EXCEED_PREPARING].includes(configAlarmType)
-          ) {
+          if (isDefaultDataLevel(configAlarmType)) {
             return null
           }
 
