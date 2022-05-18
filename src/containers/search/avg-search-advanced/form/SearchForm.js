@@ -32,7 +32,6 @@ import { getTimes } from 'utils/datetime'
 import SelectTimeRange from '../../common/select-time-range'
 import { FIELDS, i18n } from '../constants'
 import FilterList from '../filter'
-import ToolTipIcon from 'assets/svg-icons/tooltip.svg'
 import { requiredFieldRule } from 'utils/rules'
 
 const HeaderWrapper = styled.div`
