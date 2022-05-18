@@ -405,9 +405,10 @@ export default class SearchAvgForm extends React.Component {
 
   handleSearch = async () => {
     const { form, onChangeStationData } = this.props
-    const { fromDate, toDate } = this.state
 
     const formData = await form.validateFields()
+    const time = getTimes(formData[FIELDS.RANGE_TIME])
+
     const stationsData = formData[FIELDS.STATION_AUTO].map(stationKey =>
       this.stationAutos.get(stationKey)
     )
@@ -415,9 +416,9 @@ export default class SearchAvgForm extends React.Component {
     const searchFormData = {
       advanced: [],
       dataStatus: get(formData, 'dataStatus', []),
-      fromDate: fromDate,
+      fromDate: moment(time.from).toDate(),
       isFilter: formData.isFilter,
-      toDate: toDate,
+      toDate: moment(time.to).toDate(),
       type: formData.type,
       stationKeys: get(formData, 'stationAuto', []).join(','),
       measuringList: get(formData, 'measuringList', []),
@@ -442,6 +443,7 @@ export default class SearchAvgForm extends React.Component {
   render() {
     const { form, loading } = this.props
     const { measuringList, otherConditionFilter } = this.state
+    // console.log({ loading })
 
     const values = form.getFieldsValue([
       FIELDS.STATION_AUTO,

@@ -141,6 +141,7 @@ export const FilterList = ({
             mode="inline"
             defaultOpenKeys={defaultOpenKeys}
             selectedKeys={selectedKeys}
+            key={highlightText}
           >
             {menuSource.map(menu => (
               <SubMenu key={menu.stationKey} title={menu.stationName}>
