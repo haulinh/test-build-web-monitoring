@@ -68,8 +68,7 @@ export default class TabChart extends React.PureComponent {
   }
 
   initData = (props, isInit = false) => {
-    const { measuringList, measuresObj, dataStationAuto } = props
-    console.log({ dataStationAuto })
+    const { measuringList, measuresObj } = props
     const seriesData = {}
     const mesureList = measuringList.map((measure, index) => {
       const { name, key, minLimit, maxLimit } = measuresObj[measure]
@@ -162,15 +161,28 @@ export default class TabChart extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    const { stationAutoCurrent } = this.props
+    const {
+      stationAutoCurrent,
+      dataStationAuto,
+      measuringList,
+      measuresObj,
+    } = this.props
+
     if (
-      !_.isEqual(this.props.dataStationAuto, prevProps.dataStationAuto) ||
-      !_.isEqual(this.props.measuringData, prevProps.measuringData)
+      !_.isEqual(dataStationAuto, prevProps.dataStationAuto) ||
+      !_.isEqual(measuringList, prevProps.measuringList)
     ) {
+      const measure = measuresObj[measuringList[0]]
+
+      this.setState(
+        {
+          nameChart: this.getNameChart(stationAutoCurrent.name, measure),
+          measureCurrent: measuringList[0],
+        },
+        () => this.handleDrawChart()
+      )
+
       this.initData(this.props)
-      this.setState({
-        nameChart: stationAutoCurrent.name,
-      })
     }
     if (!_.isEqual(this.props.qcvnSelected, prevProps.qcvnSelected)) {
       this.handleDrawChart()
@@ -227,7 +239,7 @@ export default class TabChart extends React.PureComponent {
 
   handleDrawChart = () => {
     const { stationAutoCurrent } = this.props
-    const { measureCurrent, seriesData } = this.state
+    const { seriesData, measureCurrent } = this.state
 
     let series = []
     let minChart = undefined
@@ -242,6 +254,7 @@ export default class TabChart extends React.PureComponent {
         enabled: true,
       },
     }
+    console.log({ dataSeries })
 
     const measure = stationAutoCurrent.measuringList.find(
       measure => measure.key === measureCurrent
@@ -353,6 +366,7 @@ export default class TabChart extends React.PureComponent {
 
     minChart = _.get(this.state.heightChart, [measureCurrent, 'minChart'])
     maxChart = _.get(this.state.heightChart, [measureCurrent, 'maxChart']) //_.get(dataSeries,'minLimit', undefined)
+    console.log({ series })
     this.setState({
       series,
       nameChart,
@@ -374,7 +388,7 @@ export default class TabChart extends React.PureComponent {
     return {
       chart: {
         type: 'line',
-        width: width - 300,
+        width: width - 500,
         zoomType: 'x',
       },
 
@@ -402,7 +416,7 @@ export default class TabChart extends React.PureComponent {
             crop: false,
             overflow: 'none',
             align: 'left',
-            verticalAlign: 'middle',
+            // verticalAlign: 'middle',
             allowOverlap: true,
             formatter: function() {
               const isMinLimit = this.series.options.className === 'min'
@@ -488,6 +502,7 @@ export default class TabChart extends React.PureComponent {
     this.setState({
       width: this.chartWrapper.offsetWidth,
     })
+    this.handleDrawChart()
   }
 
   render() {
