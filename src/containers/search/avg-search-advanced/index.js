@@ -1,14 +1,15 @@
-import { Button, Col, Dropdown, Menu, message, Row, Tooltip } from 'antd'
-import OrganizationApi from 'api/OrganizationApi'
+import { Button, Col, Form, message, Row } from 'antd'
+import CalculateApi from 'api/CalculateApi'
 import Clearfix from 'components/elements/clearfix'
+import { FilterList, ModalSaveFilter } from 'components/filter'
+import { ACTION_TYPE, MODULE_TYPE } from 'components/filter/constants'
 import ROLE from 'constants/role'
 import slug from 'constants/slug'
-import { translate } from 'hoc/create-lang'
+import { translate as t } from 'hoc/create-lang'
 import protectRole from 'hoc/protect-role'
 import queryFormDataBrowser from 'hoc/query-formdata-browser'
-import update from 'immutability-helper'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import _ from 'lodash'
+import _, { get, isEqual } from 'lodash'
 import moment from 'moment'
 import React from 'react'
 import { toggleNavigation } from 'redux/actions/themeAction'
@@ -18,29 +19,16 @@ import {
   deleteBreadcrumb,
   updateBreadcrumb,
 } from 'shared/breadcrumb/action'
-import styled from 'styled-components'
 import { replaceVietnameseStr } from 'utils/string'
 import Breadcrumb from './breadcrumb'
+import { listFilter } from './constants'
 import DataSearch from './data'
-import FormFilter from './form/ModalForm'
 import SearchForm from './form/SearchForm'
-import FilterListMenu from './menu'
 
-const Flex = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  .label {
-    color: #a1a1a1;
-    font-size: 15px;
-  }
-`
-
+@Form.create()
 @connectAutoDispatch(
   state => ({
     values: _.get(state, 'form.dataSearchFilterForm.values', {}),
-    organizationId: _.get(state, 'auth.userInfo.organization._id', 'vasoft'),
-    isOpenNavigation: state.theme.navigation.isOpen,
     stations: _.get(state, 'stationAuto.list', []),
     stationAuto: state.stationAuto,
     breadcrumbs: state.breadcrumbs,
@@ -52,23 +40,16 @@ const Flex = styled.div`
 export default class AvgSearchAdvanced extends React.Component {
   constructor(props) {
     super(props)
+    this.searchFormRef = React.createRef()
+
     this.state = {
       now: moment(),
-      visible: false,
-      confirmLoading: false,
       loading: false,
       initialData: false,
 
-      flagResetForm: false,
-
-      allowSave: true,
-
       isSearchingData: false,
-      isSearchingStation: false,
       searchFormData: {},
-
-      filteredConfigFilter: [],
-      configFilter: [],
+      visibleModalSave: false,
 
       stationKeys: props.stations.length
         ? props.stations.map(station => station.key)
@@ -76,12 +57,60 @@ export default class AvgSearchAdvanced extends React.Component {
       stationsData: props.stations.length
         ? this.getStationsData(props.stations)
         : [],
+
+      filterList: [],
+      filterListSearched: [],
+      highlightText: '',
+      activeKeyMenu: '',
+      filterDefault: {},
+      filterItem: {},
+      filterId: '',
+      otherCondition: [],
+      filterSearch: {},
     }
   }
 
   componentDidMount() {
-    this.getDataOrganization()
-    // this.props.toggleNavigation(false)
+    const { history } = this.props
+    const {
+      location: { state },
+    } = history
+
+    if (state) history.push(slug.avgSearchAdvanced.base)
+    this.getFilterList()
+  }
+
+  componentDidUpdate = (prevProps, prevState) => {
+    const { filterDefault } = this.state
+    const { location } = this.props
+    const { form } = this.searchFormRef.current.props
+    const {
+      handleSearch,
+      updateForm,
+    } = this.searchFormRef.current.forwardRef.current
+
+    if (!isEqual(prevProps.location, location)) {
+      if (!location.state) {
+        this.setState(
+          {
+            filterItem: {},
+            filterSearch: {},
+            activeKeyMenu: null,
+            otherCondition: [],
+            filterId: '',
+          },
+          () => {
+            form.setFieldsValue(filterDefault)
+            updateForm({ stationAutoKeys: filterDefault.stationAuto })
+            handleSearch()
+          }
+        )
+      }
+    }
+  }
+
+  componentWillUnmount() {
+    this.props.deleteBreadcrumb({ id: 'detail' })
   }
 
   initialData = props => {
@@ -92,119 +121,6 @@ export default class AvgSearchAdvanced extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.stations.length !== nextProps.stations.length) {
-      if (!this.state.initialData) {
-        this.initialData(nextProps)
-      }
-    }
-    if (!_.isEqual(this.props.values, nextProps.values)) {
-      if (this.state.isSearchingData) this.setState({ isSearchingData: false })
-    }
-    if (this.props.formData.filterId !== nextProps.formData.filterId) {
-      const filter = this.state.configFilter.find(
-        filter => filter._id === nextProps.formData.filterId
-      )
-      if (filter) {
-        const searchObj = JSON.parse(decodeURIComponent(filter.searchUrl))
-        searchObj.searchNow = true
-        searchObj.filterId = filter._id
-        if (nextProps.breadcrumbs.length === 2) {
-          this.props.updateBreadcrumb({
-            id: 'detail',
-            icon: '',
-            href:
-              slug.avgSearchAdvanced.base +
-              '?formData=' +
-              encodeURIComponent(JSON.stringify(searchObj)),
-            name: filter.name,
-            autoDestroy: true,
-          })
-        } else {
-          this.props.addBreadcrumb({
-            id: 'detail',
-            icon: '',
-            href:
-              slug.avgSearchAdvanced.base +
-              '?formData=' +
-              encodeURIComponent(JSON.stringify(searchObj)),
-            name: filter.name,
-            autoDestroy: true,
-          })
-        }
-      }
-    }
-  }
-
-  getIsEdit = () => {
-    const values = _.clone(this.props.values)
-    const formData = _.clone(this.props.formData)
-    if (formData.rangesDate !== 'ranges') {
-      delete values.fromDate
-      delete values.toDate
-    }
-    return !_.isEqual(values, formData) && !!values.filterId
-  }
-
-  getAllowSave = () => {
-    return (
-      // !!this.props.values.stationType &&
-      this.state.allowSave && !this.props.values.filterId
-    )
-  }
-
-  getDataOrganization = async () => {
-    const organizationInfo = await OrganizationApi.getOrganization(
-      this.props.organizationId
-    )
-
-    this.setState(
-      {
-        configFilter: _.get(organizationInfo, ['data', 'configFilter']),
-        filteredConfigFilter: _.get(organizationInfo, ['data', 'configFilter']),
-      },
-      () => {
-        if (this.props.formData.filterId) {
-          const filter = this.state.configFilter.find(
-            filter => filter._id === this.props.formData.filterId
-          )
-          if (filter) {
-            const searchObj = JSON.parse(decodeURIComponent(filter.searchUrl))
-            searchObj.searchNow = true
-            searchObj.filterId = filter._id
-            if (this.props.breadcrumbs.length === 2) {
-              this.props.updateBreadcrumb({
-                id: 'detail',
-                icon: '',
-                href:
-                  slug.avgSearchAdvanced.base +
-                  '?formData=' +
-                  encodeURIComponent(JSON.stringify(searchObj)),
-                name: filter.name,
-                autoDestroy: true,
-              })
-            } else {
-              this.props.addBreadcrumb({
-                id: 'detail',
-                icon: '',
-                href:
-                  slug.avgSearchAdvanced.base +
-                  '?formData=' +
-                  encodeURIComponent(JSON.stringify(searchObj)),
-                name: filter.name,
-                autoDestroy: true,
-              })
-            }
-          }
-        }
-      }
-    )
-  }
-
-  componentWillUnmount() {
-    this.props.deleteBreadcrumb({ id: 'detail' })
-  }
-
   handleOnChangeSearchField = () => {
     this.setState({ isSearchingData: false })
   }
@@ -213,7 +129,7 @@ export default class AvgSearchAdvanced extends React.Component {
     if (!stations.length) return []
     return stations.map((station, index) => ({
       index,
-      _id: station._id,
+      _id: get(station._id),
       key: station.key,
       name: station.name,
       view: true,
@@ -232,233 +148,207 @@ export default class AvgSearchAdvanced extends React.Component {
     })
   }
 
-  handleSearch = searchText => {
-    const { configFilter } = this.state
-    const filteredConfigFilter = configFilter.filter(({ name }) => {
+  getFilterList = async () => {
+    try {
+      const response = await CalculateApi.getFilterList({
+        type: MODULE_TYPE.AVERAGE,
+      })
+      this.setState({
+        filterList: response,
+        filterListSearched: response,
+      })
+    } catch (error) {
+      console.error({ error })
+    }
+  }
+
+  handleOnClickSaveFilter = async () => {
+    const { form } = this.searchFormRef.current.props
+    await form.validateFields()
+    this.setState({
+      visibleModalSave: true,
+    })
+  }
+
+  handleOnCancelSaveFilter = () => {
+    const { form } = this.props
+    this.setState({
+      visibleModalSave: false,
+    })
+    form.resetFields()
+  }
+
+  getParamsFilter = () => {
+    const { form: formSearch } = this.searchFormRef.current.props
+    const { form } = this.props
+
+    const filterName = form.getFieldValue('name')
+    const {
+      stationAuto,
+      measuringList,
+      ...otherValues
+    } = formSearch.getFieldsValue()
+
+    const paramsFilter = {
+      name: filterName.trim(),
+      params: {
+        ...otherValues,
+        stationKeys: stationAuto.join(','),
+        measuringList: measuringList.join(','),
+      },
+      type: MODULE_TYPE.AVERAGE,
+    }
+
+    return paramsFilter
+  }
+
+  handleOnDeleteFilter = async filterId => {
+    const { filterList } = this.state
+
+    try {
+      await CalculateApi.deleteFilter(filterId)
+      const newFilterList = filterList.filter(filter => filter._id !== filterId)
+
+      this.setState({
+        filterList: newFilterList,
+        filterListSearched: newFilterList,
+        filterItem: {},
+      })
+      message.success(t('storageFilter.message.deleteSuccess'))
+    } catch (error) {
+      console.error({ error })
+    }
+  }
+
+  handelOnSubmitSaveFilter = async () => {
+    const { filterId } = this.state
+    const { form } = this.props
+    const { action } = await form.validateFields()
+
+    const queryParams = this.getParamsFilter()
+
+    try {
+      if (action === ACTION_TYPE.UPDATE) {
+        this.setState({ filterItem: queryParams })
+        await CalculateApi.updateFilter(filterId, queryParams)
+        message.success(t('storageFilter.message.updateSuccess'))
+      } else {
+        const response = await CalculateApi.createFilter(queryParams)
+        this.handleOnClickFilter(response._id, response)
+        this.setState({
+          activeKeyMenu: response._id,
+        })
+
+        message.success(t('storageFilter.message.saveSuccess'))
+      }
+
+      this.getFilterList()
+      this.setState({ visibleModalSave: false })
+    } catch (error) {
+      console.error({ error })
+    }
+  }
+
+  handleOnChangeSearch = event => {
+    const { filterList } = this.state
+    const value = event.target.value
+
+    const newFilterListSearched = filterList.filter(({ name }) => {
       name = replaceVietnameseStr(name)
-      return name.includes(replaceVietnameseStr(searchText))
+
+      return name.includes(replaceVietnameseStr(value))
     })
 
     this.setState({
-      filteredConfigFilter,
+      highlightText: value,
+      filterListSearched: newFilterListSearched,
     })
   }
 
-  showModal = () => {
-    this.setState({ visible: true })
-  }
+  handleOnClickFilter = (filterId, filterItem) => {
+    const { breadcrumbs, updateBreadcrumb, addBreadcrumb, history } = this.props
+    const { params } = filterItem
+    const { updateForm } = this.searchFormRef.current.forwardRef.current
+    const url = `${slug.avgSearchAdvanced.base}?filterId=${filterId}`
 
-  handleCancel = () => {
-    const { form } = this.formRef.props
-    form.resetFields()
-    this.setState({ visible: false })
-  }
+    const breadCrumbsDetail = this.getBreadcrumbDetail({
+      url: url,
+      name: filterItem.name,
+    })
 
-  saveFormRef = formRef => {
-    this.formRef = formRef
-  }
+    if (breadcrumbs.length === 2) {
+      updateBreadcrumb(breadCrumbsDetail)
+    } else {
+      addBreadcrumb(breadCrumbsDetail)
+    }
 
-  resetForm = () => {
-    this.setState(prevState => ({ flagResetForm: !prevState.flagResetForm }))
-  }
+    history.push(url, { filterId })
 
-  menu = () => {
-    return (
-      <Menu style={{ width: 130 }}>
-        <Menu.Item style={{ padding: '8px 12px' }} onClick={this.showModal}>
-          <Tooltip
-            placement="left"
-            title={translate('dataSearchFilterForm.tooltip.saveNew')}
-          >
-            <div>{translate('addon.save')}</div>
-          </Tooltip>
-        </Menu.Item>
-        <Menu.Item style={{ padding: '8px 12px' }} onClick={this.resetForm}>
-          <Tooltip
-            placement="left"
-            title={translate('dataSearchFilterForm.tooltip.reset')}
-          >
-            <div>{translate('addon.reset')}</div>
-          </Tooltip>
-        </Menu.Item>
-      </Menu>
+    const stationAuto = params.stationKeys.split(',')
+    const valuesForm = {
+      ...params,
+      stationAuto,
+      measuringList: params.measuringList.split(','),
+    }
+
+    const otherCondition = listFilter().filter(
+      filter => filterItem.params[filter.key]
     )
-  }
 
-  rightChildren() {
-    const isEdit = this.getIsEdit()
-    if (isEdit) {
-      return (
-        <Flex>
-          <span className="label">{translate('addon.edited')}</span>
-          <Clearfix width={32} />
-          <Button.Group>
-            <Tooltip
-              placement="top"
-              title={translate('dataSearchFilterForm.tooltip.update')}
-            >
-              <Button
-                type="primary"
-                icon="save"
-                size="default"
-                onClick={this.handleUpdateFilter}
-              >
-                {translate('addon.update')}
-              </Button>
-            </Tooltip>
-            <Dropdown overlay={this.menu()}>
-              <Button type="primary" icon="down" />
-            </Dropdown>
-          </Button.Group>
-        </Flex>
-      )
-    }
-    // if (!allowSave) return null
-    return (
-      <Tooltip
-        placement="top"
-        title={translate('dataSearchFilterForm.tooltip.save')}
-      >
-        <Button
-          type="primary"
-          icon="save"
-          size="default"
-          onClick={this.showModal}
-        >
-          {translate('addon.save')}
-        </Button>
-      </Tooltip>
-    )
-  }
+    updateForm({ stationAutoKeys: stationAuto })
 
-  handleCreateFilter = () => {
-    const { form } = this.formRef.props
-    const { organizationId } = this.props
-    const rawValues = _.clone(this.props.values)
-    delete rawValues.searchNow
-    delete rawValues.filterId
-    if (rawValues.rangesDate !== 'ranges') {
-      delete rawValues.fromDate
-      delete rawValues.toDate
-    }
-    if (rawValues.stationType === '') {
-      rawValues.stationType = 'ALL'
-    }
-    form.validateFields((err, values) => {
-      if (err) return
-      let params = {
-        name: (values.name || '').trim(),
-        searchUrl: encodeURIComponent(JSON.stringify(rawValues)),
-      }
-      this.setState({ confirmLoading: true }, async () => {
-        let {
-          data,
-          error,
-          message: messageErr,
-        } = await OrganizationApi.createFilter(organizationId, params)
-        if (error && messageErr === 'CONFIG_FILTER_NAME_EXISTED') {
-          this.setState({
-            confirmLoading: false,
-          })
-          form.setFields({
-            name: {
-              value: values.name,
-              errors: [
-                new Error(translate('avgSearchFrom.filterForm.name.isExist')),
-              ],
-            },
-          })
-        }
-        if (data && data._id) {
-          message.success(translate('dataSearchFilterForm.create.success'))
-          this.setState({
-            confirmLoading: false,
-            allowSave: false,
-            visible: false,
-            configFilter: data.configFilter,
-            filteredConfigFilter: data.configFilter,
-          })
-          form.resetFields()
-        }
-      })
+    this.setState({
+      activeKeyMenu: filterId,
+      filterId,
+      filterItem,
+      otherCondition,
+      filterSearch: valuesForm,
     })
   }
 
-  handleUpdateFilter = () => {
-    const filter = this.state.configFilter.find(
-      filter => filter._id === this.props.formData.filterId
-    )
-    const { organizationId } = this.props
-    const rawValues = _.clone(this.props.values)
-    delete rawValues.searchNow
-    delete rawValues.filterId
-    if (rawValues.rangesDate !== 'ranges') {
-      delete rawValues.fromDate
-      delete rawValues.toDate
-    }
-    let params = {
-      name: filter.name,
-      searchUrl: encodeURIComponent(JSON.stringify(rawValues)),
-    }
-    this.setState({ confirmLoading: true }, async () => {
-      let { data } = await OrganizationApi.updateFilter(
-        organizationId,
-        filter._id,
-        params
-      )
-      this.setState({
-        confirmLoading: false,
-        allowSave: false,
-      })
-      if (data._id) {
-        message.success(translate('dataSearchFilterForm.update.success'))
-        this.setState({
-          visible: false,
-          configFilter: data.configFilter,
-          filteredConfigFilter: data.configFilter,
-        })
-      }
+  setFilterDefault = filterDefault => {
+    this.setState({
+      filterDefault,
     })
   }
 
-  handleDeleteFilter = async _id => {
-    const indexDelete = this.state.filteredConfigFilter.findIndex(
-      configFilterItem => configFilterItem._id === _id
-    )
-    this.setState(prevState =>
-      update(prevState, {
-        filteredConfigFilter: { $splice: [[indexDelete, 1]] },
-        configFilter: { $splice: [[indexDelete, 1]] },
-      })
-    )
-    const { data } = await OrganizationApi.deleteFilter(
-      this.props.organizationId,
-      _id
-    )
-    if (data) message.success(translate('dataSearchFilterForm.update.success'))
+  getBreadcrumbDetail = ({ url, name }) => {
+    return {
+      id: 'detail',
+      icon: '',
+      href: url,
+      name,
+      autoDestroy: true,
+    }
   }
 
-  setLoading = loading => {
-    this.setState({ loading })
-  }
-
+  setLoading = loading => {}
   render() {
     const {
-      filteredConfigFilter,
       isSearchingData,
       searchFormData,
-      visible,
-      confirmLoading,
       stationsData,
+      visibleModalSave,
+      filterListSearched,
+      highlightText,
+      activeKeyMenu,
       loading,
+      filterItem,
+      filterSearch,
+      otherCondition,
     } = this.state
-    const { formData, values, wrapperProps } = this.props
+    const { values, wrapperProps, form } = this.props
+    const isUpdateFilter = !_.isEmpty(filterItem)
 
     return (
       <PageContainer
         {...wrapperProps}
         backgroundColor="#fafbfb"
-        right={this.rightChildren()}
+        right={
+          <Button type="primary" onClick={this.handleOnClickSaveFilter}>
+            {t('storageFilter.button.saveFilter')}
+          </Button>
+        }
       >
         <Breadcrumb items={['list']} />
         <Row
@@ -466,18 +356,23 @@ export default class AvgSearchAdvanced extends React.Component {
           type="flex"
           gutter={[32, 0]}
         >
-          <FilterListMenu
-            handleDeleteFilter={this.handleDeleteFilter}
-            configFilter={filteredConfigFilter}
-            handleSearch={this.handleSearch}
-            filterId={formData.filterId}
+          <FilterList
+            list={filterListSearched}
+            onChangeSearch={this.handleOnChangeSearch}
+            highlightText={highlightText}
+            onClickMenuItem={this.handleOnClickFilter}
+            selectedKeys={[activeKeyMenu]}
+            onDeleteFilter={this.handleOnDeleteFilter}
           />
 
           <Col style={{ flex: 1, overflowX: 'hidden' }}>
             <SearchForm
               onChangeStationData={this.handleChangeStationsData}
-              initialValues={formData}
+              otherCondition={otherCondition}
+              filterSearch={filterSearch}
               onChangeField={this.handleOnChangeSearchField}
+              wrappedComponentRef={this.searchFormRef}
+              setFilterDefault={this.setFilterDefault}
               loading={loading}
             />
             <Clearfix height={16} />
@@ -491,12 +386,16 @@ export default class AvgSearchAdvanced extends React.Component {
             <Clearfix height={40} />
           </Col>
         </Row>
-        <FormFilter
-          wrappedComponentRef={this.saveFormRef}
-          visible={visible}
-          confirmLoading={confirmLoading}
-          onCancel={this.handleCancel}
-          onCreate={this.handleCreateFilter}
+
+        <ModalSaveFilter
+          filterName={filterItem.name}
+          form={form}
+          visible={visibleModalSave}
+          onCancel={this.handleOnCancelSaveFilter}
+          centered
+          key={visibleModalSave}
+          isUpdate={isUpdateFilter}
+          onSubmitSaveFilter={this.handelOnSubmitSaveFilter}
         />
       </PageContainer>
     )
