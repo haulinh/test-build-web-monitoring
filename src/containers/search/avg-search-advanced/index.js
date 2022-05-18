@@ -89,7 +89,7 @@ export default class AvgSearchAdvanced extends React.Component {
     const { form } = this.searchFormRef.current.props
     const {
       handleSearch,
-      onStationAutoChange,
+      updateForm,
     } = this.searchFormRef.current.forwardRef.current
 
     if (!isEqual(prevProps.location, location)) {
@@ -103,7 +103,7 @@ export default class AvgSearchAdvanced extends React.Component {
           },
           () => {
             form.setFieldsValue(filterDefault)
-            onStationAutoChange(filterDefault.stationAuto)
+            updateForm({ stationAutoKeys: filterDefault.stationAuto })
             handleSearch()
           }
         )
@@ -273,8 +273,9 @@ export default class AvgSearchAdvanced extends React.Component {
     const { form } = this.searchFormRef.current.props
     const {
       handleSearch,
-      onStationAutoChange,
+      updateForm,
     } = this.searchFormRef.current.forwardRef.current
+    console.log({ ref: this.searchFormRef.current.forwardRef.current })
     const url = `${slug.avgSearchAdvanced.base}?filterId=${filterId}`
 
     if (breadcrumbs.length === 2) {
@@ -296,7 +297,7 @@ export default class AvgSearchAdvanced extends React.Component {
       filter => filterItem.params[filter.key]
     )
 
-    onStationAutoChange(stationAuto)
+    updateForm({ stationAutoKeys: stationAuto })
 
     this.setState(
       {

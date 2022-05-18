@@ -236,14 +236,14 @@ export default class SearchAvgForm extends React.Component {
     const { stationType, provinceKey } = form.getFieldsValue()
 
     if (!isEmpty(formData)) {
-      this.handleStationAutoKeys(formData.stationType, '')
-      return
+      this.updateForm({ stationAutoKeys: [formData.stationAuto] })
+    } else {
+      const filterDefault = this.getFilterDefault()
+      setFilterDefault(filterDefault)
+
+      this.handleStationAutoKeys(stationType, provinceKey)
     }
 
-    const filterDefault = this.getFilterDefault()
-    setFilterDefault(filterDefault)
-
-    this.handleStationAutoKeys(stationType, provinceKey)
     this.handleSearch()
   }
 
