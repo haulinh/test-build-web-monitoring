@@ -2,13 +2,10 @@ import { Clearfix } from 'components/elements'
 import { getMeasuringListFromStationAutos } from 'containers/api-sharing/util'
 import { get, keyBy, uniqBy } from 'lodash'
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import { FIELDS } from '../index'
 import TableAlarmExceedForm from './TableAlarmExceedForm'
 import TableQCVN from './TableQCVN'
-@connect(state => ({
-  measuresObj: state.global.measuresObj,
-}))
+
 export default class AlarmConfigExceed extends Component {
   getMeasuringList = () => {
     const { measuringListStation } = this.props
@@ -52,7 +49,6 @@ export default class AlarmConfigExceed extends Component {
       roles,
       standardFormRef,
       measuringListStation,
-      measuresObj,
     } = this.props
 
     const measuringList = this.getMeasuringList()
@@ -75,7 +71,6 @@ export default class AlarmConfigExceed extends Component {
         <Clearfix height={12} />
         <TableQCVN
           ref={standardFormRef}
-          measuresObj={measuresObj}
           qcvnList={qcvnListSelected}
           dataSource={measuringList}
           measureListValue={measureListValue}
