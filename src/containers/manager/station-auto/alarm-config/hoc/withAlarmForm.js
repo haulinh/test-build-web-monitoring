@@ -35,6 +35,7 @@ const withAlarmForm = WrappedComponent => {
           ...(alarmType === FIELDS.DATA_LEVEL && {
             config: {
               ...paramItem.config,
+              type: paramItem.config.type || 'standard',
               [FIELDS.MEASURING_LIST]: this.getMeasureListEnable(),
             },
           }),
