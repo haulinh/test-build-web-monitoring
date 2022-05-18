@@ -88,6 +88,7 @@ export default class TabeList extends React.PureComponent {
             <TabChart
               stationKey={stationKey}
               qcvnSelected={qcvnSelected}
+              loading={loading}
               measuringList={measuringList}
               dataStationAuto={dataStationAuto}
               stationAutoCurrent={stationAutoCurrent}

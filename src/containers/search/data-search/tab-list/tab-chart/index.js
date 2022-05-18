@@ -1,4 +1,4 @@
-import { Tabs } from 'antd'
+import { Row, Spin, Tabs } from 'antd'
 import { DATETIME_LABEL_FORMAT } from 'constants/chart-format'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date.js'
 import {
@@ -325,7 +325,7 @@ export default class TabChart extends React.PureComponent {
               if (index === 0) {
                 return {
                   y: qcvn.maxLimit,
-                  dataLabels: { enabled: true },
+                  dataLabels: { enabled: true, crop: false, overflow: 'none' },
                 }
               } else {
                 return [dataItem[0], qcvn.maxLimit]
@@ -350,7 +350,7 @@ export default class TabChart extends React.PureComponent {
               if (index === 0) {
                 return {
                   y: qcvn.minLimit,
-                  dataLabels: { enabled: true },
+                  dataLabels: { enabled: true, crop: false, overflow: 'none' },
                 }
               } else {
                 return [dataItem[0], qcvn.minLimit]
@@ -418,6 +418,7 @@ export default class TabChart extends React.PureComponent {
             align: 'left',
             // verticalAlign: 'middle',
             allowOverlap: true,
+            width: '100%',
             formatter: function() {
               const isMinLimit = this.series.options.className === 'min'
 
@@ -507,6 +508,19 @@ export default class TabChart extends React.PureComponent {
 
   render() {
     const { measureCurrent, mesureList } = this.state
+    const { loading } = this.props
+
+    if (loading)
+      return (
+        <Row
+          type="flex"
+          justify="center"
+          align="middle"
+          style={{ minHeight: 300 }}
+        >
+          <Spin />
+        </Row>
+      )
 
     return (
       <TabChartWrapper>
