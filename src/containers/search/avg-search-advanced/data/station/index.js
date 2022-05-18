@@ -122,10 +122,8 @@ export default class StationData extends React.PureComponent {
   getSearchFormData = (stationKey, standards) => {
     const { searchFormData, standardsVN } = this.props
     const { advanced, dataStatus, fromDate, toDate, type } = searchFormData
-    if (!stationKey) return
+    if (!stationKey) return {}
     const station = this.getStation(stationKey)
-
-    if (!station) return {}
 
     const measuringListUnitStr = station.measuringList.map(item => {
       const itemFind = find(station.measuringData, obj => {
@@ -241,9 +239,12 @@ export default class StationData extends React.PureComponent {
     })
 
     this.setState({ isLoading: true }, async () => {
-      const key = get(searchFormData, ['key'])
+      const stationKey = get(searchFormData, ['key'])
       setLoading(true)
-      const dataStationAuto = await DataInsight.getDataAverage(key, params)
+      const dataStationAuto = await DataInsight.getDataAverage(
+        stationKey,
+        params
+      )
       if (dataStationAuto.error) {
         message.error('ERROR')
         return

@@ -19,13 +19,9 @@ import {
   deleteBreadcrumb,
   updateBreadcrumb,
 } from 'shared/breadcrumb/action'
-import {
-  addBreadcrumbFilter,
-  updateBreadcrumbFilter,
-} from 'utils/breadcrumbFilter'
 import { replaceVietnameseStr } from 'utils/string'
 import Breadcrumb from './breadcrumb'
-import { FIELDS, listFilter } from './constants'
+import { listFilter } from './constants'
 import DataSearch from './data'
 import SearchForm from './form/SearchForm'
 
@@ -70,6 +66,7 @@ export default class AvgSearchAdvanced extends React.Component {
       filterItem: {},
       filterId: '',
       otherCondition: [],
+      filterSearch: {},
     }
   }
 
@@ -97,6 +94,7 @@ export default class AvgSearchAdvanced extends React.Component {
         this.setState(
           {
             filterItem: {},
+            filterSearch: {},
             activeKeyMenu: null,
             otherCondition: [],
             filterId: '',
@@ -270,18 +268,18 @@ export default class AvgSearchAdvanced extends React.Component {
   handleOnClickFilter = (filterId, filterItem) => {
     const { breadcrumbs, updateBreadcrumb, addBreadcrumb, history } = this.props
     const { params } = filterItem
-    const { form } = this.searchFormRef.current.props
-    const {
-      handleSearch,
-      updateForm,
-    } = this.searchFormRef.current.forwardRef.current
-    console.log({ ref: this.searchFormRef.current.forwardRef.current })
+    const { updateForm } = this.searchFormRef.current.forwardRef.current
     const url = `${slug.avgSearchAdvanced.base}?filterId=${filterId}`
 
+    const breadCrumbsDetail = this.getBreadcrumbDetail({
+      url: url,
+      name: filterItem.name,
+    })
+
     if (breadcrumbs.length === 2) {
-      updateBreadcrumbFilter(updateBreadcrumb, url, filterItem.name)
+      updateBreadcrumb(breadCrumbsDetail)
     } else {
-      addBreadcrumbFilter(addBreadcrumb, url, filterItem.name)
+      addBreadcrumb(breadCrumbsDetail)
     }
 
     history.push(url, { filterId })
@@ -299,26 +297,29 @@ export default class AvgSearchAdvanced extends React.Component {
 
     updateForm({ stationAutoKeys: stationAuto })
 
-    this.setState(
-      {
-        activeKeyMenu: filterId,
-        filterId,
-        filterItem,
-        otherCondition,
-      },
-      () => {
-        setTimeout(() => {
-          form.setFieldsValue(valuesForm)
-          handleSearch()
-        })
-      }
-    )
+    this.setState({
+      activeKeyMenu: filterId,
+      filterId,
+      filterItem,
+      otherCondition,
+      filterSearch: valuesForm,
+    })
   }
 
   setFilterDefault = filterDefault => {
     this.setState({
       filterDefault,
     })
+  }
+
+  getBreadcrumbDetail = ({ url, name }) => {
+    return {
+      id: 'detail',
+      icon: '',
+      href: url,
+      name,
+      autoDestroy: true,
+    }
   }
 
   setLoading = loading => {}
@@ -333,6 +334,7 @@ export default class AvgSearchAdvanced extends React.Component {
       activeKeyMenu,
       loading,
       filterItem,
+      filterSearch,
       otherCondition,
     } = this.state
     const { values, wrapperProps, form } = this.props
@@ -367,6 +369,7 @@ export default class AvgSearchAdvanced extends React.Component {
             <SearchForm
               onChangeStationData={this.handleChangeStationsData}
               otherCondition={otherCondition}
+              filterSearch={filterSearch}
               onChangeField={this.handleOnChangeSearchField}
               wrappedComponentRef={this.searchFormRef}
               setFilterDefault={this.setFilterDefault}

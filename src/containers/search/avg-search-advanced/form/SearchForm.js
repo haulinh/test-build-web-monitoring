@@ -9,6 +9,7 @@ import {
   Switch,
   Tooltip,
 } from 'antd'
+import ToolTipIcon from 'assets/svg-icons/tooltip.svg'
 import { default as BoxShadowStyle } from 'components/elements/box-shadow'
 import Heading from 'components/elements/heading'
 import OptionsTimeRange from 'components/elements/options-time-range'
@@ -31,7 +32,6 @@ import { getTimes } from 'utils/datetime'
 import SelectTimeRange from '../../common/select-time-range'
 import { FIELDS, i18n } from '../constants'
 import FilterList from '../filter'
-import ToolTipIcon from 'assets/svg-icons/tooltip.svg'
 
 const HeaderWrapper = styled.div`
   color: blue;
@@ -113,7 +113,13 @@ export default class SearchAvgForm extends React.Component {
   }
 
   componentDidUpdate = (prevProps, prevState) => {
-    const { formData, setFilterDefault, otherCondition } = this.props
+    const {
+      formData,
+      setFilterDefault,
+      otherCondition,
+      filterSearch,
+      form,
+    } = this.props
 
     if (!isEqual(prevProps.formData, formData)) {
       const filterDefault = this.getFilterDefault()
@@ -121,8 +127,15 @@ export default class SearchAvgForm extends React.Component {
       setFilterDefault(filterDefault)
     }
 
-    if (!isEqual(prevProps.otherCondition, otherCondition)) {
-      this.setState({ otherConditionFilter: otherCondition })
+    if (!isEqual(prevProps.filterSearch, filterSearch)) {
+      if (isEmpty(filterSearch)) {
+        this.setState({ otherConditionFilter: [] })
+      }
+
+      this.setState({ otherConditionFilter: otherCondition }, () => {
+        form.setFieldsValue(filterSearch)
+        this.handleSearch()
+      })
     }
   }
 
@@ -147,35 +160,24 @@ export default class SearchAvgForm extends React.Component {
   }
 
   handleChangeFilter = filter => {
-    // const { otherConditionSearch } = this.props
     const { otherConditionFilter } = this.state
 
     const index = otherConditionFilter.findIndex(
       item => item.key === filter.key
     )
+
+    //if filterCondition empty, add 1 filter to filterList
     if (index < 0) {
-      this.setState({ otherConditionFilter: [...otherConditionFilter, filter] })
-    } else {
       this.setState({
-        otherConditionFilter: otherConditionFilter.splice(index, 1),
+        otherConditionFilter: [...otherConditionFilter, filter],
       })
-      const index = otherConditionFilter.findIndex(
-        item => item.key === filter.key
-      )
-
-      //if filterCondition empty, add 1 filter to filterList
-      if (index < 0) {
-        this.setState({
-          otherConditionFilter: [...otherConditionFilter, filter],
-        })
-        return
-      }
-
-      //delete filter from filterList
-      this.setState({
-        otherConditionFilter: otherConditionFilter.splice(index, 1),
-      })
+      return
     }
+
+    //delete filter from filterList
+    this.setState({
+      otherConditionFilter: otherConditionFilter.splice(index, 1),
+    })
   }
 
   getMeasuringList = stationAutoKeys =>
@@ -312,7 +314,6 @@ export default class SearchAvgForm extends React.Component {
             options={options.dataStatus}
             style={{ width: '100%' }}
             mode={mode}
-            maxTagCount={2}
             maxTagTextLength={window.innerWidth > 1600 ? 20 : 5}
             placeholder="Chọn tình trạng dữ liệu"
           />
