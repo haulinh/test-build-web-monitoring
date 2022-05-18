@@ -63,6 +63,7 @@ export const FIELDS = {
 
   CONFIG: 'config',
   STANDARD_ID: 'standardId',
+  ID: '_id',
 }
 
 export const i18n = () => ({

@@ -42,6 +42,7 @@ export const i18n = () => ({
   },
   error: {
     required: t('ticket.required.configProperties.required'),
+    requiredStandard: t('qcvn.form.key.requiredChoose'),
     isNumber: t('ticket.required.configProperties.isNumber'),
     max64: t('rules.max64'),
   },
