@@ -32,6 +32,9 @@ export const i18n = () => ({
       status: t('alarm.label.management.status'),
       recipient: t('alarm.label.management.recipient'),
       frequency: t('alarm.label.management.frequency'),
+      thresholdType: t('alarm.config.thresholdType'),
+      exceed: t('stationAutoManager.form.qcvn.label'),
+      exceed_preparing: t('stationAutoManager.form.tendToExceed.label'),
     },
     placeholder: {
       name: t('alarm.label.management.name'),
@@ -215,7 +218,7 @@ export default class AlarmForm extends Component {
 
     getData()
     form.resetFields()
-    onClose()
+    this.handleOnClose()
   }
 
   handleOnClose = async () => {

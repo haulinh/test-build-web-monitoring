@@ -158,6 +158,7 @@ export default class AlarmConfig extends Component {
         return paramType
       }
     )
+
     const paramsForm = flatten(paramsArray)
     const paramRequest = {
       data: paramsForm,

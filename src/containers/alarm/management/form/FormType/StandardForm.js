@@ -1,4 +1,4 @@
-import { Col, Row, Switch } from 'antd'
+import { Col, Radio, Row, Switch } from 'antd'
 import SelectQCVN from 'components/elements/select-qcvn-v2'
 import { FormItem } from 'components/layouts/styles'
 import SelectFrequency from 'containers/alarm/Component/SelectFrequency'
@@ -35,17 +35,35 @@ export default class StandardForm extends React.Component {
   render() {
     const { form, isEdit, alarmSelected } = this.props
     const repeatConfig = form.getFieldValue(`${FIELDS.REPEAT_CONFIG}.active`)
+    const configType = form.getFieldValue(`${FIELDS.CONFIG}.${FIELDS.TYPE}`)
 
     return (
       <React.Fragment>
-        <Col>
-          <FormItem label={i18n().form.label.standard}>
-            {form.getFieldDecorator(`${FIELDS.CONFIG}.${FIELDS.STANDARD_ID}`)(
-              <SelectQCVN />
+        {isEdit && (
+          <FormItem label={i18n().form.label.thresholdType}>
+            {form.getFieldDecorator(`${FIELDS.CONFIG}.${FIELDS.TYPE}`, {
+              initialValue: 'exceed',
+            })(
+              <Radio.Group disabled={isEdit}>
+                <Radio value="exceed">{i18n().form.label.exceed}</Radio>
+                <Radio value="exceed_preparing">
+                  {i18n().form.label.exceed_preparing}
+                </Radio>
+                <Radio value="standard">{i18n().form.label.standard}</Radio>
+              </Radio.Group>
             )}
           </FormItem>
-        </Col>
+        )}
 
+        {(configType === 'standard' || !isEdit) && (
+          <Col>
+            <FormItem label={i18n().form.label.standard}>
+              {form.getFieldDecorator(`${FIELDS.CONFIG}.${FIELDS.STANDARD_ID}`)(
+                <SelectQCVN />
+              )}
+            </FormItem>
+          </Col>
+        )}
         <Row gutter={6}>
           <Col span={8}>
             <FormItem label={i18n().form.label.repeatConfig}>

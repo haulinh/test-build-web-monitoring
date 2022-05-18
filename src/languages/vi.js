@@ -4361,6 +4361,7 @@ export default {
       timeDisconnect: 'Thời gian mất tín hiệu (phút)',
       alarmExceed: 'Cảnh báo vượt ngưỡng',
       threshold: 'Ngưỡng',
+      thresholdType: 'Loại Ngưỡng',
       time: 'Thời gian',
       selectThreshold: 'Chọn ngưỡng',
       disconnect: 'Mất tín hiệu',

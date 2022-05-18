@@ -144,10 +144,7 @@ export class ChanelForm extends React.Component {
                 )(
                   <TextArea
                     style={{ height: 150 }}
-                    disabled={
-                      typeAlarm === alarmType.advance.value ||
-                      typeAlarm === alarmType.data_level.value
-                    }
+                    disabled={typeAlarm === alarmType.advance.value}
                   />
                 )}
               </React.Fragment>

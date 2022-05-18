@@ -4348,6 +4348,7 @@ export default {
       timeDisconnect: 'Time disconnect (minutes)',
       alarmExceed: 'Threshold alarm',
       threshold: 'Threshold',
+      thresholdType: 'Threshold Type',
       time: 'Time',
       selectThreshold: 'Select threshold',
       disconnect: 'Disconnect',
