@@ -9,7 +9,7 @@ export function getFormatNumber(
   value,
   numberToFixed = FORMAT_VALUE_MEASURING,
   maximum = numberToFixed,
-  type = 'table'
+  valueFormat
 ) {
   if (isNumber(value) || value) {
     let tempNumber = Number(value).toLocaleString(FORMAT_LOCAL, {
@@ -17,12 +17,10 @@ export function getFormatNumber(
       maximumFractionDigits: maximum,
     })
 
-    const result = type === 'table' ? tempNumber : Number(tempNumber)
-    return result
+    return Number(tempNumber)
   }
 
-  const emptyResult = type === 'table' ? '-' : null
-  return emptyResult
+  return valueFormat
 }
 
 export default {
