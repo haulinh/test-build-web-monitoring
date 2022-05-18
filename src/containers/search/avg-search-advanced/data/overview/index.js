@@ -1,10 +1,9 @@
-import { Button, Tabs, Row } from 'antd'
-import React, { Component } from 'react'
-import TableStation from './TableStation'
-import styled from 'styled-components'
-import ChartOverview from './chart'
+import { Button, Row, Tabs } from 'antd'
 import { isEmpty } from 'lodash'
+import React, { Component } from 'react'
+import styled from 'styled-components'
 import { i18n } from '../../constants'
+import ChartOverview from './chart'
 
 const { TabPane } = Tabs
 
@@ -25,7 +24,7 @@ export default class OverviewData extends Component {
     return (
       <TabWrapper>
         <Tabs
-          defaultActiveKey="data"
+          defaultActiveKey="chart"
           tabBarExtraContent={
             <Row type="flex" justify="end">
               <Button
@@ -38,9 +37,9 @@ export default class OverviewData extends Component {
             </Row>
           }
         >
-          <TabPane key="data" tab={i18n().tabs.overview.data}>
+          {/* <TabPane key="data" tab={i18n().tabs.overview.data}>
             <TableStation />
-          </TabPane>
+          </TabPane> */}
           <TabPane key="chart" tab={i18n().tabs.overview.chart}>
             {!isEmpty(data) && (
               <ChartOverview

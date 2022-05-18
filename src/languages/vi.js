@@ -3726,6 +3726,11 @@ export default {
       measuringList: 'Các thông số quan trắc ({{=it.count}} thông số):',
       addCondition: 'Thêm điều kiện',
     },
+    placeholder: {
+      dataStatus: 'Chọn tình trạng dữ liệu',
+      frequency: 'Nhập tần suất (phút/lần)',
+      standard: 'Chọn quy chuẩn',
+    },
     tooltip: {
       addCondition: 'Thêm điều kiện lọc trạm quan trắc',
       filterData:

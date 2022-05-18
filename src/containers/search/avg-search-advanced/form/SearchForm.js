@@ -31,6 +31,7 @@ import SelectTimeRange from '../../common/select-time-range'
 import { FIELDS, i18n, listFilter } from '../constants'
 import FilterList from '../filter'
 import ToolTipIcon from 'assets/svg-icons/tooltip.svg'
+import { requiredFieldRule } from 'utils/rules'
 
 const HeaderWrapper = styled.div`
   color: blue;
@@ -208,21 +209,21 @@ export default class SearchAvgForm extends React.Component {
             style={{ width: '100%' }}
             mode={mode}
             maxTagTextLength={window.innerWidth > 1600 ? 20 : 5}
-            placeholder="Chọn tình trạng dữ liệu"
+            placeholder={i18n().placeholder.dataStatus}
           />
         )
       case 'frequent':
         return (
           <InputNumber
             style={{ width: '100%' }}
-            placeholder="Nhập tần suất (phút/lần)"
+            placeholder={i18n().placeholder.frequency}
             onChange={this.onChangeFrequency}
           />
         )
       case 'standardKey':
         return (
           <SelectQCVN
-            placeholder="Chọn quy chuẩn"
+            placeholder={i18n().placeholder.standard}
             onChange={this.onChangeStandard}
           />
         )
@@ -414,6 +415,7 @@ export default class SearchAvgForm extends React.Component {
             <Col>
               <FormItem label={i18n().form.stationAuto(numberStation)}>
                 {form.getFieldDecorator(FIELDS.STATION_AUTO, {
+                  rules: [requiredFieldRule(i18n().rules.stationAuto)],
                   onChange: this.onStationAutoChange,
                 })(
                   <SelectStationAuto
@@ -426,10 +428,9 @@ export default class SearchAvgForm extends React.Component {
             </Col>
             <Col>
               <FormItem label={i18n().form.measuringList(numberMeasure)}>
-                {form.getFieldDecorator(
-                  FIELDS.MEASURING_LIST,
-                  {}
-                )(<SelectMeasureParameter options={measuringList} />)}
+                {form.getFieldDecorator(FIELDS.MEASURING_LIST, {
+                  rules: [requiredFieldRule(i18n().rules.parameter)],
+                })(<SelectMeasureParameter options={measuringList} />)}
               </FormItem>
             </Col>
           </Row>

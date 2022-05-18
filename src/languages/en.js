@@ -3713,6 +3713,11 @@ export default {
       measuringList: 'Parameters ({{=it.count}} parameters):',
       addCondition: 'Add Filter Condition',
     },
+    placeholder: {
+      dataStatus: 'Choose data status',
+      frequency: 'Type frequency (minutes/time)',
+      standard: 'Choose standard',
+    },
     tooltip: {
       addCondition: 'Add filter conditions for monitoring stations',
       filterData:
