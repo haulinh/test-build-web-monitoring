@@ -322,7 +322,9 @@ export default class AvgSearchAdvanced extends React.Component {
     }
   }
 
-  setLoading = loading => {}
+  setLoading = loading => {
+    this.setState({ loading })
+  }
   render() {
     const {
       isSearchingData,
