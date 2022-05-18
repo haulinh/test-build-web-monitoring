@@ -6,7 +6,7 @@ import BoxShadow from 'components/elements/box-shadow'
 import { dataStatusOptions } from 'constants/dataStatus'
 import { autobind } from 'core-decorators'
 import { translate } from 'hoc/create-lang'
-import { find, get, isEqual, map, maxBy } from 'lodash'
+import { find, get, isEmpty, isEqual, map, maxBy } from 'lodash'
 import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
@@ -209,7 +209,8 @@ export default class StationData extends React.PureComponent {
   }
 
   getQueryParams(searchFormData) {
-    const dataStatus = searchFormData.dataStatus.join(',')
+    if (isEmpty(searchFormData)) return {}
+    const dataStatus = get(searchFormData, 'dataStatus').join(',')
     const defaultStatus = dataStatusOptions.map(item => item.value).join(',')
 
     const groupType = ['month', 'year'].includes(searchFormData.type)
@@ -241,9 +242,10 @@ export default class StationData extends React.PureComponent {
     })
 
     this.setState({ isLoading: true }, async () => {
+      const stationKey = get(searchFormData, ['key'])
       setLoading(true)
       const dataStationAuto = await DataInsight.getDataAverage(
-        searchFormData.key,
+        stationKey,
         params
       )
       if (dataStationAuto.error) {

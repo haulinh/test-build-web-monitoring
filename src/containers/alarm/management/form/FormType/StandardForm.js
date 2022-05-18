@@ -1,15 +1,15 @@
-import { Col, Row, Switch } from 'antd'
+import { Col, Radio, Row, Switch } from 'antd'
 import SelectQCVN from 'components/elements/select-qcvn-v2'
 import { FormItem } from 'components/layouts/styles'
 import SelectFrequency from 'containers/alarm/Component/SelectFrequency'
-import _ from 'lodash'
+import _, { get, isEmpty, keyBy } from 'lodash'
 import React from 'react'
 import { connect } from 'react-redux'
 import { FIELDS } from '../../index'
 import { i18n } from '../AlarmForm'
 
 const mapStateToProp = state => {
-  const stationAutoById = _.keyBy(state.stationAuto.list, '_id')
+  const stationAutoById = keyBy(state.stationAuto.list, '_id')
   return {
     stationAutoById,
     alarmSelected: state.alarm.alarmSelected,
@@ -23,7 +23,7 @@ export default class StandardForm extends React.Component {
   componentDidMount() {
     const { alarmSelected, form } = this.props
 
-    if (!_.isEmpty(alarmSelected)) {
+    if (!isEmpty(alarmSelected)) {
       form.setFieldsValue({
         [FIELDS.REPEAT_CONFIG]: alarmSelected[FIELDS.REPEAT_CONFIG],
 
@@ -38,13 +38,37 @@ export default class StandardForm extends React.Component {
 
     return (
       <React.Fragment>
-        <Col>
-          <FormItem label={i18n().form.label.standard}>
-            {form.getFieldDecorator(`${FIELDS.CONFIG}.${FIELDS.STANDARD_ID}`)(
-              <SelectQCVN />
+        {isEdit && (
+          <FormItem label={i18n().form.label.thresholdType}>
+            {form.getFieldDecorator(`${FIELDS.CONFIG}.${FIELDS.TYPE}`, {
+              initialValue: 'exceed',
+            })(
+              <Radio.Group disabled={isEdit}>
+                <Radio value="exceed">{i18n().form.label.exceed}</Radio>
+                <Radio value="exceed_preparing">
+                  {i18n().form.label.exceed_preparing}
+                </Radio>
+                <Radio value="standard">{i18n().form.label.standard}</Radio>
+              </Radio.Group>
             )}
           </FormItem>
-        </Col>
+        )}
+
+        {(!isEdit ||
+          get(alarmSelected, [FIELDS.CONFIG, FIELDS.TYPE]) === 'standard') && (
+          <Col>
+            <FormItem label={i18n().form.label.standard}>
+              {form.getFieldDecorator(
+                `${FIELDS.CONFIG}.${FIELDS.STANDARD_ID}`,
+                {
+                  rules: [
+                    { required: true, message: i18n().error.requiredStandard },
+                  ],
+                }
+              )(<SelectQCVN />)}
+            </FormItem>
+          </Col>
+        )}
 
         <Row gutter={6}>
           <Col span={8}>
