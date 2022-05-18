@@ -2,14 +2,14 @@ import { Col, Radio, Row, Switch } from 'antd'
 import SelectQCVN from 'components/elements/select-qcvn-v2'
 import { FormItem } from 'components/layouts/styles'
 import SelectFrequency from 'containers/alarm/Component/SelectFrequency'
-import _ from 'lodash'
+import _, { get, isEmpty, keyBy } from 'lodash'
 import React from 'react'
 import { connect } from 'react-redux'
 import { FIELDS } from '../../index'
 import { i18n } from '../AlarmForm'
 
 const mapStateToProp = state => {
-  const stationAutoById = _.keyBy(state.stationAuto.list, '_id')
+  const stationAutoById = keyBy(state.stationAuto.list, '_id')
   return {
     stationAutoById,
     alarmSelected: state.alarm.alarmSelected,
@@ -23,7 +23,7 @@ export default class StandardForm extends React.Component {
   componentDidMount() {
     const { alarmSelected, form } = this.props
 
-    if (!_.isEmpty(alarmSelected)) {
+    if (!isEmpty(alarmSelected)) {
       form.setFieldsValue({
         [FIELDS.REPEAT_CONFIG]: alarmSelected[FIELDS.REPEAT_CONFIG],
 
@@ -35,7 +35,6 @@ export default class StandardForm extends React.Component {
   render() {
     const { form, isEdit, alarmSelected } = this.props
     const repeatConfig = form.getFieldValue(`${FIELDS.REPEAT_CONFIG}.active`)
-    const configType = form.getFieldValue(`${FIELDS.CONFIG}.${FIELDS.TYPE}`)
 
     return (
       <React.Fragment>
@@ -55,15 +54,22 @@ export default class StandardForm extends React.Component {
           </FormItem>
         )}
 
-        {(configType === 'standard' || !isEdit) && (
+        {(!isEdit ||
+          get(alarmSelected, [FIELDS.CONFIG, FIELDS.TYPE]) === 'standard') && (
           <Col>
             <FormItem label={i18n().form.label.standard}>
-              {form.getFieldDecorator(`${FIELDS.CONFIG}.${FIELDS.STANDARD_ID}`)(
-                <SelectQCVN />
-              )}
+              {form.getFieldDecorator(
+                `${FIELDS.CONFIG}.${FIELDS.STANDARD_ID}`,
+                {
+                  rules: [
+                    { required: true, message: i18n().error.requiredStandard },
+                  ],
+                }
+              )(<SelectQCVN />)}
             </FormItem>
           </Col>
         )}
+
         <Row gutter={6}>
           <Col span={8}>
             <FormItem label={i18n().form.label.repeatConfig}>

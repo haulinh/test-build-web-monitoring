@@ -1516,6 +1516,7 @@ export default {
         label: 'Mã QCVN',
         placeholder: 'Nhập QCVN',
         required: 'Vui lòng nhập mã QCVN',
+        requiredChoose: 'Vui lòng chọn quy chuẩn',
         pattern: 'Không được nhập kí tự đặc biệt',
         max: 'Không quá 64 kí tự',
       },
