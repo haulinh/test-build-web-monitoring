@@ -1516,6 +1516,7 @@ export default {
         label: 'Mã QCVN',
         placeholder: 'Nhập QCVN',
         required: 'Vui lòng nhập mã QCVN',
+        requiredChoose: 'Vui lòng chọn quy chuẩn',
         pattern: 'Không được nhập kí tự đặc biệt',
         max: 'Không quá 64 kí tự',
       },
@@ -3725,6 +3726,11 @@ export default {
       stationAuto: 'Trạm quan trắc ({{=it.count}} trạm):',
       measuringList: 'Các thông số quan trắc ({{=it.count}} thông số):',
       addCondition: 'Thêm điều kiện',
+    },
+    placeholder: {
+      dataStatus: 'Chọn tình trạng dữ liệu',
+      frequency: 'Nhập tần suất (phút/lần)',
+      standard: 'Chọn quy chuẩn',
     },
     tooltip: {
       addCondition: 'Thêm điều kiện lọc trạm quan trắc',

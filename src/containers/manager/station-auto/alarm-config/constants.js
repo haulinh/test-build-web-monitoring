@@ -20,81 +20,6 @@ export const alarmTypeObject = {
   },
 }
 
-export const ALARM_LIST_INIT = {
-  DISCONNECT: [
-    {
-      _id: uuidv4(),
-      type: AlarmType.Disconnect,
-      isCreateLocal: true,
-      maxDisconnectionTime: 30 * 60,
-      status: false,
-    },
-    {
-      _id: uuidv4(),
-      type: AlarmType.Disconnect,
-      isCreateLocal: true,
-      maxDisconnectionTime: 60 * 60,
-      status: false,
-    },
-    {
-      _id: uuidv4(),
-      type: AlarmType.Disconnect,
-      isCreateLocal: true,
-      maxDisconnectionTime: 2 * 60 * 60,
-      status: false,
-    },
-  ],
-  DATA_LEVEL: [
-    {
-      _id: uuidv4(),
-      isCreateLocal: true,
-      type: AlarmType.DataLevel,
-      status: false,
-      config: {
-        type: 'exceed',
-        standardID: '',
-        measuringList: [],
-      },
-    },
-    {
-      _id: uuidv4(),
-      isCreateLocal: true,
-      type: AlarmType.DataLevel,
-      status: false,
-      config: {
-        type: 'exceed_preparing',
-        standardID: '',
-        measuringList: [],
-      },
-    },
-  ],
-}
-
-const chanels = ['email', 'mobile', 'sms', 'webhook']
-export const getHiddenParam = (typeAlarm, stationId, maxDisconnectionTime) => {
-  const paramChanels = chanels.reduce((base, currentChanel) => {
-    const valueChanel = {
-      active: true,
-      type: currentChanel,
-      template: alarmTypeObject[typeAlarm].template,
-    }
-    return {
-      ...base,
-      [currentChanel]: valueChanel,
-    }
-  }, {})
-
-  const frequency = typeAlarm === 'disconnect' ? maxDisconnectionTime : 60 * 60
-
-  const paramHidden = {
-    repeatConfig: { active: true, frequency },
-    channels: paramChanels,
-    stationId,
-    type: typeAlarm,
-  }
-  return paramHidden
-}
-
 export const i18n = () => {
   return {
     alarm: translate('menuApp.alarm'),
@@ -130,4 +55,81 @@ export const i18n = () => {
     qcvnMax: translate('stationFixedPoint.form.measuringForm.qcvnMax'),
     measure: translate('measuringManager.list.title'),
   }
+}
+
+export const ALARM_LIST_INIT = {
+  DISCONNECT: [
+    {
+      _id: uuidv4(),
+      type: AlarmType.Disconnect,
+      isCreateLocal: true,
+      maxDisconnectionTime: 30 * 60,
+      status: false,
+    },
+    {
+      _id: uuidv4(),
+      type: AlarmType.Disconnect,
+      isCreateLocal: true,
+      maxDisconnectionTime: 60 * 60,
+      status: false,
+    },
+    {
+      _id: uuidv4(),
+      type: AlarmType.Disconnect,
+      isCreateLocal: true,
+      maxDisconnectionTime: 2 * 60 * 60,
+      status: false,
+    },
+  ],
+  DATA_LEVEL: [
+    {
+      _id: uuidv4(),
+      isCreateLocal: true,
+      type: AlarmType.DataLevel,
+      status: false,
+      config: {
+        type: 'exceed',
+        standardID: '',
+        measuringList: [],
+        name: i18n().exceed,
+      },
+    },
+    {
+      _id: uuidv4(),
+      isCreateLocal: true,
+      type: AlarmType.DataLevel,
+      status: false,
+      config: {
+        type: 'exceed_preparing',
+        standardID: '',
+        measuringList: [],
+        name: i18n().exceed_preparing,
+      },
+    },
+  ],
+}
+
+const chanels = ['email', 'mobile', 'sms', 'webhook']
+export const getHiddenParam = (typeAlarm, stationId, maxDisconnectionTime) => {
+  const paramChanels = chanels.reduce((base, currentChanel) => {
+    const valueChanel = {
+      active: true,
+      type: currentChanel,
+      template: alarmTypeObject[typeAlarm].template,
+    }
+    return {
+      ...base,
+      [currentChanel]: valueChanel,
+    }
+  }, {})
+
+  const frequency = typeAlarm === 'disconnect' ? maxDisconnectionTime : 60 * 60
+
+  const paramHidden = {
+    repeatConfig: { active: true, frequency },
+    channels: paramChanels,
+    stationId,
+    type: typeAlarm,
+  }
+  return paramHidden
 }

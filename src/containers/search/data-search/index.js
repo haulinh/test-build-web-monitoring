@@ -5,6 +5,7 @@ import BoxShadowStyle from 'components/elements/box-shadow'
 import Clearfix from 'components/elements/clearfix/index'
 import Heading from 'components/elements/heading'
 import SelectQCVN from 'components/elements/select-qcvn-v2'
+import ToolTip from 'components/elements/tooltip'
 import { FilterList, ModalSaveFilter } from 'components/filter'
 import { ACTION_TYPE, MODULE_TYPE } from 'components/filter/constants'
 import ROLE from 'constants/role'
@@ -18,6 +19,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { connectAutoDispatch } from 'redux/connect'
+import ToolTipIcon from 'assets/svg-icons/TooltipSmall.svg'
 import {
   addBreadcrumb,
   deleteBreadcrumb,
@@ -143,7 +145,7 @@ export default class MinutesDataSearch extends React.Component {
 
   getQueryParam = () => {
     const values = this.searchFormRef.current.getFieldsValue()
-    const { standards, page } = this.state
+    const { standards } = this.state
 
     const times = getTimes(values[fields.rangesDate])
     const { from, to } = getTimesUTC(times)
@@ -153,8 +155,8 @@ export default class MinutesDataSearch extends React.Component {
       to,
       [fields.measuringList]: getParamArray(values[fields.measuringList]),
       [fields.filterBy]: getParamArray(values[fields.filterBy]),
-      page,
-      itemPerPage: ITEM_PER_PAGE,
+      // page,
+      itemPerPage: 8298923802832,
       standards: getParamArray(standards),
     }
 
@@ -498,14 +500,19 @@ export default class MinutesDataSearch extends React.Component {
               type="flex"
               align="middle"
             >
-              <span
-                style={{
-                  fontSize: '14px',
-                  fontWeight: 600,
-                }}
-              >
-                {translate('dataAnalytics.standardViews')}
-              </span>
+              <Col>
+                <Row type="flex" gutter={5}>
+                  <Col>{translate('dataAnalytics.standardViews')}</Col>
+                  <Col>
+                    <ToolTip
+                      width={'16px'}
+                      text={translate('dataAverage.tooltip.standard')}
+                      icon={ToolTipIcon}
+                    />
+                  </Col>
+                  <Col>:</Col>
+                </Row>
+              </Col>
               <Col span={8}>
                 <SelectQCVN
                   onFetchSuccess={this.handleOnFetchSuccessQCVN}

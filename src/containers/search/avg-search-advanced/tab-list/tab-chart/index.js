@@ -1,364 +1,338 @@
-import React from 'react'
-import { autobind } from 'core-decorators'
-import styled from 'styled-components'
-import ReactHighcharts from 'react-highcharts/ReactHighstock'
-import * as _ from 'lodash'
-import PropTypes from 'prop-types'
-import { translate } from 'hoc/create-lang'
+import { Tabs } from 'antd'
+import { getContent } from 'components/language/language-content'
 import {
-  FORMAT_VALUE_MEASURING,
-  getFormatNumber,
-} from 'constants/format-number'
-import { DATETIME_LABEL_FORMAT } from 'constants/chart-format'
+  DATETIME_LABEL_FORMAT,
+  DATETIME_TOOLTIP_FORMAT,
+} from 'constants/chart-format'
+import { formatTime } from 'containers/search/avg-search-advanced/utils/formatTime'
+import Highcharts from 'highcharts'
+import { translate } from 'hoc/create-lang'
+import { get, isEmpty, isNumber, keyBy } from 'lodash'
+import React, { Component } from 'react'
+import ReactHighcharts from 'react-highcharts'
+import { connect } from 'react-redux'
 import moment from 'moment-timezone'
-import { DD_MM_YYYY_HH_MM } from 'constants/format-date.js'
-
-const TabChartWrapper = styled.div`
-  justify-content: center;
-  align-items: center;
-  display: flex;
-  width: 100%;
-`
-const ChartWrapper = styled.div`
-  flex: 1;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  overflow: auto;
-`
-
-const Thumbnail = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  overflow: auto;
-  ::-webkit-scrollbar {
-    display: none;
-  }
-`
-
-const ThumbnailItem = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 8px 16px;
-  border-bottom: ${props => (props.selected ? 2 : 0)}px solid blue;
-  white-space: nowrap;
-  :hover {
-    cursor: pointer;
-    background-color: #f1f1f1;
-  }
-`
-
-const Line = styled.div`
-  height: 2px;
-  width: 7px;
-  margin-right: 4px;
-  background-color: ${props => props.color || 'transparent'};
-`
-
-const colors = [
-  '#058DC0',
-  '#50B432',
-  '#7D5611',
-  '#DDDF00',
-  '#24CBE8',
-  '#64E572',
-  '#FF9655',
-  '#FFF26f',
-  '#6AF9C0',
-]
-ReactHighcharts.Highcharts.wrap(
-  ReactHighcharts.Highcharts.RangeSelector.prototype,
-  'drawInput',
-  function(proceed, name) {
-    proceed.call(this, name)
-    this[name + 'DateBox'].on('click', function() {})
-  }
-)
+import { getFormatNumber } from 'constants/format-number'
 
 ReactHighcharts.Highcharts.setOptions({
-  lang: {
-    rangeSelectorFrom: translate('chart.from'),
-    rangeSelectorTo: translate('chart.to'),
-    rangeSelectorZoom: '',
-  },
   global: {
-    useUTC: true,
+    useUTC: false,
   },
 })
 
-@autobind
-export default class TabChart extends React.PureComponent {
-  static propTypes = {
-    getChart: PropTypes.func,
-    dataStationAuto: PropTypes.array,
-    measuringData: PropTypes.array,
-    nameChart: PropTypes.string,
-  }
-
-  constructor(props) {
-    super(props)
-    this.initData(props, true)
-  }
-
-  initData = (props, isInit = false) => {
-    const seriesData = {}
-    const measureList = _.map(_.clone(props.measuringData), (item, index) => {
-      const color = _.get(colors, [index], 'yellow')
-      seriesData[item.key] = {
-        name: item.name,
-        data: [],
-        tooltip: { valueDecimals: FORMAT_VALUE_MEASURING },
-        minLimit: item.minLimit,
-        maxLimit: item.maxLimit,
-        threshold: _.isNumber(item.maxLimit) ? item.maxLimit : 10000000,
-        negativeColor: color,
-        color: 'red',
-      }
-      return {
-        code: item.key,
-        ...item,
-        color,
-      }
-    })
-
-    let heightChart = {}
-    _.forEachRight(props.dataStationAuto, ({ measuringLogs, date_utc }) => {
-      _.mapKeys(seriesData, function(value, key) {
-        let val = _.get(measuringLogs, [key, 'value'])
-
-        seriesData[key].data.push([date_utc, val])
-
-        const minCurrent =
-          _.get(heightChart, `${key}.minChart`) ||
-          _.get(measuringLogs, [key, 'minLimit']) ||
-          _.get(measuringLogs, [key, 'maxLimit'])
-        const maxCurrent =
-          _.get(heightChart, `${key}.maxChart`) ||
-          _.get(measuringLogs, [key, 'maxLimit']) ||
-          _.get(measuringLogs, [key, 'minLimit'])
-        if (_.isNumber(minCurrent)) {
-          _.update(heightChart, `${key}.minChart`, () =>
-            _.min([minCurrent, val])
-          )
-        }
-        if (_.isNumber(maxCurrent)) {
-          _.update(heightChart, `${key}.maxChart`, () =>
-            _.max([maxCurrent, val])
-          )
-        }
-
-        return key
-      })
-    })
-
-    measureList.unshift({ code: '__ALL__', name: translate('chart.all') })
-    if (isInit) {
-      this.state = {
-        seriesData,
-        measureList,
-        plotLines: [],
-        minChart: undefined,
-        maxChart: undefined,
-        nameChart: '',
-        series: _.values(seriesData),
-        measureCurrent: '__ALL__',
-        heightChart,
-      }
-    } else {
-      this.setState({
-        heightChart,
-        seriesData,
-        measureList,
-        plotLines: [],
-        series: _.values(seriesData),
-      })
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (
-      !_.isEqual(this.props.dataStationAuto, nextProps.dataStationAuto) ||
-      !_.isEqual(this.props.measuringData, nextProps.measuringData)
-    ) {
-      this.initData(nextProps)
-    }
-  }
-
-  handleMeasureChange = measureCurrent => {
-    let series = []
-    let plotLines = []
-    let minChart = undefined
-    let maxChart = undefined
-    let nameChart = ''
-    if (measureCurrent === '__ALL__') {
-      series = _.values(this.state.seriesData)
-      nameChart = this.props.nameChart
-    } else {
-      let dataSeries = _.get(this.state.seriesData, [measureCurrent], {})
-      // dataSeries.negativeColor = '#058DC7'
-      const minLimit = _.get(dataSeries, 'minLimit')
-      series = [dataSeries]
-      if (_.isNumber(minLimit)) {
-        let data = _.clone(dataSeries) //_.get(this.state.seriesData, [measureCurrent], {})
-        _.update(data, 'threshold', () => minLimit)
-        _.update(data, 'color', () => 'transparent')
-        _.update(data, 'negativeColor', () => 'red')
-        series.push(data)
-      }
-
-      minChart = _.get(this.state.heightChart, [measureCurrent, 'minChart'])
-      maxChart = _.get(this.state.heightChart, [measureCurrent, 'maxChart']) //_.get(dataSeries,'minLimit', undefined)
-      nameChart = `${this.props.nameChart} - ${measureCurrent}`
-      plotLines = [
-        {
-          value: _.get(dataSeries, 'minLimit', undefined),
-          color: 'red',
-          dashStyle: 'shortdash',
-          width: 2,
-          label: {
-            text: translate(`dashboard.chartStatus.min`, {
-              min: _.get(dataSeries, 'minLimit', ''),
-            }),
-          },
-        },
-        {
-          value: _.get(dataSeries, 'maxLimit', undefined),
-          color: 'red',
-          dashStyle: 'shortdash',
-          width: 1,
-          label: {
-            text: translate(`dashboard.chartStatus.max`, {
-              max: _.get(dataSeries, 'maxLimit', ''),
-            }),
-          },
-        },
-      ]
-    }
-    this.setState({
-      measureCurrent,
-      series,
-      plotLines,
-      minChart,
-      nameChart,
-      maxChart,
-    })
-  }
-
-  //hightStock không có nút reset khi Zoom x
-  configChart = (
-    series,
-    plotLines = [],
-    minChart,
-    width,
-    nameChart,
-    maxChart
-  ) => {
-    return {
-      chart: {
-        type: 'line',
-        width: width - 160,
-        zoomType: 'x',
+const configChart = (data, title, type) => {
+  return {
+    chart: {
+      type: 'spline',
+      zoomType: 'x',
+      height: document.body.clientHeight - 340,
+    },
+    title: {
+      text: title,
+    },
+    xAxis: {
+      type: 'datetime',
+      dateTimeLabelFormats: DATETIME_LABEL_FORMAT,
+    },
+    yAxis: {
+      title: {
+        text: '',
       },
-      credits: {
-        enabled: false,
-      },
-      rangeSelector: {
-        enabled: true,
-        buttons: [],
-        allButtonsEnabled: true,
-        inputEnabled: true,
-        inputEditDateFormat: '%d/%m/%Y %k:%M',
-        inputDateFormat: '%d/%m/%Y %k:%M',
-        inputBoxWidth: 120,
-      },
-      navigation: {
-        buttonOptions: {
+    },
+    legend: {
+      enabled: true,
+    },
+    plotOptions: {
+      series: {
+        marker: {
           enabled: false,
         },
-      },
-      title: {
-        text: nameChart, //this.props.nameChart
-      },
-      yAxis: {
-        min: minChart,
-        max: maxChart,
-        plotLines,
-        title: {
-          text: '',
+        dataLabels: {
+          enabled: false,
+          crop: false,
+          overflow: 'none',
+          align: 'left',
+          verticalAlign: 'middle',
+          allowOverlap: true,
+          formatter: function() {
+            const isMinLimit = this.series.options.className === 'min'
+
+            const labelMinLimit = `${translate(
+              'monitoring.moreContent.chart.content.minLimit'
+            )} ${this.series.name}: ${this.series.options.valueLimit}`
+            const labelMaxLimit = `${translate(
+              'monitoring.moreContent.chart.content.maxLimit'
+            )} ${this.series.name}: ${this.series.options.valueLimit}`
+
+            const label = isMinLimit ? labelMinLimit : labelMaxLimit
+
+            return `<span style="color: black; font-weight: 300; font-size: 12px">${label}</span>`
+          },
         },
       },
-      // dùng để custom hiển thị
-      tooltip: {
-        formatter: function() {
-          // The first returned item is the header, subsequent items are the
-          // points
-          return [
-            '<b>' + moment(this.x).format(DD_MM_YYYY_HH_MM) + '</b>',
-          ].concat(
-            this.points
-              ? this.points.map(function(point) {
-                  return point.series.name + ': ' + getFormatNumber(point.y)
-                })
-              : []
-          )
+      spline: {
+        fillColor: {
+          linearGradient: {
+            x1: 0,
+            y1: 0,
+            x2: 0,
+            y2: 1,
+          },
+          stops: [
+            [0, Highcharts.getOptions().colors[0]],
+            [
+              1,
+              Highcharts.Color(Highcharts.getOptions().colors[0])
+                .setOpacity(0)
+                .get('rgba'),
+            ],
+          ],
         },
-        split: true,
-      },
-      series,
-      xAxis: {
-        dateTimeLabelFormats: DATETIME_LABEL_FORMAT,
-      },
-      navigator: {
-        xAxis: {
-          dateTimeLabelFormats: DATETIME_LABEL_FORMAT,
+        marker: {
+          radius: 3,
+        },
+        lineWidth: 1,
+        states: {
+          hover: {
+            lineWidth: 1,
+          },
         },
       },
-    }
+    },
+    series: data,
+    credits: {
+      enabled: false,
+    },
+    tooltip: {
+      xDateFormat: '%d/%m/%Y %H:%M',
+      dateTimeLabelFormats: DATETIME_TOOLTIP_FORMAT,
+      formatter: function() {
+        let format = `<div style="font-weight: 700; height: 6px">${formatTime(
+          this.x,
+          type
+        )}</div><br>`
+
+        this.points.forEach(p => {
+          format += `<div style="display: flex; height: 6px" >
+              <div style="color: ${p.color}">${p.series.name}:  </div>&nbsp
+              <div style="font-weight: 700">${p.y}</div>
+              </div><br>`
+        })
+
+        return format
+      },
+      shared: true,
+      useHTML: true,
+    },
+  }
+}
+
+@connect(state => ({
+  languageContents: get(state, 'language.languageContents'),
+}))
+export default class TabChart extends Component {
+  state = {
+    current: get(
+      keyBy(this.props.measuringData, 'key'),
+      this.props.measuringData[0].key,
+      null
+    ),
   }
 
-  componentDidMount() {
-    this.setState({
-      width: this.chartWrapper.offsetWidth,
+  getConfigData = () => {
+    const { languageContents, dataStationAuto } = this.props
+    const { current } = this.state
+    const { key, name, unit } = current
+
+    const title = this.getTitleName(key, name, unit)
+    // const type = searchFormData.type
+    let dataSeries = []
+
+    const measureName = getContent(languageContents, {
+      type: 'Measure',
+      itemKey: key,
+      value: name,
     })
+
+    !isEmpty(this.getDataWithStation(dataStationAuto)) &&
+      dataSeries.push({
+        type: 'spline',
+        name: measureName,
+        data: this.getDataWithStation(dataStationAuto),
+        lineWidth: 2,
+      })
+
+    const qcvnList = this.getQCVNList(current.key)
+    const lineQcvn = {
+      type: 'spline',
+      enableMouseTracking: false,
+    }
+
+    qcvnList.forEach(qcvn => {
+      const data = dataSeries[0].data.reverse()
+
+      if (isNumber(qcvn.maxLimit)) {
+        dataSeries = [
+          ...dataSeries,
+          {
+            ...lineQcvn,
+            id: qcvn.id,
+            name: qcvn.name,
+            valueLimit: qcvn.maxLimit,
+            data: data.map((dataItem, index) => {
+              if (index === 0) {
+                return {
+                  x: dataItem[0],
+                  y: qcvn.maxLimit,
+                  dataLabels: { enabled: true },
+                }
+              } else {
+                return [dataItem[0], qcvn.maxLimit]
+              }
+            }),
+          },
+        ]
+      }
+
+      if (isNumber(qcvn.minLimit)) {
+        dataSeries = [
+          ...dataSeries,
+          {
+            ...lineQcvn,
+            id: qcvn.id,
+            valueLimit: qcvn.minLimit,
+            name: qcvn.name,
+            className: 'min',
+            data: data.map((dataItem, index) => {
+              if (index === 0) {
+                return {
+                  x: dataItem[0],
+                  y: qcvn.minLimit,
+                  dataLabels: { enabled: true },
+                }
+              } else {
+                return [dataItem[0], qcvn.minLimit]
+              }
+            }),
+          },
+        ]
+      }
+    })
+
+    return configChart(dataSeries, title)
   }
 
+  getQCVNList = measureCurrent => {
+    let qcvnList = this.convertDataQcvn()
+
+    qcvnList = qcvnList.map(qcvn => {
+      const measuringList = qcvn.measuringList[measureCurrent]
+      if (!measuringList) return null
+
+      return {
+        name: qcvn.name,
+        id: qcvn._id,
+        maxLimit: get(measuringList, 'maxLimit'),
+        minLimit: get(measuringList, 'minLimit'),
+      }
+    })
+
+    qcvnList = qcvnList.filter(qcvn => qcvn)
+
+    return qcvnList
+  }
+
+  //convert data measuringList[] to measuringList{}
+  convertDataQcvn = () => {
+    const { qcvnSelected } = this.props
+
+    const newDataQcvn = qcvnSelected.map(qcvn => {
+      const measureObj = qcvn.measuringList.reduce((base, current) => {
+        return {
+          ...base,
+          [current.key]: current,
+        }
+      }, {})
+
+      return {
+        ...qcvn,
+        measuringList: measureObj,
+      }
+    })
+    return newDataQcvn
+  }
+
+  getDataWithStation = dataStationAuto => {
+    const { current } = this.state
+
+    const data = dataStationAuto.reverse().map(item => {
+      const valueWithMeasure = getFormatNumber(
+        get(item, `measuringLogs.${current.key}.value`, null),
+        2,
+        2,
+        null
+      )
+      const time = moment(item.receivedAt).valueOf()
+
+      return [time, valueWithMeasure]
+    })
+
+    return data
+  }
+
+  getTitleName = (key, name, unit) => {
+    const { languageContents, nameChart } = this.props
+    const measureName = getContent(languageContents, {
+      type: 'Measure',
+      itemKey: key,
+      value: name,
+    })
+
+    return unit
+      ? `${nameChart} - ${measureName} (${unit})`
+      : `${nameChart} - ${measureName}`
+  }
+
+  getMeasureName = (key, name, unit) => {
+    const { languageContents } = this.props
+    const measureName = getContent(languageContents, {
+      type: 'Measure',
+      itemKey: key,
+      value: name,
+    })
+
+    return unit ? `${measureName} (${unit})` : `${measureName}`
+  }
+
+  handleClick = key => {
+    const { measuringData } = this.props
+    const current = get(keyBy(measuringData, 'key'), key, null)
+
+    this.setState({ current })
+  }
   render() {
+    const { measuringData } = this.props
+
     return (
-      <TabChartWrapper>
-        <ChartWrapper innerRef={ref => (this.chartWrapper = ref)}>
-          {this.state.width > 160 && (
-            <ReactHighcharts
-              config={this.configChart(
-                this.state.series,
-                this.state.plotLines,
-                this.state.minChart,
-                this.state.width,
-                this.state.nameChart,
-                this.state.maxChart
-              )}
-            />
-          )}
-          <Thumbnail>
-            {this.state.measureList.map(({ name, code, color, unit }) => (
-              <ThumbnailItem
-                onClick={() => this.handleMeasureChange(code)}
-                selected={this.state.measureCurrent === code}
-                color={color}
-                key={code}
-                code={code}
-              >
-                <Line color={color} />
-                {unit !== '' && code !== '__ALL__'
-                  ? `${name} (${unit})`
-                  : `${name}`}
-              </ThumbnailItem>
-            ))}
-          </Thumbnail>
-        </ChartWrapper>
-      </TabChartWrapper>
+      <React.Fragment>
+        <ReactHighcharts config={this.getConfigData()} />
+        <Tabs
+          style={{ paddingLeft: 8, paddingRight: 8, marginBottom: 8 }}
+          defaultActiveKey={measuringData[0].key}
+          onTabClick={this.handleClick}
+        >
+          {measuringData
+            .filter(measuring => !isEmpty(measuring))
+            .map(({ key, name, unit }) => {
+              return (
+                <Tabs.TabPane
+                  tab={this.getMeasureName(key, name, unit)}
+                  key={key}
+                />
+              )
+            })}
+        </Tabs>
+      </React.Fragment>
     )
   }
 }

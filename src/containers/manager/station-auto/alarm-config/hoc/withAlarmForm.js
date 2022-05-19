@@ -55,8 +55,9 @@ const withAlarmForm = WrappedComponent => {
           if (isEmpty(paramItem.recipients)) return false
 
           if (alarmType === FIELDS.DATA_LEVEL) {
-            const configAlarmType = get(paramItem, 'config.type')
+            if (get(paramItem, 'config.name') === '') return false
 
+            const configAlarmType = get(paramItem, 'config.type')
             if (isDefaultDataLevel(configAlarmType)) return true
 
             if (isNil(get(paramItem, 'config.standardId'))) return false
@@ -91,6 +92,7 @@ const withAlarmForm = WrappedComponent => {
               : getStatusAlarmBoolean(item.status),
         }))
         .reduce((base, current) => ({ ...base, [current._id]: current }), {})
+
       const alarmFormValuesType = {
         [alarmType]: alarmFormValuesFormat,
       }

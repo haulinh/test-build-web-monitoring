@@ -9,7 +9,6 @@ import {
   Switch,
   Tooltip,
 } from 'antd'
-import ToolTipIcon from 'assets/svg-icons/tooltip.svg'
 import SortableMultiSelect from 'components/core/select/SortableMultiSelect'
 import { default as BoxShadowStyle } from 'components/elements/box-shadow'
 import Heading from 'components/elements/heading'
@@ -18,10 +17,9 @@ import SelectAnt from 'components/elements/select-ant'
 import SelectProvince from 'components/elements/select-province'
 import SelectQCVN from 'components/elements/select-qcvn'
 import SelectStationType from 'components/elements/select-station-type'
-import { ToolTip } from 'components/elements/tooltip'
+import ToolTip from 'components/elements/tooltip'
 import { FormItem } from 'components/layouts/styles'
 import { dataStatusOptions } from 'constants/dataStatus'
-import SelectMeasureParameter from 'containers/data-analytics/filter/select-measure-parameter'
 import SelectStationAuto from 'containers/data-analytics/filter/select-station-auto'
 import { translate as t, translate } from 'hoc/create-lang'
 import createQueryFormDataBrowser from 'hoc/query-formdata-browser'
@@ -30,6 +28,7 @@ import moment from 'moment-timezone'
 import React from 'react'
 import styled from 'styled-components'
 import { getTimes } from 'utils/datetime'
+import { requiredFieldRule } from 'utils/rules'
 import SelectTimeRange from '../../common/select-time-range'
 import { FIELDS, i18n } from '../constants'
 import FilterList from '../filter'
@@ -316,21 +315,21 @@ export default class SearchAvgForm extends React.Component {
             style={{ width: '100%' }}
             mode={mode}
             maxTagTextLength={window.innerWidth > 1600 ? 20 : 5}
-            placeholder="Chọn tình trạng dữ liệu"
+            placeholder={i18n().placeholder.dataStatus}
           />
         )
       case 'frequent':
         return (
           <InputNumber
             style={{ width: '100%' }}
-            placeholder="Nhập tần suất (phút/lần)"
+            placeholder={i18n().placeholder.frequency}
             onChange={this.onChangeFrequency}
           />
         )
       case 'standardKey':
         return (
           <SelectQCVN
-            placeholder="Chọn quy chuẩn"
+            placeholder={i18n().placeholder.standard}
             onChange={this.onChangeStandard}
           />
         )
@@ -406,9 +405,10 @@ export default class SearchAvgForm extends React.Component {
 
   handleSearch = async () => {
     const { form, onChangeStationData } = this.props
-    const { fromDate, toDate } = this.state
 
     const formData = await form.validateFields()
+    const time = getTimes(formData[FIELDS.RANGE_TIME])
+
     const stationsData = formData[FIELDS.STATION_AUTO].map(stationKey =>
       this.stationAutos.get(stationKey)
     )
@@ -416,9 +416,9 @@ export default class SearchAvgForm extends React.Component {
     const searchFormData = {
       advanced: [],
       dataStatus: get(formData, 'dataStatus', []),
-      fromDate: fromDate,
+      fromDate: moment(time.from).toDate(),
       isFilter: formData.isFilter,
-      toDate: toDate,
+      toDate: moment(time.to).toDate(),
       type: formData.type,
       stationKeys: get(formData, 'stationAuto', []).join(','),
       measuringList: get(formData, 'measuringList', []),
@@ -438,6 +438,17 @@ export default class SearchAvgForm extends React.Component {
 
   onStationAutoChange = stationAutoKeys => {
     this.updateForm({ stationAutoKeys })
+  }
+
+  getStationAutos = () => {
+    const { form } = this.props
+
+    const stationAuto = form.getFieldValue(FIELDS.STATION_AUTO)
+    if (isEmpty(stationAuto)) return []
+
+    return [...this.stationAutos]
+      .map(([_, station]) => station)
+      .filter(station => stationAuto.some(item => station.key === item))
   }
 
   render() {
@@ -526,15 +537,11 @@ export default class SearchAvgForm extends React.Component {
             <Col>
               <FormItem label={i18n().form.stationAuto(numberStation)}>
                 {form.getFieldDecorator(FIELDS.STATION_AUTO, {
-                  rules: [
-                    {
-                      required: true,
-                      message: t('avgSearchFrom.form.stationAuto.error'),
-                    },
-                  ],
+                  rules: [requiredFieldRule(i18n().rules.stationAuto)],
                   onChange: this.onStationAutoChange,
                 })(
                   <SelectStationAuto
+                    stationList={this.getStationAutos()}
                     stationType={form.getFieldValue(FIELDS.STATION_TYPE)}
                     province={form.getFieldValue(FIELDS.PROVINCE)}
                     onFetchSuccess={this.onFetchStationAutoSuccess}
@@ -613,11 +620,7 @@ export default class SearchAvgForm extends React.Component {
                 <div style={{ fontSize: '14px', fontWeight: '600' }}>
                   {translate('dataSearchFrom.processData')}
                 </div>
-                <ToolTip
-                  width={'20px'}
-                  text={i18n().tooltip.filterData}
-                  icon={ToolTipIcon}
-                />
+                <ToolTip width={'20px'} text={i18n().tooltip.filterData} />
                 <FormItem>
                   {form.getFieldDecorator('isFilter', {
                     initialValue: false,

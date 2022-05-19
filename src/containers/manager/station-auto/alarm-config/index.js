@@ -6,14 +6,14 @@ import UserApi from 'api/UserApi'
 import { FormItem } from 'components/layouts/styles'
 import { ALARM_LIST_INIT } from 'containers/manager/station-auto/alarm-config/constants'
 import { translate } from 'hoc/create-lang'
-import { flatten, get, isEmpty } from 'lodash'
+import { flatten, get, isEmpty, omit } from 'lodash'
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 import AlarmConfigDisconnect from './alarm-config-disconnect'
 import AlarmConfigExceed from './alarm-config-exceed'
 import { i18n } from './constants'
-import withAlarmForm from './hoc/withAlarmForm'
+import withAlarmForm, { isDefaultDataLevel } from './hoc/withAlarmForm'
 
 const { Panel } = Collapse
 
@@ -124,12 +124,12 @@ export default class AlarmConfig extends Component {
 
   //#region set
   setInitValues = (alarmList, qcvnList) => {
-    const { isEdit, setFormValues } = this.props
+    const { setFormValues } = this.props
     const { alarmDisconnect, alarmStandard } = getAlarmGroupByType(alarmList)
 
     this.setState({ qcvnList })
 
-    if (!isEmpty(alarmDisconnect) && isEdit) {
+    if (!isEmpty(alarmDisconnect)) {
       this.setState({ alarmDisconnect }, () =>
         setFormValues(FIELDS.DISCONNECT, alarmDisconnect)
       )
@@ -137,13 +137,44 @@ export default class AlarmConfig extends Component {
       setFormValues(FIELDS.DISCONNECT, ALARM_LIST_INIT.DISCONNECT)
     }
 
-    if (!isEmpty(alarmStandard) && isEdit) {
-      this.setState({ alarmStandard }, () =>
-        setFormValues(FIELDS.DATA_LEVEL, alarmStandard)
+    //#region set alarm data level
+    if (!isEmpty(alarmStandard)) {
+      const alarmDataLevelDefault = ALARM_LIST_INIT.DATA_LEVEL.map(
+        alarmDataLevelDefaultItem => {
+          const existAlarmDataLevelItem = alarmStandard.find(
+            alarmStandardItem =>
+              alarmStandardItem.config.type ===
+              alarmDataLevelDefaultItem.config.type
+          )
+
+          if (existAlarmDataLevelItem) {
+            return {
+              ...omit(alarmDataLevelDefaultItem, 'isCreateLocal'),
+              ...existAlarmDataLevelItem,
+            }
+          }
+
+          return alarmDataLevelDefaultItem
+        }
+      )
+
+      const alarmStandardWithoutDefault = alarmStandard.filter(
+        alarmStandardItem =>
+          !isDefaultDataLevel(get(alarmStandardItem, 'config.type'))
+      )
+
+      const alarmStandardWithDefault = [
+        ...alarmDataLevelDefault,
+        ...alarmStandardWithoutDefault,
+      ]
+
+      this.setState({ alarmStandard: alarmStandardWithDefault }, () =>
+        setFormValues(FIELDS.DATA_LEVEL, alarmStandardWithDefault)
       )
     } else {
       setFormValues(FIELDS.DATA_LEVEL, ALARM_LIST_INIT.DATA_LEVEL)
     }
+    //#endregion set alarm data level
   }
 
   //#endregion set

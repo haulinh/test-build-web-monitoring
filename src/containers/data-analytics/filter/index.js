@@ -11,13 +11,11 @@ import SelectProvince from 'components/elements/select-province'
 import SelectStationType from 'components/elements/select-station-type'
 import OptionsTimeRange from 'components/elements/options-time-range'
 import SelectStationAuto from './select-station-auto'
-import SelectMeasureParameter from './select-measure-parameter'
 import SelectOperator, { OPERATOR } from './select-operator'
 import { requiredFieldRule } from 'utils/rules'
 import { getTimes } from 'utils/datetime'
-import { ToolTip } from 'containers/search/common/tooltip'
 import SortableMultiSelect from 'components/core/select/SortableMultiSelect'
-// import OptionsTimeRange from 'containers/search/common/options-time-range'
+import ToolTip from 'components/elements/tooltip'
 
 function i18n() {
   return {
@@ -333,17 +331,21 @@ class FilterForm extends Component {
               </FormItem>
             </Col>
           </Row>
-          <Row type="flex" justify="end" align="middle">
-            <ToolTip />
-            <Form.Item
-              label={i18n().isProcessData}
-              style={{ marginBottom: '0', width: '180px' }}
-              colon={false}
-              labelCol={{ span: 16 }}
-              wrapperCol={{ span: 8 }}
-            >
-              {form.getFieldDecorator('isFilter')(<Switch />)}
-            </Form.Item>
+          <Row gutter={8} type="flex" justify="end" align="middle">
+            <Col>
+              <ToolTip text={t('dataAverage.tooltip.filterData')} />
+            </Col>
+            <Col>
+              <Form.Item
+                label={i18n().isProcessData}
+                style={{ marginBottom: '0', width: '180px' }}
+                colon={false}
+                labelCol={{ span: 16 }}
+                wrapperCol={{ span: 8 }}
+              >
+                {form.getFieldDecorator('isFilter')(<Switch />)}
+              </Form.Item>
+            </Col>
           </Row>
         </FormSearch>
       </SearchFormContainer>

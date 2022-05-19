@@ -121,8 +121,15 @@ export default class StationData extends React.PureComponent {
 
   getSearchFormData = (stationKey, standards) => {
     const { searchFormData, standardsVN } = this.props
-    const { advanced, dataStatus, fromDate, toDate, type } = searchFormData
-    if (!stationKey) return {}
+    const {
+      advanced,
+      dataStatus,
+      fromDate,
+      toDate,
+      type,
+      isFilter,
+    } = searchFormData
+    if (!stationKey) return
     const station = this.getStation(stationKey)
 
     const measuringListUnitStr = station.measuringList.map(item => {
@@ -154,13 +161,13 @@ export default class StationData extends React.PureComponent {
       measuringList,
       measuringData: station.measuringData,
       standardsVN: standards ? standards : standardsVN,
+      isFilter,
     }
     return result
   }
 
   componentDidMount() {
     const { stationsData } = this.props
-    const { pagination } = this.state
 
     const stationsDataView = this.getStationDataView(stationsData)
     const stationKey = get(stationsDataView, '[0].key', undefined)
@@ -168,10 +175,6 @@ export default class StationData extends React.PureComponent {
     if (!stationKey) return
 
     this.handleChangeTab(stationKey)
-    const searchFormData = this.getSearchFormData(stationKey)
-    this.setState({ dataStationAuto: [], tabKey: stationKey }, () => {
-      this.loadData(pagination, searchFormData)
-    })
   }
 
   getStationDataView = stationsData => {

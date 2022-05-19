@@ -1,8 +1,8 @@
-import { Button, Col, Row, Tabs } from 'antd'
+import { Button, Col, Row, Spin, Tabs } from 'antd'
 import DataInsight from 'api/DataInsight'
 import ToolTipIcon from 'assets/svg-icons/TooltipSmall.svg'
 import SelectQCVN from 'components/elements/select-qcvn-v2'
-import { ToolTip } from 'components/elements/tooltip'
+import ToolTip from 'components/elements/tooltip'
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { ACTIVE_TAB, DEFAULT_TAB, i18n } from '../constants'
@@ -33,6 +33,7 @@ export default class DataSearch extends Component {
     qcvns: [],
     dataOverview: {},
     activeKey: 'station',
+    loading: false,
   }
 
   handleChangeTab = key => {
@@ -76,8 +77,9 @@ export default class DataSearch extends Component {
     }
 
     try {
+      this.setState({ loading: true })
       const result = await DataInsight.getDataAverageOverview(params)
-      this.setState({ dataOverview: result })
+      this.setState({ dataOverview: result, loading: false })
     } catch (error) {
       console.log(error)
     }
@@ -90,23 +92,20 @@ export default class DataSearch extends Component {
       }
     })
 
-    this.getDataOverview(qcvnSelected.map(qcvn => qcvn.key).join(','))
-
     this.setState({
       standardsVN: qcvnSelected.map(qcvn => qcvn.key),
       qcvns: qcvnSelected,
     })
   }
 
-  componentDidUpdate = prevProps => {
-    const { isSearchingData } = this.props
-
-    if (prevProps.isSearchingData !== isSearchingData) {
-      this.setState({
-        stationTabStyle: ACTIVE_TAB,
-        overviewTabStyle: DEFAULT_TAB,
-        activeKey: 'station',
-      })
+  componentDidUpdate = (prevProps, prevState) => {
+    const { isSearchingData, isChangeField } = this.props
+    const { activeKey } = this.state
+    if (
+      prevProps.isSearchingData !== isSearchingData &&
+      !isChangeField &&
+      activeKey === 'overview'
+    ) {
       this.getDataOverview()
     }
   }
@@ -125,6 +124,7 @@ export default class DataSearch extends Component {
       qcvns,
       dataOverview,
       activeKey,
+      loading,
     } = this.state
     const { stationsData, type, isSearchingData, searchFormData } = this.props
 
@@ -148,12 +148,7 @@ export default class DataSearch extends Component {
                 </div>
               </Col>
               <Col>
-                <ToolTip
-                  marginRight={'4px'}
-                  width={'16px'}
-                  text={i18n().tooltip.standard}
-                  icon={ToolTipIcon}
-                />
+                <ToolTip width={'16px'} text={i18n().tooltip.standard} />
               </Col>
               <Col>
                 <div style={{ marginRight: '2px' }}>:</div>
@@ -162,7 +157,7 @@ export default class DataSearch extends Component {
                 <SelectQCVN
                   mode="multiple"
                   maxTagCount={1}
-                  maxTagTextLength={18}
+                  maxTagTextLength={16}
                   onChange={this.onChangeQcvn}
                   placeholder={i18n().standard.placeholder}
                 />
@@ -201,11 +196,13 @@ export default class DataSearch extends Component {
             }
           >
             {isSearchingData && (
-              <OverviewData
-                data={dataOverview}
-                qcvnSelected={qcvns}
-                searchFormData={searchFormData}
-              />
+              <Spin spinning={loading}>
+                <OverviewData
+                  data={dataOverview}
+                  qcvnSelected={qcvns}
+                  searchFormData={searchFormData}
+                />
+              </Spin>
             )}
           </TabPane>
         </Tabs>

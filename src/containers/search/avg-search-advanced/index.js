@@ -9,7 +9,7 @@ import { translate as t } from 'hoc/create-lang'
 import protectRole from 'hoc/protect-role'
 import queryFormDataBrowser from 'hoc/query-formdata-browser'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import _, { get, isEqual } from 'lodash'
+import _, { get, isEmpty, isEqual } from 'lodash'
 import moment from 'moment'
 import React from 'react'
 import { toggleNavigation } from 'redux/actions/themeAction'
@@ -48,6 +48,7 @@ export default class AvgSearchAdvanced extends React.Component {
       initialData: false,
 
       isSearchingData: false,
+      isChangeField: false,
       searchFormData: {},
       visibleModalSave: false,
 
@@ -122,7 +123,7 @@ export default class AvgSearchAdvanced extends React.Component {
   }
 
   handleOnChangeSearchField = () => {
-    this.setState({ isSearchingData: false })
+    this.setState({ isChangeField: true, isSearchingData: false })
   }
 
   getStationsData = stations => {
@@ -144,6 +145,7 @@ export default class AvgSearchAdvanced extends React.Component {
     this.setState({
       stationsData: this.getStationsData(stationsData),
       isSearchingData: true,
+      isChangeField: false,
       searchFormData,
     })
   }
@@ -164,7 +166,10 @@ export default class AvgSearchAdvanced extends React.Component {
 
   handleOnClickSaveFilter = async () => {
     const { form } = this.searchFormRef.current.props
-    await form.validateFields()
+    const { measuringList, stationAuto } = form.getFieldsValue()
+
+    if (isEmpty(measuringList) || isEmpty(stationAuto)) return
+
     this.setState({
       visibleModalSave: true,
     })
@@ -303,6 +308,7 @@ export default class AvgSearchAdvanced extends React.Component {
       filterItem,
       otherCondition,
       filterSearch: valuesForm,
+      isSearchingData: true,
     })
   }
 
@@ -322,10 +328,13 @@ export default class AvgSearchAdvanced extends React.Component {
     }
   }
 
-  setLoading = loading => {}
+  setLoading = loading => {
+    this.setState({ loading })
+  }
   render() {
     const {
       isSearchingData,
+      isChangeField,
       searchFormData,
       stationsData,
       visibleModalSave,
@@ -365,7 +374,13 @@ export default class AvgSearchAdvanced extends React.Component {
             onDeleteFilter={this.handleOnDeleteFilter}
           />
 
-          <Col style={{ flex: 1, overflowX: 'hidden' }}>
+          <Col
+            style={{
+              flex: 1,
+              overflowX: 'hidden',
+              margin: '0 -15px',
+            }}
+          >
             <SearchForm
               onChangeStationData={this.handleChangeStationsData}
               otherCondition={otherCondition}
@@ -380,6 +395,7 @@ export default class AvgSearchAdvanced extends React.Component {
               stationsData={stationsData}
               type={values.type}
               isSearchingData={isSearchingData}
+              isChangeField={isChangeField}
               searchFormData={searchFormData}
               setLoadingButton={this.setLoading}
             />
