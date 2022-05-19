@@ -1516,6 +1516,7 @@ export default {
         label: 'Code',
         placeholder: 'Input Standard Filter Code',
         required: 'Please Enter Code QCVN',
+        requiredChoose: 'Please Choose Standard',
         pattern: 'No Special Characters Are Allowed',
         max: 'No ore than 64 characters',
       },
@@ -3713,6 +3714,11 @@ export default {
       measuringList: 'Parameters ({{=it.count}} parameters):',
       addCondition: 'Add Filter Condition',
     },
+    placeholder: {
+      dataStatus: 'Choose data status',
+      frequency: 'Type frequency (minutes/time)',
+      standard: 'Choose standard',
+    },
     tooltip: {
       addCondition: 'Add filter conditions for monitoring stations',
       filterData:
@@ -4348,6 +4354,7 @@ export default {
       timeDisconnect: 'Time disconnect (minutes)',
       alarmExceed: 'Threshold alarm',
       threshold: 'Threshold',
+      thresholdType: 'Threshold Type',
       time: 'Time',
       selectThreshold: 'Select threshold',
       disconnect: 'Disconnect',

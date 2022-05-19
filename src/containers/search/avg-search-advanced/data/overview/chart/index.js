@@ -20,6 +20,11 @@ ReactHighcharts.Highcharts.setOptions({
   },
 })
 
+const showMarker = type => {
+  const isLongRangeType = ['month', 'year', 1440].includes(type)
+  return isLongRangeType ? true : false
+}
+
 const configChart = (data, title, type) => {
   return {
     chart: {
@@ -45,7 +50,7 @@ const configChart = (data, title, type) => {
     plotOptions: {
       series: {
         marker: {
-          enabled: false,
+          enabled: showMarker(type),
         },
         dataLabels: {
           enabled: false,
@@ -139,6 +144,69 @@ export default class ChartOverview extends Component {
     ),
   }
 
+  getNewDataSeriesWithQCVN = dataSeries => {
+    const { current } = this.state
+    let newDataSeries = dataSeries
+
+    const qcvnList = this.getQCVNList(current.key)
+    const lineQcvn = {
+      enableMouseTracking: false,
+      dashStyle: 'Dash',
+    }
+
+    qcvnList.forEach(qcvn => {
+      const data = newDataSeries[0].data
+
+      if (isNumber(qcvn.maxLimit)) {
+        newDataSeries = [
+          ...newDataSeries,
+          {
+            ...lineQcvn,
+            id: qcvn.id,
+            name: qcvn.name,
+            valueLimit: qcvn.maxLimit,
+            data: data.map((dataItem, index) => {
+              if (index === 0) {
+                return {
+                  x: dataItem[0],
+                  y: qcvn.maxLimit,
+                  dataLabels: { enabled: true },
+                }
+              } else {
+                return [dataItem[0], qcvn.maxLimit]
+              }
+            }),
+          },
+        ]
+      }
+
+      if (isNumber(qcvn.minLimit)) {
+        newDataSeries = [
+          ...newDataSeries,
+          {
+            ...lineQcvn,
+            id: qcvn.id,
+            valueLimit: qcvn.minLimit,
+            name: qcvn.name,
+            className: 'min',
+            data: data.map((dataItem, index) => {
+              if (index === 0) {
+                return {
+                  x: dataItem[0],
+                  y: qcvn.minLimit,
+                  dataLabels: { enabled: true },
+                }
+              } else {
+                return [dataItem[0], qcvn.minLimit]
+              }
+            }),
+          },
+        ]
+      }
+    })
+    return newDataSeries
+  }
+
   getConfigData = () => {
     const { dataChart, languageContents, searchFormData } = this.props
     const { current } = this.state
@@ -164,69 +232,37 @@ export default class ChartOverview extends Component {
         })
     })
 
-    const qcvnList = this.getQCVNList(current.key)
-    const lineQcvn = {
-      type: 'spline',
-      enableMouseTracking: false,
+    let newDataSeries = this.getDataSeriesWithNullData(dataSeries)
+
+    if (!isEmpty(newDataSeries)) {
+      newDataSeries = this.getNewDataSeriesWithQCVN(newDataSeries)
     }
-    const firstTimeValue = moment(
-      Object.entries(dataChart.data)
-        .map(([time]) => time)
-        .sort()[0]
-    ).valueOf()
 
-    qcvnList.forEach(qcvn => {
-      const data = dataSeries[0].data
+    return configChart(newDataSeries, title, type)
+  }
 
-      if (isNumber(qcvn.maxLimit)) {
-        dataSeries = [
-          ...dataSeries,
-          {
-            ...lineQcvn,
-            id: qcvn.id,
-            name: qcvn.name,
-            valueLimit: qcvn.maxLimit,
-            data: data.map((dataItem, index) => {
-              if (index === 0) {
-                return {
-                  x: firstTimeValue,
-                  y: qcvn.maxLimit,
-                  dataLabels: { enabled: true },
-                }
-              } else {
-                return [dataItem[0], qcvn.maxLimit]
-              }
-            }),
-          },
-        ]
-      }
+  getDataSeriesWithNullData = dataSeries => {
+    const { dataChart } = this.props
 
-      if (isNumber(qcvn.minLimit)) {
-        dataSeries = [
-          ...dataSeries,
-          {
-            ...lineQcvn,
-            id: qcvn.id,
-            valueLimit: qcvn.minLimit,
-            name: qcvn.name,
-            className: 'min',
-            data: data.map((dataItem, index) => {
-              if (index === 0) {
-                return {
-                  x: firstTimeValue,
-                  y: qcvn.minLimit,
-                  dataLabels: { enabled: true },
-                }
-              } else {
-                return [dataItem[0], qcvn.minLimit]
-              }
-            }),
-          },
-        ]
-      }
+    //List time in chart with sort data
+    const timeList = Object.entries(dataChart.data)
+      .map(([keyTime, _]) => {
+        return moment(keyTime).valueOf()
+      })
+      .sort((a, b) => a - b)
+
+    //Format new dataSeries with null value
+    const newDataSeries = dataSeries.map(series => {
+      const data = timeList.map(time => {
+        const valueFind = series.data.find(item => item[0] === time)
+        if (valueFind) {
+          return [time, valueFind[1]]
+        }
+        return [time, null]
+      })
+      return { ...series, data }
     })
-
-    return configChart(dataSeries, title, type)
+    return newDataSeries
   }
 
   getQCVNList = measureCurrent => {
@@ -285,7 +321,7 @@ export default class ChartOverview extends Component {
           get(measureKey, 'value', null),
           2,
           2,
-          'chart'
+          null
         )
 
         //add x, y value to data series chart

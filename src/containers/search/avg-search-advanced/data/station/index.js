@@ -6,7 +6,7 @@ import BoxShadow from 'components/elements/box-shadow'
 import { dataStatusOptions } from 'constants/dataStatus'
 import { autobind } from 'core-decorators'
 import { translate } from 'hoc/create-lang'
-import { find, get, isEqual, map, maxBy } from 'lodash'
+import { find, get, isEmpty, isEqual, map, maxBy } from 'lodash'
 import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
@@ -128,7 +128,14 @@ export default class StationData extends React.PureComponent {
 
   getSearchFormData = (stationKey, standards) => {
     const { searchFormData, standardsVN } = this.props
-    const { advanced, dataStatus, fromDate, toDate, type } = searchFormData
+    const {
+      advanced,
+      dataStatus,
+      fromDate,
+      toDate,
+      type,
+      isFilter,
+    } = searchFormData
     if (!stationKey) return
     const station = this.getStation(stationKey)
 
@@ -161,13 +168,13 @@ export default class StationData extends React.PureComponent {
       measuringList,
       measuringData: station.measuringData,
       standardsVN: standards ? standards : standardsVN,
+      isFilter,
     }
     return result
   }
 
   componentDidMount() {
     const { stationsData } = this.props
-    const { pagination } = this.state
 
     const stationsDataView = this.getStationDataView(stationsData)
     const stationKey = get(stationsDataView, '[0].key', undefined)
@@ -175,10 +182,6 @@ export default class StationData extends React.PureComponent {
     if (!stationKey) return
 
     this.handleChangeTab(stationKey)
-    const searchFormData = this.getSearchFormData(stationKey)
-    this.setState({ dataStationAuto: [], tabKey: stationKey }, () => {
-      this.loadData(pagination, searchFormData)
-    })
   }
 
   getStationDataView = stationsData => {
@@ -213,7 +216,8 @@ export default class StationData extends React.PureComponent {
   }
 
   getQueryParams(searchFormData) {
-    const dataStatus = searchFormData.dataStatus.join(',')
+    if (isEmpty(searchFormData)) return {}
+    const dataStatus = get(searchFormData, 'dataStatus').join(',')
     const defaultStatus = dataStatusOptions.map(item => item.value).join(',')
 
     const groupType = ['month', 'year'].includes(searchFormData.type)
@@ -245,9 +249,10 @@ export default class StationData extends React.PureComponent {
     })
 
     this.setState({ isLoading: true }, async () => {
+      const stationKey = get(searchFormData, ['key'])
       setLoading(true)
       const dataStationAuto = await DataInsight.getDataAverage(
-        searchFormData.key,
+        stationKey,
         params
       )
       if (dataStationAuto.error) {

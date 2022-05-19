@@ -1516,6 +1516,7 @@ export default {
         label: 'Mã QCVN',
         placeholder: 'Nhập QCVN',
         required: 'Vui lòng nhập mã QCVN',
+        requiredChoose: 'Vui lòng chọn quy chuẩn',
         pattern: 'Không được nhập kí tự đặc biệt',
         max: 'Không quá 64 kí tự',
       },
@@ -3726,6 +3727,11 @@ export default {
       measuringList: 'Các thông số quan trắc ({{=it.count}} thông số):',
       addCondition: 'Thêm điều kiện',
     },
+    placeholder: {
+      dataStatus: 'Chọn tình trạng dữ liệu',
+      frequency: 'Nhập tần suất (phút/lần)',
+      standard: 'Chọn quy chuẩn',
+    },
     tooltip: {
       addCondition: 'Thêm điều kiện lọc trạm quan trắc',
       filterData:
@@ -4361,6 +4367,7 @@ export default {
       timeDisconnect: 'Thời gian mất tín hiệu (phút)',
       alarmExceed: 'Cảnh báo vượt ngưỡng',
       threshold: 'Ngưỡng',
+      thresholdType: 'Loại Ngưỡng',
       time: 'Thời gian',
       selectThreshold: 'Chọn ngưỡng',
       disconnect: 'Mất tín hiệu',

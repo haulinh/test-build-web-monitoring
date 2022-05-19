@@ -45,7 +45,7 @@ export const alarmType = {
     value: 'data_level',
     template: () => t('alarm.alarmType.advance.template', undefined, false),
     initialValue: `{{station}}: ({{time}})
-    [STATUS_DATA]- {{measure}}: {{value}} {{unit}} ({{sign}} {{config}})
+    [STATUS_DATA]- {{measure}}: {{value}} {{unit}} ({{sign}} {{config}}) {{standard}}
     [STATUS_DEVICE]- {{measure}}: Sensor {{status}}`,
   },
 }
@@ -63,6 +63,7 @@ export const FIELDS = {
 
   CONFIG: 'config',
   STANDARD_ID: 'standardId',
+  ID: '_id',
 }
 
 export const i18n = () => ({

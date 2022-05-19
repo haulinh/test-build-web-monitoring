@@ -31,7 +31,11 @@ export default class SelectStationAuto extends React.Component {
 
   getStationAutos = () => {
     const { stationAutos } = this.state
-    const { stationType, province } = this.props
+    const { stationType, province, stationList } = this.props
+
+    if (stationList) {
+      return stationList
+    }
 
     return stationAutos
       .filter(item => get(item, 'stationType.key') === stationType)
