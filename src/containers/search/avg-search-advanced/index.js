@@ -368,7 +368,13 @@ export default class AvgSearchAdvanced extends React.Component {
             onDeleteFilter={this.handleOnDeleteFilter}
           />
 
-          <Col style={{ flex: 1, overflowX: 'hidden' }}>
+          <Col
+            style={{
+              flex: 1,
+              overflowX: 'hidden',
+              margin: '0 -15px',
+            }}
+          >
             <SearchForm
               onChangeStationData={this.handleChangeStationsData}
               otherCondition={otherCondition}
