@@ -9,7 +9,7 @@ import { translate as t } from 'hoc/create-lang'
 import protectRole from 'hoc/protect-role'
 import queryFormDataBrowser from 'hoc/query-formdata-browser'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import _, { get, isEqual } from 'lodash'
+import _, { get, isEmpty, isEqual } from 'lodash'
 import moment from 'moment'
 import React from 'react'
 import { toggleNavigation } from 'redux/actions/themeAction'
@@ -164,7 +164,10 @@ export default class AvgSearchAdvanced extends React.Component {
 
   handleOnClickSaveFilter = async () => {
     const { form } = this.searchFormRef.current.props
-    await form.validateFields()
+    const { measuringList, stationAuto } = form.getFieldsValue()
+
+    if (isEmpty(measuringList) || isEmpty(stationAuto)) return
+
     this.setState({
       visibleModalSave: true,
     })
@@ -365,7 +368,13 @@ export default class AvgSearchAdvanced extends React.Component {
             onDeleteFilter={this.handleOnDeleteFilter}
           />
 
-          <Col style={{ flex: 1, overflowX: 'hidden' }}>
+          <Col
+            style={{
+              flex: 1,
+              overflowX: 'hidden',
+              margin: '0 -15px',
+            }}
+          >
             <SearchForm
               onChangeStationData={this.handleChangeStationsData}
               otherCondition={otherCondition}
