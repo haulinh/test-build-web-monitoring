@@ -1,6 +1,6 @@
 import { Clearfix } from 'components/elements'
 import { getMeasuringListFromStationAutos } from 'containers/api-sharing/util'
-import { get, keyBy, uniqBy } from 'lodash'
+import { get, isEmpty, keyBy, uniqBy } from 'lodash'
 import React, { Component } from 'react'
 import { FIELDS } from '../index'
 import TableAlarmExceedForm from './TableAlarmExceedForm'
@@ -54,7 +54,14 @@ export default class AlarmConfigExceed extends Component {
     const measuringList = this.getMeasuringList()
     const qcvnListSelected = this.getQcvnSelected()
 
-    const measureListValue = get(alarmList[0], 'config.measureListEnable', [])
+    const alarmHaveMeasuringList = alarmList.find(
+      alarm => !isEmpty(alarm.config.measuringList)
+    )
+    const measureListValue = get(
+      alarmHaveMeasuringList,
+      'config.measuringList',
+      []
+    )
 
     return (
       <div>
