@@ -1,7 +1,7 @@
 import { Col, Icon, Row } from 'antd'
-import { isEmpty, isEqual, keyBy } from 'lodash'
+import { isEqual, keyBy } from 'lodash'
 import React, { Component } from 'react'
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import styled from 'styled-components'
 
 // a little function to help us with reordering the result

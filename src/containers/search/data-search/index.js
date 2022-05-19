@@ -19,7 +19,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { connectAutoDispatch } from 'redux/connect'
-import ToolTipIcon from 'assets/svg-icons/TooltipSmall.svg'
 import {
   addBreadcrumb,
   deleteBreadcrumb,

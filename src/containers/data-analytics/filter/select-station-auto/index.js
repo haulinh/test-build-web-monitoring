@@ -1,9 +1,8 @@
-import React from 'react'
 import { Select } from 'antd'
-import PropTypes from 'prop-types'
-
 import StationAutoApi from 'api/StationAuto'
-import { get, isEmpty } from 'lodash'
+import { get } from 'lodash'
+import PropTypes from 'prop-types'
+import React from 'react'
 
 export default class SelectStationAuto extends React.Component {
   static propTypes = {
