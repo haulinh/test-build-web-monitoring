@@ -3,7 +3,7 @@ import { Select } from 'antd'
 import PropTypes from 'prop-types'
 
 import StationAutoApi from 'api/StationAuto'
-import { get } from 'lodash'
+import { get, isEmpty } from 'lodash'
 
 export default class SelectStationAuto extends React.Component {
   static propTypes = {
@@ -33,7 +33,7 @@ export default class SelectStationAuto extends React.Component {
     const { stationAutos } = this.state
     const { stationType, province, stationList } = this.props
 
-    if (stationList) {
+    if (!isEmpty(stationList)) {
       return stationList
     }
 
