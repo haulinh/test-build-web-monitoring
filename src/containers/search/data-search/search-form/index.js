@@ -1,4 +1,5 @@
 import { Col, Form, Row, Switch } from 'antd'
+import SortableMultiSelect from 'components/core/select/SortableMultiSelect'
 import OptionsTimeRange from 'components/elements/options-time-range'
 import SelectAnt from 'components/elements/select-ant'
 import SelectProvince from 'components/elements/select-province'
@@ -392,6 +393,7 @@ export default class SearchFormHistoryData extends React.Component {
               )}
             </FormItem>
           </Col>
+
           <Col span={18}>
             <FormItem label={t('measuringList.label')}>
               {form.getFieldDecorator(fields.measuringList, {
@@ -403,17 +405,10 @@ export default class SearchFormHistoryData extends React.Component {
                     ),
                   },
                 ],
-              })(
-                <SelectAnt
-                  mode="multiple"
-                  options={measureOptions}
-                  style={{ width: '100%' }}
-                  size="large"
-                  showSearch
-                />
-              )}
+              })(<SortableMultiSelect options={measureOptions} />)}
             </FormItem>
           </Col>
+
           <Col span={3}>
             <FormItem label={t('isExceeded.label')}>
               {form.getFieldDecorator(fields.isExceeded, {
