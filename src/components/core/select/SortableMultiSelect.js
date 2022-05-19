@@ -23,11 +23,8 @@ const getItemStyle = (isDragging, draggableStyle) => ({
   justifyContent: 'center',
   alignItems: 'center',
   fontSize: '14px',
-  // width: '100%',
-  maxWidth: '70px',
-  textOverflow: 'ellipsis',
+  textAlign: 'center',
   whiteSpace: 'nowrap',
-  overflow: 'hidden',
 
   // change background colour if dragging
   background: '#fafafa',
@@ -201,7 +198,6 @@ export default class SortableMultiSelect extends Component {
                   borderStyle: 'solid',
                   borderRadius: 2,
                   minHeight: '40px',
-                  // textOverflow: 'ellipsis'
                 }}
               >
                 <div
@@ -227,14 +223,7 @@ export default class SortableMultiSelect extends Component {
                               provided.draggableProps.style
                             )}
                           >
-                            <div
-                              style={{
-                                maxWidth: '80%',
-                                textOverflow: 'ellipsis',
-                              }}
-                            >
-                              {option.name}
-                            </div>
+                            {option.name}
                           </div>
                         )}
                       </Draggable>
