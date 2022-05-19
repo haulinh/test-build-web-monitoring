@@ -31,16 +31,6 @@ const COLOR = {
 export default class TableDataList extends React.Component {
   static displayName = 'TableDataList'
 
-  getMeasuringValue = (list, key) => {
-    const measure = list.find(item => item.key === key)
-    const { minLimit, maxLimit } = measure || {}
-    if ((minLimit || minLimit === 0) && (maxLimit || maxLimit === 0))
-      return [minLimit, maxLimit].join('-')
-    if (minLimit || minLimit === 0) return `≥ ${minLimit}`
-    if (maxLimit || maxLimit === 0) return `≤ ${maxLimit}`
-    return '-'
-  }
-
   getTooltip = qcvn => {
     const { standardObjectList } = this.props
     const standardObjectListKey = _.keyBy(standardObjectList, 'key')
@@ -157,7 +147,7 @@ export default class TableDataList extends React.Component {
     return columns
   }
 
-  getMeasuringValue = (list, key) => {
+  getMeasuringValue = (list = [], key) => {
     const measure = list.find(item => item.key === key)
     const { minLimit, maxLimit } = measure || {}
     if ((minLimit || minLimit === 0) && (maxLimit || maxLimit === 0))
