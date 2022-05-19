@@ -192,12 +192,12 @@ class Dashboard extends Component {
               <div>
                 {item.icon}
                 <div className="count">
-                  {/* <Text fontSize={38} fontWeight={600}>
+                  <Text fontSize={38} fontWeight={600}>
                     {item.count}
-                  </Text> */}
-                  {/* <Text fontSize={18} fontWeight={600}>
+                  </Text>
+                  <Text fontSize={18} fontWeight={600}>
                     {item.status}
-                  </Text> */}
+                  </Text>
                 </div>
               </div>
             </GeneralBadge>
