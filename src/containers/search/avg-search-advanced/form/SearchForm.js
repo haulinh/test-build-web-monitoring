@@ -551,10 +551,16 @@ export default class SearchAvgForm extends React.Component {
             </Col>
             <Col>
               <FormItem label={i18n().form.measuringList(numberMeasure)}>
-                {form.getFieldDecorator(
-                  FIELDS.MEASURING_LIST,
-                  {}
-                )(<SortableMultiSelect options={measuringListOptions} />)}
+                {form.getFieldDecorator(FIELDS.MEASURING_LIST, {
+                  rules: [
+                    {
+                      required: true,
+                      message: translate(
+                        'avgSearchFrom.form.measuringList.require'
+                      ),
+                    },
+                  ],
+                })(<SortableMultiSelect options={measuringListOptions} />)}
               </FormItem>
             </Col>
           </Row>
