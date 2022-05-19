@@ -5,7 +5,7 @@ import BoxShadowStyle from 'components/elements/box-shadow'
 import Clearfix from 'components/elements/clearfix/index'
 import Heading from 'components/elements/heading'
 import SelectQCVN from 'components/elements/select-qcvn-v2'
-import ToolTip from 'components/elements/tooltip'
+import ToolTipHint from 'components/elements/tooltip'
 import { FilterList, ModalSaveFilter } from 'components/filter'
 import { ACTION_TYPE, MODULE_TYPE } from 'components/filter/constants'
 import ROLE from 'constants/role'
@@ -19,7 +19,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { connectAutoDispatch } from 'redux/connect'
-import ToolTipIcon from 'assets/svg-icons/TooltipSmall.svg'
 import {
   addBreadcrumb,
   deleteBreadcrumb,
@@ -504,10 +503,8 @@ export default class MinutesDataSearch extends React.Component {
                 <Row type="flex" gutter={5}>
                   <Col>{translate('dataAnalytics.standardViews')}</Col>
                   <Col>
-                    <ToolTip
-                      width={'16px'}
+                    <ToolTipHint
                       text={translate('dataAverage.tooltip.standard')}
-                      icon={ToolTipIcon}
                     />
                   </Col>
                   <Col>:</Col>
@@ -515,6 +512,7 @@ export default class MinutesDataSearch extends React.Component {
               </Col>
               <Col span={8}>
                 <SelectQCVN
+                  placeholder={t('dataAverage.placeholder.standard')}
                   onFetchSuccess={this.handleOnFetchSuccessQCVN}
                   fieldValue="key"
                   mode="multiple"

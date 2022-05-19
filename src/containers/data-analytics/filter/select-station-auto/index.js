@@ -1,9 +1,8 @@
-import React from 'react'
 import { Select } from 'antd'
-import PropTypes from 'prop-types'
-
 import StationAutoApi from 'api/StationAuto'
-import { get, isEmpty } from 'lodash'
+import { get } from 'lodash'
+import PropTypes from 'prop-types'
+import React from 'react'
 
 export default class SelectStationAuto extends React.Component {
   static propTypes = {
@@ -31,11 +30,9 @@ export default class SelectStationAuto extends React.Component {
 
   getStationAutos = () => {
     const { stationAutos } = this.state
-    const { stationType, province, stationList } = this.props
+    const { stationType, province, stationAutosValue } = this.props
 
-    if (!isEmpty(stationList)) {
-      return stationList
-    }
+    if (stationAutosValue) return stationAutosValue
 
     return stationAutos
       .filter(item => get(item, 'stationType.key') === stationType)
