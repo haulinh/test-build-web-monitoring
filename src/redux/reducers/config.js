@@ -29,8 +29,8 @@ function _saveWarningLevelConfig(state, value) {
   return update(state, {
     color: {
       warningLevel: {
-        data: { $set: colorData },
-        sensor: { $set: colorSensor },
+        data: { $set: colorData || [] },
+        sensor: { $set: colorSensor || [] },
       },
     },
   })
@@ -41,7 +41,7 @@ function _updateWarningLevelColorData(state, value) {
     color: {
       warningLevel: {
         data: {
-          $set: { value },
+          $set: { ...value },
         },
       },
     },

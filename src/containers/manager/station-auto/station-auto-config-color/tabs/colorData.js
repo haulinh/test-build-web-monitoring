@@ -45,6 +45,8 @@ export default class WarningLevelColorOfSensor extends React.Component {
   }
 
   render() {
+    console.log(this.props.colorData, '---run---')
+
     return (
       <React.Fragment>
         <Table
@@ -88,8 +90,8 @@ export default class WarningLevelColorOfSensor extends React.Component {
       },
       {
         title: i18n().columnTypeAlt,
-        dataIndex: 'altName',
-        key: 'altName',
+        dataIndex: 'alternative',
+        key: 'alternative',
         render(text, record, index) {
           return getFieldDecorator(`[${index}].alternative`, {
             initialValue: text,

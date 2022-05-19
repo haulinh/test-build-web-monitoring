@@ -2,6 +2,7 @@ import { message } from 'antd'
 
 import CategoryAPI from '../../api/CategoryApi'
 import { translate } from 'hoc/create-lang'
+import { get as _get } from 'lodash'
 
 function i18n() {
   return {
@@ -21,10 +22,11 @@ export const CONFIGS = {
 export function getWarningLevelColors() {
   return async dispatch => {
     const res = await CategoryAPI.getWarningLevelColor()
+
     if (res.success) {
       dispatch({
         type: CONFIGS.GET_WARNING_LEVELS_COLOR,
-        payload: res.value,
+        payload: _get(res, 'data', []),
       })
     }
     return res
@@ -43,7 +45,6 @@ export function updateWarningLevelColorData(id, data) {
       }
       message.success(i18n().submitSuccess)
     } catch (e) {
-      console.error('--updateWarningLevelColorData--', e)
       message.error(i18n().submitError)
     }
   }

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Tabs, Radio } from 'antd'
 import TabItemColorData from './tabs/colorData'
-import TabItemColorSensor from './tabs/colorSensor'
+// import TabItemColorSensor from './tabs/colorSensor'
 
 import { Form } from 'antd'
 
@@ -33,7 +33,12 @@ export default class StationAutoConfigColor extends React.Component {
   }
 
   render() {
-    const { keyData, keySensor, defaultTabKey, activeTabKey } = this.state
+    const {
+      keyData,
+      defaultTabKey,
+      activeTabKey,
+      // keySensor
+    } = this.state
 
     return (
       <PageContainer>
@@ -51,12 +56,12 @@ export default class StationAutoConfigColor extends React.Component {
           >
             {i18n().tabColorData}
           </Radio.Button>
-          <Radio.Button
+          {/* <Radio.Button
             value={keySensor}
             style={{ width: '50%', textAlign: 'center' }}
           >
             {i18n().tabColorSensor}
-          </Radio.Button>
+          </Radio.Button> */}
         </Radio.Group>
 
         <Tabs
@@ -67,9 +72,9 @@ export default class StationAutoConfigColor extends React.Component {
           <TabPane key={keyData}>
             <TabItemColorData />
           </TabPane>
-          <TabPane key={keySensor}>
+          {/* <TabPane key={keySensor}>
             <TabItemColorSensor />
-          </TabPane>
+          </TabPane> */}
         </Tabs>
       </PageContainer>
     )
