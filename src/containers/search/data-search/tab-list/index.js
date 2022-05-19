@@ -71,6 +71,7 @@ export default class TabeList extends React.PureComponent {
             </Button>
           )}
         </ButtonAbsolute>
+
         <Tabs defaultActiveKey="1">
           <Tabs.TabPane tab={translate('dataSearchFrom.tab.data')} key="1">
             <TabTableDataList
@@ -88,6 +89,7 @@ export default class TabeList extends React.PureComponent {
             <TabChart
               stationKey={stationKey}
               qcvnSelected={qcvnSelected}
+              loading={loading}
               measuringList={measuringList}
               dataStationAuto={dataStationAuto}
               stationAutoCurrent={stationAutoCurrent}

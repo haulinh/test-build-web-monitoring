@@ -4,13 +4,13 @@ import TimeReport from 'components/elements/select-data/report/SelectTimeReport'
 import TreeSelectStation from 'components/elements/select-data/TreeSelectStation'
 import SelectProvince from 'components/elements/select-province'
 import { FormItem } from 'components/layouts/styles'
-import { ToolTip } from 'containers/search/common/tooltip'
 import { translate as t } from 'hoc/create-lang'
 import moment from 'moment'
 import React from 'react'
 import styled from 'styled-components'
 import { FIELDS, i18n } from './index'
 import _ from 'lodash'
+import ToolTip from 'components/elements/tooltip'
 
 const ColSwitch = styled(Col)`
   .ant-form-item .ant-switch {
@@ -164,9 +164,9 @@ export default class Filter extends React.Component {
         </Row>
         <Row type="flex" justify="end">
           <Col>
-            <Row type="flex" align="middle">
+            <Row gutter={8} type="flex" align="middle">
               <Col>
-                <ToolTip />
+                <ToolTip text={t('dataAverage.tooltip.filterData')} />
               </Col>
               <Col>
                 <div style={{ fontSize: '16px', fontWeight: '600' }}>
