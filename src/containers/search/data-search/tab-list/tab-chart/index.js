@@ -14,6 +14,7 @@ import React from 'react'
 import ReactHighcharts from 'react-highcharts/ReactHighstock'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
+import Highcharts from 'highcharts'
 
 const TabPane = Tabs.TabPane
 
@@ -30,25 +31,25 @@ const ChartWrapper = styled.div`
   flex-direction: column;
 `
 
-ReactHighcharts.Highcharts.wrap(
-  ReactHighcharts.Highcharts.RangeSelector.prototype,
-  'drawInput',
-  function(proceed, name) {
-    proceed.call(this, name)
-    this[name + 'DateBox'].on('click', function() {})
-  }
-)
+// ReactHighcharts.Highcharts.wrap(
+//   ReactHighcharts.Highcharts.RangeSelector.prototype,
+//   'drawInput',
+//   function(proceed, name) {
+//     proceed.call(this, name)
+//     this[name + 'DateBox'].on('click', function() {})
+//   }
+// )
 
-ReactHighcharts.Highcharts.setOptions({
-  lang: {
-    rangeSelectorFrom: translate('chart.from'),
-    rangeSelectorTo: translate('chart.to'),
-    rangeSelectorZoom: '',
-  },
-  global: {
-    useUTC: false,
-  },
-})
+// ReactHighcharts.Highcharts.setOptions({
+//   lang: {
+//     rangeSelectorFrom: translate('chart.from'),
+//     rangeSelectorTo: translate('chart.to'),
+//     rangeSelectorZoom: '',
+//   },
+//   global: {
+//     useUTC: false,
+//   },
+// })
 
 @autobind
 @connect(state => ({
@@ -86,6 +87,8 @@ export default class TabChart extends React.PureComponent {
       }
     })
 
+    console.log({ mesureList })
+
     let heightChart = {}
     _.forEachRight(props.dataStationAuto, ({ measuringLogs, receivedAt }) => {
       const time = moment(receivedAt).valueOf()
@@ -121,6 +124,7 @@ export default class TabChart extends React.PureComponent {
 
     if (isInit) {
       const { stationAutoCurrent } = this.props
+      console.log({ seriesData })
       const initSeries = [
         {
           ...seriesData[measuringList[0]],
@@ -254,7 +258,7 @@ export default class TabChart extends React.PureComponent {
         enabled: true,
       },
     }
-    console.log({ dataSeries })
+    // console.log({ dataSeries })
 
     const measure = stationAutoCurrent.measuringList.find(
       measure => measure.key === measureCurrent
@@ -276,7 +280,7 @@ export default class TabChart extends React.PureComponent {
 
     //type line qcvn
     const lineQcvn = {
-      type: 'line',
+      type: 'spline',
       enableMouseTracking: false,
     }
 
@@ -312,6 +316,7 @@ export default class TabChart extends React.PureComponent {
     qcvnList.forEach(qcvn => {
       //add line qcvn minLimit & maxLimit
       const data = dataSeries.data
+      console.log({ data })
 
       if (_.isNumber(qcvn.maxLimit)) {
         series = [
@@ -320,17 +325,9 @@ export default class TabChart extends React.PureComponent {
             ...lineQcvn,
             id: qcvn.id,
             name: qcvn.name,
+            typeLine: 'qcvn',
             valueLimit: qcvn.maxLimit,
-            data: data.map((dataItem, index) => {
-              if (index === 0) {
-                return {
-                  y: qcvn.maxLimit,
-                  dataLabels: { enabled: true, crop: false, overflow: 'none' },
-                }
-              } else {
-                return [dataItem[0], qcvn.maxLimit]
-              }
-            }),
+            data: data.map((dataItem, index) => [dataItem[0], qcvn.maxLimit]),
           },
         ]
 
@@ -346,16 +343,8 @@ export default class TabChart extends React.PureComponent {
             valueLimit: qcvn.minLimit,
             name: qcvn.name,
             className: 'min',
-            data: data.map((dataItem, index) => {
-              if (index === 0) {
-                return {
-                  y: qcvn.minLimit,
-                  dataLabels: { enabled: true, crop: false, overflow: 'none' },
-                }
-              } else {
-                return [dataItem[0], qcvn.minLimit]
-              }
-            }),
+            typeLine: 'qcvn',
+            data: data.map(dataItem => [dataItem[0], qcvn.minLimit]),
           },
         ]
         plotLines = []
@@ -387,9 +376,10 @@ export default class TabChart extends React.PureComponent {
   ) => {
     return {
       chart: {
-        type: 'line',
-        width: width - 500,
+        type: 'spline',
+        width: width - 300,
         zoomType: 'x',
+        height: 600,
       },
 
       credits: {
@@ -397,13 +387,7 @@ export default class TabChart extends React.PureComponent {
       },
 
       rangeSelector: {
-        enabled: true,
-        buttons: [],
-        allButtonsEnabled: true,
-        inputEnabled: true,
-        inputEditDateFormat: '%d/%m/%Y %k:%M',
-        inputDateFormat: '%d/%m/%Y %k:%M',
-        inputBoxWidth: 120,
+        enabled: false,
       },
 
       // change color chart zoom
@@ -412,14 +396,18 @@ export default class TabChart extends React.PureComponent {
           fillColor: 'red',
 
           dataLabels: {
-            enabled: false,
+            enabled: true,
             crop: false,
             overflow: 'none',
             align: 'left',
-            // verticalAlign: 'middle',
+            verticalAlign: 'middle',
             allowOverlap: true,
             width: '100%',
             formatter: function() {
+              const currentPoint = this.point
+              const seriesPoints = this.series.points
+              const typeLine = this.series.userOptions.typeLine
+
               const isMinLimit = this.series.options.className === 'min'
 
               const labelMinLimit = `${translate(
@@ -431,7 +419,37 @@ export default class TabChart extends React.PureComponent {
 
               const label = isMinLimit ? labelMinLimit : labelMaxLimit
 
-              return `<span style="color: black; font-weight: 300; font-size: 12px">${label}</span>`
+              if (currentPoint === seriesPoints[0] && typeLine === 'qcvn') {
+                return `<span style="color: black; font-weight: 300; font-size: 12px">${label}</span>`
+              }
+            },
+          },
+        },
+        spline: {
+          // fillColor: {
+          //   linearGradient: {
+          //     x1: 0,
+          //     y1: 0,
+          //     x2: 0,
+          //     y2: 1,
+          //   },
+          //   stops: [
+          //     [0, Highcharts.getOptions().colors[0]],
+          //     [
+          //       1,
+          //       Highcharts.Color(Highcharts.getOptions().colors[0])
+          //         .setOpacity(0)
+          //         .get('rgba'),
+          //     ],
+          //   ],
+          // },
+          // marker: {
+          //   radius: 3,
+          // },
+          lineWidth: 2,
+          states: {
+            hover: {
+              lineWidth: 2,
             },
           },
         },
@@ -439,7 +457,7 @@ export default class TabChart extends React.PureComponent {
 
       navigation: {
         buttonOptions: {
-          enabled: false,
+          enabled: true,
         },
       },
 
@@ -479,6 +497,8 @@ export default class TabChart extends React.PureComponent {
       series,
 
       xAxis: {
+        // type: 'datetime',
+
         dateTimeLabelFormats: DATETIME_LABEL_FORMAT,
       },
 
@@ -508,8 +528,8 @@ export default class TabChart extends React.PureComponent {
 
   render() {
     const { measureCurrent, mesureList } = this.state
-    const { loading } = this.props
-
+    const { loading, dataStationAuto } = this.props
+    console.log({ dataStationAuto })
     if (loading)
       return (
         <Row

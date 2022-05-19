@@ -327,8 +327,8 @@ export default class SearchFormHistoryData extends React.Component {
 
     return (
       <Container>
-        <Row gutter={[16, 24]}>
-          <Col span={3}>
+        <Row gutter={16}>
+          <Col span={6}>
             <FormItem label={translate('qaqc.province.label')}>
               {form.getFieldDecorator(fields.province, {
                 initialValue: '',
@@ -337,13 +337,12 @@ export default class SearchFormHistoryData extends React.Component {
                 <SelectProvince
                   isShowAll
                   allowClear={false}
-                  size="large"
                   style={{ width: '100%' }}
                 />
               )}
             </FormItem>
           </Col>
-          <Col span={3}>
+          <Col span={6}>
             <FormItem label={t('stationType.label')}>
               {form.getFieldDecorator(fields.stationType, {
                 rules: [
@@ -378,20 +377,21 @@ export default class SearchFormHistoryData extends React.Component {
                   onFetchSuccess={this.onFetchSuccessStationAuto}
                   isShowAll
                   onChangeObject={this.setStationAutoSelected}
-                  size="large"
                   province={province}
                   stationType={stationType}
                 />
               )}
             </FormItem>
           </Col>
-          <Col span={9}>
+          <Col span={6}>
             <FormItem label={t('time')}>
               {form.getFieldDecorator(fields.rangesDate, { initialValue: 1 })(
-                <OptionsTimeRange style={{ width: '100%' }} size="large" />
+                <OptionsTimeRange style={{ width: '100%' }} />
               )}
             </FormItem>
           </Col>
+        </Row>
+        <Row gutter={16}>
           <Col span={18}>
             <FormItem label={t('measuringList.label')}>
               {form.getFieldDecorator(fields.measuringList, {
@@ -408,13 +408,12 @@ export default class SearchFormHistoryData extends React.Component {
                   mode="multiple"
                   options={measureOptions}
                   style={{ width: '100%' }}
-                  size="large"
                   showSearch
                 />
               )}
             </FormItem>
           </Col>
-          <Col span={3}>
+          <Col span={6}>
             <FormItem label={t('isExceeded.label')}>
               {form.getFieldDecorator(fields.isExceeded, {
                 valuePropName: 'checked',
@@ -427,7 +426,7 @@ export default class SearchFormHistoryData extends React.Component {
             <FormItem label={translate('dataSearchFrom.queryType')}>
               {form.getFieldDecorator(fields.dataType, {
                 initialValue: 'origin',
-              })(<SelectQueryType size="large" isShowAll />)}
+              })(<SelectQueryType isShowAll />)}
             </FormItem>
           </Col>
           {dataType === 'invalid' && (
@@ -448,7 +447,6 @@ export default class SearchFormHistoryData extends React.Component {
                     style={{ width: '100%' }}
                     options={qaqcOptions}
                     mode="multiple"
-                    size="large"
                     showSearch
                   />
                 )}
