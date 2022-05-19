@@ -291,7 +291,6 @@ export default class TabChart extends React.PureComponent {
     qcvnList.forEach(qcvn => {
       //add line qcvn minLimit & maxLimit
       const data = dataSeries.data
-      console.log({ data })
 
       if (_.isNumber(qcvn.maxLimit)) {
         series = [
@@ -498,7 +497,6 @@ export default class TabChart extends React.PureComponent {
   render() {
     const { measureCurrent, mesureList } = this.state
     const { loading } = this.props
-    // console.log({ data: this.state.series })
 
     if (loading)
       return (
