@@ -9,7 +9,6 @@ import {
   Switch,
   Tooltip,
 } from 'antd'
-import ToolTipIcon from 'assets/svg-icons/tooltip.svg'
 import { default as BoxShadowStyle } from 'components/elements/box-shadow'
 import Heading from 'components/elements/heading'
 import OptionsTimeRange from 'components/elements/options-time-range'
@@ -17,7 +16,7 @@ import SelectAnt from 'components/elements/select-ant'
 import SelectProvince from 'components/elements/select-province'
 import SelectQCVN from 'components/elements/select-qcvn'
 import SelectStationType from 'components/elements/select-station-type'
-import ToolTip from 'components/elements/tooltip'
+import ToolTipHint from 'components/elements/tooltip'
 import { FormItem } from 'components/layouts/styles'
 import { dataStatusOptions } from 'constants/dataStatus'
 import SelectMeasureParameter from 'containers/data-analytics/filter/select-measure-parameter'
@@ -29,10 +28,10 @@ import moment from 'moment-timezone'
 import React from 'react'
 import styled from 'styled-components'
 import { getTimes } from 'utils/datetime'
+import { requiredFieldRule } from 'utils/rules'
 import SelectTimeRange from '../../common/select-time-range'
 import { FIELDS, i18n } from '../constants'
 import FilterList from '../filter'
-import { requiredFieldRule } from 'utils/rules'
 
 const HeaderWrapper = styled.div`
   color: blue;
@@ -615,7 +614,7 @@ export default class SearchAvgForm extends React.Component {
                 <div style={{ fontSize: '14px', fontWeight: '600' }}>
                   {translate('dataSearchFrom.processData')}
                 </div>
-                <ToolTip width={'20px'} text={i18n().tooltip.filterData} />
+                <ToolTipHint width={'20px'} text={i18n().tooltip.filterData} />
                 <FormItem>
                   {form.getFieldDecorator('isFilter', {
                     initialValue: false,

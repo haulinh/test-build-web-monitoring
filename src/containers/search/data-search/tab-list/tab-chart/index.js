@@ -293,6 +293,7 @@ export default class TabChart extends React.PureComponent {
             id: qcvn.id,
             name: qcvn.name,
             typeLine: 'qcvn',
+            dashStyle: 'dash',
             valueLimit: qcvn.maxLimit,
             data: data.map((dataItem, index) => [dataItem[0], qcvn.maxLimit]),
           },
@@ -311,6 +312,7 @@ export default class TabChart extends React.PureComponent {
             name: qcvn.name,
             className: 'min',
             typeLine: 'qcvn',
+            dashStyle: 'dash',
             data: data.map(dataItem => [dataItem[0], qcvn.minLimit]),
           },
         ]

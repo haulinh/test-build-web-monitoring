@@ -14,7 +14,7 @@ import SelectReportType from './select-data/SelectReportType'
 import moment from 'moment'
 import { translate as t } from 'hoc/create-lang'
 import _ from 'lodash'
-import ToolTip from 'components/elements/tooltip'
+import ToolTipHint from 'components/elements/tooltip'
 
 const Item = props => (
   <Form.Item
@@ -290,7 +290,7 @@ export default class Filter extends React.Component {
         <Row type="flex" justify="end">
           <Row gutter={8} type="flex" align="middle">
             <Col>
-              <ToolTip text={t('dataAverage.tooltip.filterData')} />
+              <ToolTipHint text={t('dataAverage.tooltip.filterData')} />
             </Col>
             <Col>
               <div style={{ fontSize: '16px', fontWeight: '600' }}>

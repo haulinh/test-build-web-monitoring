@@ -15,7 +15,7 @@ import SelectMeasureParameter from './select-measure-parameter'
 import SelectOperator, { OPERATOR } from './select-operator'
 import { requiredFieldRule } from 'utils/rules'
 import { getTimes } from 'utils/datetime'
-import ToolTip from 'components/elements/tooltip'
+import ToolTipHint from 'components/elements/tooltip'
 // import OptionsTimeRange from 'containers/search/common/options-time-range'
 
 function i18n() {
@@ -330,7 +330,7 @@ class FilterForm extends Component {
           </Row>
           <Row gutter={8} type="flex" justify="end" align="middle">
             <Col>
-              <ToolTip text={t('dataAverage.tooltip.filterData')} />
+              <ToolTipHint text={t('dataAverage.tooltip.filterData')} />
             </Col>
             <Col>
               <Form.Item
