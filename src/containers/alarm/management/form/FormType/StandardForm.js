@@ -49,8 +49,6 @@ export default class StandardForm extends React.Component {
   }
 
   render() {
-    const { standardObj } = this.state
-    console.log({ standardObj })
     const { form, isEdit, alarmSelected } = this.props
     const repeatConfig = form.getFieldValue(`${FIELDS.REPEAT_CONFIG}.active`)
 

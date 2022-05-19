@@ -17,7 +17,7 @@ import SelectAnt from 'components/elements/select-ant'
 import SelectProvince from 'components/elements/select-province'
 import SelectQCVN from 'components/elements/select-qcvn'
 import SelectStationType from 'components/elements/select-station-type'
-// import { ToolTip } from 'components/elements/tooltip'
+import { ToolTip } from 'components/elements/tooltip'
 import { FormItem } from 'components/layouts/styles'
 import { dataStatusOptions } from 'constants/dataStatus'
 import SelectMeasureParameter from 'containers/data-analytics/filter/select-measure-parameter'
@@ -444,7 +444,6 @@ export default class SearchAvgForm extends React.Component {
   render() {
     const { form, loading } = this.props
     const { measuringList, otherConditionFilter } = this.state
-    // console.log({ loading })
 
     const values = form.getFieldsValue([
       FIELDS.STATION_AUTO,
@@ -604,11 +603,11 @@ export default class SearchAvgForm extends React.Component {
                 <div style={{ fontSize: '14px', fontWeight: '600' }}>
                   {translate('dataSearchFrom.processData')}
                 </div>
-                {/* <ToolTip
+                <ToolTip
                   width={'20px'}
                   text={i18n().tooltip.filterData}
                   icon={ToolTipIcon}
-                /> */}
+                />
                 <FormItem>
                   {form.getFieldDecorator('isFilter', {
                     initialValue: false,

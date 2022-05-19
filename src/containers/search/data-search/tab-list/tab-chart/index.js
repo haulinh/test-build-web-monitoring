@@ -11,10 +11,9 @@ import * as _ from 'lodash'
 import moment from 'moment-timezone'
 import PropTypes from 'prop-types'
 import React from 'react'
-import ReactHighcharts from 'react-highcharts/ReactHighstock'
+import ReactHighcharts from 'react-highcharts'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import Highcharts from 'highcharts'
 
 const TabPane = Tabs.TabPane
 
@@ -31,25 +30,11 @@ const ChartWrapper = styled.div`
   flex-direction: column;
 `
 
-// ReactHighcharts.Highcharts.wrap(
-//   ReactHighcharts.Highcharts.RangeSelector.prototype,
-//   'drawInput',
-//   function(proceed, name) {
-//     proceed.call(this, name)
-//     this[name + 'DateBox'].on('click', function() {})
-//   }
-// )
-
-// ReactHighcharts.Highcharts.setOptions({
-//   lang: {
-//     rangeSelectorFrom: translate('chart.from'),
-//     rangeSelectorTo: translate('chart.to'),
-//     rangeSelectorZoom: '',
-//   },
-//   global: {
-//     useUTC: false,
-//   },
-// })
+ReactHighcharts.Highcharts.setOptions({
+  global: {
+    useUTC: false,
+  },
+})
 
 @autobind
 @connect(state => ({
@@ -87,8 +72,6 @@ export default class TabChart extends React.PureComponent {
       }
     })
 
-    console.log({ mesureList })
-
     let heightChart = {}
     _.forEachRight(props.dataStationAuto, ({ measuringLogs, receivedAt }) => {
       const time = moment(receivedAt).valueOf()
@@ -124,15 +107,7 @@ export default class TabChart extends React.PureComponent {
 
     if (isInit) {
       const { stationAutoCurrent } = this.props
-      console.log({ seriesData })
-      const initSeries = [
-        {
-          ...seriesData[measuringList[0]],
-          marker: {
-            enabled: true,
-          },
-        },
-      ]
+      const initSeries = [seriesData[measuringList[0]]]
 
       const firstMeasure = measuresObj[measuringList[0]]
       const nameChartInit = this.getNameChart(
@@ -252,13 +227,6 @@ export default class TabChart extends React.PureComponent {
     let nameChart = stationAutoCurrent.name
 
     let dataSeries = _.get(seriesData, [measureCurrent], {})
-    dataSeries = {
-      ...dataSeries,
-      marker: {
-        enabled: true,
-      },
-    }
-    // console.log({ dataSeries })
 
     const measure = stationAutoCurrent.measuringList.find(
       measure => measure.key === measureCurrent
@@ -316,7 +284,6 @@ export default class TabChart extends React.PureComponent {
     qcvnList.forEach(qcvn => {
       //add line qcvn minLimit & maxLimit
       const data = dataSeries.data
-      console.log({ data })
 
       if (_.isNumber(qcvn.maxLimit)) {
         series = [
@@ -355,7 +322,6 @@ export default class TabChart extends React.PureComponent {
 
     minChart = _.get(this.state.heightChart, [measureCurrent, 'minChart'])
     maxChart = _.get(this.state.heightChart, [measureCurrent, 'maxChart']) //_.get(dataSeries,'minLimit', undefined)
-    console.log({ series })
     this.setState({
       series,
       nameChart,
@@ -382,6 +348,10 @@ export default class TabChart extends React.PureComponent {
         height: 600,
       },
 
+      marker: {
+        enabled: false,
+      },
+
       credits: {
         enabled: false,
       },
@@ -390,6 +360,9 @@ export default class TabChart extends React.PureComponent {
         enabled: false,
       },
 
+      exporting: {
+        filename: nameChart,
+      },
       // change color chart zoom
       plotOptions: {
         series: {
@@ -426,26 +399,9 @@ export default class TabChart extends React.PureComponent {
           },
         },
         spline: {
-          // fillColor: {
-          //   linearGradient: {
-          //     x1: 0,
-          //     y1: 0,
-          //     x2: 0,
-          //     y2: 1,
-          //   },
-          //   stops: [
-          //     [0, Highcharts.getOptions().colors[0]],
-          //     [
-          //       1,
-          //       Highcharts.Color(Highcharts.getOptions().colors[0])
-          //         .setOpacity(0)
-          //         .get('rgba'),
-          //     ],
-          //   ],
-          // },
-          // marker: {
-          //   radius: 3,
-          // },
+          marker: {
+            enabled: false,
+          },
           lineWidth: 2,
           states: {
             hover: {
@@ -462,13 +418,14 @@ export default class TabChart extends React.PureComponent {
       },
 
       title: {
-        text: nameChart, //this.props.nameChart
+        text: nameChart,
       },
 
       yAxis: {
         min: minChart,
         max: maxChart,
         plotLines,
+        title: false,
       },
 
       //add legend chart
@@ -497,7 +454,7 @@ export default class TabChart extends React.PureComponent {
       series,
 
       xAxis: {
-        // type: 'datetime',
+        type: 'datetime',
 
         dateTimeLabelFormats: DATETIME_LABEL_FORMAT,
       },
@@ -528,8 +485,8 @@ export default class TabChart extends React.PureComponent {
 
   render() {
     const { measureCurrent, mesureList } = this.state
-    const { loading, dataStationAuto } = this.props
-    console.log({ dataStationAuto })
+    const { loading } = this.props
+
     if (loading)
       return (
         <Row

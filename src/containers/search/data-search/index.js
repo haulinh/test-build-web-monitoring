@@ -143,7 +143,7 @@ export default class MinutesDataSearch extends React.Component {
 
   getQueryParam = () => {
     const values = this.searchFormRef.current.getFieldsValue()
-    const { standards, page } = this.state
+    const { standards } = this.state
 
     const times = getTimes(values[fields.rangesDate])
     const { from, to } = getTimesUTC(times)
@@ -226,7 +226,6 @@ export default class MinutesDataSearch extends React.Component {
       const res = await DataInsight.getDataOriginal(stationKey, {
         ...queryParams,
       })
-      console.log({ res })
       this.setState({
         summary: res.summary,
         data: res.data,
