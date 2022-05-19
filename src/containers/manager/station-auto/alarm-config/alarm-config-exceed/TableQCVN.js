@@ -24,10 +24,6 @@ export default class TableQCVN extends Component {
     if (!isEqual(prevProps.measureListValue, measureListValue)) {
       form.setFieldsValue(measureListValueObject)
     }
-
-    if (!isEqual(prevProps.qcvnList, qcvnList)) {
-      form.setFieldsValue(measureListValueObject)
-    }
   }
 
   getStandardColumns = () => {
