@@ -55,8 +55,9 @@ export default class AlarmConfigExceed extends Component {
     const qcvnListSelected = this.getQcvnSelected()
 
     const alarmHaveMeasuringList = alarmList.find(
-      alarm => !isEmpty(alarm.config.measuringList)
+      alarm => !isEmpty(get(alarm, 'config.measuringList'))
     )
+
     const measureListValue = get(
       alarmHaveMeasuringList,
       'config.measuringList',
