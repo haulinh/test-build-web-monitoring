@@ -1516,6 +1516,7 @@ export default {
         label: 'Code',
         placeholder: 'Input Standard Filter Code',
         required: 'Please Enter Code QCVN',
+        requiredChoose: 'Please Choose Standard',
         pattern: 'No Special Characters Are Allowed',
         max: 'No ore than 64 characters',
       },
@@ -3707,6 +3708,39 @@ export default {
       table: 'Table',
     },
   },
+  dataAverage: {
+    form: {
+      stationAuto: 'Station Name ({{=it.count}} stations):',
+      measuringList: 'Parameters ({{=it.count}} parameters):',
+      addCondition: 'Add Filter Condition',
+    },
+    placeholder: {
+      dataStatus: 'Choose data status',
+      frequency: 'Type frequency (minutes/time)',
+      standard: 'Choose standard',
+    },
+    tooltip: {
+      addCondition: 'Add filter conditions for monitoring stations',
+      filterData:
+        'Filter invalid data with standard before calculating (apply data processing config)',
+      standard:
+        'Apply the comparison of measure values according to established standards',
+    },
+    standard: {
+      label: 'Display Standards',
+      placeholder: 'Selection of the standard of comparison',
+    },
+    tabs: {
+      station: {
+        label: 'View Data By Station',
+      },
+      overview: {
+        label: 'View Aggregated Data',
+        data: 'Data',
+        chart: 'Chart',
+      },
+    },
+  },
   stationFixedDriver: {
     title: {
       search: 'Look up data',
@@ -4320,6 +4354,7 @@ export default {
       timeDisconnect: 'Time disconnect (minutes)',
       alarmExceed: 'Threshold alarm',
       threshold: 'Threshold',
+      thresholdType: 'Threshold Type',
       time: 'Time',
       selectThreshold: 'Select threshold',
       disconnect: 'Disconnect',

@@ -4,21 +4,26 @@ import {
   DATETIME_LABEL_FORMAT,
   DATETIME_TOOLTIP_FORMAT,
 } from 'constants/chart-format'
+import { getFormatNumber } from 'constants/format-number'
 import { formatTime } from 'containers/search/avg-search-advanced/utils/formatTime'
 import Highcharts from 'highcharts'
 import { translate } from 'hoc/create-lang'
-import { get, isEmpty, isNumber, keyBy } from 'lodash'
+import { get, isEmpty, isNil, isNumber, keyBy } from 'lodash'
+import moment from 'moment-timezone'
 import React, { Component } from 'react'
 import ReactHighcharts from 'react-highcharts'
 import { connect } from 'react-redux'
-import moment from 'moment-timezone'
-import { getFormatNumber } from 'constants/format-number'
 
 ReactHighcharts.Highcharts.setOptions({
   global: {
     useUTC: false,
   },
 })
+
+const showMarker = type => {
+  const isLongRangeType = ['month', 'year', 1440].includes(type)
+  return isLongRangeType ? true : false
+}
 
 const configChart = (data, title, type) => {
   return {
@@ -45,7 +50,7 @@ const configChart = (data, title, type) => {
     plotOptions: {
       series: {
         marker: {
-          enabled: false,
+          enabled: showMarker(type),
         },
         dataLabels: {
           enabled: false,
@@ -130,96 +135,100 @@ const configChart = (data, title, type) => {
 @connect(state => ({
   languageContents: get(state, 'language.languageContents'),
 }))
-export default class TabChart extends Component {
+export default class ChartOverview extends Component {
   state = {
     current: get(
-      keyBy(this.props.measuringData, 'key'),
-      this.props.measuringData[0].key,
+      keyBy(this.props.dataChart.measuringList, 'key'),
+      this.props.dataChart.measuringList[0].key,
       null
     ),
   }
 
   getConfigData = () => {
-    const { languageContents, dataStationAuto } = this.props
+    const { dataChart, languageContents, searchFormData } = this.props
     const { current } = this.state
     const { key, name, unit } = current
 
-    const title = this.getTitleName(key, name, unit)
-    // const type = searchFormData.type
+    const title = this.getMeasureName(key, name, unit)
+    const type = searchFormData.type
     let dataSeries = []
 
-    const measureName = getContent(languageContents, {
-      type: 'Measure',
-      itemKey: key,
-      value: name,
-    })
-
-    !isEmpty(this.getDataWithStation(dataStationAuto)) &&
-      dataSeries.push({
-        type: 'spline',
-        name: measureName,
-        data: this.getDataWithStation(dataStationAuto),
-        lineWidth: 2,
+    dataChart.stations.forEach(station => {
+      const stationName = getContent(languageContents, {
+        type: 'Station',
+        itemKey: station.key,
+        value: station.name,
       })
 
-    const qcvnList = this.getQCVNList(current.key)
-    const lineQcvn = {
-      type: 'spline',
-      enableMouseTracking: false,
-    }
-
-    qcvnList.forEach(qcvn => {
-      const data = dataSeries[0].data.reverse()
-
-      if (isNumber(qcvn.maxLimit)) {
-        dataSeries = [
-          ...dataSeries,
-          {
-            ...lineQcvn,
-            id: qcvn.id,
-            name: qcvn.name,
-            valueLimit: qcvn.maxLimit,
-            data: data.map((dataItem, index) => {
-              if (index === 0) {
-                return {
-                  x: dataItem[0],
-                  y: qcvn.maxLimit,
-                  dataLabels: { enabled: true },
-                }
-              } else {
-                return [dataItem[0], qcvn.maxLimit]
-              }
-            }),
-          },
-        ]
-      }
-
-      if (isNumber(qcvn.minLimit)) {
-        dataSeries = [
-          ...dataSeries,
-          {
-            ...lineQcvn,
-            id: qcvn.id,
-            valueLimit: qcvn.minLimit,
-            name: qcvn.name,
-            className: 'min',
-            data: data.map((dataItem, index) => {
-              if (index === 0) {
-                return {
-                  x: dataItem[0],
-                  y: qcvn.minLimit,
-                  dataLabels: { enabled: true },
-                }
-              } else {
-                return [dataItem[0], qcvn.minLimit]
-              }
-            }),
-          },
-        ]
-      }
+      !isEmpty(this.getDataWithStation(station)) &&
+        dataSeries.push({
+          type: 'spline',
+          name: stationName,
+          data: this.getDataWithStation(station),
+          lineWidth: 2,
+        })
     })
 
-    return configChart(dataSeries, title)
+    if (!isEmpty(dataSeries)) {
+      const qcvnList = this.getQCVNList(current.key)
+      const lineQcvn = {
+        enableMouseTracking: false,
+        dashStyle: 'Dash',
+      }
+
+      qcvnList.forEach(qcvn => {
+        const data = dataSeries[0].data
+
+        if (isNumber(qcvn.maxLimit)) {
+          dataSeries = [
+            ...dataSeries,
+            {
+              ...lineQcvn,
+              id: qcvn.id,
+              name: qcvn.name,
+              valueLimit: qcvn.maxLimit,
+              data: data.map((dataItem, index) => {
+                if (index === 0) {
+                  return {
+                    x: dataItem[0],
+                    y: qcvn.maxLimit,
+                    dataLabels: { enabled: true },
+                  }
+                } else {
+                  return [dataItem[0], qcvn.maxLimit]
+                }
+              }),
+            },
+          ]
+        }
+
+        if (isNumber(qcvn.minLimit)) {
+          dataSeries = [
+            ...dataSeries,
+            {
+              ...lineQcvn,
+              id: qcvn.id,
+              valueLimit: qcvn.minLimit,
+              name: qcvn.name,
+              className: 'min',
+              data: data.map((dataItem, index) => {
+                if (index === 0) {
+                  return {
+                    x: dataItem[0],
+                    y: qcvn.minLimit,
+                    dataLabels: { enabled: true },
+                  }
+                } else {
+                  return [dataItem[0], qcvn.minLimit]
+                }
+              }),
+            },
+          ]
+        }
+      })
+    }
+
+    return configChart(dataSeries, title, type)
   }
 
   getQCVNList = measureCurrent => {
@@ -262,35 +271,31 @@ export default class TabChart extends Component {
     return newDataQcvn
   }
 
-  getDataWithStation = dataStationAuto => {
+  getDataWithStation = station => {
     const { current } = this.state
+    const { dataChart } = this.props
 
-    const data = dataStationAuto.reverse().map(item => {
-      const valueWithMeasure = getFormatNumber(
-        get(item, `measuringLogs.${current.key}.value`, null),
-        2,
-        2,
-        null
-      )
-      const time = moment(item.receivedAt).valueOf()
+    let data = []
 
-      return [time, valueWithMeasure]
+    Object.entries(dataChart.data).forEach(([key, value]) => {
+      const keyList = Object.keys(value)
+
+      if (keyList.some(item => item === get(station, 'key'))) {
+        const stationLogs = get(value, station.key, null).logs
+        const measureKey = get(stationLogs, current.key, null)
+        const valueInChart = getFormatNumber(
+          get(measureKey, 'value', null),
+          2,
+          2,
+          null
+        )
+
+        //add x, y value to data series chart
+        !isNil(valueInChart) && data.push([moment(key).valueOf(), valueInChart])
+      }
     })
 
-    return data
-  }
-
-  getTitleName = (key, name, unit) => {
-    const { languageContents, nameChart } = this.props
-    const measureName = getContent(languageContents, {
-      type: 'Measure',
-      itemKey: key,
-      value: name,
-    })
-
-    return unit
-      ? `${nameChart} - ${measureName} (${unit})`
-      : `${nameChart} - ${measureName}`
+    return data.sort((a, b) => a[0] - b[0])
   }
 
   getMeasureName = (key, name, unit) => {
@@ -305,23 +310,23 @@ export default class TabChart extends Component {
   }
 
   handleClick = key => {
-    const { measuringData } = this.props
-    const current = get(keyBy(measuringData, 'key'), key, null)
+    const { dataChart } = this.props
+    const current = get(keyBy(dataChart.measuringList, 'key'), key, null)
 
     this.setState({ current })
   }
   render() {
-    const { measuringData } = this.props
+    const { dataChart } = this.props
 
     return (
       <React.Fragment>
         <ReactHighcharts config={this.getConfigData()} />
         <Tabs
           style={{ paddingLeft: 8, paddingRight: 8, marginBottom: 8 }}
-          defaultActiveKey={measuringData[0].key}
+          defaultActiveKey={dataChart.measuringList[0].key}
           onTabClick={this.handleClick}
         >
-          {measuringData
+          {dataChart.measuringList
             .filter(measuring => !isEmpty(measuring))
             .map(({ key, name, unit }) => {
               return (

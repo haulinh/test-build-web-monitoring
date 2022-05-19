@@ -1,6 +1,7 @@
 import { TreeSelect } from 'antd'
 import { get, isNil } from 'lodash-es'
 import React, { Component } from 'react'
+import { replaceVietnameseStr } from 'utils/string'
 const { SHOW_PARENT } = TreeSelect
 export default class TreeSelectUser extends Component {
   getRoleDependentUser = () => {
@@ -73,6 +74,14 @@ export default class TreeSelectUser extends Component {
         width: '100%',
       },
       allowClear: true,
+      treeNodeFilterProp: 'title',
+      filterTreeNode: (inputValue, treeNode) => {
+        const inputValueRemoveVietNamese = replaceVietnameseStr(inputValue)
+        const itemNameRemoveVietNamese = replaceVietnameseStr(
+          get(treeNode, 'props.title', '')
+        )
+        return itemNameRemoveVietNamese.includes(inputValueRemoveVietNamese)
+      },
     }
 
     return (

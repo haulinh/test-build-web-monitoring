@@ -1,52 +1,31 @@
-import React from 'react'
-import { autobind } from 'core-decorators'
-import { connect } from 'react-redux'
-import { Tabs, message } from 'antd'
-import _ from 'lodash'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import BoxShadow from 'components/elements/box-shadow'
-import TabList from '../tab-list'
-import { translate } from 'hoc/create-lang'
-import { exportExcelMultipleStation } from 'api/DataStationAutoApi'
+import { message, Tabs } from 'antd'
 import { getMe } from 'api/AuthApi'
 import DataInsight from 'api/DataInsight'
+import { exportExcelMultipleStation } from 'api/DataStationAutoApi'
+import BoxShadow from 'components/elements/box-shadow'
 import { dataStatusOptions } from 'constants/dataStatus'
+import { autobind } from 'core-decorators'
+import { translate } from 'hoc/create-lang'
+import { find, get, isEmpty, isEqual, map, maxBy } from 'lodash'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
 import { downFileExcel } from 'utils/downFile'
+import TabList from '../../tab-list'
 
-const TableListWrapper = styled(BoxShadow)`
+const StationDataWrapper = styled(BoxShadow)`
   padding: 0px 16px 16px 16px;
-`
-
-const TitleWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
-  h4 {
-    margin-bottom: 0px;
-    font-size: 22px;
+  .ant-tabs-ink-bar {
+    background-color: #1890ff !important;
+  }
+  .ant-tabs-nav .ant-tabs-tab {
+    margin: 6px;
+    padding: 12px 16px 12px 16px !important;
   }
 `
 
-@connect(state => ({
-  fromDate: state.form['dataSearchFilterForm'].values.fromDate,
-  toDate: state.form['dataSearchFilterForm'].values.toDate,
-  advanced: state.form['dataSearchFilterForm'].values.advanced
-    ? state.form['dataSearchFilterForm'].values.advanced.filter(
-        item =>
-          item.measuringKey &&
-          item.operator &&
-          item.value !== null &&
-          typeof item.value !== 'undefined'
-      )
-    : [],
-  dataStatus: state.form['dataSearchFilterForm'].values.dataStatus || [],
-  isFilter: state.form['dataSearchFilterForm'].values.isFilter || false,
-  locale: state.language.locale,
-}))
 @autobind
-export default class TableList extends React.PureComponent {
+export default class StationData extends React.PureComponent {
   static propTypes = {
     standardsVN: PropTypes.array,
     stationsData: PropTypes.array,
@@ -75,11 +54,12 @@ export default class TableList extends React.PureComponent {
   }
 
   renderTabStations(stations) {
+    const { tabKey } = this.state
     return (
       <Tabs
-        defaultActiveKey={this.state.tabKey}
+        defaultActiveKey={tabKey}
         onChange={this.handleChangeTab}
-        activeKey={this.state.tabKey}
+        activeKey={tabKey}
       >
         {stations.map(station => {
           return this.renderOneStation(station)
@@ -89,23 +69,42 @@ export default class TableList extends React.PureComponent {
   }
 
   renderOneStation(station) {
+    const { searchFormData, qcvns } = this.props
+    const {
+      tabKey,
+      isLoading,
+      dataStationAuto,
+      pagination,
+      isExporting,
+      isExportingAll,
+    } = this.state
+    const { measuringList } = searchFormData.measuringList.filter(measureForm =>
+      station.measuringList.some(
+        measureStation => measureStation === measureForm
+      )
+    )
+    const measuringData = station.measuringData.filter(measureStation =>
+      searchFormData.measuringList.some(
+        measureForm => measureForm === measureStation.key
+      )
+    )
     return (
       <Tabs.TabPane tab={station.name} key={station.key}>
         <TabList
-          qcvns={this.props.qcvns}
-          isActive={this.state.tabKey === station.key}
-          isLoading={this.state.isLoading}
-          measuringData={station.measuringData}
-          measuringList={station.measuringList}
-          dataStationAuto={this.state.dataStationAuto}
-          pagination={this.state.pagination}
+          qcvns={qcvns}
+          isActive={tabKey === station.key}
+          isLoading={isLoading}
+          measuringData={measuringData}
+          measuringList={measuringList}
+          dataStationAuto={dataStationAuto}
+          pagination={pagination}
           onChangePage={this.handleChangePage}
           onExportExcel={this.handleExportExcel}
           onExportExcelAll={this.handleExportAllStation}
           nameChart={station.name}
-          typeReport={`${this.props.type}`}
-          isExporting={this.state.isExporting}
-          isExportingAll={this.state.isExportingAll}
+          typeReport={`${searchFormData.type}`}
+          isExporting={isExporting}
+          isExportingAll={isExportingAll}
         />
       </Tabs.TabPane>
     )
@@ -117,50 +116,65 @@ export default class TableList extends React.PureComponent {
     if (stationKey) {
       station = stationsData.find(station => station.key === stationKey)
     }
-
     return station
   }
 
   getSearchFormData = (stationKey, standards) => {
+    const { searchFormData, standardsVN } = this.props
+    const {
+      advanced,
+      dataStatus,
+      fromDate,
+      toDate,
+      type,
+      isFilter,
+    } = searchFormData
     if (!stationKey) return
     const station = this.getStation(stationKey)
-    // console.log(station, '==station==')
-    const { fromDate, toDate } = this.props
+
     const measuringListUnitStr = station.measuringList.map(item => {
-      const itemFind = _.find(station.measuringData, obj => {
+      const itemFind = find(station.measuringData, obj => {
         return obj.key === item
       })
       if (itemFind) {
-        return encodeURIComponent(_.get(itemFind, 'unit', ''))
+        return encodeURIComponent(get(itemFind, 'unit', ''))
       } else {
         return ''
       }
     })
-    const searchFormData = {
-      fromDate,
-      toDate,
+
+    const measuringList = searchFormData.measuringList.filter(measureForm =>
+      station.measuringList.some(
+        measureStation => measureStation === measureForm
+      )
+    )
+
+    const result = {
+      advanced: advanced,
+      dataStatus: dataStatus,
+      fromDate: fromDate,
+      toDate: toDate,
+      type: type,
       key: station.key,
       name: station.name,
-      type: this.props.type,
       measuringListUnitStr,
-      measuringList: station.measuringList,
+      measuringList,
       measuringData: station.measuringData,
-      advanced: this.props.advanced,
-      dataStatus: this.props.dataStatus,
-      isFilter: this.props.isFilter,
-      standardsVN: standards ? standards : this.props.standardsVN,
+      standardsVN: standards ? standards : standardsVN,
+      isFilter,
     }
-    return searchFormData
+    return result
   }
 
   componentDidMount() {
-    const stationsData = this.getStationDataView(this.props.stationsData)
-    const stationKey = _.get(stationsData, '[0].key', undefined)
+    const { stationsData } = this.props
+
+    const stationsDataView = this.getStationDataView(stationsData)
+    const stationKey = get(stationsDataView, '[0].key', undefined)
+
     if (!stationKey) return
-    this.setState({ tabKey: stationKey }, () => {
-      const searchFormData = this.getSearchFormData(stationKey)
-      this.loadData(this.state.pagination, searchFormData)
-    })
+
+    this.handleChangeTab(stationKey)
   }
 
   getStationDataView = stationsData => {
@@ -172,8 +186,8 @@ export default class TableList extends React.PureComponent {
       this.props.stationsData
     )
     const stationsDataView = this.getStationDataView(nextProps.stationsData)
-    if (!_.isEqual(stationsDataView, prevStationsDataView)) {
-      const stationKey = _.get(stationsDataView, '[0].key', undefined)
+    if (!isEqual(stationsDataView, prevStationsDataView)) {
+      const stationKey = get(stationsDataView, '[0].key', undefined)
       if (!stationKey) return
       this.handleChangeTab(stationKey)
       const searchFormData = this.getSearchFormData(stationKey)
@@ -182,9 +196,9 @@ export default class TableList extends React.PureComponent {
       })
     }
 
-    if (!_.isEqual(this.props.standardsVN, nextProps.standardsVN)) {
+    if (!isEqual(this.props.standardsVN, nextProps.standardsVN)) {
       const stationsData = this.getStationDataView(this.props.stationsData)
-      const stationKey = _.get(stationsData, '[0].key', undefined)
+      const stationKey = get(stationsData, '[0].key', undefined)
       if (!stationKey) return
       const searchFormData = this.getSearchFormData(
         stationKey,
@@ -195,8 +209,15 @@ export default class TableList extends React.PureComponent {
   }
 
   getQueryParams(searchFormData) {
-    const dataStatus = searchFormData.dataStatus.join(',')
+    if (isEmpty(searchFormData)) return {}
+    const dataStatus = get(searchFormData, 'dataStatus').join(',')
     const defaultStatus = dataStatusOptions.map(item => item.value).join(',')
+
+    const groupType = ['month', 'year'].includes(searchFormData.type)
+      ? searchFormData.type
+      : 'custom'
+    const status = dataStatus.length === 0 ? defaultStatus : dataStatus
+    const timeInterval = Number(searchFormData.type) ? searchFormData.type : 0
 
     const params = {
       from: searchFormData.fromDate,
@@ -204,17 +225,16 @@ export default class TableList extends React.PureComponent {
       measuringList: searchFormData.measuringList.join(','),
       standards: searchFormData.standardsVN.join(','),
       isFilter: searchFormData.isFilter,
-      status: dataStatus.length === 0 ? defaultStatus : dataStatus,
-      groupType: ['month', 'year'].includes(searchFormData.type)
-        ? searchFormData.type
-        : 'custom',
-      timeInterval: Number(searchFormData.type) ? searchFormData.type : 0,
+      status,
+      groupType,
+      timeInterval,
     }
 
     return params
   }
 
   async loadData(pagination, searchFormData) {
+    const { setLoading } = this.props
     let paginationQuery = pagination
     const params = Object.assign(this.getQueryParams(searchFormData), {
       page: paginationQuery.current,
@@ -222,14 +242,17 @@ export default class TableList extends React.PureComponent {
     })
 
     this.setState({ isLoading: true }, async () => {
+      const stationKey = get(searchFormData, ['key'])
+      setLoading(true)
       const dataStationAuto = await DataInsight.getDataAverage(
-        searchFormData.key,
+        stationKey,
         params
       )
       if (dataStationAuto.error) {
         message.error('ERROR')
         return
       }
+      setLoading(false)
       this.setState(
         {
           isLoading: false,
@@ -243,11 +266,13 @@ export default class TableList extends React.PureComponent {
           },
         },
         () => {
-          if (this.state.dataStationAuto.length === 0) {
+          const { dataStationAuto } = this.state
+
+          if (dataStationAuto.length === 0) {
             return
           }
 
-          const orderedMeaList = this.state.dataStationAuto.map(station => {
+          const orderedMeaList = dataStationAuto.map(station => {
             const meaKeys = Object.keys(station.measuringLogs)
 
             return {
@@ -256,7 +281,7 @@ export default class TableList extends React.PureComponent {
             }
           })
 
-          const orderedMea = _.maxBy(orderedMeaList, o => o.length)
+          const orderedMea = maxBy(orderedMeaList, o => o.length)
 
           this.setState({
             orderedMeaKey: orderedMea.meaKeys,
@@ -267,8 +292,8 @@ export default class TableList extends React.PureComponent {
   }
 
   handleChangePage = pagination => {
-    // const station = this.getStation(this.state.tabKey)
-    const searchFormData = this.getSearchFormData(this.state.tabKey)
+    const { tabKey } = this.state
+    const searchFormData = this.getSearchFormData(tabKey)
     this.loadData({ ...pagination, pageSize: 50 }, searchFormData)
   }
 
@@ -286,7 +311,8 @@ export default class TableList extends React.PureComponent {
   }
 
   async handleExportExcel() {
-    const searchFormData = this.getSearchFormData(this.state.tabKey)
+    const { tabKey } = this.state
+    const searchFormData = this.getSearchFormData(tabKey)
     const params = Object.assign(this.getQueryParams(searchFormData), {
       lang: this.props.locale || 'en',
     })
@@ -304,13 +330,14 @@ export default class TableList extends React.PureComponent {
   }
 
   async handleExportAllStation() {
-    const allKeys = this.props.stationsData.reduce((acc, station) => {
+    const { stationsData } = this.props
+    const allKeys = stationsData.reduce((acc, station) => {
       if (station.view) {
         acc = [...acc, station.key]
       }
       return acc
     }, [])
-    let queryData = _.map(allKeys, key => {
+    let queryData = map(allKeys, key => {
       let searchFormData = this.getSearchFormData(key)
       searchFormData.from = searchFormData.fromDate
       searchFormData.to = searchFormData.toDate
@@ -327,7 +354,7 @@ export default class TableList extends React.PureComponent {
       let res = await exportExcelMultipleStation(body)
       if (res.success) {
         const { data } = await getMe()
-        const userEmail = _.get(data, 'email', '')
+        const userEmail = get(data, 'email', '')
         message.success(
           <span>
             {translate('avgSearchFrom.excelMultiple')} <b>{userEmail}</b>
@@ -343,21 +370,14 @@ export default class TableList extends React.PureComponent {
   }
 
   render() {
-    const stations = this.props.stationsData.filter(station => station.view)
-    // console.log(stations.length, 'length statuib')
-    // const stt = stations.filter(s => s.key === 'NT_XMHT')
-    // console.log(JSON.stringify(stt, null, 2), 'station ne')
-    // console.log(JSON.stringify(this.state.dataStationAuto, null, 2), '==data ne')
-    if (!stations.length) return null
-    // console.log("Tablelist " + JSON.stringify(station.measuringData, null, 2))
-    return (
-      <TableListWrapper>
-        <TitleWrapper>
-          <h4>{translate('dataSearchFilterForm.table.heading')}</h4>
-        </TitleWrapper>
+    const { stationsData } = this.props
+    const stations = stationsData.filter(station => station.view)
 
+    if (!stations.length) return null
+    return (
+      <StationDataWrapper>
         {this.renderTabStations(stations)}
-      </TableListWrapper>
+      </StationDataWrapper>
     )
   }
 }
