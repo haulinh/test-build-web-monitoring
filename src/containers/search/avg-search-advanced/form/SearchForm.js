@@ -9,7 +9,7 @@ import {
   Switch,
   Tooltip,
 } from 'antd'
-import ToolTipIcon from 'assets/svg-icons/tooltip.svg'
+import SortableMultiSelect from 'components/core/select/SortableMultiSelect'
 import { default as BoxShadowStyle } from 'components/elements/box-shadow'
 import Heading from 'components/elements/heading'
 import OptionsTimeRange from 'components/elements/options-time-range'
@@ -20,7 +20,6 @@ import SelectStationType from 'components/elements/select-station-type'
 import ToolTip from 'components/elements/tooltip'
 import { FormItem } from 'components/layouts/styles'
 import { dataStatusOptions } from 'constants/dataStatus'
-import SelectMeasureParameter from 'containers/data-analytics/filter/select-measure-parameter'
 import SelectStationAuto from 'containers/data-analytics/filter/select-station-auto'
 import { translate as t, translate } from 'hoc/create-lang'
 import createQueryFormDataBrowser from 'hoc/query-formdata-browser'
@@ -29,10 +28,10 @@ import moment from 'moment-timezone'
 import React from 'react'
 import styled from 'styled-components'
 import { getTimes } from 'utils/datetime'
+import { requiredFieldRule } from 'utils/rules'
 import SelectTimeRange from '../../common/select-time-range'
 import { FIELDS, i18n } from '../constants'
 import FilterList from '../filter'
-import { requiredFieldRule } from 'utils/rules'
 
 const HeaderWrapper = styled.div`
   color: blue;
@@ -468,6 +467,11 @@ export default class SearchAvgForm extends React.Component {
     const province = values[FIELDS.PROVINCE]
     const stationAutos = [...this.stationAutos].map(([_, station]) => station)
 
+    const measuringListOptions = measuringList.map(measure => ({
+      value: measure.key,
+      name: measure.name,
+    }))
+
     return (
       <SearchFormContainer>
         <Heading
@@ -547,9 +551,10 @@ export default class SearchAvgForm extends React.Component {
             </Col>
             <Col>
               <FormItem label={i18n().form.measuringList(numberMeasure)}>
-                {form.getFieldDecorator(FIELDS.MEASURING_LIST, {
-                  rules: [requiredFieldRule(i18n().rules.parameter)],
-                })(<SelectMeasureParameter options={measuringList} />)}
+                {form.getFieldDecorator(
+                  FIELDS.MEASURING_LIST,
+                  {}
+                )(<SortableMultiSelect options={measuringListOptions} />)}
               </FormItem>
             </Col>
           </Row>
