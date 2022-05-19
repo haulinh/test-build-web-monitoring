@@ -454,7 +454,6 @@ export default class SearchAvgForm extends React.Component {
   render() {
     const { form, loading } = this.props
     const { measuringList, otherConditionFilter } = this.state
-    // console.log({ loading })
 
     const values = form.getFieldsValue([
       FIELDS.STATION_AUTO,
@@ -538,6 +537,8 @@ export default class SearchAvgForm extends React.Component {
                 })(
                   <SelectStationAuto
                     stationList={this.getStationAutos()}
+                    stationType={form.getFieldValue(FIELDS.STATION_TYPE)}
+                    province={form.getFieldValue(FIELDS.PROVINCE)}
                     onFetchSuccess={this.onFetchStationAutoSuccess}
                   />
                 )}
