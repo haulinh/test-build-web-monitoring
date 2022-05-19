@@ -66,14 +66,14 @@ export default class TableList extends React.PureComponent {
   renderDataTab = () => {
     if (this.props.measuringData.length === 0) {
       return (
-        <Tabs.TabPane tab={translate('avgSearchFrom.tab.data')} key="1">
+        <Tabs.TabPane tab={translate('avgSearchFrom.tab.data')} key="data">
           <Empty />
         </Tabs.TabPane>
       )
     }
 
     return (
-      <Tabs.TabPane tab={translate('avgSearchFrom.tab.data')} key="1">
+      <Tabs.TabPane tab={translate('avgSearchFrom.tab.data')} key="data">
         <TabTableDataList
           loading={this.props.isLoading}
           measuringList={this.props.measuringList || []}
@@ -90,21 +90,27 @@ export default class TableList extends React.PureComponent {
   }
 
   renderChartTab = () => {
-    const { qcvns } = this.props
+    const {
+      qcvns,
+      dataStationAuto,
+      measuringData,
+      nameChart,
+      typeReport,
+    } = this.props
     if (this.props.measuringData.length === 0) {
       return (
-        <Tabs.TabPane tab={translate('avgSearchFrom.tab.chart')} key="2">
+        <Tabs.TabPane tab={translate('avgSearchFrom.tab.chart')} key="chart">
           <Empty />
         </Tabs.TabPane>
       )
     }
     return (
-      <Tabs.TabPane tab={translate('avgSearchFrom.tab.chart')} key="2">
+      <Tabs.TabPane tab={translate('avgSearchFrom.tab.chart')} key="chart">
         <TabChart
-          dataStationAuto={this.state.dataChart}
-          measuringData={this.props.measuringData || []}
-          nameChart={this.props.nameChart}
-          typeReport={this.props.typeReport}
+          dataStationAuto={dataStationAuto}
+          measuringData={measuringData || []}
+          nameChart={nameChart}
+          typeReport={typeReport}
           qcvnSelected={qcvns}
         />
       </Tabs.TabPane>
@@ -112,24 +118,10 @@ export default class TableList extends React.PureComponent {
   }
 
   handleChangeTab = key => {
+    const { handleChangeChartTab } = this.props
     if (key === '2') {
-      console.log('HEeeeeeeeee')
-      this.getDataChart()
+      handleChangeChartTab(true)
     }
-  }
-
-  getDataChart = async () => {
-    console.log(this.props.searchFormData)
-    console.log(this.props.params)
-    // try {
-    //   const dataStationAuto = await DataInsight.getDataAverage(
-    //     searchFormData.key,
-    //     params
-    //   )
-    //   this.setState({ dataChart: dataStationAuto && dataStationAuto.data })
-    // } catch (error) {
-    //   console.log(error)
-    // }
   }
 
   render() {
@@ -150,7 +142,7 @@ export default class TableList extends React.PureComponent {
           )}
         </ButtonAbsolute>
 
-        <Tabs defaultActiveKey="1" onChange={this.handleChangeTab}>
+        <Tabs defaultActiveKey="data" onChange={this.handleChangeTab}>
           {this.renderDataTab()}
           {this.renderChartTab()}
         </Tabs>

@@ -9,6 +9,7 @@ import { translate } from 'hoc/create-lang'
 import { find, get, isEmpty, isEqual, map, maxBy } from 'lodash'
 import PropTypes from 'prop-types'
 import React from 'react'
+import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { downFileExcel } from 'utils/downFile'
 import TabList from '../../tab-list'
@@ -23,7 +24,9 @@ const StationDataWrapper = styled(BoxShadow)`
     padding: 12px 16px 12px 16px !important;
   }
 `
-
+@connect(state => ({
+  locale: state.language.locale,
+}))
 @autobind
 export default class StationData extends React.PureComponent {
   static propTypes = {
@@ -50,6 +53,7 @@ export default class StationData extends React.PureComponent {
         pageSize: 50,
       },
       orderedMeaKey: [],
+      isChartTab: false,
     }
   }
 
@@ -89,10 +93,6 @@ export default class StationData extends React.PureComponent {
       )
     )
 
-    const formData = this.getSearchFormData(station.key)
-
-    const params = this.getQueryParams(formData)
-
     return (
       <Tabs.TabPane tab={station.name} key={station.key}>
         <TabList
@@ -110,11 +110,16 @@ export default class StationData extends React.PureComponent {
           typeReport={`${searchFormData.type}`}
           isExporting={isExporting}
           isExportingAll={isExportingAll}
-          searchFormData={formData}
-          params={params}
+          handleChangeChartTab={this.handleChangeChartTab}
         />
       </Tabs.TabPane>
     )
+  }
+
+  handleChangeChartTab = isChartTab => {
+    const { tabKey } = this.state
+    const searchFormData = this.getSearchFormData(tabKey)
+    this.loadData({}, searchFormData)
   }
 
   getStation = stationKey => {
@@ -242,11 +247,16 @@ export default class StationData extends React.PureComponent {
 
   async loadData(pagination, searchFormData) {
     const { setLoading } = this.props
+
     let paginationQuery = pagination
-    const params = Object.assign(this.getQueryParams(searchFormData), {
-      page: paginationQuery.current,
-      itemPerPage: paginationQuery.pageSize,
-    })
+    const params = isEmpty(pagination)
+      ? Object.assign(this.getQueryParams(searchFormData), {
+          itemPerPage: Number.MAX_SAFE_INTEGER,
+        })
+      : Object.assign(this.getQueryParams(searchFormData), {
+          page: paginationQuery.current,
+          itemPerPage: paginationQuery.pageSize,
+        })
 
     this.setState({ isLoading: true }, async () => {
       const stationKey = get(searchFormData, ['key'])

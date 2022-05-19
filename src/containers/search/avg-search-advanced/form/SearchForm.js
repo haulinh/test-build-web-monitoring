@@ -103,6 +103,7 @@ export default class SearchAvgForm extends React.Component {
       measuringList: [],
       stationsData: [],
       stationTypes: [],
+      stationAutosValue: [],
     }
   }
 
@@ -245,6 +246,9 @@ export default class SearchAvgForm extends React.Component {
       setFilterDefault(filterDefault)
 
       this.handleStationAutoKeys(stationType, provinceKey)
+      this.setState({
+        stationAutosValue: this.getStationAutosValue(stationType, provinceKey),
+      })
     }
 
     this.handleSearch()
@@ -276,7 +280,23 @@ export default class SearchAvgForm extends React.Component {
     frequency = undefined,
     standard = undefined
   ) => {
-    const stationAutoKeys = [...this.stationAutos]
+    const stationAutoKeys = this.getStationAutosValue(
+      stationType,
+      province,
+      frequency,
+      standard
+    ).map(station => get(station, 'key'))
+
+    return stationAutoKeys
+  }
+
+  getStationAutosValue = (
+    stationType,
+    province,
+    frequency = undefined,
+    standard = undefined
+  ) => {
+    const stationAutosValue = [...this.stationAutos]
       .map(([_, station]) => station)
       .filter(station => get(station, `stationType.key`) === stationType)
       .filter(station => !province || get(station, `province.key`) === province)
@@ -286,9 +306,8 @@ export default class SearchAvgForm extends React.Component {
       .filter(station =>
         standard ? get(station, `standardsVN.key`) === standard : true
       )
-      .map(station => get(station, 'key'))
 
-    return stationAutoKeys
+    return stationAutosValue
   }
 
   updateForm = ({ stationAutoKeys }) => {
@@ -364,11 +383,20 @@ export default class SearchAvgForm extends React.Component {
     const { form } = this.props
     const stationTypeKeys = this.getStationTypes(province)
     const stationType = stationTypeKeys[0]
+    const { frequent } = form.getFieldsValue()
+
     form.setFieldsValue({
       [FIELDS.STATION_TYPE]: stationType,
     })
 
-    this.handleStationAutoKeys(stationType, province)
+    this.handleStationAutoKeys(stationType, province, frequent)
+    this.setState({
+      stationAutosValue: this.getStationAutosValue(
+        stationType,
+        province,
+        frequent
+      ),
+    })
   }
 
   onChangeStationType = stationType => {
@@ -394,6 +422,15 @@ export default class SearchAvgForm extends React.Component {
 
     const { stationType, provinceKey, standardKey } = form.getFieldsValue()
     this.handleStationAutoKeys(stationType, provinceKey, frequency, standardKey)
+
+    this.setState({
+      stationAutosValue: this.getStationAutosValue(
+        stationType,
+        provinceKey,
+        frequency,
+        standardKey
+      ),
+    })
   }
 
   onChangeStandard = standard => {
@@ -402,6 +439,15 @@ export default class SearchAvgForm extends React.Component {
 
     const { stationType, provinceKey, frequent } = form.getFieldsValue()
     this.handleStationAutoKeys(stationType, provinceKey, frequent, standard)
+
+    this.setState({
+      stationAutosValue: this.getStationAutosValue(
+        stationType,
+        provinceKey,
+        frequent,
+        standard
+      ),
+    })
   }
 
   handleSearch = async () => {
@@ -453,7 +499,11 @@ export default class SearchAvgForm extends React.Component {
 
   render() {
     const { form, loading } = this.props
-    const { measuringList, otherConditionFilter } = this.state
+    const {
+      measuringList,
+      otherConditionFilter,
+      stationAutosValue,
+    } = this.state
 
     const values = form.getFieldsValue([
       FIELDS.STATION_AUTO,
@@ -536,7 +586,7 @@ export default class SearchAvgForm extends React.Component {
                   onChange: this.onStationAutoChange,
                 })(
                   <SelectStationAuto
-                    stationList={this.getStationAutos()}
+                    stationAutosValue={stationAutosValue}
                     stationType={form.getFieldValue(FIELDS.STATION_TYPE)}
                     province={form.getFieldValue(FIELDS.PROVINCE)}
                     onFetchSuccess={this.onFetchStationAutoSuccess}
