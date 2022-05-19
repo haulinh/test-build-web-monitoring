@@ -56,26 +56,12 @@ export default class TableAlarmConfigExceed extends Component {
     {
       title: i18n().nameThreshold,
       render: (_, record) => {
-        const { form, qcvnList } = this.props
-
-        const configAlarmType = get(record, 'config.type')
-        let standardName = ''
-
-        if (isDefaultDataLevel(configAlarmType)) {
-          standardName = i18n()[configAlarmType]
-        } else {
-          const qcvnListObj = keyBy(qcvnList, '_id')
-          const standardId = form.getFieldValue(
-            `${FIELDS.DATA_LEVEL}.${record._id}.${FIELDS.CONFIG}.${FIELDS.STANDARD_ID}`
-          )
-          standardName = get(qcvnListObj, [standardId, 'name'])
-        }
+        const { form } = this.props
 
         return (
           <React.Fragment>
             {form.getFieldDecorator(
-              `${FIELDS.DATA_LEVEL}.${record._id}.${FIELDS.CONFIG}.${FIELDS.NAME}`,
-              { initialValue: standardName }
+              `${FIELDS.DATA_LEVEL}.${record._id}.${FIELDS.CONFIG}.${FIELDS.NAME}`
             )(<Input />)}
           </React.Fragment>
         )

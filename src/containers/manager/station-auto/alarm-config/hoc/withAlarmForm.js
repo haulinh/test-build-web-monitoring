@@ -92,6 +92,7 @@ const withAlarmForm = WrappedComponent => {
               : getStatusAlarmBoolean(item.status),
         }))
         .reduce((base, current) => ({ ...base, [current._id]: current }), {})
+
       const alarmFormValuesType = {
         [alarmType]: alarmFormValuesFormat,
       }

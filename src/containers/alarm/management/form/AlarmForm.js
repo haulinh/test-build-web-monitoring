@@ -185,7 +185,7 @@ export default class AlarmForm extends Component {
 
   onSubmit = async e => {
     e.preventDefault()
-    const { form, onClose, getData, alarmSelected, isEdit } = this.props
+    const { form, getData, alarmSelected, isEdit } = this.props
 
     if (form.getFieldValue(FIELDS.TYPE) !== 'advance') {
       const values = await form.validateFields()
