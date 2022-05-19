@@ -7,7 +7,7 @@ import {
 import { formatTime } from 'containers/search/avg-search-advanced/utils/formatTime'
 import Highcharts from 'highcharts'
 import { translate } from 'hoc/create-lang'
-import { get, isEmpty, isNumber, keyBy } from 'lodash'
+import { get, isEmpty, isNil, isNumber, keyBy } from 'lodash'
 import React, { Component } from 'react'
 import ReactHighcharts from 'react-highcharts'
 import { connect } from 'react-redux'
@@ -19,6 +19,11 @@ ReactHighcharts.Highcharts.setOptions({
     useUTC: false,
   },
 })
+
+const showMarker = type => {
+  const isLongRangeType = ['month', 'year', 1440].includes(type)
+  return isLongRangeType ? true : false
+}
 
 const configChart = (data, title, type) => {
   return {
@@ -45,7 +50,7 @@ const configChart = (data, title, type) => {
     plotOptions: {
       series: {
         marker: {
-          enabled: false,
+          enabled: showMarker(type),
         },
         dataLabels: {
           enabled: false,
@@ -139,41 +144,22 @@ export default class TabChart extends Component {
     ),
   }
 
-  getConfigData = () => {
-    const { languageContents, dataStationAuto } = this.props
+  getNewDataSeriesWithQCVN = dataSeries => {
     const { current } = this.state
-    const { key, name, unit } = current
-
-    const title = this.getTitleName(key, name, unit)
-    // const type = searchFormData.type
-    let dataSeries = []
-
-    const measureName = getContent(languageContents, {
-      type: 'Measure',
-      itemKey: key,
-      value: name,
-    })
-
-    !isEmpty(this.getDataWithStation(dataStationAuto)) &&
-      dataSeries.push({
-        type: 'spline',
-        name: measureName,
-        data: this.getDataWithStation(dataStationAuto),
-        lineWidth: 2,
-      })
+    let newDataSeries = dataSeries
 
     const qcvnList = this.getQCVNList(current.key)
     const lineQcvn = {
-      type: 'spline',
       enableMouseTracking: false,
+      dashStyle: 'Dash',
     }
 
     qcvnList.forEach(qcvn => {
-      const data = dataSeries[0].data.reverse()
+      const data = newDataSeries[0].data
 
       if (isNumber(qcvn.maxLimit)) {
-        dataSeries = [
-          ...dataSeries,
+        newDataSeries = [
+          ...newDataSeries,
           {
             ...lineQcvn,
             id: qcvn.id,
@@ -195,8 +181,8 @@ export default class TabChart extends Component {
       }
 
       if (isNumber(qcvn.minLimit)) {
-        dataSeries = [
-          ...dataSeries,
+        newDataSeries = [
+          ...newDataSeries,
           {
             ...lineQcvn,
             id: qcvn.id,
@@ -218,8 +204,62 @@ export default class TabChart extends Component {
         ]
       }
     })
+    return newDataSeries
+  }
 
-    return configChart(dataSeries, title)
+  getConfigData = () => {
+    const { languageContents, dataStationAuto, typeReport } = this.props
+    const { current } = this.state
+    const { key, name, unit } = current
+
+    const title = this.getTitleName(key, name, unit)
+    let dataSeries = []
+
+    const measureName = getContent(languageContents, {
+      type: 'Measure',
+      itemKey: key,
+      value: name,
+    })
+
+    !isEmpty(this.getDataWithStation(dataStationAuto)) &&
+      dataSeries.push({
+        type: 'spline',
+        name: measureName,
+        data: this.getDataWithStation(dataStationAuto),
+        lineWidth: 2,
+      })
+
+    let newDataSeries = this.getDataSeriesWithNullData(dataSeries)
+
+    if (!isEmpty(newDataSeries)) {
+      newDataSeries = this.getNewDataSeriesWithQCVN(newDataSeries)
+    }
+
+    return configChart(newDataSeries, title, typeReport)
+  }
+
+  getDataSeriesWithNullData = dataSeries => {
+    const { dataStationAuto } = this.props
+
+    //List time in chart with sort data
+    const timeList = dataStationAuto
+      .map(data => {
+        return moment(data.receivedAt).valueOf()
+      })
+      .sort((a, b) => a - b)
+
+    //Format new dataSeries with null value
+    const newDataSeries = dataSeries.map(series => {
+      const data = timeList.map(time => {
+        const valueFind = series.data.find(item => item[0] === time)
+        if (valueFind) {
+          return [time, valueFind[1]]
+        }
+        return [time, null]
+      })
+      return { ...series, data }
+    })
+    return newDataSeries
   }
 
   getQCVNList = measureCurrent => {
@@ -265,7 +305,8 @@ export default class TabChart extends Component {
   getDataWithStation = dataStationAuto => {
     const { current } = this.state
 
-    const data = dataStationAuto.reverse().map(item => {
+    let data = []
+    dataStationAuto.forEach(item => {
       const valueWithMeasure = getFormatNumber(
         get(item, `measuringLogs.${current.key}.value`, null),
         2,
@@ -274,7 +315,7 @@ export default class TabChart extends Component {
       )
       const time = moment(item.receivedAt).valueOf()
 
-      return [time, valueWithMeasure]
+      !isNil(valueWithMeasure) && data.push([time, valueWithMeasure])
     })
 
     return data
