@@ -144,6 +144,69 @@ export default class ChartOverview extends Component {
     ),
   }
 
+  getNewDataSeriesWithQCVN = dataSeries => {
+    const { current } = this.state
+    let newDataSeries = dataSeries
+
+    const qcvnList = this.getQCVNList(current.key)
+    const lineQcvn = {
+      enableMouseTracking: false,
+      dashStyle: 'Dash',
+    }
+
+    qcvnList.forEach(qcvn => {
+      const data = newDataSeries[0].data
+
+      if (isNumber(qcvn.maxLimit)) {
+        newDataSeries = [
+          ...newDataSeries,
+          {
+            ...lineQcvn,
+            id: qcvn.id,
+            name: qcvn.name,
+            valueLimit: qcvn.maxLimit,
+            data: data.map((dataItem, index) => {
+              if (index === 0) {
+                return {
+                  x: dataItem[0],
+                  y: qcvn.maxLimit,
+                  dataLabels: { enabled: true },
+                }
+              } else {
+                return [dataItem[0], qcvn.maxLimit]
+              }
+            }),
+          },
+        ]
+      }
+
+      if (isNumber(qcvn.minLimit)) {
+        newDataSeries = [
+          ...newDataSeries,
+          {
+            ...lineQcvn,
+            id: qcvn.id,
+            valueLimit: qcvn.minLimit,
+            name: qcvn.name,
+            className: 'min',
+            data: data.map((dataItem, index) => {
+              if (index === 0) {
+                return {
+                  x: dataItem[0],
+                  y: qcvn.minLimit,
+                  dataLabels: { enabled: true },
+                }
+              } else {
+                return [dataItem[0], qcvn.minLimit]
+              }
+            }),
+          },
+        ]
+      }
+    })
+    return newDataSeries
+  }
+
   getConfigData = () => {
     const { dataChart, languageContents, searchFormData } = this.props
     const { current } = this.state
@@ -169,66 +232,37 @@ export default class ChartOverview extends Component {
         })
     })
 
-    if (!isEmpty(dataSeries)) {
-      const qcvnList = this.getQCVNList(current.key)
-      const lineQcvn = {
-        enableMouseTracking: false,
-        dashStyle: 'Dash',
-      }
+    let newDataSeries = this.getDataSeriesWithNullData(dataSeries)
 
-      qcvnList.forEach(qcvn => {
-        const data = dataSeries[0].data
-
-        if (isNumber(qcvn.maxLimit)) {
-          dataSeries = [
-            ...dataSeries,
-            {
-              ...lineQcvn,
-              id: qcvn.id,
-              name: qcvn.name,
-              valueLimit: qcvn.maxLimit,
-              data: data.map((dataItem, index) => {
-                if (index === 0) {
-                  return {
-                    x: dataItem[0],
-                    y: qcvn.maxLimit,
-                    dataLabels: { enabled: true },
-                  }
-                } else {
-                  return [dataItem[0], qcvn.maxLimit]
-                }
-              }),
-            },
-          ]
-        }
-
-        if (isNumber(qcvn.minLimit)) {
-          dataSeries = [
-            ...dataSeries,
-            {
-              ...lineQcvn,
-              id: qcvn.id,
-              valueLimit: qcvn.minLimit,
-              name: qcvn.name,
-              className: 'min',
-              data: data.map((dataItem, index) => {
-                if (index === 0) {
-                  return {
-                    x: dataItem[0],
-                    y: qcvn.minLimit,
-                    dataLabels: { enabled: true },
-                  }
-                } else {
-                  return [dataItem[0], qcvn.minLimit]
-                }
-              }),
-            },
-          ]
-        }
-      })
+    if (!isEmpty(newDataSeries)) {
+      newDataSeries = this.getNewDataSeriesWithQCVN(newDataSeries)
     }
 
-    return configChart(dataSeries, title, type)
+    return configChart(newDataSeries, title, type)
+  }
+
+  getDataSeriesWithNullData = dataSeries => {
+    const { dataChart } = this.props
+
+    //List time in chart with sort data
+    const timeList = Object.entries(dataChart.data)
+      .map(([keyTime, _]) => {
+        return moment(keyTime).valueOf()
+      })
+      .sort((a, b) => a - b)
+
+    //Format new dataSeries with null value
+    const newDataSeries = dataSeries.map(series => {
+      const data = timeList.map(time => {
+        const valueFind = series.data.find(item => item[0] === time)
+        if (valueFind) {
+          return [time, valueFind[1]]
+        }
+        return [time, null]
+      })
+      return { ...series, data }
+    })
+    return newDataSeries
   }
 
   getQCVNList = measureCurrent => {
@@ -295,7 +329,7 @@ export default class ChartOverview extends Component {
       }
     })
 
-    return data.sort((a, b) => a[0] - b[0])
+    return data
   }
 
   getMeasureName = (key, name, unit) => {

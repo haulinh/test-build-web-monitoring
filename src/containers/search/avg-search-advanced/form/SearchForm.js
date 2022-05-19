@@ -441,6 +441,16 @@ export default class SearchAvgForm extends React.Component {
     this.updateForm({ stationAutoKeys })
   }
 
+  getStationAutos = () => {
+    const { form } = this.props
+
+    const stationAuto = form.getFieldValue(FIELDS.STATION_AUTO)
+
+    return [...this.stationAutos]
+      .map(([_, station]) => station)
+      .filter(station => stationAuto.some(item => station.key === item))
+  }
+
   render() {
     const { form, loading } = this.props
     const { measuringList, otherConditionFilter } = this.state
@@ -526,6 +536,7 @@ export default class SearchAvgForm extends React.Component {
                   onChange: this.onStationAutoChange,
                 })(
                   <SelectStationAuto
+                    stationList={this.getStationAutos()}
                     stationType={form.getFieldValue(FIELDS.STATION_TYPE)}
                     province={form.getFieldValue(FIELDS.PROVINCE)}
                     onFetchSuccess={this.onFetchStationAutoSuccess}
