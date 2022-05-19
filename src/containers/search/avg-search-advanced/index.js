@@ -306,6 +306,7 @@ export default class AvgSearchAdvanced extends React.Component {
       filterItem,
       otherCondition,
       filterSearch: valuesForm,
+      isSearchingData: true,
     })
   }
 
