@@ -3,10 +3,10 @@ import { default as SearchFormContainer } from 'components/elements/box-shadow'
 import Heading from 'components/elements/heading'
 import SelectProvince from 'components/elements/select-province'
 import SelectStationType from 'components/elements/select-station-type'
+import ToolTip from 'components/elements/tooltip'
 import { DD_MM_YYYY, MM_YYYY } from 'constants/format-date'
 import { Clearfix } from 'containers/fixed-map/map-default/components/box-analytic-list/style'
 import SelectStationAuto from 'containers/search/common/select-station-auto' //'.././common/select-station-auto'
-import { ToolTip } from 'containers/search/common/tooltip'
 import createLang, { translate } from 'hoc/create-lang'
 import { get } from 'lodash'
 import moment from 'moment'
@@ -243,9 +243,9 @@ export default class SearchForm extends React.Component {
           </Row>
           <Row type="flex" justify="end">
             <Col>
-              <Row type="flex" align="middle">
+              <Row gutter={8} type="flex" align="middle">
                 <Col>
-                  <ToolTip />
+                  <ToolTip text={translate('dataAverage.tooltip.filterData')} />
                 </Col>
                 <Col>
                   <div style={{ fontSize: '16px', fontWeight: '600' }}>

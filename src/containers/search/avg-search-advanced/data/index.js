@@ -1,8 +1,7 @@
 import { Button, Col, Row, Spin, Tabs } from 'antd'
 import DataInsight from 'api/DataInsight'
-import ToolTipIcon from 'assets/svg-icons/TooltipSmall.svg'
 import SelectQCVN from 'components/elements/select-qcvn-v2'
-import { ToolTip } from 'components/elements/tooltip'
+import ToolTip from 'components/elements/tooltip'
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import { ACTIVE_TAB, DEFAULT_TAB, i18n } from '../constants'
@@ -148,12 +147,7 @@ export default class DataSearch extends Component {
                 </div>
               </Col>
               <Col>
-                <ToolTip
-                  marginRight={'4px'}
-                  width={'16px'}
-                  text={i18n().tooltip.standard}
-                  icon={ToolTipIcon}
-                />
+                <ToolTip width={'16px'} text={i18n().tooltip.standard} />
               </Col>
               <Col>
                 <div style={{ marginRight: '2px' }}>:</div>

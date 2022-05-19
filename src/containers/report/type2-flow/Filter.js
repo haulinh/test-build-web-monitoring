@@ -6,7 +6,6 @@ import SelectStationType from 'components/elements/select-station-type'
 import { FormItem } from 'components/layouts/styles'
 import { i18n } from 'containers/api-sharing/constants'
 import { getMeasuringListFromStationAutos } from 'containers/api-sharing/util'
-import { ToolTip } from 'containers/search/common/tooltip'
 import { get } from 'lodash'
 import React from 'react'
 import { FIELDS } from './index'
@@ -15,6 +14,7 @@ import SelectReportType from './select-data/SelectReportType'
 import moment from 'moment'
 import { translate as t } from 'hoc/create-lang'
 import _ from 'lodash'
+import ToolTip from 'components/elements/tooltip'
 
 const Item = props => (
   <Form.Item
@@ -288,9 +288,9 @@ export default class Filter extends React.Component {
           </Col>
         </Row>
         <Row type="flex" justify="end">
-          <Row type="flex" align="middle">
+          <Row gutter={8} type="flex" align="middle">
             <Col>
-              <ToolTip />
+              <ToolTip text={t('dataAverage.tooltip.filterData')} />
             </Col>
             <Col>
               <div style={{ fontSize: '16px', fontWeight: '600' }}>

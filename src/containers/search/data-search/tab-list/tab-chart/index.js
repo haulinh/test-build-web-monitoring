@@ -1,4 +1,4 @@
-import { Tabs } from 'antd'
+import { Row, Spin, Tabs } from 'antd'
 import { DATETIME_LABEL_FORMAT } from 'constants/chart-format'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date.js'
 import {
@@ -11,7 +11,7 @@ import * as _ from 'lodash'
 import moment from 'moment-timezone'
 import PropTypes from 'prop-types'
 import React from 'react'
-import ReactHighcharts from 'react-highcharts/ReactHighstock'
+import ReactHighcharts from 'react-highcharts'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 
@@ -30,21 +30,7 @@ const ChartWrapper = styled.div`
   flex-direction: column;
 `
 
-ReactHighcharts.Highcharts.wrap(
-  ReactHighcharts.Highcharts.RangeSelector.prototype,
-  'drawInput',
-  function(proceed, name) {
-    proceed.call(this, name)
-    this[name + 'DateBox'].on('click', function() {})
-  }
-)
-
 ReactHighcharts.Highcharts.setOptions({
-  lang: {
-    rangeSelectorFrom: translate('chart.from'),
-    rangeSelectorTo: translate('chart.to'),
-    rangeSelectorZoom: '',
-  },
   global: {
     useUTC: false,
   },
@@ -117,20 +103,28 @@ export default class TabChart extends React.PureComponent {
       })
     })
 
-    mesureList.unshift({ code: 'all', name: translate('chart.all') })
+    // mesureList.unshift({ code: 'all', name: translate('chart.all') })
+
     if (isInit) {
       const { stationAutoCurrent } = this.props
+      const initSeries = [seriesData[measuringList[0]]]
+
+      const firstMeasure = measuresObj[measuringList[0]]
+      const nameChartInit = this.getNameChart(
+        stationAutoCurrent.name,
+        firstMeasure
+      )
 
       this.state = {
         seriesData,
         mesureList,
         seriesMeasure: [],
         plotLines: [],
-        nameChart: stationAutoCurrent.name,
+        nameChart: nameChartInit,
         minChart: undefined,
         maxChart: undefined,
-        series: _.values(seriesData),
-        measureCurrent: 'all',
+        series: initSeries,
+        measureCurrent: measuringList[0],
         heightChart,
         dataQcvn: [],
         stationAutoCurrent: {},
@@ -141,26 +135,44 @@ export default class TabChart extends React.PureComponent {
         seriesData,
         mesureList,
         plotLines: [],
-        series: _.values(seriesData),
       })
     }
   }
 
   componentDidUpdate(prevProps) {
-    const { stationAutoCurrent } = this.props
+    const {
+      stationAutoCurrent,
+      dataStationAuto,
+      measuringList,
+      measuresObj,
+    } = this.props
+
     if (
-      !_.isEqual(this.props.dataStationAuto, prevProps.dataStationAuto) ||
-      !_.isEqual(this.props.measuringData, prevProps.measuringData)
+      !_.isEqual(dataStationAuto, prevProps.dataStationAuto) ||
+      !_.isEqual(measuringList, prevProps.measuringList)
     ) {
+      const measure = measuresObj[measuringList[0]]
+
+      this.setState(
+        {
+          nameChart: this.getNameChart(stationAutoCurrent.name, measure),
+          measureCurrent: measuringList[0],
+        },
+        () => this.handleDrawChart()
+      )
+
       this.initData(this.props)
-      this.setState({
-        measureCurrent: 'all',
-        nameChart: stationAutoCurrent.name,
-      })
     }
     if (!_.isEqual(this.props.qcvnSelected, prevProps.qcvnSelected)) {
       this.handleDrawChart()
     }
+  }
+
+  getNameChart = (stationName, measure) => {
+    const unitMeasure = measure.unit ? `(${measure.unit})` : ''
+    const nameChart = `${stationName} - ${measure.name} ${unitMeasure}`
+
+    return nameChart
   }
 
   //convert data measuringList[] to measuringList{}
@@ -206,7 +218,7 @@ export default class TabChart extends React.PureComponent {
 
   handleDrawChart = () => {
     const { stationAutoCurrent } = this.props
-    const { measureCurrent } = this.state
+    const { seriesData, measureCurrent } = this.state
 
     let series = []
     let minChart = undefined
@@ -214,131 +226,102 @@ export default class TabChart extends React.PureComponent {
     let plotLines = []
     let nameChart = stationAutoCurrent.name
 
-    if (measureCurrent !== 'all') {
-      let dataSeries = _.get(this.state.seriesData, [measureCurrent], {})
-      dataSeries = {
-        ...dataSeries,
-        marker: {
-          enabled: true,
-        },
-      }
+    let dataSeries = _.get(seriesData, [measureCurrent], {})
 
-      const measure = stationAutoCurrent.measuringList.find(
-        measure => measure.key === measureCurrent
-      )
+    const measure = stationAutoCurrent.measuringList.find(
+      measure => measure.key === measureCurrent
+    )
 
-      const minLimit = _.get(dataSeries, 'minLimit')
-      series = [dataSeries]
+    const minLimit = _.get(dataSeries, 'minLimit')
+    series = [dataSeries]
 
-      if (_.isNumber(minLimit)) {
-        let data = _.clone(dataSeries) //_.get(this.state.seriesData, [measureCurrent], {})
-        _.update(data, 'threshold', () => minLimit)
-        _.update(data, 'color', () => 'transparent')
-        _.update(data, 'negativeColor', () => 'red')
-        series.push(data)
-      }
-
-      // draw line qcvn
-      console.log(measureCurrent)
-      const qcvnList = this.getDataQcvn(measureCurrent)
-
-      //type line qcvn
-      const lineQcvn = {
-        type: 'line',
-        enableMouseTracking: false,
-      }
-
-      //draw line maxLimit minLimit
-      plotLines = [
-        {
-          value: _.get(measure, 'minLimit', undefined),
-          color: '#ff6666',
-          dashStyle: 'shortDot',
-          width: 1,
-          zIndex: 100,
-          label: {
-            text: translate(`dashboard.chartStatus.min`, {
-              min: _.get(measure, 'minLimit', ''),
-            }),
-            y: 13,
-          },
-        },
-        {
-          value: _.get(measure, 'maxLimit', undefined),
-          color: '#ff6666',
-          dashStyle: 'shortDot',
-          width: 1,
-          zIndex: 100,
-          label: {
-            text: translate(`dashboard.chartStatus.max`, {
-              max: _.get(measure, 'maxLimit', ''),
-            }),
-          },
-        },
-      ]
-
-      qcvnList.forEach(qcvn => {
-        //add line qcvn minLimit & maxLimit
-        const data = dataSeries.data
-
-        if (_.isNumber(qcvn.maxLimit)) {
-          series = [
-            ...series,
-            {
-              ...lineQcvn,
-              id: qcvn.id,
-              name: qcvn.name,
-              valueLimit: qcvn.maxLimit,
-              data: data.map((dataItem, index) => {
-                if (index === 0) {
-                  return {
-                    y: qcvn.maxLimit,
-                    dataLabels: { enabled: true },
-                  }
-                } else {
-                  return [dataItem[0], qcvn.maxLimit]
-                }
-              }),
-            },
-          ]
-
-          plotLines = []
-        }
-
-        if (_.isNumber(qcvn.minLimit)) {
-          series = [
-            ...series,
-            {
-              ...lineQcvn,
-              id: qcvn.id,
-              valueLimit: qcvn.minLimit,
-              name: qcvn.name,
-              className: 'min',
-              data: data.map((dataItem, index) => {
-                if (index === 0) {
-                  return {
-                    y: qcvn.minLimit,
-                    dataLabels: { enabled: true },
-                  }
-                } else {
-                  return [dataItem[0], qcvn.minLimit]
-                }
-              }),
-            },
-          ]
-          plotLines = []
-        }
-      })
-      const unitMeasure = measure.unit ? `(${measure.unit})` : ''
-
-      nameChart = `${stationAutoCurrent.name} - ${measure.name} ${unitMeasure}`
-
-      minChart = _.get(this.state.heightChart, [measureCurrent, 'minChart'])
-      maxChart = _.get(this.state.heightChart, [measureCurrent, 'maxChart']) //_.get(dataSeries,'minLimit', undefined)
-    } else {
-      series = _.values(this.state.seriesData)
-      nameChart = stationAutoCurrent.name
+    if (_.isNumber(minLimit)) {
+      let data = _.clone(dataSeries) //_.get(this.state.seriesData, [measureCurrent], {})
+      _.update(data, 'threshold', () => minLimit)
+      _.update(data, 'color', () => 'transparent')
+      _.update(data, 'negativeColor', () => 'red')
+      series.push(data)
     }
+
+    // draw line qcvn
+    const qcvnList = this.getDataQcvn(measureCurrent)
+
+    //type line qcvn
+    const lineQcvn = {
+      type: 'spline',
+      enableMouseTracking: false,
+    }
+
+    //draw line maxLimit minLimit
+    plotLines = [
+      {
+        value: _.get(measure, 'minLimit', undefined),
+        color: '#ff6666',
+        dashStyle: 'shortDot',
+        width: 1,
+        zIndex: 100,
+        label: {
+          text: translate(`dashboard.chartStatus.min`, {
+            min: _.get(measure, 'minLimit', ''),
+          }),
+          y: 13,
+        },
+      },
+      {
+        value: _.get(measure, 'maxLimit', undefined),
+        color: '#ff6666',
+        dashStyle: 'shortDot',
+        width: 1,
+        zIndex: 100,
+        label: {
+          text: translate(`dashboard.chartStatus.max`, {
+            max: _.get(measure, 'maxLimit', ''),
+          }),
+        },
+      },
+    ]
+
+    qcvnList.forEach(qcvn => {
+      //add line qcvn minLimit & maxLimit
+      const data = dataSeries.data
+
+      if (_.isNumber(qcvn.maxLimit)) {
+        series = [
+          ...series,
+          {
+            ...lineQcvn,
+            id: qcvn.id,
+            name: qcvn.name,
+            typeLine: 'qcvn',
+            valueLimit: qcvn.maxLimit,
+            data: data.map((dataItem, index) => [dataItem[0], qcvn.maxLimit]),
+          },
+        ]
+
+        plotLines = []
+      }
+
+      if (_.isNumber(qcvn.minLimit)) {
+        series = [
+          ...series,
+          {
+            ...lineQcvn,
+            id: qcvn.id,
+            valueLimit: qcvn.minLimit,
+            name: qcvn.name,
+            className: 'min',
+            typeLine: 'qcvn',
+            data: data.map(dataItem => [dataItem[0], qcvn.minLimit]),
+          },
+        ]
+        plotLines = []
+      }
+    })
+
+    nameChart = this.getNameChart(stationAutoCurrent.name, measure)
+
+    minChart = _.get(this.state.heightChart, [measureCurrent, 'minChart'])
+    maxChart = _.get(this.state.heightChart, [measureCurrent, 'maxChart']) //_.get(dataSeries,'minLimit', undefined)
     this.setState({
       series,
       nameChart,
@@ -359,9 +342,14 @@ export default class TabChart extends React.PureComponent {
   ) => {
     return {
       chart: {
-        type: 'line',
-        width: width - 160,
+        type: 'spline',
+        width: width - 300,
         zoomType: 'x',
+        height: 600,
+      },
+
+      marker: {
+        enabled: false,
       },
 
       credits: {
@@ -369,28 +357,30 @@ export default class TabChart extends React.PureComponent {
       },
 
       rangeSelector: {
-        enabled: true,
-        buttons: [],
-        allButtonsEnabled: true,
-        inputEnabled: true,
-        inputEditDateFormat: '%d/%m/%Y %k:%M',
-        inputDateFormat: '%d/%m/%Y %k:%M',
-        inputBoxWidth: 120,
+        enabled: false,
       },
 
+      exporting: {
+        filename: nameChart,
+      },
       // change color chart zoom
       plotOptions: {
         series: {
           fillColor: 'red',
 
           dataLabels: {
-            enabled: false,
+            enabled: true,
             crop: false,
             overflow: 'none',
             align: 'left',
             verticalAlign: 'middle',
             allowOverlap: true,
+            width: '100%',
             formatter: function() {
+              const currentPoint = this.point
+              const seriesPoints = this.series.points
+              const typeLine = this.series.userOptions.typeLine
+
               const isMinLimit = this.series.options.className === 'min'
 
               const labelMinLimit = `${translate(
@@ -402,7 +392,20 @@ export default class TabChart extends React.PureComponent {
 
               const label = isMinLimit ? labelMinLimit : labelMaxLimit
 
-              return `<span style="color: black; font-weight: 300; font-size: 12px">${label}</span>`
+              if (currentPoint === seriesPoints[0] && typeLine === 'qcvn') {
+                return `<span style="color: black; font-weight: 300; font-size: 12px">${label}</span>`
+              }
+            },
+          },
+        },
+        spline: {
+          marker: {
+            enabled: false,
+          },
+          lineWidth: 2,
+          states: {
+            hover: {
+              lineWidth: 2,
             },
           },
         },
@@ -410,18 +413,19 @@ export default class TabChart extends React.PureComponent {
 
       navigation: {
         buttonOptions: {
-          enabled: false,
+          enabled: true,
         },
       },
 
       title: {
-        text: nameChart, //this.props.nameChart
+        text: nameChart,
       },
 
       yAxis: {
         min: minChart,
         max: maxChart,
         plotLines,
+        title: false,
       },
 
       //add legend chart
@@ -450,6 +454,8 @@ export default class TabChart extends React.PureComponent {
       series,
 
       xAxis: {
+        type: 'datetime',
+
         dateTimeLabelFormats: DATETIME_LABEL_FORMAT,
       },
 
@@ -474,10 +480,25 @@ export default class TabChart extends React.PureComponent {
     this.setState({
       width: this.chartWrapper.offsetWidth,
     })
+    this.handleDrawChart()
   }
 
   render() {
     const { measureCurrent, mesureList } = this.state
+    const { loading } = this.props
+
+    if (loading)
+      return (
+        <Row
+          type="flex"
+          justify="center"
+          align="middle"
+          style={{ minHeight: 300 }}
+        >
+          <Spin />
+        </Row>
+      )
+
     return (
       <TabChartWrapper>
         <ChartWrapper innerRef={ref => (this.chartWrapper = ref)}>
@@ -497,7 +518,7 @@ export default class TabChart extends React.PureComponent {
           <Tabs
             onChange={this.handleMeasureChange}
             activeKey={measureCurrent}
-            style={{ width: '90%' }}
+            style={{ width: '70%' }}
           >
             {mesureList.map(({ name, code, unit }) => (
               <TabPane tab={`${name} ${unit ? `(${unit})` : ''}`} key={code} />
