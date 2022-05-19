@@ -9,6 +9,7 @@ import {
   Switch,
   Tooltip,
 } from 'antd'
+import SortableMultiSelect from 'components/core/select/SortableMultiSelect'
 import { default as BoxShadowStyle } from 'components/elements/box-shadow'
 import Heading from 'components/elements/heading'
 import OptionsTimeRange from 'components/elements/options-time-range'
@@ -19,7 +20,6 @@ import SelectStationType from 'components/elements/select-station-type'
 import ToolTipHint from 'components/elements/tooltip'
 import { FormItem } from 'components/layouts/styles'
 import { dataStatusOptions } from 'constants/dataStatus'
-import SelectMeasureParameter from 'containers/data-analytics/filter/select-measure-parameter'
 import SelectStationAuto from 'containers/data-analytics/filter/select-station-auto'
 import { translate as t, translate } from 'hoc/create-lang'
 import createQueryFormDataBrowser from 'hoc/query-formdata-browser'
@@ -102,6 +102,7 @@ export default class SearchAvgForm extends React.Component {
       measuringList: [],
       stationsData: [],
       stationTypes: [],
+      stationAutosValue: [],
     }
   }
 
@@ -244,6 +245,9 @@ export default class SearchAvgForm extends React.Component {
       setFilterDefault(filterDefault)
 
       this.handleStationAutoKeys(stationType, provinceKey)
+      this.setState({
+        stationAutosValue: this.getStationAutosValue(stationType, provinceKey),
+      })
     }
 
     this.handleSearch()
@@ -275,7 +279,23 @@ export default class SearchAvgForm extends React.Component {
     frequency = undefined,
     standard = undefined
   ) => {
-    const stationAutoKeys = [...this.stationAutos]
+    const stationAutoKeys = this.getStationAutosValue(
+      stationType,
+      province,
+      frequency,
+      standard
+    ).map(station => get(station, 'key'))
+
+    return stationAutoKeys
+  }
+
+  getStationAutosValue = (
+    stationType,
+    province,
+    frequency = undefined,
+    standard = undefined
+  ) => {
+    const stationAutosValue = [...this.stationAutos]
       .map(([_, station]) => station)
       .filter(station => get(station, `stationType.key`) === stationType)
       .filter(station => !province || get(station, `province.key`) === province)
@@ -285,9 +305,8 @@ export default class SearchAvgForm extends React.Component {
       .filter(station =>
         standard ? get(station, `standardsVN.key`) === standard : true
       )
-      .map(station => get(station, 'key'))
 
-    return stationAutoKeys
+    return stationAutosValue
   }
 
   updateForm = ({ stationAutoKeys }) => {
@@ -363,11 +382,20 @@ export default class SearchAvgForm extends React.Component {
     const { form } = this.props
     const stationTypeKeys = this.getStationTypes(province)
     const stationType = stationTypeKeys[0]
+    const { frequent } = form.getFieldsValue()
+
     form.setFieldsValue({
       [FIELDS.STATION_TYPE]: stationType,
     })
 
-    this.handleStationAutoKeys(stationType, province)
+    this.handleStationAutoKeys(stationType, province, frequent)
+    this.setState({
+      stationAutosValue: this.getStationAutosValue(
+        stationType,
+        province,
+        frequent
+      ),
+    })
   }
 
   onChangeStationType = stationType => {
@@ -393,6 +421,15 @@ export default class SearchAvgForm extends React.Component {
 
     const { stationType, provinceKey, standardKey } = form.getFieldsValue()
     this.handleStationAutoKeys(stationType, provinceKey, frequency, standardKey)
+
+    this.setState({
+      stationAutosValue: this.getStationAutosValue(
+        stationType,
+        provinceKey,
+        frequency,
+        standardKey
+      ),
+    })
   }
 
   onChangeStandard = standard => {
@@ -401,6 +438,15 @@ export default class SearchAvgForm extends React.Component {
 
     const { stationType, provinceKey, frequent } = form.getFieldsValue()
     this.handleStationAutoKeys(stationType, provinceKey, frequent, standard)
+
+    this.setState({
+      stationAutosValue: this.getStationAutosValue(
+        stationType,
+        provinceKey,
+        frequent,
+        standard
+      ),
+    })
   }
 
   handleSearch = async () => {
@@ -453,7 +499,11 @@ export default class SearchAvgForm extends React.Component {
 
   render() {
     const { form, loading } = this.props
-    const { measuringList, otherConditionFilter } = this.state
+    const {
+      measuringList,
+      otherConditionFilter,
+      stationAutosValue,
+    } = this.state
 
     const values = form.getFieldsValue([
       FIELDS.STATION_AUTO,
@@ -466,6 +516,11 @@ export default class SearchAvgForm extends React.Component {
 
     const province = values[FIELDS.PROVINCE]
     const stationAutos = [...this.stationAutos].map(([_, station]) => station)
+
+    const measuringListOptions = measuringList.map(measure => ({
+      value: measure.key,
+      name: measure.name,
+    }))
 
     return (
       <SearchFormContainer>
@@ -536,7 +591,7 @@ export default class SearchAvgForm extends React.Component {
                   onChange: this.onStationAutoChange,
                 })(
                   <SelectStationAuto
-                    stationList={this.getStationAutos()}
+                    stationAutosValue={stationAutosValue}
                     stationType={form.getFieldValue(FIELDS.STATION_TYPE)}
                     province={form.getFieldValue(FIELDS.PROVINCE)}
                     onFetchSuccess={this.onFetchStationAutoSuccess}
@@ -546,9 +601,10 @@ export default class SearchAvgForm extends React.Component {
             </Col>
             <Col>
               <FormItem label={i18n().form.measuringList(numberMeasure)}>
-                {form.getFieldDecorator(FIELDS.MEASURING_LIST, {
-                  rules: [requiredFieldRule(i18n().rules.parameter)],
-                })(<SelectMeasureParameter options={measuringList} />)}
+                {form.getFieldDecorator(
+                  FIELDS.MEASURING_LIST,
+                  {}
+                )(<SortableMultiSelect options={measuringListOptions} />)}
               </FormItem>
             </Col>
           </Row>

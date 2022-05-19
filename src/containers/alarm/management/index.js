@@ -64,6 +64,7 @@ export const FIELDS = {
   CONFIG: 'config',
   STANDARD_ID: 'standardId',
   ID: '_id',
+  MEASURING_LIST: 'measuringList',
 }
 
 export const i18n = () => ({

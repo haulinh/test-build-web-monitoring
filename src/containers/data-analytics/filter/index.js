@@ -11,12 +11,12 @@ import SelectProvince from 'components/elements/select-province'
 import SelectStationType from 'components/elements/select-station-type'
 import OptionsTimeRange from 'components/elements/options-time-range'
 import SelectStationAuto from './select-station-auto'
-import SelectMeasureParameter from './select-measure-parameter'
 import SelectOperator, { OPERATOR } from './select-operator'
 import { requiredFieldRule } from 'utils/rules'
 import { getTimes } from 'utils/datetime'
 import ToolTipHint from 'components/elements/tooltip'
 // import OptionsTimeRange from 'containers/search/common/options-time-range'
+import SortableMultiSelect from 'components/core/select/SortableMultiSelect'
 
 function i18n() {
   return {
@@ -229,6 +229,10 @@ class FilterForm extends Component {
   render() {
     const { form, isLoadingData } = this.props
     const { measuringList } = this.state
+    const measuringListOption = measuringList.map(measure => ({
+      value: measure.key,
+      name: measure.name,
+    }))
 
     const values = form.getFieldsValue([
       FIELDS.STATION_AUTO,
@@ -324,7 +328,7 @@ class FilterForm extends Component {
               <FormItem label={measureLable}>
                 {form.getFieldDecorator(FIELDS.MEASURING_LIST, {
                   rules: [requiredFieldRule(i18n().parameter)],
-                })(<SelectMeasureParameter options={measuringList} />)}
+                })(<SortableMultiSelect options={measuringListOption} />)}
               </FormItem>
             </Col>
           </Row>

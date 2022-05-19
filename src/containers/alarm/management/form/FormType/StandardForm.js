@@ -36,23 +36,24 @@ export default class StandardForm extends React.Component {
     }
   }
 
-  handleFetchSuccessStandard = standards => {
-    const standardObj = keyBy(standards, '_id')
-    this.setState({ standardObj })
-  }
+  // handleFetchSuccessStandard = standards => {
+  //   const standardObj = keyBy(standards, '_id')
+  //   this.setState({ standardObj })
+  // }
 
-  handleOnStandardChange = value => {
-    const { form } = this.props
-    const { standardObj } = this.state
-    const standardName = get(standardObj, [value, 'name'])
-    form.setFieldsValue({ [`${FIELDS.CONFIG}.${FIELDS.NAME}`]: standardName })
-  }
+  // handleOnStandardChange = value => {
+  //   const { form } = this.props
+  //   const { standardObj } = this.state
+  //   const standardName = get(standardObj, [value, 'name'])
+  //   form.setFieldsValue({ [`${FIELDS.CONFIG}.${FIELDS.NAME}`]: standardName })
+  // }
 
   render() {
     const { form, isEdit, alarmSelected } = this.props
     const repeatConfig = form.getFieldValue(`${FIELDS.REPEAT_CONFIG}.active`)
 
     form.getFieldDecorator(`${FIELDS.CONFIG}.${FIELDS.NAME}`)
+    form.getFieldDecorator(`${FIELDS.CONFIG}.${FIELDS.MEASURING_LIST}`)
     form.getFieldDecorator(`${FIELDS.CONFIG}.${FIELDS.TYPE}`, {
       initialValue: 'standard',
     })
@@ -85,10 +86,12 @@ export default class StandardForm extends React.Component {
                   rules: [
                     { required: true, message: i18n().error.requiredStandard },
                   ],
-                  onChange: this.handleOnStandardChange,
+                  // onChange: this.handleOnStandardChange,
                 }
               )(
-                <SelectQCVN onFetchSuccess={this.handleFetchSuccessStandard} />
+                <SelectQCVN
+                //  onFetchSuccess={this.handleFetchSuccessStandard}
+                />
               )}
             </FormItem>
           </Col>
