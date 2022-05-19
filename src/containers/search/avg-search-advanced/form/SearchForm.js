@@ -445,6 +445,7 @@ export default class SearchAvgForm extends React.Component {
     const { form } = this.props
 
     const stationAuto = form.getFieldValue(FIELDS.STATION_AUTO)
+    if (isEmpty(stationAuto)) return []
 
     return [...this.stationAutos]
       .map(([_, station]) => station)
