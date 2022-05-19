@@ -9,7 +9,6 @@ import {
   Switch,
   Tooltip,
 } from 'antd'
-import ToolTipIcon from 'assets/svg-icons/tooltip.svg'
 import { default as BoxShadowStyle } from 'components/elements/box-shadow'
 import Heading from 'components/elements/heading'
 import OptionsTimeRange from 'components/elements/options-time-range'
@@ -29,10 +28,10 @@ import moment from 'moment-timezone'
 import React from 'react'
 import styled from 'styled-components'
 import { getTimes } from 'utils/datetime'
+import { requiredFieldRule } from 'utils/rules'
 import SelectTimeRange from '../../common/select-time-range'
 import { FIELDS, i18n } from '../constants'
 import FilterList from '../filter'
-import { requiredFieldRule } from 'utils/rules'
 
 const HeaderWrapper = styled.div`
   color: blue;

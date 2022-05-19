@@ -53,6 +53,7 @@ export default class StandardForm extends React.Component {
     const repeatConfig = form.getFieldValue(`${FIELDS.REPEAT_CONFIG}.active`)
 
     form.getFieldDecorator(`${FIELDS.CONFIG}.${FIELDS.NAME}`)
+    form.getFieldDecorator(`${FIELDS.CONFIG}.${FIELDS.MEASURING_LIST}`)
     form.getFieldDecorator(`${FIELDS.CONFIG}.${FIELDS.TYPE}`, {
       initialValue: 'standard',
     })

@@ -1,6 +1,5 @@
 import { Button, Col, Row, Spin, Tabs } from 'antd'
 import DataInsight from 'api/DataInsight'
-import ToolTipIcon from 'assets/svg-icons/TooltipSmall.svg'
 import SelectQCVN from 'components/elements/select-qcvn-v2'
 import ToolTip from 'components/elements/tooltip'
 import React, { Component } from 'react'
