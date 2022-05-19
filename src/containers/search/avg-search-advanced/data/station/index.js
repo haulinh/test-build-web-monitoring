@@ -88,6 +88,11 @@ export default class StationData extends React.PureComponent {
         measureForm => measureForm === measureStation.key
       )
     )
+
+    const formData = this.getSearchFormData(station.key)
+
+    const params = this.getQueryParams(formData)
+
     return (
       <Tabs.TabPane tab={station.name} key={station.key}>
         <TabList
@@ -105,6 +110,8 @@ export default class StationData extends React.PureComponent {
           typeReport={`${searchFormData.type}`}
           isExporting={isExporting}
           isExportingAll={isExportingAll}
+          searchFormData={formData}
+          params={params}
         />
       </Tabs.TabPane>
     )

@@ -9,6 +9,7 @@ import TabChart from './tab-chart/index'
 import ROLE from 'constants/role'
 import protectRole from 'hoc/protect-role'
 import { translate } from 'hoc/create-lang'
+import DataInsight from 'api/DataInsight'
 
 const TableListWrapper = styled(BoxShadow)`
   padding: 0px 16px 16px 16px;
@@ -39,6 +40,12 @@ export default class TableList extends React.PureComponent {
     typeReport: PropTypes.string,
     isActive: PropTypes.bool,
     qcvns: PropTypes.array,
+    searchFormData: PropTypes.object,
+    params: PropTypes.object,
+  }
+
+  state = {
+    dataChart: [],
   }
 
   renderMenuExport = () => (
@@ -94,7 +101,7 @@ export default class TableList extends React.PureComponent {
     return (
       <Tabs.TabPane tab={translate('avgSearchFrom.tab.chart')} key="2">
         <TabChart
-          dataStationAuto={this.props.dataStationAuto}
+          dataStationAuto={this.state.dataChart}
           measuringData={this.props.measuringData || []}
           nameChart={this.props.nameChart}
           typeReport={this.props.typeReport}
@@ -102,6 +109,27 @@ export default class TableList extends React.PureComponent {
         />
       </Tabs.TabPane>
     )
+  }
+
+  handleChangeTab = key => {
+    if (key === '2') {
+      console.log('HEeeeeeeeee')
+      this.getDataChart()
+    }
+  }
+
+  getDataChart = async () => {
+    console.log(this.props.searchFormData)
+    console.log(this.props.params)
+    // try {
+    //   const dataStationAuto = await DataInsight.getDataAverage(
+    //     searchFormData.key,
+    //     params
+    //   )
+    //   this.setState({ dataChart: dataStationAuto && dataStationAuto.data })
+    // } catch (error) {
+    //   console.log(error)
+    // }
   }
 
   render() {
@@ -122,7 +150,7 @@ export default class TableList extends React.PureComponent {
           )}
         </ButtonAbsolute>
 
-        <Tabs defaultActiveKey="1">
+        <Tabs defaultActiveKey="1" onChange={this.handleChangeTab}>
           {this.renderDataTab()}
           {this.renderChartTab()}
         </Tabs>
