@@ -48,6 +48,7 @@ export default class AvgSearchAdvanced extends React.Component {
       initialData: false,
 
       isSearchingData: false,
+      isChangeField: false,
       searchFormData: {},
       visibleModalSave: false,
 
@@ -122,7 +123,7 @@ export default class AvgSearchAdvanced extends React.Component {
   }
 
   handleOnChangeSearchField = () => {
-    this.setState({ isSearchingData: false })
+    this.setState({ isChangeField: true, isSearchingData: false })
   }
 
   getStationsData = stations => {
@@ -144,6 +145,7 @@ export default class AvgSearchAdvanced extends React.Component {
     this.setState({
       stationsData: this.getStationsData(stationsData),
       isSearchingData: true,
+      isChangeField: false,
       searchFormData,
     })
   }
@@ -328,6 +330,7 @@ export default class AvgSearchAdvanced extends React.Component {
   render() {
     const {
       isSearchingData,
+      isChangeField,
       searchFormData,
       stationsData,
       visibleModalSave,
@@ -382,6 +385,7 @@ export default class AvgSearchAdvanced extends React.Component {
               stationsData={stationsData}
               type={values.type}
               isSearchingData={isSearchingData}
+              isChangeField={isChangeField}
               searchFormData={searchFormData}
               setLoadingButton={this.setLoading}
             />

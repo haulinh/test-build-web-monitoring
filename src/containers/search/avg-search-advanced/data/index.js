@@ -98,11 +98,12 @@ export default class DataSearch extends Component {
     })
   }
 
-  componentDidUpdate = prevProps => {
-    const { isSearchingData } = this.props
+  componentDidUpdate = (prevProps, prevState) => {
+    const { isSearchingData, isChangeField } = this.props
     const { activeKey } = this.state
     if (
       prevProps.isSearchingData !== isSearchingData &&
+      !isChangeField &&
       activeKey === 'overview'
     ) {
       this.getDataOverview()
