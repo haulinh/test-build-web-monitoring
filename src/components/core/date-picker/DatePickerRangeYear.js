@@ -64,7 +64,7 @@ export default class DatePickerRangeYear extends Component {
   }
 
   componentWillUnmount() {
-    window.removeEventListener('click', this.onClickOutsideHandler)
+    window.removeEventListener('click', this.handleOnClickOutSide)
     this.countClickDate = 0
   }
 
