@@ -1,5 +1,5 @@
 import { Icon } from 'antd'
-import { isEqual, keyBy } from 'lodash'
+import { isEmpty, isEqual, keyBy } from 'lodash'
 import React, { Component } from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
@@ -172,8 +172,8 @@ export default class SortableMultiSelect extends Component {
                   {optionsChoose.map((option, index) => (
                     <Draggable
                       onClick={e => e.stopPropagation()}
-                      key={option.value}
-                      draggableId={option.value}
+                      key={option.value || option.key || option._id}
+                      draggableId={option.value || option.key || option._id}
                       index={index}
                     >
                       {(provided, snapshot) => (

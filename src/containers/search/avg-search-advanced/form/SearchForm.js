@@ -10,6 +10,7 @@ import {
   Tooltip,
 } from 'antd'
 import ToolTipIcon from 'assets/svg-icons/tooltip.svg'
+import SortableMultiSelect from 'components/core/select/SortableMultiSelect'
 import { default as BoxShadowStyle } from 'components/elements/box-shadow'
 import Heading from 'components/elements/heading'
 import OptionsTimeRange from 'components/elements/options-time-range'
@@ -455,6 +456,11 @@ export default class SearchAvgForm extends React.Component {
     const province = values[FIELDS.PROVINCE]
     const stationAutos = [...this.stationAutos].map(([_, station]) => station)
 
+    const measuringListOptions = measuringList.map(measure => ({
+      value: measure.key,
+      name: measure.name,
+    }))
+
     return (
       <SearchFormContainer>
         <Heading
@@ -541,7 +547,7 @@ export default class SearchAvgForm extends React.Component {
                 {form.getFieldDecorator(
                   FIELDS.MEASURING_LIST,
                   {}
-                )(<SelectMeasureParameter options={measuringList} />)}
+                )(<SortableMultiSelect options={measuringListOptions} />)}
               </FormItem>
             </Col>
           </Row>
