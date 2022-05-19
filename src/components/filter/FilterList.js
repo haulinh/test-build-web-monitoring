@@ -119,7 +119,7 @@ export const FilterList = ({
     )
   }
 
-  const defaultOpenKeys = Object.keys(filterGroupByStationType)
+  const openKeys = Object.keys(filterGroupByStationType)
   const menuSource = Object.values(filterGroupByStationType)
 
   return (
@@ -139,7 +139,7 @@ export const FilterList = ({
           <Menu
             forceSubMenuRender
             mode="inline"
-            defaultOpenKeys={defaultOpenKeys}
+            openKeys={openKeys}
             selectedKeys={selectedKeys}
           >
             {menuSource.map(menu => (

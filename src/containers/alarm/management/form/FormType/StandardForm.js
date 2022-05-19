@@ -2,7 +2,7 @@ import { Col, Radio, Row, Switch } from 'antd'
 import SelectQCVN from 'components/elements/select-qcvn-v2'
 import { FormItem } from 'components/layouts/styles'
 import SelectFrequency from 'containers/alarm/Component/SelectFrequency'
-import _, { get, isEmpty, keyBy } from 'lodash'
+import { get, isEmpty, keyBy } from 'lodash'
 import React from 'react'
 import { connect } from 'react-redux'
 import { FIELDS } from '../../index'
@@ -20,6 +20,10 @@ const mapStateToProp = state => {
 
 @connect(mapStateToProp)
 export default class StandardForm extends React.Component {
+  state = {
+    standardObj: {},
+  }
+
   componentDidMount() {
     const { alarmSelected, form } = this.props
 
@@ -32,9 +36,28 @@ export default class StandardForm extends React.Component {
     }
   }
 
+  handleFetchSuccessStandard = standards => {
+    const standardObj = keyBy(standards, '_id')
+    this.setState({ standardObj })
+  }
+
+  handleOnStandardChange = value => {
+    const { form } = this.props
+    const { standardObj } = this.state
+    const standardName = get(standardObj, [value, 'name'])
+    form.setFieldsValue({ [`${FIELDS.CONFIG}.${FIELDS.NAME}`]: standardName })
+  }
+
   render() {
+    const { standardObj } = this.state
+    console.log({ standardObj })
     const { form, isEdit, alarmSelected } = this.props
     const repeatConfig = form.getFieldValue(`${FIELDS.REPEAT_CONFIG}.active`)
+
+    form.getFieldDecorator(`${FIELDS.CONFIG}.${FIELDS.NAME}`)
+    form.getFieldDecorator(`${FIELDS.CONFIG}.${FIELDS.TYPE}`, {
+      initialValue: 'standard',
+    })
 
     return (
       <React.Fragment>
@@ -64,8 +87,11 @@ export default class StandardForm extends React.Component {
                   rules: [
                     { required: true, message: i18n().error.requiredStandard },
                   ],
+                  onChange: this.handleOnStandardChange,
                 }
-              )(<SelectQCVN />)}
+              )(
+                <SelectQCVN onFetchSuccess={this.handleFetchSuccessStandard} />
+              )}
             </FormItem>
           </Col>
         )}
