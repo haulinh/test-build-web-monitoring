@@ -3,7 +3,7 @@ import { Select } from 'antd'
 import PropTypes from 'prop-types'
 import QCVNApi from 'api/QCVNApi'
 import { translate } from 'hoc/create-lang'
-import { get } from 'lodash'
+import { get, isEqual } from 'lodash'
 import { replaceVietnameseStr } from 'utils/string'
 
 // @autobind
@@ -40,6 +40,15 @@ export default class SelectQCVN extends PureComponent {
         lstQCVN: data,
         value: this.getValue(data),
       })
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { standardKeyStation } = this.props
+
+    if (!isEqual(prevProps.standardKeyStation, standardKeyStation)) {
+      this.setState({ value: standardKeyStation })
+      this.props.onChange([standardKeyStation], this.state.lstQCVN)
     }
   }
 

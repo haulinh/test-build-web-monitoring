@@ -170,7 +170,7 @@ export default class TabChart extends React.PureComponent {
     }
   }
 
-  getNameChart = (stationName, measure) => {
+  getNameChart = (stationName, measure = {}) => {
     const unitMeasure = measure.unit ? `(${measure.unit})` : ''
     const nameChart = `${stationName} - ${measure.name} ${unitMeasure}`
 
@@ -179,10 +179,10 @@ export default class TabChart extends React.PureComponent {
 
   //convert data measuringList[] to measuringList{}
   convertDataQcvn = () => {
-    const { qcvnSelected } = this.props
+    const { qcvnSelected = [] } = this.props
 
     const newDataQcvn = qcvnSelected.map(qcvn => {
-      const measureObj = qcvn.measuringList.reduce((base, current) => {
+      const measureObj = (qcvn.measuringList || []).reduce((base, current) => {
         return {
           ...base,
           [current.key]: current,
@@ -239,6 +239,7 @@ export default class TabChart extends React.PureComponent {
       this.setState({ series: [], nameChart })
       return
     }
+
     const minLimit = _.get(dataSeries, 'minLimit')
     series = [dataSeries]
 

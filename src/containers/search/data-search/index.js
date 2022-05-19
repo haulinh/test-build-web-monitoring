@@ -83,6 +83,7 @@ export default class MinutesDataSearch extends React.Component {
     highlightText: '',
     filterDefault: {},
     activeKey: null,
+    standardKeyStation: '',
   }
   searchFormRef = React.createRef()
 
@@ -403,6 +404,12 @@ export default class MinutesDataSearch extends React.Component {
 
   setPage = page => this.setState({ page }, () => this.handleOnSearch())
 
+  setStandardKeyStation = standardKeyStation => {
+    this.setState({
+      standardKeyStation,
+    })
+  }
+
   render() {
     const {
       data,
@@ -421,6 +428,7 @@ export default class MinutesDataSearch extends React.Component {
       highlightText,
       filterItem,
       activeKey,
+      standardKeyStation,
     } = this.state
 
     const { form } = this.props
@@ -477,6 +485,7 @@ export default class MinutesDataSearch extends React.Component {
                 {this.props.lang.t('addon.search')}
               </Heading>
               <SearchFrom
+                setStandardKeyStation={this.setStandardKeyStation}
                 ref={this.searchFormRef}
                 onSearch={this.handleOnSearch}
                 setFilterDefault={this.setFilterDefault}
@@ -512,6 +521,7 @@ export default class MinutesDataSearch extends React.Component {
               </Col>
               <Col span={8}>
                 <SelectQCVN
+                  standardKeyStation={standardKeyStation}
                   placeholder={t('dataAverage.placeholder.standard')}
                   onFetchSuccess={this.handleOnFetchSuccessQCVN}
                   fieldValue="key"

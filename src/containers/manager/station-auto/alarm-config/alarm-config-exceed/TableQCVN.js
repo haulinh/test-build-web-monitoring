@@ -12,7 +12,7 @@ import { i18n } from '../constants'
 }))
 export default class TableQCVN extends Component {
   componentDidUpdate(prevProps) {
-    const { form, measureListValue, qcvnList, dataSource } = this.props
+    const { form, measureListValue, dataSource } = this.props
 
     const measureListValueObject = dataSource.reduce((base, current) => {
       if (measureListValue.includes(current.key))
