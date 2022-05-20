@@ -9,14 +9,14 @@ export function getFormatNumber(
   value,
   numberToFixed = FORMAT_VALUE_MEASURING,
   maximum = numberToFixed,
-  valueFormat
+  valueFormat = '-'
 ) {
   if (isNumber(value) || value) {
     let tempNumber = Number(value).toLocaleString(FORMAT_LOCAL, {
       minimumFractionDigits: numberToFixed,
       maximumFractionDigits: maximum,
     })
-
+    if (valueFormat === '-') return tempNumber
     return Number(tempNumber)
   }
 

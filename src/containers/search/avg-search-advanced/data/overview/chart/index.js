@@ -120,7 +120,7 @@ const configChart = (data, title, type) => {
         this.points.forEach(p => {
           format += `<div style="display: flex; height: 6px" >
               <div style="color: ${p.color}">${p.series.name}:  </div>&nbsp
-              <div style="font-weight: 700">${p.y}</div>
+              <div style="font-weight: 700">${getFormatNumber(p.y, 2)}</div>
               </div><br>`
         })
 

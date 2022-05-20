@@ -199,14 +199,16 @@ export default class SearchAvgForm extends React.Component {
 
     const { stationType, provinceKey, standardKey } = form.getFieldsValue()
 
-    this.handleStationAutoKeys(stationType, provinceKey, undefined, standardKey)
+    const params = {
+      stationType,
+      provinceKey,
+      frequent: undefined,
+      standardKey,
+    }
+
+    this.handleStationAutoKeys(params)
     this.setState({
-      stationAutosValue: this.getStationAutosValue(
-        stationType,
-        provinceKey,
-        undefined,
-        standardKey
-      ),
+      stationAutosValue: this.getStationAutosValue(params),
     })
   }
 
@@ -220,7 +222,7 @@ export default class SearchAvgForm extends React.Component {
     if (!isEmpty(formData)) return
 
     form.setFieldsValue({ [FIELDS.STATION_TYPE]: stationType })
-    this.handleStationAutoKeys(stationType, province)
+    this.handleStationAutoKeys({ stationType, province })
     this.handleSearch()
   }
 
@@ -254,10 +256,11 @@ export default class SearchAvgForm extends React.Component {
     } else {
       const filterDefault = this.getFilterDefault()
       setFilterDefault(filterDefault)
+      const params = { stationType, province: provinceKey }
 
-      this.handleStationAutoKeys(stationType, provinceKey)
+      this.handleStationAutoKeys(params)
       this.setState({
-        stationAutosValue: this.getStationAutosValue(stationType, provinceKey),
+        stationAutosValue: this.getStationAutosValue(params),
       })
     }
 
@@ -267,45 +270,49 @@ export default class SearchAvgForm extends React.Component {
   setStationAutos = stationAutos =>
     stationAutos.map(item => this.stationAutos.set(item.key, item))
 
-  handleStationAutoKeys = (
+  handleStationAutoKeys = ({
     stationType,
     province,
     frequency = undefined,
-    standard = undefined
-  ) => {
+    standard = undefined,
+  }) => {
     //get stationAutoKeys with specific province, stationType, frequency, standard in form
-    const stationAutoKeys = this.getStationAutoKeys(
+    const params = {
       stationType,
       province,
       frequency,
-      standard
-    )
+      standard,
+    }
+    const stationAutoKeys = this.getStationAutoKeys(params)
 
     this.updateForm({ stationAutoKeys })
   }
 
-  getStationAutoKeys = (
+  getStationAutoKeys = ({
     stationType,
     province,
     frequency = undefined,
-    standard = undefined
-  ) => {
-    const stationAutoKeys = this.getStationAutosValue(
+    standard = undefined,
+  }) => {
+    const params = {
       stationType,
       province,
       frequency,
-      standard
-    ).map(station => get(station, 'key'))
+      standard,
+    }
+    const stationAutoKeys = this.getStationAutosValue(params).map(station =>
+      get(station, 'key')
+    )
 
     return stationAutoKeys
   }
 
-  getStationAutosValue = (
+  getStationAutosValue = ({
     stationType,
     province,
     frequency = undefined,
-    standard = undefined
-  ) => {
+    standard = undefined,
+  }) => {
     const stationAutosValue = [...this.stationAutos]
       .map(([_, station]) => station)
       .filter(station => get(station, `stationType.key`) === stationType)
@@ -394,34 +401,36 @@ export default class SearchAvgForm extends React.Component {
     const stationTypeKeys = this.getStationTypes(province)
     const stationType = stationTypeKeys[0]
     const { frequent, standardKey } = form.getFieldsValue()
+    const params = {
+      stationType,
+      province,
+      frequency: frequent,
+      standard: standardKey,
+    }
 
     form.setFieldsValue({
       [FIELDS.STATION_TYPE]: stationType,
     })
 
-    this.handleStationAutoKeys(stationType, province, frequent, standardKey)
+    this.handleStationAutoKeys(params)
     this.setState({
-      stationAutosValue: this.getStationAutosValue(
-        stationType,
-        province,
-        frequent,
-        standardKey
-      ),
+      stationAutosValue: this.getStationAutosValue(params),
     })
   }
 
   onChangeStationType = stationType => {
     const { form } = this.props
     const { provinceKey, frequent, standardKey } = form.getFieldsValue()
+    const params = {
+      stationType,
+      province: provinceKey,
+      frequency: frequent,
+      standard: standardKey,
+    }
 
-    this.handleStationAutoKeys(stationType, provinceKey, frequent, standardKey)
+    this.handleStationAutoKeys(params)
     this.setState({
-      stationAutosValue: this.getStationAutosValue(
-        stationType,
-        provinceKey,
-        frequent,
-        standardKey
-      ),
+      stationAutosValue: this.getStationAutosValue(params),
     })
   }
 
@@ -430,34 +439,36 @@ export default class SearchAvgForm extends React.Component {
     form.setFieldsValue({ frequent: frequency })
 
     const { stationType, provinceKey, standardKey } = form.getFieldsValue()
-    this.handleStationAutoKeys(stationType, provinceKey, frequency, standardKey)
+    const params = {
+      stationType,
+      province: provinceKey,
+      frequency,
+      standard: standardKey,
+    }
+    this.handleStationAutoKeys(params)
 
     this.setState({
-      stationAutosValue: this.getStationAutosValue(
-        stationType,
-        provinceKey,
-        frequency,
-        standardKey
-      ),
+      stationAutosValue: this.getStationAutosValue(params),
     })
 
     form.validateFields([FIELDS.STATION_AUTO, FIELDS.MEASURING_LIST])
   }
 
-  onChangeStandard = standard => {
+  onChangeStandard = standardKey => {
     const { form } = this.props
-    form.setFieldsValue({ standardKey: standard })
+    form.setFieldsValue({ standardKey: standardKey })
 
     const { stationType, provinceKey, frequent } = form.getFieldsValue()
-    this.handleStationAutoKeys(stationType, provinceKey, frequent, standard)
+    const params = {
+      stationType,
+      province: provinceKey,
+      frequency: frequent,
+      standard: standardKey,
+    }
+    this.handleStationAutoKeys(params)
 
     this.setState({
-      stationAutosValue: this.getStationAutosValue(
-        stationType,
-        provinceKey,
-        frequent,
-        standard
-      ),
+      stationAutosValue: this.getStationAutosValue(params),
     })
     form.validateFields([FIELDS.STATION_AUTO, FIELDS.MEASURING_LIST])
   }
