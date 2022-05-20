@@ -20,14 +20,13 @@ ReactHighcharts.Highcharts.setOptions({
   },
 })
 
-const showMarker = (type, rangeReport) => {
-  const isLongRangeType = ['month', 'year', 1440].includes(type)
-  const is24h = isLongRangeType && rangeReport === 0 ? true : false
+const showMarker = data => {
+  const dataChart = get(data, '0.data')
 
-  return isLongRangeType || is24h ? true : false
+  return dataChart.length === 1
 }
 
-const configChart = (data, title, type, plotLines, rangeReport) => {
+const configChart = (data, title, type, plotLines) => {
   return {
     chart: {
       type: 'spline',
@@ -53,7 +52,7 @@ const configChart = (data, title, type, plotLines, rangeReport) => {
     plotOptions: {
       series: {
         marker: {
-          enabled: showMarker(type, rangeReport),
+          enabled: showMarker(data),
         },
         dataLabels: {
           enabled: false,
@@ -281,18 +280,7 @@ export default class TabChart extends Component {
       newSeries = newDataSeries
     }
 
-    const rangeReport = moment(searchFormData.fromDate).diff(
-      moment(searchFormData.fromDate),
-      'days'
-    )
-
-    return configChart(
-      newSeries,
-      title,
-      searchFormData.type,
-      plotLines,
-      rangeReport
-    )
+    return configChart(newSeries, title, searchFormData.type, plotLines)
   }
 
   getDataSeriesWithNullData = dataSeries => {
