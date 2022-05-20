@@ -190,7 +190,7 @@ export default class SearchFormHistoryData extends React.Component {
   setInitValues = stationAutos => {
     const { form, formData, setStandardKeyStation } = this.props
 
-    if (isEmpty(formData)) return
+    if (!isEmpty(formData)) return false
 
     const stationTypeSelected = form.getFieldValue(fields.stationType)
 

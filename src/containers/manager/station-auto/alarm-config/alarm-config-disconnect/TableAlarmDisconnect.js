@@ -10,7 +10,7 @@ export default class TableAlarmDisconnect extends Component {
     {
       title: i18n().timeLabel,
       width: '15%',
-      align: 'center',
+      align: 'left',
       dataIndex: FIELDS.TIME_DISCONNECT,
       render: (_, record) => {
         const { form } = this.props

@@ -15,8 +15,8 @@ export const alarmTypeObject = {
   },
   [AlarmType.DataLevel]: {
     template: `{{station}}: ({{time}})
-[STATUS_DATA]- {{measure}}: {{value}} {{unit}} ({{sign}} {{config}})
-[STATUS_DEVICE]- {{measure}}: Sensor {{status}}`,
+    [STATUS_DATA]- {{measure}}: {{value}} {{unit}} ({{sign}} {{config}}) {{standard}}
+    [STATUS_DEVICE]- {{measure}}: Sensor {{status}}`,
   },
 }
 
