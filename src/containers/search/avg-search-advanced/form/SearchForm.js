@@ -190,6 +190,7 @@ export default class SearchAvgForm extends React.Component {
     }, new Map())
 
   handleRemoveField = filterKey => () => {
+    console.log(filterKey)
     const { otherConditionFilter } = this.state
 
     this.setState({
@@ -382,18 +383,19 @@ export default class SearchAvgForm extends React.Component {
     const { form } = this.props
     const stationTypeKeys = this.getStationTypes(province)
     const stationType = stationTypeKeys[0]
-    const { frequent } = form.getFieldsValue()
+    const { frequent, standardKey } = form.getFieldsValue()
 
     form.setFieldsValue({
       [FIELDS.STATION_TYPE]: stationType,
     })
 
-    this.handleStationAutoKeys(stationType, province, frequent)
+    this.handleStationAutoKeys(stationType, province, frequent, standardKey)
     this.setState({
       stationAutosValue: this.getStationAutosValue(
         stationType,
         province,
-        frequent
+        frequent,
+        standardKey
       ),
     })
   }
@@ -504,6 +506,8 @@ export default class SearchAvgForm extends React.Component {
       otherConditionFilter,
       stationAutosValue,
     } = this.state
+
+    console.log(otherConditionFilter)
 
     const values = form.getFieldsValue([
       FIELDS.STATION_AUTO,

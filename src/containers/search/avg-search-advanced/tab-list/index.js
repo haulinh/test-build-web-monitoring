@@ -1,15 +1,14 @@
-import React from 'react'
-import { autobind } from 'core-decorators'
-import { Tabs, Menu, Button, Empty } from 'antd'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
+import { Button, Empty, Menu, Tabs } from 'antd'
 import BoxShadow from 'components/elements/box-shadow'
-import TabTableDataList from './tab-table-data-list/index'
-import TabChart from './tab-chart/index'
 import ROLE from 'constants/role'
-import protectRole from 'hoc/protect-role'
+import { autobind } from 'core-decorators'
 import { translate } from 'hoc/create-lang'
-import DataInsight from 'api/DataInsight'
+import protectRole from 'hoc/protect-role'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
+import TabChart from './tab-chart/index'
+import TabTableDataList from './tab-table-data-list/index'
 
 const TableListWrapper = styled(BoxShadow)`
   padding: 0px 16px 16px 16px;
@@ -119,8 +118,8 @@ export default class TableList extends React.PureComponent {
 
   handleChangeTab = key => {
     const { handleChangeChartTab } = this.props
-    if (key === '2') {
-      handleChangeChartTab(true)
+    if (key === 'chart') {
+      handleChangeChartTab()
     }
   }
 
