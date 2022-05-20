@@ -32,8 +32,10 @@ export default class AlarmConfigExceed extends Component {
     const qcvnsSelected = qcvnsFormArray.filter(
       qcvn => qcvn[FIELDS.CONFIG][FIELDS.STANDARD_ID]
     )
+
     const qcvnsSelectedMapValue = qcvnsSelected.map(qcvn => ({
       ...qcvnListObj[qcvn[FIELDS.CONFIG][FIELDS.STANDARD_ID]],
+      name: get(qcvn, [FIELDS.CONFIG, FIELDS.NAME]),
     }))
     return qcvnsSelectedMapValue
   }
