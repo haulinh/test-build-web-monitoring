@@ -11,10 +11,11 @@ import {
 } from 'constants/warningLevels'
 import { autobind } from 'core-decorators'
 import { translate } from 'hoc/create-lang'
-import _, { get as _get } from 'lodash'
+import _, { get, get as _get, isEmpty, keyBy } from 'lodash'
 import moment from 'moment/moment'
 import React from 'react'
 import { connect } from 'react-redux'
+import { getParamArray } from 'utils/params'
 import { v4 as uuidV4 } from 'uuid'
 import { ITEM_PER_PAGE } from '../../index'
 
@@ -147,6 +148,70 @@ export default class TableDataList extends React.Component {
     return columns
   }
 
+  getBodyWrapper = props => {
+    const { measuringList } = this.props
+    const standardsSelected = this.getStandardsSelected()
+
+    const renderFooter = () => {
+      if (!isEmpty(standardsSelected)) {
+        return (
+          <React.Fragment>
+            {standardsSelected.map(standard => {
+              const measureStandard = keyBy(standard.measuringList, 'key')
+              console.log({ measureStandard })
+
+              const beginTime = standard.begin
+                ? moment(standard.begin).format('DD/MM/YYYY')
+                : '-'
+              const expiredTime = standard.expired
+                ? moment(standard.expired).format('DD/MM/YYYY')
+                : '-'
+              const renderStandard = measure => {
+                const { minLimit, maxLimit } = measure || {}
+                if (
+                  (minLimit || minLimit === 0) &&
+                  (maxLimit || maxLimit === 0)
+                )
+                  return [minLimit, maxLimit].join('-')
+                if (minLimit || minLimit === 0) return `≥ ${minLimit}`
+                if (maxLimit || maxLimit === 0) return `≤ ${maxLimit}`
+                return '-'
+              }
+
+              return (
+                <tr className="ant-table-row">
+                  <td />
+                  <td>
+                    <Tooltip title={`${beginTime} - ${expiredTime}`}>
+                      {standard.name}
+                    </Tooltip>
+                  </td>
+
+                  {measuringList.map(measureKey => {
+                    const measure = measureStandard[measureKey]
+                    return (
+                      <td style={{ textAlign: 'right' }}>
+                        {renderStandard(measure)}
+                      </td>
+                    )
+                  })}
+                </tr>
+              )
+            })}
+          </React.Fragment>
+        )
+      }
+
+      return <React.Fragment />
+    }
+    return (
+      <tbody {...props}>
+        <React.Fragment>{props.children}</React.Fragment>
+        {renderFooter()}
+      </tbody>
+    )
+  }
+
   getMeasuringValue = (list = [], key) => {
     const measure = list.find(item => item.key === key)
     const { minLimit, maxLimit } = measure || {}
@@ -162,6 +227,19 @@ export default class TableDataList extends React.Component {
     setPage(page)
   }
 
+  getStandardsSelected = () => {
+    const { standardObjectList, standards } = this.props
+    const standardObjectListKey = _.keyBy(standardObjectList, 'key')
+    if (isEmpty(getParamArray(standards))) return []
+
+    const standardsSelected = standards.map(standard => ({
+      ...standardObjectListKey[standard],
+      isQCVN: true,
+    }))
+
+    return standardsSelected
+  }
+
   render() {
     const {
       dataSource,
@@ -173,13 +251,6 @@ export default class TableDataList extends React.Component {
       ...otherProps
     } = this.props
 
-    const standardObjectListKey = _.keyBy(standardObjectList, 'key')
-    const standardsObjectSelected = standards.map(standard => ({
-      ...standardObjectListKey[standard],
-      isQCVN: true,
-    }))
-    const dataSourceMerged = [...dataSource, ...standardsObjectSelected]
-
     return (
       <div>
         <Table
@@ -190,12 +261,15 @@ export default class TableDataList extends React.Component {
             onChange: this.handleOnPageChange,
             total: totalItem,
           }}
+          components={{
+            body: { wrapper: props => this.getBodyWrapper(props) },
+          }}
           bordered
           size="small"
           rowKey={row => `${row._id}_${row.receivedAt}_${uuidV4()}`}
           columns={this.getColumns()}
           {...otherProps}
-          dataSource={dataSourceMerged}
+          dataSource={dataSource}
           locale={{ emptyText: translate('dataSearchFrom.table.emptyText') }}
         />
       </div>
