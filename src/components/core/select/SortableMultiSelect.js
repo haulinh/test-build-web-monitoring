@@ -322,6 +322,7 @@ export default class SortableMultiSelect extends Component {
           <Select>
             {options.map(option => (
               <ItemSelect
+                key={getValue(option)}
                 bg={this.isOptionChoose(option.value) && '#FAFAFA'}
                 fontWeight={this.isOptionChoose(option.value) && 600}
                 onClick={() => this.handleOnChoose(option)}
