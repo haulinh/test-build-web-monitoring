@@ -158,7 +158,6 @@ export default class TableDataList extends React.Component {
           <React.Fragment>
             {standardsSelected.map(standard => {
               const measureStandard = keyBy(standard.measuringList, 'key')
-              console.log({ measureStandard })
 
               const beginTime = standard.begin
                 ? moment(standard.begin).format('DD/MM/YYYY')
