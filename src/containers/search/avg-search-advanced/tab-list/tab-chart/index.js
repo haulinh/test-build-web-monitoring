@@ -313,9 +313,10 @@ export default class TabChart extends Component {
         2,
         null
       )
+
       const time = moment(item.receivedAt).valueOf()
 
-      !isNil(valueWithMeasure) && data.push([time, valueWithMeasure])
+      !isNil(valueWithMeasure) && data.push([time, Number(valueWithMeasure)])
     })
 
     return data

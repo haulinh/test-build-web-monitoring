@@ -317,6 +317,7 @@ export default class ChartOverview extends Component {
       if (keyList.some(item => item === get(station, 'key'))) {
         const stationLogs = get(value, station.key, null).logs
         const measureKey = get(stationLogs, current.key, null)
+
         const valueInChart = getFormatNumber(
           get(measureKey, 'value', null),
           2,
@@ -325,7 +326,8 @@ export default class ChartOverview extends Component {
         )
 
         //add x, y value to data series chart
-        !isNil(valueInChart) && data.push([moment(key).valueOf(), valueInChart])
+        !isNil(valueInChart) &&
+          data.push([moment(key).valueOf(), Number(valueInChart)])
       }
     })
 
