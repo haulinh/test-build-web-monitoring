@@ -24,7 +24,7 @@ const getItemStyle = (isDragging, draggableStyle) => ({
   alignItems: 'center',
   fontSize: '14px',
   textAlign: 'center',
-  whiteSpace: 'nowrap',
+  // whiteSpace: 'nowrap',
 
   // change background colour if dragging
   background: '#fafafa',
@@ -52,7 +52,7 @@ const getListStyle = (isDraggingOver, itemsLength) => ({
 })
 
 const ItemSelect = styled.div`
-  padding: 2px 10px 4px;
+  padding: 0px 12px;
   background-color: ${props => props.bg};
   font-weight: ${props => props.fontWeight};
   &:hover {
@@ -72,7 +72,61 @@ const Select = styled.div`
   max-height: 300px;
   overflow-x: auto;
   border-radius: 5px;
-  transition: all 0.2s;
+`
+
+const BoxSelectMeasure = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid rgb(217, 217, 217);
+  border-radius: 2px;
+  min-height: 40px;
+
+  .clear-all {
+    margin-right: 4px;
+    cursor: pointer;
+    visibility: hidden;
+    svg {
+      fill: rgba(0, 0, 0, 0.25);
+    }
+
+    &:hover {
+      svg {
+        fill: rgba(0, 0, 0, 0.45);
+      }
+    }
+  }
+
+  &:hover {
+    .clear-all {
+      visibility: visible;
+    }
+  }
+`
+
+const Measure = styled.div`
+  display: flex;
+  gap: 5px;
+  width: 100%;
+  align-items: center;
+
+  .measure-name {
+    max-width: 130px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .icon-delete {
+    svg {
+      fill: rgba(0, 0, 0, 0.45);
+    }
+    &:hover {
+      svg {
+        fill: rgba(0, 0, 0, 0.65);
+      }
+    }
+  }
 `
 
 const convertArrayValue = array => array.map(item => item.value)
@@ -147,6 +201,15 @@ export default class SortableMultiSelect extends Component {
     this.setState({ optionsChoose: newOptionChoose })
   }
 
+  handleOnUnChoose = option => {
+    const { optionsChoose } = this.state
+
+    const newOptionsChoose = optionsChoose.filter(
+      optionChoose => optionChoose.value !== option.value
+    )
+    this.setState({ optionsChoose: newOptionsChoose })
+  }
+
   clearChoose = () => {
     this.setState({ optionsChoose: [] })
   }
@@ -188,18 +251,7 @@ export default class SortableMultiSelect extends Component {
         <DragDropContext onDragEnd={this.onDragEnd}>
           <Droppable droppableId="droppable" direction="horizontal">
             {(provided, snapshot) => (
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  borderColor: 'rgb(217, 217, 217)',
-                  borderWidth: 1,
-                  borderStyle: 'solid',
-                  borderRadius: 2,
-                  minHeight: '40px',
-                }}
-              >
+              <BoxSelectMeasure>
                 <div
                   ref={provided.innerRef}
                   style={getListStyle(snapshot.isDraggingOver)}
@@ -223,7 +275,17 @@ export default class SortableMultiSelect extends Component {
                               provided.draggableProps.style
                             )}
                           >
-                            {option.name}
+                            <Measure>
+                              <div className="measure-name">{option.name}</div>
+                              <div>
+                                <Icon
+                                  onClick={() => this.handleOnUnChoose(option)}
+                                  className="icon-delete"
+                                  type="close"
+                                  style={{ fontSize: '10px' }}
+                                />
+                              </div>
+                            </Measure>
                           </div>
                         )}
                       </Draggable>
@@ -232,14 +294,14 @@ export default class SortableMultiSelect extends Component {
                 </div>
                 <Icon
                   type="close-circle"
-                  theme="outlined"
-                  style={{ marginRight: 4, cursor: 'pointer' }}
+                  theme="filled"
+                  className="clear-all"
                   onClick={e => {
                     e.stopPropagation()
                     this.clearChoose()
                   }}
                 />
-              </div>
+              </BoxSelectMeasure>
             )}
           </Droppable>
         </DragDropContext>
@@ -254,7 +316,9 @@ export default class SortableMultiSelect extends Component {
                 <Row type="flex" justify="space-between">
                   <Col>{option.name || options.label}</Col>
                   <Col>
-                    {this.isOptionChoose(option.value) && <Icon type="check" />}
+                    {this.isOptionChoose(option.value) && (
+                      <Icon type="check" style={{ color: '#1890ff' }} />
+                    )}
                   </Col>
                 </Row>
               </ItemSelect>
