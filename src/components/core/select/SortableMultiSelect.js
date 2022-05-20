@@ -331,7 +331,10 @@ export default class SortableMultiSelect extends Component {
                   <Col>{getName(option)}</Col>
                   <Col>
                     {this.isOptionChoose(getValue(option)) && (
-                      <Icon type="check" style={{ color: '#1890ff' }} />
+                      <Icon
+                        type="check"
+                        style={{ color: '#1890ff', fontSize: '12px' }}
+                      />
                     )}
                   </Col>
                 </Row>
