@@ -3,6 +3,7 @@ import { get, isEqual, keyBy } from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
+import { FIELDS } from '../index'
 import { i18n } from '../constants'
 
 @Form.create()
@@ -22,6 +23,10 @@ export default class TableQCVN extends Component {
     }, {})
 
     if (!isEqual(prevProps.measureListValue, measureListValue)) {
+      form.setFieldsValue(measureListValueObject)
+    }
+
+    if (!isEqual(prevProps.dataSource, dataSource)) {
       form.setFieldsValue(measureListValueObject)
     }
   }
@@ -71,11 +76,20 @@ export default class TableQCVN extends Component {
   }
 
   getDefaultDataLevelColumns = () => {
-    const { measuringListStation } = this.props
+    const { measuringListStation, defaultDataLevelValue } = this.props
 
     const defaultDataLevels = [
-      { title: i18n().exceed, dataIndex: 'Limit' },
-      { title: i18n().exceed_preparing, dataIndex: 'Tend' },
+      {
+        title: get(defaultDataLevelValue, `${FIELDS.EXCEED}.config.name`),
+        dataIndex: 'Limit',
+      },
+      {
+        title: get(
+          defaultDataLevelValue,
+          `${FIELDS.EXCEED_PREPARING}.config.name`
+        ),
+        dataIndex: 'Tend',
+      },
     ]
 
     const measuringStationObj = keyBy(measuringListStation, 'key')
