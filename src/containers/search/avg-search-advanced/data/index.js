@@ -142,21 +142,30 @@ export default class DataSearch extends Component {
               style={{ height: '68px' }}
             >
               <Col>
-                <div style={{ marginRight: '4px' }}>
+                <div
+                  style={{
+                    marginRight: '4px',
+                    color: '#262626',
+                    fontSize: '14px',
+                    fontWeight: '500',
+                  }}
+                >
                   {i18n().standard.label}
                 </div>
               </Col>
               <Col>
-                <ToolTipHint width={'16px'} text={i18n().tooltip.standard} />
+                <div style={{ marginTop: '4px' }}>
+                  <ToolTipHint width={'16px'} text={i18n().tooltip.standard} />
+                </div>
               </Col>
               <Col>
-                <div style={{ marginRight: '2px' }}>:</div>
+                <div style={{ marginRight: '8px', marginLeft: '4px' }}>:</div>
               </Col>
-              <Col span={16}>
+              <Col span={15}>
                 <SelectQCVN
                   mode="multiple"
                   maxTagCount={1}
-                  maxTagTextLength={16}
+                  maxTagTextLength={14}
                   onChange={this.onChangeQcvn}
                   placeholder={i18n().standard.placeholder}
                 />

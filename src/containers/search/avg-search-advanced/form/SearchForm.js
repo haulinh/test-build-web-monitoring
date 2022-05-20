@@ -655,24 +655,39 @@ export default class SearchAvgForm extends React.Component {
               </Col>
             )}
           </Row>
-          <Row type="flex" justify="end">
+          <Row type="flex" justify="end" align="middle">
             <Col>
               <div
                 style={{
                   display: 'flex',
-                  width: '205px',
-                  justifyContent: 'space-between',
+                  width: '220px',
+                  justifyContent: 'flex-end',
                   alignItems: 'center',
                 }}
               >
-                <div style={{ fontSize: '14px', fontWeight: '600' }}>
+                <div
+                  style={{
+                    color: '#262626',
+                    fontSize: '14px',
+                    fontWeight: '500',
+                    marginRight: '4px',
+                  }}
+                >
                   {translate('dataSearchFrom.processData')}
                 </div>
-                <ToolTipHint width={'20px'} text={i18n().tooltip.filterData} />
-                <FormItem>
+                <div style={{ marginTop: '4px' }}>
+                  <ToolTipHint
+                    width={'20px'}
+                    text={i18n().tooltip.filterData}
+                  />
+                </div>
+                <div style={{ marginLeft: '4px' }}>:</div>
+                <FormItem style={{ marginTop: '4px' }}>
                   {form.getFieldDecorator('isFilter', {
                     initialValue: false,
-                  })(<Switch style={{ marginTop: '18px' }} />)}
+                  })(
+                    <Switch style={{ marginTop: '18px', marginLeft: '8px' }} />
+                  )}
                 </FormItem>
               </div>
             </Col>
