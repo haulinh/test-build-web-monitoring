@@ -10,7 +10,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FIELDS, i18n } from './index'
 import _ from 'lodash'
-import ToolTip from 'components/elements/tooltip'
+import ToolTipHint from 'components/elements/tooltip'
 
 const ColSwitch = styled(Col)`
   .ant-form-item .ant-switch {
@@ -166,7 +166,7 @@ export default class Filter extends React.Component {
           <Col>
             <Row gutter={8} type="flex" align="middle">
               <Col>
-                <ToolTip text={t('dataAverage.tooltip.filterData')} />
+                <ToolTipHint text={t('dataAverage.tooltip.filterData')} />
               </Col>
               <Col>
                 <div style={{ fontSize: '16px', fontWeight: '600' }}>

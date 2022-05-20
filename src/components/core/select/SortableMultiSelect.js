@@ -1,7 +1,8 @@
-import { Icon } from 'antd'
-import { isEmpty, isEqual, keyBy } from 'lodash'
+import { Col, Icon, Row } from 'antd'
+import { isEqual, keyBy } from 'lodash'
 import React, { Component } from 'react'
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
+import styled from 'styled-components'
 
 // a little function to help us with reordering the result
 const reorder = (list, startIndex, endIndex) => {
@@ -15,8 +16,15 @@ const reorder = (list, startIndex, endIndex) => {
 const getItemStyle = (isDragging, draggableStyle) => ({
   // some basic styles to make the items look a bit nicer
   userSelect: 'none',
-  padding: 2,
+  padding: '0 6px',
   margin: 2,
+  height: '25px',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  fontSize: '14px',
+  textAlign: 'center',
+  whiteSpace: 'nowrap',
 
   // change background colour if dragging
   background: '#fafafa',
@@ -32,13 +40,40 @@ const getItemStyle = (isDragging, draggableStyle) => ({
 const getListStyle = (isDraggingOver, itemsLength) => ({
   display: 'flex',
   width: '100%',
-  overflow: 'hidden',
+  // flexWrap: 'nowrap',
+  overflowX: 'auto',
+  overflowY: 'hidden',
+  transition: 'transform ease-out 0.3s',
 
   maxHeight: 400,
   padding: 4,
   rowGap: 8,
-  minHeight: 40,
+  minHeight: 35,
 })
+
+const ItemSelect = styled.div`
+  padding: 2px 10px 4px;
+  background-color: ${props => props.bg};
+  font-weight: ${props => props.fontWeight};
+  &:hover {
+    transition: background 0.3s ease;
+    background-color: #e6f7ff;
+    cursor: pointer;
+  }
+`
+
+const Select = styled.div`
+  position: absolute;
+  z-index: 9;
+  background-color: white;
+  padding: 5px 0;
+  width: 100%;
+  box-shadow: 0px 9px 28px 8px rgba(0, 0, 0, 0.05);
+  max-height: 300px;
+  overflow-x: auto;
+  border-radius: 5px;
+  transition: all 0.2s;
+`
 
 const convertArrayValue = array => array.map(item => item.value)
 
@@ -148,7 +183,7 @@ export default class SortableMultiSelect extends Component {
       <div
         ref={this.ref}
         onClick={this.openListSelect}
-        style={{ width: '100%', position: 'relative', minHeight: 40 }}
+        style={{ width: '100%', position: 'relative' }}
       >
         <DragDropContext onDragEnd={this.onDragEnd}>
           <Droppable droppableId="droppable" direction="horizontal">
@@ -162,6 +197,7 @@ export default class SortableMultiSelect extends Component {
                   borderWidth: 1,
                   borderStyle: 'solid',
                   borderRadius: 2,
+                  minHeight: '40px',
                 }}
               >
                 <div
@@ -170,26 +206,28 @@ export default class SortableMultiSelect extends Component {
                   {...provided.droppableProps}
                 >
                   {optionsChoose.map((option, index) => (
-                    <Draggable
-                      onClick={e => e.stopPropagation()}
-                      key={option.value || option.key || option._id}
-                      draggableId={option.value || option.key || option._id}
-                      index={index}
-                    >
-                      {(provided, snapshot) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          style={getItemStyle(
-                            snapshot.isDragging,
-                            provided.draggableProps.style
-                          )}
-                        >
-                          {option.name}
-                        </div>
-                      )}
-                    </Draggable>
+                    <div>
+                      <Draggable
+                        onClick={e => e.stopPropagation()}
+                        key={option.value || option.key || option._id}
+                        draggableId={option.value || option.key || option._id}
+                        index={index}
+                      >
+                        {(provided, snapshot) => (
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            style={getItemStyle(
+                              snapshot.isDragging,
+                              provided.draggableProps.style
+                            )}
+                          >
+                            {option.name}
+                          </div>
+                        )}
+                      </Draggable>
+                    </div>
                   ))}
                 </div>
                 <Icon
@@ -206,28 +244,22 @@ export default class SortableMultiSelect extends Component {
           </Droppable>
         </DragDropContext>
         {isOpenListSelect && (
-          <div
-            style={{
-              position: 'absolute',
-              zIndex: 9,
-              backgroundColor: 'white',
-              width: '100%',
-              boxShadow: '0px 9px 28px 8px rgba(0, 0, 0, 0.05)',
-            }}
-          >
+          <Select>
             {options.map(option => (
-              <div
-                style={{
-                  padding: 4,
-                  backgroundColor:
-                    this.isOptionChoose(option.value) && '#fafafa',
-                }}
+              <ItemSelect
+                bg={this.isOptionChoose(option.value) && '#FAFAFA'}
+                fontWeight={this.isOptionChoose(option.value) && 600}
                 onClick={() => this.handleOnChoose(option)}
               >
-                {option.name || options.label}
-              </div>
+                <Row type="flex" justify="space-between">
+                  <Col>{option.name || options.label}</Col>
+                  <Col>
+                    {this.isOptionChoose(option.value) && <Icon type="check" />}
+                  </Col>
+                </Row>
+              </ItemSelect>
             ))}
-          </div>
+          </Select>
         )}
       </div>
     )

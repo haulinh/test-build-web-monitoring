@@ -108,15 +108,12 @@ export default class SearchFormHistoryData extends React.Component {
     const { stationAutos, stationTypes } = this.state
 
     const firstStationType = get(stationTypes, ['0', 'key'])
-    const firstStationKey = this.getInitialStationKey(
-      stationAutos,
-      firstStationType
-    )
-    const initMeasuring = this.getMeasureKeys(firstStationKey)
+    const firstStation = this.getInitialStation(stationAutos, firstStationType)
+    const initMeasuring = this.getMeasureKeys(firstStation.key)
 
     const firstValues = {
       [fields.rangesDate]: 1,
-      [fields.stationKey]: firstStationKey,
+      [fields.stationKey]: firstStation.key,
       [fields.stationType]: firstStationType,
       [fields.measuringList]: initMeasuring,
       [fields.province]: '',
@@ -204,19 +201,22 @@ export default class SearchFormHistoryData extends React.Component {
   }
 
   setInitValues = stationAutos => {
-    const { form } = this.props
+    const { form, setStandardKeyStation } = this.props
 
     const stationTypeSelected = form.getFieldValue(fields.stationType)
 
     if (!stationTypeSelected) return false
 
-    const initialStationKey = this.getInitialStationKey(
+    const initialStation = this.getInitialStation(
       stationAutos,
       stationTypeSelected
     )
 
+    const standardKeyStation = get(initialStation, 'standardsVN.key')
+    setStandardKeyStation(standardKeyStation)
+
     form.setFieldsValue({
-      [fields.stationKey]: initialStationKey,
+      [fields.stationKey]: initialStation.key,
     })
 
     this.setFieldValueMeasuringOption()
@@ -224,17 +224,24 @@ export default class SearchFormHistoryData extends React.Component {
     return true
   }
 
-  getInitialStationKey = (stationAutos, stationKey) => {
+  getInitialStation = (stationAutos, stationKey) => {
     const stationAutosBelongStationTypeSelect =
       stationAutos.find(
         stationAuto => _.get(stationAuto, 'stationType.key') === stationKey
       ) || {}
 
-    return stationAutosBelongStationTypeSelect.key
+    return stationAutosBelongStationTypeSelect
   }
 
   handleOnChangeStationAuto = stationAutoValue => {
     this.setFieldValueMeasuringOption(stationAutoValue)
+    const { setStandardKeyStation } = this.props
+    const { stationAutos } = this.state
+    const station = stationAutos.find(
+      station => station.key === stationAutoValue
+    )
+    const standardKeyStation = get(station, 'standardsVN.key')
+    setStandardKeyStation(standardKeyStation)
   }
 
   onStationTypeChange = stationType => {

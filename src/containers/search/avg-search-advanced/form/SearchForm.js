@@ -17,7 +17,7 @@ import SelectAnt from 'components/elements/select-ant'
 import SelectProvince from 'components/elements/select-province'
 import SelectQCVN from 'components/elements/select-qcvn'
 import SelectStationType from 'components/elements/select-station-type'
-import ToolTip from 'components/elements/tooltip'
+import ToolTipHint from 'components/elements/tooltip'
 import { FormItem } from 'components/layouts/styles'
 import { dataStatusOptions } from 'constants/dataStatus'
 import SelectStationAuto from 'containers/data-analytics/filter/select-station-auto'
@@ -605,10 +605,16 @@ export default class SearchAvgForm extends React.Component {
             </Col>
             <Col>
               <FormItem label={i18n().form.measuringList(numberMeasure)}>
-                {form.getFieldDecorator(
-                  FIELDS.MEASURING_LIST,
-                  {}
-                )(<SortableMultiSelect options={measuringListOptions} />)}
+                {form.getFieldDecorator(FIELDS.MEASURING_LIST, {
+                  rules: [
+                    {
+                      required: true,
+                      message: translate(
+                        'avgSearchFrom.form.measuringList.require'
+                      ),
+                    },
+                  ],
+                })(<SortableMultiSelect options={measuringListOptions} />)}
               </FormItem>
             </Col>
           </Row>
@@ -674,7 +680,7 @@ export default class SearchAvgForm extends React.Component {
                 <div style={{ fontSize: '14px', fontWeight: '600' }}>
                   {translate('dataSearchFrom.processData')}
                 </div>
-                <ToolTip width={'20px'} text={i18n().tooltip.filterData} />
+                <ToolTipHint width={'20px'} text={i18n().tooltip.filterData} />
                 <FormItem>
                   {form.getFieldDecorator('isFilter', {
                     initialValue: false,

@@ -12,13 +12,16 @@ import { i18n } from '../constants'
 }))
 export default class TableQCVN extends Component {
   componentDidUpdate(prevProps) {
-    const { form, measureListValue, qcvnList } = this.props
-    const measureListValueObject = measureListValue.reduce(
-      (base, current) => ({ ...base, [current]: true }),
-      {}
-    )
+    const { form, measureListValue, dataSource } = this.props
 
-    if (!isEqual(prevProps.qcvnList, qcvnList)) {
+    const measureListValueObject = dataSource.reduce((base, current) => {
+      if (measureListValue.includes(current.key))
+        return { ...base, [current.key]: true }
+
+      return { ...base, [current.key]: false }
+    }, {})
+
+    if (!isEqual(prevProps.measureListValue, measureListValue)) {
       form.setFieldsValue(measureListValueObject)
     }
   }

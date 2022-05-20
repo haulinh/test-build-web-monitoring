@@ -1,6 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { getListLanguageWeb, getListLanguageContents } from 'redux/actions/languageAction'
+import {
+  getListLanguageWeb,
+  getListLanguageContents,
+} from 'redux/actions/languageAction'
+import { getWarningLevelColors } from 'redux/actions/config'
 import { getMeasuresAsync } from 'redux/actions/globalAction'
 import languageApi from 'api/languageApi'
 import slug from 'constants/slug'
@@ -16,18 +20,25 @@ import * as _ from 'lodash'
   {
     getListLanguageWeb,
     getMeasuresAsync,
-    getListLanguageContents
+    getListLanguageContents,
+    getWarningLevelColors,
   }
 )
 export default class AppContainer extends React.Component {
   async componentDidMount() {
-    const { getMeasuresAsync, getListLanguageWeb, getListLanguageContents } = this.props
+    const {
+      getMeasuresAsync,
+      getListLanguageWeb,
+      getListLanguageContents,
+      getWarningLevelColors,
+    } = this.props
     if (window.location.pathname !== slug.login.loginWithEmail) {
       Promise.all([
         this.initialLanguage(),
         getListLanguageWeb(),
         getMeasuresAsync(),
-        getListLanguageContents()
+        getListLanguageContents(),
+        getWarningLevelColors(),
       ])
     }
   }

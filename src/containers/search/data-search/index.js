@@ -5,7 +5,7 @@ import BoxShadowStyle from 'components/elements/box-shadow'
 import Clearfix from 'components/elements/clearfix/index'
 import Heading from 'components/elements/heading'
 import SelectQCVN from 'components/elements/select-qcvn-v2'
-import ToolTip from 'components/elements/tooltip'
+import ToolTipHint from 'components/elements/tooltip'
 import { FilterList, ModalSaveFilter } from 'components/filter'
 import { ACTION_TYPE, MODULE_TYPE } from 'components/filter/constants'
 import ROLE from 'constants/role'
@@ -19,7 +19,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { connectAutoDispatch } from 'redux/connect'
-import ToolTipIcon from 'assets/svg-icons/TooltipSmall.svg'
 import {
   addBreadcrumb,
   deleteBreadcrumb,
@@ -84,6 +83,7 @@ export default class MinutesDataSearch extends React.Component {
     highlightText: '',
     filterDefault: {},
     activeKey: null,
+    standardKeyStation: '',
   }
   searchFormRef = React.createRef()
 
@@ -404,6 +404,12 @@ export default class MinutesDataSearch extends React.Component {
 
   setPage = page => this.setState({ page }, () => this.handleOnSearch())
 
+  setStandardKeyStation = standardKeyStation => {
+    this.setState({
+      standardKeyStation,
+    })
+  }
+
   render() {
     const {
       data,
@@ -422,6 +428,7 @@ export default class MinutesDataSearch extends React.Component {
       highlightText,
       filterItem,
       activeKey,
+      standardKeyStation,
     } = this.state
 
     const { form } = this.props
@@ -478,6 +485,7 @@ export default class MinutesDataSearch extends React.Component {
                 {this.props.lang.t('addon.search')}
               </Heading>
               <SearchFrom
+                setStandardKeyStation={this.setStandardKeyStation}
                 ref={this.searchFormRef}
                 onSearch={this.handleOnSearch}
                 setFilterDefault={this.setFilterDefault}
@@ -504,10 +512,8 @@ export default class MinutesDataSearch extends React.Component {
                 <Row type="flex" gutter={5}>
                   <Col>{translate('dataAnalytics.standardViews')}</Col>
                   <Col>
-                    <ToolTip
-                      width={'16px'}
+                    <ToolTipHint
                       text={translate('dataAverage.tooltip.standard')}
-                      icon={ToolTipIcon}
                     />
                   </Col>
                   <Col>:</Col>
@@ -515,6 +521,8 @@ export default class MinutesDataSearch extends React.Component {
               </Col>
               <Col span={8}>
                 <SelectQCVN
+                  standardKeyStation={standardKeyStation}
+                  placeholder={t('dataAverage.placeholder.standard')}
                   onFetchSuccess={this.handleOnFetchSuccessQCVN}
                   fieldValue="key"
                   mode="multiple"

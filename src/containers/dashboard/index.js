@@ -15,7 +15,7 @@ import iconHelper from 'assets/svg-icons/question-circle.svg'
 
 import Helper from './helper'
 import Filter from './filter'
-import {getContent} from 'components/language/language-content'
+import { getContent } from 'components/language/language-content'
 
 const Container = styled.div`
   padding: 24px;
@@ -112,7 +112,7 @@ function i18n() {
 
 @connectAutoDispatch(state => ({
   stationAuto: state.stationAuto.list,
-  languageContents: state.language.languageContents
+  languageContents: state.language.languageContents,
 }))
 class Dashboard extends Component {
   state = {
@@ -136,13 +136,12 @@ class Dashboard extends Component {
     const { stationAuto, languageContents } = this.props
     const { dashboardInfo } = this.state
 
-    const stationType = (dashboardInfo.stationType || [])
-      .map(item => ({
-        _id: item._id,
-        name: item.name,
-        total: item.total,
-        values: [item.lossData, item.exceed, item.exceedPreparing, item.good],
-      }))
+    const stationType = (dashboardInfo.stationType || []).map(item => ({
+      _id: item._id,
+      name: item.name,
+      total: item.total,
+      values: [item.lossData, item.exceed, item.exceedPreparing, item.good],
+    }))
 
     return (
       <Container>
@@ -210,7 +209,12 @@ class Dashboard extends Component {
               <Item>
                 <Title>
                   <Text fontSize={16} fontWeight="600">
-                    {getContent(languageContents, {type: 'StationType', itemId: item._id, value: item.name, field: 'name'})}
+                    {getContent(languageContents, {
+                      type: 'StationType',
+                      itemId: item._id,
+                      value: item.name,
+                      field: 'name',
+                    })}
                   </Text>
                   <Text fontSize={16}>{item.total}</Text>
                 </Title>

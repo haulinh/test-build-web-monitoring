@@ -26,6 +26,7 @@ const StationDataWrapper = styled(BoxShadow)`
 `
 @connect(state => ({
   locale: state.language.locale,
+  measuresObj: state.global.measuresObj,
 }))
 @autobind
 export default class StationData extends React.PureComponent {
@@ -73,7 +74,7 @@ export default class StationData extends React.PureComponent {
   }
 
   renderOneStation(station) {
-    const { searchFormData, qcvns } = this.props
+    const { searchFormData, qcvns, measuresObj } = this.props
     const {
       tabKey,
       isLoading,
@@ -87,10 +88,9 @@ export default class StationData extends React.PureComponent {
         measureStation => measureStation === measureForm
       )
     )
-    const measuringData = station.measuringData.filter(measureStation =>
-      searchFormData.measuringList.some(
-        measureForm => measureForm === measureStation.key
-      )
+
+    const measuringData = searchFormData.measuringList.map(
+      measureValue => measuresObj[measureValue]
     )
 
     return (

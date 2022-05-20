@@ -14,8 +14,9 @@ import SelectStationAuto from './select-station-auto'
 import SelectOperator, { OPERATOR } from './select-operator'
 import { requiredFieldRule } from 'utils/rules'
 import { getTimes } from 'utils/datetime'
+import ToolTipHint from 'components/elements/tooltip'
+// import OptionsTimeRange from 'containers/search/common/options-time-range'
 import SortableMultiSelect from 'components/core/select/SortableMultiSelect'
-import ToolTip from 'components/elements/tooltip'
 
 function i18n() {
   return {
@@ -333,7 +334,7 @@ class FilterForm extends Component {
           </Row>
           <Row gutter={8} type="flex" justify="end" align="middle">
             <Col>
-              <ToolTip text={t('dataAverage.tooltip.filterData')} />
+              <ToolTipHint text={t('dataAverage.tooltip.filterData')} />
             </Col>
             <Col>
               <Form.Item

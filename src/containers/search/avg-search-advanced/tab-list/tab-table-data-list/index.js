@@ -108,8 +108,7 @@ export default class TableDataList extends React.PureComponent {
             <div>{getMeasuringValue(item.measuringList, measuring.key)}</div>
           )
         }
-        // console.log(value, '==value==')
-        // console.log(JSON.stringify(this.props.dataSource, null, 2), '==dataSource==')
+
         if (value === null || value === undefined) return <div>-</div>
 
         return (
@@ -155,7 +154,6 @@ export default class TableDataList extends React.PureComponent {
             pageSize: this.props.qcvns.length + 50,
           }}
           locale={{ emptyText: translate('avgSearchFrom.table.emptyText') }}
-          scroll={{ x: 'max-content', y: 500 }}
         />
       </TableDataListWrapper>
     )
