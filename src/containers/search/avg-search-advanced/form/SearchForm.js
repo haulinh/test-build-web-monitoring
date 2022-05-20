@@ -162,23 +162,21 @@ export default class SearchAvgForm extends React.Component {
 
   handleChangeFilter = filter => {
     const { otherConditionFilter } = this.state
-
     const index = otherConditionFilter.findIndex(
       item => item.key === filter.key
     )
-
-    //if filterCondition empty, add 1 filter to filterList
     if (index < 0) {
       this.setState({
         otherConditionFilter: [...otherConditionFilter, filter],
       })
-      return
+    } else {
+      const newOtherConditionFilter = otherConditionFilter.filter(
+        condition => condition.key !== filter.key
+      )
+      this.setState({
+        otherConditionFilter: newOtherConditionFilter,
+      })
     }
-
-    //delete filter from filterList
-    this.setState({
-      otherConditionFilter: otherConditionFilter.splice(index, 1),
-    })
   }
 
   getMeasuringList = stationAutoKeys =>
@@ -190,12 +188,24 @@ export default class SearchAvgForm extends React.Component {
     }, new Map())
 
   handleRemoveField = filterKey => () => {
-    console.log(filterKey)
+    const { form } = this.props
     const { otherConditionFilter } = this.state
 
     this.setState({
       otherConditionFilter: otherConditionFilter.filter(
         item => item.key !== filterKey
+      ),
+    })
+
+    const { stationType, provinceKey, standardKey } = form.getFieldsValue()
+
+    this.handleStationAutoKeys(stationType, provinceKey, undefined, standardKey)
+    this.setState({
+      stationAutosValue: this.getStationAutosValue(
+        stationType,
+        provinceKey,
+        undefined,
+        standardKey
       ),
     })
   }
@@ -404,17 +414,15 @@ export default class SearchAvgForm extends React.Component {
     const { form } = this.props
     const { provinceKey, frequent, standardKey } = form.getFieldsValue()
 
-    if (frequent || standardKey) {
-      this.handleStationAutoKeys(
+    this.handleStationAutoKeys(stationType, provinceKey, frequent, standardKey)
+    this.setState({
+      stationAutosValue: this.getStationAutosValue(
         stationType,
         provinceKey,
         frequent,
         standardKey
-      )
-      return
-    }
-
-    this.handleStationAutoKeys(stationType, provinceKey)
+      ),
+    })
   }
 
   onChangeFrequency = frequency => {
@@ -432,6 +440,8 @@ export default class SearchAvgForm extends React.Component {
         standardKey
       ),
     })
+
+    form.validateFields([FIELDS.STATION_AUTO, FIELDS.MEASURING_LIST])
   }
 
   onChangeStandard = standard => {
@@ -449,6 +459,7 @@ export default class SearchAvgForm extends React.Component {
         standard
       ),
     })
+    form.validateFields([FIELDS.STATION_AUTO, FIELDS.MEASURING_LIST])
   }
 
   handleSearch = async () => {
@@ -488,17 +499,6 @@ export default class SearchAvgForm extends React.Component {
     this.updateForm({ stationAutoKeys })
   }
 
-  getStationAutos = () => {
-    const { form } = this.props
-
-    const stationAuto = form.getFieldValue(FIELDS.STATION_AUTO)
-    if (isEmpty(stationAuto)) return []
-
-    return [...this.stationAutos]
-      .map(([_, station]) => station)
-      .filter(station => stationAuto.some(item => station.key === item))
-  }
-
   render() {
     const { form, loading } = this.props
     const {
@@ -506,8 +506,6 @@ export default class SearchAvgForm extends React.Component {
       otherConditionFilter,
       stationAutosValue,
     } = this.state
-
-    console.log(otherConditionFilter)
 
     const values = form.getFieldsValue([
       FIELDS.STATION_AUTO,
@@ -606,14 +604,7 @@ export default class SearchAvgForm extends React.Component {
             <Col>
               <FormItem label={i18n().form.measuringList(numberMeasure)}>
                 {form.getFieldDecorator(FIELDS.MEASURING_LIST, {
-                  rules: [
-                    {
-                      required: true,
-                      message: translate(
-                        'avgSearchFrom.form.measuringList.require'
-                      ),
-                    },
-                  ],
+                  rules: [requiredFieldRule(i18n().rules.parameter)],
                 })(<SortableMultiSelect options={measuringListOptions} />)}
               </FormItem>
             </Col>
