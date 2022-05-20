@@ -400,6 +400,7 @@ export default class SearchAvgForm extends React.Component {
     this.setState({
       stationAutosValue: this.getStationAutosValue(params),
     })
+    form.validateFields([FIELDS.STATION_AUTO, FIELDS.MEASURING_LIST])
   }
 
   onChangeStationType = stationType => {
@@ -416,6 +417,7 @@ export default class SearchAvgForm extends React.Component {
     this.setState({
       stationAutosValue: this.getStationAutosValue(params),
     })
+    form.validateFields([FIELDS.STATION_AUTO, FIELDS.MEASURING_LIST])
   }
 
   onChangeFrequency = frequency => {
