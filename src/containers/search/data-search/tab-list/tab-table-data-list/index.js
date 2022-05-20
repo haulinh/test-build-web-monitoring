@@ -52,13 +52,7 @@ export default class TableDataList extends React.Component {
       dataIndex: `measuringLogs.${measure}`,
       align: 'right',
       render: (value, item) => {
-        if (item.isQCVN) {
-          return (
-            <div>{this.getMeasuringValue(item.measuringList, measure)}</div>
-          )
-        }
-
-        if (value === null || value === undefined) return <div>-</div>
+        if (!value) return <div>-</div>
 
         const colorDevice = getColorStatusDevice(value.statusDevice)
 
@@ -152,15 +146,6 @@ export default class TableDataList extends React.Component {
     const { measuringList } = this.props
     const standardsSelected = this.getStandardsSelected()
 
-    const renderStandard = measure => {
-      const { minLimit, maxLimit } = measure || {}
-      if ((minLimit || minLimit === 0) && (maxLimit || maxLimit === 0))
-        return [minLimit, maxLimit].join('-')
-      if (minLimit || minLimit === 0) return `≥ ${minLimit}`
-      if (maxLimit || maxLimit === 0) return `≤ ${maxLimit}`
-      return '-'
-    }
-
     const renderFooter = () => {
       if (!isEmpty(standardsSelected)) {
         return (
@@ -187,7 +172,7 @@ export default class TableDataList extends React.Component {
                     const measure = measureStandard[measureKey]
                     return (
                       <td style={{ textAlign: 'right' }}>
-                        {renderStandard(measure)}
+                        {this.getMeasuringValue(measure)}
                       </td>
                     )
                   })}
@@ -208,19 +193,18 @@ export default class TableDataList extends React.Component {
     )
   }
 
-  getMeasuringValue = (list = [], key) => {
-    const measure = list.find(item => item.key === key)
+  handleOnPageChange = page => {
+    const { setPage } = this.props
+    setPage(page)
+  }
+
+  getMeasuringValue = measure => {
     const { minLimit, maxLimit } = measure || {}
     if ((minLimit || minLimit === 0) && (maxLimit || maxLimit === 0))
       return [minLimit, maxLimit].join('-')
     if (minLimit || minLimit === 0) return `≥ ${minLimit}`
     if (maxLimit || maxLimit === 0) return `≤ ${maxLimit}`
     return '-'
-  }
-
-  handleOnPageChange = page => {
-    const { setPage } = this.props
-    setPage(page)
   }
 
   getStandardsSelected = () => {
