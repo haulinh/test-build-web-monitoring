@@ -11,7 +11,7 @@ import { getMeasuringListFromStationAutos } from 'containers/api-sharing/util'
 import { autobind } from 'core-decorators'
 import createLang, { translate } from 'hoc/create-lang'
 import createQueryFormDataBrowser from 'hoc/query-formdata-browser'
-import _, { get, isEmpty } from 'lodash'
+import _, { get, isEmpty, isEqual } from 'lodash'
 import moment from 'moment-timezone'
 import React from 'react'
 import styled from 'styled-components'
@@ -67,24 +67,6 @@ const qaqcOptions = [
   },
 ]
 
-// function validate(values) {
-//   const errors = {}
-//   if (!values.stationType)
-//     errors.stationType = translate('avgSearchFrom.form.stationType.error')
-//   if (!values.stationAuto || values.stationAuto === '')
-//     errors.stationAuto = translate('avgSearchFrom.form.stationAuto.error')
-//   if (!values.type) errors.type = translate('avgSearchFrom.form.type.error')
-
-//   if (!values.rangesDate) {
-//     errors.rangesDate = translate('avgSearchFrom.form.rangesDate.error')
-//   }
-
-//   if (values.measuringList && values.measuringList.length === 0)
-//     errors.measuringList = translate('avgSearchFrom.form.measuringList.require')
-
-//   return errors
-// }
-
 @Form.create()
 @createLang
 @createQueryFormDataBrowser()
@@ -96,12 +78,17 @@ export default class SearchFormHistoryData extends React.Component {
     stationTypes: [],
   }
 
-  componentDidMount = () => {
-    const { formData, form } = this.props
-    if (isEmpty(formData)) return
+  componentDidUpdate(prevProps, prevState) {
+    const { stationAutos } = this.state
+    const { formData, form, onSearch } = this.props
 
-    const initValues = this.getInitValuesFormData()
-    form.setFieldsValue(initValues)
+    if (!isEqual(stationAutos, prevState.stationAutos)) {
+      if (isEmpty(formData)) return
+
+      const initValues = this.getInitValuesFormData()
+      form.setFieldsValue(initValues)
+      onSearch()
+    }
   }
 
   getFilterDefault = () => {
@@ -201,7 +188,9 @@ export default class SearchFormHistoryData extends React.Component {
   }
 
   setInitValues = stationAutos => {
-    const { form, setStandardKeyStation } = this.props
+    const { form, formData, setStandardKeyStation } = this.props
+
+    if (!isEmpty(formData)) return false
 
     const stationTypeSelected = form.getFieldValue(fields.stationType)
 

@@ -1,5 +1,5 @@
 import { Col, Icon, Row } from 'antd'
-import { isEqual, keyBy } from 'lodash'
+import { get, isEqual, keyBy } from 'lodash'
 import React, { Component } from 'react'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import styled from 'styled-components'
@@ -129,7 +129,15 @@ const Measure = styled.div`
   }
 `
 
-const convertArrayValue = array => array.map(item => item.value)
+const getValue = option => {
+  return get(option, 'value') || get(option, 'key') || get(option, '_id')
+}
+
+const getName = option => {
+  return get(option, 'name') || get(option, 'label')
+}
+
+const convertArrayValue = array => array.map(item => getValue(item))
 
 export default class SortableMultiSelect extends Component {
   state = {
@@ -162,7 +170,10 @@ export default class SortableMultiSelect extends Component {
     const { onChange, value, options } = this.props
 
     if (!isEqual(value, prevProps.value)) {
-      const optionsObj = keyBy(options, 'value')
+      const optionsObj =
+        keyBy(options, 'value') ||
+        keyBy(options, 'key') ||
+        keyBy(options, '_id')
 
       const valueMapOption = value.map(valueItem => optionsObj[valueItem])
       this.setState({ optionsChoose: valueMapOption })
@@ -186,12 +197,12 @@ export default class SortableMultiSelect extends Component {
     const { optionsChoose } = this.state
 
     const exitsOption = optionsChoose.find(
-      optionChoose => optionChoose.value === option.value
+      optionChoose => getValue(optionChoose) === getValue(option)
     )
 
     if (exitsOption) {
       const newOptionChoose = optionsChoose.filter(
-        optionChoose => optionChoose.value !== exitsOption.value
+        optionChoose => getValue(optionChoose) !== getValue(exitsOption)
       )
       this.setState({ optionsChoose: newOptionChoose })
       return
@@ -205,7 +216,7 @@ export default class SortableMultiSelect extends Component {
     const { optionsChoose } = this.state
 
     const newOptionsChoose = optionsChoose.filter(
-      optionChoose => optionChoose.value !== option.value
+      optionChoose => getValue(optionChoose) !== getValue(option)
     )
     this.setState({ optionsChoose: newOptionsChoose })
   }
@@ -234,7 +245,7 @@ export default class SortableMultiSelect extends Component {
 
   isOptionChoose = value => {
     const { optionsChoose } = this.state
-    return optionsChoose.find(optionChoose => optionChoose.value === value)
+    return optionsChoose.find(optionChoose => getValue(optionChoose) === value)
   }
 
   // Normally you would want to split things out into separate components.
@@ -261,8 +272,8 @@ export default class SortableMultiSelect extends Component {
                     <div>
                       <Draggable
                         onClick={e => e.stopPropagation()}
-                        key={option.value || option.key || option._id}
-                        draggableId={option.value || option.key || option._id}
+                        key={getValue(option)}
+                        draggableId={getValue(option)}
                         index={index}
                       >
                         {(provided, snapshot) => (
@@ -276,7 +287,9 @@ export default class SortableMultiSelect extends Component {
                             )}
                           >
                             <Measure>
-                              <div className="measure-name">{option.name}</div>
+                              <div className="measure-name">
+                                {getName(option)}
+                              </div>
                               <div>
                                 <Icon
                                   onClick={() => this.handleOnUnChoose(option)}
@@ -309,14 +322,15 @@ export default class SortableMultiSelect extends Component {
           <Select>
             {options.map(option => (
               <ItemSelect
+                key={getValue(option)}
                 bg={this.isOptionChoose(option.value) && '#FAFAFA'}
                 fontWeight={this.isOptionChoose(option.value) && 600}
                 onClick={() => this.handleOnChoose(option)}
               >
                 <Row type="flex" justify="space-between">
-                  <Col>{option.name || options.label}</Col>
+                  <Col>{getName(option)}</Col>
                   <Col>
-                    {this.isOptionChoose(option.value) && (
+                    {this.isOptionChoose(getValue(option)) && (
                       <Icon type="check" style={{ color: '#1890ff' }} />
                     )}
                   </Col>

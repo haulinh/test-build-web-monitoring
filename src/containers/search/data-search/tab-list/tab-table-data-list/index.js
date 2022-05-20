@@ -48,7 +48,10 @@ export default class TableDataList extends React.Component {
     const { measuringList, measuresObj, page } = this.props
 
     const columnsMeasure = measuringList.map(measure => ({
-      title: `${measuresObj[measure].name} (${measuresObj[measure].unit})`,
+      title: `${get(measuresObj, [measure, 'name'])} (${get(measuresObj, [
+        measure,
+        'unit',
+      ])})`,
       dataIndex: `measuringLogs.${measure}`,
       align: 'right',
       render: (value, item) => {

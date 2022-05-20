@@ -862,6 +862,7 @@ export default {
         label: 'Tên trạm',
         placeholder: 'Chọn tên trạm',
         error: 'Vui lòng chọn tên trạm',
+        require: 'Vui lòng nhập trạm quan trắc',
       },
       fromDate: {
         label: 'Bắt đầu',
@@ -886,7 +887,7 @@ export default {
       measuringList: {
         label: 'Thông số',
         placeholder: 'Chọn thông số',
-        require: 'Chọn ít nhất 1 thông số',
+        require: 'Vui lòng chọn thông số',
       },
       isExceeded: {
         label: 'Dữ liệu vượt QCVN',

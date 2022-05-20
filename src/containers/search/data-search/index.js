@@ -156,7 +156,7 @@ export default class MinutesDataSearch extends React.Component {
       [fields.measuringList]: getParamArray(values[fields.measuringList]),
       [fields.filterBy]: getParamArray(values[fields.filterBy]),
       // page,
-      itemPerPage: 8298923802832,
+      itemPerPage: Number.MAX_SAFE_INTEGER,
       standards: getParamArray(standards),
     }
 

@@ -16,10 +16,7 @@ export function getFormatNumber(
       minimumFractionDigits: numberToFixed,
       maximumFractionDigits: maximum,
     })
-
-    if (valueFormat === '-') return tempNumber
-
-    return Number(tempNumber)
+    return tempNumber
   }
 
   return valueFormat

@@ -4,15 +4,15 @@ import {
   DATETIME_LABEL_FORMAT,
   DATETIME_TOOLTIP_FORMAT,
 } from 'constants/chart-format'
+import { getFormatNumber } from 'constants/format-number'
 import { formatTime } from 'containers/search/avg-search-advanced/utils/formatTime'
 import Highcharts from 'highcharts'
 import { translate } from 'hoc/create-lang'
 import { get, isEmpty, isNil, isNumber, keyBy } from 'lodash'
+import moment from 'moment-timezone'
 import React, { Component } from 'react'
 import ReactHighcharts from 'react-highcharts'
 import { connect } from 'react-redux'
-import moment from 'moment-timezone'
-import { getFormatNumber } from 'constants/format-number'
 
 ReactHighcharts.Highcharts.setOptions({
   global: {
@@ -20,12 +20,14 @@ ReactHighcharts.Highcharts.setOptions({
   },
 })
 
-const showMarker = type => {
+const showMarker = (type, rangeReport) => {
   const isLongRangeType = ['month', 'year', 1440].includes(type)
-  return isLongRangeType ? true : false
+  const is24h = isLongRangeType && rangeReport === 0 ? true : false
+
+  return isLongRangeType || is24h ? true : false
 }
 
-const configChart = (data, title, type) => {
+const configChart = (data, title, type, plotLines, rangeReport) => {
   return {
     chart: {
       type: 'spline',
@@ -43,6 +45,7 @@ const configChart = (data, title, type) => {
       title: {
         text: '',
       },
+      plotLines,
     },
     legend: {
       enabled: true,
@@ -50,7 +53,7 @@ const configChart = (data, title, type) => {
     plotOptions: {
       series: {
         marker: {
-          enabled: showMarker(type),
+          enabled: showMarker(type, rangeReport),
         },
         dataLabels: {
           enabled: false,
@@ -120,7 +123,7 @@ const configChart = (data, title, type) => {
         this.points.forEach(p => {
           format += `<div style="display: flex; height: 6px" >
               <div style="color: ${p.color}">${p.series.name}:  </div>&nbsp
-              <div style="font-weight: 700">${p.y}</div>
+              <div style="font-weight: 700">${getFormatNumber(p.y, 2)}</div>
               </div><br>`
         })
 
@@ -146,13 +149,49 @@ export default class TabChart extends Component {
 
   getNewDataSeriesWithQCVN = dataSeries => {
     const { current } = this.state
+    const { stationAutoCurrent } = this.props
+
+    let plotLines = []
     let newDataSeries = dataSeries
+
+    const measure = stationAutoCurrent.measuringList.find(
+      measure => measure.key === current.key
+    )
 
     const qcvnList = this.getQCVNList(current.key)
     const lineQcvn = {
       enableMouseTracking: false,
       dashStyle: 'Dash',
     }
+
+    //draw line maxLimit minLimit
+    plotLines = [
+      {
+        value: get(measure, 'minLimit', undefined),
+        color: '#ff6666',
+        dashStyle: 'shortDot',
+        width: 1,
+        zIndex: 100,
+        label: {
+          text: translate(`dashboard.chartStatus.min`, {
+            min: get(measure, 'minLimit', ''),
+          }),
+          y: 13,
+        },
+      },
+      {
+        value: get(measure, 'maxLimit', undefined),
+        color: '#ff6666',
+        dashStyle: 'shortDot',
+        width: 1,
+        zIndex: 100,
+        label: {
+          text: translate(`dashboard.chartStatus.max`, {
+            max: get(measure, 'maxLimit', ''),
+          }),
+        },
+      },
+    ]
 
     qcvnList.forEach(qcvn => {
       const data = newDataSeries[0].data
@@ -178,6 +217,8 @@ export default class TabChart extends Component {
             }),
           },
         ]
+
+        plotLines = []
       }
 
       if (isNumber(qcvn.minLimit)) {
@@ -202,13 +243,15 @@ export default class TabChart extends Component {
             }),
           },
         ]
+
+        plotLines = []
       }
     })
-    return newDataSeries
+    return { newDataSeries, plotLines }
   }
 
   getConfigData = () => {
-    const { languageContents, dataStationAuto, typeReport } = this.props
+    const { languageContents, dataStationAuto, searchFormData } = this.props
     const { current } = this.state
     const { key, name, unit } = current
 
@@ -229,13 +272,27 @@ export default class TabChart extends Component {
         lineWidth: 2,
       })
 
-    let newDataSeries = this.getDataSeriesWithNullData(dataSeries)
+    let newSeries = this.getDataSeriesWithNullData(dataSeries)
+    const { newDataSeries, plotLines } = this.getNewDataSeriesWithQCVN(
+      newSeries
+    )
 
     if (!isEmpty(newDataSeries)) {
-      newDataSeries = this.getNewDataSeriesWithQCVN(newDataSeries)
+      newSeries = newDataSeries
     }
 
-    return configChart(newDataSeries, title, typeReport)
+    const rangeReport = moment(searchFormData.fromDate).diff(
+      moment(searchFormData.fromDate),
+      'days'
+    )
+
+    return configChart(
+      newSeries,
+      title,
+      searchFormData.type,
+      plotLines,
+      rangeReport
+    )
   }
 
   getDataSeriesWithNullData = dataSeries => {
@@ -313,9 +370,10 @@ export default class TabChart extends Component {
         2,
         null
       )
+
       const time = moment(item.receivedAt).valueOf()
 
-      !isNil(valueWithMeasure) && data.push([time, valueWithMeasure])
+      !isNil(valueWithMeasure) && data.push([time, Number(valueWithMeasure)])
     })
 
     return data
