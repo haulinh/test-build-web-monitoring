@@ -512,7 +512,6 @@ export default class TabChart extends React.PureComponent {
   render() {
     const { measureCurrent, mesureList } = this.state
     const { loading } = this.props
-    console.log({ data: this.state.series })
 
     if (loading)
       return (
