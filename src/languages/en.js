@@ -585,7 +585,7 @@ export default {
             excludeParameter: 'Choose parameters which will be exclude',
           },
           error: {
-            filterName: 'Please type name of filter',
+            filterName: 'Please enter filter name',
             stationType: 'Please choose type of station',
             station: 'Please choose station',
             conditionParameter: 'Please choose parameter',
@@ -990,7 +990,7 @@ export default {
       name: {
         label: 'Name',
         placeholder: 'Name of filter',
-        isEmpty: 'Please type name of filter',
+        isEmpty: 'Please enter filter name',
         isExist: 'Name is exist',
       },
     },
@@ -4706,7 +4706,7 @@ export default {
         title: 'Filter name',
         placeholder: 'Enter the filter name',
         rules: {
-          require: 'Please enter report name',
+          require: 'Please enter filter name',
           max64: 'Do not enter more than 64 characters',
         },
       },

@@ -3,7 +3,10 @@ import {
   DATETIME_LABEL_FORMAT,
   DATETIME_TOOLTIP_FORMAT,
 } from 'constants/chart-format'
-import { FORMAT_VALUE_MEASURING } from 'constants/format-number'
+import {
+  FORMAT_VALUE_MEASURING,
+  getFormatNumber,
+} from 'constants/format-number'
 import { autobind } from 'core-decorators'
 import { translate } from 'hoc/create-lang'
 import * as _ from 'lodash'
@@ -58,9 +61,16 @@ export default class TabChart extends React.PureComponent {
     const seriesData = {}
     const mesureList = measuringList.map((measure, index) => {
       const { name, key, minLimit, maxLimit } = measuresObj[measure]
+      const allValueMeasure = props.dataStationAuto.map(
+        dataStation => dataStation.measuringLogs[key]
+      )
+
+      const isHasData = allValueMeasure.some(value => value)
+
       seriesData[key] = {
         name,
         data: [],
+        isHasData,
         tooltip: { valueDecimals: FORMAT_VALUE_MEASURING },
         minLimit: minLimit,
         maxLimit: maxLimit,
@@ -78,7 +88,9 @@ export default class TabChart extends React.PureComponent {
       _.mapKeys(seriesData, function(value, key) {
         let val = _.get(measuringLogs, [key, 'value'])
 
-        if (!val) return null
+        if (!val) val = null
+
+        if (!seriesData[key].isHasData) return
 
         seriesData[key].data.push([time, val])
 
@@ -219,7 +231,7 @@ export default class TabChart extends React.PureComponent {
   }
 
   handleDrawChart = () => {
-    const { stationAutoCurrent } = this.props
+    const { stationAutoCurrent, measuresObj } = this.props
     const { seriesData, measureCurrent } = this.state
 
     let series = []
@@ -234,7 +246,10 @@ export default class TabChart extends React.PureComponent {
       measure => measure.key === measureCurrent
     )
 
-    nameChart = this.getNameChart(stationAutoCurrent.name, measure)
+    nameChart = this.getNameChart(
+      stationAutoCurrent.name,
+      measuresObj[measureCurrent]
+    )
     if (isEmpty(dataSeries.data)) {
       this.setState({ series: [], nameChart })
       return
@@ -258,6 +273,7 @@ export default class TabChart extends React.PureComponent {
     const lineQcvn = {
       type: 'spline',
       enableMouseTracking: false,
+      dashStyle: 'Dash',
     }
 
     //draw line maxLimit minLimit
@@ -301,7 +317,6 @@ export default class TabChart extends React.PureComponent {
             id: qcvn.id,
             name: qcvn.name,
             typeLine: 'qcvn',
-            dashStyle: 'dash',
             valueLimit: qcvn.maxLimit,
             data: data.map((dataItem, index) => [dataItem[0], qcvn.maxLimit]),
           },
@@ -320,7 +335,6 @@ export default class TabChart extends React.PureComponent {
             name: qcvn.name,
             className: 'min',
             typeLine: 'qcvn',
-            dashStyle: 'dash',
             data: data.map(dataItem => [dataItem[0], qcvn.minLimit]),
           },
         ]
@@ -410,10 +424,10 @@ export default class TabChart extends React.PureComponent {
           marker: {
             enabled: false,
           },
-          lineWidth: 2,
+          lineWidth: 1,
           states: {
             hover: {
-              lineWidth: 2,
+              lineWidth: 1,
             },
           },
         },
@@ -453,7 +467,7 @@ export default class TabChart extends React.PureComponent {
           this.points.forEach(p => {
             format += `<div style="display: flex; height: 6px" >
                 <div style="color: ${p.color}">${p.series.name}:  </div>&nbsp
-                <div style="font-weight: 700">${p.y}</div>
+                <div style="font-weight: 700">${getFormatNumber(p.y, 2)}</div>
                 </div><br>`
           })
 
