@@ -120,7 +120,7 @@ const configChart = (data, title, type) => {
         this.points.forEach(p => {
           format += `<div style="display: flex; height: 6px" >
               <div style="color: ${p.color}">${p.series.name}:  </div>&nbsp
-              <div style="font-weight: 700">${p.y}</div>
+              <div style="font-weight: 700">${getFormatNumber(p.y, 2)}</div>
               </div><br>`
         })
 
@@ -313,9 +313,10 @@ export default class TabChart extends Component {
         2,
         null
       )
+
       const time = moment(item.receivedAt).valueOf()
 
-      !isNil(valueWithMeasure) && data.push([time, valueWithMeasure])
+      !isNil(valueWithMeasure) && data.push([time, Number(valueWithMeasure)])
     })
 
     return data

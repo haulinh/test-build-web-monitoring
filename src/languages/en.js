@@ -862,6 +862,7 @@ export default {
         label: 'Station Name',
         placeholder: 'Select Station Name',
         error: 'Please Choose Station Name',
+        require: 'Stations is required',
       },
       fromDate: {
         label: 'Start',
@@ -886,7 +887,7 @@ export default {
       measuringList: {
         label: 'Parameters',
         placeholder: 'Select Parameter',
-        require: 'Choose At Least 1 Parameter',
+        require: 'Parameter is required',
       },
       isExceeded: {
         label: 'Only Exceeded Data',

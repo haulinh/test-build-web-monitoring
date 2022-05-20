@@ -162,23 +162,21 @@ export default class SearchAvgForm extends React.Component {
 
   handleChangeFilter = filter => {
     const { otherConditionFilter } = this.state
-
     const index = otherConditionFilter.findIndex(
       item => item.key === filter.key
     )
-
-    //if filterCondition empty, add 1 filter to filterList
     if (index < 0) {
       this.setState({
         otherConditionFilter: [...otherConditionFilter, filter],
       })
-      return
+    } else {
+      const newOtherConditionFilter = otherConditionFilter.filter(
+        condition => condition.key !== filter.key
+      )
+      this.setState({
+        otherConditionFilter: newOtherConditionFilter,
+      })
     }
-
-    //delete filter from filterList
-    this.setState({
-      otherConditionFilter: otherConditionFilter.splice(index, 1),
-    })
   }
 
   getMeasuringList = stationAutoKeys =>
@@ -190,12 +188,26 @@ export default class SearchAvgForm extends React.Component {
     }, new Map())
 
   handleRemoveField = filterKey => () => {
+    const { form } = this.props
     const { otherConditionFilter } = this.state
 
     this.setState({
       otherConditionFilter: otherConditionFilter.filter(
         item => item.key !== filterKey
       ),
+    })
+
+    const { stationType, provinceKey, standardKey } = form.getFieldsValue()
+
+    const params = {
+      stationType,
+      provinceKey,
+      standardKey,
+    }
+
+    this.handleStationAutoKeys(params)
+    this.setState({
+      stationAutosValue: this.getStationAutosValue(params),
     })
   }
 
@@ -209,7 +221,7 @@ export default class SearchAvgForm extends React.Component {
     if (!isEmpty(formData)) return
 
     form.setFieldsValue({ [FIELDS.STATION_TYPE]: stationType })
-    this.handleStationAutoKeys(stationType, province)
+    this.handleStationAutoKeys({ stationType, province })
     this.handleSearch()
   }
 
@@ -243,10 +255,11 @@ export default class SearchAvgForm extends React.Component {
     } else {
       const filterDefault = this.getFilterDefault()
       setFilterDefault(filterDefault)
+      const params = { stationType, province: provinceKey }
 
-      this.handleStationAutoKeys(stationType, provinceKey)
+      this.handleStationAutoKeys(params)
       this.setState({
-        stationAutosValue: this.getStationAutosValue(stationType, provinceKey),
+        stationAutosValue: this.getStationAutosValue(params),
       })
     }
 
@@ -256,45 +269,34 @@ export default class SearchAvgForm extends React.Component {
   setStationAutos = stationAutos =>
     stationAutos.map(item => this.stationAutos.set(item.key, item))
 
-  handleStationAutoKeys = (
-    stationType,
-    province,
-    frequency = undefined,
-    standard = undefined
-  ) => {
+  handleStationAutoKeys = ({ stationType, province, frequency, standard }) => {
     //get stationAutoKeys with specific province, stationType, frequency, standard in form
-    const stationAutoKeys = this.getStationAutoKeys(
+    const params = {
       stationType,
       province,
       frequency,
-      standard
-    )
+      standard,
+    }
+    const stationAutoKeys = this.getStationAutoKeys(params)
 
     this.updateForm({ stationAutoKeys })
   }
 
-  getStationAutoKeys = (
-    stationType,
-    province,
-    frequency = undefined,
-    standard = undefined
-  ) => {
-    const stationAutoKeys = this.getStationAutosValue(
+  getStationAutoKeys = ({ stationType, province, frequency, standard }) => {
+    const params = {
       stationType,
       province,
       frequency,
-      standard
-    ).map(station => get(station, 'key'))
+      standard,
+    }
+    const stationAutoKeys = this.getStationAutosValue(params).map(station =>
+      get(station, 'key')
+    )
 
     return stationAutoKeys
   }
 
-  getStationAutosValue = (
-    stationType,
-    province,
-    frequency = undefined,
-    standard = undefined
-  ) => {
+  getStationAutosValue = ({ stationType, province, frequency, standard }) => {
     const stationAutosValue = [...this.stationAutos]
       .map(([_, station]) => station)
       .filter(station => get(station, `stationType.key`) === stationType)
@@ -382,37 +384,38 @@ export default class SearchAvgForm extends React.Component {
     const { form } = this.props
     const stationTypeKeys = this.getStationTypes(province)
     const stationType = stationTypeKeys[0]
-    const { frequent } = form.getFieldsValue()
+    const { frequent, standardKey } = form.getFieldsValue()
+    const params = {
+      stationType,
+      province,
+      frequency: frequent,
+      standard: standardKey,
+    }
 
     form.setFieldsValue({
       [FIELDS.STATION_TYPE]: stationType,
     })
 
-    this.handleStationAutoKeys(stationType, province, frequent)
+    this.handleStationAutoKeys(params)
     this.setState({
-      stationAutosValue: this.getStationAutosValue(
-        stationType,
-        province,
-        frequent
-      ),
+      stationAutosValue: this.getStationAutosValue(params),
     })
   }
 
   onChangeStationType = stationType => {
     const { form } = this.props
     const { provinceKey, frequent, standardKey } = form.getFieldsValue()
-
-    if (frequent || standardKey) {
-      this.handleStationAutoKeys(
-        stationType,
-        provinceKey,
-        frequent,
-        standardKey
-      )
-      return
+    const params = {
+      stationType,
+      province: provinceKey,
+      frequency: frequent,
+      standard: standardKey,
     }
 
-    this.handleStationAutoKeys(stationType, provinceKey)
+    this.handleStationAutoKeys(params)
+    this.setState({
+      stationAutosValue: this.getStationAutosValue(params),
+    })
   }
 
   onChangeFrequency = frequency => {
@@ -420,33 +423,38 @@ export default class SearchAvgForm extends React.Component {
     form.setFieldsValue({ frequent: frequency })
 
     const { stationType, provinceKey, standardKey } = form.getFieldsValue()
-    this.handleStationAutoKeys(stationType, provinceKey, frequency, standardKey)
+    const params = {
+      stationType,
+      province: provinceKey,
+      frequency,
+      standard: standardKey,
+    }
+    this.handleStationAutoKeys(params)
 
     this.setState({
-      stationAutosValue: this.getStationAutosValue(
-        stationType,
-        provinceKey,
-        frequency,
-        standardKey
-      ),
+      stationAutosValue: this.getStationAutosValue(params),
     })
+
+    form.validateFields([FIELDS.STATION_AUTO, FIELDS.MEASURING_LIST])
   }
 
-  onChangeStandard = standard => {
+  onChangeStandard = standardKey => {
     const { form } = this.props
-    form.setFieldsValue({ standardKey: standard })
+    form.setFieldsValue({ standardKey: standardKey })
 
     const { stationType, provinceKey, frequent } = form.getFieldsValue()
-    this.handleStationAutoKeys(stationType, provinceKey, frequent, standard)
+    const params = {
+      stationType,
+      province: provinceKey,
+      frequency: frequent,
+      standard: standardKey,
+    }
+    this.handleStationAutoKeys(params)
 
     this.setState({
-      stationAutosValue: this.getStationAutosValue(
-        stationType,
-        provinceKey,
-        frequent,
-        standard
-      ),
+      stationAutosValue: this.getStationAutosValue(params),
     })
+    form.validateFields([FIELDS.STATION_AUTO, FIELDS.MEASURING_LIST])
   }
 
   handleSearch = async () => {
@@ -484,17 +492,6 @@ export default class SearchAvgForm extends React.Component {
 
   onStationAutoChange = stationAutoKeys => {
     this.updateForm({ stationAutoKeys })
-  }
-
-  getStationAutos = () => {
-    const { form } = this.props
-
-    const stationAuto = form.getFieldValue(FIELDS.STATION_AUTO)
-    if (isEmpty(stationAuto)) return []
-
-    return [...this.stationAutos]
-      .map(([_, station]) => station)
-      .filter(station => stationAuto.some(item => station.key === item))
   }
 
   render() {
@@ -602,14 +599,7 @@ export default class SearchAvgForm extends React.Component {
             <Col>
               <FormItem label={i18n().form.measuringList(numberMeasure)}>
                 {form.getFieldDecorator(FIELDS.MEASURING_LIST, {
-                  rules: [
-                    {
-                      required: true,
-                      message: translate(
-                        'avgSearchFrom.form.measuringList.require'
-                      ),
-                    },
-                  ],
+                  rules: [requiredFieldRule(i18n().rules.parameter)],
                 })(<SortableMultiSelect options={measuringListOptions} />)}
               </FormItem>
             </Col>

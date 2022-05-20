@@ -118,8 +118,8 @@ export default class TableList extends React.PureComponent {
 
   handleChangeTab = key => {
     const { handleChangeChartTab } = this.props
-    if (key === '2') {
-      handleChangeChartTab(true)
+    if (key === 'chart') {
+      handleChangeChartTab()
     }
   }
 

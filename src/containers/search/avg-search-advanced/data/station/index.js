@@ -116,7 +116,7 @@ export default class StationData extends React.PureComponent {
     )
   }
 
-  handleChangeChartTab = isChartTab => {
+  handleChangeChartTab = () => {
     const { tabKey } = this.state
     const searchFormData = this.getSearchFormData(tabKey)
     this.loadData({}, searchFormData)
@@ -248,15 +248,16 @@ export default class StationData extends React.PureComponent {
   async loadData(pagination, searchFormData) {
     const { setLoading } = this.props
 
-    let paginationQuery = pagination
-    const params = isEmpty(pagination)
-      ? Object.assign(this.getQueryParams(searchFormData), {
-          itemPerPage: Number.MAX_SAFE_INTEGER,
-        })
-      : Object.assign(this.getQueryParams(searchFormData), {
-          page: paginationQuery.current,
-          itemPerPage: paginationQuery.pageSize,
-        })
+    const allDataPagination = {
+      current: 1,
+      pageSize: Number.MAX_SAFE_INTEGER,
+    }
+
+    let paginationQuery = isEmpty(pagination) ? allDataPagination : pagination
+    const params = Object.assign(this.getQueryParams(searchFormData), {
+      page: paginationQuery.current,
+      itemPerPage: paginationQuery.pageSize,
+    })
 
     this.setState({ isLoading: true }, async () => {
       const stationKey = get(searchFormData, ['key'])
