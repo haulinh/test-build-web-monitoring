@@ -24,7 +24,9 @@ export default class TreeSelectUser extends Component {
         }
       })
       .filter(item => item.children.length !== 0)
+
     const usersOfOtherRole = users.filter(user => isNil(user.role))
+
     const otherRoleIndependentUser = {
       title: 'Người dùng khác',
       value: 'other_role',
@@ -56,6 +58,14 @@ export default class TreeSelectUser extends Component {
 
         return [...baseUserIds, ...usersOfRole]
       }
+
+      if (current === 'other_role') {
+        const usersOfOtherRole = users
+          .filter(user => isNil(user.role))
+          .map(user => user._id)
+        return [...baseUserIds, ...usersOfOtherRole]
+      }
+
       return [...baseUserIds, current]
     }, [])
 
