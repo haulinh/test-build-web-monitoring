@@ -96,6 +96,7 @@ export default class StationData extends React.PureComponent {
     return (
       <Tabs.TabPane tab={station.name} key={station.key}>
         <TabList
+          stationKey={station.key}
           qcvns={qcvns}
           isActive={tabKey === station.key}
           isLoading={isLoading}
@@ -107,7 +108,7 @@ export default class StationData extends React.PureComponent {
           onExportExcel={this.handleExportExcel}
           onExportExcelAll={this.handleExportAllStation}
           nameChart={station.name}
-          typeReport={`${searchFormData.type}`}
+          searchFormData={searchFormData}
           isExporting={isExporting}
           isExportingAll={isExportingAll}
           handleChangeChartTab={this.handleChangeChartTab}
