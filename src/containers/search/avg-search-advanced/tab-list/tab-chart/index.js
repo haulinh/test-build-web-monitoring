@@ -21,7 +21,7 @@ ReactHighcharts.Highcharts.setOptions({
 })
 
 const showMarker = data => {
-  const dataChart = get(data, '0.data')
+  const dataChart = get(data, '0.data', [])
 
   return dataChart.length === 1
 }
