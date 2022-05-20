@@ -6,6 +6,7 @@ import { translate } from 'hoc/create-lang'
 import protectRole from 'hoc/protect-role'
 import PropTypes from 'prop-types'
 import React from 'react'
+import { connect } from 'react-redux'
 import styled from 'styled-components'
 import TabChart from './tab-chart/index'
 import TabTableDataList from './tab-table-data-list/index'
@@ -22,6 +23,9 @@ const ButtonAbsolute = styled.div`
   z-index: 3;
 `
 
+@connect(state => ({
+  stationAutoList: state.stationAuto.list,
+}))
 @autobind
 export default class TableList extends React.PureComponent {
   static propTypes = {
@@ -45,6 +49,16 @@ export default class TableList extends React.PureComponent {
 
   state = {
     dataChart: [],
+  }
+
+  getStationCurrent = () => {
+    const { stationKey, stationAutoList } = this.props
+    if (!stationKey) return
+
+    const stationAutoCurrent = stationAutoList.find(
+      station => station.key === stationKey
+    )
+    return stationAutoCurrent
   }
 
   renderMenuExport = () => (
@@ -89,13 +103,7 @@ export default class TableList extends React.PureComponent {
   }
 
   renderChartTab = () => {
-    const {
-      qcvns,
-      dataStationAuto,
-      measuringData,
-      nameChart,
-      typeReport,
-    } = this.props
+    const { qcvns, dataStationAuto, measuringData, nameChart } = this.props
     if (this.props.measuringData.length === 0) {
       return (
         <Tabs.TabPane tab={translate('avgSearchFrom.tab.chart')} key="chart">
@@ -103,13 +111,16 @@ export default class TableList extends React.PureComponent {
         </Tabs.TabPane>
       )
     }
+
+    const stationAutoCurrent = this.getStationCurrent()
     return (
       <Tabs.TabPane tab={translate('avgSearchFrom.tab.chart')} key="chart">
         <TabChart
+          searchFormData={this.props.searchFormData}
+          stationAutoCurrent={stationAutoCurrent}
           dataStationAuto={dataStationAuto}
           measuringData={measuringData || []}
           nameChart={nameChart}
-          typeReport={typeReport}
           qcvnSelected={qcvns}
         />
       </Tabs.TabPane>
