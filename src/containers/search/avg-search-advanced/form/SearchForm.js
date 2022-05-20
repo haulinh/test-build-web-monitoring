@@ -202,7 +202,6 @@ export default class SearchAvgForm extends React.Component {
     const params = {
       stationType,
       provinceKey,
-      frequent: undefined,
       standardKey,
     }
 
@@ -270,12 +269,7 @@ export default class SearchAvgForm extends React.Component {
   setStationAutos = stationAutos =>
     stationAutos.map(item => this.stationAutos.set(item.key, item))
 
-  handleStationAutoKeys = ({
-    stationType,
-    province,
-    frequency = undefined,
-    standard = undefined,
-  }) => {
+  handleStationAutoKeys = ({ stationType, province, frequency, standard }) => {
     //get stationAutoKeys with specific province, stationType, frequency, standard in form
     const params = {
       stationType,
@@ -288,12 +282,7 @@ export default class SearchAvgForm extends React.Component {
     this.updateForm({ stationAutoKeys })
   }
 
-  getStationAutoKeys = ({
-    stationType,
-    province,
-    frequency = undefined,
-    standard = undefined,
-  }) => {
+  getStationAutoKeys = ({ stationType, province, frequency, standard }) => {
     const params = {
       stationType,
       province,
@@ -307,12 +296,7 @@ export default class SearchAvgForm extends React.Component {
     return stationAutoKeys
   }
 
-  getStationAutosValue = ({
-    stationType,
-    province,
-    frequency = undefined,
-    standard = undefined,
-  }) => {
+  getStationAutosValue = ({ stationType, province, frequency, standard }) => {
     const stationAutosValue = [...this.stationAutos]
       .map(([_, station]) => station)
       .filter(station => get(station, `stationType.key`) === stationType)
