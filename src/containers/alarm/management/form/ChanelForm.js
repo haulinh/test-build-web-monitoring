@@ -116,7 +116,6 @@ export class ChanelForm extends React.Component {
                           placeholder={translate(
                             'alarm.placeholder.management.webhook'
                           )}
-                          disabled={typeAlarm === alarmType.advance.value}
                         />
                       )}
                     </Row>
