@@ -3,7 +3,7 @@ import { Clearfix } from 'components/elements'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import React, { Component } from 'react'
 import createBreadCrumbHoc from 'shared/breadcrumb/hoc'
-import ManageAlarm from './ManageAlarm'
+import ManagementAlarm from './ManagementAlarm'
 import TemplateAlarm from './TemplateAlarm'
 
 const Breadcrumb = createBreadCrumbHoc()
@@ -25,7 +25,7 @@ export default class AlarmSetting extends Component {
 
         <Tabs defaultActiveKey="manage">
           <TabPane tab="Quản lý cảnh báo" key="manage">
-            <ManageAlarm />
+            <ManagementAlarm />
           </TabPane>
           <TabPane tab="Mẫu gửi cảnh báo" key="template">
             <TemplateAlarm />

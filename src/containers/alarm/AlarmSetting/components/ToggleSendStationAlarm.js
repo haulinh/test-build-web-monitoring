@@ -8,7 +8,7 @@ const options = [
   { label: 'Web/ Mobile', value: 'web' },
 ]
 
-export default class ToggleAlarm extends Component {
+export default class ToggleSendStationAlarm extends Component {
   render() {
     const onChangeChannel = value => {
       console.log({ value })

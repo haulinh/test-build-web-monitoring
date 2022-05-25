@@ -18,7 +18,7 @@ const Tabs = styled(TabsAnt)`
   }
 `
 
-export default class StationAlarm extends Component {
+export default class StationAlarmManagement extends Component {
   render() {
     return (
       <Tabs defaultActiveKey="threshold">
