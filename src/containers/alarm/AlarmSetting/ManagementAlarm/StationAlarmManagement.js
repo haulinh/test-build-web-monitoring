@@ -1,6 +1,7 @@
 import { Icon, Row, Tabs as TabsAnt } from 'antd'
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import AlarmSignal from './AlarmSignal'
 
 const { TabPane } = TabsAnt
 
@@ -20,6 +21,8 @@ const Tabs = styled(TabsAnt)`
 
 export default class StationAlarmManagement extends Component {
   render() {
+    const { users, roles } = this.props
+
     return (
       <Tabs defaultActiveKey="threshold">
         <TabPane
@@ -42,7 +45,7 @@ export default class StationAlarmManagement extends Component {
           }
           key="signal"
         >
-          Tín hiệu
+          <AlarmSignal users={users} roles={roles} />
         </TabPane>
         <TabPane
           tab={

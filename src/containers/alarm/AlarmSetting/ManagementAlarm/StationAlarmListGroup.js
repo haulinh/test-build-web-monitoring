@@ -25,7 +25,7 @@ const Panel = styled(PanelAnt)`
 
 export default class StationAlarmListGroup extends Component {
   render() {
-    const { stationTypeName } = this.props
+    const { stationTypeName, users, roles } = this.props
 
     return (
       <div>
@@ -40,13 +40,13 @@ export default class StationAlarmListGroup extends Component {
             header="Trạm quốc gia, Quảng Ninh"
             extra={<ToggleSendStationAlarm />}
           >
-            <StationAlarmManagement />
+            <StationAlarmManagement users={users} roles={roles} />
           </Panel>
           <Panel
             header="Trạm quốc gia, Quảng Ninh"
             extra={<ToggleSendStationAlarm />}
           >
-            <StationAlarmManagement />
+            <StationAlarmManagement users={users} roles={roles} />
           </Panel>
         </Collapse>
       </div>
