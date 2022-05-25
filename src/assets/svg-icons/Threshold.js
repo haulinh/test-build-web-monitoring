@@ -13,6 +13,7 @@ export default class Threshold extends Component {
         viewBox="0 0 25 24"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
+        style={{ transition: '1s ease-in-out' }}
       >
         <path
           d="M12.5 9V14"

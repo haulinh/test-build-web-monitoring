@@ -14,6 +14,15 @@ const Panel = styled(PanelAnt)`
     justify-content: space-between;
     align-items: center;
   }
+  div.ant-collapse {
+    border: unset;
+  }
+  .ant-collapse-content {
+    border-top: unset;
+  }
+  .ant-collapse > .ant-collapse-item {
+    border: unset;
+  }
 `
 
 export default class ManageAlarm extends Component {
