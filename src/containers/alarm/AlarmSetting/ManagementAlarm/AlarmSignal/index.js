@@ -12,7 +12,7 @@ export default class AlarmSignal extends Component {
         <TableAlarmSignal users={users} roles={roles} />
         <Clearfix height={24} />
         <Row type="flex" justify="end">
-          <Col span={6}>
+          <Col span={5}>
             <Button type="primary" block size="large">
               Lưu
             </Button>

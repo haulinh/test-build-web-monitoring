@@ -2,8 +2,12 @@ import RoleApi from 'api/RoleApi'
 import UserApi from 'api/UserApi'
 import { get } from 'lodash'
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import StationAlarmListGroup from './StationAlarmListGroup'
 
+@connect(state => ({
+  stationAutos: get(state, ['stationAuto', 'list']),
+}))
 export default class ManagementAlarm extends Component {
   state = {
     users: [],
@@ -38,8 +42,40 @@ export default class ManagementAlarm extends Component {
     }
   }
 
+  getStationGroupByType = () => {
+    const { stationAutos } = this.props
+    const stationAutosGroupByType = stationAutos.reduce((base, current) => {
+      const stationType = get(current, ['stationType'])
+      const stationTypeKey = stationType.key
+
+      if (base[stationTypeKey]) {
+        return {
+          ...base,
+          [stationTypeKey]: {
+            stationTypeKey,
+            stationTypeName: stationType.name,
+            stationAutoList: [...base[stationTypeKey].stationAutoList, current],
+          },
+        }
+      }
+
+      return {
+        ...base,
+        [stationTypeKey]: {
+          stationTypeKey,
+          stationTypeName: stationType.name,
+          stationAutoList: [current],
+        },
+      }
+    }, {})
+
+    return stationAutosGroupByType
+  }
+
   render() {
     const { users, roles } = this.state
+    const stationAutosGroupByType = this.getStationGroupByType()
+    console.log({ stationAutosGroupByType })
 
     return (
       <div
@@ -48,11 +84,15 @@ export default class ManagementAlarm extends Component {
           borderRadius: '4px',
         }}
       >
-        <StationAlarmListGroup
-          users={users}
-          roles={roles}
-          stationTypeName="Nước thải công nghiệp"
-        />
+        {Object.values(stationAutosGroupByType).map(stationType => (
+          <StationAlarmListGroup
+            stationAutoList={stationType.stationAutoList}
+            key={stationType.stationTypeKey}
+            users={users}
+            roles={roles}
+            stationTypeName={stationType.stationTypeName}
+          />
+        ))}
       </div>
     )
   }

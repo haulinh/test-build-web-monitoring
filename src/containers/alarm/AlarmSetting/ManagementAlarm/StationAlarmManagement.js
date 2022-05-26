@@ -1,4 +1,10 @@
-import { Icon, Row, Tabs as TabsAnt } from 'antd'
+import { Row, Tabs as TabsAnt } from 'antd'
+import {
+  AdvancedIcon,
+  DeviceIcon,
+  SignalIcon,
+  ThresholdIcon,
+} from 'assets/icons-alarm'
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import AlarmSignal from './AlarmSignal'
@@ -27,8 +33,8 @@ export default class StationAlarmManagement extends Component {
       <Tabs defaultActiveKey="threshold">
         <TabPane
           tab={
-            <Row type="flex" align="middle">
-              <Icon type="warning" style={{ fontSize: 20 }} />
+            <Row style={{ gap: 5 }} type="flex" align="middle">
+              <ThresholdIcon />
               Vượt ngưỡng
             </Row>
           }
@@ -38,8 +44,8 @@ export default class StationAlarmManagement extends Component {
         </TabPane>
         <TabPane
           tab={
-            <Row type="flex" align="middle">
-              <Icon type="cloud-sync" style={{ fontSize: 20 }} />
+            <Row style={{ gap: 5 }} type="flex" align="middle">
+              <SignalIcon />
               Tín hiệu
             </Row>
           }
@@ -49,8 +55,8 @@ export default class StationAlarmManagement extends Component {
         </TabPane>
         <TabPane
           tab={
-            <Row type="flex" align="middle">
-              <Icon type="appstore" style={{ fontSize: 20 }} />
+            <Row style={{ gap: 5 }} type="flex" align="middle">
+              <DeviceIcon />
               Thiết bị
             </Row>
           }
@@ -60,8 +66,8 @@ export default class StationAlarmManagement extends Component {
         </TabPane>
         <TabPane
           tab={
-            <Row type="flex" align="middle">
-              <Icon type="setting" style={{ fontSize: 20 }} />
+            <Row style={{ gap: 5 }} type="flex" align="middle">
+              <AdvancedIcon />
               Nâng cao
             </Row>
           }
