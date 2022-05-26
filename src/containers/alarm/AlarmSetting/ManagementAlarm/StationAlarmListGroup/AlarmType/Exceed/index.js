@@ -1,17 +1,16 @@
-import { Button, Col, Row, Tabs } from 'antd'
+import { Button, Col, Row } from 'antd'
 import QCVNApi from 'api/QCVNApi'
 import { Clearfix } from 'components/elements'
+import withAlarmForm from 'containers/alarm/AlarmSetting/hoc/withAlarmForm'
+import { FIELDS } from 'containers/alarm/AlarmSetting/index'
 import { getMeasuringListFromStationAutos } from 'containers/api-sharing/util'
 import { ALARM_LIST_INIT } from 'containers/manager/station-auto/alarm-config/constants'
 import { get, groupBy, isEmpty, keyBy, uniqBy } from 'lodash'
 import { Component, default as React } from 'react'
 import { withRouter } from 'react-router'
 import { v4 as uuidv4 } from 'uuid'
-import withAlarmForm from 'containers/alarm/AlarmSetting/hoc/withAlarmForm'
-import { FIELDS } from 'containers/alarm/AlarmSetting/index'
 import TableAlarmExceedForm from './TableAlarmExceedForm'
 import TableQCVN from './TableQCVN'
-const { TabPane } = Tabs
 
 @withRouter
 @withAlarmForm
@@ -32,7 +31,7 @@ export default class AlarmExceed extends Component {
 
     this.setState({ qcvnList })
 
-    setFormValues(FIELDS.DATA_LEVEL, ALARM_LIST_INIT.DATA_LEVEL)
+    setFormValues(ALARM_LIST_INIT.DATA_LEVEL)
   }
 
   getQCVNList = async () => {
@@ -138,7 +137,7 @@ export default class AlarmExceed extends Component {
     const defaultDataLevelValue = this.getDefaultDataLevelValue()
 
     return (
-      <div>
+      <React.Fragment>
         <TableAlarmExceedForm
           dataSource={alarmStandard}
           form={form}
@@ -164,7 +163,7 @@ export default class AlarmExceed extends Component {
             </Button>
           </Col>
         </Row>
-      </div>
+      </React.Fragment>
     )
   }
 }

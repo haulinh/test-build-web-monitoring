@@ -1,6 +1,6 @@
 import { Row, Tabs as TabsAnt } from 'antd'
 import {
-  AdvancedIcon,
+  // AdvancedIcon,
   DeviceIcon,
   SignalIcon,
   ThresholdIcon,
@@ -9,6 +9,8 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import AlarmExceed from './AlarmType/Exceed'
 import AlarmDisconnect from './AlarmType/AlarmDisconnect'
+import { groupBy } from 'lodash'
+import { AlarmType } from '../../constants'
 
 const { TabPane } = TabsAnt
 
@@ -29,7 +31,8 @@ const Tabs = styled(TabsAnt)`
 export default class StationAlarmManagement extends Component {
   render() {
     const { users, roles, alarmList } = this.props
-    console.log({ alarmList })
+
+    const alarmGroupByType = groupBy(alarmList, 'type')
 
     return (
       <Tabs defaultActiveKey="threshold">
@@ -42,8 +45,13 @@ export default class StationAlarmManagement extends Component {
           }
           key="threshold"
         >
-          <AlarmExceed users={users} roles={roles} />
+          <AlarmExceed
+            users={users}
+            roles={roles}
+            dataSource={alarmGroupByType[AlarmType.DataLevel]}
+          />
         </TabPane>
+
         <TabPane
           tab={
             <Row style={{ gap: 5 }} type="flex" align="middle">
@@ -51,10 +59,15 @@ export default class StationAlarmManagement extends Component {
               Tín hiệu
             </Row>
           }
-          key="signal"
+          key="disconnect"
         >
-          <AlarmDisconnect users={users} roles={roles} />
+          <AlarmDisconnect
+            users={users}
+            roles={roles}
+            dataSource={alarmGroupByType[AlarmType.Disconnect]}
+          />
         </TabPane>
+
         <TabPane
           tab={
             <Row style={{ gap: 5 }} type="flex" align="middle">
@@ -66,7 +79,8 @@ export default class StationAlarmManagement extends Component {
         >
           Thiết bị
         </TabPane>
-        <TabPane
+
+        {/* <TabPane
           tab={
             <Row style={{ gap: 5 }} type="flex" align="middle">
               <AdvancedIcon />
@@ -76,8 +90,12 @@ export default class StationAlarmManagement extends Component {
           key="advanced"
         >
           Nâng cao
-        </TabPane>
+        </TabPane> */}
       </Tabs>
     )
   }
+}
+
+StationAlarmManagement.defaultProps = {
+  alarmList: [],
 }

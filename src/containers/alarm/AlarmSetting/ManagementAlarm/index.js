@@ -90,7 +90,7 @@ export default class ManagementAlarm extends Component {
     const { alarmList } = this.props
 
     const stationAutosGroupByType = this.getStationGroupByType()
-    const alarmsGroupByStation = groupBy(alarmList, 'stationId')
+    const alarmsGroupByStationId = groupBy(alarmList, 'stationId')
 
     return (
       <div
@@ -107,7 +107,7 @@ export default class ManagementAlarm extends Component {
               users={users}
               roles={roles}
               stationTypeName={stationType.stationTypeName}
-              alarmList={alarmsGroupByStation}
+              alarmsGroupByStationId={alarmsGroupByStationId}
             />
           ))}
         </Skeleton>

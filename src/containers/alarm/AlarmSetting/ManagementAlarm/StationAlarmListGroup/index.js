@@ -30,7 +30,7 @@ export default class StationAlarmListGroup extends Component {
       users,
       roles,
       stationAutoList,
-      alarmList,
+      alarmsGroupByStationId,
     } = this.props
 
     return (
@@ -43,7 +43,8 @@ export default class StationAlarmListGroup extends Component {
 
         <Collapse>
           {stationAutoList.map(stationAuto => {
-            const alarmListByStation = alarmList[stationAuto._id]
+            const alarmListBelongStation =
+              alarmsGroupByStationId[stationAuto._id]
             return (
               <Panel
                 header={stationAuto.name}
@@ -52,7 +53,7 @@ export default class StationAlarmListGroup extends Component {
                 <StationAlarmManagement
                   users={users}
                   roles={roles}
-                  alarmList={alarmListByStation}
+                  alarmList={alarmListBelongStation}
                 />
               </Panel>
             )
