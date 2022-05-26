@@ -3,8 +3,8 @@ import { get, isEqual, keyBy } from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
-import { FIELDS } from '../index'
-import { i18n } from '../constants'
+import { FIELDS } from '../../index'
+import { i18n } from '../../constants'
 
 @Form.create()
 @withRouter

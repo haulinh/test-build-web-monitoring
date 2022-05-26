@@ -7,6 +7,7 @@ import {
 } from 'assets/icons-alarm'
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import AlarmExceed from './AlarmExceed'
 import AlarmSignal from './AlarmSignal'
 
 const { TabPane } = TabsAnt
@@ -40,7 +41,7 @@ export default class StationAlarmManagement extends Component {
           }
           key="threshold"
         >
-          Vượt ngưỡng
+          <AlarmExceed users={users} roles={roles} />
         </TabPane>
         <TabPane
           tab={

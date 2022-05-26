@@ -2,6 +2,7 @@ import { Button, Checkbox, Icon, Input, Popconfirm, Switch, Table } from 'antd'
 import TreeSelectUser from 'components/elements/select-data/TreeSelectUser'
 import { get, keyBy } from 'lodash'
 import React, { Component } from 'react'
+import DropdownMoreAction from '../../components/DropdownMoreAction'
 import { SelectQCVNExceed } from '../../components/SelectQCVNExceed'
 import { i18n } from '../../constants'
 import { isDefaultDataLevel } from '../../hoc/withAlarmForm'
@@ -25,7 +26,7 @@ export default class TableAlarmConfigExceed extends Component {
       dataIndex: 'name',
       width: '15%',
       align: 'left',
-      render: (value, record) => {
+      render: (_, record) => {
         const { form, qcvnList, qcvnListSelected } = this.props
         form.getFieldDecorator(
           `${FIELDS.DATA_LEVEL}.${record._id}.${FIELDS.CONFIG}.${FIELDS.TYPE}`
@@ -113,6 +114,7 @@ export default class TableAlarmConfigExceed extends Component {
     {
       title: '',
       width: '15%',
+      align: 'center',
       render: (_, record) => {
         const { dataSource, onDelete } = this.props
         const disabled = dataSource.length >= 1
@@ -122,21 +124,12 @@ export default class TableAlarmConfigExceed extends Component {
           if (isDefaultDataLevel(configAlarmType)) {
             return null
           }
-
           return (
-            <Popconfirm
-              title={i18n().popConfirmDelete}
-              okText={i18n().button.submit}
-              cancelText={i18n().button.cancel}
-              onConfirm={() => onDelete(FIELDS.DATA_LEVEL, record._id)}
-            >
-              <div style={{ textAlign: 'center', cursor: 'pointer' }}>
-                <Icon
-                  type="delete"
-                  style={{ fontSize: '16px', color: 'red' }}
-                />
-              </div>
-            </Popconfirm>
+            <DropdownMoreAction
+              onDelete={() => {
+                onDelete(record._id)
+              }}
+            />
           )
         }
       },
@@ -146,7 +139,6 @@ export default class TableAlarmConfigExceed extends Component {
   render() {
     const { dataSource, onAdd } = this.props
 
-    console.log(dataSource)
     return (
       <Table
         columns={this.columns}
@@ -158,7 +150,7 @@ export default class TableAlarmConfigExceed extends Component {
           <Button
             type="link"
             style={{ fontWeight: 'bold' }}
-            onClick={() => onAdd(FIELDS.DATA_LEVEL)}
+            onClick={() => onAdd()}
           >
             <Icon type="plus" />
             {i18n().button.add}
