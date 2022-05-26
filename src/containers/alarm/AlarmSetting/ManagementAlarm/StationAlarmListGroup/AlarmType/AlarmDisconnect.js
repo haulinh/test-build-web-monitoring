@@ -1,9 +1,10 @@
-import { Switch, Table } from 'antd'
+import { Button, Col, Row, Switch, Table } from 'antd'
+import { Clearfix } from 'components/elements'
 import TreeSelectUser from 'components/elements/select-data/TreeSelectUser'
 import React, { Component } from 'react'
-import DropdownMoreAction from '../../components/DropdownMoreAction'
-import { SelectTime } from '../../components/SelectTime'
-import { i18n } from '../../constants'
+import DropdownMoreAction from 'containers/alarm/AlarmSetting/components/DropdownMoreAction'
+import { SelectTime } from 'containers/alarm/AlarmSetting/components/SelectTime'
+import { i18n } from 'containers/alarm/AlarmSetting/constants'
 
 const dataSource = [
   {
@@ -29,7 +30,7 @@ const dataSource = [
   },
 ]
 
-export default class TableAlarmSignal extends Component {
+export default class AlarmDisconnect extends Component {
   columns = [
     {
       title: i18n().timeLabel,
@@ -62,12 +63,22 @@ export default class TableAlarmSignal extends Component {
   ]
   render() {
     return (
-      <Table
-        columns={this.columns}
-        bordered
-        dataSource={dataSource}
-        pagination={false}
-      />
+      <div>
+        <Table
+          columns={this.columns}
+          bordered
+          dataSource={dataSource}
+          pagination={false}
+        />
+        <Clearfix height={24} />
+        <Row type="flex" justify="end">
+          <Col span={5}>
+            <Button type="primary" block size="large">
+              Lưu
+            </Button>
+          </Col>
+        </Row>
+      </div>
     )
   }
 }
