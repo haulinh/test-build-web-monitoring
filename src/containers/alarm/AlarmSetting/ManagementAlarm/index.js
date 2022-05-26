@@ -1,9 +1,11 @@
+import { Skeleton } from 'antd'
+import CalculateApi from 'api/CalculateApi'
 import RoleApi from 'api/RoleApi'
 import UserApi from 'api/UserApi'
 import { get } from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import StationAlarmListGroup from './StationAlarmListGroup'
+import StationAlarmListGroup from './StationAlarmListGroup/index'
 
 @connect(state => ({
   stationAutos: get(state, ['stationAuto', 'list']),
@@ -12,9 +14,13 @@ export default class ManagementAlarm extends Component {
   state = {
     users: [],
     roles: [],
+    alarmList: [],
+    isLoading: false,
   }
   componentDidMount = async () => {
-    await Promise.all([this.getRoles(), this.getUsers()])
+    this.setState({ isLoading: true })
+    await Promise.all([this.getRoles(), this.getUsers(), this.getAlarmList()])
+    this.setState({ isLoading: false })
   }
 
   getUsers = async () => {
@@ -37,6 +43,15 @@ export default class ManagementAlarm extends Component {
       if (result.success) {
         this.setState({ roles: result.data })
       }
+    } catch (error) {
+      console.error({ error })
+    }
+  }
+
+  getAlarmList = async () => {
+    try {
+      const alarmList = await CalculateApi.getAlarms()
+      this.setState({ alarmList })
     } catch (error) {
       console.error({ error })
     }
@@ -72,10 +87,35 @@ export default class ManagementAlarm extends Component {
     return stationAutosGroupByType
   }
 
+  getAlarmsGroupByStation = () => {
+    const { alarmList } = this.state
+    const alarmsGroupByStation = alarmList.reduce((base, current) => {
+      const stationId = get(current, ['stationId'])
+
+      if (base[stationId]) {
+        return {
+          ...base,
+          [stationId]: {
+            alarmList: [...base[stationId].alarmList, current],
+          },
+        }
+      }
+
+      return {
+        ...base,
+        [stationId]: {
+          alarmList: [current],
+        },
+      }
+    }, {})
+
+    return alarmsGroupByStation
+  }
+
   render() {
-    const { users, roles } = this.state
+    const { users, roles, isLoading } = this.state
     const stationAutosGroupByType = this.getStationGroupByType()
-    console.log({ stationAutosGroupByType })
+    const alarmsGroupByStation = this.getAlarmsGroupByStation()
 
     return (
       <div
@@ -84,15 +124,18 @@ export default class ManagementAlarm extends Component {
           borderRadius: '4px',
         }}
       >
-        {Object.values(stationAutosGroupByType).map(stationType => (
-          <StationAlarmListGroup
-            stationAutoList={stationType.stationAutoList}
-            key={stationType.stationTypeKey}
-            users={users}
-            roles={roles}
-            stationTypeName={stationType.stationTypeName}
-          />
-        ))}
+        <Skeleton loading={isLoading} active>
+          {Object.values(stationAutosGroupByType).map(stationType => (
+            <StationAlarmListGroup
+              stationAutoList={stationType.stationAutoList}
+              key={stationType.stationTypeKey}
+              users={users}
+              roles={roles}
+              stationTypeName={stationType.stationTypeName}
+              alarmList={alarmsGroupByStation}
+            />
+          ))}
+        </Skeleton>
       </div>
     )
   }

@@ -7,8 +7,8 @@ import {
 } from 'assets/icons-alarm'
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import AlarmExceed from './AlarmExceed'
-import AlarmSignal from './AlarmSignal'
+import AlarmExceed from './AlarmType/Exceed'
+import AlarmDisconnect from './AlarmType/AlarmDisconnect'
 
 const { TabPane } = TabsAnt
 
@@ -28,7 +28,8 @@ const Tabs = styled(TabsAnt)`
 
 export default class StationAlarmManagement extends Component {
   render() {
-    const { users, roles } = this.props
+    const { users, roles, alarmList } = this.props
+    console.log({ alarmList })
 
     return (
       <Tabs defaultActiveKey="threshold">
@@ -52,7 +53,7 @@ export default class StationAlarmManagement extends Component {
           }
           key="signal"
         >
-          <AlarmSignal users={users} roles={roles} />
+          <AlarmDisconnect users={users} roles={roles} />
         </TabPane>
         <TabPane
           tab={

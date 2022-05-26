@@ -2,11 +2,11 @@ import { Button, Checkbox, Icon, Input, Popconfirm, Switch, Table } from 'antd'
 import TreeSelectUser from 'components/elements/select-data/TreeSelectUser'
 import { get, keyBy } from 'lodash'
 import React, { Component } from 'react'
-import DropdownMoreAction from '../../components/DropdownMoreAction'
-import { SelectQCVNExceed } from '../../components/SelectQCVNExceed'
-import { i18n } from '../../constants'
-import { isDefaultDataLevel } from '../../hoc/withAlarmForm'
-import { FIELDS } from '../../index'
+import DropdownMoreAction from 'containers/alarm/AlarmSetting/components/DropdownMoreAction'
+import { SelectQCVNExceed } from 'containers/alarm/AlarmSetting/components/SelectQCVNExceed'
+import { i18n } from 'containers/alarm/AlarmSetting//constants'
+import { isDefaultDataLevel } from 'containers/alarm/AlarmSetting/hoc/withAlarmForm'
+import { FIELDS } from 'containers/alarm/AlarmSetting/index'
 
 export default class TableAlarmConfigExceed extends Component {
   handleOnChangeStandard = record => value => {

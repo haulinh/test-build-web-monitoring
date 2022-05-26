@@ -1,10 +1,10 @@
-import { Checkbox, Form, Switch, Table } from 'antd'
+import { Form, Switch, Table } from 'antd'
+import { i18n } from 'containers/alarm/AlarmSetting/constants'
+import { FIELDS } from 'containers/alarm/AlarmSetting/index'
 import { get, isEqual, keyBy } from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
-import { FIELDS } from '../../index'
-import { i18n } from '../../constants'
 
 @Form.create()
 @withRouter
