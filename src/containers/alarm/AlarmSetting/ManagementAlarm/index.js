@@ -20,7 +20,6 @@ export default class ManagementAlarm extends Component {
   state = {
     users: [],
     roles: [],
-    alarmList: [],
     isLoading: false,
   }
   componentDidMount = async () => {
