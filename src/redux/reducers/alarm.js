@@ -1,5 +1,6 @@
 import {
   CLEAR_ALARM_SELECTED,
+  GET_ALARMS,
   SELECT_ALARM,
   SELECT_STATION,
 } from '../actions/alarm'
@@ -9,6 +10,7 @@ const initialState = {
   alarmType: '',
   isEdit: false,
   stationIdSelected: '',
+  alarmList: [],
 }
 
 const alarmReducer = (state = initialState, action) => {
@@ -29,6 +31,8 @@ const alarmReducer = (state = initialState, action) => {
       }
     case SELECT_STATION:
       return { ...state, stationIdSelected: action.payload }
+    case GET_ALARMS:
+      return { ...state, alarmList: action.payload }
     default:
       return state
   }
