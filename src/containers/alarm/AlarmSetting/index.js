@@ -9,6 +9,29 @@ import TemplateAlarm from './TemplateAlarm'
 const Breadcrumb = createBreadCrumbHoc()
 const { TabPane } = Tabs
 
+export const FIELDS = {
+  DISCONNECT: 'disconnect',
+  BY_STANDARD: 'by_standard',
+  DATA_LEVEL: 'data_level',
+
+  EXCEED_PREPARING: 'exceed_preparing',
+  EXCEED: 'exceed',
+
+  STATUS: 'status',
+  TIME_DISCONNECT: 'maxDisconnectionTime',
+  RECIPIENTS: 'recipients',
+  STANDARD_ID: 'standardId',
+  IS_CREATE_LOCAL: 'isCreateLocal',
+  ID: '_id',
+
+  //#region config
+  TYPE: 'type',
+  CONFIG: 'config',
+  NAME: 'name',
+  MEASURING_LIST: 'measuringList',
+  //#endregion config
+}
+
 export default class AlarmSetting extends Component {
   render() {
     return (
