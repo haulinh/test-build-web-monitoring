@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Collapse } from 'antd'
 import styled from 'styled-components'
-import ToggleSendStationAlarm from '../components/ToggleSendStationAlarm'
+import ToggleSendStationAlarm from '../../components/ToggleSendStationAlarm'
 import StationAlarmManagement from './StationAlarmManagement'
 
 const { Panel: PanelAnt } = Collapse
@@ -25,7 +25,13 @@ const Panel = styled(PanelAnt)`
 
 export default class StationAlarmListGroup extends Component {
   render() {
-    const { stationTypeName, users, roles, stationAutoList } = this.props
+    const {
+      stationTypeName,
+      users,
+      roles,
+      stationAutoList,
+      alarmList,
+    } = this.props
 
     return (
       <div>
@@ -36,11 +42,21 @@ export default class StationAlarmListGroup extends Component {
         </div>
 
         <Collapse>
-          {stationAutoList.map(stationAuto => (
-            <Panel header={stationAuto.name} extra={<ToggleSendStationAlarm />}>
-              <StationAlarmManagement users={users} roles={roles} />
-            </Panel>
-          ))}
+          {stationAutoList.map(stationAuto => {
+            const alarmListByStation = alarmList[stationAuto._id]
+            return (
+              <Panel
+                header={stationAuto.name}
+                extra={<ToggleSendStationAlarm />}
+              >
+                <StationAlarmManagement
+                  users={users}
+                  roles={roles}
+                  alarmList={alarmListByStation}
+                />
+              </Panel>
+            )
+          })}
         </Collapse>
       </div>
     )
