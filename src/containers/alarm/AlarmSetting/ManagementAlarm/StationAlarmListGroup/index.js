@@ -3,6 +3,7 @@ import { Collapse } from 'antd'
 import styled from 'styled-components'
 import ToggleSendStationAlarm from '../../components/ToggleSendStationAlarm'
 import StationAlarmManagement from './StationAlarmManagement'
+import { get } from 'lodash'
 
 const { Panel: PanelAnt } = Collapse
 
@@ -43,7 +44,11 @@ export default class StationAlarmListGroup extends Component {
 
         <Collapse>
           {stationAutoList.map(stationAuto => {
-            const alarmListByStation = alarmList[stationAuto._id]
+            const alarmListByStation = get(
+              alarmList[stationAuto._id],
+              'alarmList',
+              []
+            )
             return (
               <Panel
                 header={stationAuto.name}
@@ -53,6 +58,7 @@ export default class StationAlarmListGroup extends Component {
                   users={users}
                   roles={roles}
                   alarmList={alarmListByStation}
+                  _id={stationAuto._id}
                 />
               </Panel>
             )

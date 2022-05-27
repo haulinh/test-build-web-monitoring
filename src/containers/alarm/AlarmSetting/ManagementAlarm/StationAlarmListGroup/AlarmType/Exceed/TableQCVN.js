@@ -1,4 +1,4 @@
-import { Form, Switch, Table } from 'antd'
+import { Col, Form, Icon, Input, Row, Switch, Table } from 'antd'
 import { i18n } from 'containers/alarm/AlarmSetting/constants'
 import { FIELDS } from 'containers/alarm/AlarmSetting/index'
 import { get, isEqual, keyBy } from 'lodash'
@@ -39,36 +39,31 @@ export default class TableQCVN extends Component {
       return {
         title: qcvn.name,
         key: qcvn.key,
-        children: [
-          {
-            key: `minLimit-${qcvn.key}}`,
-            title: i18n().qcvnMin,
-            align: 'left',
-            dataIndex: 'key',
-            render: measureKey => {
-              const measureValue = get(measuringQcvnObj, [
-                measureKey,
-                'minLimit',
-              ])
-
-              return <div>{measureValue}</div>
-            },
-          },
-          {
-            key: `maxLimit-${qcvn.key}}`,
-            title: i18n().qcvnMax,
-            dataIndex: 'key',
-            render: measureKey => {
-              const measureValue = get(measuringQcvnObj, [
-                measureKey,
-                'maxLimit',
-              ])
-
-              return <div>{measureValue}</div>
-            },
-            align: 'left',
-          },
-        ],
+        align: 'center',
+        dataIndex: 'key',
+        render: measureKey => {
+          const measureValueMin = get(measuringQcvnObj, [
+            measureKey,
+            `minLimit`,
+          ])
+          const measureValueMax = get(measuringQcvnObj, [
+            measureKey,
+            `maxLimit`,
+          ])
+          return (
+            <Row type="flex" justify="center">
+              <Col span={10}>
+                <div>{measureValueMin ? measureValueMin : '-'}</div>
+              </Col>
+              <Col span={2}>
+                <Icon type="arrow-right" style={{ fontSize: '12px' }} />
+              </Col>
+              <Col span={10}>
+                <div>{measureValueMax ? measureValueMax : '-'}</div>
+              </Col>
+            </Row>
+          )
+        },
       }
     })
 
@@ -96,34 +91,59 @@ export default class TableQCVN extends Component {
     const defaultDataLevelColumns = defaultDataLevels.map(level => ({
       title: level.title,
       key: level.dataIndex,
-      children: [
-        {
-          key: `min${level.dataIndex}}`,
-          title: i18n().qcvnMin,
-          align: 'left',
-          dataIndex: 'key',
-          render: measureKey => {
-            const measureValue = get(measuringStationObj, [
-              measureKey,
-              `min${level.dataIndex}`,
-            ])
-            return <div>{measureValue}</div>
-          },
-        },
-        {
-          key: `max${level.dataIndex}}`,
-          title: i18n().qcvnMax,
-          dataIndex: 'key',
-          render: measureKey => {
-            const measureValue = get(measuringStationObj, [
-              measureKey,
-              `max${level.dataIndex}`,
-            ])
-            return <div>{measureValue}</div>
-          },
-          align: 'left',
-        },
-      ],
+      align: 'center',
+      dataIndex: 'key',
+      render: measureKey => {
+        const measureValueMin = get(measuringStationObj, [
+          measureKey,
+          `min${level.dataIndex}`,
+        ])
+        const measureValueMax = get(measuringStationObj, [
+          measureKey,
+          `max${level.dataIndex}`,
+        ])
+        return (
+          <Row type="flex" justify="center">
+            <Col span={10}>
+              <div>{measureValueMin ? measureValueMin : '-'}</div>
+            </Col>
+            <Col span={2}>
+              <Icon type="arrow-right" style={{ fontSize: '12px' }} />
+            </Col>
+            <Col span={10}>
+              <div>{measureValueMax ? measureValueMax : '-'}</div>
+            </Col>
+          </Row>
+        )
+      },
+      // children: [
+      //   {
+      //     key: `min${level.dataIndex}}`,
+      //     title: i18n().qcvnMin,
+      //     align: 'left',
+      //     dataIndex: 'key',
+      //     render: measureKey => {
+      //       const measureValue = get(measuringStationObj, [
+      //         measureKey,
+      //         `min${level.dataIndex}`,
+      //       ])
+      //       return <div>{measureValue}</div>
+      //     },
+      //   },
+      //   {
+      //     key: `max${level.dataIndex}}`,
+      //     title: i18n().qcvnMax,
+      //     dataIndex: 'key',
+      //     render: measureKey => {
+      //       const measureValue = get(measuringStationObj, [
+      //         measureKey,
+      //         `max${level.dataIndex}`,
+      //       ])
+      //       return <div>{measureValue}</div>
+      //     },
+      //     align: 'left',
+      //   },
+      // ],
     }))
 
     return defaultDataLevelColumns
@@ -168,6 +188,7 @@ export default class TableQCVN extends Component {
   render() {
     const { dataSource } = this.props
 
+    console.log(dataSource)
     return (
       <Table
         columns={this.getColumns()}

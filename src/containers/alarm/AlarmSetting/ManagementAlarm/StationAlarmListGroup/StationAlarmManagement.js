@@ -9,6 +9,10 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import AlarmExceed from './AlarmType/Exceed'
 import AlarmDisconnect from './AlarmType/AlarmDisconnect'
+import { connect } from 'react-redux'
+import { get } from 'lodash'
+import { v4 as uuidv4 } from 'uuid'
+import measuring from 'containers/manager/measuring'
 
 const { TabPane } = TabsAnt
 
@@ -25,11 +29,29 @@ const Tabs = styled(TabsAnt)`
     border-bottom: unset;
   }
 `
-
+@connect(state => ({
+  stationAutos: get(state, 'stationAuto.list'),
+}))
 export default class StationAlarmManagement extends Component {
   render() {
-    const { users, roles, alarmList } = this.props
-    console.log({ alarmList })
+    const { users, roles, alarmList, stationAutos, _id } = this.props
+    const measuringList = get(
+      stationAutos.find(station => station._id === _id),
+      'measuringList'
+    )
+
+    const measuringListStation = measuringList.map(measuring => ({
+      id: uuidv4(),
+      key: measuring.key,
+      maxLimit: measuring.maxLimit,
+      maxTend: measuring.maxTend,
+      minLimit: measuring.minLimit,
+      minTend: measuring.minTend,
+      name: measuring.name,
+      unit: measuring.unit,
+    }))
+
+    console.log(alarmList)
 
     return (
       <Tabs defaultActiveKey="threshold">
@@ -42,7 +64,12 @@ export default class StationAlarmManagement extends Component {
           }
           key="threshold"
         >
-          <AlarmExceed users={users} roles={roles} />
+          <AlarmExceed
+            alarmList={alarmList}
+            users={users}
+            roles={roles}
+            measuringListStation={measuringListStation}
+          />
         </TabPane>
         <TabPane
           tab={
