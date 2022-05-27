@@ -30,7 +30,7 @@ const Tabs = styled(TabsAnt)`
 
 export default class StationAlarmManagement extends Component {
   render() {
-    const { users, roles, alarmList } = this.props
+    const { users, roles, alarmList, stationId } = this.props
 
     const alarmGroupByType = groupBy(alarmList, 'type')
 
@@ -64,6 +64,7 @@ export default class StationAlarmManagement extends Component {
           <AlarmDisconnect
             users={users}
             roles={roles}
+            stationId={stationId}
             dataSource={alarmGroupByType[AlarmType.Disconnect]}
           />
         </TabPane>

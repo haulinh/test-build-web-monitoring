@@ -24,7 +24,6 @@ const withAlarmForm = WrappedComponent => {
     getQueryParamGeneral = () => {
       const { form } = this.props
       const value = form.getFieldsValue()
-      console.log({ value })
 
       const paramsForm = Object.values(value)
 
