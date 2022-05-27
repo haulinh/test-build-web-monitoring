@@ -1,68 +1,126 @@
-import { Button, Col, Row, Switch, Table } from 'antd'
+import { Button, Col, Icon, Row, Switch, Table } from 'antd'
 import { Clearfix } from 'components/elements'
 import TreeSelectUser from 'components/elements/select-data/TreeSelectUser'
-import React, { Component } from 'react'
 import DropdownMoreAction from 'containers/alarm/AlarmSetting/components/DropdownMoreAction'
 import { SelectTime } from 'containers/alarm/AlarmSetting/components/SelectTime'
 import { i18n } from 'containers/alarm/AlarmSetting/constants'
-
-const dataSource = [
-  {
-    _id: '9eae4924-5d19-4d38-9d2a-cfcb7cd7cbac',
-    type: 'disconnect',
-    isCreateLocal: true,
-    maxDisconnectionTime: 1800,
-    status: false,
-  },
-  {
-    _id: 'f33a0807-2cbb-4aec-95e6-4bfb3fa2081e',
-    type: 'disconnect',
-    isCreateLocal: true,
-    maxDisconnectionTime: 3600,
-    status: false,
-  },
-  {
-    _id: 'c17d3797-6525-48f9-b7ac-2626555cdfc5',
-    type: 'disconnect',
-    isCreateLocal: true,
-    maxDisconnectionTime: 7200,
-    status: false,
-  },
-]
-
+import withAlarmForm from 'containers/alarm/AlarmSetting/hoc/withAlarmForm'
+import { FIELDS } from 'containers/alarm/AlarmSetting/index'
+import { ALARM_LIST_INIT } from 'containers/manager/station-auto/alarm-config/constants'
+import { isEqual } from 'lodash'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { createAlarm, deleteAlarm } from 'redux/actions/alarm'
+import { v4 as uuidv4 } from 'uuid'
+@withAlarmForm
+@connect(null, { createAlarm, deleteAlarm })
 export default class AlarmDisconnect extends Component {
+  componentDidMount = () => {
+    const { setFormValues, dataSource } = this.props
+
+    setFormValues(dataSource)
+  }
+
+  componentDidUpdate = (prevProps, prevState) => {
+    const { dataSource, setFormValues } = this.props
+
+    if (!isEqual(prevProps.dataSource, dataSource)) {
+      setFormValues(dataSource)
+    }
+  }
+
+  handleAdd = () => {
+    const { createAlarm, stationId } = this.props
+    const uuid = uuidv4()
+    const newData = {
+      _id: uuid,
+      isCreateLocal: true,
+      maxDisconnectionTime: 1800,
+      type: FIELDS.DISCONNECT,
+      stationId,
+    }
+    createAlarm(newData)
+  }
+
+  handleDelete = _id => {
+    const { deleteAlarm } = this.props
+    deleteAlarm(_id)
+  }
+
+  handleSubmitSave = () => {
+    const { form } = this.props
+    const values = form.getFieldsValue()
+    console.log({ values })
+  }
+
   columns = [
     {
       title: i18n().timeLabel,
       width: '20%',
       align: 'left',
-      render: () => <SelectTime />,
+      dataIndex: FIELDS.TIME_DISCONNECT,
+      render: (_, record) => {
+        const { form } = this.props
+        return (
+          <React.Fragment>
+            {form.getFieldDecorator(`${record._id}.${FIELDS.TIME_DISCONNECT}`, {
+              // initialValue: 1800,
+            })(<SelectTime />)}
+          </React.Fragment>
+        )
+      },
     },
     {
       title: i18n().recipient,
-      dataIndex: 'recipients',
+      dataIndex: FIELDS.RECIPIENTS,
       align: 'center',
       width: '50%',
-      render: () => {
-        const { users, roles } = this.props
-        return <TreeSelectUser users={users} roles={roles} />
+      render: (_, record) => {
+        const { users, roles, form } = this.props
+        return (
+          <React.Fragment>
+            {form.getFieldDecorator(`${record._id}.${FIELDS.RECIPIENTS}`)(
+              <TreeSelectUser users={users} roles={roles} />
+            )}
+          </React.Fragment>
+        )
       },
     },
     {
       title: i18n().alarm,
       width: '13%',
       align: 'center',
-      render: () => <Switch />,
+      dataIndex: FIELDS.STATUS,
+      render: (_, record) => {
+        const { form } = this.props
+
+        return (
+          <React.Fragment>
+            {form.getFieldDecorator(`${record._id}.${FIELDS.STATUS}`, {
+              valuePropName: 'checked',
+            })(<Switch />)}
+
+            {form.getFieldDecorator(`${record._id}.${FIELDS.ID}`)(<div />)}
+            {form.getFieldDecorator(`${record._id}.${FIELDS.IS_CREATE_LOCAL}`)(
+              <div />
+            )}
+          </React.Fragment>
+        )
+      },
     },
     {
       title: '',
       width: '13%',
       align: 'center',
-      render: () => <DropdownMoreAction />,
+      render: (_, record) => (
+        <DropdownMoreAction onDelete={() => this.handleDelete(record._id)} />
+      ),
     },
   ]
+
   render() {
     const { dataSource } = this.props
+
     return (
       <React.Fragment>
         <Table
@@ -70,11 +128,26 @@ export default class AlarmDisconnect extends Component {
           bordered
           dataSource={dataSource}
           pagination={false}
+          footer={() => (
+            <Button
+              type="link"
+              style={{ fontWeight: 'bold' }}
+              onClick={this.handleAdd}
+            >
+              <Icon type="plus" />
+              {i18n().button.add}
+            </Button>
+          )}
         />
         <Clearfix height={24} />
         <Row type="flex" justify="end">
           <Col span={5}>
-            <Button type="primary" block size="large">
+            <Button
+              type="primary"
+              block
+              size="large"
+              onClick={this.handleSubmitSave}
+            >
               Lưu
             </Button>
           </Col>
@@ -85,5 +158,5 @@ export default class AlarmDisconnect extends Component {
 }
 
 AlarmDisconnect.defaultProps = {
-  dataSource,
+  dataSource: ALARM_LIST_INIT.DISCONNECT,
 }
