@@ -10,7 +10,6 @@ import StationAlarmListGroup from './StationAlarmListGroup/index'
 @connect(
   state => ({
     stationAutos: get(state, ['stationAuto', 'list']),
-    alarmList: get(state, ['alarm', 'alarmList']),
   }),
   {
     getAlarms,
@@ -87,10 +86,8 @@ export default class ManagementAlarm extends Component {
 
   render() {
     const { users, roles, isLoading } = this.state
-    const { alarmList } = this.props
 
     const stationAutosGroupByType = this.getStationGroupByType()
-    const alarmsGroupByStationId = groupBy(alarmList, 'stationId')
 
     return (
       <div
@@ -107,7 +104,6 @@ export default class ManagementAlarm extends Component {
               users={users}
               roles={roles}
               stationTypeName={stationType.stationTypeName}
-              alarmsGroupByStationId={alarmsGroupByStationId}
             />
           ))}
         </Skeleton>
