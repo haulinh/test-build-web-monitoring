@@ -1,6 +1,6 @@
 import { Row, Tabs as TabsAnt } from 'antd'
 import {
-  AdvancedIcon,
+  // AdvancedIcon,
   DeviceIcon,
   SignalIcon,
   ThresholdIcon,
@@ -13,6 +13,8 @@ import { connect } from 'react-redux'
 import { get } from 'lodash'
 import { v4 as uuidv4 } from 'uuid'
 import measuring from 'containers/manager/measuring'
+import { groupBy } from 'lodash'
+import { AlarmType } from '../../constants'
 
 const { TabPane } = TabsAnt
 
@@ -42,17 +44,12 @@ export default class StationAlarmManagement extends Component {
 
     const measuringListStation = measuringList.map(measuring => ({
       id: uuidv4(),
-      key: measuring.key,
-      maxLimit: measuring.maxLimit,
-      maxTend: measuring.maxTend,
-      minLimit: measuring.minLimit,
-      minTend: measuring.minTend,
-      name: measuring.name,
-      unit: measuring.unit,
+      ...measuring,
     }))
 
-    console.log(alarmList)
+    const alarmGroupByType = groupBy(alarmList, 'type')
 
+    console.log(alarmList)
     return (
       <Tabs defaultActiveKey="threshold">
         <TabPane
@@ -65,12 +62,13 @@ export default class StationAlarmManagement extends Component {
           key="threshold"
         >
           <AlarmExceed
-            alarmList={alarmList}
             users={users}
             roles={roles}
             measuringListStation={measuringListStation}
+            alarmList={alarmGroupByType[AlarmType.DataLevel]}
           />
         </TabPane>
+
         <TabPane
           tab={
             <Row style={{ gap: 5 }} type="flex" align="middle">
@@ -78,10 +76,15 @@ export default class StationAlarmManagement extends Component {
               Tín hiệu
             </Row>
           }
-          key="signal"
+          key="disconnect"
         >
-          <AlarmDisconnect users={users} roles={roles} />
+          <AlarmDisconnect
+            users={users}
+            roles={roles}
+            dataSource={alarmGroupByType[AlarmType.Disconnect]}
+          />
         </TabPane>
+
         <TabPane
           tab={
             <Row style={{ gap: 5 }} type="flex" align="middle">
@@ -93,7 +96,8 @@ export default class StationAlarmManagement extends Component {
         >
           Thiết bị
         </TabPane>
-        <TabPane
+
+        {/* <TabPane
           tab={
             <Row style={{ gap: 5 }} type="flex" align="middle">
               <AdvancedIcon />
@@ -103,8 +107,12 @@ export default class StationAlarmManagement extends Component {
           key="advanced"
         >
           Nâng cao
-        </TabPane>
+        </TabPane> */}
       </Tabs>
     )
   }
+}
+
+StationAlarmManagement.defaultProps = {
+  alarmList: [],
 }

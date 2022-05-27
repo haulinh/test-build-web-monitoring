@@ -1,6 +1,7 @@
-import { Button, Col, Row, Tabs } from 'antd'
+import { Button, Col, Row } from 'antd'
 import QCVNApi from 'api/QCVNApi'
 import { Clearfix } from 'components/elements'
+import { FIELDS } from 'containers/alarm/AlarmSetting/index'
 import { getMeasuringListFromStationAutos } from 'containers/api-sharing/util'
 import { ALARM_LIST_INIT } from 'containers/manager/station-auto/alarm-config/constants'
 import { get, groupBy, isEmpty, keyBy, omit, uniqBy } from 'lodash'
@@ -10,7 +11,6 @@ import { v4 as uuidv4 } from 'uuid'
 import withAlarmForm, {
   isDefaultDataLevel,
 } from 'containers/alarm/AlarmSetting/hoc/withAlarmForm'
-import { FIELDS } from 'containers/alarm/AlarmSetting/index'
 import TableAlarmExceedForm from './TableAlarmExceedForm'
 import TableQCVN from './TableQCVN'
 import DrawerConfigAlarm from './DrawerConfigAlarm'
@@ -86,10 +86,10 @@ export default class AlarmExceed extends Component {
       ]
 
       this.setState({ alarmStandard: alarmStandardWithDefault }, () =>
-        setFormValues(FIELDS.DATA_LEVEL, alarmStandardWithDefault)
+        setFormValues(alarmStandardWithDefault)
       )
     } else {
-      setFormValues(FIELDS.DATA_LEVEL, ALARM_LIST_INIT.DATA_LEVEL)
+      setFormValues(ALARM_LIST_INIT.DATA_LEVEL)
     }
     //#endregion set alarm data level
   }
@@ -103,6 +103,7 @@ export default class AlarmExceed extends Component {
 
   handleAdd = () => {
     const { alarmStandard } = this.state
+    const { setFormValues, form } = this.props
     const uuid = uuidv4()
     const newData = {
       _id: uuid,
@@ -111,9 +112,14 @@ export default class AlarmExceed extends Component {
     }
 
     const newAlarmList = [...alarmStandard, newData]
-    this.setState({
-      alarmStandard: newAlarmList,
-    })
+    this.setState(
+      {
+        alarmStandard: newAlarmList,
+      },
+      () => {
+        setFormValues(Object.values(form.getFieldsValue()))
+      }
+    )
   }
 
   handleDelete = id => {
@@ -135,9 +141,10 @@ export default class AlarmExceed extends Component {
 
     const qcvnListObj = keyBy(qcvnList, '_id')
 
-    const qcvnsFormValues = form.getFieldValue(FIELDS.DATA_LEVEL)
+    const qcvnsFormValues = form.getFieldsValue()
 
     const qcvnsFormArray = Object.values(qcvnsFormValues || {})
+
     const qcvnsSelected = qcvnsFormArray.filter(
       qcvn => qcvn[FIELDS.CONFIG][FIELDS.STANDARD_ID]
     )
@@ -146,6 +153,7 @@ export default class AlarmExceed extends Component {
       ...qcvnListObj[qcvn[FIELDS.CONFIG][FIELDS.STANDARD_ID]],
       name: get(qcvn, [FIELDS.CONFIG, FIELDS.NAME]),
     }))
+
     return qcvnsSelectedMapValue
   }
 
@@ -167,7 +175,7 @@ export default class AlarmExceed extends Component {
     const { form } = this.props
     const valuesForm = form.getFieldsValue()
     const dataLevelValueObj = groupBy(
-      Object.values(valuesForm[FIELDS.DATA_LEVEL] || {}),
+      Object.values(valuesForm || {}),
       'config.type'
     )
 
@@ -201,7 +209,7 @@ export default class AlarmExceed extends Component {
     const defaultDataLevelValue = this.getDefaultDataLevelValue()
 
     return (
-      <div>
+      <React.Fragment>
         <TableAlarmExceedForm
           dataSource={alarmStandard}
           form={form}
@@ -227,8 +235,8 @@ export default class AlarmExceed extends Component {
             </Button>
           </Col>
         </Row>
-        <DrawerConfigAlarm />
-      </div>
+        {/* <DrawerConfigAlarm /> */}
+      </React.Fragment>
     )
   }
 }

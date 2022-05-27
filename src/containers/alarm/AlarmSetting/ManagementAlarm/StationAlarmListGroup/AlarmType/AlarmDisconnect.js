@@ -62,8 +62,9 @@ export default class AlarmDisconnect extends Component {
     },
   ]
   render() {
+    const { dataSource } = this.props
     return (
-      <div>
+      <React.Fragment>
         <Table
           columns={this.columns}
           bordered
@@ -78,7 +79,11 @@ export default class AlarmDisconnect extends Component {
             </Button>
           </Col>
         </Row>
-      </div>
+      </React.Fragment>
     )
   }
+}
+
+AlarmDisconnect.defaultProps = {
+  dataSource,
 }

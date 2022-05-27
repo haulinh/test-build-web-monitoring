@@ -1,12 +1,12 @@
-import { Button, Checkbox, Icon, Input, Popconfirm, Switch, Table } from 'antd'
+import { Button, Icon, Input, Switch, Table } from 'antd'
 import TreeSelectUser from 'components/elements/select-data/TreeSelectUser'
-import { get, keyBy } from 'lodash'
-import React, { Component } from 'react'
+import { i18n } from 'containers/alarm/AlarmSetting//constants'
 import DropdownMoreAction from 'containers/alarm/AlarmSetting/components/DropdownMoreAction'
 import { SelectQCVNExceed } from 'containers/alarm/AlarmSetting/components/SelectQCVNExceed'
-import { i18n } from 'containers/alarm/AlarmSetting//constants'
 import { isDefaultDataLevel } from 'containers/alarm/AlarmSetting/hoc/withAlarmForm'
 import { FIELDS } from 'containers/alarm/AlarmSetting/index'
+import { get, keyBy } from 'lodash'
+import React, { Component } from 'react'
 
 export default class TableAlarmConfigExceed extends Component {
   handleOnChangeStandard = record => value => {
@@ -28,9 +28,7 @@ export default class TableAlarmConfigExceed extends Component {
       align: 'left',
       render: (_, record) => {
         const { form, qcvnList, qcvnListSelected } = this.props
-        form.getFieldDecorator(
-          `${FIELDS.DATA_LEVEL}.${record._id}.${FIELDS.CONFIG}.${FIELDS.TYPE}`
-        )
+        form.getFieldDecorator(`${record._id}.${FIELDS.CONFIG}.${FIELDS.TYPE}`)
 
         const configAlarmType = get(record, 'config.type')
 
@@ -41,7 +39,7 @@ export default class TableAlarmConfigExceed extends Component {
         return (
           <React.Fragment>
             {form.getFieldDecorator(
-              `${FIELDS.DATA_LEVEL}.${record._id}.${FIELDS.CONFIG}.${FIELDS.STANDARD_ID}`,
+              `${record._id}.${FIELDS.CONFIG}.${FIELDS.STANDARD_ID}`,
               { onChange: this.handleOnChangeStandard(record) }
             )(
               <SelectQCVNExceed
@@ -62,7 +60,7 @@ export default class TableAlarmConfigExceed extends Component {
         return (
           <React.Fragment>
             {form.getFieldDecorator(
-              `${FIELDS.DATA_LEVEL}.${record._id}.${FIELDS.CONFIG}.${FIELDS.NAME}`
+              `${record._id}.${FIELDS.CONFIG}.${FIELDS.NAME}`
             )(<Input />)}
           </React.Fragment>
         )
@@ -77,9 +75,9 @@ export default class TableAlarmConfigExceed extends Component {
         const { form, users, roles } = this.props
         return (
           <React.Fragment>
-            {form.getFieldDecorator(
-              `${FIELDS.DATA_LEVEL}.${record._id}.${FIELDS.RECIPIENTS}`
-            )(<TreeSelectUser users={users} roles={roles} />)}
+            {form.getFieldDecorator(`${record._id}.${FIELDS.RECIPIENTS}`)(
+              <TreeSelectUser users={users} roles={roles} />
+            )}
           </React.Fragment>
         )
       },
@@ -93,20 +91,15 @@ export default class TableAlarmConfigExceed extends Component {
         const { form } = this.props
         return (
           <React.Fragment>
-            {form.getFieldDecorator(
-              `${FIELDS.DATA_LEVEL}.${record._id}.${FIELDS.STATUS}`,
-              {
-                valuePropName: 'checked',
-              }
-            )(<Switch />)}
+            {form.getFieldDecorator(`${record._id}.${FIELDS.STATUS}`, {
+              valuePropName: 'checked',
+            })(<Switch />)}
 
-            {form.getFieldDecorator(
-              `${FIELDS.DATA_LEVEL}.${record._id}.${FIELDS.ID}`
-            )(<div />)}
+            {form.getFieldDecorator(`${record._id}.${FIELDS.ID}`)(<div />)}
 
-            {form.getFieldDecorator(
-              `${FIELDS.DATA_LEVEL}.${record._id}.${FIELDS.IS_CREATE_LOCAL}`
-            )(<div />)}
+            {form.getFieldDecorator(`${record._id}.${FIELDS.IS_CREATE_LOCAL}`)(
+              <div />
+            )}
           </React.Fragment>
         )
       },

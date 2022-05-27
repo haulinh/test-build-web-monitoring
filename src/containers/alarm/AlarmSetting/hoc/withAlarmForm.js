@@ -1,7 +1,6 @@
 import { Form } from 'antd'
-import { get, isEmpty, isNil, keyBy } from 'lodash'
+import { get, keyBy } from 'lodash'
 import React from 'react'
-import { getHiddenParam } from '../constants'
 import { FIELDS } from '../index'
 
 const getStatusAlarm = status => {
@@ -22,68 +21,28 @@ const withAlarmForm = WrappedComponent => {
   class AlarmForm extends React.Component {
     standardFormRef = React.createRef()
 
-    getQueryParam = (alarmType, stationId) => {
+    getQueryParamGeneral = () => {
       const { form } = this.props
       const value = form.getFieldsValue()
+      console.log({ value })
 
-      const paramsForm = Object.values(value[alarmType] || {})
+      const paramsForm = Object.values(value)
 
-      const params = paramsForm
-        .map(({ isCreateLocal, ...paramItem }) => ({
-          ...paramItem,
+      const params = paramsForm.map(({ isCreateLocal, ...paramItem }) => ({
+        ...paramItem,
 
-          ...(alarmType === FIELDS.DATA_LEVEL && {
-            config: {
-              ...paramItem.config,
-              type: paramItem.config.type || 'standard',
-              [FIELDS.MEASURING_LIST]: this.getMeasureListEnable(),
-            },
-          }),
-
-          recipients: get(paramItem, 'recipients', []).flat(),
-          _id: !isCreateLocal ? paramItem._id : null,
-          status: getStatusAlarm(paramItem.status),
-
-          ...getHiddenParam(
-            alarmType,
-            stationId,
-            paramItem.maxDisconnectionTime
-          ),
-        }))
-
-        .filter(paramItem => {
-          if (isEmpty(paramItem.recipients)) return false
-
-          if (alarmType === FIELDS.DATA_LEVEL) {
-            if (get(paramItem, 'config.name') === '') return false
-
-            const configAlarmType = get(paramItem, 'config.type')
-            if (isDefaultDataLevel(configAlarmType)) return true
-
-            if (isNil(get(paramItem, 'config.standardId'))) return false
-          }
-
-          return true
-        })
+        recipients: get(paramItem, 'recipients', []).flat(),
+        _id: !isCreateLocal ? paramItem._id : null,
+        status: getStatusAlarm(paramItem.status),
+      }))
 
       return params
     }
 
-    getMeasureListEnable = () => {
-      // let config = null
-      const standardForm = this.standardFormRef.current
-
-      const measureListEnable = Object.entries(standardForm.getFieldsValue())
-        .filter(([, value]) => Boolean(value))
-        .map(([keyMeasure]) => keyMeasure)
-
-      return measureListEnable
-    }
-
-    setFormValues = (alarmType, alarmList) => {
+    setFormValues = alarmList => {
       const { form } = this.props
       const alarmFormValues = keyBy(alarmList, '_id')
-      const alarmFormValuesFormat = Object.values(alarmFormValues)
+      const alarmFormValuesFormatted = Object.values(alarmFormValues)
         .map(item => ({
           ...item,
           status:
@@ -93,11 +52,7 @@ const withAlarmForm = WrappedComponent => {
         }))
         .reduce((base, current) => ({ ...base, [current._id]: current }), {})
 
-      const alarmFormValuesType = {
-        [alarmType]: alarmFormValuesFormat,
-      }
-
-      form.setFieldsValue(alarmFormValuesType)
+      form.setFieldsValue(alarmFormValuesFormatted)
     }
 
     render() {
