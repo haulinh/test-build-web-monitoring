@@ -13,6 +13,7 @@ export const FIELDS = {
   DISCONNECT: 'disconnect',
   BY_STANDARD: 'by_standard',
   DATA_LEVEL: 'data_level',
+  DEVICE: 'device',
 
   EXCEED_PREPARING: 'exceed_preparing',
   EXCEED: 'exceed',
@@ -30,6 +31,15 @@ export const FIELDS = {
   NAME: 'name',
   MEASURING_LIST: 'measuringList',
   //#endregion config
+
+  //#region channels
+  CHANNELS: 'channels',
+  SMS: 'sms',
+  EMAIL: 'email',
+  ACTIVE: 'active',
+  MOBILE: 'mobile',
+  WEBHOOK: 'webhook',
+  //#endregion channels
 }
 
 export default class AlarmSetting extends Component {

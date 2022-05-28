@@ -56,9 +56,9 @@ export const i18n = () => {
   }
 }
 
-const chanels = ['email', 'mobile', 'sms', 'webhook']
+export const channels = ['email', 'mobile', 'sms', 'webhook']
 export const getHiddenParam = (typeAlarm, stationId, maxDisconnectionTime) => {
-  const paramChanels = chanels.reduce((base, currentChanel) => {
+  const paramChannels = channels.reduce((base, currentChanel) => {
     const valueChanel = {
       active: true,
       type: currentChanel,
@@ -74,7 +74,7 @@ export const getHiddenParam = (typeAlarm, stationId, maxDisconnectionTime) => {
 
   const paramHidden = {
     repeatConfig: { active: true, frequency },
-    channels: paramChanels,
+    channels: paramChannels,
     stationId,
     type: typeAlarm,
   }

@@ -1,7 +1,7 @@
 import { Skeleton } from 'antd'
 import RoleApi from 'api/RoleApi'
 import UserApi from 'api/UserApi'
-import { get, groupBy } from 'lodash'
+import { get } from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { getAlarms } from 'redux/actions/alarm'
