@@ -1,8 +1,8 @@
 import { Button, Col, Icon, Row, Switch, Table } from 'antd'
 import { Clearfix } from 'components/elements'
 import TreeSelectUser from 'components/elements/select-data/TreeSelectUser'
-import DropdownMoreAction from 'containers/alarm/AlarmSetting/components/DropdownMoreAction'
-import { SelectTime } from 'containers/alarm/AlarmSetting/components/SelectTime'
+import { DropdownMoreAction } from 'containers/alarm/AlarmSetting/components/index'
+import { SelectTime } from 'containers/alarm/AlarmSetting/components/index'
 import { channels, i18n } from 'containers/alarm/AlarmSetting/constants'
 import withAlarmForm from 'containers/alarm/AlarmSetting/hoc/withAlarmForm'
 import { FIELDS } from 'containers/alarm/AlarmSetting/index'
@@ -12,13 +12,10 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { createAlarm, deleteAlarm } from 'redux/actions/alarm'
 import { v4 as uuidv4 } from 'uuid'
-import FormAlarmDetail from '../FormAlarmDetail'
+import AlarmDetail from '../AlarmDetail'
 @withAlarmForm
 @connect(null, { createAlarm, deleteAlarm })
 export default class AlarmDisconnect extends Component {
-  state = {
-    dataAlarmStation: {},
-  }
   componentDidMount = () => {
     const { setFormValues, dataSource } = this.props
 
@@ -60,10 +57,9 @@ export default class AlarmDisconnect extends Component {
   }
 
   handleEdit = dataAlarmStation => {
-    this.setState({
-      dataAlarmStation,
-    })
-    const { handleShowAlarmDetail } = this.props
+    const { handleShowAlarmDetail, setDataAlarm } = this.props
+
+    setDataAlarm(dataAlarmStation)
     handleShowAlarmDetail()
   }
 
@@ -156,8 +152,13 @@ export default class AlarmDisconnect extends Component {
   ]
 
   render() {
-    const { dataSource, visibleAlarmDetail, stationName, form } = this.props
-    const { dataAlarmStation } = this.state
+    const {
+      dataSource,
+      visibleAlarmDetail,
+      stationName,
+      form,
+      dataAlarm,
+    } = this.props
 
     return (
       <React.Fragment>
@@ -190,10 +191,10 @@ export default class AlarmDisconnect extends Component {
             </Button>
           </Col>
         </Row>
-        <FormAlarmDetail
+        <AlarmDetail
           visible={visibleAlarmDetail}
           onClose={this.handleCloseAlarmDetail}
-          dataAlarmStation={dataAlarmStation}
+          dataAlarm={dataAlarm}
           form={form}
           stationName={stationName}
           alarmType={FIELDS.DISCONNECT}

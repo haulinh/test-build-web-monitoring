@@ -4,7 +4,7 @@ import {
   DeviceIcon,
   SignalIcon,
   ThresholdIcon,
-} from 'assets/icons-alarm'
+} from 'assets/icons'
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import AlarmExceed from './AlarmType/Exceed'

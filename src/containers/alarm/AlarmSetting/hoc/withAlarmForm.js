@@ -22,6 +22,7 @@ const withAlarmForm = WrappedComponent => {
     state = {
       alarmIdsDeleted: [],
       visibleAlarmDetail: false,
+      dataAlarm: {},
     }
 
     standardFormRef = React.createRef()
@@ -62,6 +63,10 @@ const withAlarmForm = WrappedComponent => {
     handleSubmit = () => {
       const paramsForm = this.getQueryParamGeneral()
       console.log({ paramsForm })
+    }
+
+    setDataAlarm = dataAlarm => {
+      this.setState({ dataAlarm })
     }
 
     setIdsDeleted = id => {
