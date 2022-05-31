@@ -25,7 +25,6 @@ import {
   deleteBreadcrumb,
   updateBreadcrumb,
 } from 'shared/breadcrumb/action'
-import { isEmpty } from 'shared/components/DataTable/src/util'
 import { getTimes, getTimesUTC } from 'utils/datetime'
 import { downFileExcel } from 'utils/downFile'
 import { getParamArray } from 'utils/params'
@@ -377,10 +376,11 @@ export default class MinutesDataSearch extends React.Component {
 
     const params = filterItem.params
 
+    this.searchFormRef.current.resetFields()
+
     this.searchFormRef.current.setFieldsValue({
       ...params,
       measuringList: params.measuringList.split(','),
-      [fields.statusDevice]: params.statusDevice || statusDeviceList,
     })
 
     this.setState({ filterItem, filterId, activeKey: filterId }, () =>
