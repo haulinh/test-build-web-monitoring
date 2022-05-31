@@ -34,7 +34,14 @@ const Tabs = styled(TabsAnt)`
 }))
 export default class StationAlarmManagement extends Component {
   render() {
-    const { users, roles, alarmList, stationAutos, stationId } = this.props
+    const {
+      users,
+      roles,
+      alarmList,
+      stationAutos,
+      stationId,
+      stationName,
+    } = this.props
     const measuringList = get(
       stationAutos.find(station => station._id === stationId),
       'measuringList'
@@ -64,6 +71,7 @@ export default class StationAlarmManagement extends Component {
             measuringListStation={measuringListStation}
             dataSource={alarmGroupByType[AlarmType.DataLevel]}
             stationId={stationId}
+            stationName={stationName}
           />
         </TabPane>
 
@@ -78,6 +86,7 @@ export default class StationAlarmManagement extends Component {
         >
           <AlarmDisconnect
             users={users}
+            stationName={stationName}
             roles={roles}
             stationId={stationId}
             dataSource={alarmGroupByType[AlarmType.Disconnect]}

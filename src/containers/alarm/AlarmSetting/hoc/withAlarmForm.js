@@ -21,6 +21,12 @@ export const isDefaultDataLevel = alarmConfigType =>
 const withAlarmForm = WrappedComponent => {
   @Form.create()
   class AlarmForm extends React.Component {
+    state = {
+      alarmIdsDeleted: [],
+      visibleAlarmDetail: false,
+      alarmDetail: {},
+    }
+
     standardFormRef = React.createRef()
 
     state = {
@@ -46,8 +52,8 @@ const withAlarmForm = WrappedComponent => {
 
     setFormValues = alarmList => {
       const { form } = this.props
-      const alarmFormValues = keyBy(alarmList, '_id')
-      const alarmFormValuesFormatted = Object.values(alarmFormValues)
+
+      const alarmFormValuesFormatted = alarmList
         .map(item => ({
           ...item,
           status:
@@ -76,7 +82,19 @@ const withAlarmForm = WrappedComponent => {
       }
     }
 
-    handleAlarmIdsDeleted = id => {
+    setAlarmDetail = alarmDetail => {
+      this.setState({ alarmDetail })
+    }
+
+    handleShowAlarmDetail = () => {
+      this.setState({ visibleAlarmDetail: true })
+    }
+
+    handleCloseAlarmDetail = () => {
+      this.setState({ visibleAlarmDetail: false })
+    }
+
+    setIdsDeleted = id => {
       const { alarmIdsDeleted } = this.state
       const newIdsDeleted = [...alarmIdsDeleted, id]
 
@@ -88,6 +106,7 @@ const withAlarmForm = WrappedComponent => {
         <WrappedComponent
           {...this} // pass all property class to prop
           {...this.props}
+          {...this.state}
         />
       )
     }

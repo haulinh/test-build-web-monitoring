@@ -14,6 +14,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { createAlarm, deleteAlarm } from 'redux/actions/alarm'
 import { v4 as uuidv4 } from 'uuid'
+import FormAlarmDetail from '../../FormAlarmDetail'
 import TableAlarmExceedForm from './TableAlarmExceedForm'
 import TableQCVN from './TableQCVN'
 
@@ -124,10 +125,10 @@ export default class AlarmExceed extends Component {
   }
 
   handleDelete = id => {
-    const { deleteAlarm, handleAlarmIdsDeleted } = this.props
+    const { deleteAlarm, setIdsDeleted } = this.props
 
     deleteAlarm(id)
-    handleAlarmIdsDeleted(id)
+    setIdsDeleted(id)
   }
 
   getMeasureListEnable = () => {
@@ -202,9 +203,25 @@ export default class AlarmExceed extends Component {
     return defaultDataLevelValue
   }
 
+  handleCloseAlarmDetail = () => {
+    const { handleCloseAlarmDetail } = this.props
+    handleCloseAlarmDetail()
+  }
+
   render() {
     const { qcvnList } = this.state
-    const { form, users, roles, measuringListStation, dataSource } = this.props
+    const {
+      form,
+      users,
+      roles,
+      measuringListStation,
+      dataSource,
+      visibleAlarmDetail,
+      alarmDetail,
+      stationName,
+      setAlarmDetail,
+      handleShowAlarmDetail,
+    } = this.props
 
     const qcvnListSelected = this.getQcvnSelected()
     const measuringList = this.getMeasuringList()
@@ -221,6 +238,7 @@ export default class AlarmExceed extends Component {
 
     const defaultDataLevelValue = this.getDefaultDataLevelValue()
 
+    console.log(alarmDetail)
     return (
       <React.Fragment>
         <TableAlarmExceedForm
@@ -231,6 +249,8 @@ export default class AlarmExceed extends Component {
           onAdd={this.handleAdd}
           onDelete={this.handleDelete}
           qcvnList={qcvnList}
+          setAlarmDetail={setAlarmDetail}
+          handleShowAlarmDetail={handleShowAlarmDetail}
         />
         <Clearfix height={24} />
         <TableQCVN
@@ -254,6 +274,18 @@ export default class AlarmExceed extends Component {
             </Button>
           </Col>
         </Row>
+        {alarmDetail && (
+          <FormAlarmDetail
+            qcvnList={qcvnList}
+            form={form}
+            visible={visibleAlarmDetail}
+            onClose={this.handleCloseAlarmDetail}
+            alarmDetail={alarmDetail}
+            stationName={stationName}
+            alarmType={FIELDS.DATA_LEVEL}
+            showTimeRepeat
+          />
+        )}
       </React.Fragment>
     )
   }

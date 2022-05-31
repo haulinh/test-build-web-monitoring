@@ -11,7 +11,7 @@ const Flex = styled.div`
   gap: 8px;
 `
 
-const DropdownMoreAction = ({ onEdit, onDelete }) => {
+export const DropdownMoreAction = ({ onEdit, onDelete }) => {
   return (
     <Dropdown
       placement="bottomCenter"
@@ -40,5 +40,3 @@ const DropdownMoreAction = ({ onEdit, onDelete }) => {
     </Dropdown>
   )
 }
-
-export default DropdownMoreAction

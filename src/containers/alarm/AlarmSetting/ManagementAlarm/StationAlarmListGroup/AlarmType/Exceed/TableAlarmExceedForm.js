@@ -1,8 +1,8 @@
 import { Button, Icon, Input, Switch, Table } from 'antd'
 import TreeSelectUser from 'components/elements/select-data/TreeSelectUser'
 import { i18n } from 'containers/alarm/AlarmSetting//constants'
-import DropdownMoreAction from 'containers/alarm/AlarmSetting/components/DropdownMoreAction'
-import { SelectQCVNExceed } from 'containers/alarm/AlarmSetting/components/SelectQCVNExceed'
+import { DropdownMoreAction } from 'containers/alarm/AlarmSetting/components/index'
+import { SelectQCVNExceed } from 'containers/alarm/AlarmSetting/components/index'
 import { isDefaultDataLevel } from 'containers/alarm/AlarmSetting/hoc/withAlarmForm'
 import { FIELDS } from 'containers/alarm/AlarmSetting/index'
 import { get, keyBy } from 'lodash'
@@ -18,6 +18,13 @@ export default class TableAlarmConfigExceed extends Component {
     form.setFieldsValue({
       [`${record._id}.${FIELDS.CONFIG}.${FIELDS.NAME}`]: qcvnName,
     })
+  }
+
+  handleEdit = alarmDetail => {
+    const { handleShowAlarmDetail, setAlarmDetail } = this.props
+
+    setAlarmDetail(alarmDetail)
+    handleShowAlarmDetail()
   }
 
   columns = [
@@ -121,6 +128,9 @@ export default class TableAlarmConfigExceed extends Component {
             <DropdownMoreAction
               onDelete={() => {
                 onDelete(record._id)
+              }}
+              onEdit={() => {
+                this.handleEdit(record)
               }}
             />
           )
