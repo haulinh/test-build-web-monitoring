@@ -30,7 +30,7 @@ const channels = [
   },
   {
     label: 'Web/Mobile',
-    value: 'web',
+    value: 'mobile',
   },
   {
     label: 'Webhook',

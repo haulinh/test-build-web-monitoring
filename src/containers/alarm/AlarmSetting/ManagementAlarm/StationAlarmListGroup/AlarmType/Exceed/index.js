@@ -221,6 +221,7 @@ export default class AlarmExceed extends Component {
       stationName,
       setAlarmDetail,
       handleShowAlarmDetail,
+      setHiddenFields,
     } = this.props
 
     const qcvnListSelected = this.getQcvnSelected()
@@ -238,7 +239,6 @@ export default class AlarmExceed extends Component {
 
     const defaultDataLevelValue = this.getDefaultDataLevelValue()
 
-    console.log(alarmDetail)
     return (
       <React.Fragment>
         <TableAlarmExceedForm
@@ -251,6 +251,7 @@ export default class AlarmExceed extends Component {
           qcvnList={qcvnList}
           setAlarmDetail={setAlarmDetail}
           handleShowAlarmDetail={handleShowAlarmDetail}
+          setHiddenFields={setHiddenFields}
         />
         <Clearfix height={24} />
         <TableQCVN

@@ -1,9 +1,8 @@
 import { Col, Row } from 'antd'
 import Text from 'components/elements/text'
+import { FIELDS } from 'containers/alarm/AlarmSetting/index'
 import React from 'react'
 import styled from 'styled-components'
-import { FIELDS } from 'containers/alarm/AlarmSetting/index'
-import qcvn from 'containers/manager/qcvn'
 
 const CardInfo = styled.div`
   padding: 24px;
@@ -30,12 +29,10 @@ export const AlarmInfo = ({
   }
 
   const getOtherInfo = () => {
-    console.log(dataAlarmStation)
     const qcvnSelected = qcvnList.find(
       qcvn => qcvn._id === dataAlarmStation.config.standardId
     )
 
-    console.log(qcvnSelected)
     return {
       [FIELDS.DATA_LEVEL]: (
         <Row type="flex" justify="space-between" gutter={12}>
@@ -44,7 +41,11 @@ export const AlarmInfo = ({
             <Text fontWeight={500} fontSize={16}>
               {dataAlarmStation.config.name}
             </Text>
-            <Text fontWeight={500} fontSize={16}>
+            <Text
+              style={{ wordBreak: 'normal' }}
+              fontWeight={500}
+              fontSize={16}
+            >
               {qcvnSelected.name}
             </Text>
           </Col>

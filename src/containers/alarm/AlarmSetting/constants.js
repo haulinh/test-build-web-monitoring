@@ -58,7 +58,7 @@ export const i18n = () => {
   }
 }
 
-export const channels = ['email', 'mobile', 'sms', 'webhook']
+export const channels = ['email', 'mobile', 'sms', 'web', 'webhook']
 export const getHiddenParam = (typeAlarm, stationId, maxDisconnectionTime) => {
   const paramChannels = channels.reduce((base, currentChanel) => {
     const valueChanel = {

@@ -95,7 +95,9 @@ export default class TableAlarmConfigExceed extends Component {
       align: 'center',
       dataIndex: 'isActive',
       render: (_, record) => {
-        const { form } = this.props
+        const { form, setHiddenFields } = this.props
+
+        setHiddenFields(record, FIELDS.DATA_LEVEL)
         return (
           <React.Fragment>
             {form.getFieldDecorator(`${record._id}.${FIELDS.STATUS}`, {

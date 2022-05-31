@@ -1,18 +1,21 @@
 import { Button, Col, Icon, Row, Switch, Table } from 'antd'
 import { Clearfix } from 'components/elements'
 import TreeSelectUser from 'components/elements/select-data/TreeSelectUser'
-import { DropdownMoreAction } from 'containers/alarm/AlarmSetting/components/index'
-import { SelectTime } from 'containers/alarm/AlarmSetting/components/index'
-import { channels, i18n } from 'containers/alarm/AlarmSetting/constants'
+import {
+  DropdownMoreAction,
+  SelectTime,
+} from 'containers/alarm/AlarmSetting/components/index'
+import { i18n } from 'containers/alarm/AlarmSetting/constants'
 import withAlarmForm from 'containers/alarm/AlarmSetting/hoc/withAlarmForm'
 import { FIELDS } from 'containers/alarm/AlarmSetting/index'
 import { ALARM_LIST_INIT } from 'containers/manager/station-auto/alarm-config/constants'
-import { isEqual } from 'lodash'
+import { isEmpty, isEqual } from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { createAlarm, deleteAlarm } from 'redux/actions/alarm'
 import { v4 as uuidv4 } from 'uuid'
 import FormAlarmDetail from '../FormAlarmDetail'
+
 @withAlarmForm
 @connect(null, { createAlarm, deleteAlarm })
 export default class AlarmDisconnect extends Component {
@@ -49,12 +52,7 @@ export default class AlarmDisconnect extends Component {
     setIdsDeleted(_id)
   }
 
-  handleSubmit = () => {
-    const { form } = this.props
-    const values = form.getFieldsValue()
-    console.log({ values })
-    // handleSubmit()
-  }
+  handleSubmit = () => {}
 
   handleEdit = alarmDetail => {
     const { handleShowAlarmDetail, setAlarmDetail } = this.props
@@ -107,22 +105,9 @@ export default class AlarmDisconnect extends Component {
       align: 'center',
       dataIndex: FIELDS.STATUS,
       render: (_, record) => {
-        const { form } = this.props
-        const channelsFields = channels.map(channel =>
-          form.getFieldDecorator(
-            `${record._id}.channels.${channel}.${FIELDS.ACTIVE}`,
-            { initialValue: true }
-          )
-        )
-        // form.getFieldDecorator(
-        //   `${record._id}.channels.${FIELDS.SMS}.${FIELDS.ACTIVE}`,
-        //   { initialValue: true }
-        // )
+        const { form, setHiddenFields } = this.props
+        setHiddenFields(record, FIELDS.DISCONNECT)
 
-        //  form.getFieldDecorator(
-        //   `${record._id}.channels.${FIELDS.SMS}.${FIELDS.ACTIVE}`,
-        //   { initialValue: true }
-        // )
         return (
           <React.Fragment>
             {form.getFieldDecorator(`${record._id}.${FIELDS.STATUS}`, {
@@ -133,7 +118,6 @@ export default class AlarmDisconnect extends Component {
             {form.getFieldDecorator(`${record._id}.${FIELDS.IS_CREATE_LOCAL}`)(
               <div />
             )}
-            {channelsFields}
           </React.Fragment>
         )
       },
@@ -191,15 +175,17 @@ export default class AlarmDisconnect extends Component {
             </Button>
           </Col>
         </Row>
-        <FormAlarmDetail
-          visible={visibleAlarmDetail}
-          onClose={this.handleCloseAlarmDetail}
-          alarmDetail={alarmDetail}
-          form={form}
-          stationName={stationName}
-          alarmType={FIELDS.DISCONNECT}
-          // showTimeRepeat
-        />
+        {!isEmpty(alarmDetail) && (
+          <FormAlarmDetail
+            visible={visibleAlarmDetail}
+            onClose={this.handleCloseAlarmDetail}
+            alarmDetail={alarmDetail}
+            form={form}
+            stationName={stationName}
+            alarmType={FIELDS.DISCONNECT}
+            // showTimeRepeat
+          />
+        )}
       </React.Fragment>
     )
   }
