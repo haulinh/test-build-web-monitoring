@@ -1,6 +1,7 @@
 import CategoryApi from 'api/CategoryApi'
 import StationAutoApi from 'api/StationAuto'
-import { keyBy } from 'lodash'
+import update from 'immutability-helper'
+import { get, keyBy } from 'lodash'
 
 //#region Measure
 export const GET_MEASURES = 'GET_MEASURES'
@@ -46,6 +47,38 @@ export const UPDATE_STATION_AUTOS = 'UPDATE_STATION_AUTOS'
 //#region selectors
 export const selectStationAutos = state =>
   Object.values(state.global.stationAutosObj)
+
+export const selectStationGroupByType = state => {
+  const stationAutosGroupByType = selectStationAutos(state).reduce(
+    (base, current) => {
+      const stationType = get(current, ['stationType'])
+      const stationTypeKey = stationType.key
+
+      if (base[stationTypeKey]) {
+        return update(base, {
+          [stationTypeKey]: {
+            stationAutoList: {
+              $push: [current],
+            },
+          },
+        })
+      }
+
+      return update(base, {
+        [stationTypeKey]: {
+          $set: {
+            stationTypeKey,
+            stationTypeName: stationType.name,
+            stationAutoList: [current],
+          },
+        },
+      })
+    },
+    {}
+  )
+
+  return stationAutosGroupByType
+}
 //#endregion selectors
 
 export const getStationAutos = () => async dispatch => {
