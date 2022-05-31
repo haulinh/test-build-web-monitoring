@@ -1,18 +1,20 @@
 import { Skeleton } from 'antd'
 import RoleApi from 'api/RoleApi'
 import UserApi from 'api/UserApi'
-import { get, groupBy } from 'lodash'
+import { get } from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { getAlarms } from 'redux/actions/alarm'
+import { getStationAutos, selectStationAutos } from 'redux/actions/globalAction'
 import StationAlarmListGroup from './StationAlarmListGroup/index'
 
 @connect(
   state => ({
-    stationAutos: get(state, ['stationAuto', 'list']),
+    stationAutos: selectStationAutos(state),
   }),
   {
     getAlarms,
+    getStationAutos,
   }
 )
 export default class ManagementAlarm extends Component {
