@@ -4,13 +4,13 @@ import {
   GET_TOTAL_STATIONS_AUTO_ACTIVED,
 } from '../actions/stationAuto'
 
-let initstate = {
+let initialState = {
   isInitLoaded: false,
   list: [],
   totalStationActived: 0,
 }
 
-export default function stationAuto(state = initstate, action) {
+export default function stationAuto(state = initialState, action) {
   let { type, payload } = action
   switch (type) {
     case INIT_LOADED:
