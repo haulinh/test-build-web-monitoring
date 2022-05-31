@@ -47,11 +47,7 @@ export default class AlarmDisconnect extends Component {
     deleteAlarm(_id)
   }
 
-  handleSubmitSave = () => {
-    const { form } = this.props
-    const values = form.getFieldsValue()
-    console.log({ values })
-  }
+  handleSubmitSave = () => {}
 
   columns = [
     {

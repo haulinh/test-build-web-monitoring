@@ -23,6 +23,10 @@ const withAlarmForm = WrappedComponent => {
   class AlarmForm extends React.Component {
     standardFormRef = React.createRef()
 
+    state = {
+      alarmIdsDeleted: [],
+    }
+
     getQueryParamGeneral = () => {
       const { form } = this.props
       const value = form.getFieldsValue()
@@ -56,7 +60,13 @@ const withAlarmForm = WrappedComponent => {
       form.setFieldsValue(alarmFormValuesFormatted)
     }
 
-    handleSubmitAlarm = async params => {
+    handleSubmitAlarm = async paramGeneral => {
+      const { alarmIdsDeleted } = this.state
+      const params = {
+        data: paramGeneral,
+        deletedIds: alarmIdsDeleted,
+      }
+
       try {
         await CalculateApi.createBulkAlarm(params)
         message.success(translate('global.saveSuccess'))
@@ -64,6 +74,13 @@ const withAlarmForm = WrappedComponent => {
         console.error(error)
         message.error(translate('ticket.message.notificationError'))
       }
+    }
+
+    handleAlarmIdsDeleted = id => {
+      const { alarmIdsDeleted } = this.state
+      const newIdsDeleted = [...alarmIdsDeleted, id]
+
+      this.setState({ alarmIdsDeleted: newIdsDeleted })
     }
 
     render() {

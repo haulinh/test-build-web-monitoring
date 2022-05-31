@@ -1,10 +1,7 @@
 import { Button, Col, Row } from 'antd'
 import QCVNApi from 'api/QCVNApi'
 import { Clearfix } from 'components/elements'
-import {
-  getAlarmGroupByType,
-  getHiddenParam,
-} from 'containers/alarm/AlarmSetting/constants'
+import { getHiddenParam } from 'containers/alarm/AlarmSetting/constants'
 import withAlarmForm, {
   isDefaultDataLevel,
 } from 'containers/alarm/AlarmSetting/hoc/withAlarmForm'
@@ -25,7 +22,6 @@ import TableQCVN from './TableQCVN'
 @connect(null, { createAlarm, deleteAlarm })
 export default class AlarmExceed extends Component {
   state = {
-    alarmIdsDeleted: [],
     qcvnList: [],
   }
 
@@ -37,17 +33,12 @@ export default class AlarmExceed extends Component {
     this.setInitValues(dataSource, qcvnList)
   }
 
-  setInitValues = (alarmList, qcvnList) => {
-    const { setFormValues } = this.props
-    const { alarmStandard } = getAlarmGroupByType(alarmList)
-
-    this.setState({ qcvnList })
-
+  getInitValues = alarmList => {
     //#region set alarm data level
-    if (!isEmpty(alarmStandard)) {
+    if (!isEmpty(alarmList)) {
       const alarmDataLevelDefault = ALARM_LIST_INIT.DATA_LEVEL.map(
         alarmDataLevelDefaultItem => {
-          const existAlarmDataLevelItem = alarmStandard.find(
+          const existAlarmDataLevelItem = alarmList.find(
             alarmStandardItem =>
               alarmStandardItem.config.type ===
               alarmDataLevelDefaultItem.config.type
@@ -64,7 +55,7 @@ export default class AlarmExceed extends Component {
         }
       )
 
-      const alarmStandardWithoutDefault = alarmStandard.filter(
+      const alarmStandardWithoutDefault = alarmList.filter(
         alarmStandardItem =>
           !isDefaultDataLevel(get(alarmStandardItem, 'config.type'))
       )
@@ -74,10 +65,19 @@ export default class AlarmExceed extends Component {
         ...alarmStandardWithoutDefault,
       ]
 
-      setFormValues(alarmStandardWithDefault)
+      return alarmStandardWithDefault
     } else {
-      setFormValues(ALARM_LIST_INIT.DATA_LEVEL)
+      return ALARM_LIST_INIT.DATA_LEVEL
     }
+  }
+
+  setInitValues = (alarmList, qcvnList) => {
+    const { setFormValues } = this.props
+
+    this.setState({ qcvnList })
+
+    //#region set alarm data level
+    setFormValues(this.getInitValues(alarmList))
     //#endregion set alarm data level
   }
 
@@ -90,27 +90,44 @@ export default class AlarmExceed extends Component {
 
   handleSubmit = () => {
     const { getQueryParamGeneral, handleSubmitAlarm, stationId } = this.props
-    const { alarmIdsDeleted } = this.state
 
     const paramGeneral = getQueryParamGeneral()
     const measuringListEnable = this.getMeasureListEnable()
 
-    const params = {
-      data: paramGeneral
-        .filter(paramItem => paramItem.config)
-        .map(paramItem => ({
-          ...paramItem,
-          config: {
-            ...paramItem.config,
-            type: paramItem.config.type || 'standard',
-            [FIELDS.MEASURING_LIST]: measuringListEnable,
-          },
-          ...getHiddenParam(FIELDS.DATA_LEVEL, stationId),
-        })),
-      deletedIds: alarmIdsDeleted,
-    }
+    const params = paramGeneral
+      .filter(paramItem => paramItem.config)
+      .map(paramItem => ({
+        ...paramItem,
+        config: {
+          ...paramItem.config,
+          type: paramItem.config.type || 'standard',
+          [FIELDS.MEASURING_LIST]: measuringListEnable,
+        },
+        ...getHiddenParam(FIELDS.DATA_LEVEL, stationId),
+      }))
 
     handleSubmitAlarm(params)
+  }
+
+  handleAdd = () => {
+    const { stationId, createAlarm } = this.props
+    const uuid = uuidv4()
+    const newData = {
+      _id: uuid,
+      isCreateLocal: true,
+      maxDisconnectionTime: 1800,
+      type: FIELDS.DATA_LEVEL,
+      stationId,
+    }
+
+    createAlarm(newData)
+  }
+
+  handleDelete = id => {
+    const { deleteAlarm, handleAlarmIdsDeleted } = this.props
+
+    deleteAlarm(id)
+    handleAlarmIdsDeleted(id)
   }
 
   getMeasureListEnable = () => {
@@ -124,33 +141,6 @@ export default class AlarmExceed extends Component {
       .map(([keyMeasure]) => keyMeasure)
 
     return measureListEnable
-  }
-
-  handleAdd = () => {
-    const { setFormValues, form, stationId, createAlarm } = this.props
-    const uuid = uuidv4()
-    const newData = {
-      _id: uuid,
-      isCreateLocal: true,
-      maxDisconnectionTime: 1800,
-      type: FIELDS.DATA_LEVEL,
-      stationId,
-    }
-
-    createAlarm(newData)
-
-    setFormValues(Object.values(form.getFieldsValue()))
-  }
-
-  handleDelete = id => {
-    const { alarmIdsDeleted } = this.state
-    const { form, setFormValues, deleteAlarm } = this.props
-
-    const newIdsDeleted = [...alarmIdsDeleted, id]
-    this.setState({ alarmIdsDeleted: newIdsDeleted })
-    deleteAlarm(id)
-
-    setFormValues(Object.values(form.getFieldsValue()))
   }
 
   getQcvnSelected = () => {
@@ -234,7 +224,7 @@ export default class AlarmExceed extends Component {
     return (
       <React.Fragment>
         <TableAlarmExceedForm
-          dataSource={dataSource || ALARM_LIST_INIT.DATA_LEVEL}
+          dataSource={this.getInitValues(dataSource)}
           form={form}
           users={users}
           roles={roles}
