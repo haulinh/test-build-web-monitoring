@@ -1,4 +1,5 @@
-import { Col, Form, Icon, Input, Row, Switch, Table } from 'antd'
+import { Col, Form, Icon, Row, Switch, Table, Tooltip } from 'antd'
+import { InfoIcon } from 'assets/icons-alarm/InfoIcon'
 import { i18n } from 'containers/alarm/AlarmSetting/constants'
 import { FIELDS } from 'containers/alarm/AlarmSetting/index'
 import { get, isEqual, keyBy } from 'lodash'
@@ -23,11 +24,11 @@ export default class TableQCVN extends Component {
     }, {})
 
     if (!isEqual(prevProps.measureListValue, measureListValue)) {
-      form.setFieldsValue(measureListValueObject)
+      form.setFieldsValue({ measuringListEnable: measureListValueObject })
     }
 
     if (!isEqual(prevProps.dataSource, dataSource)) {
-      form.setFieldsValue(measureListValueObject)
+      form.setFieldsValue({ measuringListEnable: measureListValueObject })
     }
   }
 
@@ -37,7 +38,16 @@ export default class TableQCVN extends Component {
       const measuringQcvnObj = keyBy(qcvn.measuringList, 'key')
 
       return {
-        title: qcvn.name,
+        title: (
+          <Row gutter={10} type="flex" justify="center" align="center">
+            <Col>{qcvn.name}</Col>
+            <Col style={{ marginTop: '2px' }}>
+              <Tooltip placement="top" title="text">
+                <InfoIcon />
+              </Tooltip>
+            </Col>
+          </Row>
+        ),
         key: qcvn.key,
         align: 'center',
         dataIndex: 'key',
@@ -89,7 +99,16 @@ export default class TableQCVN extends Component {
 
     const measuringStationObj = keyBy(measuringListStation, 'key')
     const defaultDataLevelColumns = defaultDataLevels.map(level => ({
-      title: level.title,
+      title: (
+        <Row gutter={10} type="flex" justify="center" align="center">
+          <Col>{level.title}</Col>
+          <Col style={{ marginTop: '2px' }}>
+            <Tooltip placement="top" title="text">
+              <InfoIcon />
+            </Tooltip>
+          </Col>
+        </Row>
+      ),
       key: level.dataIndex,
       align: 'center',
       dataIndex: 'key',
@@ -116,34 +135,6 @@ export default class TableQCVN extends Component {
           </Row>
         )
       },
-      // children: [
-      //   {
-      //     key: `min${level.dataIndex}}`,
-      //     title: i18n().qcvnMin,
-      //     align: 'left',
-      //     dataIndex: 'key',
-      //     render: measureKey => {
-      //       const measureValue = get(measuringStationObj, [
-      //         measureKey,
-      //         `min${level.dataIndex}`,
-      //       ])
-      //       return <div>{measureValue}</div>
-      //     },
-      //   },
-      //   {
-      //     key: `max${level.dataIndex}}`,
-      //     title: i18n().qcvnMax,
-      //     dataIndex: 'key',
-      //     render: measureKey => {
-      //       const measureValue = get(measuringStationObj, [
-      //         measureKey,
-      //         `max${level.dataIndex}`,
-      //       ])
-      //       return <div>{measureValue}</div>
-      //     },
-      //     align: 'left',
-      //   },
-      // ],
     }))
 
     return defaultDataLevelColumns
@@ -174,7 +165,7 @@ export default class TableQCVN extends Component {
           const { form } = this.props
           return (
             <React.Fragment>
-              {form.getFieldDecorator(`${measureKey}`, {
+              {form.getFieldDecorator(`measuringListEnable.${measureKey}`, {
                 valuePropName: 'checked',
                 initialValue: true,
               })(<Switch />)}
@@ -188,7 +179,6 @@ export default class TableQCVN extends Component {
   render() {
     const { dataSource } = this.props
 
-    console.log(dataSource)
     return (
       <Table
         columns={this.getColumns()}

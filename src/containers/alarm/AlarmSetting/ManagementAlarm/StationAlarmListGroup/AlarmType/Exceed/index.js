@@ -1,51 +1,40 @@
 import { Button, Col, Row } from 'antd'
 import QCVNApi from 'api/QCVNApi'
 import { Clearfix } from 'components/elements'
+import {
+  getAlarmGroupByType,
+  getHiddenParam,
+} from 'containers/alarm/AlarmSetting/constants'
+import withAlarmForm, {
+  isDefaultDataLevel,
+} from 'containers/alarm/AlarmSetting/hoc/withAlarmForm'
 import { FIELDS } from 'containers/alarm/AlarmSetting/index'
 import { getMeasuringListFromStationAutos } from 'containers/api-sharing/util'
 import { ALARM_LIST_INIT } from 'containers/manager/station-auto/alarm-config/constants'
 import { get, groupBy, isEmpty, keyBy, omit, uniqBy } from 'lodash'
 import { Component, default as React } from 'react'
+import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
+import { createAlarm, deleteAlarm } from 'redux/actions/alarm'
 import { v4 as uuidv4 } from 'uuid'
-import withAlarmForm, {
-  isDefaultDataLevel,
-} from 'containers/alarm/AlarmSetting/hoc/withAlarmForm'
 import TableAlarmExceedForm from './TableAlarmExceedForm'
 import TableQCVN from './TableQCVN'
-import DrawerConfigAlarm from './DrawerConfigAlarm'
-
-const getAlarmGroupByType = alarmList => {
-  const initialValues = {
-    alarmDisconnect: [],
-    alarmStandard: [],
-  }
-
-  const alarmGroupByType = alarmList.reduce((base, current) => {
-    if (current.type === FIELDS.DISCONNECT) {
-      base.alarmDisconnect.push(current)
-    } else if (current.type === FIELDS.DATA_LEVEL) {
-      base.alarmStandard.push(current)
-    }
-    return base
-  }, initialValues)
-
-  return alarmGroupByType
-}
 
 @withRouter
 @withAlarmForm
+@connect(null, { createAlarm, deleteAlarm })
 export default class AlarmExceed extends Component {
   state = {
-    alarmStandard: ALARM_LIST_INIT.DATA_LEVEL,
+    alarmIdsDeleted: [],
+    qcvnList: [],
   }
 
   componentDidMount = async () => {
-    const { alarmList } = this.props
+    const { dataSource } = this.props
     this.setState({ loading: true })
     const qcvnList = await this.getQCVNList()
 
-    this.setInitValues(alarmList, qcvnList)
+    this.setInitValues(dataSource, qcvnList)
   }
 
   setInitValues = (alarmList, qcvnList) => {
@@ -85,9 +74,7 @@ export default class AlarmExceed extends Component {
         ...alarmStandardWithoutDefault,
       ]
 
-      this.setState({ alarmStandard: alarmStandardWithDefault }, () =>
-        setFormValues(alarmStandardWithDefault)
-      )
+      setFormValues(alarmStandardWithDefault)
     } else {
       setFormValues(ALARM_LIST_INIT.DATA_LEVEL)
     }
@@ -101,38 +88,69 @@ export default class AlarmExceed extends Component {
     }
   }
 
+  handleSubmit = () => {
+    const { getQueryParamGeneral, handleSubmitAlarm, stationId } = this.props
+    const { alarmIdsDeleted } = this.state
+
+    const paramGeneral = getQueryParamGeneral()
+    const measuringListEnable = this.getMeasureListEnable()
+
+    const params = {
+      data: paramGeneral
+        .filter(paramItem => paramItem.config)
+        .map(paramItem => ({
+          ...paramItem,
+          config: {
+            ...paramItem.config,
+            type: paramItem.config.type || 'standard',
+            [FIELDS.MEASURING_LIST]: measuringListEnable,
+          },
+          ...getHiddenParam(FIELDS.DATA_LEVEL, stationId),
+        })),
+      deletedIds: alarmIdsDeleted,
+    }
+
+    handleSubmitAlarm(params)
+  }
+
+  getMeasureListEnable = () => {
+    // let config = null
+    const { form } = this.props
+
+    const { measuringListEnable } = form.getFieldsValue()
+
+    const measureListEnable = Object.entries(measuringListEnable)
+      .filter(([, value]) => Boolean(value))
+      .map(([keyMeasure]) => keyMeasure)
+
+    return measureListEnable
+  }
+
   handleAdd = () => {
-    const { alarmStandard } = this.state
-    const { setFormValues, form } = this.props
+    const { setFormValues, form, stationId, createAlarm } = this.props
     const uuid = uuidv4()
     const newData = {
       _id: uuid,
       isCreateLocal: true,
       maxDisconnectionTime: 1800,
+      type: FIELDS.DATA_LEVEL,
+      stationId,
     }
 
-    const newAlarmList = [...alarmStandard, newData]
-    this.setState(
-      {
-        alarmStandard: newAlarmList,
-      },
-      () => {
-        setFormValues(Object.values(form.getFieldsValue()))
-      }
-    )
+    createAlarm(newData)
+
+    setFormValues(Object.values(form.getFieldsValue()))
   }
 
   handleDelete = id => {
-    const { alarmStandard } = this.state
-    const { form, setFormValues } = this.props
+    const { alarmIdsDeleted } = this.state
+    const { form, setFormValues, deleteAlarm } = this.props
 
-    const newAlarmList = alarmStandard.filter(item => item._id !== id)
-    this.setState({ alarmStandard: newAlarmList }, () => {
-      setFormValues(
-        FIELDS.DATA_LEVEL,
-        Object.values(get(form.getFieldsValue(), FIELDS.DATA_LEVEL, {}))
-      )
-    })
+    const newIdsDeleted = [...alarmIdsDeleted, id]
+    this.setState({ alarmIdsDeleted: newIdsDeleted })
+    deleteAlarm(id)
+
+    setFormValues(Object.values(form.getFieldsValue()))
   }
 
   getQcvnSelected = () => {
@@ -141,7 +159,7 @@ export default class AlarmExceed extends Component {
 
     const qcvnListObj = keyBy(qcvnList, '_id')
 
-    const qcvnsFormValues = form.getFieldsValue()
+    const { measuringListEnable, ...qcvnsFormValues } = form.getFieldsValue()
 
     const qcvnsFormArray = Object.values(qcvnsFormValues || {})
 
@@ -168,7 +186,12 @@ export default class AlarmExceed extends Component {
       'key'
     )
 
-    return uniqueMeasuringList || []
+    return (
+      uniqueMeasuringList.map(measuring => ({
+        ...measuring,
+        measuringListEnable: measuring.key,
+      })) || []
+    )
   }
 
   getDefaultDataLevelValue = () => {
@@ -190,13 +213,13 @@ export default class AlarmExceed extends Component {
   }
 
   render() {
-    const { alarmStandard, qcvnList } = this.state
-    const { form, users, roles, measuringListStation } = this.props
+    const { qcvnList } = this.state
+    const { form, users, roles, measuringListStation, dataSource } = this.props
 
     const qcvnListSelected = this.getQcvnSelected()
     const measuringList = this.getMeasuringList()
 
-    const alarmHaveMeasuringList = alarmStandard.find(
+    const alarmHaveMeasuringList = (dataSource || []).find(
       alarm => !isEmpty(get(alarm, 'config.measuringList'))
     )
 
@@ -211,7 +234,7 @@ export default class AlarmExceed extends Component {
     return (
       <React.Fragment>
         <TableAlarmExceedForm
-          dataSource={alarmStandard}
+          dataSource={dataSource || ALARM_LIST_INIT.DATA_LEVEL}
           form={form}
           users={users}
           roles={roles}
@@ -221,6 +244,7 @@ export default class AlarmExceed extends Component {
         />
         <Clearfix height={24} />
         <TableQCVN
+          form={form}
           measuringListStation={measuringListStation}
           qcvnList={qcvnListSelected}
           dataSource={measuringList}
@@ -230,12 +254,16 @@ export default class AlarmExceed extends Component {
         <Clearfix height={32} />
         <Row type="flex" justify="end">
           <Col span={5}>
-            <Button type="primary" block size="large">
+            <Button
+              type="primary"
+              block
+              size="large"
+              onClick={this.handleSubmit}
+            >
               Lưu
             </Button>
           </Col>
         </Row>
-        {/* <DrawerConfigAlarm /> */}
       </React.Fragment>
     )
   }

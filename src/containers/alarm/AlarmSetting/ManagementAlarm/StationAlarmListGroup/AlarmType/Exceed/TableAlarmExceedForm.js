@@ -16,7 +16,7 @@ export default class TableAlarmConfigExceed extends Component {
     const qcvnName = get(qcvnObject, [value, 'name'])
 
     form.setFieldsValue({
-      [`${FIELDS.DATA_LEVEL}.${record._id}.${FIELDS.CONFIG}.${FIELDS.NAME}`]: qcvnName,
+      [`${record._id}.${FIELDS.CONFIG}.${FIELDS.NAME}`]: qcvnName,
     })
   }
 

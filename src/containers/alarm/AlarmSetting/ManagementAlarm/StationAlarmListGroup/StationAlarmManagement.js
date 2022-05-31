@@ -5,16 +5,14 @@ import {
   SignalIcon,
   ThresholdIcon,
 } from 'assets/icons-alarm'
+import { get, groupBy } from 'lodash'
 import React, { Component } from 'react'
-import styled from 'styled-components'
-import AlarmExceed from './AlarmType/Exceed'
-import AlarmDisconnect from './AlarmType/AlarmDisconnect'
 import { connect } from 'react-redux'
-import { get } from 'lodash'
+import styled from 'styled-components'
 import { v4 as uuidv4 } from 'uuid'
-import measuring from 'containers/manager/measuring'
-import { groupBy } from 'lodash'
 import { AlarmType } from '../../constants'
+import AlarmDisconnect from './AlarmType/AlarmDisconnect'
+import AlarmExceed from './AlarmType/Exceed'
 
 const { TabPane } = TabsAnt
 
@@ -65,7 +63,8 @@ export default class StationAlarmManagement extends Component {
             users={users}
             roles={roles}
             measuringListStation={measuringListStation}
-            alarmList={alarmGroupByType[AlarmType.DataLevel]}
+            dataSource={alarmGroupByType[AlarmType.DataLevel]}
+            stationId={stationId}
           />
         </TabPane>
 

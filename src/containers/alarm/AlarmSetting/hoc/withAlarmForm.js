@@ -1,4 +1,6 @@
-import { Form } from 'antd'
+import { Form, message } from 'antd'
+import CalculateApi from 'api/CalculateApi'
+import { translate } from 'hoc/create-lang'
 import { get, keyBy } from 'lodash'
 import React from 'react'
 import { FIELDS } from '../index'
@@ -52,6 +54,18 @@ const withAlarmForm = WrappedComponent => {
         .reduce((base, current) => ({ ...base, [current._id]: current }), {})
 
       form.setFieldsValue(alarmFormValuesFormatted)
+    }
+
+    handleSubmitAlarm = async params => {
+      try {
+        await CalculateApi.createBulkAlarm(params)
+        // const alarmList = await this.getAlarmByStationId()
+        // // this.setInitValues(alarmList, qcvnList)
+        message.success(translate('global.saveSuccess'))
+      } catch (error) {
+        console.error(error)
+        message.error(translate('ticket.message.notificationError'))
+      }
     }
 
     render() {

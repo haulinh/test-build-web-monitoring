@@ -1,11 +1,10 @@
-import React, { Component } from 'react'
 import { Collapse } from 'antd'
+import { get, groupBy } from 'lodash'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import styled from 'styled-components'
 import ToggleSendStationAlarm from '../../components/ToggleSendStationAlarm'
 import StationAlarmManagement from './StationAlarmManagement'
-import { connect } from 'react-redux'
-import { get, groupBy } from 'lodash'
-import { getAlarms } from 'redux/actions/alarm'
 
 const { Panel: PanelAnt } = Collapse
 
@@ -61,7 +60,6 @@ export default class StationAlarmListGroup extends Component {
                   stationId={stationAuto._id}
                   roles={roles}
                   alarmList={alarmListByStation}
-                  _id={stationAuto._id}
                 />
               </Panel>
             )
