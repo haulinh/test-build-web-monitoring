@@ -22,7 +22,7 @@ const withAlarmForm = WrappedComponent => {
     state = {
       alarmIdsDeleted: [],
       visibleAlarmDetail: false,
-      dataAlarm: {},
+      alarmDetail: {},
     }
 
     standardFormRef = React.createRef()
@@ -65,8 +65,8 @@ const withAlarmForm = WrappedComponent => {
       console.log({ paramsForm })
     }
 
-    setDataAlarm = dataAlarm => {
-      this.setState({ dataAlarm })
+    setAlarmDetail = alarmDetail => {
+      this.setState({ alarmDetail })
     }
 
     setIdsDeleted = id => {

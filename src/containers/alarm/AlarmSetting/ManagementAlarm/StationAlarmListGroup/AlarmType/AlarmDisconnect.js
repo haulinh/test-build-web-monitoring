@@ -12,7 +12,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { createAlarm, deleteAlarm } from 'redux/actions/alarm'
 import { v4 as uuidv4 } from 'uuid'
-import AlarmDetail from '../AlarmDetail'
+import FormAlarmDetail from '../FormAlarmDetail'
 @withAlarmForm
 @connect(null, { createAlarm, deleteAlarm })
 export default class AlarmDisconnect extends Component {
@@ -56,10 +56,10 @@ export default class AlarmDisconnect extends Component {
     // handleSubmit()
   }
 
-  handleEdit = dataAlarmStation => {
-    const { handleShowAlarmDetail, setDataAlarm } = this.props
+  handleEdit = alarmDetail => {
+    const { handleShowAlarmDetail, setAlarmDetail } = this.props
 
-    setDataAlarm(dataAlarmStation)
+    setAlarmDetail(alarmDetail)
     handleShowAlarmDetail()
   }
 
@@ -157,7 +157,7 @@ export default class AlarmDisconnect extends Component {
       visibleAlarmDetail,
       stationName,
       form,
-      dataAlarm,
+      alarmDetail,
     } = this.props
 
     return (
@@ -191,10 +191,10 @@ export default class AlarmDisconnect extends Component {
             </Button>
           </Col>
         </Row>
-        <AlarmDetail
+        <FormAlarmDetail
           visible={visibleAlarmDetail}
           onClose={this.handleCloseAlarmDetail}
-          dataAlarm={dataAlarm}
+          alarmDetail={alarmDetail}
           form={form}
           stationName={stationName}
           alarmType={FIELDS.DISCONNECT}

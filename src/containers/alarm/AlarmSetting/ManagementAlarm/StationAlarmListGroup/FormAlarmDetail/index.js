@@ -33,7 +33,7 @@ const HeaderDrawer = ({ onClickButtonClose }) => {
   )
 }
 
-export default class AlarmDetail extends Component {
+export default class FormAlarmDetail extends Component {
   handleClickButtonClose = () => {
     const { onClose } = this.props
     onClose()
@@ -43,13 +43,13 @@ export default class AlarmDetail extends Component {
     const {
       visible,
       onClose,
-      dataAlarm,
+      alarmDetail,
       form,
       stationName,
       alarmType,
       showTimeRepeat,
     } = this.props
-    const alarmId = dataAlarm._id
+    const alarmId = alarmDetail._id
 
     return (
       <Drawer
@@ -65,8 +65,8 @@ export default class AlarmDetail extends Component {
         <AlarmInfo
           stationName={stationName}
           alarmType={alarmType}
-          dataAlarmStation={dataAlarm}
-          maxDisconnectionTime={get(dataAlarm, ['maxDisconnectionTime'])}
+          dataAlarmStation={alarmDetail}
+          maxDisconnectionTime={get(alarmDetail, ['maxDisconnectionTime'])}
         />
 
         <Clearfix height={33} />
@@ -81,14 +81,14 @@ export default class AlarmDetail extends Component {
             <Col>
               {form.getFieldDecorator(`${alarmId}.repeatConfig.active`, {
                 valuePropName: 'checked',
-                initialValue: get(dataAlarm, ['repeatConfig', 'active']),
+                initialValue: get(alarmDetail, ['repeatConfig', 'active']),
               })(<Switch />)}
             </Col>
           </Row>
           <Row>
             {form.getFieldDecorator(`${alarmId}.repeatConfig.frequency`, {
               initialValue:
-                get(dataAlarm, ['repeatConfig', 'frequency']) / 60 || 5,
+                get(alarmDetail, ['repeatConfig', 'frequency']) / 60 || 5,
             })(
               showTimeRepeat ? (
                 <InputNumber
@@ -105,7 +105,7 @@ export default class AlarmDetail extends Component {
         <ConfigTemplateStation
           form={form}
           alarmId={alarmId}
-          dataAlarmStation={dataAlarm}
+          dataAlarmStation={alarmDetail}
         />
       </Drawer>
     )
