@@ -1,17 +1,15 @@
 import { Button, Col, Icon, Row, Switch, Table } from 'antd'
 import { Clearfix } from 'components/elements'
 import TreeSelectUser from 'components/elements/select-data/TreeSelectUser'
-import { DropdownMoreAction } from 'containers/alarm/AlarmSetting/components/index'
-import { SelectTime } from 'containers/alarm/AlarmSetting/components/index'
 import {
-  channels,
-  getHiddenFields,
-  i18n,
-} from 'containers/alarm/AlarmSetting/constants'
+  DropdownMoreAction,
+  SelectTime,
+} from 'containers/alarm/AlarmSetting/components/index'
+import { i18n } from 'containers/alarm/AlarmSetting/constants'
 import withAlarmForm from 'containers/alarm/AlarmSetting/hoc/withAlarmForm'
 import { FIELDS } from 'containers/alarm/AlarmSetting/index'
 import { ALARM_LIST_INIT } from 'containers/manager/station-auto/alarm-config/constants'
-import { flatten, isEmpty, isEqual } from 'lodash'
+import { isEmpty, isEqual } from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { createAlarm, deleteAlarm } from 'redux/actions/alarm'
@@ -111,18 +109,9 @@ export default class AlarmDisconnect extends Component {
       align: 'center',
       dataIndex: FIELDS.STATUS,
       render: (_, record) => {
-        const { form } = this.props
-        const channelsFields = getHiddenFields(form, record, FIELDS.DISCONNECT)
-        // form.getFieldDecorator(
-        //   `${record._id}.channels.${FIELDS.SMS}.${FIELDS.ACTIVE}`,
-        //   { initialValue: true }
-        // )
+        const { form, setHiddenFields } = this.props
+        setHiddenFields(record, FIELDS.DISCONNECT)
 
-        //  form.getFieldDecorator(
-        //   `${record._id}.channels.${FIELDS.SMS}.${FIELDS.ACTIVE}`,
-        //   { initialValue: true }
-        // )
-        flatten(channelsFields)
         return (
           <React.Fragment>
             {form.getFieldDecorator(`${record._id}.${FIELDS.STATUS}`, {

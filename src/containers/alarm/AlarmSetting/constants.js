@@ -80,26 +80,3 @@ export const getHiddenParam = (typeAlarm, stationId, maxDisconnectionTime) => {
   }
   return paramHidden
 }
-
-export const getHiddenFields = (form, alarmDetail, alarmType) => {
-  channels.forEach(channel => {
-    form.getFieldDecorator(`${alarmDetail._id}.channels.${channel}.active`)
-    form.getFieldDecorator(`${alarmDetail._id}.channels.${channel}.type`, {
-      initialValue: channel,
-    })
-    form.getFieldDecorator(`${alarmDetail._id}.channels.${channel}.template`, {
-      initialValue: alarmTypeObject[alarmType].template,
-    })
-  })
-
-  const repeatConfigFields = [
-    form.getFieldDecorator(`${alarmDetail._id}.repeatConfig.active`, {
-      initialValue: true,
-    }),
-    form.getFieldDecorator(`${alarmDetail._id}.repeatConfig.frequency`),
-  ]
-
-  const hiddenFields = [...repeatConfigFields]
-
-  return hiddenFields
-}

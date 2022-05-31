@@ -1,6 +1,7 @@
 import { Form } from 'antd'
 import { get } from 'lodash'
 import React from 'react'
+import { alarmTypeObject, channels } from '../constants'
 import { FIELDS } from '../index'
 
 const getStatusAlarm = status => {
@@ -58,6 +59,26 @@ const withAlarmForm = WrappedComponent => {
         .reduce((base, current) => ({ ...base, [current._id]: current }), {})
 
       form.setFieldsValue(alarmFormValuesFormatted)
+    }
+
+    setHiddenFields = (alarmDetail, alarmType) => {
+      const { form } = this.props
+
+      channels.forEach(channel => {
+        form.getFieldDecorator(`${alarmDetail._id}.channels.${channel}.active`)
+        form.getFieldDecorator(`${alarmDetail._id}.channels.${channel}.type`, {
+          initialValue: channel,
+        })
+        form.getFieldDecorator(
+          `${alarmDetail._id}.channels.${channel}.template`,
+          {
+            initialValue: alarmTypeObject[alarmType].template,
+          }
+        )
+      })
+      form.getFieldDecorator(`${alarmDetail._id}.repeatConfig.active`, {
+        initialValue: true,
+      })
     }
 
     handleSubmit = () => {
