@@ -161,7 +161,7 @@ export default class MinutesDataSearch extends React.Component {
     const { standards } = this.state
     const rangesDate = values[fields.rangesDate]
 
-    const times = this.getTimesQuery(rangesDate)
+    const times = getTimes(rangesDate, 'minute')
 
     const { from, to } = getTimesUTC(times)
     const params = {
@@ -353,6 +353,7 @@ export default class MinutesDataSearch extends React.Component {
   }
   onClickFilter = (filterId, filterItem) => {
     const { breadcrumbs, updateBreadcrumb, addBreadcrumb, history } = this.props
+    const { params, name } = filterItem
 
     const url = `${slug.dataSearch.base}?filterId=${filterId}`
     if (breadcrumbs.length === 2) {
@@ -360,7 +361,7 @@ export default class MinutesDataSearch extends React.Component {
         id: 'detail',
         icon: '',
         href: url,
-        name: filterItem.name,
+        name,
         autoDestroy: true,
       })
     } else {
@@ -368,13 +369,11 @@ export default class MinutesDataSearch extends React.Component {
         id: 'detail',
         icon: '',
         href: url,
-        name: filterItem.name,
+        name,
         autoDestroy: true,
       })
     }
     history.push(url, { filterId })
-
-    const params = filterItem.params
 
     this.searchFormRef.current.resetFields()
 
