@@ -1,5 +1,6 @@
 import CategoryApi from 'api/CategoryApi'
 import StationAutoApi from 'api/StationAuto'
+import update from 'immutability-helper'
 import { get, keyBy } from 'lodash'
 
 //#region Measure
@@ -54,24 +55,24 @@ export const selectStationGroupByType = state => {
       const stationTypeKey = stationType.key
 
       if (base[stationTypeKey]) {
-        return {
-          ...base,
+        return update(base, {
           [stationTypeKey]: {
-            stationTypeKey,
-            stationTypeName: stationType.name,
-            stationAutoList: [...base[stationTypeKey].stationAutoList, current],
+            stationAutoList: {
+              $push: [current],
+            },
           },
-        }
+        })
       }
 
-      return {
-        ...base,
+      return update(base, {
         [stationTypeKey]: {
-          stationTypeKey,
-          stationTypeName: stationType.name,
-          stationAutoList: [current],
+          $set: {
+            stationTypeKey,
+            stationTypeName: stationType.name,
+            stationAutoList: [current],
+          },
         },
-      }
+      })
     },
     {}
   )
