@@ -56,7 +56,7 @@ export const i18n = () => {
   }
 }
 
-export const channels = ['email', 'mobile', 'sms', 'webhook']
+export const channels = ['email', 'mobile', 'sms', 'web', 'webhook']
 export const getHiddenParam = (typeAlarm, stationId, maxDisconnectionTime) => {
   const paramChannels = channels.reduce((base, currentChanel) => {
     const valueChanel = {
@@ -79,4 +79,27 @@ export const getHiddenParam = (typeAlarm, stationId, maxDisconnectionTime) => {
     type: typeAlarm,
   }
   return paramHidden
+}
+
+export const getHiddenFields = (form, alarmDetail, alarmType) => {
+  channels.forEach(channel => {
+    form.getFieldDecorator(`${alarmDetail._id}.channels.${channel}.active`)
+    form.getFieldDecorator(`${alarmDetail._id}.channels.${channel}.type`, {
+      initialValue: channel,
+    })
+    form.getFieldDecorator(`${alarmDetail._id}.channels.${channel}.template`, {
+      initialValue: alarmTypeObject[alarmType].template,
+    })
+  })
+
+  const repeatConfigFields = [
+    form.getFieldDecorator(`${alarmDetail._id}.repeatConfig.active`, {
+      initialValue: true,
+    }),
+    form.getFieldDecorator(`${alarmDetail._id}.repeatConfig.frequency`),
+  ]
+
+  const hiddenFields = [...repeatConfigFields]
+
+  return hiddenFields
 }
