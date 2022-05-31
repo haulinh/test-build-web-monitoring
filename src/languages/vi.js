@@ -154,7 +154,7 @@ export default {
       dataLoss: `Mất kết nối`,
       stations: 'trạm',
       max: 'Giới hạn trên: {{=it.max}}',
-      min: 'Giới hạn duới: {{=it.min}}',
+      min: 'Giới hạn dưới: {{=it.min}}',
     },
     activeStationPer: 'Tình trạng kết nối ({{=it.good}}/{{=it.total}})',
     unit: 'Đơn vị',
@@ -862,6 +862,7 @@ export default {
         label: 'Tên trạm',
         placeholder: 'Chọn tên trạm',
         error: 'Vui lòng chọn tên trạm',
+        require: 'Vui lòng nhập trạm quan trắc',
       },
       fromDate: {
         label: 'Bắt đầu',
@@ -886,7 +887,7 @@ export default {
       measuringList: {
         label: 'Thông số',
         placeholder: 'Chọn thông số',
-        require: 'Chọn ít nhất 1 thông số',
+        require: 'Vui lòng chọn thông số',
       },
       isExceeded: {
         label: 'Dữ liệu vượt QCVN',
@@ -989,7 +990,7 @@ export default {
       name: {
         label: 'Tên bộ lọc',
         placeholder: 'Nhập tên của bộ lọc',
-        isEmpty: 'Vui lòng nhập tên bộ lòng',
+        isEmpty: 'Vui lòng nhập tên bộ lọc',
         isExist: 'Tên đã tồn tại',
       },
     },
@@ -4719,7 +4720,7 @@ export default {
         title: 'Tên bộ lọc',
         placeholder: 'Nhập tên bộ lọc',
         rules: {
-          require: 'Vui lòng nhập tên báo cáo',
+          require: 'Vui lòng nhập tên bộ lọc',
           max64: 'Không được nhập quá 64 kí tự',
         },
       },

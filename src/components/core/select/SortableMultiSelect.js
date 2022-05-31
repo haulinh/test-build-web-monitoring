@@ -1,5 +1,5 @@
 import { Col, Icon, Row } from 'antd'
-import { isEqual, keyBy } from 'lodash'
+import { get, isEqual, keyBy } from 'lodash'
 import React, { Component } from 'react'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import styled from 'styled-components'
@@ -24,7 +24,7 @@ const getItemStyle = (isDragging, draggableStyle) => ({
   alignItems: 'center',
   fontSize: '14px',
   textAlign: 'center',
-  whiteSpace: 'nowrap',
+  // whiteSpace: 'nowrap',
 
   // change background colour if dragging
   background: '#fafafa',
@@ -52,7 +52,7 @@ const getListStyle = (isDraggingOver, itemsLength) => ({
 })
 
 const ItemSelect = styled.div`
-  padding: 2px 10px 4px;
+  padding: 0px 12px;
   background-color: ${props => props.bg};
   font-weight: ${props => props.fontWeight};
   &:hover {
@@ -72,10 +72,72 @@ const Select = styled.div`
   max-height: 300px;
   overflow-x: auto;
   border-radius: 5px;
-  transition: all 0.2s;
 `
 
-const convertArrayValue = array => array.map(item => item.value)
+const BoxSelectMeasure = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid rgb(217, 217, 217);
+  border-radius: 2px;
+  min-height: 40px;
+
+  .clear-all {
+    margin-right: 4px;
+    cursor: pointer;
+    visibility: hidden;
+    svg {
+      fill: rgba(0, 0, 0, 0.25);
+    }
+
+    &:hover {
+      svg {
+        fill: rgba(0, 0, 0, 0.45);
+      }
+    }
+  }
+
+  &:hover {
+    .clear-all {
+      visibility: visible;
+    }
+  }
+`
+
+const Measure = styled.div`
+  display: flex;
+  gap: 5px;
+  width: 100%;
+  align-items: center;
+
+  .measure-name {
+    max-width: 130px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .icon-delete {
+    svg {
+      fill: rgba(0, 0, 0, 0.45);
+    }
+    &:hover {
+      svg {
+        fill: rgba(0, 0, 0, 0.65);
+      }
+    }
+  }
+`
+
+const getValue = option => {
+  return get(option, 'value') || get(option, 'key') || get(option, '_id')
+}
+
+const getName = option => {
+  return get(option, 'name') || get(option, 'label')
+}
+
+const convertArrayValue = array => array.map(item => getValue(item))
 
 export default class SortableMultiSelect extends Component {
   state = {
@@ -108,7 +170,10 @@ export default class SortableMultiSelect extends Component {
     const { onChange, value, options } = this.props
 
     if (!isEqual(value, prevProps.value)) {
-      const optionsObj = keyBy(options, 'value')
+      const optionsObj =
+        keyBy(options, 'value') ||
+        keyBy(options, 'key') ||
+        keyBy(options, '_id')
 
       const valueMapOption = value.map(valueItem => optionsObj[valueItem])
       this.setState({ optionsChoose: valueMapOption })
@@ -132,12 +197,12 @@ export default class SortableMultiSelect extends Component {
     const { optionsChoose } = this.state
 
     const exitsOption = optionsChoose.find(
-      optionChoose => optionChoose.value === option.value
+      optionChoose => getValue(optionChoose) === getValue(option)
     )
 
     if (exitsOption) {
       const newOptionChoose = optionsChoose.filter(
-        optionChoose => optionChoose.value !== exitsOption.value
+        optionChoose => getValue(optionChoose) !== getValue(exitsOption)
       )
       this.setState({ optionsChoose: newOptionChoose })
       return
@@ -145,6 +210,15 @@ export default class SortableMultiSelect extends Component {
 
     const newOptionChoose = [...optionsChoose, option]
     this.setState({ optionsChoose: newOptionChoose })
+  }
+
+  handleOnUnChoose = option => {
+    const { optionsChoose } = this.state
+
+    const newOptionsChoose = optionsChoose.filter(
+      optionChoose => getValue(optionChoose) !== getValue(option)
+    )
+    this.setState({ optionsChoose: newOptionsChoose })
   }
 
   clearChoose = () => {
@@ -171,7 +245,7 @@ export default class SortableMultiSelect extends Component {
 
   isOptionChoose = value => {
     const { optionsChoose } = this.state
-    return optionsChoose.find(optionChoose => optionChoose.value === value)
+    return optionsChoose.find(optionChoose => getValue(optionChoose) === value)
   }
 
   // Normally you would want to split things out into separate components.
@@ -188,18 +262,7 @@ export default class SortableMultiSelect extends Component {
         <DragDropContext onDragEnd={this.onDragEnd}>
           <Droppable droppableId="droppable" direction="horizontal">
             {(provided, snapshot) => (
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  borderColor: 'rgb(217, 217, 217)',
-                  borderWidth: 1,
-                  borderStyle: 'solid',
-                  borderRadius: 2,
-                  minHeight: '40px',
-                }}
-              >
+              <BoxSelectMeasure>
                 <div
                   ref={provided.innerRef}
                   style={getListStyle(snapshot.isDraggingOver)}
@@ -209,8 +272,8 @@ export default class SortableMultiSelect extends Component {
                     <div>
                       <Draggable
                         onClick={e => e.stopPropagation()}
-                        key={option.value || option.key || option._id}
-                        draggableId={option.value || option.key || option._id}
+                        key={getValue(option)}
+                        draggableId={getValue(option)}
                         index={index}
                       >
                         {(provided, snapshot) => (
@@ -223,7 +286,19 @@ export default class SortableMultiSelect extends Component {
                               provided.draggableProps.style
                             )}
                           >
-                            {option.name}
+                            <Measure>
+                              <div className="measure-name">
+                                {getName(option)}
+                              </div>
+                              <div>
+                                <Icon
+                                  onClick={() => this.handleOnUnChoose(option)}
+                                  className="icon-delete"
+                                  type="close"
+                                  style={{ fontSize: '10px' }}
+                                />
+                              </div>
+                            </Measure>
                           </div>
                         )}
                       </Draggable>
@@ -232,14 +307,14 @@ export default class SortableMultiSelect extends Component {
                 </div>
                 <Icon
                   type="close-circle"
-                  theme="outlined"
-                  style={{ marginRight: 4, cursor: 'pointer' }}
+                  theme="filled"
+                  className="clear-all"
                   onClick={e => {
                     e.stopPropagation()
                     this.clearChoose()
                   }}
                 />
-              </div>
+              </BoxSelectMeasure>
             )}
           </Droppable>
         </DragDropContext>
@@ -247,14 +322,20 @@ export default class SortableMultiSelect extends Component {
           <Select>
             {options.map(option => (
               <ItemSelect
+                key={getValue(option)}
                 bg={this.isOptionChoose(option.value) && '#FAFAFA'}
                 fontWeight={this.isOptionChoose(option.value) && 600}
                 onClick={() => this.handleOnChoose(option)}
               >
                 <Row type="flex" justify="space-between">
-                  <Col>{option.name || options.label}</Col>
+                  <Col>{getName(option)}</Col>
                   <Col>
-                    {this.isOptionChoose(option.value) && <Icon type="check" />}
+                    {this.isOptionChoose(getValue(option)) && (
+                      <Icon
+                        type="check"
+                        style={{ color: '#1890ff', fontSize: '12px' }}
+                      />
+                    )}
                   </Col>
                 </Row>
               </ItemSelect>

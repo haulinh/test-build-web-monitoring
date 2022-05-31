@@ -11,7 +11,7 @@ import { getMeasuringListFromStationAutos } from 'containers/api-sharing/util'
 import { autobind } from 'core-decorators'
 import createLang, { translate } from 'hoc/create-lang'
 import createQueryFormDataBrowser from 'hoc/query-formdata-browser'
-import _, { get, isEmpty } from 'lodash'
+import _, { get, isEmpty, isEqual } from 'lodash'
 import moment from 'moment-timezone'
 import React from 'react'
 import styled from 'styled-components'
@@ -67,24 +67,6 @@ const qaqcOptions = [
   },
 ]
 
-// function validate(values) {
-//   const errors = {}
-//   if (!values.stationType)
-//     errors.stationType = translate('avgSearchFrom.form.stationType.error')
-//   if (!values.stationAuto || values.stationAuto === '')
-//     errors.stationAuto = translate('avgSearchFrom.form.stationAuto.error')
-//   if (!values.type) errors.type = translate('avgSearchFrom.form.type.error')
-
-//   if (!values.rangesDate) {
-//     errors.rangesDate = translate('avgSearchFrom.form.rangesDate.error')
-//   }
-
-//   if (values.measuringList && values.measuringList.length === 0)
-//     errors.measuringList = translate('avgSearchFrom.form.measuringList.require')
-
-//   return errors
-// }
-
 @Form.create()
 @createLang
 @createQueryFormDataBrowser()
@@ -96,27 +78,29 @@ export default class SearchFormHistoryData extends React.Component {
     stationTypes: [],
   }
 
-  componentDidMount = () => {
-    const { formData, form } = this.props
-    if (isEmpty(formData)) return
+  componentDidUpdate(prevProps, prevState) {
+    const { stationAutos } = this.state
+    const { formData, form, onSearch } = this.props
 
-    const initValues = this.getInitValuesFormData()
-    form.setFieldsValue(initValues)
+    if (!isEqual(stationAutos, prevState.stationAutos)) {
+      if (isEmpty(formData)) return
+
+      const initValues = this.getInitValuesFormData()
+      form.setFieldsValue(initValues)
+      onSearch()
+    }
   }
 
   getFilterDefault = () => {
     const { stationAutos, stationTypes } = this.state
 
     const firstStationType = get(stationTypes, ['0', 'key'])
-    const firstStationKey = this.getInitialStationKey(
-      stationAutos,
-      firstStationType
-    )
-    const initMeasuring = this.getMeasureKeys(firstStationKey)
+    const firstStation = this.getInitialStation(stationAutos, firstStationType)
+    const initMeasuring = this.getMeasureKeys(firstStation.key)
 
     const firstValues = {
       [fields.rangesDate]: 1,
-      [fields.stationKey]: firstStationKey,
+      [fields.stationKey]: firstStation.key,
       [fields.stationType]: firstStationType,
       [fields.measuringList]: initMeasuring,
       [fields.province]: '',
@@ -204,19 +188,24 @@ export default class SearchFormHistoryData extends React.Component {
   }
 
   setInitValues = stationAutos => {
-    const { form } = this.props
+    const { form, formData, setStandardKeyStation } = this.props
+
+    if (!isEmpty(formData)) return false
 
     const stationTypeSelected = form.getFieldValue(fields.stationType)
 
     if (!stationTypeSelected) return false
 
-    const initialStationKey = this.getInitialStationKey(
+    const initialStation = this.getInitialStation(
       stationAutos,
       stationTypeSelected
     )
 
+    const standardKeyStation = get(initialStation, 'standardsVN.key')
+    setStandardKeyStation(standardKeyStation)
+
     form.setFieldsValue({
-      [fields.stationKey]: initialStationKey,
+      [fields.stationKey]: initialStation.key,
     })
 
     this.setFieldValueMeasuringOption()
@@ -224,17 +213,24 @@ export default class SearchFormHistoryData extends React.Component {
     return true
   }
 
-  getInitialStationKey = (stationAutos, stationKey) => {
+  getInitialStation = (stationAutos, stationKey) => {
     const stationAutosBelongStationTypeSelect =
       stationAutos.find(
         stationAuto => _.get(stationAuto, 'stationType.key') === stationKey
       ) || {}
 
-    return stationAutosBelongStationTypeSelect.key
+    return stationAutosBelongStationTypeSelect
   }
 
   handleOnChangeStationAuto = stationAutoValue => {
     this.setFieldValueMeasuringOption(stationAutoValue)
+    const { setStandardKeyStation } = this.props
+    const { stationAutos } = this.state
+    const station = stationAutos.find(
+      station => station.key === stationAutoValue
+    )
+    const standardKeyStation = get(station, 'standardsVN.key')
+    setStandardKeyStation(standardKeyStation)
   }
 
   onStationTypeChange = stationType => {

@@ -27,13 +27,13 @@ export default class OverviewData extends Component {
           defaultActiveKey="chart"
           tabBarExtraContent={
             <Row type="flex" justify="end">
-              <Button
+              {/* <Button
                 style={{ marginRight: '12px' }}
                 type="primary"
                 icon="file-excel"
               >
                 {i18n().tabs.exportExcel}
-              </Button>
+              </Button> */}
             </Row>
           }
         >

@@ -1,6 +1,6 @@
 import { Clearfix } from 'components/elements'
 import { getMeasuringListFromStationAutos } from 'containers/api-sharing/util'
-import { get, isEmpty, keyBy, uniqBy } from 'lodash'
+import { get, groupBy, isEmpty, keyBy, uniqBy } from 'lodash'
 import React, { Component } from 'react'
 import { FIELDS } from '../index'
 import TableAlarmExceedForm from './TableAlarmExceedForm'
@@ -32,10 +32,30 @@ export default class AlarmConfigExceed extends Component {
     const qcvnsSelected = qcvnsFormArray.filter(
       qcvn => qcvn[FIELDS.CONFIG][FIELDS.STANDARD_ID]
     )
+
     const qcvnsSelectedMapValue = qcvnsSelected.map(qcvn => ({
       ...qcvnListObj[qcvn[FIELDS.CONFIG][FIELDS.STANDARD_ID]],
+      name: get(qcvn, [FIELDS.CONFIG, FIELDS.NAME]),
     }))
     return qcvnsSelectedMapValue
+  }
+
+  getDefaultDataLevelValue = () => {
+    const { form } = this.props
+    const valuesForm = form.getFieldsValue()
+    const dataLevelValueObj = groupBy(
+      Object.values(valuesForm[FIELDS.DATA_LEVEL] || {}),
+      'config.type'
+    )
+
+    const defaultDataLevelValue = {
+      [FIELDS.EXCEED]: get(dataLevelValueObj, [FIELDS.EXCEED, 0]),
+      [FIELDS.EXCEED_PREPARING]: get(dataLevelValueObj, [
+        FIELDS.EXCEED_PREPARING,
+        0,
+      ]),
+    }
+    return defaultDataLevelValue
   }
 
   render() {
@@ -64,6 +84,8 @@ export default class AlarmConfigExceed extends Component {
       []
     )
 
+    const defaultDataLevelValue = this.getDefaultDataLevelValue()
+
     return (
       <div>
         <TableAlarmExceedForm
@@ -83,6 +105,7 @@ export default class AlarmConfigExceed extends Component {
           dataSource={measuringList}
           measureListValue={measureListValue}
           measuringListStation={measuringListStation}
+          defaultDataLevelValue={defaultDataLevelValue}
         />
       </div>
     )

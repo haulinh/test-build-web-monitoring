@@ -83,7 +83,7 @@ class ReportData extends Component {
     const { language, paramFilter } = this.props
     const paramExport = {
       ...paramFilter,
-      lang: language
+      lang: language,
     }
 
     try {
@@ -128,7 +128,7 @@ class ReportData extends Component {
             {hasPermission => (
               <Fragment>
                 <Col span={!hasPermission ? 16 : 12}>
-                  {isShowQcvn &&
+                  {isShowQcvn && (
                     <Row type="flex" align="middle">
                       <Col
                         span={3}
@@ -150,8 +150,7 @@ class ReportData extends Component {
                         />
                       </Col>
                     </Row>
-                  }
-
+                  )}
                 </Col>
                 {hasPermission && (
                   <Col span={3}>
@@ -187,12 +186,13 @@ class ReportData extends Component {
               <Loading />
               <Chart />
               <Tabs onChange={this.onChangeMeasure} activeKey={measure}>
-                {this.getMeasures().sort((a,b) => a.localeCompare(b)).map(measure => (
+                {this.getMeasures().map(measure => (
                   <TabPane
-                    tab={`${measuringList[measure].name} ${measuringList[measure].unit
-                      ? `(${measuringList[measure].unit})`
-                      : ''
-                      }`}
+                    tab={`${measuringList[measure].name} ${
+                      measuringList[measure].unit
+                        ? `(${measuringList[measure].unit})`
+                        : ''
+                    }`}
                     key={measure}
                   />
                 ))}

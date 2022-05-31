@@ -120,7 +120,7 @@ const configChart = (data, title, type) => {
         this.points.forEach(p => {
           format += `<div style="display: flex; height: 6px" >
               <div style="color: ${p.color}">${p.series.name}:  </div>&nbsp
-              <div style="font-weight: 700">${p.y}</div>
+              <div style="font-weight: 700">${getFormatNumber(p.y, 2)}</div>
               </div><br>`
         })
 
@@ -317,6 +317,7 @@ export default class ChartOverview extends Component {
       if (keyList.some(item => item === get(station, 'key'))) {
         const stationLogs = get(value, station.key, null).logs
         const measureKey = get(stationLogs, current.key, null)
+
         const valueInChart = getFormatNumber(
           get(measureKey, 'value', null),
           2,
@@ -325,7 +326,8 @@ export default class ChartOverview extends Component {
         )
 
         //add x, y value to data series chart
-        !isNil(valueInChart) && data.push([moment(key).valueOf(), valueInChart])
+        !isNil(valueInChart) &&
+          data.push([moment(key).valueOf(), Number(valueInChart)])
       }
     })
 
