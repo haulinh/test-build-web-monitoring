@@ -145,17 +145,6 @@ export default class MinutesDataSearch extends React.Component {
     this.setState({ filterDefault })
   }
 
-  getTimesQuery = rangesDate => {
-    if (isArray(rangesDate)) {
-      return {
-        from: moment(rangesDate[0]),
-        to: moment(rangesDate[1]),
-      }
-    } else {
-      return getTimes(rangesDate)
-    }
-  }
-
   getQueryParam = () => {
     const values = this.searchFormRef.current.getFieldsValue()
     const { standards } = this.state
