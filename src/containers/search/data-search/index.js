@@ -13,7 +13,7 @@ import slug from 'constants/slug'
 import createLang, { translate as t, translate } from 'hoc/create-lang'
 import protectRole from 'hoc/protect-role'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
-import _, { isEqual } from 'lodash'
+import _, { isArray, isEqual } from 'lodash'
 import moment from 'moment-timezone'
 import React from 'react'
 import { connect } from 'react-redux'
@@ -24,12 +24,14 @@ import {
   deleteBreadcrumb,
   updateBreadcrumb,
 } from 'shared/breadcrumb/action'
+import { isEmpty } from 'shared/components/DataTable/src/util'
 import { getTimes, getTimesUTC } from 'utils/datetime'
 import { downFileExcel } from 'utils/downFile'
 import { getParamArray } from 'utils/params'
 import { replaceVietnameseStr } from 'utils/string'
 import Breadcrumb from './breadcrumb'
 import SearchFrom from './search-form'
+import { statusDeviceList } from './search-form/SelectStatusDevice'
 import TabList from './tab-list'
 import DataAnalyze from './tab-list/tab-table-data-list/data-analyze'
 
@@ -45,6 +47,7 @@ export const fields = {
   facetFields: 'facetFields',
   from: 'from',
   to: 'to',
+  statusDevice: 'statusDevice',
 }
 
 export const ITEM_PER_PAGE = 50
@@ -143,11 +146,25 @@ export default class MinutesDataSearch extends React.Component {
     this.setState({ filterDefault })
   }
 
+  getTimesQuery = rangesDate => {
+    if (isArray(rangesDate)) {
+      return {
+        from: moment(rangesDate[0]),
+        to: moment(rangesDate[1]),
+      }
+    } else {
+      return getTimes(rangesDate)
+    }
+  }
+
   getQueryParam = () => {
     const values = this.searchFormRef.current.getFieldsValue()
     const { standards } = this.state
+    const rangesDate = values[fields.rangesDate]
 
-    const times = getTimes(values[fields.rangesDate])
+    const times = this.getTimesQuery(rangesDate)
+    console.log({ times })
+
     const { from, to } = getTimesUTC(times)
     const params = {
       ...values,
@@ -155,6 +172,7 @@ export default class MinutesDataSearch extends React.Component {
       to,
       [fields.measuringList]: getParamArray(values[fields.measuringList]),
       [fields.filterBy]: getParamArray(values[fields.filterBy]),
+      [fields.statusDevice]: getParamArray(values[fields.statusDevice]),
       // page,
       itemPerPage: Number.MAX_SAFE_INTEGER,
       standards: getParamArray(standards),
@@ -363,6 +381,9 @@ export default class MinutesDataSearch extends React.Component {
     this.searchFormRef.current.setFieldsValue({
       ...params,
       measuringList: params.measuringList.split(','),
+      [fields.statusDevice]: isEmpty(params.statusDevice)
+        ? statusDeviceList
+        : params.statusDevice,
     })
 
     this.setState({ filterItem, filterId, activeKey: filterId }, () =>

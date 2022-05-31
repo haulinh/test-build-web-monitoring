@@ -16,6 +16,7 @@ import moment from 'moment-timezone'
 import React from 'react'
 import styled from 'styled-components'
 import { fields } from '../index'
+import { SelectStatusDevice, statusDeviceList } from './SelectStatusDevice'
 
 const Container = styled.div`
   padding: 16px 16px;
@@ -106,6 +107,7 @@ export default class SearchFormHistoryData extends React.Component {
       [fields.province]: '',
       [fields.dataType]: 'origin',
       [fields.isExceeded]: false,
+      [fields.statusDevice]: statusDeviceList,
     }
     return firstValues
   }
@@ -413,6 +415,15 @@ export default class SearchFormHistoryData extends React.Component {
           </Col>
         </Row>
         <Row gutter={16}>
+          <Col span={6}>
+            <FormItem
+              label={translate('dataSearchFrom.form.statusDevice.label')}
+            >
+              {form.getFieldDecorator(fields.statusDevice, {
+                initialValue: statusDeviceList,
+              })(<SelectStatusDevice maxTagTextLength={8} />)}
+            </FormItem>
+          </Col>
           <Col span={6}>
             <FormItem label={translate('dataSearchFrom.queryType')}>
               {form.getFieldDecorator(fields.dataType, {
