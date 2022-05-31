@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import * as _ from 'lodash'
 import { connectAutoDispatch } from 'redux/connect'
 import { Button, Table, Form, Input, Typography } from 'antd'
-import { translate } from 'hoc/create-lang'
+import createLanguageHoc, { translate } from 'hoc/create-lang'
+
 import { updateWarningLevelColorData } from 'redux/actions/config'
 
 const { Text } = Typography
@@ -28,6 +29,7 @@ function i18n() {
   { updateWarningLevelColorData }
 )
 @Form.create({})
+@createLanguageHoc
 export default class WarningLevelColorOfSensor extends React.Component {
   static propTypes = {
     colorData: PropTypes.object.isRequired,
@@ -45,11 +47,10 @@ export default class WarningLevelColorOfSensor extends React.Component {
   }
 
   render() {
-    console.log(this.props.colorData, '---run---')
-
     return (
       <React.Fragment>
         <Table
+          rowKey="name"
           size="middle"
           pagination={false}
           dataSource={this.props.colorData.value}
@@ -71,17 +72,18 @@ export default class WarningLevelColorOfSensor extends React.Component {
 
   _getTableColumn = () => {
     const { getFieldDecorator } = this.props.form
+    const { t } = this.props.lang
 
     return [
       {
         title: i18n().columnType,
-        dataIndex: 'name',
-        key: 'name',
+        dataIndex: 'key',
+        key: 'key',
         render(text, record, index) {
           return (
             <React.Fragment>
               <Text>{text}</Text>
-              {getFieldDecorator(`[${index}].name`, {
+              {getFieldDecorator(`[${index}].key`, {
                 initialValue: text,
               })(<Input type="hidden" />)}
             </React.Fragment>
@@ -93,9 +95,7 @@ export default class WarningLevelColorOfSensor extends React.Component {
         dataIndex: 'alternative',
         key: 'alternative',
         render(text, record, index) {
-          return getFieldDecorator(`[${index}].alternative`, {
-            initialValue: text,
-          })(<Input />)
+          return t(`page.config.color.${record.key}`)
         },
       },
       {
@@ -142,6 +142,7 @@ export default class WarningLevelColorOfSensor extends React.Component {
     validateFields(async (error, values) => {
       const id = _.get(this.props.colorData, '_id')
       const data = Object.values(values)
+      // console.log(values, '--data--')
       this.setState({ isSubmit: true })
       await this.props.updateWarningLevelColorData(id, data)
       this.setState({ isSubmit: false })

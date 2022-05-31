@@ -1,5 +1,6 @@
 import { warningLevels } from 'constants/warningLevels'
 import { DATA_COLOR } from 'themes/color'
+import { get as _get } from 'lodash'
 
 export const STATUS_OPTIONS = {
   GOOD: { label: 'warningLevels.good', color: DATA_COLOR.GOOD },
@@ -37,7 +38,7 @@ export const STATUS_STATION = {
   EXCEEDED: 'EXCEEDED',
   EXCEEDED_PREPARING: 'EXCEEDED_PREPARING',
   GOOD: 'GOOD',
-  DATA_CONNECTED:'DATA_CONNECTED'
+  DATA_CONNECTED: 'DATA_CONNECTED',
 }
 
 export const STATUS_STATION_LEVEL = {
@@ -73,12 +74,26 @@ export const getStatusItem = item => {
   return STATUS_STATION.DATA_GOOD
 }
 
+export const getConfigColor = (
+  colorData,
+  key,
+  { defaultPrimary, defaultSecond }
+) => {
+  const dtColor = colorData.find(obj => obj.key === key)
+  const primaryColor = _get(dtColor, 'backgroundColor') || defaultPrimary
+  const secondColor = _get(dtColor, 'color') || defaultSecond
+  return {
+    primaryColor,
+    secondColor,
+  }
+}
+
 export default {
   GOOD: 'GOOD',
   CONNECTED: 'CONNECTED',
   DATA_LOSS: 'DATA_LOSS',
   NOT_USE: 'NOT_USE',
-  DATA_CONNECTED:'DATA_CONNECTED',
+  DATA_CONNECTED: 'DATA_CONNECTED',
   EXCEEDED_AVG_DAY: 'EXCEEDED_AVG_DAY',
 }
 
