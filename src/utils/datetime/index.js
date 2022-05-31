@@ -1,11 +1,17 @@
 import moment from 'moment'
 import { getLanguage } from 'utils/localStorage'
 
-const getTimes = (rangeTime, formatTimeStartEnd = 'day') => {
+const getTimes = (rangeTime, { isOriginal }) => {
   if (Array.isArray(rangeTime)) {
+    if (isOriginal)
+      return {
+        from: moment(rangeTime[0]),
+        to: moment(rangeTime[1]),
+      }
+
     return {
-      from: moment(rangeTime[0]).startOf(formatTimeStartEnd),
-      to: moment(rangeTime[1]).endOf(formatTimeStartEnd),
+      from: moment(rangeTime[0]).startOf('day'),
+      to: moment(rangeTime[1]).endOf('day'),
     }
   }
   if (rangeTime === 1) {
