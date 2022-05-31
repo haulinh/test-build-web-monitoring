@@ -163,7 +163,6 @@ export default class MinutesDataSearch extends React.Component {
     const rangesDate = values[fields.rangesDate]
 
     const times = this.getTimesQuery(rangesDate)
-    console.log({ times })
 
     const { from, to } = getTimesUTC(times)
     const params = {
