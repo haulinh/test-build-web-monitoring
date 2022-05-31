@@ -299,7 +299,6 @@ export default class AlarmConfig extends Component {
 
     if (loading) return <Skeleton />
 
-    console.log(measuringListStation)
     return (
       <React.Fragment>
         <Collapse defaultActiveKey={['disconnect', 'exceed']}>

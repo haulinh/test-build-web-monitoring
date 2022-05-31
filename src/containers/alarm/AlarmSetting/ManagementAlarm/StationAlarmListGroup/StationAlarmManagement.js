@@ -47,7 +47,6 @@ export default class StationAlarmManagement extends Component {
 
     const alarmGroupByType = groupBy(alarmList, 'type')
 
-    console.log(alarmList)
     return (
       <Tabs defaultActiveKey="threshold">
         <TabPane

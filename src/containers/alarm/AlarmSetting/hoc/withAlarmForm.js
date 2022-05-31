@@ -59,8 +59,6 @@ const withAlarmForm = WrappedComponent => {
     handleSubmitAlarm = async params => {
       try {
         await CalculateApi.createBulkAlarm(params)
-        // const alarmList = await this.getAlarmByStationId()
-        // // this.setInitValues(alarmList, qcvnList)
         message.success(translate('global.saveSuccess'))
       } catch (error) {
         console.error(error)

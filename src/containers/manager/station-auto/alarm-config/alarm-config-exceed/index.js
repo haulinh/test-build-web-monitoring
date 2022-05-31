@@ -38,7 +38,6 @@ export default class AlarmConfigExceed extends Component {
       name: get(qcvn, [FIELDS.CONFIG, FIELDS.NAME]),
     }))
 
-    console.log(qcvnsSelectedMapValue)
     return qcvnsSelectedMapValue
   }
 
