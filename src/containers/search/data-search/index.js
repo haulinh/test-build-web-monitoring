@@ -1,6 +1,7 @@
 import { Button, Col, Form as FormAnt, message, Row } from 'antd'
 import CalculateApi from 'api/CalculateApi'
 import DataInsight from 'api/DataInsight'
+import { statusDeviceList } from 'components/core'
 import BoxShadowStyle from 'components/elements/box-shadow'
 import Clearfix from 'components/elements/clearfix/index'
 import Heading from 'components/elements/heading'
@@ -31,7 +32,6 @@ import { getParamArray } from 'utils/params'
 import { replaceVietnameseStr } from 'utils/string'
 import Breadcrumb from './breadcrumb'
 import SearchFrom from './search-form'
-import { statusDeviceList } from './search-form/SelectStatusDevice'
 import TabList from './tab-list'
 import DataAnalyze from './tab-list/tab-table-data-list/data-analyze'
 
@@ -380,9 +380,7 @@ export default class MinutesDataSearch extends React.Component {
     this.searchFormRef.current.setFieldsValue({
       ...params,
       measuringList: params.measuringList.split(','),
-      [fields.statusDevice]: isEmpty(params.statusDevice)
-        ? statusDeviceList
-        : params.statusDevice,
+      [fields.statusDevice]: params.statusDevice || statusDeviceList,
     })
 
     this.setState({ filterItem, filterId, activeKey: filterId }, () =>

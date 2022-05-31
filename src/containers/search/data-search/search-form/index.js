@@ -1,4 +1,5 @@
 import { Col, Form, Row, Switch } from 'antd'
+import { SelectStatusDevice, statusDeviceList } from 'components/core'
 import SortableMultiSelect from 'components/core/select/SortableMultiSelect'
 import OptionsTimeRange from 'components/elements/options-time-range'
 import SelectAnt from 'components/elements/select-ant'
@@ -16,7 +17,7 @@ import moment from 'moment-timezone'
 import React from 'react'
 import styled from 'styled-components'
 import { fields } from '../index'
-import { SelectStatusDevice, statusDeviceList } from './SelectStatusDevice'
+// import { SelectStatusDevice, statusDeviceList } from './SelectStatusDevice'
 
 const Container = styled.div`
   padding: 16px 16px;
