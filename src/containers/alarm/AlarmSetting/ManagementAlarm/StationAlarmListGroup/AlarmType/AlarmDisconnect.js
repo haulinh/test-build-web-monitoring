@@ -130,12 +130,17 @@ export default class AlarmDisconnect extends Component {
       title: '',
       width: '13%',
       align: 'center',
-      render: (_, record) => (
-        <DropdownMoreAction
-          onDelete={() => this.handleDelete(record._id)}
-          onEdit={() => this.handleEdit(record)}
-        />
-      ),
+      render: (_, record) => {
+        const { isCreateLocal } = record
+        if (!isCreateLocal)
+          return (
+            <DropdownMoreAction
+              onDelete={() => this.handleDelete(record._id)}
+              onEdit={() => this.handleEdit(record)}
+            />
+          )
+        return null
+      },
     },
   ]
 
