@@ -4,7 +4,9 @@ import { autobind } from 'core-decorators'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 import MeasuringItem from '../measuring-item'
-import {get} from 'lodash-es'
+import { get } from 'lodash-es'
+import { getConfigColor } from 'constants/stationStatus'
+import { warningLevels } from 'constants/warningLevels'
 
 const MeasuringListWrapper = styled.div`
   width: 100%;
@@ -23,6 +25,7 @@ const MeasuringItemWrapper = styled.div`
 
 @connect(state => ({
   navigationIsOpen: state.theme.navigation.isOpen,
+  colorData: get(state, 'config.color.warningLevel.data.value', []),
 }))
 @autobind
 export default class MeasuringList extends React.PureComponent {
@@ -33,7 +36,8 @@ export default class MeasuringList extends React.PureComponent {
     receivedAt: PropTypes.string.isRequired,
   }
   render() {
-    const { data, measuringMap } = this.props
+    const { data, measuringMap, statusStation } = this.props
+    const { colorData } = this.props
 
     return (
       <MeasuringListWrapper>
@@ -42,6 +46,22 @@ export default class MeasuringList extends React.PureComponent {
           data.map(item => {
             /* thêm receivedAt để search dữ liệu gốc trong 24h khi click vào measuring item */
             item.receivedAt = this.props.receivedAt
+            let configColor = {}
+            /// tram amt ket noi la mat ket noi het
+            if (
+              this.props.statusStation &&
+              this.props.statusStation === warningLevels.LOSS
+            ) {
+              configColor = getConfigColor(colorData, warningLevels.LOSS, {
+                defaultPrimary: null,
+                defaultSecond: '#ffffff',
+              })
+            } else {
+              configColor = getConfigColor(colorData, item.warningLevel, {
+                defaultPrimary: null,
+                defaultSecond: '#ffffff',
+              })
+            }
 
             return (
               <MeasuringItemWrapper
@@ -51,6 +71,8 @@ export default class MeasuringList extends React.PureComponent {
               >
                 <MeasuringItem
                   {...item}
+                  primaryColor={configColor.primaryColor}
+                  secondColor={configColor.secondColor}
                   measureKey={item.key}
                   minLimit={
                     typeof item.minLimit === 'number' ? item.minLimit : null

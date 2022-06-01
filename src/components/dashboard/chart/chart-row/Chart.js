@@ -15,6 +15,8 @@ import {
 import { ROUND_DIGIT } from 'constants/format-number'
 import { connect } from 'react-redux'
 import { getContent } from 'components/language/language-content'
+import { getConfigColor } from 'constants/stationStatus'
+import { warningLevels } from 'constants/warningLevels'
 
 const ChartWrapper = styled.div``
 const SelectWrapper = styled.span`
@@ -34,7 +36,13 @@ const configChart = (data, title, minLimit, maxLimit, maxChart, minChart) => {
     chart: {
       type: 'spline',
       zoomType: 'x',
-      height: document.body.clientHeight - 340, // MARK  height vừa khung màn hình
+      height:
+        document.body.clientHeight -
+        (document.getElementsByClassName('header--wrapper') &&
+        document.getElementsByClassName('header--wrapper').length > 0
+          ? document.getElementsByClassName('header--wrapper')[0].clientHeight +
+            150
+          : 150), // MARK  height vừa khung màn hình
     },
     title: {
       text: title,
@@ -126,6 +134,7 @@ const configChart = (data, title, minLimit, maxLimit, maxChart, minChart) => {
 @autobind
 @connect(state => ({
   languageContents: _.get(state, 'language.languageContents'),
+  colorData: _.get(state, 'config.color.warningLevel.data.value', []),
 }))
 export default class ChartRowToChart extends React.Component {
   constructor(props) {
@@ -269,6 +278,8 @@ export default class ChartRowToChart extends React.Component {
   }
 
   getConfigData = () => {
+    const { colorData } = this.props
+
     let dataSeries = []
     let maxLimit = null
     let minLimit = null
@@ -291,7 +302,10 @@ export default class ChartRowToChart extends React.Component {
         itemKey: _.get(current, '0.key'),
         value: _.get(current, '0.name'),
       })
-
+      const exceedColor = getConfigColor(colorData, warningLevels.EXCEEDED, {
+        defaultPrimary: null,
+        defaultSecond: '#ffffff',
+      })
       dataSeries.push({
         type: 'spline',
         // name: _.get(this.state.current, '0.name', ''),
@@ -304,7 +318,7 @@ export default class ChartRowToChart extends React.Component {
         lineWidth: 2,
         threshold: _.isNumber(maxLimit) ? maxLimit : 10000000,
         negativeColor: 'rgb(124, 181, 236)',
-        color: 'red',
+        color: exceedColor.primaryColor,
       })
 
       if (_.isNumber(minLimit)) {
@@ -319,7 +333,7 @@ export default class ChartRowToChart extends React.Component {
           ),
           lineWidth: 2,
           threshold: minLimit,
-          negativeColor: 'red',
+          negativeColor: exceedColor.primaryColor,
           color: 'transparent',
         })
       }
@@ -371,7 +385,6 @@ export default class ChartRowToChart extends React.Component {
         <ReactHighcharts config={this.getConfigData()} />
         <Tabs
           style={{
-            width: 760,
             paddingLeft: 8,
             paddingRight: 8,
             marginBottom: 8,

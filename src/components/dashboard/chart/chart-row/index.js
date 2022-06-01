@@ -196,8 +196,8 @@ export class ChartSummary extends React.Component {
                   data={this.props.stationList}
                 />
               </TableWidth>
+
               <ChartWidth>
-                {/* <Chart dataLines={this.state.dataLines} dataSearch={this.state.dataSearch}/> */}
                 <Chart station={this.state.currentItem} />
               </ChartWidth>
             </ChartWrapper>

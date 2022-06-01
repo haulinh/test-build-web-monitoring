@@ -99,24 +99,28 @@ export default {
 
 export const stationStatusOptions = [
   {
-    value: 'GOOD',
-    label: 'warningLevels.good',
-    color: DATA_COLOR.GOOD,
-  },
-  {
     value: 'DATA_LOSS',
     label: 'warningLevels.lossData',
     color: DATA_COLOR.DATA_LOSS,
+    key: warningLevels.LOSS,
   },
   {
     value: 'EXCEEDED',
     label: 'warningLevels.exceed',
     color: DATA_COLOR.EXCEEDED,
+    key: warningLevels.EXCEEDED,
   },
   {
     value: 'EXCEEDED_PREPARING',
     label: 'warningLevels.exceedPreparing',
     color: DATA_COLOR.EXCEEDED_PREPARING,
+    key: warningLevels.EXCEEDED_PREPARING,
+  },
+  {
+    value: 'GOOD',
+    label: 'warningLevels.good',
+    color: DATA_COLOR.GOOD,
+    key: warningLevels.GOOD,
   },
 ]
 
