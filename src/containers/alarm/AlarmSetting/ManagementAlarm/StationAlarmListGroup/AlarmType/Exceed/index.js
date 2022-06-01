@@ -10,7 +10,7 @@ import { get, groupBy, isEmpty, keyBy, omit } from 'lodash'
 import { Component, default as React } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
-import { createAlarm, deleteAlarm } from 'redux/actions/alarm'
+import { createAlarm, deleteAlarm, updateLocalAlarm } from 'redux/actions/alarm'
 import { v4 as uuidv4 } from 'uuid'
 import FormAlarmDetail from '../../FormAlarmDetail'
 import TableAlarmExceedForm from './TableAlarmExceedForm'
@@ -18,7 +18,7 @@ import TableQCVN from './TableQCVN'
 
 @withRouter
 @withAlarmForm
-@connect(null, { createAlarm, deleteAlarm })
+@connect(null, { createAlarm, deleteAlarm, updateLocalAlarm })
 export default class AlarmExceed extends Component {
   state = {
     qcvnList: [],
@@ -34,7 +34,7 @@ export default class AlarmExceed extends Component {
 
   getInitValues = alarmList => {
     //#region set alarm data level
-    if (!isEmpty(alarmList)) {
+    if (alarmList) {
       const alarmDataLevelDefault = ALARM_LIST_INIT.DATA_LEVEL.map(
         alarmDataLevelDefaultItem => {
           const existAlarmDataLevelItem = alarmList.find(
@@ -88,7 +88,12 @@ export default class AlarmExceed extends Component {
   }
 
   handleSubmit = () => {
-    const { getQueryParamGeneral, handleSubmitAlarm, stationId } = this.props
+    const {
+      getQueryParamGeneral,
+      handleSubmitAlarm,
+      stationId,
+      updateLocalAlarm,
+    } = this.props
 
     const paramGeneral = getQueryParamGeneral()
     const measuringListEnable = this.getMeasureListEnable()
@@ -106,6 +111,9 @@ export default class AlarmExceed extends Component {
         type: FIELDS.DATA_LEVEL,
       }))
 
+    const alarmNullId = params.filter(alarm => alarm._id === undefined)
+    if (!isEmpty(alarmNullId)) updateLocalAlarm()
+
     handleSubmitAlarm(params)
   }
 
@@ -115,9 +123,11 @@ export default class AlarmExceed extends Component {
     const newData = {
       _id: uuid,
       isCreateLocal: true,
-      maxDisconnectionTime: 1800,
       type: FIELDS.DATA_LEVEL,
       stationId,
+      config: {
+        type: 'standard',
+      },
     }
 
     createAlarm(newData)
@@ -258,6 +268,7 @@ export default class AlarmExceed extends Component {
         <Row type="flex" justify="end">
           <Col span={5}>
             <Button
+              style={{ width: '328px' }}
               type="primary"
               block
               size="large"
@@ -276,8 +287,9 @@ export default class AlarmExceed extends Component {
             alarmDetail={alarmDetail}
             stationId={stationId}
             stationName={stationName}
-            alarmType={FIELDS.DATA_LEVEL}
+            dataSource={dataSource}
             handleSubmit={this.handleSubmit}
+            alarmType={FIELDS.DATA_LEVEL}
             showTimeRepeat
           />
         )}

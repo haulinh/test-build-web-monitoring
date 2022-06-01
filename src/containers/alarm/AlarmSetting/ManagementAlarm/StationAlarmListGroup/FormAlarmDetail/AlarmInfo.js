@@ -21,6 +21,7 @@ export const AlarmInfo = ({
   maxDisconnectionTime,
   dataAlarmStation,
   qcvnList,
+  form,
 }) => {
   const alarmTypeName = {
     [FIELDS.DATA_LEVEL]: 'Cảnh báo vượt ngưỡng',
@@ -29,20 +30,20 @@ export const AlarmInfo = ({
   }
 
   const getOtherInfo = () => {
-    const qcvnSelected = qcvnList.find(
-      qcvn => qcvn._id === dataAlarmStation.config.standardId
-    )
+    const standardIdSelected = form.getFieldsValue()[`${dataAlarmStation._id}`]
+      .config.standardId
+    const qcvnSelected = qcvnList.find(qcvn => qcvn._id === standardIdSelected)
 
     return {
       [FIELDS.DATA_LEVEL]: (
-        <Row type="flex" justify="space-between" gutter={12}>
+        <Row type="flex" justify="space-between" gutter={18}>
           <Col className="label">Quy chuẩn: </Col>
-          <Col span={16}>
+          <Col span={14} style={{ paddingLeft: '4px' }}>
             <Text fontWeight={500} fontSize={16}>
               {dataAlarmStation.config.name}
             </Text>
             <Text
-              style={{ wordBreak: 'normal' }}
+              style={{ wordBreak: 'normal', color: '#374151' }}
               fontWeight={500}
               fontSize={16}
             >
@@ -78,9 +79,11 @@ export const AlarmInfo = ({
         </Text>
       </Row>
       <Row type="flex" gutter={27} style={{ marginBottom: 6 }}>
-        <Col className="label">Loại cảnh báo: </Col>
+        <Col className="label" style={{ width: '148px' }}>
+          Loại cảnh báo:
+        </Col>
         <Col>
-          <Text fontWeight={700} fontSize={16}>
+          <Text fontWeight={500} fontSize={16}>
             {alarmTypeName[alarmType]}
           </Text>
         </Col>

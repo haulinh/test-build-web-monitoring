@@ -134,7 +134,7 @@ export default class TableAlarmConfigExceed extends Component {
               onEdit={() => {
                 this.handleEdit(record)
               }}
-              isEdit={!get(record, `${FIELDS.IS_CREATE_LOCAL}`, false)}
+              isEdit={!get(record, FIELDS.IS_CREATE_LOCAL, false)}
             />
           )
         }

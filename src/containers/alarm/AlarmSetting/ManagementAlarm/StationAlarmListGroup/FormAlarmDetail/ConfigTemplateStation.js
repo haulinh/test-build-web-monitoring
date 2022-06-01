@@ -1,6 +1,6 @@
-import { Col, Collapse, Input, Row, Switch } from 'antd'
+import { Col, Collapse, Icon, Input, Row, Switch, Tooltip } from 'antd'
+import { Clearfix } from 'components/elements'
 import Text from 'components/elements/text'
-import ToolTipHint from 'components/elements/tooltip'
 import { Flex } from 'components/layouts/styles'
 import { get } from 'lodash'
 import React, { Component } from 'react'
@@ -47,6 +47,7 @@ export default class ConfigTemplateStation extends Component {
     return (
       <div>
         <Text>Cấu hình chi tiết</Text>
+        <Clearfix height={4} />
         <CardTemplate>
           <Collapse>
             {channels.map(channel => {
@@ -63,22 +64,36 @@ export default class ConfigTemplateStation extends Component {
                       <Col>
                         <Flex alignItems="center" gap={5}>
                           Custom template
-                          <ToolTipHint text="Tool tip custom" />:
+                          <Tooltip placement="top" title={'Tooltip custom'}>
+                            <Icon
+                              type="info-circle"
+                              style={{ color: '#A2A7B3' }}
+                            />
+                          </Tooltip>
+                          <Text fontWeight={500} style={{ color: '#A2A7B3' }}>
+                            :
+                          </Text>
                         </Flex>
                       </Col>
 
                       <Col onClick={e => e.stopPropagation()}>
                         {form.getFieldDecorator(
                           `${alarmId}.channels.${channel.value}.customTemplate`
-                        )(<Switch />)}
+                        )(<Switch style={{ marginBottom: '2px' }} />)}
                       </Col>
                     </Row>
                   }
                 >
                   <Flex alignItems="center" gap={5}>
                     Mẫu gửi
-                    <ToolTipHint text="Tool tip custom" />:
+                    <Tooltip placement="top" title={'Tooltip custom'}>
+                      <Icon type="info-circle" style={{ color: '#A2A7B3' }} />
+                    </Tooltip>
+                    <Text fontWeight={500} style={{ color: '#A2A7B3' }}>
+                      :
+                    </Text>
                   </Flex>
+                  <Clearfix height={4} />
                   {form.getFieldDecorator(
                     `${alarmId}.channels.${channel.value}.template`,
                     {

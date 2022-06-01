@@ -5,6 +5,8 @@ import {
   SELECT_ALARM,
   SELECT_STATION,
   DELETE_ALARM,
+  UPDATE_LOCAL_ALARM,
+  UPDATE_DETAIL_ALARM,
 } from '../actions/alarm'
 
 const initialState = {
@@ -46,6 +48,33 @@ const alarmReducer = (state = initialState, action) => {
         alarmList: state.alarmList.filter(
           alarm => alarm._id !== action.payload
         ),
+      }
+    case UPDATE_LOCAL_ALARM:
+      const indexAlarmCreateLocal = state.alarmList.findIndex(
+        alarm => alarm.isCreateLocal
+      )
+
+      if (!indexAlarmCreateLocal || indexAlarmCreateLocal === -1)
+        return { ...state }
+
+      let newAlarmList = [...state.alarmList]
+      newAlarmList[indexAlarmCreateLocal].isCreateLocal = false
+
+      return {
+        ...state,
+        alarmList: newAlarmList,
+      }
+    case UPDATE_DETAIL_ALARM:
+      const indexFind = state.alarmList.findIndex(
+        alarm => alarm._id === action.payload._id
+      )
+
+      let newAlarmDetailList = [...state.alarmList]
+      newAlarmDetailList[indexFind] = action.payload
+
+      return {
+        ...state,
+        alarmList: newAlarmDetailList,
       }
     default:
       return state

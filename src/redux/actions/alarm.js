@@ -6,7 +6,8 @@ export const SELECT_STATION = 'SELECT_STATION'
 export const GET_ALARMS = 'GET_ALARMS'
 export const CREATE_ALARM = 'CREATE_ALARM'
 export const DELETE_ALARM = 'DELETE_ALARM'
-export const UPDATE_ALARM = 'UPDATE_ALARM'
+export const UPDATE_LOCAL_ALARM = 'UPDATE_LOCAL_ALARM'
+export const UPDATE_DETAIL_ALARM = 'UPDATE_DETAIL_ALARM'
 
 export const selectAlarm = (alarm, alarmType) => {
   return {
@@ -47,7 +48,12 @@ export const deleteAlarm = alarmId => ({
   payload: alarmId,
 })
 
-export const updateAlarm = alarm => ({
-  type: UPDATE_ALARM,
+export const updateLocalAlarm = alarm => ({
+  type: UPDATE_LOCAL_ALARM,
+  payload: alarm,
+})
+
+export const updateDetailAlarm = alarm => ({
+  type: UPDATE_DETAIL_ALARM,
   payload: alarm,
 })
