@@ -53,7 +53,7 @@ export default class AlarmDisconnect extends Component {
   }
 
   handleSubmit = () => {
-    const { form, handleSubmitAlarm, getQueryParamGeneral } = this.props
+    const { handleSubmitAlarm, getQueryParamGeneral } = this.props
 
     const queryParams = getQueryParamGeneral()
     handleSubmitAlarm(queryParams)
@@ -152,7 +152,6 @@ export default class AlarmDisconnect extends Component {
       stationName,
       form,
       alarmDetail,
-      handleSubmit,
     } = this.props
 
     return (
@@ -194,7 +193,7 @@ export default class AlarmDisconnect extends Component {
             form={form}
             stationName={stationName}
             alarmType={FIELDS.DISCONNECT}
-            handleSubmit={handleSubmit}
+            handleSubmit={this.handleSubmit}
             // showTimeRepeat
           />
         )}
