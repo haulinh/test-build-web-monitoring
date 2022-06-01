@@ -11,17 +11,6 @@ const HeaderWrapper = styled.div`
   flex: 1;
   flex-direction: column;
 `
-const WarningWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  flex: 1;
-`
-// const WarningTitle = styled.span`
-//   font-weight: 600;
-//   font-size: 12px;
-//   margin-left: 4px;
-// `
 
 const WrapperColor = styled.div`
   display: flex;
@@ -68,28 +57,22 @@ export default class Header extends React.PureComponent {
 
     return (
       <HeaderWrapper>
-        {/* {this.props.children} */}
-        <WarningWrapper>
-          {/* <SpaceContainer /> */}
-          {/* <WarningTitle> {translate('warningLevels.title')}</WarningTitle> */}
+        <WrapperColor>
+          {stationStatusOptions.map((item, idx) => {
+            const configColor = getConfigColor(colorData, item.key, {
+              defaultPrimary: null,
+              defaultSecond: '#ffffff',
+            })
 
-          <WrapperColor>
-            {stationStatusOptions.map((item, idx) => {
-              const configColor = getConfigColor(colorData, item.key, {
-                defaultPrimary: null,
-                defaultSecond: '#ffffff',
-              })
-
-              return (
-                <ColorLevel key={idx} color={configColor.primaryColor}>
-                  <TextLevel color={configColor.secondColor}>
-                    {t(`page.config.color.${item.key}`)}
-                  </TextLevel>
-                </ColorLevel>
-              )
-            })}
-          </WrapperColor>
-        </WarningWrapper>
+            return (
+              <ColorLevel key={idx} color={configColor.primaryColor}>
+                <TextLevel color={configColor.secondColor}>
+                  {t(`page.config.color.${item.key}`)}
+                </TextLevel>
+              </ColorLevel>
+            )
+          })}
+        </WrapperColor>
       </HeaderWrapper>
     )
   }
