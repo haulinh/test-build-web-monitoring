@@ -802,6 +802,14 @@ export default {
       filterDataBy: {
         require: 'Vui lòng chọn ít nhất 1 điều kiện',
       },
+      statusDevice: {
+        label: 'Trạng thái thiết bị',
+        option: {
+          error: 'Lỗi thiết bị',
+          calibration: 'Hiệu chuẩn',
+          good: 'Tốt',
+        },
+      },
     },
     table: {
       emptyText: 'Không có dữ liệu',

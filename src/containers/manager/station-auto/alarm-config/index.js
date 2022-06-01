@@ -88,6 +88,8 @@ export default class AlarmConfig extends Component {
     ])
     this.setState({ loading: false })
 
+    console.log(alarmList)
+
     this.setInitValues(alarmList, qcvnList)
   }
 
