@@ -11,12 +11,12 @@ import React, { Component } from 'react'
 import { AlarmInfo } from './AlarmInfo'
 import ConfigTemplateStation from './ConfigTemplateStation'
 
-const HeaderDrawer = ({ onClickButtonClose, onClickButtonSubmit }) => {
+const HeaderDrawer = ({ onClose, onSubmit }) => {
   return (
     <Row type="flex" align="middle" justify="space-between">
       <Row type="flex" gutter={8} align="middle">
         <Col>
-          <div onClick={onClickButtonClose} style={{ cursor: 'pointer' }}>
+          <div onClick={onClose} style={{ cursor: 'pointer' }}>
             <Icon type="close" />
           </div>
         </Col>
@@ -24,12 +24,12 @@ const HeaderDrawer = ({ onClickButtonClose, onClickButtonSubmit }) => {
       </Row>
       <Row type="flex" gutter={8} align="middle">
         <Col>
-          <Button type="primary" ghost onClick={onClickButtonClose}>
+          <Button type="primary" ghost onClick={onClose}>
             Hủy bỏ
           </Button>
         </Col>
         <Col>
-          <Button type="primary" onClick={onClickButtonSubmit}>
+          <Button type="primary" onClick={onSubmit}>
             Cập nhật
           </Button>
         </Col>
@@ -39,14 +39,13 @@ const HeaderDrawer = ({ onClickButtonClose, onClickButtonSubmit }) => {
 }
 
 export default class FormAlarmDetail extends Component {
-  handleClickButtonClose = () => {
+  handleOnClose = () => {
     const { onClose } = this.props
     onClose()
   }
 
-  handleClickButtonSubmit = () => {
-    const { onClose, handleSubmit } = this.props
-
+  handleOnSubmit = () => {
+    const { handleSubmit, onClose } = this.props
     handleSubmit()
     onClose()
   }
@@ -69,12 +68,13 @@ export default class FormAlarmDetail extends Component {
       <Drawer
         title={
           <HeaderDrawer
-            onClickButtonClose={this.handleClickButtonClose}
-            onClickButtonSubmit={this.handleClickButtonSubmit}
+            onClose={this.handleOnClose}
+            onSubmit={this.handleOnSubmit}
           />
         }
         visible={visible}
         width={450}
+        key={visible}
         onClose={onClose}
         closable={false}
         style={{ color: '#1F2937' }}
@@ -83,8 +83,9 @@ export default class FormAlarmDetail extends Component {
           qcvnList={qcvnList}
           stationName={stationName}
           alarmType={alarmType}
-          dataAlarmStation={alarmDetail}
+          alarmDetail={alarmDetail}
           maxDisconnectionTime={get(alarmDetail, ['maxDisconnectionTime'])}
+          statusDevice={get(alarmDetail, ['statusDevice'])}
         />
 
         <Clearfix height={33} />
@@ -103,19 +104,15 @@ export default class FormAlarmDetail extends Component {
               })(<Switch />)}
             </Col>
           </Row>
-          <Row>
-            {form.getFieldDecorator(`${alarmId}.repeatConfig.frequency`, {
-              initialValue:
-                get(alarmDetail, ['repeatConfig', 'frequency']) ||
-                DEFAULT_VALUE_FREQUENCY,
-            })(
-              showTimeRepeat ? (
-                <SelectFrequency style={{ width: 170 }} />
-              ) : (
-                <div />
-              )
-            )}
-          </Row>
+          {showTimeRepeat && (
+            <Row>
+              {form.getFieldDecorator(`${alarmId}.repeatConfig.frequency`, {
+                initialValue:
+                  get(alarmDetail, ['repeatConfig', 'frequency']) ||
+                  DEFAULT_VALUE_FREQUENCY,
+              })(<SelectFrequency style={{ width: 170 }} />)}
+            </Row>
+          )}
         </Flex>
         <Clearfix height={24} />
         <ConfigTemplateStation

@@ -2,6 +2,7 @@ import { Col, Collapse, Input, Row, Switch } from 'antd'
 import Text from 'components/elements/text'
 import ToolTipHint from 'components/elements/tooltip'
 import { Flex } from 'components/layouts/styles'
+import { getVisibleEmailSubject } from 'containers/alarm/AlarmSetting/constants'
 import { get } from 'lodash'
 import React, { Component } from 'react'
 import styled from 'styled-components'
@@ -43,7 +44,6 @@ const templateDefault = 'Station: {{station}} disconnected at {{time}}'
 export default class ConfigTemplateStation extends Component {
   render() {
     const { form, alarmId, dataAlarmStation } = this.props
-
     return (
       <div>
         <Text>Cấu hình chi tiết</Text>
@@ -53,6 +53,8 @@ export default class ConfigTemplateStation extends Component {
               const isCustomTemplate = form.getFieldValue(
                 `${alarmId}.channels.${channel.value}.customTemplate`
               )
+
+              const visibleEmailSubject = getVisibleEmailSubject(channel.value)
 
               return (
                 <Panel
@@ -75,25 +77,47 @@ export default class ConfigTemplateStation extends Component {
                     </Row>
                   }
                 >
-                  <Flex alignItems="center" gap={5}>
-                    Mẫu gửi
-                    <ToolTipHint text="Tool tip custom" />:
-                  </Flex>
-                  {form.getFieldDecorator(
-                    `${alarmId}.channels.${channel.value}.template`,
-                    {
-                      initialValue:
-                        get(
-                          dataAlarmStation,
-                          `channels.${channel.value}.template`
-                        ) || templateDefault,
-                    }
-                  )(
-                    <Input.TextArea
-                      style={{ resize: 'none' }}
-                      disabled={!isCustomTemplate}
-                    />
+                  {visibleEmailSubject && (
+                    <Row gutter={5} style={{ marginBottom: 10 }}>
+                      <Col>Email Subject:</Col>
+                      <Col>
+                        {form.getFieldDecorator(
+                          `${alarmId}.channels.${channel.value}.emailSubject`,
+                          { initialValue: '' }
+                        )(
+                          <Input
+                            style={{ width: '100%' }}
+                            placeholder="Nhập tiêu đề Email"
+                          />
+                        )}
+                      </Col>
+                    </Row>
                   )}
+                  <Row gutter={5}>
+                    <Col>
+                      <Flex alignItems="center" gap={5}>
+                        Mẫu gửi
+                        <ToolTipHint text="Tool tip custom" />:
+                      </Flex>
+                    </Col>
+                    <Col>
+                      {form.getFieldDecorator(
+                        `${alarmId}.channels.${channel.value}.template`,
+                        {
+                          initialValue:
+                            get(
+                              dataAlarmStation,
+                              `channels.${channel.value}.template`
+                            ) || templateDefault,
+                        }
+                      )(
+                        <Input.TextArea
+                          style={{ resize: 'none' }}
+                          disabled={!isCustomTemplate}
+                        />
+                      )}
+                    </Col>
+                  </Row>
                 </Panel>
               )
             })}
