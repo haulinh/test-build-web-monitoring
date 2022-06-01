@@ -106,6 +106,14 @@ const withAlarmForm = WrappedComponent => {
       form.getFieldDecorator(`${alarmDetail._id}.repeatConfig.frequency`, {
         initialValue: get(alarmDetail, 'repeatConfig.active.frequency', 3600),
       })
+
+      form.getFieldDecorator(`${alarmDetail._id}.type`, {
+        initialValue: alarmType,
+      })
+
+      form.getFieldDecorator(`${alarmDetail._id}.stationId`, {
+        initialValue: alarmDetail.stationId,
+      })
     }
 
     handleSubmitAlarm = async paramGeneral => {

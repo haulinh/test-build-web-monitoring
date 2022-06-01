@@ -52,7 +52,12 @@ export default class AlarmDisconnect extends Component {
     setIdsDeleted(_id)
   }
 
-  handleSubmit = () => {}
+  handleSubmit = () => {
+    const { form, handleSubmitAlarm, getQueryParamGeneral } = this.props
+
+    const queryParams = getQueryParamGeneral()
+    handleSubmitAlarm(queryParams)
+  }
 
   handleEdit = alarmDetail => {
     const { handleShowAlarmDetail, setAlarmDetail } = this.props
@@ -128,14 +133,14 @@ export default class AlarmDisconnect extends Component {
       align: 'center',
       render: (_, record) => {
         const { isCreateLocal } = record
-        if (!isCreateLocal)
-          return (
-            <DropdownMoreAction
-              onDelete={() => this.handleDelete(record._id)}
-              onEdit={() => this.handleEdit(record)}
-            />
-          )
-        return null
+        const isEdit = !isCreateLocal
+        return (
+          <DropdownMoreAction
+            onDelete={() => this.handleDelete(record._id)}
+            onEdit={() => this.handleEdit(record)}
+            isEdit={isEdit}
+          />
+        )
       },
     },
   ]
@@ -147,6 +152,7 @@ export default class AlarmDisconnect extends Component {
       stationName,
       form,
       alarmDetail,
+      handleSubmit,
     } = this.props
 
     return (
@@ -188,6 +194,7 @@ export default class AlarmDisconnect extends Component {
             form={form}
             stationName={stationName}
             alarmType={FIELDS.DISCONNECT}
+            handleSubmit={handleSubmit}
             // showTimeRepeat
           />
         )}

@@ -1,6 +1,7 @@
 import { Col, Row } from 'antd'
 import Text from 'components/elements/text'
 import { FIELDS } from 'containers/alarm/AlarmSetting/index'
+import { get } from 'lodash'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -20,7 +21,7 @@ export const AlarmInfo = ({
   alarmType,
   maxDisconnectionTime,
   dataAlarmStation,
-  qcvnList,
+  qcvnList = [],
 }) => {
   const alarmTypeName = {
     [FIELDS.DATA_LEVEL]: 'Cảnh báo vượt ngưỡng',
@@ -39,14 +40,14 @@ export const AlarmInfo = ({
           <Col className="label">Quy chuẩn: </Col>
           <Col span={16}>
             <Text fontWeight={500} fontSize={16}>
-              {dataAlarmStation.config.name}
+              {get(dataAlarmStation, ['config', 'name'])}
             </Text>
             <Text
               style={{ wordBreak: 'normal' }}
               fontWeight={500}
               fontSize={16}
             >
-              {qcvnSelected.name}
+              {get(qcvnSelected, ['name'])}
             </Text>
           </Col>
         </Row>
