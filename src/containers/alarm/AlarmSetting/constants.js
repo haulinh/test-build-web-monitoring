@@ -1,6 +1,7 @@
 import { translate } from 'hoc/create-lang'
 import { isNil } from 'lodash'
 import { FIELDS } from './index'
+import { v4 as uuidv4 } from 'uuid'
 
 export const AlarmType = {
   Disconnect: 'disconnect',
@@ -101,4 +102,89 @@ export const getAlarmGroupByType = alarmList => {
   }, initialValues)
 
   return alarmGroupByType
+}
+
+export const getVisibleEmailSubject = channel => {
+  return ['email', 'webhook'].includes(channel)
+}
+
+export const ALARM_LIST_INIT = {
+  DISCONNECT: [
+    {
+      _id: uuidv4(),
+      type: AlarmType.Disconnect,
+      isCreateLocal: true,
+      maxDisconnectionTime: 30 * 60,
+      status: false,
+    },
+    {
+      _id: uuidv4(),
+      type: AlarmType.Disconnect,
+      isCreateLocal: true,
+      maxDisconnectionTime: 60 * 60,
+      status: false,
+    },
+    {
+      _id: uuidv4(),
+      type: AlarmType.Disconnect,
+      isCreateLocal: true,
+      maxDisconnectionTime: 2 * 60 * 60,
+      status: false,
+    },
+  ],
+  DATA_LEVEL: [
+    {
+      _id: uuidv4(),
+      isCreateLocal: true,
+      type: AlarmType.DataLevel,
+      status: false,
+      config: {
+        type: 'exceed',
+        standardID: '',
+        measuringList: [],
+        name: i18n().exceed,
+      },
+    },
+    {
+      _id: uuidv4(),
+      isCreateLocal: true,
+      type: AlarmType.DataLevel,
+      status: false,
+      config: {
+        type: 'exceed_preparing',
+        standardID: '',
+        measuringList: [],
+        name: i18n().exceed_preparing,
+      },
+    },
+  ],
+  STATUS_DEVICE: [
+    {
+      _id: uuidv4(),
+      isCreateLocal: true,
+      type: AlarmType.Device,
+      status: false,
+      config: {
+        type: 'Good',
+      },
+    },
+    {
+      _id: uuidv4(),
+      isCreateLocal: true,
+      type: AlarmType.Device,
+      status: false,
+      config: {
+        type: 'Calibration',
+      },
+    },
+    {
+      _id: uuidv4(),
+      isCreateLocal: true,
+      type: AlarmType.Device,
+      status: false,
+      config: {
+        type: 'Error',
+      },
+    },
+  ],
 }

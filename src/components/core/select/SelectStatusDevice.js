@@ -4,7 +4,7 @@ import { translate as t } from 'hoc/create-lang'
 
 const { Option } = Select
 
-const optionsStatusDevice = [
+export const optionsStatusDevice = [
   {
     label: t('dataSearchFrom.form.statusDevice.option.error'),
     value: 'Error',
