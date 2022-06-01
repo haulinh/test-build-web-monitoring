@@ -36,7 +36,7 @@ export default class MeasuringList extends React.PureComponent {
     receivedAt: PropTypes.string.isRequired,
   }
   render() {
-    const { data, measuringMap, statusStation } = this.props
+    const { data, measuringMap } = this.props
     const { colorData } = this.props
 
     return (

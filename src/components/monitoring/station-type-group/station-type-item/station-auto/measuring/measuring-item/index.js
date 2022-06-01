@@ -205,7 +205,6 @@ export default class MeasuringItem extends React.PureComponent {
       measureKey,
       translateContent,
       primaryColor,
-      secondColor,
     } = this.props
 
     let colorDeviceStatus =
