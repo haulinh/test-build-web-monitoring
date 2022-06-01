@@ -298,6 +298,7 @@ export default {
     base: '/alarm',
     management: '/alarm/management',
     history: '/alarm/history',
+    setting: '/alarm/setting',
   },
 }
 

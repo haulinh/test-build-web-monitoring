@@ -5,7 +5,7 @@ import {
   getListLanguageContents,
 } from 'redux/actions/languageAction'
 import { getWarningLevelColors } from 'redux/actions/config'
-import { getMeasuresAsync } from 'redux/actions/globalAction'
+import { getMeasuresAsync, getStationAutos } from 'redux/actions/globalAction'
 import languageApi from 'api/languageApi'
 import slug from 'constants/slug'
 import languages from 'languages'
@@ -22,6 +22,7 @@ import * as _ from 'lodash'
     getMeasuresAsync,
     getListLanguageContents,
     getWarningLevelColors,
+    getStationAutos,
   }
 )
 export default class AppContainer extends React.Component {
@@ -31,12 +32,14 @@ export default class AppContainer extends React.Component {
       getListLanguageWeb,
       getListLanguageContents,
       getWarningLevelColors,
+      getStationAutos,
     } = this.props
     if (window.location.pathname !== slug.login.loginWithEmail) {
       Promise.all([
         this.initialLanguage(),
         getListLanguageWeb(),
         getMeasuresAsync(),
+        getStationAutos(),
         getListLanguageContents(),
         getWarningLevelColors(),
       ])

@@ -54,6 +54,19 @@ export default {
           </Tooltip>
         </Menu.Item>
       )}
+
+      {protectRole(ROLE.ALARM_HISTORY.VIEW)(
+        <Menu.Item
+          key={slug.alarm.setting}
+          onClick={() => {
+            props.selectMenu(slug.alarm.setting)
+          }}
+        >
+          <Tooltip placement="right" title="Cài đặt cảnh báo">
+            <Link to={slug.alarm.setting}>Cài đặt cảnh báo</Link>
+          </Tooltip>
+        </Menu.Item>
+      )}
     </Menu.SubMenu>
   ),
 }

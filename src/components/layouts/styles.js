@@ -57,6 +57,7 @@ export const Flex = styled.div`
   flex-direction: ${props => props.flexDirection};
   justify-content: ${props => props.justifyContent};
   align-items: ${props => props.alignItems};
+  gap: ${props => props.gap}px;
 `
 
 export const Search = ({ loading, onSearch, children }) => {
