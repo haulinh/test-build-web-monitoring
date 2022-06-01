@@ -14,7 +14,6 @@ import { optionsStatusDevice } from 'components/core/select/SelectStatusDevice'
 export default class AlarmStatusDevice extends Component {
   componentDidMount = () => {
     const { setFormValues, dataSource } = this.props
-    console.log({ dataSource })
 
     setFormValues(dataSource)
   }
@@ -35,7 +34,6 @@ export default class AlarmStatusDevice extends Component {
     const { handleSubmitAlarm, getQueryParamGeneral } = this.props
 
     const queryParams = getQueryParamGeneral()
-    console.log({ queryParams })
     handleSubmitAlarm(queryParams)
   }
 
@@ -111,7 +109,7 @@ export default class AlarmStatusDevice extends Component {
       form,
       alarmDetail,
     } = this.props
-    console.log({ dataSource })
+
     return (
       <React.Fragment>
         <Table
