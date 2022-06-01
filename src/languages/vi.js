@@ -1695,7 +1695,7 @@ export default {
             desc: 'Chú thích',
           },
         },
-        GOOD: 'Trong ngưỡng ---',
+        GOOD: 'Trong ngưỡng',
         EXCEEDED: 'Vượt ngưỡng',
         EXCEEDED_PREPARING: 'Chuẩn bị vượt',
         DATA_LOSS: 'Mất tín hiệu',
