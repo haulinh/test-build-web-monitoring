@@ -685,6 +685,7 @@ export default class SearchAvgForm extends React.Component {
                 <FormItem style={{ marginTop: '4px' }}>
                   {form.getFieldDecorator('isFilter', {
                     initialValue: false,
+                    valuePropName: 'checked',
                   })(
                     <Switch style={{ marginTop: '18px', marginLeft: '8px' }} />
                   )}
