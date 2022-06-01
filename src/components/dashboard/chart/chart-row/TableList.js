@@ -15,7 +15,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { DATA_COLOR } from 'themes/color'
-import {getContent} from 'components/language/language-content'
+import { getContent } from 'components/language/language-content'
+import { getConfigColor } from 'constants/stationStatus'
+import createLanguageHoc from 'hoc/create-lang'
 
 const Status = styled.div`
   width: 16px;
@@ -97,16 +99,13 @@ const FILTER_TYPE = {
 @connect(state => ({
   language: _.get(state, 'language.locale'),
   languageContents: _.get(state, 'language.languageContents'),
+  colorData: _.get(state, 'config.color.warningLevel.data.value', []),
 }))
+@createLanguageHoc
 export default class TableListCustom extends React.PureComponent {
   static propTypes = {
     onFilter: PropTypes.func,
-    data: PropTypes.arrayOf(
-      PropTypes.shape({
-        name: PropTypes.string,
-        key: PropTypes.string,
-      })
-    ),
+    data: PropTypes.any,
     currentItem: PropTypes.shape({
       name: PropTypes.string,
       key: PropTypes.string,
@@ -129,14 +128,23 @@ export default class TableListCustom extends React.PureComponent {
   }
 
   renderStatusView = station => {
-    let item = _.get(STATUS_OPTIONS, [station.statusAnalytic]) //
+    const { colorData } = this.props
+    const { t } = this.props.lang
 
+    let item = _.get(STATUS_OPTIONS, [station.statusAnalytic]) //
+    const configColor = getConfigColor(colorData, station.statusAnalytic, {
+      defaultPrimary: null,
+      defaultSecond: '#ffffff',
+    })
     if (item) {
       return (
-        <Tooltip placement="top" title={translate(item.label)}>
+        <Tooltip
+          placement="top"
+          title={t(`page.config.color.${station.statusAnalytic}`)}
+        >
           <Status
             style={{
-              backgroundColor: item.color,
+              backgroundColor: configColor.primaryColor,
             }}
           />
         </Tooltip>
@@ -256,7 +264,7 @@ export default class TableListCustom extends React.PureComponent {
   }
 
   render() {
-    const {languageContents} = this.props
+    const { languageContents } = this.props
     return (
       <div style={{ height: 450, minWidth: 300, overflow: 'scroll' }}>
         <Row>
@@ -294,7 +302,12 @@ export default class TableListCustom extends React.PureComponent {
           >
             <IndexColumn>{index + 1}</IndexColumn>
             <NameColumn className="name">
-              {getContent(languageContents, {type: 'Station', itemId: item._id, field: 'name', value: item.name})}
+              {getContent(languageContents, {
+                type: 'Station',
+                itemId: item._id,
+                field: 'name',
+                value: item.name,
+              })}
             </NameColumn>
             <StatusColumn> {this.renderStatusView(item)}</StatusColumn>
           </Row>

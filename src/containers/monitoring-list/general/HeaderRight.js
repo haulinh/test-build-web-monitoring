@@ -1,55 +1,21 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Tag } from 'antd'
+import WarningLevel from 'components/elements/warning-level'
 
 const HeaderLeftWrapper = styled.div`
   display: flex;
   align-items: center;
   margin-left: 4px;
+  margin-top: 16px;
+  line-height: 21px;
+  margin-bottom: 16px;
+  width: 50%;
 `
 
-const SpanTitle = styled.span`
-  font-size: 12px;
-`
-
-const ItemWrapper = styled.div`
-  .ant-tag {
-    min-width: 90px;
-    text-align: center;
-    font-weight: 600;
-    font-size: 11px;
-    line-height: 22px;
-    margin-right: 0px;
-    margin-left: 4px;
-    &.data-loss {
-      color: #a4a6b5;
-    }
-    &.data-exceed {
-      color: #e54c3c;
-    }
-    &.data-extend-prepare {
-      color: #edc30f;
-    }
-    &.data-good {
-      color: #2cca73;
-    }
-  }
-`
-
-const Item = ({ type, children }) => (
-  <ItemWrapper>
-    <Tag className={type}>{children}</Tag>
-  </ItemWrapper>
-)
-
-export default function HeaderLeft({ i18n }) {
+export default function HeaderLeft() {
   return (
     <HeaderLeftWrapper>
-      <SpanTitle>{i18n().statusData}</SpanTitle>
-      <Item type="data-loss">{i18n().dataLoss}</Item>
-      <Item type="data-exceed">{i18n().dataExceeded}</Item>
-      <Item type="data-extend-prepare">{i18n().dataExceededPrepare}</Item>
-      <Item type="data-good">{i18n().dataGood}</Item>
+      <WarningLevel />
     </HeaderLeftWrapper>
   )
 }

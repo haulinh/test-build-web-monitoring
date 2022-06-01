@@ -1,25 +1,16 @@
 import { autobind } from 'core-decorators'
-import { translate } from 'hoc/create-lang'
+import createLanguageHoc from 'hoc/create-lang'
 import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
-import { DATA_COLOR } from 'themes/color'
+import { get as _get } from 'lodash'
+import { connectAutoDispatch } from 'redux/connect'
+import { stationStatusOptions, getConfigColor } from 'constants/stationStatus'
 
 const HeaderWrapper = styled.div`
   flex: 1;
   flex-direction: column;
 `
-const WarningWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  flex: 1;
-`
-// const WarningTitle = styled.span`
-//   font-weight: 600;
-//   font-size: 12px;
-//   margin-left: 4px;
-// `
 
 const WrapperColor = styled.div`
   display: flex;
@@ -41,13 +32,16 @@ const TextLevel = styled.span`
   font-stretch: normal;
   line-height: normal;
   text-align: center;
-  color: #ffffff;
+  color: ${props => props.color};
 `
 
 // const SpaceContainer = styled.span`
 //   width: 25%;
 // `
-
+@connectAutoDispatch(state => ({
+  colorData: _get(state, 'config.color.warningLevel.data.value', []),
+}))
+@createLanguageHoc
 @autobind
 export default class Header extends React.PureComponent {
   static propTypes = {
@@ -58,30 +52,27 @@ export default class Header extends React.PureComponent {
   }
 
   render() {
+    const { t } = this.props.lang
+    const { colorData } = this.props
+
     return (
       <HeaderWrapper>
-        {/* {this.props.children} */}
-        <WarningWrapper>
-          {/* <SpaceContainer /> */}
-          {/* <WarningTitle> {translate('warningLevels.title')}</WarningTitle> */}
+        <WrapperColor>
+          {stationStatusOptions.map((item, idx) => {
+            const configColor = getConfigColor(colorData, item.key, {
+              defaultPrimary: null,
+              defaultSecond: '#ffffff',
+            })
 
-          <WrapperColor>
-            <ColorLevel color={DATA_COLOR.DATA_LOSS}>
-              <TextLevel>{translate('warningLevels.lossData')}</TextLevel>
-            </ColorLevel>
-            <ColorLevel color={DATA_COLOR.EXCEEDED}>
-              <TextLevel>{translate('warningLevels.exceed')}</TextLevel>
-            </ColorLevel>
-            <ColorLevel color={DATA_COLOR.EXCEEDED_PREPARING}>
-              <TextLevel>
-                {translate('warningLevels.exceedPreparing')}
-              </TextLevel>
-            </ColorLevel>
-            <ColorLevel color={DATA_COLOR.GOOD}>
-              <TextLevel>{translate('warningLevels.good')}</TextLevel>
-            </ColorLevel>
-          </WrapperColor>
-        </WarningWrapper>
+            return (
+              <ColorLevel key={idx} color={configColor.primaryColor}>
+                <TextLevel color={configColor.secondColor}>
+                  {t(`page.config.color.${item.key}`)}
+                </TextLevel>
+              </ColorLevel>
+            )
+          })}
+        </WrapperColor>
       </HeaderWrapper>
     )
   }

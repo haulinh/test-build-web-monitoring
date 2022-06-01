@@ -1,19 +1,20 @@
 import React from 'react'
 import { autobind } from 'core-decorators'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 import { Table, Tooltip, Skeleton } from 'antd'
 import * as _ from 'lodash'
 import { SHAPE } from 'themes/color'
 import { DD_MM_YYYY_HH_MM } from 'constants/format-date.js'
 import { warningLevels, colorLevels } from 'constants/warningLevels'
 import { translate } from 'hoc/create-lang'
-import stationStatus from 'constants/stationStatus'
+import stationStatus, { getConfigColor } from 'constants/stationStatus'
 import './style.css'
 import moment from 'moment'
 import LanguageContent, {
   withLanguageContent,
 } from 'components/language/language-content'
+import { connectAutoDispatch } from 'redux/connect'
 
 function i18n() {
   return {
@@ -49,6 +50,9 @@ const Flex = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+`
+const WrapperAnimation = styled.div`
+  animation: ${props => props.animation} 1s infinite;
 `
 
 const TextWithToolTip = ({ fontWeight = 500, ...props }) => {
@@ -211,6 +215,9 @@ const noStationStatus = {
 }
 
 @withLanguageContent
+@connectAutoDispatch(state => ({
+  colorData: _.get(state, 'config.color.warningLevel.data.value', []),
+}))
 class TableData extends React.Component {
   static propTypes = {
     isLoading: PropTypes.bool,
@@ -316,6 +323,7 @@ class TableData extends React.Component {
       'key'
     )
     /* #endregion */
+    const { colorData } = this.props
 
     let tampColumnMeasure = measureData.map(item => {
       const measureName = translateContent({
@@ -333,41 +341,56 @@ class TableData extends React.Component {
           if (measure === null || measure === undefined) return ''
           let color = SHAPE.BLACK
           let classCustom = ''
-          let classContainer = ''
-          if (
-            measure.warningLevel &&
-            measure.warningLevel !== warningLevels.GOOD
-          ) {
-            color = colorLevels[measure.warningLevel]
-          }
+          // let classContainer = ''
+          let configColor = {}
+          let animation = null
+          // if (
+          //   measure.warningLevel &&
+          //   measure.warningLevel !== warningLevels.GOOD
+          // ) {
+          //   // color = configColor.secondColor // colorLevels[measure.warningLevel]
+          // }
           if (
             measure.warningLevel &&
             measure.warningLevel === warningLevels.EXCEEDED
           ) {
-            classContainer = 'wheelExceeded'
-            color = 'white'
+            // classContainer = 'wheelExceeded'
+            configColor = getConfigColor(colorData, measure.warningLevel, {
+              defaultPrimary: null,
+              defaultSecond: '#ffffff',
+            })
+            animation = keyframes`
+              0%   { background-color: #FFFF; }
+              25%  { background-color: ${configColor.primaryColor}; }
+              50%   { background-color: #FFFF; }
+              75%  { background-color: ${configColor.primaryColor}; }
+              100% { background-color: #FFFF;}
+            `
+            color = configColor.secondColor
           }
-          if (
-            measure.warningLevel &&
-            measure.warningLevel === warningLevels.EXCEEDED_PREPARING
-          ) {
-            classCustom = 'wheelPrepare'
-            color = colorLevels[measure.warningLevel]
-          }
+          // if (
+          //   measure.warningLevel &&
+          //   measure.warningLevel === warningLevels.EXCEEDED_PREPARING
+          // ) {
+          //   // classCustom = 'wheelPrepare'
+          //   // color = configColor.secondColor
+          // }
           // Format number toLocalString(national)
           if (record && record.status !== stationStatus.DATA_CONNECTED) {
             color = SHAPE.BLACK
             classCustom = ''
-            classContainer = ''
+            animation = null
+            // classContainer = ''
           }
           return (
             <Flex>
               <div key="left" style={{ position: 'relative', float: 'left' }}>
                 <DeviceIcon status={_.get(measure, 'statusDevice', '')} />
               </div>
-              <div
-                className={classContainer}
+              <WrapperAnimation
+                // className={classContainer}
                 key="right"
+                animation={animation}
                 style={{
                   width: '100%',
                   borderRadius: 3,
@@ -397,7 +420,7 @@ class TableData extends React.Component {
                     className={classCustom}
                   />
                 )}
-              </div>
+              </WrapperAnimation>
             </Flex>
           )
         },
