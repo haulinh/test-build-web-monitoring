@@ -1,4 +1,6 @@
 import { translate } from 'hoc/create-lang'
+import { isNil } from 'lodash'
+import { FIELDS } from './index'
 
 export const AlarmType = {
   Disconnect: 'disconnect',
@@ -56,9 +58,9 @@ export const i18n = () => {
   }
 }
 
-const chanels = ['email', 'mobile', 'sms', 'webhook']
+export const channels = ['email', 'mobile', 'sms', 'web', 'webhook']
 export const getHiddenParam = (typeAlarm, stationId, maxDisconnectionTime) => {
-  const paramChanels = chanels.reduce((base, currentChanel) => {
+  const paramChannels = channels.reduce((base, currentChanel) => {
     const valueChanel = {
       active: true,
       type: currentChanel,
@@ -74,9 +76,29 @@ export const getHiddenParam = (typeAlarm, stationId, maxDisconnectionTime) => {
 
   const paramHidden = {
     repeatConfig: { active: true, frequency },
-    channels: paramChanels,
+    channels: paramChannels,
     stationId,
     type: typeAlarm,
   }
   return paramHidden
+}
+
+export const getAlarmGroupByType = alarmList => {
+  const initialValues = {
+    alarmDisconnect: [],
+    alarmStandard: [],
+  }
+
+  if (isNil(alarmList)) return []
+
+  const alarmGroupByType = alarmList.reduce((base, current) => {
+    if (current.type === FIELDS.DISCONNECT) {
+      base.alarmDisconnect.push(current)
+    } else if (current.type === FIELDS.DATA_LEVEL) {
+      base.alarmStandard.push(current)
+    }
+    return base
+  }, initialValues)
+
+  return alarmGroupByType
 }

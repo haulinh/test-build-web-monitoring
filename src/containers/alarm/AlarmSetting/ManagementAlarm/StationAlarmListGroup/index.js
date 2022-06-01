@@ -49,18 +49,20 @@ export default class StationAlarmListGroup extends Component {
 
         <Collapse>
           {stationAutoList.map(stationAuto => {
-            const alarmListBelongStation =
-              alarmsGroupByStationId[stationAuto._id]
+            const alarmListByStation = alarmsGroupByStationId[stationAuto._id]
+
             return (
               <Panel
                 header={stationAuto.name}
                 extra={<ToggleSendStationAlarm />}
+                key={stationAuto._id}
               >
                 <StationAlarmManagement
                   users={users}
                   stationId={stationAuto._id}
+                  stationName={stationAuto.name}
                   roles={roles}
-                  alarmList={alarmListBelongStation}
+                  alarmList={alarmListByStation}
                 />
               </Panel>
             )

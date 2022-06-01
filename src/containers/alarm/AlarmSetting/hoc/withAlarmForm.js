@@ -1,6 +1,9 @@
-import { Form } from 'antd'
-import { get, keyBy } from 'lodash'
+import { Form, message } from 'antd'
+import CalculateApi from 'api/CalculateApi'
+import { translate } from 'hoc/create-lang'
+import { get } from 'lodash'
 import React from 'react'
+import { alarmTypeObject, channels } from '../constants'
 import { FIELDS } from '../index'
 
 const getStatusAlarm = status => {
@@ -19,7 +22,17 @@ export const isDefaultDataLevel = alarmConfigType =>
 const withAlarmForm = WrappedComponent => {
   @Form.create()
   class AlarmForm extends React.Component {
+    state = {
+      alarmIdsDeleted: [],
+      visibleAlarmDetail: false,
+      alarmDetail: {},
+    }
+
     standardFormRef = React.createRef()
+
+    state = {
+      alarmIdsDeleted: [],
+    }
 
     getQueryParamGeneral = () => {
       const { form } = this.props
@@ -40,8 +53,8 @@ const withAlarmForm = WrappedComponent => {
 
     setFormValues = alarmList => {
       const { form } = this.props
-      const alarmFormValues = keyBy(alarmList, '_id')
-      const alarmFormValuesFormatted = Object.values(alarmFormValues)
+
+      const alarmFormValuesFormatted = alarmList
         .map(item => ({
           ...item,
           status:
@@ -54,11 +67,88 @@ const withAlarmForm = WrappedComponent => {
       form.setFieldsValue(alarmFormValuesFormatted)
     }
 
+    setHiddenFields = (alarmDetail, alarmType) => {
+      const { form } = this.props
+
+      channels.forEach(channel => {
+        form.getFieldDecorator(
+          `${alarmDetail._id}.channels.${channel}.active`,
+          {
+            initialValue: get(alarmDetail, `channels.${channel}.active`, true),
+          }
+        )
+        form.getFieldDecorator(`${alarmDetail._id}.channels.${channel}.type`, {
+          initialValue: channel,
+        })
+        form.getFieldDecorator(
+          `${alarmDetail._id}.channels.${channel}.template`,
+          {
+            initialValue: get(
+              alarmDetail,
+              `channels.${channel}.template`,
+              alarmTypeObject[alarmType].template
+            ),
+          }
+        )
+        form.getFieldDecorator(
+          `${alarmDetail._id}.channels.${channel}.customTemplate`,
+          {
+            initialValue: get(
+              alarmDetail,
+              `channels.${channel}.customTemplate`
+            ),
+          }
+        )
+      })
+      form.getFieldDecorator(`${alarmDetail._id}.repeatConfig.active`, {
+        initialValue: get(alarmDetail, 'repeatConfig.active', true),
+      })
+      form.getFieldDecorator(`${alarmDetail._id}.repeatConfig.frequency`, {
+        initialValue: get(alarmDetail, 'repeatConfig.active.frequency', 3600),
+      })
+    }
+
+    handleSubmitAlarm = async paramGeneral => {
+      const { alarmIdsDeleted } = this.state
+      const params = {
+        data: paramGeneral,
+        deletedIds: alarmIdsDeleted,
+      }
+
+      try {
+        await CalculateApi.createBulkAlarm(params)
+        message.success(translate('global.saveSuccess'))
+      } catch (error) {
+        console.error(error)
+        message.error(translate('ticket.message.notificationError'))
+      }
+    }
+
+    setAlarmDetail = alarmDetail => {
+      this.setState({ alarmDetail })
+    }
+
+    handleShowAlarmDetail = () => {
+      this.setState({ visibleAlarmDetail: true })
+    }
+
+    handleCloseAlarmDetail = () => {
+      this.setState({ visibleAlarmDetail: false })
+    }
+
+    setIdsDeleted = id => {
+      const { alarmIdsDeleted } = this.state
+      const newIdsDeleted = [...alarmIdsDeleted, id]
+
+      this.setState({ alarmIdsDeleted: newIdsDeleted })
+    }
+
     render() {
       return (
         <WrappedComponent
           {...this} // pass all property class to prop
           {...this.props}
+          {...this.state}
         />
       )
     }

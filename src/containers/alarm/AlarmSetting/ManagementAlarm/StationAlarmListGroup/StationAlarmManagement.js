@@ -5,12 +5,14 @@ import {
   SignalIcon,
   ThresholdIcon,
 } from 'assets/icons-alarm'
+import { get, groupBy } from 'lodash'
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import styled from 'styled-components'
-import AlarmExceed from './AlarmType/Exceed'
-import AlarmDisconnect from './AlarmType/AlarmDisconnect'
-import { groupBy } from 'lodash'
+import { v4 as uuidv4 } from 'uuid'
 import { AlarmType } from '../../constants'
+import AlarmDisconnect from './AlarmType/AlarmDisconnect'
+import AlarmExceed from './AlarmType/Exceed'
 
 const { TabPane } = TabsAnt
 
@@ -27,10 +29,28 @@ const Tabs = styled(TabsAnt)`
     border-bottom: unset;
   }
 `
-
+@connect(state => ({
+  stationAutos: get(state, 'stationAuto.list'),
+}))
 export default class StationAlarmManagement extends Component {
   render() {
-    const { users, roles, alarmList, stationId } = this.props
+    const {
+      users,
+      roles,
+      alarmList,
+      stationAutos,
+      stationId,
+      stationName,
+    } = this.props
+    const measuringList = get(
+      stationAutos.find(station => station._id === stationId),
+      'measuringList'
+    )
+
+    const measuringListStation = measuringList.map(measuring => ({
+      id: uuidv4(),
+      ...measuring,
+    }))
 
     const alarmGroupByType = groupBy(alarmList, 'type')
 
@@ -48,7 +68,10 @@ export default class StationAlarmManagement extends Component {
           <AlarmExceed
             users={users}
             roles={roles}
+            measuringListStation={measuringListStation}
             dataSource={alarmGroupByType[AlarmType.DataLevel]}
+            stationId={stationId}
+            stationName={stationName}
           />
         </TabPane>
 
@@ -63,6 +86,7 @@ export default class StationAlarmManagement extends Component {
         >
           <AlarmDisconnect
             users={users}
+            stationName={stationName}
             roles={roles}
             stationId={stationId}
             dataSource={alarmGroupByType[AlarmType.Disconnect]}

@@ -6,6 +6,7 @@ const options = [
   { label: 'SMS', value: 'sms' },
   { label: 'Email', value: 'email' },
   { label: 'Web/ Mobile', value: 'web' },
+  { label: 'Webhook', value: 'webhook' },
 ]
 
 export default class ToggleSendStationAlarm extends Component {
