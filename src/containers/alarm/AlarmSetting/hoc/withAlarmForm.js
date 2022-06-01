@@ -3,6 +3,8 @@ import CalculateApi from 'api/CalculateApi'
 import { translate } from 'hoc/create-lang'
 import { get } from 'lodash'
 import React from 'react'
+import { connect } from 'react-redux'
+import { selectStationById } from 'redux/actions/globalAction'
 import { alarmTypeObject, channels } from '../constants'
 import { FIELDS } from '../index'
 
@@ -20,6 +22,9 @@ export const isDefaultDataLevel = alarmConfigType =>
   [FIELDS.EXCEED, FIELDS.EXCEED_PREPARING].includes(alarmConfigType)
 
 const withAlarmForm = WrappedComponent => {
+  @connect(state => ({
+    selectStationById: stationId => selectStationById(state, stationId),
+  }))
   @Form.create()
   class AlarmForm extends React.Component {
     state = {
@@ -100,9 +105,11 @@ const withAlarmForm = WrappedComponent => {
           }
         )
       })
+
       form.getFieldDecorator(`${alarmDetail._id}.repeatConfig.active`, {
         initialValue: get(alarmDetail, 'repeatConfig.active', true),
       })
+
       form.getFieldDecorator(`${alarmDetail._id}.repeatConfig.frequency`, {
         initialValue: get(alarmDetail, 'repeatConfig.active.frequency', 3600),
       })
@@ -141,6 +148,28 @@ const withAlarmForm = WrappedComponent => {
       const newIdsDeleted = [...alarmIdsDeleted, id]
 
       this.setState({ alarmIdsDeleted: newIdsDeleted })
+    }
+
+    handleAlarmStatusChange = prevProps => {
+      const { dataSource, selectStationById, stationId, form } = this.props
+
+      if (
+        selectStationById(stationId).alarmConfig !==
+        prevProps.selectStationById(stationId).alarmConfig
+      ) {
+        const fieldsValueStatusAlarm = dataSource.reduce(
+          (base, currentAlarm) => ({
+            ...base,
+            [`${currentAlarm._id}.${FIELDS.STATUS}`]: getStatusAlarmBoolean(
+              selectStationById(stationId).alarmConfig.status
+            ),
+          }),
+
+          {}
+        )
+
+        form.setFieldsValue(fieldsValueStatusAlarm)
+      }
     }
 
     render() {

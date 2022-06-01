@@ -34,21 +34,20 @@ const options = [
         [FIELDS.STATUS]: getStatusAlarm(
           get(allFields, [FIELDS.STATUS, 'value'])
         ),
+
         channels: channels.reduce(
-          (base, currentChanel) =>
-            update(base, {
+          (base, currentChanel) => {
+            const valueChannel = get(allFields, [FIELDS.CHANNELS, 'value'], [])
+            return update(base, {
               [currentChanel]: {
                 $set: {
-                  active: get(
-                    allFields,
-                    [FIELDS.CHANNELS, 'value'],
-                    []
-                  ).includes(currentChanel),
+                  active: valueChannel.includes(currentChanel),
                 },
               },
-            }),
+            })
+          },
 
-          {}
+          {} // initial value
         ),
       }
       toggleSendAlarm(stationAutoId, params)

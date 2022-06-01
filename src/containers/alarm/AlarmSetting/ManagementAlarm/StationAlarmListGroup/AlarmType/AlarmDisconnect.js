@@ -39,35 +39,13 @@ export default class AlarmDisconnect extends Component {
   }
 
   componentDidUpdate = (prevProps, prevState) => {
-    const { dataSource, setFormValues } = this.props
+    const { dataSource, setFormValues, handleAlarmStatusChange } = this.props
 
     if (!isEqual(prevProps.dataSource, dataSource)) {
       setFormValues(dataSource)
     }
 
-    this.handleAlarmStatusChange(prevProps)
-  }
-
-  handleAlarmStatusChange = prevProps => {
-    const { dataSource, selectStationById, stationId, form } = this.props
-
-    if (
-      selectStationById(stationId).alarmConfig !==
-      prevProps.selectStationById(stationId).alarmConfig
-    ) {
-      const fieldsValueStatusAlarm = dataSource.reduce(
-        (base, currentAlarm) => ({
-          ...base,
-          [`${currentAlarm._id}.${FIELDS.STATUS}`]: getStatusAlarmBoolean(
-            selectStationById(stationId).alarmConfig.status
-          ),
-        }),
-
-        {}
-      )
-
-      form.setFieldsValue(fieldsValueStatusAlarm)
-    }
+    handleAlarmStatusChange(prevProps)
   }
 
   handleAdd = () => {
