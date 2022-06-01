@@ -1,4 +1,5 @@
 import { Collapse } from 'antd'
+import { Clearfix } from 'components/layouts/styles'
 import { get, groupBy } from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
@@ -67,6 +68,7 @@ export default class StationAlarmListGroup extends Component {
             )
           })}
         </Collapse>
+        <Clearfix height={16} />
       </div>
     )
   }
