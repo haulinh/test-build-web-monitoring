@@ -1,7 +1,7 @@
 import moment from 'moment'
 import { getLanguage } from 'utils/localStorage'
 
-const getTimes = (rangeTime, { isOriginal }) => {
+const getTimes = (rangeTime, { isOriginal } = false) => {
   if (Array.isArray(rangeTime) && isOriginal) {
     return {
       from: moment(rangeTime[0]),
