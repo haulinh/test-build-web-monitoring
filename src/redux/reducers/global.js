@@ -1,16 +1,20 @@
-import _ from 'lodash'
+import update from 'immutability-helper'
+import { omit } from 'lodash'
 import {
   CREATE_MEASURE,
   GET_MEASURES,
   UPDATE_MEASURE,
   DELETE_MEASURE,
+  GET_STATION_AUTOS,
 } from '../actions/globalAction'
 const initialState = {
   measuresObj: {},
+  stationAutosObj: {},
 }
 
 const globalReducer = (state = initialState, action) => {
   switch (action.type) {
+    //#region measures
     case GET_MEASURES: {
       return { ...state, measuresObj: action.payload }
     }
@@ -33,9 +37,19 @@ const globalReducer = (state = initialState, action) => {
       return { ...state, measuresObj: newMeasuresObj }
     }
     case DELETE_MEASURE: {
-      const newMeasuresObj = _.omit(state.measuresObj, action.payload)
+      const newMeasuresObj = omit(state.measuresObj, action.payload)
       return { ...state, measuresObj: newMeasuresObj }
     }
+    //#endregion measures
+
+    //#region stations
+    case GET_STATION_AUTOS: {
+      return update(state, {
+        stationAutosObj: { $set: action.payload },
+      })
+    }
+    //#endregion stations
+
     default:
       return state
   }

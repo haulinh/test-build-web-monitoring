@@ -1,19 +1,22 @@
-import { Button, Col, Drawer, Icon, InputNumber, Row, Switch } from 'antd'
+import { Button, Col, Drawer, Icon, Row, Switch } from 'antd'
 import { Clearfix } from 'components/elements'
 import Text from 'components/elements/text'
 import ToolTipHint from 'components/elements/tooltip'
 import { Flex } from 'components/layouts/styles'
+import SelectFrequency, {
+  DEFAULT_VALUE_FREQUENCY,
+} from 'containers/alarm/Component/SelectFrequency'
 import { get } from 'lodash'
 import React, { Component } from 'react'
 import { AlarmInfo } from './AlarmInfo'
 import ConfigTemplateStation from './ConfigTemplateStation'
 
-const HeaderDrawer = ({ onClickButtonClose }) => {
+const HeaderDrawer = ({ onClickButtonClose, onClickButtonSubmit }) => {
   return (
     <Row type="flex" align="middle" justify="space-between">
       <Row type="flex" gutter={8} align="middle">
         <Col>
-          <div onClick={onClickButtonClose}>
+          <div onClick={onClickButtonClose} style={{ cursor: 'pointer' }}>
             <Icon type="close" />
           </div>
         </Col>
@@ -26,7 +29,9 @@ const HeaderDrawer = ({ onClickButtonClose }) => {
           </Button>
         </Col>
         <Col>
-          <Button type="primary">Cập nhật</Button>
+          <Button type="primary" onClick={onClickButtonSubmit}>
+            Cập nhật
+          </Button>
         </Col>
       </Row>
     </Row>
@@ -39,6 +44,13 @@ export default class FormAlarmDetail extends Component {
     onClose()
   }
 
+  handleClickButtonSubmit = () => {
+    const { onClose, handleSubmit } = this.props
+
+    handleSubmit()
+    onClose()
+  }
+
   render() {
     const {
       visible,
@@ -48,13 +60,18 @@ export default class FormAlarmDetail extends Component {
       stationName,
       alarmType,
       showTimeRepeat,
+      qcvnList,
     } = this.props
+
     const alarmId = alarmDetail._id
 
     return (
       <Drawer
         title={
-          <HeaderDrawer onClickButtonClose={this.handleClickButtonClose} />
+          <HeaderDrawer
+            onClickButtonClose={this.handleClickButtonClose}
+            onClickButtonSubmit={this.handleClickButtonSubmit}
+          />
         }
         visible={visible}
         width={450}
@@ -63,6 +80,7 @@ export default class FormAlarmDetail extends Component {
         style={{ color: '#1F2937' }}
       >
         <AlarmInfo
+          qcvnList={qcvnList}
           stationName={stationName}
           alarmType={alarmType}
           dataAlarmStation={alarmDetail}
@@ -88,13 +106,11 @@ export default class FormAlarmDetail extends Component {
           <Row>
             {form.getFieldDecorator(`${alarmId}.repeatConfig.frequency`, {
               initialValue:
-                get(alarmDetail, ['repeatConfig', 'frequency']) / 60 || 5,
+                get(alarmDetail, ['repeatConfig', 'frequency']) ||
+                DEFAULT_VALUE_FREQUENCY,
             })(
               showTimeRepeat ? (
-                <InputNumber
-                  style={{ width: 170 }}
-                  formatter={value => `${value} phút`}
-                />
+                <SelectFrequency style={{ width: 170 }} />
               ) : (
                 <div />
               )

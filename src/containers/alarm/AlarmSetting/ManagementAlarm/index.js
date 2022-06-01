@@ -5,14 +5,21 @@ import { get } from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { getAlarms } from 'redux/actions/alarm'
+import {
+  getStationAutos,
+  selectStationGroupByType,
+  selectStationAutos,
+} from 'redux/actions/globalAction'
 import StationAlarmListGroup from './StationAlarmListGroup/index'
 
 @connect(
   state => ({
-    stationAutos: get(state, ['stationAuto', 'list']),
+    stationAutos: selectStationAutos(state),
+    stationAutosGroupByType: selectStationGroupByType(state),
   }),
   {
     getAlarms,
+    getStationAutos,
   }
 )
 export default class ManagementAlarm extends Component {
@@ -54,40 +61,9 @@ export default class ManagementAlarm extends Component {
     }
   }
 
-  getStationGroupByType = () => {
-    const { stationAutos } = this.props
-    const stationAutosGroupByType = stationAutos.reduce((base, current) => {
-      const stationType = get(current, ['stationType'])
-      const stationTypeKey = stationType.key
-
-      if (base[stationTypeKey]) {
-        return {
-          ...base,
-          [stationTypeKey]: {
-            stationTypeKey,
-            stationTypeName: stationType.name,
-            stationAutoList: [...base[stationTypeKey].stationAutoList, current],
-          },
-        }
-      }
-
-      return {
-        ...base,
-        [stationTypeKey]: {
-          stationTypeKey,
-          stationTypeName: stationType.name,
-          stationAutoList: [current],
-        },
-      }
-    }, {})
-
-    return stationAutosGroupByType
-  }
-
   render() {
     const { users, roles, isLoading } = this.state
-
-    const stationAutosGroupByType = this.getStationGroupByType()
+    const { stationAutosGroupByType } = this.props
 
     return (
       <div

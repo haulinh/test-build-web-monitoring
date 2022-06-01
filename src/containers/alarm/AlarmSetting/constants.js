@@ -1,4 +1,6 @@
 import { translate } from 'hoc/create-lang'
+import { isNil } from 'lodash'
+import { FIELDS } from './index'
 
 export const AlarmType = {
   Disconnect: 'disconnect',
@@ -79,4 +81,24 @@ export const getHiddenParam = (typeAlarm, stationId, maxDisconnectionTime) => {
     type: typeAlarm,
   }
   return paramHidden
+}
+
+export const getAlarmGroupByType = alarmList => {
+  const initialValues = {
+    alarmDisconnect: [],
+    alarmStandard: [],
+  }
+
+  if (isNil(alarmList)) return []
+
+  const alarmGroupByType = alarmList.reduce((base, current) => {
+    if (current.type === FIELDS.DISCONNECT) {
+      base.alarmDisconnect.push(current)
+    } else if (current.type === FIELDS.DATA_LEVEL) {
+      base.alarmStandard.push(current)
+    }
+    return base
+  }, initialValues)
+
+  return alarmGroupByType
 }

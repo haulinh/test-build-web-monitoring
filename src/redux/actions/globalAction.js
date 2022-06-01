@@ -1,12 +1,14 @@
 import CategoryApi from 'api/CategoryApi'
-import _ from 'lodash'
+import StationAutoApi from 'api/StationAuto'
+import update from 'immutability-helper'
+import { get, keyBy } from 'lodash'
 
+//#region Measure
 export const GET_MEASURES = 'GET_MEASURES'
 export const UPDATE_MEASURE = 'UPDATE_MEASURE'
 export const CREATE_MEASURE = 'CREATE_MEASURE'
 export const DELETE_MEASURE = 'DELETE_MEASURE'
 
-//#region Measure
 export const getMeasuresAsync = () => async dispatch => {
   const measures = await CategoryApi.getMeasurings(
     {
@@ -15,7 +17,7 @@ export const getMeasuresAsync = () => async dispatch => {
     },
     {}
   )
-  const measuresObj = _.keyBy(measures.data, 'key')
+  const measuresObj = keyBy(measures.data, 'key')
   dispatch({
     type: GET_MEASURES,
     payload: measuresObj,
@@ -37,3 +39,59 @@ export const deleteMeasure = measureKey => ({
   payload: measureKey,
 })
 //#endregion
+
+//#region station autos
+export const GET_STATION_AUTOS = 'GET_STATION_AUTOS'
+export const UPDATE_STATION_AUTOS = 'UPDATE_STATION_AUTOS'
+
+//#region selectors
+export const selectStationAutos = state =>
+  Object.values(state.global.stationAutosObj)
+
+export const selectStationGroupByType = state => {
+  const stationAutosGroupByType = selectStationAutos(state).reduce(
+    (base, current) => {
+      const stationType = get(current, ['stationType'])
+      const stationTypeKey = stationType.key
+
+      if (base[stationTypeKey]) {
+        return update(base, {
+          [stationTypeKey]: {
+            stationAutoList: {
+              $push: [current],
+            },
+          },
+        })
+      }
+
+      return update(base, {
+        [stationTypeKey]: {
+          $set: {
+            stationTypeKey,
+            stationTypeName: stationType.name,
+            stationAutoList: [current],
+          },
+        },
+      })
+    },
+    {}
+  )
+
+  return stationAutosGroupByType
+}
+//#endregion selectors
+
+export const getStationAutos = () => async dispatch => {
+  const response = await StationAutoApi.getStationAutos({
+    page: 1,
+    itemPerPage: Infinity,
+  })
+
+  if (response.success) {
+    const stationAutosObj = keyBy(response.data, '_id')
+    dispatch({ type: GET_STATION_AUTOS, payload: stationAutosObj })
+  }
+
+  return
+}
+//#endregion station autos

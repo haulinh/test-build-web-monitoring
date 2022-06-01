@@ -11,18 +11,20 @@ const Flex = styled.div`
   gap: 8px;
 `
 
-export const DropdownMoreAction = ({ onEdit, onDelete }) => {
+export const DropdownMoreAction = ({ onEdit, onDelete, isEdit }) => {
   return (
     <Dropdown
       placement="bottomCenter"
       overlay={
         <Menu>
-          <Menu.Item key="1" onClick={onEdit}>
-            <Flex>
-              <img src={EditIcon} alt="icon edit" />
-              Chỉnh sửa
-            </Flex>
-          </Menu.Item>
+          {isEdit && (
+            <Menu.Item key="1" onClick={onEdit}>
+              <Flex>
+                <img src={EditIcon} alt="icon edit" />
+                Chỉnh sửa
+              </Flex>
+            </Menu.Item>
+          )}
           <Menu.Item key="2" onClick={onDelete}>
             <Flex>
               <img src={TrashIcon} alt="icon trash" />

@@ -15,6 +15,7 @@ import { connect } from 'react-redux'
 import { createAlarm, deleteAlarm } from 'redux/actions/alarm'
 import { v4 as uuidv4 } from 'uuid'
 import FormAlarmDetail from '../FormAlarmDetail'
+
 @withAlarmForm
 @connect(null, { createAlarm, deleteAlarm })
 export default class AlarmDisconnect extends Component {
@@ -51,12 +52,7 @@ export default class AlarmDisconnect extends Component {
     setIdsDeleted(_id)
   }
 
-  handleSubmit = () => {
-    const { form } = this.props
-    const values = form.getFieldsValue()
-    console.log({ values })
-    // handleSubmit()
-  }
+  handleSubmit = () => {}
 
   handleEdit = alarmDetail => {
     const { handleShowAlarmDetail, setAlarmDetail } = this.props

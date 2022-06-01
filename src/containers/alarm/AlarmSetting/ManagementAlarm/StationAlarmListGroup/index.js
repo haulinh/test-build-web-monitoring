@@ -1,4 +1,5 @@
 import { Collapse } from 'antd'
+import { Clearfix } from 'components/layouts/styles'
 import { get, groupBy } from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
@@ -48,8 +49,8 @@ export default class StationAlarmListGroup extends Component {
 
         <Collapse>
           {stationAutoList.map(stationAuto => {
-            const alarmListBelongStation =
-              alarmsGroupByStationId[stationAuto._id]
+            const alarmListByStation = alarmsGroupByStationId[stationAuto._id]
+
             return (
               <Panel
                 header={stationAuto.name}
@@ -61,12 +62,13 @@ export default class StationAlarmListGroup extends Component {
                   stationId={stationAuto._id}
                   stationName={stationAuto.name}
                   roles={roles}
-                  alarmList={alarmListBelongStation}
+                  alarmList={alarmListByStation}
                 />
               </Panel>
             )
           })}
         </Collapse>
+        <Clearfix height={16} />
       </div>
     )
   }

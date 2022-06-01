@@ -16,8 +16,15 @@ export default class TableAlarmConfigExceed extends Component {
     const qcvnName = get(qcvnObject, [value, 'name'])
 
     form.setFieldsValue({
-      [`${FIELDS.DATA_LEVEL}.${record._id}.${FIELDS.CONFIG}.${FIELDS.NAME}`]: qcvnName,
+      [`${record._id}.${FIELDS.CONFIG}.${FIELDS.NAME}`]: qcvnName,
     })
+  }
+
+  handleEdit = alarmDetail => {
+    const { handleShowAlarmDetail, setAlarmDetail } = this.props
+
+    setAlarmDetail(alarmDetail)
+    handleShowAlarmDetail()
   }
 
   columns = [
@@ -88,7 +95,9 @@ export default class TableAlarmConfigExceed extends Component {
       align: 'center',
       dataIndex: 'isActive',
       render: (_, record) => {
-        const { form } = this.props
+        const { form, setHiddenFields } = this.props
+
+        setHiddenFields(record, FIELDS.DATA_LEVEL)
         return (
           <React.Fragment>
             {form.getFieldDecorator(`${record._id}.${FIELDS.STATUS}`, {
@@ -122,6 +131,10 @@ export default class TableAlarmConfigExceed extends Component {
               onDelete={() => {
                 onDelete(record._id)
               }}
+              onEdit={() => {
+                this.handleEdit(record)
+              }}
+              isEdit={!get(record, `${FIELDS.IS_CREATE_LOCAL}`, false)}
             />
           )
         }

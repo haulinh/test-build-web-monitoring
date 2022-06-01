@@ -1,8 +1,8 @@
 import { Col, Row } from 'antd'
 import Text from 'components/elements/text'
+import { FIELDS } from 'containers/alarm/AlarmSetting/index'
 import React from 'react'
 import styled from 'styled-components'
-import { FIELDS } from 'containers/alarm/AlarmSetting/index'
 
 const CardInfo = styled.div`
   padding: 24px;
@@ -15,7 +15,13 @@ const CardInfo = styled.div`
   }
 `
 
-export const AlarmInfo = ({ stationName, alarmType, maxDisconnectionTime }) => {
+export const AlarmInfo = ({
+  stationName,
+  alarmType,
+  maxDisconnectionTime,
+  dataAlarmStation,
+  qcvnList,
+}) => {
   const alarmTypeName = {
     [FIELDS.DATA_LEVEL]: 'Cảnh báo vượt ngưỡng',
     [FIELDS.DISCONNECT]: 'Cảnh báo mất tín hiệu',
@@ -23,8 +29,28 @@ export const AlarmInfo = ({ stationName, alarmType, maxDisconnectionTime }) => {
   }
 
   const getOtherInfo = () => {
+    const qcvnSelected = qcvnList.find(
+      qcvn => qcvn._id === dataAlarmStation.config.standardId
+    )
+
     return {
-      [FIELDS.DATA_LEVEL]: 'Cảnh báo vượt ngưỡng',
+      [FIELDS.DATA_LEVEL]: (
+        <Row type="flex" justify="space-between" gutter={12}>
+          <Col className="label">Quy chuẩn: </Col>
+          <Col span={16}>
+            <Text fontWeight={500} fontSize={16}>
+              {dataAlarmStation.config.name}
+            </Text>
+            <Text
+              style={{ wordBreak: 'normal' }}
+              fontWeight={500}
+              fontSize={16}
+            >
+              {qcvnSelected.name}
+            </Text>
+          </Col>
+        </Row>
+      ),
       [FIELDS.DISCONNECT]: (
         <Row type="flex" gutter={27}>
           <Col className="label">Thời gian mất tín hiệu: </Col>
