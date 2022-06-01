@@ -801,6 +801,14 @@ export default {
       filterDataBy: {
         require: 'Please choose at least 1 condition',
       },
+      statusDevice: {
+        label: 'Device status',
+        option: {
+          error: 'Device error',
+          calibration: 'Calibration',
+          good: 'Good',
+        },
+      },
     },
     table: {
       emptyText: 'There Are No Records To Display',

@@ -131,6 +131,7 @@ export default class TableAlarmConfigExceed extends Component {
               onDelete={() => {
                 onDelete(record._id)
               }}
+              isDelete
               onEdit={() => {
                 this.handleEdit(record)
               }}
