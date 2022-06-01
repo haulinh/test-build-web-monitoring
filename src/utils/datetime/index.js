@@ -2,18 +2,20 @@ import moment from 'moment'
 import { getLanguage } from 'utils/localStorage'
 
 const getTimes = (rangeTime, { isOriginal }) => {
-  if (Array.isArray(rangeTime)) {
-    if (isOriginal)
-      return {
-        from: moment(rangeTime[0]),
-        to: moment(rangeTime[1]),
-      }
+  if (Array.isArray(rangeTime) && isOriginal) {
+    return {
+      from: moment(rangeTime[0]),
+      to: moment(rangeTime[1]),
+    }
+  }
 
+  if (Array.isArray(rangeTime)) {
     return {
       from: moment(rangeTime[0]).startOf('day'),
       to: moment(rangeTime[1]).endOf('day'),
     }
   }
+
   if (rangeTime === 1) {
     return {
       from: moment().subtract(1, 'd'),
