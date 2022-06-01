@@ -3,7 +3,7 @@ import CalculateApi from 'api/CalculateApi'
 import { translate } from 'hoc/create-lang'
 import { get } from 'lodash'
 import React from 'react'
-import { alarmTypeObject, channels } from '../constants'
+import { alarmTypeObject, channels, getVisibleEmailSubject } from '../constants'
 import { FIELDS } from '../index'
 
 const getStatusAlarm = status => {
@@ -71,6 +71,8 @@ const withAlarmForm = WrappedComponent => {
       const { form } = this.props
 
       channels.forEach(channel => {
+        const visibleEmailSubject = getVisibleEmailSubject(channel)
+
         form.getFieldDecorator(
           `${alarmDetail._id}.channels.${channel}.active`,
           {
@@ -99,6 +101,13 @@ const withAlarmForm = WrappedComponent => {
             ),
           }
         )
+
+        if (visibleEmailSubject) {
+          form.getFieldDecorator(
+            `${alarmDetail._id}.channels.${channel}.emailSubject`,
+            { initialValue: '' }
+          )
+        }
       })
       form.getFieldDecorator(`${alarmDetail._id}.repeatConfig.active`, {
         initialValue: get(alarmDetail, 'repeatConfig.active', true),

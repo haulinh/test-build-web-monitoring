@@ -45,6 +45,7 @@ export const fields = {
   facetFields: 'facetFields',
   from: 'from',
   to: 'to',
+  statusDevice: 'statusDevice',
 }
 
 export const ITEM_PER_PAGE = 50
@@ -146,8 +147,10 @@ export default class MinutesDataSearch extends React.Component {
   getQueryParam = () => {
     const values = this.searchFormRef.current.getFieldsValue()
     const { standards } = this.state
+    const rangesDate = values[fields.rangesDate]
 
-    const times = getTimes(values[fields.rangesDate])
+    const times = getTimes(rangesDate, { isOriginal: true })
+
     const { from, to } = getTimesUTC(times)
     const params = {
       ...values,
@@ -155,6 +158,7 @@ export default class MinutesDataSearch extends React.Component {
       to,
       [fields.measuringList]: getParamArray(values[fields.measuringList]),
       [fields.filterBy]: getParamArray(values[fields.filterBy]),
+      [fields.statusDevice]: getParamArray(values[fields.statusDevice]),
       // page,
       itemPerPage: Number.MAX_SAFE_INTEGER,
       standards: getParamArray(standards),
@@ -337,6 +341,7 @@ export default class MinutesDataSearch extends React.Component {
   }
   onClickFilter = (filterId, filterItem) => {
     const { breadcrumbs, updateBreadcrumb, addBreadcrumb, history } = this.props
+    const { params, name } = filterItem
 
     const url = `${slug.dataSearch.base}?filterId=${filterId}`
     if (breadcrumbs.length === 2) {
@@ -344,7 +349,7 @@ export default class MinutesDataSearch extends React.Component {
         id: 'detail',
         icon: '',
         href: url,
-        name: filterItem.name,
+        name,
         autoDestroy: true,
       })
     } else {
@@ -352,13 +357,13 @@ export default class MinutesDataSearch extends React.Component {
         id: 'detail',
         icon: '',
         href: url,
-        name: filterItem.name,
+        name,
         autoDestroy: true,
       })
     }
     history.push(url, { filterId })
 
-    const params = filterItem.params
+    this.searchFormRef.current.resetFields()
 
     this.searchFormRef.current.setFieldsValue({
       ...params,

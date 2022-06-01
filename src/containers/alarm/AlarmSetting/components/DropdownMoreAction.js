@@ -11,7 +11,7 @@ const Flex = styled.div`
   gap: 8px;
 `
 
-export const DropdownMoreAction = ({ onEdit, onDelete, isEdit }) => {
+export const DropdownMoreAction = ({ onEdit, onDelete, isEdit, isDelete }) => {
   return (
     <Dropdown
       placement="bottomCenter"
@@ -25,13 +25,15 @@ export const DropdownMoreAction = ({ onEdit, onDelete, isEdit }) => {
               </Flex>
             </Menu.Item>
           )}
-          <Menu.Item key="2" onClick={onDelete}>
-            <Flex>
-              <img src={TrashIcon} alt="icon trash" />
+          {isDelete && (
+            <Menu.Item key="2" onClick={onDelete}>
+              <Flex>
+                <img src={TrashIcon} alt="icon trash" />
 
-              <div style={{ color: '#E64D3D' }}>Xóa</div>
-            </Flex>
-          </Menu.Item>
+                <div style={{ color: '#E64D3D' }}>Xóa</div>
+              </Flex>
+            </Menu.Item>
+          )}
         </Menu>
       }
       trigger={['click']}

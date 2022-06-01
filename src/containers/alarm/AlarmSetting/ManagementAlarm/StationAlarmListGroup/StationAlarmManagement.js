@@ -12,6 +12,7 @@ import styled from 'styled-components'
 import { v4 as uuidv4 } from 'uuid'
 import { AlarmType } from '../../constants'
 import AlarmDisconnect from './AlarmType/AlarmDisconnect'
+import AlarmStatusDevice from './AlarmType/AlarmStatusDevice'
 import AlarmExceed from './AlarmType/Exceed'
 
 const { TabPane } = TabsAnt
@@ -102,7 +103,13 @@ export default class StationAlarmManagement extends Component {
           }
           key="device"
         >
-          Thiết bị
+          <AlarmStatusDevice
+            users={users}
+            stationName={stationName}
+            roles={roles}
+            stationId={stationId}
+            dataSource={alarmGroupByType[AlarmType.Device]}
+          />
         </TabPane>
 
         {/* <TabPane

@@ -1,7 +1,8 @@
 import { Col, Row } from 'antd'
+import { optionsStatusDevice } from 'components/core/select/SelectStatusDevice'
 import Text from 'components/elements/text'
 import { FIELDS } from 'containers/alarm/AlarmSetting/index'
-import { get } from 'lodash'
+import { get, keyBy } from 'lodash'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -20,7 +21,7 @@ export const AlarmInfo = ({
   stationName,
   alarmType,
   maxDisconnectionTime,
-  dataAlarmStation,
+  alarmDetail,
   qcvnList = [],
 }) => {
   const alarmTypeName = {
@@ -31,8 +32,11 @@ export const AlarmInfo = ({
 
   const getOtherInfo = () => {
     const qcvnSelected = qcvnList.find(
-      qcvn => qcvn._id === dataAlarmStation.config.standardId
+      qcvn => qcvn._id === alarmDetail.config.standardId
     )
+
+    const statusDeviceList = keyBy(optionsStatusDevice, 'value')
+    const statusDevice = get(alarmDetail, ['config', 'type'])
 
     return {
       [FIELDS.DATA_LEVEL]: (
@@ -40,7 +44,7 @@ export const AlarmInfo = ({
           <Col className="label">Quy chuẩn: </Col>
           <Col span={16}>
             <Text fontWeight={500} fontSize={16}>
-              {get(dataAlarmStation, ['config', 'name'])}
+              {get(alarmDetail, ['config', 'name'])}
             </Text>
             <Text
               style={{ wordBreak: 'normal' }}
@@ -62,7 +66,16 @@ export const AlarmInfo = ({
           </Col>
         </Row>
       ),
-      [FIELDS.DEVICE]: 'Cảnh báo thiết bị',
+      [FIELDS.DEVICE]: (
+        <Row type="flex" gutter={27}>
+          <Col className="label">Trạng thái thiết bị: </Col>
+          <Col>
+            <Text fontWeight={700} fontSize={16}>
+              {statusDeviceList[statusDevice].label}
+            </Text>
+          </Col>
+        </Row>
+      ),
     }
   }
 

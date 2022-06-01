@@ -83,8 +83,9 @@ export default class FormAlarmDetail extends Component {
           qcvnList={qcvnList}
           stationName={stationName}
           alarmType={alarmType}
-          dataAlarmStation={alarmDetail}
+          alarmDetail={alarmDetail}
           maxDisconnectionTime={get(alarmDetail, ['maxDisconnectionTime'])}
+          statusDevice={get(alarmDetail, ['statusDevice'])}
         />
 
         <Clearfix height={33} />
