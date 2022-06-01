@@ -104,29 +104,40 @@ export default {
     const url = calc(prefixAlarm)
     return postFetch(url, param)
   },
+
   createBulkAlarm: param => {
     const url = calc(`${prefixAlarm}/bulk`)
     return postFetch(url, param)
   },
+
   getAlarms: param => {
     const url = calc(prefixAlarm)
     return getFetch(url, param)
   },
+
   getAlarmById: id => {
     const url = calc(`${prefixAlarm}/${id}`)
     return getFetch(url)
   },
+
   updateAlarmById: (id, param) => {
     const url = calc(`${prefixAlarm}/${id}`)
     return pathFetch(url, param)
   },
+
   getAlarmsLog: param => {
     const url = calc(prefixAlarmLog)
     return getFetch(url, param)
   },
+
   updateStatusAlarm: (id, status) => {
     const url = calc(`${prefixAlarm}/${id}/${status}`)
     return pathFetch(url)
+  },
+
+  toggleSendAlarm: (stationId = '', param) => {
+    const url = calc(`${prefixAlarm}/toggle-alarm/${stationId}`)
+    return pathFetch(url, param)
   },
   //#endregion
 

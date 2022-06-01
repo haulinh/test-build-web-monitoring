@@ -6,12 +6,12 @@ import React from 'react'
 import { alarmTypeObject, channels } from '../constants'
 import { FIELDS } from '../index'
 
-const getStatusAlarm = status => {
+export const getStatusAlarm = status => {
   if (status) return 'enable'
   return 'disable'
 }
 
-const getStatusAlarmBoolean = status => {
+export const getStatusAlarmBoolean = status => {
   if (status === 'enable') return true
   return false
 }

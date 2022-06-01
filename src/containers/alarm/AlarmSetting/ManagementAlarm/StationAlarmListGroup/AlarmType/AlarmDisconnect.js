@@ -6,18 +6,31 @@ import {
   SelectTime,
 } from 'containers/alarm/AlarmSetting/components/index'
 import { i18n } from 'containers/alarm/AlarmSetting/constants'
-import withAlarmForm from 'containers/alarm/AlarmSetting/hoc/withAlarmForm'
+import withAlarmForm, {
+  getStatusAlarmBoolean,
+} from 'containers/alarm/AlarmSetting/hoc/withAlarmForm'
 import { FIELDS } from 'containers/alarm/AlarmSetting/index'
 import { ALARM_LIST_INIT } from 'containers/manager/station-auto/alarm-config/constants'
 import { isEmpty, isEqual } from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { createAlarm, deleteAlarm } from 'redux/actions/alarm'
+import {
+  isAlarmStatusStationEnable,
+  selectStationById,
+} from 'redux/actions/globalAction'
 import { v4 as uuidv4 } from 'uuid'
 import FormAlarmDetail from '../FormAlarmDetail'
 
 @withAlarmForm
-@connect(null, { createAlarm, deleteAlarm })
+@connect(
+  state => ({
+    selectStationById: stationId => selectStationById(state, stationId),
+    isAlarmStatusStationEnable: stationId =>
+      isAlarmStatusStationEnable(state, stationId),
+  }),
+  { createAlarm, deleteAlarm }
+)
 export default class AlarmDisconnect extends Component {
   componentDidMount = () => {
     const { setFormValues, dataSource } = this.props
@@ -30,6 +43,30 @@ export default class AlarmDisconnect extends Component {
 
     if (!isEqual(prevProps.dataSource, dataSource)) {
       setFormValues(dataSource)
+    }
+
+    this.handleAlarmStatusChange(prevProps)
+  }
+
+  handleAlarmStatusChange = prevProps => {
+    const { dataSource, selectStationById, stationId, form } = this.props
+
+    if (
+      selectStationById(stationId).alarmConfig !==
+      prevProps.selectStationById(stationId).alarmConfig
+    ) {
+      const fieldsValueStatusAlarm = dataSource.reduce(
+        (base, currentAlarm) => ({
+          ...base,
+          [`${currentAlarm._id}.${FIELDS.STATUS}`]: getStatusAlarmBoolean(
+            selectStationById(stationId).alarmConfig.status
+          ),
+        }),
+
+        {}
+      )
+
+      form.setFieldsValue(fieldsValueStatusAlarm)
     }
   }
 
@@ -183,7 +220,6 @@ export default class AlarmDisconnect extends Component {
             form={form}
             stationName={stationName}
             alarmType={FIELDS.DISCONNECT}
-            // showTimeRepeat
           />
         )}
       </React.Fragment>
