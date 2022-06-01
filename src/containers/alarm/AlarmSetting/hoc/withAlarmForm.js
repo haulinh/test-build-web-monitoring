@@ -71,19 +71,40 @@ const withAlarmForm = WrappedComponent => {
       const { form } = this.props
 
       channels.forEach(channel => {
-        form.getFieldDecorator(`${alarmDetail._id}.channels.${channel}.active`)
+        form.getFieldDecorator(
+          `${alarmDetail._id}.channels.${channel}.active`,
+          {
+            initialValue: get(alarmDetail, `channels.${channel}.active`, true),
+          }
+        )
         form.getFieldDecorator(`${alarmDetail._id}.channels.${channel}.type`, {
           initialValue: channel,
         })
         form.getFieldDecorator(
           `${alarmDetail._id}.channels.${channel}.template`,
           {
-            initialValue: alarmTypeObject[alarmType].template,
+            initialValue: get(
+              alarmDetail,
+              `channels.${channel}.template`,
+              alarmTypeObject[alarmType].template
+            ),
+          }
+        )
+        form.getFieldDecorator(
+          `${alarmDetail._id}.channels.${channel}.customTemplate`,
+          {
+            initialValue: get(
+              alarmDetail,
+              `channels.${channel}.customTemplate`
+            ),
           }
         )
       })
       form.getFieldDecorator(`${alarmDetail._id}.repeatConfig.active`, {
-        initialValue: true,
+        initialValue: get(alarmDetail, 'repeatConfig.active', true),
+      })
+      form.getFieldDecorator(`${alarmDetail._id}.repeatConfig.frequency`, {
+        initialValue: get(alarmDetail, 'repeatConfig.active.frequency', 3600),
       })
     }
 

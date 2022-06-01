@@ -1,5 +1,4 @@
 import { Col, Form, Icon, Row, Switch, Table, Tooltip } from 'antd'
-import { InfoIcon } from 'assets/icons-alarm/InfoIcon'
 import { i18n } from 'containers/alarm/AlarmSetting/constants'
 import { FIELDS } from 'containers/alarm/AlarmSetting/index'
 import { get, isEqual, keyBy } from 'lodash'
@@ -13,7 +12,23 @@ import { withRouter } from 'react-router'
   measuresObj: state.global.measuresObj,
 }))
 export default class TableQCVN extends Component {
+  componentDidMount = () => {
+    this.handleMeasuringListEnable()
+  }
+
   componentDidUpdate(prevProps) {
+    const { measureListValue, dataSource } = this.props
+
+    if (!isEqual(prevProps.measureListValue, measureListValue)) {
+      this.handleMeasuringListEnable()
+    }
+
+    if (!isEqual(prevProps.dataSource, dataSource)) {
+      this.handleMeasuringListEnable()
+    }
+  }
+
+  handleMeasuringListEnable = () => {
     const { form, measureListValue, dataSource } = this.props
 
     const measureListValueObject = dataSource.reduce((base, current) => {
@@ -23,13 +38,7 @@ export default class TableQCVN extends Component {
       return { ...base, [current.key]: false }
     }, {})
 
-    if (!isEqual(prevProps.measureListValue, measureListValue)) {
-      form.setFieldsValue({ measuringListEnable: measureListValueObject })
-    }
-
-    if (!isEqual(prevProps.dataSource, dataSource)) {
-      form.setFieldsValue({ measuringListEnable: measureListValueObject })
-    }
+    form.setFieldsValue({ measuringListEnable: measureListValueObject })
   }
 
   getStandardColumns = () => {
@@ -41,9 +50,9 @@ export default class TableQCVN extends Component {
         title: (
           <Row gutter={10} type="flex" justify="center" align="center">
             <Col>{qcvn.name}</Col>
-            <Col style={{ marginTop: '2px' }}>
-              <Tooltip placement="top" title="text">
-                <InfoIcon />
+            <Col>
+              <Tooltip placement="top" title={qcvn.name}>
+                <Icon type="info-circle" style={{ color: '#A2A7B3' }} />
               </Tooltip>
             </Col>
           </Row>
@@ -102,9 +111,9 @@ export default class TableQCVN extends Component {
       title: (
         <Row gutter={10} type="flex" justify="center" align="center">
           <Col>{level.title}</Col>
-          <Col style={{ marginTop: '2px' }}>
+          <Col>
             <Tooltip placement="top" title="text">
-              <InfoIcon />
+              <Icon type="info-circle" style={{ color: '#A2A7B3' }} />
             </Tooltip>
           </Col>
         </Row>

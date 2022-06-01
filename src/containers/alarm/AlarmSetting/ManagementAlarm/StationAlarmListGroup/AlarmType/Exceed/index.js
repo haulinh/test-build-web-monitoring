@@ -1,14 +1,12 @@
 import { Button, Col, Row } from 'antd'
 import QCVNApi from 'api/QCVNApi'
 import { Clearfix } from 'components/elements'
-import { getHiddenParam } from 'containers/alarm/AlarmSetting/constants'
 import withAlarmForm, {
   isDefaultDataLevel,
 } from 'containers/alarm/AlarmSetting/hoc/withAlarmForm'
 import { FIELDS } from 'containers/alarm/AlarmSetting/index'
-import { getMeasuringListFromStationAutos } from 'containers/api-sharing/util'
 import { ALARM_LIST_INIT } from 'containers/manager/station-auto/alarm-config/constants'
-import { get, groupBy, isEmpty, keyBy, omit, uniqBy } from 'lodash'
+import { get, groupBy, isEmpty, keyBy, omit } from 'lodash'
 import { Component, default as React } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
@@ -104,7 +102,8 @@ export default class AlarmExceed extends Component {
           type: paramItem.config.type || 'standard',
           [FIELDS.MEASURING_LIST]: measuringListEnable,
         },
-        ...getHiddenParam(FIELDS.DATA_LEVEL, stationId),
+        stationId: stationId,
+        type: FIELDS.DATA_LEVEL,
       }))
 
     handleSubmitAlarm(params)
@@ -168,17 +167,9 @@ export default class AlarmExceed extends Component {
 
   getMeasuringList = () => {
     const { measuringListStation } = this.props
-    const qcvnsSelected = this.getQcvnSelected()
-
-    const measuringList = getMeasuringListFromStationAutos(qcvnsSelected)
-
-    const uniqueMeasuringList = uniqBy(
-      [...measuringList, ...measuringListStation],
-      'key'
-    )
 
     return (
-      uniqueMeasuringList.map(measuring => ({
+      measuringListStation.map(measuring => ({
         ...measuring,
         measuringListEnable: measuring.key,
       })) || []
@@ -222,6 +213,7 @@ export default class AlarmExceed extends Component {
       setAlarmDetail,
       handleShowAlarmDetail,
       setHiddenFields,
+      stationId,
     } = this.props
 
     const qcvnListSelected = this.getQcvnSelected()
@@ -282,8 +274,10 @@ export default class AlarmExceed extends Component {
             visible={visibleAlarmDetail}
             onClose={this.handleCloseAlarmDetail}
             alarmDetail={alarmDetail}
+            stationId={stationId}
             stationName={stationName}
             alarmType={FIELDS.DATA_LEVEL}
+            handleSubmit={this.handleSubmit}
             showTimeRepeat
           />
         )}
