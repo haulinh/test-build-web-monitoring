@@ -105,7 +105,7 @@ export default class TableQCVN extends Component {
           <Col>{level.title}</Col>
         </Row>
       ),
-      key: level.dataIndex,
+      key: `${level.dataIndex}-${level.title}`,
       align: 'center',
       dataIndex: 'key',
       width: '200px',
@@ -193,6 +193,7 @@ export default class TableQCVN extends Component {
     return (
       <Table
         columns={this.getColumns()}
+        rowKey={record => record.key}
         dataSource={dataSource}
         bordered
         pagination={false}

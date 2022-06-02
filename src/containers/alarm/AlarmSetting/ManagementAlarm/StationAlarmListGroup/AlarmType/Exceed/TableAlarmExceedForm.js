@@ -35,7 +35,6 @@ export default class TableAlarmConfigExceed extends Component {
       align: 'left',
       render: (_, record) => {
         const { form, qcvnList, qcvnListSelected } = this.props
-        console.log(qcvnListSelected)
         form.getFieldDecorator(`${record._id}.${FIELDS.CONFIG}.${FIELDS.TYPE}`)
 
         const configAlarmType = get(record, 'config.type')

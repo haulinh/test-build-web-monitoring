@@ -10,7 +10,7 @@ import { get, groupBy, isEmpty, keyBy, omit } from 'lodash'
 import { Component, default as React } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
-import { createAlarm, deleteAlarm } from 'redux/actions/alarm'
+import { createAlarm, deleteAlarm, createListAlarm } from 'redux/actions/alarm'
 import { v4 as uuidv4 } from 'uuid'
 import FormAlarmDetail from '../../FormAlarmDetail'
 import TableAlarmExceedForm from './TableAlarmExceedForm'
@@ -18,13 +18,22 @@ import TableQCVN from './TableQCVN'
 
 @withRouter
 @withAlarmForm
-@connect(null, { createAlarm, deleteAlarm })
+@connect(null, { createAlarm, deleteAlarm, createListAlarm })
 export default class AlarmExceed extends Component {
   state = {
     qcvnList: [],
   }
 
   componentDidMount = async () => {
+    const { dataSource, stationId, createListAlarm } = this.props
+    if (!dataSource) {
+      const alarmInit = ALARM_LIST_INIT.DATA_LEVEL.map(dataItem => ({
+        ...dataItem,
+        stationId,
+      }))
+      createListAlarm(alarmInit, stationId)
+    }
+
     this.setState({ loading: true })
     const qcvnList = await this.getQCVNList()
 
