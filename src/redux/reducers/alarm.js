@@ -1,3 +1,4 @@
+import update from 'immutability-helper'
 import {
   CLEAR_ALARM_SELECTED,
   CREATE_ALARM,
@@ -6,6 +7,7 @@ import {
   SELECT_STATION,
   DELETE_ALARM,
   UPDATE_DETAIL_ALARM,
+  CREATE_LIST_ALARM,
 } from '../actions/alarm'
 
 const initialState = {
@@ -49,6 +51,12 @@ const alarmReducer = (state = initialState, action) => {
         ...state,
         alarmList: [...state.alarmList, action.payload],
       }
+    }
+
+    case CREATE_LIST_ALARM: {
+      return update(state, {
+        alarmList: { $push: action.payload },
+      })
     }
 
     case DELETE_ALARM: {

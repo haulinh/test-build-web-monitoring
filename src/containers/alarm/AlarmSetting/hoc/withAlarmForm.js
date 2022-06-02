@@ -4,10 +4,10 @@ import { translate } from 'hoc/create-lang'
 import { get, isEmpty, isEqual } from 'lodash'
 import React from 'react'
 import { connect } from 'react-redux'
+import { getAlarms } from 'redux/actions/alarm'
 import { selectStationById } from 'redux/actions/globalAction'
 import { alarmTypeObject, channels, getVisibleEmailSubject } from '../constants'
 import { FIELDS } from '../index'
-import { getAlarms } from 'redux/actions/alarm'
 
 export const getStatusAlarm = status => {
   if (status) return 'enable'

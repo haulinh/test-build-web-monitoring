@@ -17,7 +17,7 @@ export function getConfigApi() {
     // user: 'http://localhost:5005/user',
     trialRegister: c('trial-register'),
     config: c('config'),
-
+    // config: 'http://localhost:5002/config',
     measuring: c('measuring'),
     // measuring: 'http://localhost:5002/measuring',
 
