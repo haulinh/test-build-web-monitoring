@@ -176,7 +176,6 @@ export function getDataStationAutoExportAvg({
   isFilter,
   standardsVN,
 }) {
-  console.log('isFilter' + isFilter)
   var url = getAvgDataUrl(`${key}/export-avg?`)
   if (fromDate) url += `&from=${fromDate}`
   if (toDate) url += `&to=${toDate}`

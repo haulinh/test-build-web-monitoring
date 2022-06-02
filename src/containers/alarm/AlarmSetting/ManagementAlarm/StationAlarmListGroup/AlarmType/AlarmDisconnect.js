@@ -11,7 +11,7 @@ import { FIELDS } from 'containers/alarm/AlarmSetting/index'
 import { isEmpty } from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { createAlarm, deleteAlarm } from 'redux/actions/alarm'
+import { createAlarm, deleteAlarm, createListAlarm } from 'redux/actions/alarm'
 import { selectStationById } from 'redux/actions/globalAction'
 import { v4 as uuidv4 } from 'uuid'
 import FormAlarmDetail from '../FormAlarmDetail'
@@ -21,10 +21,16 @@ import FormAlarmDetail from '../FormAlarmDetail'
   state => ({
     selectStationById: stationId => selectStationById(state, stationId),
   }),
-  { createAlarm, deleteAlarm }
+  { createAlarm, deleteAlarm, createListAlarm }
 )
 export default class AlarmDisconnect extends Component {
   //#region life cycle
+  componentDidMount = () => {
+    const { dataSource, stationId, createListAlarm } = this.props
+    if (!dataSource) {
+      createListAlarm(ALARM_LIST_INIT.DISCONNECT, stationId)
+    }
+  }
   //#endregion life cycle
 
   //#region management
@@ -105,8 +111,11 @@ export default class AlarmDisconnect extends Component {
       align: 'center',
       dataIndex: FIELDS.STATUS,
       render: (_, record) => {
-        const { form, setHiddenFields } = this.props
+        const { form, setHiddenFields, stationId } = this.props
         setHiddenFields(record, FIELDS.DISCONNECT)
+        form.getFieldDecorator(`${record._id}.stationId`, {
+          initialValue: stationId,
+        })
 
         return (
           <React.Fragment>
@@ -156,6 +165,7 @@ export default class AlarmDisconnect extends Component {
           columns={this.columns}
           bordered
           dataSource={dataSource}
+          rowKey={record => record._id}
           pagination={false}
           footer={() => (
             <Button
@@ -194,8 +204,4 @@ export default class AlarmDisconnect extends Component {
       </React.Fragment>
     )
   }
-}
-
-AlarmDisconnect.defaultProps = {
-  dataSource: ALARM_LIST_INIT.DISCONNECT,
 }
