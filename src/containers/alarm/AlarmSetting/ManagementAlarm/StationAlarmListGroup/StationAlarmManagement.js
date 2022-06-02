@@ -1,6 +1,5 @@
 import { Row, Tabs as TabsAnt } from 'antd'
 import { CpuSetting, CloudCross, Danger } from 'assets/icons'
-import { ALARM_LIST_INIT } from 'containers/manager/station-auto/alarm-config/constants'
 import { get, groupBy } from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
@@ -10,7 +9,6 @@ import { AlarmType, ALARM_LIST_INIT } from '../../constants'
 import AlarmDisconnect from './AlarmType/AlarmDisconnect'
 import AlarmStatusDevice from './AlarmType/AlarmStatusDevice'
 import AlarmExceed from './AlarmType/Exceed'
-import { createAlarm } from 'redux/actions/alarm'
 
 const { TabPane } = TabsAnt
 

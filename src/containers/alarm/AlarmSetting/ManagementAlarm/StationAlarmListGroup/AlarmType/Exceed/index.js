@@ -22,13 +22,15 @@ import TableQCVN from './TableQCVN'
 export default class AlarmExceed extends Component {
   state = {
     qcvnList: [],
+    loadingStandard: false,
   }
 
   componentDidMount = async () => {
-    this.setState({ loading: true })
+    this.setState({ loadingStandard: true })
+
     const qcvnList = await this.getQCVNList()
 
-    this.setState({ qcvnList })
+    this.setState({ qcvnList, loadingStandard: false })
   }
 
   getInitValues = alarmList => {
@@ -191,7 +193,7 @@ export default class AlarmExceed extends Component {
   }
 
   render() {
-    const { qcvnList } = this.state
+    const { qcvnList, loadingStandard } = this.state
     const {
       form,
       users,
@@ -238,14 +240,16 @@ export default class AlarmExceed extends Component {
           setHiddenFields={setHiddenFields}
         />
         <Clearfix height={24} />
-        <TableQCVN
-          form={form}
-          measuringListStation={measuringListStation}
-          qcvnList={qcvnListSelected}
-          dataSource={measuringList}
-          measureListValue={measureListValue}
-          defaultDataLevelValue={defaultDataLevelValue}
-        />
+        {!loadingStandard && (
+          <TableQCVN
+            form={form}
+            measuringListStation={measuringListStation}
+            qcvnList={qcvnListSelected}
+            dataSource={measuringList}
+            measureListValue={measureListValue}
+            defaultDataLevelValue={defaultDataLevelValue}
+          />
+        )}
         <Clearfix height={32} />
         <Row type="flex" justify="end">
           <Col span={5}>
