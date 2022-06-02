@@ -250,7 +250,6 @@ export default class AlarmExceed extends Component {
         <Row type="flex" justify="end">
           <Col span={5}>
             <Button
-              style={{ width: '328px' }}
               type="primary"
               block
               size="large"
