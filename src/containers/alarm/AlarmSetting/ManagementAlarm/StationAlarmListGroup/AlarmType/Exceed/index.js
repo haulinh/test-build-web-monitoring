@@ -26,6 +26,12 @@ export default class AlarmExceed extends Component {
 
   componentDidMount = async () => {
     const { dataSource, stationId, createListAlarm } = this.props
+
+    this.setState({ loading: true })
+    const qcvnList = await this.getQCVNList()
+
+    this.setState({ qcvnList })
+
     if (!dataSource) {
       const alarmInit = ALARM_LIST_INIT.DATA_LEVEL.map(dataItem => ({
         ...dataItem,
@@ -33,11 +39,6 @@ export default class AlarmExceed extends Component {
       }))
       createListAlarm(alarmInit, stationId)
     }
-
-    this.setState({ loading: true })
-    const qcvnList = await this.getQCVNList()
-
-    this.setState({ qcvnList })
   }
 
   getInitValues = alarmList => {
@@ -217,6 +218,7 @@ export default class AlarmExceed extends Component {
     } = this.props
 
     const qcvnListSelected = this.getQcvnSelected()
+
     const measuringList = this.getMeasuringList()
 
     const alarmHaveMeasuringList = (dataSource || []).find(
