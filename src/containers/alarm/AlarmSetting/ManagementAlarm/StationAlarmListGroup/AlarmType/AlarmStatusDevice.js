@@ -6,7 +6,7 @@ import { DropdownMoreAction } from 'containers/alarm/AlarmSetting/components'
 import { ALARM_LIST_INIT, i18n } from 'containers/alarm/AlarmSetting/constants'
 import withAlarmForm from 'containers/alarm/AlarmSetting/hoc/withAlarmForm'
 import { FIELDS } from 'containers/alarm/AlarmSetting/index'
-import { isEmpty, keyBy } from 'lodash'
+import { get, isEmpty, keyBy } from 'lodash'
 import React, { Component } from 'react'
 import FormAlarmDetail from '../FormAlarmDetail'
 
@@ -44,8 +44,9 @@ export default class AlarmStatusDevice extends Component {
       align: 'center',
       render: (_, record) => {
         const statusDeviceList = keyBy(optionsStatusDevice, 'value')
+        const statusDevice = get(record, ['config', 'type'])
 
-        return <div>{statusDeviceList[record.config.type].label}</div>
+        return <div>{get(statusDeviceList, [`${statusDevice}`, 'label'])}</div>
       },
     },
     {
