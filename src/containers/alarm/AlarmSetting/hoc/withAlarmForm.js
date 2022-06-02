@@ -1,10 +1,12 @@
 import { Form, message } from 'antd'
 import CalculateApi from 'api/CalculateApi'
 import { translate } from 'hoc/create-lang'
-import { get } from 'lodash'
+import { get, isEqual } from 'lodash'
 import React from 'react'
+import { connect } from 'react-redux'
 import { alarmTypeObject, channels, getVisibleEmailSubject } from '../constants'
 import { FIELDS } from '../index'
+import { getAlarms } from 'redux/actions/alarm'
 
 const getStatusAlarm = status => {
   if (status) return 'enable'
@@ -21,6 +23,7 @@ export const isDefaultDataLevel = alarmConfigType =>
 
 const withAlarmForm = WrappedComponent => {
   @Form.create()
+  @connect(null, { getAlarms })
   class AlarmForm extends React.Component {
     state = {
       alarmIdsDeleted: [],
@@ -32,6 +35,20 @@ const withAlarmForm = WrappedComponent => {
 
     state = {
       alarmIdsDeleted: [],
+    }
+
+    componentDidMount = () => {
+      const { dataSource } = this.props
+
+      this.setFormValues(dataSource)
+    }
+
+    componentDidUpdate = (prevProps, prevState) => {
+      const { dataSource } = this.props
+
+      if (!isEqual(prevProps.dataSource, dataSource)) {
+        this.setFormValues(dataSource)
+      }
     }
 
     getQueryParamGeneral = () => {
@@ -127,6 +144,8 @@ const withAlarmForm = WrappedComponent => {
 
     handleSubmitAlarm = async paramGeneral => {
       const { alarmIdsDeleted } = this.state
+      const { getAlarms } = this.props
+
       const params = {
         data: paramGeneral,
         deletedIds: alarmIdsDeleted,
@@ -134,9 +153,9 @@ const withAlarmForm = WrappedComponent => {
 
       try {
         await CalculateApi.createBulkAlarm(params)
+        getAlarms()
         message.success(translate('global.saveSuccess'))
       } catch (error) {
-        console.error(error)
         message.error(translate('ticket.message.notificationError'))
       }
     }
