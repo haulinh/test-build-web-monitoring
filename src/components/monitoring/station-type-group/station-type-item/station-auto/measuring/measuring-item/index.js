@@ -117,6 +117,8 @@ export default class MeasuringItem extends React.PureComponent {
     maxLimit: PropTypes.number,
     warningLevel: PropTypes.string,
     statusStation: PropTypes.string,
+    primaryColor: PropTypes.string,
+    secondColor: PropTypes.string,
   }
 
   getLimitText() {
@@ -172,19 +174,6 @@ export default class MeasuringItem extends React.PureComponent {
     //return limitText ? `${limitText} ${unit}` : ` `
   }
 
-  getColorLevel() {
-    if (
-      this.props.statusStation &&
-      this.props.statusStation === STATUS_STATION.DATA_LOSS
-    )
-      return DATA_COLOR[STATUS_STATION.DATA_LOSS]
-
-    const { warningLevel } = this.props
-    if (warningLevel && DATA_COLOR[warningLevel])
-      return DATA_COLOR[warningLevel]
-    return DATA_COLOR.GOOD
-  }
-
   renderDeviceIcon = status => {
     let item = DEVICE_STATUS[`${status}`]
     if (item) {
@@ -209,7 +198,14 @@ export default class MeasuringItem extends React.PureComponent {
   }
 
   render() {
-    const { value, unit, name, measureKey, translateContent } = this.props
+    const {
+      value,
+      unit,
+      name,
+      measureKey,
+      translateContent,
+      primaryColor,
+    } = this.props
 
     let colorDeviceStatus =
       COLOR_DEVICE_STATUS[get(this.props, 'statusDevice', '')]
@@ -226,22 +222,17 @@ export default class MeasuringItem extends React.PureComponent {
     })
 
     return (
-      <MeasuringItemWrapper
-        onClick={this.props.onClick}
-        color={this.getColorLevel()}
-      >
+      <MeasuringItemWrapper onClick={this.props.onClick} color={primaryColor}>
         <Tooltip title={name}>
-          <MeasuringName color={this.getColorLevel()}>
-            {measureName}
-          </MeasuringName>
+          <MeasuringName color={primaryColor}>{measureName}</MeasuringName>
         </Tooltip>
-        <Flex onClick={this.props.onClick} color={this.getColorLevel()}>
+        <Flex onClick={this.props.onClick} color={primaryColor}>
           <LeftContainer>
-            <MeasuringValue color={this.getColorLevel()}>
+            <MeasuringValue color={primaryColor}>
               {value !== undefined ? (
                 <React.Fragment>
                   {getFormatNumber(value)}
-                  <MeasuringUnit color={this.getColorLevel()} className="unit">
+                  <MeasuringUnit color={primaryColor} className="unit">
                     {unit ? unit : ''}
                   </MeasuringUnit>
                 </React.Fragment>
