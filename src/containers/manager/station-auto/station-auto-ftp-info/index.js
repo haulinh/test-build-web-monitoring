@@ -268,7 +268,6 @@ export default class StationAutoFtpInfo extends React.PureComponent {
   }
 
   render() {
-    // console.log(this.props.data, "---2--22---")
     return (
       <PageContainer {...this.props.wrapperProps}>
         <Breadcrumb

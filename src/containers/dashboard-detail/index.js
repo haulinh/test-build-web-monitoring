@@ -19,8 +19,8 @@ import { getStationTypes } from 'api/CategoryApi'
 import { getLastLog } from 'api/StationAuto'
 import { translate } from 'hoc/create-lang'
 import { STATUS_STATION, getStatusPriority } from 'constants/stationStatus'
-import {getContent} from 'components/language/language-content'
-import {connect} from 'react-redux'
+import { getContent } from 'components/language/language-content'
+import { connect } from 'react-redux'
 
 // NOTE  every 1min will get last log
 const GET_LAST_LOG_INTERVAL_TIME = 1000 * 60
@@ -49,7 +49,7 @@ const BoxLoader = createContentLoader({
 
 @protectRole(ROLE.DASHBOARD_2.VIEW)
 @connect(state => ({
-  languageContents: state.language.languageContents
+  languageContents: state.language.languageContents,
 }))
 export default class OverviewDashboard extends Component {
   state = {
@@ -218,14 +218,19 @@ export default class OverviewDashboard extends Component {
   }
 
   getChartList() {
-    const {languageContents} = this.props
+    const { languageContents } = this.props
     const result = _.map(this.state.stationTypeList, item => {
       if (this.state.stationCount[item.key] === 0) {
         return null
       }
       return {
         key: item.key,
-        title: getContent(languageContents, {type: 'StationType', itemId: item._id, field: 'name', value: item.name}), 
+        title: getContent(languageContents, {
+          type: 'StationType',
+          itemId: item._id,
+          field: 'name',
+          value: item.name,
+        }),
         totalStation: this.state.stationCount[item.key],
         stationList: this.state.rows[item.key],
       }
@@ -254,7 +259,7 @@ export default class OverviewDashboard extends Component {
         }
         hideTitle
       >
-        <HeaderWrapper>
+        <HeaderWrapper className="header--wrapper">
           <div style={{ background: '#FBFBFB', padding: '16px 0px 0px' }}>
             <HeaderView
               stationStatus={this.state.stationStatus}
@@ -273,15 +278,6 @@ export default class OverviewDashboard extends Component {
           render={({ state, fullpageApi }) => {
             return (
               <ReactFullpage.Wrapper>
-                {/* <div className="section tableFix">
-                  <ChartStatisticalRatio
-                    isGroupProvince={this.state.isGroupProvince}
-                    loading={this.state.isGetLastLogLoading}
-                    data={this.state.stationList}
-                    province={this.state.province}
-                  />
-                </div> */}
-
                 <ChartList data={this.getChartList()} />
               </ReactFullpage.Wrapper>
             )

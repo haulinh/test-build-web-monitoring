@@ -9,6 +9,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { COLOR_DEVICE_STATUS, DATA_COLOR } from 'themes/color'
+import { getConfigColor } from 'constants/stationStatus'
+import { warningLevels } from 'constants/warningLevels'
+import { connectAutoDispatch } from 'redux/connect'
 
 //#region style
 const MeasuringListWrapper = styled.div`
@@ -128,6 +131,9 @@ export default class MeasuringAdvancedList extends React.PureComponent {
   }
 }
 
+@connectAutoDispatch(state => ({
+  colorData: _.get(state, 'config.color.warningLevel.data.value', []),
+}))
 @autobind
 class MeasuringItem extends React.PureComponent {
   static propTypes = {
@@ -143,10 +149,22 @@ class MeasuringItem extends React.PureComponent {
 
   getColorLevel() {
     const { statusStation } = this.props
-    if (statusStation && statusStation === STATUS_STATION.DATA_LOSS)
-      return DATA_COLOR[STATUS_STATION.DATA_LOSS]
 
-    return DATA_COLOR.GOOD
+    const { colorData } = this.props
+    let configColor = {}
+
+    if (statusStation && statusStation === warningLevels.LOSS) {
+      configColor = getConfigColor(colorData, warningLevels.LOSS, {
+        defaultPrimary: null,
+        defaultSecond: '#ffffff',
+      })
+    } else {
+      configColor = getConfigColor(colorData, warningLevels.GOOD, {
+        defaultPrimary: null,
+        defaultSecond: '#ffffff',
+      })
+    }
+    return configColor.primaryColor
   }
 
   renderDeviceIcon = status => {

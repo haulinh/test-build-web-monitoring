@@ -30,7 +30,7 @@ import { connect } from 'react-redux'
 import { changeOpenSubMenu } from 'redux/actions/themeAction'
 import HeaderLeft from './HeaderLeft'
 import HeaderRight from './HeaderRight'
-import {getContent} from 'components/language/language-content'
+import { getContent } from 'components/language/language-content'
 
 const ContainerHeader = styled.div`
   flex-direction: row;
@@ -77,12 +77,13 @@ export const defaultFilter = {
 
 @connect(
   state => ({
-    languageContents: get(state, 'language.languageContents')
-  }), 
+    languageContents: get(state, 'language.languageContents'),
+  }),
   {
     changeOpenSubMenu,
     toggleNavigation,
-  })
+  }
+)
 @withRouter
 @protectRole(ROLE.MONITORING_BY_LIST.VIEW)
 @autobind
@@ -206,7 +207,7 @@ export default class MonitoringGeneral extends React.Component {
         <div>
           <HeaderDesc>
             <HeaderLeft stationStatus={stationStatus} i18n={i18n} />
-            <HeaderRight i18n={i18n} />
+            <HeaderRight />
           </HeaderDesc>
         </div>
         <ContainerHeader>
@@ -255,7 +256,7 @@ export default class MonitoringGeneral extends React.Component {
   }
 
   getFilterProvince = dataList => {
-    const {languageContents} = this.props
+    const { languageContents } = this.props
     let total = 0
     let countGood = 0
     const stationTypeList = _.map(
@@ -263,8 +264,13 @@ export default class MonitoringGeneral extends React.Component {
       ({ stationAutoList, totalWarning, stationType }) => {
         const rs = _.filter(
           stationAutoList || [],
-          ({ _id: itemId, province, status, name: pureName}) => {
-            const name = getContent(languageContents, {type: 'Station', itemId: itemId, field: 'name', value: pureName})
+          ({ _id: itemId, province, status, name: pureName }) => {
+            const name = getContent(languageContents, {
+              type: 'Station',
+              itemId: itemId,
+              field: 'name',
+              value: pureName,
+            })
 
             let hasFilterName = true
             if (this.state.filter.search) {

@@ -2,16 +2,18 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
 import styled from 'styled-components'
-
-import { DATA_COLOR } from 'themes/color'
-import { get as _get } from 'lodash'
+import { get as _get, find as _find } from 'lodash'
 import { connect } from 'react-redux'
-import {getContent} from 'components/language/language-content'
+import { getContent } from 'components/language/language-content'
+
+import { stationStatusOptions, getConfigColor } from 'constants/stationStatus'
+
 const SummaryItemWrapper = styled.div`
   display: flex;
   flex: 1;
   border-radius: 4px;
   padding: 12px 16px;
+  min-width: 200px;
   background-color: ${props => props.color};
   &:hover {
     cursor: ${props => (props.disable ? 'not-allowed' : 'pointer')};
@@ -34,6 +36,7 @@ const TextNumber = styled(Text)`
   flex: 1;
   text-align: right;
   margin-top: 4px;
+  color: ${props => props.color};
 `
 
 const TextDescription = styled(Text)`
@@ -48,6 +51,7 @@ const TextDescription = styled(Text)`
   display: -webkit-box;
   -webkit-box-orient: vertical;
   margin-top: 8px;
+  color: ${props => props.color};
 `
 
 const Row = styled.div`
@@ -58,6 +62,7 @@ const Row = styled.div`
 @connect(state => ({
   language: _get(state, 'language.locale'),
   languageContents: _get(state, 'language.languageContents'),
+  colorData: _get(state, 'config.color.warningLevel.data.value', []),
 }))
 @autobind
 export default class SummaryItem extends React.PureComponent {
@@ -89,8 +94,18 @@ export default class SummaryItem extends React.PureComponent {
       _id,
       languageContents,
     } = this.props
-    const colorStatus =
-      this.props.number === 0 ? DATA_COLOR.DATA_LOSS : DATA_COLOR[statusStation]
+
+    const stationAutoStatus =
+      this.props.number === 0
+        ? stationStatusOptions[0]
+        : _find(stationStatusOptions, item => item.key === statusStation)
+
+    const { colorData } = this.props
+    const configColor = getConfigColor(colorData, stationAutoStatus.key, {
+      defaultPrimary: null,
+      defaultSecond: '#ffffff',
+    })
+
     return (
       <div
         onClick={e => {
@@ -98,12 +113,24 @@ export default class SummaryItem extends React.PureComponent {
             window.fullpage_api.moveTo(indexScroll) // MARK  +2 vì pieChart và stt từ 1
         }}
       >
-        <SummaryItemWrapper disable={number === 0} color={colorStatus}>
+        <SummaryItemWrapper
+          disable={number === 0}
+          color={configColor.primaryColor}
+        >
           <Row>
             <StationTypeImg src={image} />
-            <TextNumber>{this.renderNumber()}</TextNumber>
+            <TextNumber color={configColor.secondColor}>
+              {this.renderNumber()}
+            </TextNumber>
           </Row>
-          <TextDescription>{getContent(languageContents, {type: 'StationType', itemId: _id, field: 'name', value: name})}</TextDescription>
+          <TextDescription color={configColor.secondColor}>
+            {getContent(languageContents, {
+              type: 'StationType',
+              itemId: _id,
+              field: 'name',
+              value: name,
+            })}
+          </TextDescription>
         </SummaryItemWrapper>
       </div>
     )
