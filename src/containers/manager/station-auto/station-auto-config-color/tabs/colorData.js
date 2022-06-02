@@ -2,9 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import * as _ from 'lodash'
 import { connectAutoDispatch } from 'redux/connect'
-import { Button, Table, Form, Input, Typography, Col, Row } from 'antd'
+import { Button, Table, Form, Input, Typography, Col, Row, Modal } from 'antd'
 import createLanguageHoc, { translate } from 'hoc/create-lang'
-
 import { updateWarningLevelColorData } from 'redux/actions/config'
 
 const { Text } = Typography
@@ -20,6 +19,9 @@ function i18n() {
     columnDesc: translate('page.config.color.table.column.desc'),
     save: translate('addon.save'),
     restore: translate('addon.restore'),
+    cancelText: translate('addon.cancel'),
+    okText: translate('addon.ok'),
+    restoreConfirmMsg: translate('confirm.msg.restore'),
   }
 }
 
@@ -170,16 +172,24 @@ export default class WarningLevelColorOfSensor extends React.Component {
 
   _restoreConfigs = () => {
     const { validateFields } = this.props.form
-
-    validateFields(async (error, values) => {
-      const id = _.get(this.props.colorData, '_id')
-      const data = Object.values(values)
-      // console.log(values, '--data--')
-      this.setState({ isRestore: true })
-      await this.props.updateWarningLevelColorData(id, data, {
-        isRestore: true,
-      })
-      this.setState({ isRestore: false })
+    const id = _.get(this.props.colorData, '_id')
+    let me = this
+    Modal.confirm({
+      title: i18n().restoreConfirmMsg,
+      okText: i18n().okText,
+      cancelText: i18n().cancelText,
+      onOk() {
+        validateFields(async (error, values) => {
+          const data = Object.values(values)
+          // console.log(values, '--data--')
+          me.setState({ isRestore: true })
+          await me.props.updateWarningLevelColorData(id, data, {
+            isRestore: true,
+          })
+          me.setState({ isRestore: false })
+        })
+      },
+      onCancel() {},
     })
   }
 }
