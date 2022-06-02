@@ -6,7 +6,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { getAlarms } from 'redux/actions/alarm'
 import {
-  getStationAutos,
   selectStationGroupByType,
   selectStationAutos,
 } from 'redux/actions/globalAction'
@@ -19,7 +18,6 @@ import StationAlarmListGroup from './StationAlarmListGroup/index'
   }),
   {
     getAlarms,
-    getStationAutos,
   }
 )
 export default class ManagementAlarm extends Component {

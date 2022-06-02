@@ -6,6 +6,7 @@ import {
   UPDATE_MEASURE,
   DELETE_MEASURE,
   GET_STATION_AUTOS,
+  TOGGLE_SEND_ALARM,
 } from '../actions/globalAction'
 const initialState = {
   measuresObj: {},
@@ -49,6 +50,18 @@ const globalReducer = (state = initialState, action) => {
     case GET_STATION_AUTOS: {
       return update(state, {
         stationAutosObj: { $set: action.payload },
+      })
+    }
+
+    case TOGGLE_SEND_ALARM: {
+      return update(state, {
+        stationAutosObj: {
+          [action.payload.stationId]: {
+            alarmConfig: {
+              $set: action.payload.param,
+            },
+          },
+        },
       })
     }
     //#endregion stations
