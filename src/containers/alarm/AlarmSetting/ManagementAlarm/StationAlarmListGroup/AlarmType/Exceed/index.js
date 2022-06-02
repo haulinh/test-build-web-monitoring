@@ -244,6 +244,7 @@ export default class AlarmExceed extends Component {
           onDelete={this.handleDelete}
           qcvnList={qcvnList}
           setAlarmDetail={setAlarmDetail}
+          qcvnListSelected={qcvnListSelected}
           handleShowAlarmDetail={handleShowAlarmDetail}
           setHiddenFields={setHiddenFields}
         />

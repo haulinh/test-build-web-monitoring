@@ -61,27 +61,8 @@ export default class FormAlarmDetail extends Component {
   }
 
   handleOnSubmit = () => {
-    const {
-      onClose,
-      form,
-      handleSubmit,
-      alarmDetail,
-      updateDetailAlarm,
-      stationId,
-    } = this.props
+    const { onClose, handleSubmit } = this.props
 
-    const formValues = form.getFieldsValue()
-    const alarmUpdated = {
-      ...formValues[alarmDetail._id],
-      stationId: stationId,
-      type: FIELDS.DATA_LEVEL,
-    }
-
-    updateDetailAlarm({
-      ...alarmDetail,
-      repeatConfig: alarmUpdated.repeatConfig,
-      channels: alarmUpdated.channels,
-    })
     handleSubmit()
     onClose()
   }

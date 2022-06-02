@@ -1,4 +1,4 @@
-import { Col, Form, Icon, Row, Switch, Table } from 'antd'
+import { Col, Form, Icon, Row, Switch, Table, Tooltip } from 'antd'
 import { i18n } from 'containers/alarm/AlarmSetting/constants'
 import { FIELDS } from 'containers/alarm/AlarmSetting/index'
 import { get, isEqual, keyBy } from 'lodash'
@@ -12,14 +12,10 @@ import { withRouter } from 'react-router'
   measuresObj: state.global.measuresObj,
 }))
 export default class TableQCVN extends Component {
-  componentDidMount = () => {
-    this.handleMeasuringListEnable()
-  }
-
   componentDidUpdate(prevProps) {
-    const { measureListValue, dataSource } = this.props
+    const { dataSource, qcvnList } = this.props
 
-    if (!isEqual(prevProps.measureListValue, measureListValue)) {
+    if (!isEqual(prevProps.qcvnList, qcvnList)) {
       this.handleMeasuringListEnable()
     }
 
@@ -55,6 +51,7 @@ export default class TableQCVN extends Component {
         key: qcvn.key,
         align: 'center',
         dataIndex: 'key',
+        width: '200px',
         render: measureKey => {
           const measureValueMin = get(measuringQcvnObj, [
             measureKey,
@@ -111,6 +108,7 @@ export default class TableQCVN extends Component {
       key: level.dataIndex,
       align: 'center',
       dataIndex: 'key',
+      width: '200px',
       render: measureKey => {
         const measureValueMin = get(measuringStationObj, [
           measureKey,
@@ -150,8 +148,22 @@ export default class TableQCVN extends Component {
         key: 'measure',
         dataIndex: 'key',
         align: 'left',
-        width: '10%',
-        render: measureKey => <div>{measuresObj[measureKey].name}</div>,
+        width: '188px',
+        render: measureKey => (
+          <Tooltip placement="top" title={measuresObj[measureKey].name}>
+            <div
+              style={{
+                textOverflow: 'ellipsis',
+                overflow: 'hidden',
+                whiteSpace: 'nowrap',
+                display: 'inline-block',
+                width: '188px',
+              }}
+            >
+              {measuresObj[measureKey].name}
+            </div>
+          </Tooltip>
+        ),
       },
       ...defaultDataLevelColumns,
       ...standardColumns,

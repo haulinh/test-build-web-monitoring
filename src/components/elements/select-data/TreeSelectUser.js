@@ -79,7 +79,6 @@ export default class TreeSelectUser extends Component {
       treeData: this.getTreeData(),
       treeCheckable: true,
       showCheckedStrategy: SHOW_PARENT,
-      maxTagCount: 5,
       style: {
         width: '100%',
       },
