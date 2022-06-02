@@ -4,10 +4,10 @@ import { translate } from 'hoc/create-lang'
 import { get, isEmpty, isEqual } from 'lodash'
 import React from 'react'
 import { connect } from 'react-redux'
+import { getAlarms } from 'redux/actions/alarm'
 import { selectStationById } from 'redux/actions/globalAction'
 import { alarmTypeObject, channels, getVisibleEmailSubject } from '../constants'
 import { FIELDS } from '../index'
-import { getAlarms, createListAlarm } from 'redux/actions/alarm'
 
 export const getStatusAlarm = status => {
   if (status) return 'enable'
@@ -27,7 +27,7 @@ const withAlarmForm = WrappedComponent => {
     selectStationById: stationId => selectStationById(state, stationId),
   }))
   @Form.create()
-  @connect(null, { getAlarms, createListAlarm })
+  @connect(null, { getAlarms })
   class AlarmForm extends React.Component {
     state = {
       alarmIdsDeleted: [],
@@ -42,15 +42,8 @@ const withAlarmForm = WrappedComponent => {
     }
 
     componentDidMount = () => {
-      const { dataSource, createListAlarm, stationId } = this.props
-      const isAlarmsInit = dataSource.every(dataItem => dataItem.isCreateLocal)
-      if (isAlarmsInit) {
-        const alarmInit = dataSource.map(dataItem => ({
-          ...dataItem,
-          stationId,
-        }))
-        createListAlarm(alarmInit)
-      }
+      const { dataSource } = this.props
+
       this.setFormValues(dataSource)
     }
 

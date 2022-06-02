@@ -66,11 +66,7 @@ export default class StationAlarmManagement extends Component {
             users={users}
             roles={roles}
             measuringListStation={measuringListStation}
-            dataSource={
-              alarmGroupByType[AlarmType.DataLevel]
-                ? alarmGroupByType[AlarmType.DataLevel]
-                : ALARM_LIST_INIT.DATA_LEVEL
-            }
+            dataSource={alarmGroupByType[AlarmType.DataLevel]}
             stationId={stationId}
             stationName={stationName}
           />
@@ -90,11 +86,7 @@ export default class StationAlarmManagement extends Component {
             stationName={stationName}
             roles={roles}
             stationId={stationId}
-            dataSource={
-              alarmGroupByType[AlarmType.Disconnect]
-                ? alarmGroupByType[AlarmType.Disconnect]
-                : ALARM_LIST_INIT.DISCONNECT
-            }
+            dataSource={alarmGroupByType[AlarmType.Disconnect]}
           />
         </TabPane>
 

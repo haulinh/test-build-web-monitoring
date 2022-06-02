@@ -11,7 +11,7 @@ import { FIELDS } from 'containers/alarm/AlarmSetting/index'
 import { isEmpty } from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { createAlarm, deleteAlarm } from 'redux/actions/alarm'
+import { createAlarm, deleteAlarm, createListAlarm } from 'redux/actions/alarm'
 import { selectStationById } from 'redux/actions/globalAction'
 import { v4 as uuidv4 } from 'uuid'
 import FormAlarmDetail from '../FormAlarmDetail'
@@ -21,10 +21,21 @@ import FormAlarmDetail from '../FormAlarmDetail'
   state => ({
     selectStationById: stationId => selectStationById(state, stationId),
   }),
-  { createAlarm, deleteAlarm }
+  { createAlarm, deleteAlarm, createListAlarm }
 )
 export default class AlarmDisconnect extends Component {
   //#region life cycle
+  componentDidMount = () => {
+    const { dataSource, stationId, createListAlarm } = this.props
+    if (!dataSource) {
+      console.log({ dataSource, stationId })
+      const alarmInit = ALARM_LIST_INIT.DISCONNECT.map(dataItem => ({
+        ...dataItem,
+        stationId,
+      }))
+      createListAlarm(alarmInit)
+    }
+  }
   //#endregion life cycle
 
   //#region management
@@ -198,8 +209,4 @@ export default class AlarmDisconnect extends Component {
       </React.Fragment>
     )
   }
-}
-
-AlarmDisconnect.defaultProps = {
-  dataSource: ALARM_LIST_INIT.DISCONNECT,
 }
