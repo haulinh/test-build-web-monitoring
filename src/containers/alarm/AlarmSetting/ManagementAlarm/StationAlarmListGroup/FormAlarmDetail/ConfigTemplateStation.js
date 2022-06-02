@@ -1,7 +1,6 @@
 import { Col, Collapse, Icon, Input, Row, Switch, Tooltip } from 'antd'
 import { Clearfix } from 'components/elements'
 import Text from 'components/elements/text'
-import ToolTipHint from 'components/elements/tooltip'
 import { Flex } from 'components/layouts/styles'
 import { getVisibleEmailSubject } from 'containers/alarm/AlarmSetting/constants'
 import { get } from 'lodash'
