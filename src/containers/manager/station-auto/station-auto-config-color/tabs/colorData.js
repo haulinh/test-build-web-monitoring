@@ -44,7 +44,7 @@ export default class WarningLevelColorOfSensor extends React.Component {
   }
 
   state = {
-    isLoaded: false,
+    isLoading: false,
     isSubmit: false,
     isRestore: false,
     dataSource: [],
@@ -54,6 +54,7 @@ export default class WarningLevelColorOfSensor extends React.Component {
     return (
       <React.Fragment>
         <Table
+          loading={this.state.isLoading}
           rowKey="name"
           size="middle"
           pagination={false}
@@ -172,8 +173,11 @@ export default class WarningLevelColorOfSensor extends React.Component {
 
   _restoreConfigs = () => {
     const { validateFields } = this.props.form
+    const { form } = this.props
     const id = _.get(this.props.colorData, '_id')
     let me = this
+    me.setState({ isRestore: true, isLoading: true })
+
     Modal.confirm({
       title: i18n().restoreConfirmMsg,
       okText: i18n().okText,
@@ -182,11 +186,11 @@ export default class WarningLevelColorOfSensor extends React.Component {
         validateFields(async (error, values) => {
           const data = Object.values(values)
           // console.log(values, '--data--')
-          me.setState({ isRestore: true })
           await me.props.updateWarningLevelColorData(id, data, {
             isRestore: true,
           })
-          me.setState({ isRestore: false })
+          form.resetFields()
+          me.setState({ isRestore: false, isLoading: false })
         })
       },
       onCancel() {},
