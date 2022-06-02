@@ -1,5 +1,5 @@
 import { Row, Tabs as TabsAnt } from 'antd'
-import { CloudCross, CpuSetting, Danger } from 'assets/icons'
+import { CpuSetting, CloudCross, Danger } from 'assets/icons'
 import { get, groupBy } from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'

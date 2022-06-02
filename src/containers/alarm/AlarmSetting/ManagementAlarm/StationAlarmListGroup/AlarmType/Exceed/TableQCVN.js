@@ -1,7 +1,7 @@
 import { Col, Form, Icon, Row, Switch, Table, Tooltip } from 'antd'
 import { i18n } from 'containers/alarm/AlarmSetting/constants'
 import { FIELDS } from 'containers/alarm/AlarmSetting/index'
-import { get, isEqual, keyBy } from 'lodash'
+import { get, isEmpty, isEqual, keyBy } from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
@@ -39,6 +39,7 @@ export default class TableQCVN extends Component {
 
   getStandardColumns = () => {
     const { qcvnList } = this.props
+
     const columns = qcvnList.map(qcvn => {
       const measuringQcvnObj = keyBy(qcvn.measuringList, 'key')
 
