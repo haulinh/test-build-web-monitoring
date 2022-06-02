@@ -368,13 +368,17 @@ class TableData extends React.Component {
             `
             color = configColor.secondColor
           }
-          // if (
-          //   measure.warningLevel &&
-          //   measure.warningLevel === warningLevels.EXCEEDED_PREPARING
-          // ) {
-          //   // classCustom = 'wheelPrepare'
-          //   // color = configColor.secondColor
-          // }
+          if (
+            measure.warningLevel &&
+            measure.warningLevel === warningLevels.EXCEEDED_PREPARING
+          ) {
+            configColor = getConfigColor(colorData, measure.warningLevel, {
+              defaultPrimary: null,
+              defaultSecond: '#ffffff',
+            })
+            // classCustom = 'wheelPrepare'
+            color = configColor.primaryColor
+          }
           // Format number toLocalString(national)
           if (record && record.status !== stationStatus.DATA_CONNECTED) {
             color = SHAPE.BLACK
