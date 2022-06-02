@@ -9,7 +9,7 @@ import { i18n } from 'containers/alarm/AlarmSetting/constants'
 import withAlarmForm from 'containers/alarm/AlarmSetting/hoc/withAlarmForm'
 import { FIELDS } from 'containers/alarm/AlarmSetting/index'
 import { ALARM_LIST_INIT } from 'containers/alarm/AlarmSetting/constants'
-import { isEmpty, isEqual } from 'lodash'
+import { isEmpty } from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { createAlarm, deleteAlarm } from 'redux/actions/alarm'
@@ -19,20 +19,6 @@ import FormAlarmDetail from '../FormAlarmDetail'
 @withAlarmForm
 @connect(null, { createAlarm, deleteAlarm })
 export default class AlarmDisconnect extends Component {
-  componentDidMount = () => {
-    const { setFormValues, dataSource } = this.props
-
-    setFormValues(dataSource)
-  }
-
-  componentDidUpdate = (prevProps, prevState) => {
-    const { dataSource, setFormValues } = this.props
-
-    if (!isEqual(prevProps.dataSource, dataSource)) {
-      setFormValues(dataSource)
-    }
-  }
-
   handleAdd = () => {
     const { createAlarm, stationId } = this.props
     const uuid = uuidv4()
@@ -52,18 +38,18 @@ export default class AlarmDisconnect extends Component {
     setIdsDeleted(_id)
   }
 
-  handleSubmit = () => {
-    const { handleSubmitAlarm, getQueryParamGeneral } = this.props
-
-    const queryParams = getQueryParamGeneral()
-    handleSubmitAlarm(queryParams)
-  }
-
   handleEdit = alarmDetail => {
     const { handleShowAlarmDetail, setAlarmDetail } = this.props
 
     setAlarmDetail(alarmDetail)
     handleShowAlarmDetail()
+  }
+
+  handleSubmit = () => {
+    const { handleSubmitAlarm, getQueryParamGeneral } = this.props
+
+    const queryParams = getQueryParamGeneral()
+    handleSubmitAlarm(queryParams)
   }
 
   handleCloseAlarmDetail = () => {
