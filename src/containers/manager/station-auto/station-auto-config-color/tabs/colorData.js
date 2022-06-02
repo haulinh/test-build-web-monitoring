@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import * as _ from 'lodash'
 import { connectAutoDispatch } from 'redux/connect'
-import { Button, Table, Form, Input, Typography } from 'antd'
+import { Button, Table, Form, Input, Typography, Col, Row } from 'antd'
 import createLanguageHoc, { translate } from 'hoc/create-lang'
 
 import { updateWarningLevelColorData } from 'redux/actions/config'
@@ -19,6 +19,7 @@ function i18n() {
     ),
     columnDesc: translate('page.config.color.table.column.desc'),
     save: translate('addon.save'),
+    restore: translate('addon.restore'),
   }
 }
 
@@ -43,6 +44,7 @@ export default class WarningLevelColorOfSensor extends React.Component {
   state = {
     isLoaded: false,
     isSubmit: false,
+    isRestore: false,
     dataSource: [],
   }
 
@@ -56,16 +58,29 @@ export default class WarningLevelColorOfSensor extends React.Component {
           dataSource={this.props.colorData.value}
           columns={this._getTableColumn()}
         />
-
-        <Button
-          onClick={this._saveConfigs}
-          loading={this.state.isSubmit}
-          block
-          type="primary"
-          style={{ marginTop: 16 }}
-        >
-          {i18n().save}
-        </Button>
+        <Row gutter={[16, 16]}>
+          <Col span={12}>
+            <Button
+              onClick={this._restoreConfigs}
+              loading={this.state.isRestore}
+              block
+              style={{ marginTop: 16 }}
+            >
+              {i18n().restore}
+            </Button>
+          </Col>
+          <Col span={12}>
+            <Button
+              onClick={this._saveConfigs}
+              loading={this.state.isSubmit}
+              block
+              type="primary"
+              style={{ marginTop: 16 }}
+            >
+              {i18n().save}
+            </Button>
+          </Col>
+        </Row>
       </React.Fragment>
     )
   }
@@ -79,6 +94,7 @@ export default class WarningLevelColorOfSensor extends React.Component {
         title: i18n().columnType,
         dataIndex: 'key',
         key: 'key',
+        width: '30%',
         render(text, record, index) {
           return (
             <React.Fragment>
@@ -94,19 +110,9 @@ export default class WarningLevelColorOfSensor extends React.Component {
         title: i18n().columnTypeAlt,
         dataIndex: 'alternative',
         key: 'alternative',
+        width: '40%',
         render(text, record, index) {
           return t(`page.config.color.${record.key}`)
-        },
-      },
-      {
-        title: i18n().columnColor,
-        dataIndex: 'color',
-        key: 'color',
-        align: 'center',
-        render(color, record, index) {
-          return getFieldDecorator(`[${index}].color`, {
-            initialValue: color,
-          })(<input type="color" />)
         },
       },
       {
@@ -114,6 +120,7 @@ export default class WarningLevelColorOfSensor extends React.Component {
         dataIndex: 'backgroundColor',
         key: 'backgroundColor',
         align: 'center',
+        width: '15%',
         render(backgroundColor, record, index) {
           return getFieldDecorator(`[${index}].backgroundColor`, {
             initialValue: backgroundColor,
@@ -121,18 +128,30 @@ export default class WarningLevelColorOfSensor extends React.Component {
         },
       },
       {
-        title: i18n().columnDesc,
-        dataIndex: 'description',
-        key: 'description',
-        render(text, record, index) {
-          return getFieldDecorator(`[${index}].description`, {
-            initialValue: text,
-          })(<Input />)
+        title: i18n().columnColor,
+        dataIndex: 'color',
+        key: 'color',
+        align: 'center',
+        width: '15%',
+        render(color, record, index) {
+          return getFieldDecorator(`[${index}].color`, {
+            initialValue: color,
+          })(<input type="color" />)
         },
       },
-      {
-        title: '',
-      },
+      // {
+      //   title: i18n().columnDesc,
+      //   dataIndex: 'description',
+      //   key: 'description',
+      //   render(text, record, index) {
+      //     return getFieldDecorator(`[${index}].description`, {
+      //       initialValue: text,
+      //     })(<Input />)
+      //   },
+      // },
+      // {
+      //   title: '',
+      // },
     ]
   }
 
@@ -146,6 +165,21 @@ export default class WarningLevelColorOfSensor extends React.Component {
       this.setState({ isSubmit: true })
       await this.props.updateWarningLevelColorData(id, data)
       this.setState({ isSubmit: false })
+    })
+  }
+
+  _restoreConfigs = () => {
+    const { validateFields } = this.props.form
+
+    validateFields(async (error, values) => {
+      const id = _.get(this.props.colorData, '_id')
+      const data = Object.values(values)
+      // console.log(values, '--data--')
+      this.setState({ isRestore: true })
+      await this.props.updateWarningLevelColorData(id, data, {
+        isRestore: true,
+      })
+      this.setState({ isRestore: false })
     })
   }
 }

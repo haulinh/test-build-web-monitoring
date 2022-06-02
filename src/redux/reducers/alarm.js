@@ -6,6 +6,7 @@ import {
   SELECT_STATION,
   DELETE_ALARM,
   UPDATE_DETAIL_ALARM,
+  CREATE_LIST_ALARM,
 } from '../actions/alarm'
 
 const initialState = {
@@ -48,6 +49,16 @@ const alarmReducer = (state = initialState, action) => {
       return {
         ...state,
         alarmList: [...state.alarmList, action.payload],
+      }
+    }
+
+    case CREATE_LIST_ALARM: {
+      const { alarmList, stationId } = action.payload
+      const alarmsAdded = alarmList.map(alarm => ({ ...alarm, stationId }))
+
+      return {
+        ...state,
+        alarmList: [...state.alarmList, ...alarmsAdded],
       }
     }
 

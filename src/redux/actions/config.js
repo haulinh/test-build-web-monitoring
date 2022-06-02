@@ -33,10 +33,15 @@ export function getWarningLevelColors() {
   }
 }
 
-export function updateWarningLevelColorData(id, data) {
+export function updateWarningLevelColorData(id, data, params = {}) {
   return async dispatch => {
     try {
-      const res = await CategoryAPI.updateWarningLevelColorData(id, data)
+      let res = {}
+      if (params.isRestore) {
+        res = await CategoryAPI.restoreWarningLevelColorData(id, data)
+      } else {
+        res = await CategoryAPI.updateWarningLevelColorData(id, data)
+      }
       if (res.success) {
         dispatch({
           type: CONFIGS.UPDATE_WARNING_LEVELS_COLOR_DATA,

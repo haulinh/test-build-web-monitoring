@@ -3,18 +3,22 @@ import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import Breadcrumb from '../breadcrumb'
 import * as _ from 'lodash'
 import { translate } from 'hoc/create-lang'
-import { Tabs, Button, message } from 'antd'
+import {
+  Tabs,
+  // Button,
+  message,
+} from 'antd'
 import TabDataList from './tab-data-list'
 import dataStationAutoApi from 'api/DataStationAutoApi'
 import styled from 'styled-components'
 import BoxShadow from 'components/elements/box-shadow/index'
 
-const ButtonAbsolute = styled.div`
-  position: absolute;
-  top: 0px;
-  right: 16px;
-  z-index: 3;
-`
+// const ButtonAbsolute = styled.div`
+//   position: absolute;
+//   top: 0px;
+//   right: 16px;
+//   z-index: 3;
+// `
 const TabeListWrapper = styled(BoxShadow)`
   padding: 0px 16px 16px 16px;
   position: relative;
@@ -42,7 +46,8 @@ export default class FtpTranferHistory extends React.Component {
       isLoading: true,
     })
     const data = _.filter(this.state.dataSource, item => !item.isTransferred)
-    const rs = await dataStationAutoApi.putDataFtpTranfer(data)
+    // console.log('run 1', data.slice(0, 100))
+    const rs = await dataStationAutoApi.putDataFtpTranfer(data.slice(0, 1))
     if (rs && rs.success) {
       this.processData(true)
     } else {
@@ -90,7 +95,7 @@ export default class FtpTranferHistory extends React.Component {
           ]}
         />
         <TabeListWrapper>
-          {this.state.hasTranferFaild && (
+          {/* {this.state.hasTranferFaild && (
             <ButtonAbsolute>
               <Button
                 type="primary"
@@ -102,7 +107,7 @@ export default class FtpTranferHistory extends React.Component {
                 {translate('ftpTranfer.tryUploadFile')}
               </Button>
             </ButtonAbsolute>
-          )}
+          )} */}
           <Tabs defaultActiveKey="1">
             <Tabs.TabPane tab={this.state.titleTab} key="1">
               <TabDataList
