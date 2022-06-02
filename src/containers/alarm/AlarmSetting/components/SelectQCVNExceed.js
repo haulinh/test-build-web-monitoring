@@ -1,4 +1,4 @@
-import { Select } from 'antd'
+import { Select, Tooltip } from 'antd'
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import { replaceVietnameseStr } from 'utils/string'
@@ -79,7 +79,19 @@ export class SelectQCVNExceed extends PureComponent {
             value={standardVN._id}
             disabled={this.isDisabledQCVN(selectedQCVNList, standardVN._id)}
           >
-            {standardVN.name}
+            <Tooltip placement="top" title={standardVN.name}>
+              <div
+                style={{
+                  textOverflow: 'ellipsis',
+                  overflow: 'hidden',
+                  whiteSpace: 'nowrap',
+                  display: 'inline-block',
+                  width: '220px',
+                }}
+              >
+                {standardVN.name}
+              </div>
+            </Tooltip>
           </Select.Option>
         ))}
       </Select>
