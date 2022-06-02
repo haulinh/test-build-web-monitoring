@@ -2,7 +2,6 @@ import { Button, Col, Drawer, Icon, Row, Switch, Tooltip } from 'antd'
 import { Clearfix } from 'components/elements'
 import Text from 'components/elements/text'
 import { Flex } from 'components/layouts/styles'
-import { FIELDS } from 'containers/alarm/AlarmSetting'
 import SelectFrequency, {
   DEFAULT_VALUE_FREQUENCY,
 } from 'containers/alarm/Component/SelectFrequency'
@@ -61,27 +60,8 @@ export default class FormAlarmDetail extends Component {
   }
 
   handleOnSubmit = () => {
-    const {
-      onClose,
-      form,
-      handleSubmit,
-      alarmDetail,
-      updateDetailAlarm,
-      stationId,
-    } = this.props
+    const { onClose, handleSubmit } = this.props
 
-    const formValues = form.getFieldsValue()
-    const alarmUpdated = {
-      ...formValues[alarmDetail._id],
-      stationId: stationId,
-      type: FIELDS.DATA_LEVEL,
-    }
-
-    updateDetailAlarm({
-      ...alarmDetail,
-      repeatConfig: alarmUpdated.repeatConfig,
-      channels: alarmUpdated.channels,
-    })
     handleSubmit()
     onClose()
   }

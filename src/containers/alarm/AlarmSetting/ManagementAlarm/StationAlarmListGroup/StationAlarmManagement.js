@@ -1,5 +1,6 @@
 import { Row, Tabs as TabsAnt } from 'antd'
 import { CpuSetting, CloudCross, Danger } from 'assets/icons'
+import { ALARM_LIST_INIT } from 'containers/manager/station-auto/alarm-config/constants'
 import { get, groupBy } from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
@@ -65,7 +66,11 @@ export default class StationAlarmManagement extends Component {
             users={users}
             roles={roles}
             measuringListStation={measuringListStation}
-            dataSource={alarmGroupByType[AlarmType.DataLevel]}
+            dataSource={
+              alarmGroupByType[AlarmType.DataLevel]
+                ? alarmGroupByType[AlarmType.DataLevel]
+                : ALARM_LIST_INIT.DATA_LEVEL
+            }
             stationId={stationId}
             stationName={stationName}
           />

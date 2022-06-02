@@ -35,6 +35,7 @@ export default class TableAlarmConfigExceed extends Component {
       align: 'left',
       render: (_, record) => {
         const { form, qcvnList, qcvnListSelected } = this.props
+        console.log(qcvnListSelected)
         form.getFieldDecorator(`${record._id}.${FIELDS.CONFIG}.${FIELDS.TYPE}`)
 
         const configAlarmType = get(record, 'config.type')
@@ -60,6 +61,7 @@ export default class TableAlarmConfigExceed extends Component {
       },
     },
     {
+      width: '20%',
       title: i18n().nameThreshold,
       render: (_, record) => {
         const { form } = this.props
@@ -77,13 +79,13 @@ export default class TableAlarmConfigExceed extends Component {
       title: i18n().recipient,
       dataIndex: 'recipients',
       align: 'center',
-      width: '30%',
+      width: '35%',
       render: (_, record) => {
         const { form, users, roles } = this.props
         return (
           <React.Fragment>
             {form.getFieldDecorator(`${record._id}.${FIELDS.RECIPIENTS}`)(
-              <TreeSelectUser users={users} roles={roles} />
+              <TreeSelectUser maxTagCount={2} users={users} roles={roles} />
             )}
           </React.Fragment>
         )
@@ -124,7 +126,15 @@ export default class TableAlarmConfigExceed extends Component {
           const configAlarmType = get(record, 'config.type')
 
           if (isDefaultDataLevel(configAlarmType)) {
-            return null
+            return (
+              <DropdownMoreAction
+                isDelete={false}
+                onEdit={() => {
+                  this.handleEdit(record)
+                }}
+                isEdit={true}
+              />
+            )
           }
           return (
             <DropdownMoreAction
