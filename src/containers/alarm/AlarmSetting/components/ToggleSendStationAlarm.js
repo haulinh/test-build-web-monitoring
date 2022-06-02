@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { toggleSendAlarm } from 'redux/actions/globalAction'
 import { channels } from '../constants'
-import { getStatusAlarm } from '../hoc/withAlarmForm'
+import { getStatusAlarm, getStatusAlarmBoolean } from '../hoc/withAlarmForm'
 import { FIELDS } from '../index'
 
 const options = [
@@ -14,33 +14,67 @@ const options = [
   { label: 'Webhook', value: 'webhook' },
 ]
 
+const getParamChannel = valueChannel => {
+  const paramChannel = channels.reduce(
+    (base, currentChanel) => {
+      return {
+        ...base,
+        [currentChanel]: {
+          active: valueChannel.includes(currentChanel),
+        },
+      }
+    },
+    {} // initial value
+  )
+
+  return paramChannel
+}
+
 @Form.create({})
 @connect(null, {
   toggleSendAlarm,
 })
 export default class ToggleSendStationAlarm extends Component {
+  componentDidMount() {
+    this.setFieldsValue()
+  }
+
+  setFieldsValue = () => {
+    const { alarmConfig, form } = this.props
+    const fieldsValue = {
+      [FIELDS.STATUS]: getStatusAlarmBoolean(alarmConfig.status),
+
+      [FIELDS.CHANNELS]: Object.entries(alarmConfig.channels)
+        .filter(([, channelValue]) => channelValue.active)
+        .map(([channelKey]) => channelKey),
+    }
+
+    form.setFieldsValue(fieldsValue)
+  }
+
   handleOnStatusChange = async value => {
     const { form, stationAutoId, toggleSendAlarm } = this.props
 
     const values = form.getFieldsValue()
+    const valueChannel = get(values, [FIELDS.CHANNELS], [])
 
     const params = {
       [FIELDS.STATUS]: getStatusAlarm(value),
-
-      channels: channels.reduce(
-        (base, currentChanel) => {
-          const valueChannel = get(values, [FIELDS.CHANNELS], [])
-          return {
-            ...base,
-            [currentChanel]: {
-              active: valueChannel.includes(currentChanel),
-            },
-          }
-        },
-
-        {} // initial value
-      ),
+      channels: getParamChannel(valueChannel),
     }
+
+    toggleSendAlarm(stationAutoId, params)
+  }
+
+  handleOnChannelChange = value => {
+    const { form, stationAutoId, toggleSendAlarm } = this.props
+    const values = form.getFieldsValue()
+
+    const params = {
+      [FIELDS.STATUS]: getStatusAlarm(values[FIELDS.STATUS]),
+      channels: getParamChannel(value),
+    }
+
     toggleSendAlarm(stationAutoId, params)
   }
 
@@ -70,9 +104,10 @@ export default class ToggleSendStationAlarm extends Component {
             border: '1px solid #D0D8E2',
           }}
         >
-          {form.getFieldDecorator(FIELDS.CHANNELS, { initialValue: [] })(
-            <Checkbox.Group disabled={!status} options={options} />
-          )}
+          {form.getFieldDecorator(FIELDS.CHANNELS, {
+            initialValue: [],
+            onChange: this.handleOnChannelChange,
+          })(<Checkbox.Group disabled={!status} options={options} />)}
         </div>
       </Row>
     )

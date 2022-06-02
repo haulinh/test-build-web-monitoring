@@ -28,11 +28,7 @@ export default class AlarmDisconnect extends Component {
   componentDidMount = () => {
     const { dataSource, stationId, createListAlarm } = this.props
     if (!dataSource) {
-      const alarmInit = ALARM_LIST_INIT.DISCONNECT.map(dataItem => ({
-        ...dataItem,
-        stationId,
-      }))
-      createListAlarm(alarmInit, stationId)
+      createListAlarm(ALARM_LIST_INIT.DISCONNECT, stationId)
     }
   }
   //#endregion life cycle
