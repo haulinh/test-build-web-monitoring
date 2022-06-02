@@ -10,7 +10,7 @@ import { get, groupBy, isEmpty, keyBy, omit } from 'lodash'
 import { Component, default as React } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
-import { createAlarm, deleteAlarm, updateLocalAlarm } from 'redux/actions/alarm'
+import { createAlarm, deleteAlarm } from 'redux/actions/alarm'
 import { v4 as uuidv4 } from 'uuid'
 import FormAlarmDetail from '../../FormAlarmDetail'
 import TableAlarmExceedForm from './TableAlarmExceedForm'
@@ -18,7 +18,7 @@ import TableQCVN from './TableQCVN'
 
 @withRouter
 @withAlarmForm
-@connect(null, { createAlarm, deleteAlarm, updateLocalAlarm })
+@connect(null, { createAlarm, deleteAlarm })
 export default class AlarmExceed extends Component {
   state = {
     qcvnList: [],
@@ -88,12 +88,7 @@ export default class AlarmExceed extends Component {
   }
 
   handleSubmit = () => {
-    const {
-      getQueryParamGeneral,
-      handleSubmitAlarm,
-      stationId,
-      updateLocalAlarm,
-    } = this.props
+    const { getQueryParamGeneral, handleSubmitAlarm, stationId } = this.props
 
     const paramGeneral = getQueryParamGeneral()
     const measuringListEnable = this.getMeasureListEnable()
@@ -110,9 +105,6 @@ export default class AlarmExceed extends Component {
         stationId: stationId,
         type: FIELDS.DATA_LEVEL,
       }))
-
-    const alarmNullId = params.filter(alarm => alarm._id === undefined)
-    if (!isEmpty(alarmNullId)) updateLocalAlarm()
 
     handleSubmitAlarm(params)
   }
