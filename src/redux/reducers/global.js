@@ -18,6 +18,7 @@ const globalReducer = (state = initialState, action) => {
     case GET_MEASURES: {
       return { ...state, measuresObj: action.payload }
     }
+
     case UPDATE_MEASURE: {
       const measureUpdate = action.payload
       const measuresObjUpdated = {
@@ -29,6 +30,7 @@ const globalReducer = (state = initialState, action) => {
       }
       return { ...state, measuresObj: measuresObjUpdated }
     }
+
     case CREATE_MEASURE: {
       const newMeasuresObj = {
         ...state.measuresObj,
@@ -36,6 +38,7 @@ const globalReducer = (state = initialState, action) => {
       }
       return { ...state, measuresObj: newMeasuresObj }
     }
+
     case DELETE_MEASURE: {
       const newMeasuresObj = omit(state.measuresObj, action.payload)
       return { ...state, measuresObj: newMeasuresObj }

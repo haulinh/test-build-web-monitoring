@@ -131,11 +131,11 @@ export default class TableAlarmConfigExceed extends Component {
               onDelete={() => {
                 onDelete(record._id)
               }}
+              isDelete
               onEdit={() => {
                 this.handleEdit(record)
               }}
-              isEdit={!get(record, `${FIELDS.IS_CREATE_LOCAL}`, false)}
-              isDelete
+              isEdit={!get(record, FIELDS.IS_CREATE_LOCAL, false)}
             />
           )
         }
