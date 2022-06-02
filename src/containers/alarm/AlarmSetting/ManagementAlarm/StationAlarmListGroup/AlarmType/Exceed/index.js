@@ -25,11 +25,10 @@ export default class AlarmExceed extends Component {
   }
 
   componentDidMount = async () => {
-    const { dataSource } = this.props
     this.setState({ loading: true })
     const qcvnList = await this.getQCVNList()
 
-    this.setInitValues(dataSource, qcvnList)
+    this.setState({ qcvnList })
   }
 
   getInitValues = alarmList => {
@@ -68,16 +67,6 @@ export default class AlarmExceed extends Component {
     } else {
       return ALARM_LIST_INIT.DATA_LEVEL
     }
-  }
-
-  setInitValues = (alarmList, qcvnList) => {
-    const { setFormValues } = this.props
-
-    this.setState({ qcvnList })
-
-    //#region set alarm data level
-    setFormValues(this.getInitValues(alarmList))
-    //#endregion set alarm data level
   }
 
   getQCVNList = async () => {
