@@ -54,13 +54,16 @@ export default class StationAlarmListGroup extends Component {
             return (
               <Panel
                 header={stationAuto.name}
-                extra={<ToggleSendStationAlarm />}
+                extra={
+                  <ToggleSendStationAlarm stationAutoId={stationAuto._id} />
+                }
                 key={stationAuto._id}
               >
                 <StationAlarmManagement
                   users={users}
                   stationId={stationAuto._id}
                   stationName={stationAuto.name}
+                  stationAlarmConfig={get(stationAuto, 'alarmConfig', {})}
                   roles={roles}
                   alarmList={alarmListByStation}
                 />

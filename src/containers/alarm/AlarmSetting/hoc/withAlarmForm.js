@@ -1,19 +1,20 @@
 import { Form, message } from 'antd'
 import CalculateApi from 'api/CalculateApi'
 import { translate } from 'hoc/create-lang'
-import { get, isEqual } from 'lodash'
+import { get, isEmpty, isEqual } from 'lodash'
 import React from 'react'
 import { connect } from 'react-redux'
+import { selectStationById } from 'redux/actions/globalAction'
 import { alarmTypeObject, channels, getVisibleEmailSubject } from '../constants'
 import { FIELDS } from '../index'
 import { getAlarms } from 'redux/actions/alarm'
 
-const getStatusAlarm = status => {
+export const getStatusAlarm = status => {
   if (status) return 'enable'
   return 'disable'
 }
 
-const getStatusAlarmBoolean = status => {
+export const getStatusAlarmBoolean = status => {
   if (status === 'enable') return true
   return false
 }
@@ -22,6 +23,9 @@ export const isDefaultDataLevel = alarmConfigType =>
   [FIELDS.EXCEED, FIELDS.EXCEED_PREPARING].includes(alarmConfigType)
 
 const withAlarmForm = WrappedComponent => {
+  @connect(state => ({
+    selectStationById: stationId => selectStationById(state, stationId),
+  }))
   @Form.create()
   @connect(null, { getAlarms })
   class AlarmForm extends React.Component {
@@ -49,6 +53,8 @@ const withAlarmForm = WrappedComponent => {
       if (!isEqual(prevProps.dataSource, dataSource)) {
         this.setFormValues(dataSource)
       }
+
+      this.handleAlarmStatusChange(prevProps)
     }
 
     getQueryParamGeneral = () => {
@@ -69,6 +75,8 @@ const withAlarmForm = WrappedComponent => {
     }
 
     setFormValues = alarmList => {
+      if (isEmpty(alarmList)) return
+
       const { form } = this.props
 
       const alarmFormValuesFormatted = alarmList
@@ -126,9 +134,11 @@ const withAlarmForm = WrappedComponent => {
           )
         }
       })
+
       form.getFieldDecorator(`${alarmDetail._id}.repeatConfig.active`, {
         initialValue: get(alarmDetail, 'repeatConfig.active', true),
       })
+
       form.getFieldDecorator(`${alarmDetail._id}.repeatConfig.frequency`, {
         initialValue: get(alarmDetail, 'repeatConfig.active.frequency', 3600),
       })
@@ -177,6 +187,32 @@ const withAlarmForm = WrappedComponent => {
       const newIdsDeleted = [...alarmIdsDeleted, id]
 
       this.setState({ alarmIdsDeleted: newIdsDeleted })
+    }
+
+    handleAlarmStatusChange = prevProps => {
+      const { dataSource, selectStationById, stationId, form } = this.props
+
+      if (isEmpty(dataSource)) return
+
+      if (
+        !isEqual(
+          selectStationById(stationId).alarmConfig,
+          prevProps.selectStationById(stationId).alarmConfig
+        )
+      ) {
+        const fieldsValueStatusAlarm = dataSource.reduce(
+          (base, currentAlarm) => ({
+            ...base,
+            [`${currentAlarm._id}.${FIELDS.STATUS}`]: getStatusAlarmBoolean(
+              selectStationById(stationId).alarmConfig.status
+            ),
+          }),
+
+          {}
+        )
+
+        form.setFieldsValue(fieldsValueStatusAlarm)
+      }
     }
 
     render() {
