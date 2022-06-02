@@ -195,6 +195,10 @@ export function updateWarningLevelColorData(id, data) {
   const url = _getConfigs(`color-station/${id}`)
   return putFetch(url, data)
 }
+export function restoreWarningLevelColorData(id, data) {
+  const url = _getConfigs(`color-station/restore/${id}`)
+  return putFetch(url, data)
+}
 
 export function updateWarningLevelColorSensor(id, data) {
   const url = _getConfigs(`color-sensor/${id}`)
@@ -227,6 +231,7 @@ export default {
   postConfigAqiQC,
   getWarningLevelColor,
   updateWarningLevelColorData,
+  restoreWarningLevelColorData,
   updateWarningLevelColorSensor,
   toggleQaqcConfig,
 }

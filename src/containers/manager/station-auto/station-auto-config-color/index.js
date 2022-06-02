@@ -1,5 +1,5 @@
 import React from 'react'
-import { Tabs, Radio } from 'antd'
+import { Tabs } from 'antd'
 import TabItemColorData from './tabs/colorData'
 // import TabItemColorSensor from './tabs/colorSensor'
 
@@ -44,32 +44,13 @@ export default class StationAutoConfigColor extends React.Component {
       <PageContainer>
         <Breadcrumb items={['configColor']} />
         <Clearfix height={16} />
-        <Radio.Group
-          defaultValue={defaultTabKey}
-          onChange={this._changeTabKey}
-          style={{ marginBottom: 16, width: '100%' }}
-          buttonStyle="solid"
-        >
-          <Radio.Button
-            value={keyData}
-            style={{ width: '50%', textAlign: 'center' }}
-          >
-            {i18n().tabColorData}
-          </Radio.Button>
-          {/* <Radio.Button
-            value={keySensor}
-            style={{ width: '50%', textAlign: 'center' }}
-          >
-            {i18n().tabColorSensor}
-          </Radio.Button> */}
-        </Radio.Group>
 
         <Tabs
           defaultActiveKey={defaultTabKey}
           activeKey={activeTabKey}
-          renderTabBar={() => <div />}
+          // renderTabBar={() => <div />}
         >
-          <TabPane key={keyData}>
+          <TabPane tab={i18n().tabColorData} key={keyData}>
             <TabItemColorData />
           </TabPane>
           {/* <TabPane key={keySensor}>
