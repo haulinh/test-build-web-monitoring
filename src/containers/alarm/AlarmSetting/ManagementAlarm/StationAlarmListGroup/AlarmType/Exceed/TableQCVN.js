@@ -48,7 +48,7 @@ export default class TableQCVN extends Component {
 
       return {
         title: (
-          <Row gutter={10} type="flex" justify="center" align="center">
+          <Row gutter={10} type="flex" justify="center" align="middle">
             <Col>{qcvn.name}</Col>
           </Row>
         ),
@@ -104,7 +104,7 @@ export default class TableQCVN extends Component {
     const measuringStationObj = keyBy(measuringListStation, 'key')
     const defaultDataLevelColumns = defaultDataLevels.map(level => ({
       title: (
-        <Row gutter={10} type="flex" justify="center" align="center">
+        <Row gutter={10} type="flex" justify="center" align="middle">
           <Col>{level.title}</Col>
         </Row>
       ),
