@@ -1,10 +1,5 @@
 import { Row, Tabs as TabsAnt } from 'antd'
-import {
-  // AdvancedIcon,
-  DeviceIcon,
-  SignalIcon,
-  ThresholdIcon,
-} from 'assets/icons-alarm'
+import { CpuSetting, CloudCross, Danger } from 'assets/icons'
 import { get, groupBy } from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
@@ -12,6 +7,7 @@ import styled from 'styled-components'
 import { v4 as uuidv4 } from 'uuid'
 import { AlarmType } from '../../constants'
 import AlarmDisconnect from './AlarmType/AlarmDisconnect'
+import AlarmStatusDevice from './AlarmType/AlarmStatusDevice'
 import AlarmExceed from './AlarmType/Exceed'
 
 const { TabPane } = TabsAnt
@@ -59,7 +55,7 @@ export default class StationAlarmManagement extends Component {
         <TabPane
           tab={
             <Row style={{ gap: 5 }} type="flex" align="middle">
-              <ThresholdIcon />
+              <Danger />
               Vượt ngưỡng
             </Row>
           }
@@ -78,7 +74,7 @@ export default class StationAlarmManagement extends Component {
         <TabPane
           tab={
             <Row style={{ gap: 5 }} type="flex" align="middle">
-              <SignalIcon />
+              <CloudCross />
               Tín hiệu
             </Row>
           }
@@ -96,13 +92,19 @@ export default class StationAlarmManagement extends Component {
         <TabPane
           tab={
             <Row style={{ gap: 5 }} type="flex" align="middle">
-              <DeviceIcon />
+              <CpuSetting />
               Thiết bị
             </Row>
           }
           key="device"
         >
-          Thiết bị
+          <AlarmStatusDevice
+            users={users}
+            stationName={stationName}
+            roles={roles}
+            stationId={stationId}
+            dataSource={alarmGroupByType[AlarmType.Device]}
+          />
         </TabPane>
 
         {/* <TabPane

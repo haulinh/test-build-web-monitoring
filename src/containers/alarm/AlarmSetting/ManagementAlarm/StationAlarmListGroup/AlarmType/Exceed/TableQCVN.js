@@ -1,4 +1,4 @@
-import { Col, Form, Icon, Row, Switch, Table, Tooltip } from 'antd'
+import { Col, Form, Icon, Row, Switch, Table } from 'antd'
 import { i18n } from 'containers/alarm/AlarmSetting/constants'
 import { FIELDS } from 'containers/alarm/AlarmSetting/index'
 import { get, isEqual, keyBy } from 'lodash'
@@ -50,11 +50,6 @@ export default class TableQCVN extends Component {
         title: (
           <Row gutter={10} type="flex" justify="center" align="center">
             <Col>{qcvn.name}</Col>
-            <Col>
-              <Tooltip placement="top" title={qcvn.name}>
-                <Icon type="info-circle" style={{ color: '#A2A7B3' }} />
-              </Tooltip>
-            </Col>
           </Row>
         ),
         key: qcvn.key,
@@ -111,11 +106,6 @@ export default class TableQCVN extends Component {
       title: (
         <Row gutter={10} type="flex" justify="center" align="center">
           <Col>{level.title}</Col>
-          <Col>
-            <Tooltip placement="top" title="text">
-              <Icon type="info-circle" style={{ color: '#A2A7B3' }} />
-            </Tooltip>
-          </Col>
         </Row>
       ),
       key: level.dataIndex,

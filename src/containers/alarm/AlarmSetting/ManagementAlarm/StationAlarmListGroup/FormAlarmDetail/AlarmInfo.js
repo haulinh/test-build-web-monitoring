@@ -1,6 +1,8 @@
 import { Col, Row } from 'antd'
+import { optionsStatusDevice } from 'components/core/select/SelectStatusDevice'
 import Text from 'components/elements/text'
 import { FIELDS } from 'containers/alarm/AlarmSetting/index'
+import { get, keyBy } from 'lodash'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -19,8 +21,8 @@ export const AlarmInfo = ({
   stationName,
   alarmType,
   maxDisconnectionTime,
-  dataAlarmStation,
-  qcvnList,
+  alarmDetail,
+  qcvnList = [],
 }) => {
   const alarmTypeName = {
     [FIELDS.DATA_LEVEL]: 'Cảnh báo vượt ngưỡng',
@@ -30,23 +32,26 @@ export const AlarmInfo = ({
 
   const getOtherInfo = () => {
     const qcvnSelected = qcvnList.find(
-      qcvn => qcvn._id === dataAlarmStation.config.standardId
+      qcvn => qcvn._id === alarmDetail.config.standardId
     )
+
+    const statusDeviceList = keyBy(optionsStatusDevice, 'value')
+    const statusDevice = get(alarmDetail, ['config', 'type'])
 
     return {
       [FIELDS.DATA_LEVEL]: (
-        <Row type="flex" justify="space-between" gutter={12}>
+        <Row type="flex" justify="space-between" gutter={18}>
           <Col className="label">Quy chuẩn: </Col>
-          <Col span={16}>
+          <Col span={14} style={{ paddingLeft: '4px' }}>
             <Text fontWeight={500} fontSize={16}>
-              {dataAlarmStation.config.name}
+              {get(alarmDetail, ['config', 'name'])}
             </Text>
             <Text
-              style={{ wordBreak: 'normal' }}
+              style={{ wordBreak: 'normal', color: '#374151' }}
               fontWeight={500}
               fontSize={16}
             >
-              {qcvnSelected.name}
+              {get(qcvnSelected, ['name'])}
             </Text>
           </Col>
         </Row>
@@ -61,7 +66,16 @@ export const AlarmInfo = ({
           </Col>
         </Row>
       ),
-      [FIELDS.DEVICE]: 'Cảnh báo thiết bị',
+      [FIELDS.DEVICE]: (
+        <Row type="flex" gutter={27}>
+          <Col className="label">Trạng thái thiết bị: </Col>
+          <Col>
+            <Text fontWeight={700} fontSize={16}>
+              {get(statusDeviceList, [`${statusDevice}`, 'label'])}
+            </Text>
+          </Col>
+        </Row>
+      ),
     }
   }
 
@@ -78,9 +92,11 @@ export const AlarmInfo = ({
         </Text>
       </Row>
       <Row type="flex" gutter={27} style={{ marginBottom: 6 }}>
-        <Col className="label">Loại cảnh báo: </Col>
+        <Col className="label" style={{ width: '148px' }}>
+          Loại cảnh báo:
+        </Col>
         <Col>
-          <Text fontWeight={700} fontSize={16}>
+          <Text fontWeight={500} fontSize={16}>
             {alarmTypeName[alarmType]}
           </Text>
         </Col>

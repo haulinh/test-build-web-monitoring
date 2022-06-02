@@ -34,7 +34,7 @@ export default class AlarmExceed extends Component {
 
   getInitValues = alarmList => {
     //#region set alarm data level
-    if (!isEmpty(alarmList)) {
+    if (alarmList) {
       const alarmDataLevelDefault = ALARM_LIST_INIT.DATA_LEVEL.map(
         alarmDataLevelDefaultItem => {
           const existAlarmDataLevelItem = alarmList.find(
@@ -115,9 +115,11 @@ export default class AlarmExceed extends Component {
     const newData = {
       _id: uuid,
       isCreateLocal: true,
-      maxDisconnectionTime: 1800,
       type: FIELDS.DATA_LEVEL,
       stationId,
+      config: {
+        type: 'standard',
+      },
     }
 
     createAlarm(newData)
@@ -258,6 +260,7 @@ export default class AlarmExceed extends Component {
         <Row type="flex" justify="end">
           <Col span={5}>
             <Button
+              style={{ width: '328px' }}
               type="primary"
               block
               size="large"
@@ -276,8 +279,9 @@ export default class AlarmExceed extends Component {
             alarmDetail={alarmDetail}
             stationId={stationId}
             stationName={stationName}
-            alarmType={FIELDS.DATA_LEVEL}
+            dataSource={dataSource}
             handleSubmit={this.handleSubmit}
+            alarmType={FIELDS.DATA_LEVEL}
             showTimeRepeat
           />
         )}

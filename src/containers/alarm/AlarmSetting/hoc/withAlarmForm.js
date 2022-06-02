@@ -1,12 +1,13 @@
 import { Form, message } from 'antd'
 import CalculateApi from 'api/CalculateApi'
 import { translate } from 'hoc/create-lang'
-import { get } from 'lodash'
+import { get, isEqual } from 'lodash'
 import React from 'react'
 import { connect } from 'react-redux'
 import { selectStationById } from 'redux/actions/globalAction'
-import { alarmTypeObject, channels } from '../constants'
+import { alarmTypeObject, channels, getVisibleEmailSubject } from '../constants'
 import { FIELDS } from '../index'
+import { getAlarms } from 'redux/actions/alarm'
 
 export const getStatusAlarm = status => {
   if (status) return 'enable'
@@ -26,6 +27,7 @@ const withAlarmForm = WrappedComponent => {
     selectStationById: stationId => selectStationById(state, stationId),
   }))
   @Form.create()
+  @connect(null, { getAlarms })
   class AlarmForm extends React.Component {
     state = {
       alarmIdsDeleted: [],
@@ -37,6 +39,20 @@ const withAlarmForm = WrappedComponent => {
 
     state = {
       alarmIdsDeleted: [],
+    }
+
+    componentDidMount = () => {
+      const { dataSource } = this.props
+
+      this.setFormValues(dataSource)
+    }
+
+    componentDidUpdate = (prevProps, prevState) => {
+      const { dataSource } = this.props
+
+      if (!isEqual(prevProps.dataSource, dataSource)) {
+        this.setFormValues(dataSource)
+      }
     }
 
     getQueryParamGeneral = () => {
@@ -76,6 +92,8 @@ const withAlarmForm = WrappedComponent => {
       const { form } = this.props
 
       channels.forEach(channel => {
+        const visibleEmailSubject = getVisibleEmailSubject(channel)
+
         form.getFieldDecorator(
           `${alarmDetail._id}.channels.${channel}.active`,
           {
@@ -104,6 +122,13 @@ const withAlarmForm = WrappedComponent => {
             ),
           }
         )
+
+        if (visibleEmailSubject) {
+          form.getFieldDecorator(
+            `${alarmDetail._id}.channels.${channel}.emailSubject`,
+            { initialValue: '' }
+          )
+        }
       })
 
       form.getFieldDecorator(`${alarmDetail._id}.repeatConfig.active`, {
@@ -113,10 +138,20 @@ const withAlarmForm = WrappedComponent => {
       form.getFieldDecorator(`${alarmDetail._id}.repeatConfig.frequency`, {
         initialValue: get(alarmDetail, 'repeatConfig.active.frequency', 3600),
       })
+
+      form.getFieldDecorator(`${alarmDetail._id}.type`, {
+        initialValue: alarmType,
+      })
+
+      form.getFieldDecorator(`${alarmDetail._id}.stationId`, {
+        initialValue: alarmDetail.stationId,
+      })
     }
 
     handleSubmitAlarm = async paramGeneral => {
       const { alarmIdsDeleted } = this.state
+      const { getAlarms } = this.props
+
       const params = {
         data: paramGeneral,
         deletedIds: alarmIdsDeleted,
@@ -124,9 +159,9 @@ const withAlarmForm = WrappedComponent => {
 
       try {
         await CalculateApi.createBulkAlarm(params)
+        getAlarms()
         message.success(translate('global.saveSuccess'))
       } catch (error) {
-        console.error(error)
         message.error(translate('ticket.message.notificationError'))
       }
     }

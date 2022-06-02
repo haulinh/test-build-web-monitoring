@@ -1,54 +1,21 @@
-import { Button, Col, Icon, Row, Switch, Table } from 'antd'
+import { Button, Col, Row, Switch, Table } from 'antd'
+import { optionsStatusDevice } from 'components/core/select/SelectStatusDevice'
 import { Clearfix } from 'components/elements'
 import TreeSelectUser from 'components/elements/select-data/TreeSelectUser'
-import {
-  DropdownMoreAction,
-  SelectTime,
-} from 'containers/alarm/AlarmSetting/components/index'
-import { i18n } from 'containers/alarm/AlarmSetting/constants'
-import withAlarmForm, {
-  getStatusAlarmBoolean,
-} from 'containers/alarm/AlarmSetting/hoc/withAlarmForm'
+import { DropdownMoreAction } from 'containers/alarm/AlarmSetting/components'
+import { ALARM_LIST_INIT, i18n } from 'containers/alarm/AlarmSetting/constants'
+import withAlarmForm from 'containers/alarm/AlarmSetting/hoc/withAlarmForm'
 import { FIELDS } from 'containers/alarm/AlarmSetting/index'
-import { ALARM_LIST_INIT } from 'containers/alarm/AlarmSetting/constants'
-import { isEmpty } from 'lodash'
+import { get, isEmpty, keyBy } from 'lodash'
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { createAlarm, deleteAlarm } from 'redux/actions/alarm'
-import {
-  isAlarmStatusStationEnable,
-  selectStationById,
-} from 'redux/actions/globalAction'
-import { v4 as uuidv4 } from 'uuid'
 import FormAlarmDetail from '../FormAlarmDetail'
 
 @withAlarmForm
-@connect(
-  state => ({
-    selectStationById: stationId => selectStationById(state, stationId),
-    isAlarmStatusStationEnable: stationId =>
-      isAlarmStatusStationEnable(state, stationId),
-  }),
-  { createAlarm, deleteAlarm }
-)
-export default class AlarmDisconnect extends Component {
-  handleAdd = () => {
-    const { createAlarm, stationId } = this.props
-    const uuid = uuidv4()
-    const newData = {
-      _id: uuid,
-      isCreateLocal: true,
-      maxDisconnectionTime: 1800,
-      type: FIELDS.DISCONNECT,
-      stationId,
-    }
-    createAlarm(newData)
-  }
+export default class AlarmStatusDevice extends Component {
+  componentDidMount = () => {
+    const { setFormValues, dataSource } = this.props
 
-  handleDelete = _id => {
-    const { deleteAlarm, setIdsDeleted } = this.props
-    deleteAlarm(_id)
-    setIdsDeleted(_id)
+    setFormValues(dataSource)
   }
 
   handleEdit = alarmDetail => {
@@ -58,6 +25,11 @@ export default class AlarmDisconnect extends Component {
     handleShowAlarmDetail()
   }
 
+  handleCloseAlarmDetail = () => {
+    const { handleCloseAlarmDetail } = this.props
+    handleCloseAlarmDetail()
+  }
+
   handleSubmit = () => {
     const { handleSubmitAlarm, getQueryParamGeneral } = this.props
 
@@ -65,33 +37,21 @@ export default class AlarmDisconnect extends Component {
     handleSubmitAlarm(queryParams)
   }
 
-  handleCloseAlarmDetail = () => {
-    const { handleCloseAlarmDetail } = this.props
-    handleCloseAlarmDetail()
-  }
-
   columns = [
     {
-      title: i18n().timeLabel,
-      width: '20%',
-      align: 'left',
-      dataIndex: FIELDS.TIME_DISCONNECT,
+      title: 'Trạng thái',
+      width: 260,
+      align: 'center',
       render: (_, record) => {
-        const { form } = this.props
-        return (
-          <React.Fragment>
-            {form.getFieldDecorator(`${record._id}.${FIELDS.TIME_DISCONNECT}`, {
-              // initialValue: 1800,
-            })(<SelectTime />)}
-          </React.Fragment>
-        )
+        const statusDeviceList = keyBy(optionsStatusDevice, 'value')
+        const statusDevice = get(record, ['config', 'type'])
+
+        return <div>{get(statusDeviceList, [`${statusDevice}`, 'label'])}</div>
       },
     },
     {
-      title: i18n().recipient,
+      title: 'Người nhận',
       dataIndex: FIELDS.RECIPIENTS,
-      // align: 'center',
-      width: '50%',
       render: (_, record) => {
         const { users, roles, form } = this.props
         return (
@@ -109,8 +69,13 @@ export default class AlarmDisconnect extends Component {
       align: 'center',
       dataIndex: FIELDS.STATUS,
       render: (_, record) => {
-        const { form, setHiddenFields } = this.props
+        const { form, setHiddenFields, stationId } = this.props
         setHiddenFields(record, FIELDS.DISCONNECT)
+        form.getFieldDecorator(`${record._id}.stationId`, {
+          initialValue: stationId,
+        })
+        form.getFieldDecorator(`${record._id}.config.type`)
+        form.getFieldDecorator(`${record._id}.config.name`)
 
         return (
           <React.Fragment>
@@ -131,20 +96,12 @@ export default class AlarmDisconnect extends Component {
       width: '13%',
       align: 'center',
       render: (_, record) => {
-        const { isCreateLocal } = record
-        const isEdit = !isCreateLocal
         return (
-          <DropdownMoreAction
-            onDelete={() => this.handleDelete(record._id)}
-            onEdit={() => this.handleEdit(record)}
-            isEdit={isEdit}
-            isDelete
-          />
+          <DropdownMoreAction onEdit={() => this.handleEdit(record)} isEdit />
         )
       },
     },
   ]
-
   render() {
     const {
       dataSource,
@@ -161,16 +118,6 @@ export default class AlarmDisconnect extends Component {
           bordered
           dataSource={dataSource}
           pagination={false}
-          footer={() => (
-            <Button
-              type="link"
-              style={{ fontWeight: 'bold' }}
-              onClick={this.handleAdd}
-            >
-              <Icon type="plus" />
-              {i18n().button.add}
-            </Button>
-          )}
         />
         <Clearfix height={24} />
         <Row type="flex" justify="end">
@@ -185,6 +132,7 @@ export default class AlarmDisconnect extends Component {
             </Button>
           </Col>
         </Row>
+
         {!isEmpty(alarmDetail) && (
           <FormAlarmDetail
             visible={visibleAlarmDetail}
@@ -192,7 +140,9 @@ export default class AlarmDisconnect extends Component {
             alarmDetail={alarmDetail}
             form={form}
             stationName={stationName}
-            alarmType={FIELDS.DISCONNECT}
+            alarmType={FIELDS.DEVICE}
+            handleSubmit={this.handleSubmit}
+            showTimeRepeat
           />
         )}
       </React.Fragment>
@@ -200,6 +150,6 @@ export default class AlarmDisconnect extends Component {
   }
 }
 
-AlarmDisconnect.defaultProps = {
-  dataSource: ALARM_LIST_INIT.DISCONNECT,
+AlarmStatusDevice.defaultProps = {
+  dataSource: ALARM_LIST_INIT.STATUS_DEVICE,
 }
