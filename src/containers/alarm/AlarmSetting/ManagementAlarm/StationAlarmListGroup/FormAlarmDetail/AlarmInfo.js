@@ -71,7 +71,8 @@ export const AlarmInfo = ({
           <Col className="label">Trạng thái thiết bị: </Col>
           <Col>
             <Text fontWeight={700} fontSize={16}>
-              {statusDeviceList[statusDevice].label}
+              {/* statusDeviceList[statusDevice].label */}
+              {get(statusDeviceList, [`${statusDevice}`, 'label'])}
             </Text>
           </Col>
         </Row>
