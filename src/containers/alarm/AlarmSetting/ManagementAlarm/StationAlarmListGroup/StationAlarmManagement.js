@@ -5,10 +5,11 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { v4 as uuidv4 } from 'uuid'
-import { AlarmType } from '../../constants'
+import { AlarmType, ALARM_LIST_INIT } from '../../constants'
 import AlarmDisconnect from './AlarmType/AlarmDisconnect'
 import AlarmStatusDevice from './AlarmType/AlarmStatusDevice'
 import AlarmExceed from './AlarmType/Exceed'
+import { createAlarm } from 'redux/actions/alarm'
 
 const { TabPane } = TabsAnt
 
@@ -65,7 +66,11 @@ export default class StationAlarmManagement extends Component {
             users={users}
             roles={roles}
             measuringListStation={measuringListStation}
-            dataSource={alarmGroupByType[AlarmType.DataLevel]}
+            dataSource={
+              alarmGroupByType[AlarmType.DataLevel]
+                ? alarmGroupByType[AlarmType.DataLevel]
+                : ALARM_LIST_INIT.DATA_LEVEL
+            }
             stationId={stationId}
             stationName={stationName}
           />
@@ -85,7 +90,11 @@ export default class StationAlarmManagement extends Component {
             stationName={stationName}
             roles={roles}
             stationId={stationId}
-            dataSource={alarmGroupByType[AlarmType.Disconnect]}
+            dataSource={
+              alarmGroupByType[AlarmType.Disconnect]
+                ? alarmGroupByType[AlarmType.Disconnect]
+                : ALARM_LIST_INIT.DISCONNECT
+            }
           />
         </TabPane>
 

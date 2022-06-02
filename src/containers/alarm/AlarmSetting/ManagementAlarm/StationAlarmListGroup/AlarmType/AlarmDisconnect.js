@@ -96,8 +96,11 @@ export default class AlarmDisconnect extends Component {
       align: 'center',
       dataIndex: FIELDS.STATUS,
       render: (_, record) => {
-        const { form, setHiddenFields } = this.props
+        const { form, setHiddenFields, stationId } = this.props
         setHiddenFields(record, FIELDS.DISCONNECT)
+        form.getFieldDecorator(`${record._id}.stationId`, {
+          initialValue: stationId,
+        })
 
         return (
           <React.Fragment>
@@ -147,6 +150,7 @@ export default class AlarmDisconnect extends Component {
           columns={this.columns}
           bordered
           dataSource={dataSource}
+          rowKey={record => record._id}
           pagination={false}
           footer={() => (
             <Button

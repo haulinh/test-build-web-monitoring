@@ -6,7 +6,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { alarmTypeObject, channels, getVisibleEmailSubject } from '../constants'
 import { FIELDS } from '../index'
-import { getAlarms } from 'redux/actions/alarm'
+import { getAlarms, createListAlarm } from 'redux/actions/alarm'
 
 const getStatusAlarm = status => {
   if (status) return 'enable'
@@ -23,7 +23,7 @@ export const isDefaultDataLevel = alarmConfigType =>
 
 const withAlarmForm = WrappedComponent => {
   @Form.create()
-  @connect(null, { getAlarms })
+  @connect(null, { getAlarms, createListAlarm })
   class AlarmForm extends React.Component {
     state = {
       alarmIdsDeleted: [],
@@ -38,8 +38,15 @@ const withAlarmForm = WrappedComponent => {
     }
 
     componentDidMount = () => {
-      const { dataSource } = this.props
-
+      const { dataSource, createListAlarm, stationId } = this.props
+      const isAlarmsInit = dataSource.every(dataItem => dataItem.isCreateLocal)
+      if (isAlarmsInit) {
+        const alarmInit = dataSource.map(dataItem => ({
+          ...dataItem,
+          stationId,
+        }))
+        createListAlarm(alarmInit)
+      }
       this.setFormValues(dataSource)
     }
 
@@ -68,7 +75,7 @@ const withAlarmForm = WrappedComponent => {
       return params
     }
 
-    setFormValues = alarmList => {
+    setFormValues = (alarmList = []) => {
       const { form } = this.props
 
       const alarmFormValuesFormatted = alarmList
