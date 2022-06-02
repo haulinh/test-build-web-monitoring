@@ -32,7 +32,7 @@ export default class AlarmDisconnect extends Component {
         ...dataItem,
         stationId,
       }))
-      createListAlarm(alarmInit)
+      createListAlarm(alarmInit, stationId)
     }
   }
   //#endregion life cycle

@@ -54,9 +54,9 @@ export const updateDetailAlarm = alarm => ({
   payload: alarm,
 })
 
-export const createListAlarm = alarmList => {
+export const createListAlarm = (alarmList, stationId) => {
   return {
     type: CREATE_LIST_ALARM,
-    payload: alarmList,
+    payload: { alarmList, stationId },
   }
 }

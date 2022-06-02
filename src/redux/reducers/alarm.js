@@ -52,11 +52,15 @@ const alarmReducer = (state = initialState, action) => {
       }
     }
 
-    case CREATE_LIST_ALARM:
+    case CREATE_LIST_ALARM: {
+      const { alarmList, stationId } = action.payload
+      const alarmsAdded = alarmList.map(alarm => ({ ...alarm, stationId }))
+
       return {
         ...state,
-        alarmList: [...state.alarmList, ...action.payload],
+        alarmList: [...state.alarmList, ...alarmsAdded],
       }
+    }
 
     case DELETE_ALARM: {
       return {
