@@ -1,3 +1,4 @@
+import CalculateApi from 'api/CalculateApi'
 import CategoryApi from 'api/CategoryApi'
 import StationAutoApi from 'api/StationAuto'
 import update from 'immutability-helper'
@@ -43,10 +44,19 @@ export const deleteMeasure = measureKey => ({
 //#region station autos
 export const GET_STATION_AUTOS = 'GET_STATION_AUTOS'
 export const UPDATE_STATION_AUTOS = 'UPDATE_STATION_AUTOS'
+export const TOGGLE_SEND_ALARM = 'TOGGLE_SEND_ALARM'
 
 //#region selectors
 export const selectStationAutos = state =>
   Object.values(state.global.stationAutosObj)
+
+export const selectStationById = (state, stationId) =>
+  get(state, ['global', 'stationAutosObj', stationId], {})
+
+export const isAlarmStatusStationEnable = (state, stationId) => {
+  const station = selectStationById(state, stationId)
+  return get(station, 'alarmConfig.status') === 'enable'
+}
 
 export const selectStationGroupByType = state => {
   const stationAutosGroupByType = selectStationAutos(state).reduce(
@@ -81,6 +91,7 @@ export const selectStationGroupByType = state => {
 }
 //#endregion selectors
 
+//#region actions
 export const getStationAutos = () => async dispatch => {
   const response = await StationAutoApi.getStationAutos({
     page: 1,
@@ -94,4 +105,21 @@ export const getStationAutos = () => async dispatch => {
 
   return
 }
+
+export const toggleSendAlarm = (stationId, param) => async dispatch => {
+  try {
+    await CalculateApi.toggleSendAlarm(stationId, param)
+    dispatch({
+      type: TOGGLE_SEND_ALARM,
+      payload: {
+        stationId,
+        param,
+      },
+    })
+  } catch (error) {
+    console.error(error)
+  }
+}
+//#endregion actions
+
 //#endregion station autos

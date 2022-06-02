@@ -40,6 +40,12 @@ export const FIELDS = {
   MOBILE: 'mobile',
   WEBHOOK: 'webhook',
   //#endregion channels
+  //#endregion config,
+
+  ORDER: 'order',
+  STATION_ID: 'stationId',
+  REPEAT_CONFIG: 'repeatConfig',
+  CONDITIONS: 'conditions',
 }
 
 export default class AlarmSetting extends Component {
