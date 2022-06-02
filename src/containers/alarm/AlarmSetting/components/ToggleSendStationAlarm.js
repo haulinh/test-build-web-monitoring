@@ -1,7 +1,5 @@
-import { Row, Switch, Col, Checkbox, Divider, Form } from 'antd'
-import update from 'immutability-helper'
+import { Checkbox, Col, Divider, Form, Row, Switch } from 'antd'
 import { get } from 'lodash'
-
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { toggleSendAlarm } from 'redux/actions/globalAction'
@@ -16,53 +14,34 @@ const options = [
   { label: 'Webhook', value: 'webhook' },
 ]
 
+@Form.create({})
 @connect(null, {
   toggleSendAlarm,
 })
-@Form.create({
-  onFieldsChange: (props, changedFields, allFields) => {
-    // const statusChange = changedFields[FIELDS.STATUS]
-
-    // if (statusChange && !statusChange.value) {
-    //   return
-    // }
-
-    const { stationAutoId, toggleSendAlarm } = props
-
-    const handleToggleSendAlarm = async () => {
-      const params = {
-        [FIELDS.STATUS]: getStatusAlarm(
-          get(allFields, [FIELDS.STATUS, 'value'])
-        ),
-
-        channels: channels.reduce(
-          (base, currentChanel) => {
-            const valueChannel = get(allFields, [FIELDS.CHANNELS, 'value'], [])
-            return update(base, {
-              [currentChanel]: {
-                $set: {
-                  active: valueChannel.includes(currentChanel),
-                },
-              },
-            })
-          },
-
-          {} // initial value
-        ),
-      }
-      toggleSendAlarm(stationAutoId, params)
-    }
-
-    handleToggleSendAlarm()
-  },
-})
 export default class ToggleSendStationAlarm extends Component {
-  handleOnStatusChange = value => {
-    const { form } = this.props
+  handleOnStatusChange = async value => {
+    const { form, stationAutoId, toggleSendAlarm } = this.props
 
-    if (!value) {
-      form.setFieldsValue({ [FIELDS.CHANNELS]: [] })
+    const values = form.getFieldsValue()
+
+    const params = {
+      [FIELDS.STATUS]: getStatusAlarm(value),
+
+      channels: channels.reduce(
+        (base, currentChanel) => {
+          const valueChannel = get(values, [FIELDS.CHANNELS], [])
+          return {
+            ...base,
+            [currentChanel]: {
+              active: valueChannel.includes(currentChanel),
+            },
+          }
+        },
+
+        {} // initial value
+      ),
     }
+    toggleSendAlarm(stationAutoId, params)
   }
 
   render() {

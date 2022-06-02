@@ -1,7 +1,7 @@
 import { Form, message } from 'antd'
 import CalculateApi from 'api/CalculateApi'
 import { translate } from 'hoc/create-lang'
-import { get, isEqual } from 'lodash'
+import { get, isEmpty, isEqual } from 'lodash'
 import React from 'react'
 import { connect } from 'react-redux'
 import { selectStationById } from 'redux/actions/globalAction'
@@ -53,6 +53,8 @@ const withAlarmForm = WrappedComponent => {
       if (!isEqual(prevProps.dataSource, dataSource)) {
         this.setFormValues(dataSource)
       }
+
+      this.handleAlarmStatusChange(prevProps)
     }
 
     getQueryParamGeneral = () => {
@@ -73,6 +75,8 @@ const withAlarmForm = WrappedComponent => {
     }
 
     setFormValues = alarmList => {
+      if (isEmpty(alarmList)) return
+
       const { form } = this.props
 
       const alarmFormValuesFormatted = alarmList
@@ -188,9 +192,13 @@ const withAlarmForm = WrappedComponent => {
     handleAlarmStatusChange = prevProps => {
       const { dataSource, selectStationById, stationId, form } = this.props
 
+      if (isEmpty(dataSource)) return
+
       if (
-        selectStationById(stationId).alarmConfig !==
-        prevProps.selectStationById(stationId).alarmConfig
+        !isEqual(
+          selectStationById(stationId).alarmConfig,
+          prevProps.selectStationById(stationId).alarmConfig
+        )
       ) {
         const fieldsValueStatusAlarm = dataSource.reduce(
           (base, currentAlarm) => ({

@@ -5,20 +5,14 @@ import {
   DropdownMoreAction,
   SelectTime,
 } from 'containers/alarm/AlarmSetting/components/index'
-import { i18n } from 'containers/alarm/AlarmSetting/constants'
-import withAlarmForm, {
-  getStatusAlarmBoolean,
-} from 'containers/alarm/AlarmSetting/hoc/withAlarmForm'
+import { ALARM_LIST_INIT, i18n } from 'containers/alarm/AlarmSetting/constants'
+import withAlarmForm from 'containers/alarm/AlarmSetting/hoc/withAlarmForm'
 import { FIELDS } from 'containers/alarm/AlarmSetting/index'
-import { ALARM_LIST_INIT } from 'containers/alarm/AlarmSetting/constants'
 import { isEmpty } from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { createAlarm, deleteAlarm } from 'redux/actions/alarm'
-import {
-  isAlarmStatusStationEnable,
-  selectStationById,
-} from 'redux/actions/globalAction'
+import { selectStationById } from 'redux/actions/globalAction'
 import { v4 as uuidv4 } from 'uuid'
 import FormAlarmDetail from '../FormAlarmDetail'
 
@@ -26,12 +20,14 @@ import FormAlarmDetail from '../FormAlarmDetail'
 @connect(
   state => ({
     selectStationById: stationId => selectStationById(state, stationId),
-    isAlarmStatusStationEnable: stationId =>
-      isAlarmStatusStationEnable(state, stationId),
   }),
   { createAlarm, deleteAlarm }
 )
 export default class AlarmDisconnect extends Component {
+  //#region life cycle
+  //#endregion life cycle
+
+  //#region management
   handleAdd = () => {
     const { createAlarm, stationId } = this.props
     const uuid = uuidv4()
@@ -57,10 +53,10 @@ export default class AlarmDisconnect extends Component {
     setAlarmDetail(alarmDetail)
     handleShowAlarmDetail()
   }
+  //#endregion management
 
   handleSubmit = () => {
     const { handleSubmitAlarm, getQueryParamGeneral } = this.props
-
     const queryParams = getQueryParamGeneral()
     handleSubmitAlarm(queryParams)
   }
