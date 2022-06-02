@@ -14,6 +14,8 @@ import ReactHighcharts from 'react-highcharts'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { DATA_COLOR } from 'themes/color'
+import { getConfigColor } from 'constants/stationStatus'
+import { warningLevels } from 'constants/warningLevels'
 
 const { TabPane } = Tabs
 const ChartWrapper = styled.div`
@@ -105,6 +107,7 @@ const configChart = (dataSeries, dataXs, title, minLimit, maxLimit) => {
 }
 @connect(state => ({
   isOpen: state.theme.navigation.isOpen,
+  colorData: _.get(state, 'config.color.warningLevel.data.value', []),
 }))
 @withLanguageContent
 export default class ChartRowToChart extends React.Component {
@@ -140,6 +143,8 @@ export default class ChartRowToChart extends React.Component {
   }
 
   async loadDataBy(station, type = 'hours') {
+    const { colorData } = this.props
+
     this.setState({
       isLoading: true,
     })
@@ -264,28 +269,42 @@ export default class ChartRowToChart extends React.Component {
                     const minTend = _.get(categories[key], 'minTend', null)
                     const maxTend = _.get(categories[key], 'maxTend', null)
 
-                    // if (categories[key].key === "pH") {
-                    //   console.log(
-                    //     value,
-                    //     minTend,
-                    //     maxTend,
-                    //     categories[key],
-                    //     "maxLimit"
-                    //   )
-                    // }
-
                     if (
                       (value < minLimit && _.isNumber(minLimit)) ||
                       (value > maxLimit && _.isNumber(maxLimit))
                     ) {
-                      colorColumn = DATA_COLOR.EXCEEDED
+                      const configColor = getConfigColor(
+                        colorData,
+                        warningLevels.EXCEEDED,
+                        {
+                          defaultPrimary: null,
+                          defaultSecond: '#ffffff',
+                        }
+                      )
+                      colorColumn = configColor.primaryColor
                     } else if (
                       (value < minTend && _.isNumber(minTend)) ||
                       (value > maxTend && _.isNumber(maxTend))
                     ) {
-                      colorColumn = DATA_COLOR.EXCEEDED_PREPARING
+                      const configColor = getConfigColor(
+                        colorData,
+                        warningLevels.EXCEEDED_PREPARING,
+                        {
+                          defaultPrimary: null,
+                          defaultSecond: '#ffffff',
+                        }
+                      )
+                      colorColumn = configColor.primaryColor
                     } else {
-                      colorColumn = DATA_COLOR.GOOD
+                      const configColor = getConfigColor(
+                        colorData,
+                        warningLevels.GOOD,
+                        {
+                          defaultPrimary: null,
+                          defaultSecond: '#ffffff',
+                        }
+                      )
+                      colorColumn = configColor.primaryColor
                     }
                   }
                   // console.log(colorColumn,"colorColumn")
