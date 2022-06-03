@@ -5,7 +5,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { v4 as uuidv4 } from 'uuid'
-import { AlarmType, ALARM_LIST_INIT } from '../../constants'
+import { AlarmType } from '../../constants'
 import AlarmDisconnect from './AlarmType/AlarmDisconnect'
 import AlarmStatusDevice from './AlarmType/AlarmStatusDevice'
 import AlarmExceed from './AlarmType/Exceed'
@@ -65,11 +65,7 @@ export default class StationAlarmManagement extends Component {
             users={users}
             roles={roles}
             measuringListStation={measuringListStation}
-            dataSource={
-              alarmGroupByType[AlarmType.DataLevel]
-                ? alarmGroupByType[AlarmType.DataLevel]
-                : ALARM_LIST_INIT.DATA_LEVEL
-            }
+            dataSource={alarmGroupByType[AlarmType.DataLevel]}
             stationId={stationId}
             stationName={stationName}
           />

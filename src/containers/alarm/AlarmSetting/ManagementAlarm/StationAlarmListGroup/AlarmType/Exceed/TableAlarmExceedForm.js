@@ -123,15 +123,18 @@ export default class TableAlarmConfigExceed extends Component {
         const disabled = dataSource.length >= 1
         if (disabled) {
           const configAlarmType = get(record, 'config.type')
+          const isCreateLocal = get(record, FIELDS.IS_CREATE_LOCAL, false)
 
-          if (isDefaultDataLevel(configAlarmType)) {
+          if (isDefaultDataLevel(configAlarmType) && isCreateLocal) {
+            return null
+          } else if (isDefaultDataLevel(configAlarmType) && !isCreateLocal) {
             return (
               <DropdownMoreAction
                 isDelete={false}
                 onEdit={() => {
                   this.handleEdit(record)
                 }}
-                isEdit={true}
+                isEdit={!isCreateLocal}
               />
             )
           }
@@ -144,7 +147,7 @@ export default class TableAlarmConfigExceed extends Component {
               onEdit={() => {
                 this.handleEdit(record)
               }}
-              isEdit={!get(record, FIELDS.IS_CREATE_LOCAL, false)}
+              isEdit={!isCreateLocal}
             />
           )
         }
