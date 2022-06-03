@@ -176,7 +176,6 @@ export default class WarningLevelColorOfSensor extends React.Component {
     const { form } = this.props
     const id = _.get(this.props.colorData, '_id')
     let me = this
-    me.setState({ isRestore: true, isLoading: true })
 
     Modal.confirm({
       title: i18n().restoreConfirmMsg,
@@ -186,6 +185,8 @@ export default class WarningLevelColorOfSensor extends React.Component {
         validateFields(async (error, values) => {
           const data = Object.values(values)
           // console.log(values, '--data--')
+          me.setState({ isRestore: true, isLoading: true })
+
           await me.props.updateWarningLevelColorData(id, data, {
             isRestore: true,
           })
@@ -193,9 +194,7 @@ export default class WarningLevelColorOfSensor extends React.Component {
           me.setState({ isRestore: false, isLoading: false })
         })
       },
-      onCancel() {
-        me.setState({ isRestore: false, isLoading: false })
-      },
+      onCancel() {},
     })
   }
 }
