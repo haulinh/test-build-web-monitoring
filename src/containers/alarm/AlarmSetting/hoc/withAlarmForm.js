@@ -4,7 +4,7 @@ import { translate } from 'hoc/create-lang'
 import { get, isEmpty, isEqual } from 'lodash'
 import React from 'react'
 import { connect } from 'react-redux'
-import { getAlarms } from 'redux/actions/alarm'
+import { getAlarms, updateDetailAlarm } from 'redux/actions/alarm'
 import { selectStationById } from 'redux/actions/globalAction'
 import { alarmTypeObject, channels, getVisibleEmailSubject } from '../constants'
 import { FIELDS } from '../index'
@@ -27,7 +27,7 @@ const withAlarmForm = WrappedComponent => {
     selectStationById: stationId => selectStationById(state, stationId),
   }))
   @Form.create()
-  @connect(null, { getAlarms })
+  @connect(null, { getAlarms, updateDetailAlarm })
   class AlarmForm extends React.Component {
     state = {
       alarmIdsDeleted: [],
@@ -65,13 +65,15 @@ const withAlarmForm = WrappedComponent => {
         paramsItem => !isEmpty(paramsItem.recipients)
       )
 
-      const params = paramsForm.map(({ isCreateLocal, ...paramItem }) => ({
-        ...paramItem,
+      const params = paramsForm
+        .map(({ isCreateLocal, ...paramItem }) => ({
+          ...paramItem,
 
-        recipients: get(paramItem, 'recipients', []).flat(),
-        _id: !isCreateLocal ? paramItem._id : null,
-        status: getStatusAlarm(paramItem.status),
-      }))
+          recipients: get(paramItem, 'recipients', []).flat(),
+          _id: !isCreateLocal ? paramItem._id : null,
+          status: getStatusAlarm(paramItem.status),
+        }))
+        .filter(paramItem => !isEmpty(paramItem.recipients))
 
       return params
     }

@@ -4241,11 +4241,13 @@ export default {
   alarm: {
     menu: {
       management: 'Management Config',
-      history: 'History Alarm',
+      history: 'Alarm History',
+      setting: 'Alarm Setting',
     },
     tooltipMenu: {
       management: 'Management Config',
-      history: 'History Alarm',
+      history: 'Alarm History',
+      setting: 'Alarm Setting',
     },
     title: {
       createAlarm: 'Create Alarm',
