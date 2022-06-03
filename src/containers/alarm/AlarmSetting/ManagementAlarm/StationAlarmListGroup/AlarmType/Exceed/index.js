@@ -1,6 +1,7 @@
 import { Button, Col, Row } from 'antd'
 import QCVNApi from 'api/QCVNApi'
 import { Clearfix } from 'components/elements'
+import { i18n } from 'containers/alarm/AlarmSetting/constants'
 import withAlarmForm, {
   isDefaultDataLevel,
 } from 'containers/alarm/AlarmSetting/hoc/withAlarmForm'
@@ -263,6 +264,7 @@ export default class AlarmExceed extends Component {
             measuringListStation={measuringListStation}
             qcvnList={qcvnListSelected}
             dataSource={measuringList}
+            alarmList={dataSource}
             measureListValue={measureListValue}
             defaultDataLevelValue={defaultDataLevelValue}
           />
@@ -276,7 +278,7 @@ export default class AlarmExceed extends Component {
               size="large"
               onClick={this.handleSubmit}
             >
-              Lưu
+              {i18n().button.save}
             </Button>
           </Col>
         </Row>

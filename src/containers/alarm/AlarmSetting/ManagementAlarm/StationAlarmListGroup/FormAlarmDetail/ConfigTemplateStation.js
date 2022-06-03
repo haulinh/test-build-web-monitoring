@@ -2,7 +2,10 @@ import { Col, Collapse, Icon, Input, Row, Switch, Tooltip } from 'antd'
 import { Clearfix } from 'components/elements'
 import Text from 'components/elements/text'
 import { Flex } from 'components/layouts/styles'
-import { getVisibleEmailSubject } from 'containers/alarm/AlarmSetting/constants'
+import {
+  getVisibleEmailSubject,
+  i18n,
+} from 'containers/alarm/AlarmSetting/constants'
 import { get } from 'lodash'
 import React, { Component } from 'react'
 import styled from 'styled-components'
@@ -46,7 +49,7 @@ export default class ConfigTemplateStation extends Component {
     const { form, alarmId, dataAlarmStation } = this.props
     return (
       <div>
-        <Text>Cấu hình chi tiết</Text>
+        <Text>{i18n().drawer.title}</Text>
         <Clearfix height={4} />
         <CardTemplate>
           <Collapse>
@@ -66,7 +69,10 @@ export default class ConfigTemplateStation extends Component {
                       <Col>
                         <Flex alignItems="center" gap={5}>
                           Custom template
-                          <Tooltip placement="top" title={'Tooltip custom'}>
+                          <Tooltip
+                            placement="top"
+                            title={i18n().drawer.tooltip.customTemplate}
+                          >
                             <Icon
                               type="info-circle"
                               style={{ color: '#A2A7B3' }}
@@ -91,7 +97,7 @@ export default class ConfigTemplateStation extends Component {
                 >
                   {visibleEmailSubject && (
                     <Row gutter={5} style={{ marginBottom: 10 }}>
-                      <Col>Email Subject:</Col>
+                      <Col>{i18n().drawer.emailSubject}</Col>
                       <Clearfix height={4} />
                       <Col>
                         {form.getFieldDecorator(
@@ -100,7 +106,7 @@ export default class ConfigTemplateStation extends Component {
                         )(
                           <Input
                             style={{ width: '100%' }}
-                            placeholder="Nhập tiêu đề Email"
+                            placeholder={i18n().drawer.placeholder.emailSubject}
                           />
                         )}
                       </Col>
@@ -109,8 +115,11 @@ export default class ConfigTemplateStation extends Component {
                   <Row gutter={5}>
                     <Col>
                       <Flex alignItems="center" gap={5}>
-                        Mẫu gửi
-                        <Tooltip placement="top" title={'Tooltip custom'}>
+                        {i18n().drawer.templateSend}
+                        <Tooltip
+                          placement="top"
+                          title={i18n().drawer.tooltip.exceed}
+                        >
                           <Icon
                             type="info-circle"
                             style={{ color: '#A2A7B3' }}

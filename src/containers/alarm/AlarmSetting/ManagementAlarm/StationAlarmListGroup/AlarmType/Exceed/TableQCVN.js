@@ -1,7 +1,7 @@
 import { Col, Form, Icon, Row, Switch, Table, Tooltip } from 'antd'
 import { i18n } from 'containers/alarm/AlarmSetting/constants'
 import { FIELDS } from 'containers/alarm/AlarmSetting/index'
-import { get, isEqual, keyBy } from 'lodash'
+import { get, keyBy } from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
@@ -12,14 +12,10 @@ import { withRouter } from 'react-router'
   measuresObj: state.global.measuresObj,
 }))
 export default class TableQCVN extends Component {
-  componentDidUpdate(prevProps) {
-    const { dataSource, qcvnList } = this.props
+  componentDidMount = () => {
+    const { alarmList } = this.props
 
-    if (!isEqual(prevProps.qcvnList, qcvnList)) {
-      this.handleMeasuringListEnable()
-    }
-
-    if (!isEqual(prevProps.dataSource, dataSource)) {
+    if (alarmList) {
       this.handleMeasuringListEnable()
     }
   }

@@ -1,6 +1,7 @@
 import { Col, Row } from 'antd'
 import { optionsStatusDevice } from 'components/core/select/SelectStatusDevice'
 import Text from 'components/elements/text'
+import { i18n } from 'containers/alarm/AlarmSetting/constants'
 import { FIELDS } from 'containers/alarm/AlarmSetting/index'
 import { get, keyBy } from 'lodash'
 import React from 'react'
@@ -41,7 +42,7 @@ export const AlarmInfo = ({
     return {
       [FIELDS.DATA_LEVEL]: (
         <Row type="flex" justify="space-between" gutter={18}>
-          <Col className="label">Quy chuẩn: </Col>
+          <Col className="label">{i18n().drawer.standard} </Col>
           <Col span={14} style={{ paddingLeft: '4px' }}>
             <Text fontWeight={500} fontSize={16}>
               {get(alarmDetail, ['config', 'name'])}
@@ -85,7 +86,7 @@ export const AlarmInfo = ({
     <CardInfo>
       <Row style={{ marginBottom: 13 }}>
         <Text className="label" fontSize={16}>
-          Trạm
+          {i18n().drawer.station}
         </Text>
         <Text fontWeight={700} fontSize={16}>
           {stationName}
@@ -93,7 +94,7 @@ export const AlarmInfo = ({
       </Row>
       <Row type="flex" gutter={27} style={{ marginBottom: 6 }}>
         <Col className="label" style={{ width: '148px' }}>
-          Loại cảnh báo:
+          {i18n().drawer.alarmType}
         </Col>
         <Col>
           <Text fontWeight={500} fontSize={16}>
