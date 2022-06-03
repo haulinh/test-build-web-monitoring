@@ -86,8 +86,6 @@ const withAlarmForm = WrappedComponent => {
           return true
         })
 
-      console.log({ params })
-
       return params
     }
 

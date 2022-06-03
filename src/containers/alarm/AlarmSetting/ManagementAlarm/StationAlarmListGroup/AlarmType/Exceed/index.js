@@ -29,9 +29,10 @@ export default class AlarmExceed extends Component {
     const { dataSource, stationId, createListAlarm } = this.props
 
     this.setState({ loadingStandard: true })
+
     const qcvnList = await this.getQCVNList()
-    this.setState({ loadingStandard: false })
-    this.setState({ qcvnList })
+
+    this.setState({ qcvnList, loadingStandard: false })
 
     if (!dataSource) {
       createListAlarm(ALARM_LIST_INIT.DATA_LEVEL, stationId)

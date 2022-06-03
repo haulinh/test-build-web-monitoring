@@ -194,7 +194,6 @@ export default class TableQCVN extends Component {
     return (
       <Table
         columns={this.getColumns()}
-        rowKey={record => record.key}
         dataSource={dataSource}
         bordered
         pagination={false}
