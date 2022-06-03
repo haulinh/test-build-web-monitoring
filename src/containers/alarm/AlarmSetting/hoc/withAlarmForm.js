@@ -1,7 +1,7 @@
 import { Form, message } from 'antd'
 import CalculateApi from 'api/CalculateApi'
 import { translate } from 'hoc/create-lang'
-import { get, isEmpty, isEqual, isNil } from 'lodash'
+import { get, isEmpty, isEqual } from 'lodash'
 import React from 'react'
 import { connect } from 'react-redux'
 import { getAlarms, updateDetailAlarm } from 'redux/actions/alarm'
