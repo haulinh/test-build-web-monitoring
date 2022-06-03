@@ -4265,6 +4265,32 @@ export default {
       province: 'Please choose at least province',
       timeEnd: 'End Time must be larger than Start Time',
     },
+    tabs: {
+      managementAlarm: 'Alarm management',
+      templateAlarm: 'Alarm template',
+      exceed: 'Exceed',
+      connection: 'Connection',
+      device: 'Device',
+    },
+    toggle: {
+      sendAlarm: 'Send alarm',
+    },
+    drawer: {
+      title: 'Detail config',
+      station: 'Station',
+      alarmType: 'Alarm type:',
+      standard: 'Standard: ',
+      repeatSend: 'Repeat send',
+      templateSend: 'Template send',
+      emailSubject: 'Email subject:',
+      tooltip: {
+        repeatSend: 'Allow repeating alarm when the problem is still ongoing',
+        customTemplate: 'Turn your own template setup options ON/OFF',
+      },
+      placeholder: {
+        emailSubject: 'Type email subject',
+      },
+    },
     label: {
       management: {
         name: 'Alarm Name',

@@ -36,6 +36,7 @@ export const i18n = () => {
     disconnect: translate('alarm.config.disconnect'),
     selectThreshold: translate('alarm.config.selectThreshold'),
     recipient: translate('alarm.label.management.recipient'),
+    status: translate('alarm.label.management.status'),
 
     require: {
       selectUser: translate('alarm.config.require.selectUser'),
@@ -53,9 +54,42 @@ export const i18n = () => {
       submit: translate('global.submit'),
       cancel: translate('global.cancel'),
     },
+    addOn: {
+      edit: translate('addon.edit'),
+      delete: translate('addon.delete'),
+    },
     qcvnMin: translate('stationFixedPoint.form.measuringForm.qcvnMin'),
     qcvnMax: translate('stationFixedPoint.form.measuringForm.qcvnMax'),
     measure: translate('measuringManager.list.title'),
+    tabs: {
+      managementAlarm: translate('alarm.tabs.managementAlarm'),
+      templateAlarm: translate('alarm.tabs.templateAlarm'),
+      exceed: translate('alarm.tabs.exceed'),
+      connection: translate('alarm.tabs.connection'),
+      device: translate('alarm.tabs.device'),
+    },
+    toggle: {
+      sendAlarm: translate('alarm.toggle.sendAlarm'),
+    },
+    drawer: {
+      title: translate('alarm.drawer.title'),
+      station: translate('alarm.drawer.station'),
+      alarmType: translate('alarm.drawer.alarmType'),
+      standard: translate('alarm.drawer.standard'),
+      repeatSend: translate('alarm.drawer.repeatSend'),
+      templateSend: translate('alarm.drawer.templateSend'),
+      emailSubject: translate('alarm.drawer.emailSubject'),
+      tooltip: {
+        repeatSend: translate('alarm.drawer.tooltip.repeatSend'),
+        customTemplate: translate('alarm.drawer.tooltip.customTemplate'),
+        exceed: translate('alarm.alarmType.exceed.template'),
+        device: translate('alarm.alarmType.device.template'),
+        advance: translate('alarm.alarmType.advance.template'),
+      },
+      placeholder: {
+        emailSubject: translate('alarm.drawer.placeholder.emailSubject'),
+      },
+    },
   }
 }
 
