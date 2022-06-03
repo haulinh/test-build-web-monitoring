@@ -71,10 +71,7 @@ const withAlarmForm = WrappedComponent => {
           _id: !isCreateLocal ? paramItem._id : null,
           status: getStatusAlarm(paramItem.status),
         }))
-        .filter(paramItem => {
-          if (isEmpty(paramItem.recipients)) return false
-          return true
-        })
+        .filter(paramItem => !isEmpty(paramItem.recipients))
 
       return params
     }
