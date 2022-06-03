@@ -73,16 +73,6 @@ const withAlarmForm = WrappedComponent => {
         }))
         .filter(paramItem => {
           if (isEmpty(paramItem.recipients)) return false
-
-          if (paramItem.type === FIELDS.DATA_LEVEL) {
-            if (get(paramItem, 'config.name') === '') return false
-
-            const configAlarmType = get(paramItem, 'config.type')
-            if (isDefaultDataLevel(configAlarmType)) return true
-
-            if (isNil(get(paramItem, 'config.standardId'))) return false
-          }
-
           return true
         })
 

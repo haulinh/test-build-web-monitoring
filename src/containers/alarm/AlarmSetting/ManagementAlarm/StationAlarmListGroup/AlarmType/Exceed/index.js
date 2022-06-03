@@ -6,7 +6,7 @@ import withAlarmForm, {
 } from 'containers/alarm/AlarmSetting/hoc/withAlarmForm'
 import { FIELDS } from 'containers/alarm/AlarmSetting/index'
 import { ALARM_LIST_INIT } from 'containers/manager/station-auto/alarm-config/constants'
-import { get, groupBy, isEmpty, keyBy, omit } from 'lodash'
+import { get, groupBy, isEmpty, isNil, keyBy, omit } from 'lodash'
 import { Component, default as React } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
@@ -92,6 +92,16 @@ export default class AlarmExceed extends Component {
 
     const params = paramGeneral
       .filter(paramItem => paramItem.config)
+      .filter(paramItem => {
+        if (get(paramItem, 'config.name') === '') return false
+
+        const configAlarmType = get(paramItem, 'config.type')
+        if (isDefaultDataLevel(configAlarmType)) return true
+
+        if (isNil(get(paramItem, 'config.standardId'))) return false
+
+        return true
+      })
       .map(paramItem => ({
         ...paramItem,
         config: {
