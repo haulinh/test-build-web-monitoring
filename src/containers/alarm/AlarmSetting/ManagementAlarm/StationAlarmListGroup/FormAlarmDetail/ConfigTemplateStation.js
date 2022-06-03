@@ -2,7 +2,10 @@ import { Col, Collapse, Icon, Input, Row, Switch, Tooltip } from 'antd'
 import { Clearfix } from 'components/elements'
 import Text from 'components/elements/text'
 import { Flex } from 'components/layouts/styles'
-import { getVisibleEmailSubject } from 'containers/alarm/AlarmSetting/constants'
+import {
+  channelOptions,
+  getVisibleEmailSubject,
+} from 'containers/alarm/AlarmSetting/constants'
 import { get } from 'lodash'
 import React, { Component } from 'react'
 import styled from 'styled-components'
@@ -20,25 +23,6 @@ const CardTemplate = styled.div`
   }
 `
 
-const channels = [
-  {
-    label: 'SMS',
-    value: 'sms',
-  },
-  {
-    label: 'Email',
-    value: 'email',
-  },
-  {
-    label: 'Web/Mobile',
-    value: 'mobile',
-  },
-  {
-    label: 'Webhook',
-    value: 'webhook',
-  },
-]
-
 const templateDefault = 'Station: {{station}} disconnected at {{time}}'
 
 export default class ConfigTemplateStation extends Component {
@@ -50,7 +34,7 @@ export default class ConfigTemplateStation extends Component {
         <Clearfix height={4} />
         <CardTemplate>
           <Collapse>
-            {channels.map(channel => {
+            {channelOptions.map(channel => {
               const isCustomTemplate = form.getFieldValue(
                 `${alarmId}.channels.${channel.value}.customTemplate`
               )
