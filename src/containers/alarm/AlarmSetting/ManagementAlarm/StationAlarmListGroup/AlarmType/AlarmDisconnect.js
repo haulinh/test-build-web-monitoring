@@ -8,7 +8,7 @@ import {
 import { ALARM_LIST_INIT, i18n } from 'containers/alarm/AlarmSetting/constants'
 import withAlarmForm from 'containers/alarm/AlarmSetting/hoc/withAlarmForm'
 import { FIELDS } from 'containers/alarm/AlarmSetting/index'
-import { isEmpty } from 'lodash'
+import { isEmpty, isEqual } from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { createAlarm, deleteAlarm, createListAlarm } from 'redux/actions/alarm'
@@ -26,14 +26,25 @@ import FormAlarmDetail from '../FormAlarmDetail'
 export default class AlarmDisconnect extends Component {
   //#region life cycle
   componentDidMount = () => {
-    const { dataSource, stationId, createListAlarm } = this.props
-    if (!dataSource) {
-      createListAlarm(ALARM_LIST_INIT.DISCONNECT, stationId)
+    this.handleCreateAlarmInit()
+  }
+  componentDidUpdate = prevProps => {
+    const { dataSource } = this.props
+
+    if (!isEqual(dataSource, prevProps.dataSource)) {
+      this.handleCreateAlarmInit()
     }
   }
   //#endregion life cycle
 
   //#region management
+  handleCreateAlarmInit = () => {
+    const { dataSource, stationId, createListAlarm } = this.props
+    if (!dataSource) {
+      createListAlarm(ALARM_LIST_INIT.DISCONNECT, stationId)
+    }
+  }
+
   handleAdd = () => {
     const { createAlarm, stationId } = this.props
     const uuid = uuidv4()
@@ -64,6 +75,7 @@ export default class AlarmDisconnect extends Component {
   handleSubmit = () => {
     const { handleSubmitAlarm, getQueryParamGeneral } = this.props
     const queryParams = getQueryParamGeneral()
+
     handleSubmitAlarm(queryParams)
   }
 
