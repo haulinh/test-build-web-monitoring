@@ -172,17 +172,6 @@ const withAlarmForm = WrappedComponent => {
       }
     }
 
-    handleUpdateDetail = async (id, params) => {
-      const { updateDetailAlarm } = this.props
-      try {
-        await CalculateApi.updateAlarmById(id, params)
-        updateDetailAlarm(params)
-        message.success(translate('global.saveSuccess'))
-      } catch (error) {
-        message.error(translate('ticket.message.notificationError'))
-      }
-    }
-
     setAlarmDetail = alarmDetail => {
       this.setState({ alarmDetail })
     }

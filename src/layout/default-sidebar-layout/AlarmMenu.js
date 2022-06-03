@@ -62,8 +62,8 @@ export default {
             props.selectMenu(slug.alarm.setting)
           }}
         >
-          <Tooltip placement="right" title="Cài đặt cảnh báo">
-            <Link to={slug.alarm.setting}>Cài đặt cảnh báo</Link>
+          <Tooltip placement="right" title={listTooltipMenu().alarm.setting}>
+            <Link to={slug.alarm.setting}>{t('alarm.menu.setting')}</Link>
           </Tooltip>
         </Menu.Item>
       )}

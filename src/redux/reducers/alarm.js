@@ -72,14 +72,9 @@ const alarmReducer = (state = initialState, action) => {
       const indexFind = state.alarmList.findIndex(
         alarm => alarm._id === action.payload._id
       )
-
-      let newAlarmDetailList = [...state.alarmList]
-      newAlarmDetailList[indexFind] = action.payload
-
-      return {
-        ...state,
-        alarmList: newAlarmDetailList,
-      }
+      return update(state, {
+        alarmList: { [indexFind]: { $set: action.payload } },
+      })
     }
 
     default:
