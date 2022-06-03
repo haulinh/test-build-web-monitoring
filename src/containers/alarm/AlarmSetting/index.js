@@ -1,10 +1,12 @@
 import { Tabs } from 'antd'
 import { Clearfix } from 'components/elements'
+import { translate } from 'hoc/create-lang'
 import PageContainer from 'layout/default-sidebar-layout/PageContainer'
 import React, { Component } from 'react'
 import createBreadCrumbHoc from 'shared/breadcrumb/hoc'
 import ManagementAlarm from './ManagementAlarm'
 import TemplateAlarm from './TemplateAlarm'
+import { i18n } from './constants'
 
 const Breadcrumb = createBreadCrumbHoc()
 const { TabPane } = Tabs
@@ -56,17 +58,17 @@ export default class AlarmSetting extends Component {
           items={[
             {
               id: '1',
-              name: 'Cài đặt cảnh báo',
+              name: translate('alarm.menu.setting'),
             },
           ]}
         />
         <Clearfix height={16} />
 
         <Tabs defaultActiveKey="manage">
-          <TabPane tab="Quản lý cảnh báo" key="manage">
+          <TabPane tab={i18n().tabs.managementAlarm} key="manage">
             <ManagementAlarm />
           </TabPane>
-          <TabPane tab="Mẫu gửi cảnh báo" key="template">
+          <TabPane tab={i18n().tabs.templateAlarm} key="template">
             <TemplateAlarm />
           </TabPane>
         </Tabs>

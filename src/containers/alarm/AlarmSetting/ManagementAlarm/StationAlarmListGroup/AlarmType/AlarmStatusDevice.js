@@ -71,7 +71,7 @@ export default class AlarmStatusDevice extends Component {
 
   columns = [
     {
-      title: 'Trạng thái',
+      title: i18n().status,
       width: 260,
       align: 'center',
       render: (_, record) => {
@@ -82,7 +82,7 @@ export default class AlarmStatusDevice extends Component {
       },
     },
     {
-      title: 'Người nhận',
+      title: i18n().recipient,
       dataIndex: FIELDS.RECIPIENTS,
       render: (_, record) => {
         const { users, roles, form } = this.props
@@ -164,7 +164,7 @@ export default class AlarmStatusDevice extends Component {
               size="large"
               onClick={this.handleSubmit}
             >
-              Lưu
+              {i18n().button.save}
             </Button>
           </Col>
         </Row>

@@ -1,5 +1,6 @@
 import { Row, Tabs as TabsAnt } from 'antd'
 import { CpuSetting, CloudCross, Danger } from 'assets/icons'
+import { i18n } from '../../constants'
 import { get, groupBy } from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
@@ -56,7 +57,7 @@ export default class StationAlarmManagement extends Component {
           tab={
             <Row style={{ gap: 5 }} type="flex" align="middle">
               <Danger />
-              Vượt ngưỡng
+              {i18n().tabs.exceed}
             </Row>
           }
           key="threshold"
@@ -75,7 +76,7 @@ export default class StationAlarmManagement extends Component {
           tab={
             <Row style={{ gap: 5 }} type="flex" align="middle">
               <CloudCross />
-              Tín hiệu
+              {i18n().tabs.connection}
             </Row>
           }
           key="disconnect"
@@ -93,7 +94,7 @@ export default class StationAlarmManagement extends Component {
           tab={
             <Row style={{ gap: 5 }} type="flex" align="middle">
               <CpuSetting />
-              Thiết bị
+              {i18n().tabs.device}
             </Row>
           }
           key="device"

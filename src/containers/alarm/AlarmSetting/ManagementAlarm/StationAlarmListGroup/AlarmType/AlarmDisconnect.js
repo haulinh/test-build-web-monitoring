@@ -199,7 +199,7 @@ export default class AlarmDisconnect extends Component {
               size="large"
               onClick={this.handleSubmit}
             >
-              Lưu
+              {i18n().button.save}
             </Button>
           </Col>
         </Row>
