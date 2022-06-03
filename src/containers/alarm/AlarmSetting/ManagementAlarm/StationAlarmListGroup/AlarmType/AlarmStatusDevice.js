@@ -128,8 +128,12 @@ export default class AlarmStatusDevice extends Component {
       width: '13%',
       align: 'center',
       render: (_, record) => {
+        const { isCreateLocal } = record
+        const isEdit = !isCreateLocal
         return (
-          <DropdownMoreAction onEdit={() => this.handleEdit(record)} isEdit />
+          isEdit && (
+            <DropdownMoreAction onEdit={() => this.handleEdit(record)} isEdit />
+          )
         )
       },
     },
