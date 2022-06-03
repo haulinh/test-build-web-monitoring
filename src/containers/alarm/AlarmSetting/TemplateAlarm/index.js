@@ -44,7 +44,6 @@ export default class TemplateAlarm extends Component {
 
   render() {
     const { loading, configTemplate } = this.state
-    console.log({ configTemplate })
 
     return (
       <div style={{ background: '#FFFFFF', padding: 16, height: '100%' }}>

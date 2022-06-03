@@ -76,10 +76,6 @@ export const channelOptions = [
     label: 'Webhook',
     value: 'webhook',
   },
-  {
-    label: 'Webhook',
-    value: 'webhook',
-  },
 ]
 export const channels = channelOptions.map(option => option.value)
 export const getHiddenParam = (typeAlarm, stationId, maxDisconnectionTime) => {
