@@ -2,6 +2,7 @@ import { Col, Row } from 'antd'
 import { optionsStatusDevice } from 'components/core/select/SelectStatusDevice'
 import Text from 'components/elements/text'
 import { i18n } from 'containers/alarm/AlarmSetting/constants'
+import { isDefaultDataLevel } from 'containers/alarm/AlarmSetting/hoc/withAlarmForm'
 import { FIELDS } from 'containers/alarm/AlarmSetting/index'
 import { get, keyBy } from 'lodash'
 import React from 'react'
@@ -39,6 +40,11 @@ export const AlarmInfo = ({
     const statusDeviceList = keyBy(optionsStatusDevice, 'value')
     const statusDevice = get(alarmDetail, ['config', 'type'])
 
+    const configAlarmType = get(alarmDetail, 'config.type')
+    const thresholdName = isDefaultDataLevel(configAlarmType)
+      ? i18n()[configAlarmType]
+      : get(qcvnSelected, ['name'])
+
     return {
       [FIELDS.DATA_LEVEL]: (
         <Row type="flex" justify="space-between" gutter={18}>
@@ -52,7 +58,7 @@ export const AlarmInfo = ({
               fontWeight={500}
               fontSize={16}
             >
-              {get(qcvnSelected, ['name'])}
+              {thresholdName}
             </Text>
           </Col>
         </Row>
