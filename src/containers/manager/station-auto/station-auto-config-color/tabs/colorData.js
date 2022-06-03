@@ -193,7 +193,9 @@ export default class WarningLevelColorOfSensor extends React.Component {
           me.setState({ isRestore: false, isLoading: false })
         })
       },
-      onCancel() {},
+      onCancel() {
+        me.setState({ isRestore: false, isLoading: false })
+      },
     })
   }
 }
