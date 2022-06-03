@@ -51,8 +51,6 @@ const HeaderDrawer = ({ onClose, onSubmit }) => {
     </Row>
   )
 }
-
-@connect(null, { updateDetailAlarm })
 export default class FormAlarmDetail extends Component {
   handleOnClose = () => {
     const { onClose } = this.props
@@ -60,9 +58,27 @@ export default class FormAlarmDetail extends Component {
   }
 
   handleOnSubmit = () => {
-    const { onClose, handleSubmit } = this.props
+    const {
+      onClose,
+      form,
+      alarmDetail,
+      updateDetailAlarm,
+      stationId,
+      alarmType,
+    } = this.props
 
-    handleSubmit()
+    const formValues = form.getFieldsValue()
+    const alarmUpdated = {
+      ...formValues[alarmDetail._id],
+      stationId: stationId,
+      type: alarmType,
+    }
+
+    updateDetailAlarm(alarmDetail._id, {
+      ...alarmDetail,
+      repeatConfig: alarmUpdated.repeatConfig,
+      channels: alarmUpdated.channels,
+    })
     onClose()
   }
 

@@ -216,6 +216,7 @@ export default class AlarmExceed extends Component {
       handleShowAlarmDetail,
       setHiddenFields,
       stationId,
+      handleUpdateDetail,
     } = this.props
 
     const qcvnListSelected = this.getQcvnSelected()
@@ -285,6 +286,7 @@ export default class AlarmExceed extends Component {
             dataSource={dataSource}
             handleSubmit={this.handleSubmit}
             alarmType={FIELDS.DATA_LEVEL}
+            updateDetailAlarm={handleUpdateDetail}
             showTimeRepeat
           />
         )}

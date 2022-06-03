@@ -4,7 +4,7 @@ import { translate } from 'hoc/create-lang'
 import { get, isEmpty, isEqual } from 'lodash'
 import React from 'react'
 import { connect } from 'react-redux'
-import { getAlarms } from 'redux/actions/alarm'
+import { getAlarms, updateDetailAlarm } from 'redux/actions/alarm'
 import { selectStationById } from 'redux/actions/globalAction'
 import { alarmTypeObject, channels, getVisibleEmailSubject } from '../constants'
 import { FIELDS } from '../index'
@@ -27,7 +27,7 @@ const withAlarmForm = WrappedComponent => {
     selectStationById: stationId => selectStationById(state, stationId),
   }))
   @Form.create()
-  @connect(null, { getAlarms })
+  @connect(null, { getAlarms, updateDetailAlarm })
   class AlarmForm extends React.Component {
     state = {
       alarmIdsDeleted: [],
@@ -164,6 +164,16 @@ const withAlarmForm = WrappedComponent => {
       try {
         await CalculateApi.createBulkAlarm(params)
         getAlarms()
+        message.success(translate('global.saveSuccess'))
+      } catch (error) {
+        message.error(translate('ticket.message.notificationError'))
+      }
+    }
+
+    handleUpdateDetail = async (id, params) => {
+      try {
+        await CalculateApi.updateAlarmById(id, params)
+        updateDetailAlarm(params)
         message.success(translate('global.saveSuccess'))
       } catch (error) {
         message.error(translate('ticket.message.notificationError'))
