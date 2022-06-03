@@ -772,6 +772,7 @@ export function listTooltipMenu() {
     alarm: {
       management: translate('alarm.tooltipMenu.management'),
       history: translate('alarm.tooltipMenuApp.history'),
+      setting: translate('alarm.tooltipMenuApp.setting'),
     },
   }
 }

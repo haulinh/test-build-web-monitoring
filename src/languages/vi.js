@@ -4252,10 +4252,12 @@ export default {
     menu: {
       management: 'Quản lý cấu hình',
       history: 'Lịch sử cảnh báo',
+      setting: 'Cài đặt cảnh báo',
     },
     tooltipMenu: {
       management: 'Quản lý cấu hình',
       history: 'Lịch sử cảnh báo',
+      setting: 'Cài đặt cảnh báo',
     },
     title: {
       createAlarm: 'Tạo cảnh báo',

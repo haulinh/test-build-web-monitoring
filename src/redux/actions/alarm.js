@@ -1,4 +1,6 @@
+import { message } from 'antd'
 import CalculateApi from 'api/CalculateApi'
+import { translate } from 'hoc/create-lang'
 
 export const SELECT_ALARM = 'SELECT_ALARM'
 export const CLEAR_ALARM_SELECTED = 'CLEAR_ALARM_SELECTED'
@@ -49,10 +51,18 @@ export const deleteAlarm = alarmId => ({
   payload: alarmId,
 })
 
-export const updateDetailAlarm = alarm => ({
-  type: UPDATE_DETAIL_ALARM,
-  payload: alarm,
-})
+export const updateDetailAlarm = alarm => async dispatch => {
+  try {
+    await CalculateApi.updateAlarmById(alarm._id, alarm)
+    message.success(translate('global.saveSuccess'))
+  } catch (error) {
+    message.error(translate('ticket.message.notificationError'))
+  }
+  dispatch({
+    type: UPDATE_DETAIL_ALARM,
+    payload: alarm,
+  })
+}
 
 export const createListAlarm = (alarmList, stationId) => {
   const alarmsAdded = alarmList.map(alarm => ({ ...alarm, stationId }))

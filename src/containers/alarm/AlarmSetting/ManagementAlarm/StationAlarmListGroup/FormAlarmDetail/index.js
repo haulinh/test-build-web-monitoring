@@ -8,10 +8,10 @@ import SelectFrequency, {
 import { get } from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { updateDetailAlarm } from 'redux/actions/alarm'
 import styled from 'styled-components'
 import { AlarmInfo } from './AlarmInfo'
 import ConfigTemplateStation from './ConfigTemplateStation'
+import { updateDetailAlarm } from 'redux/actions/alarm'
 
 const StyledRow = styled(Row)`
   .ant-btn {
@@ -51,7 +51,6 @@ const HeaderDrawer = ({ onClose, onSubmit }) => {
     </Row>
   )
 }
-
 @connect(null, { updateDetailAlarm })
 export default class FormAlarmDetail extends Component {
   handleOnClose = () => {
@@ -59,10 +58,17 @@ export default class FormAlarmDetail extends Component {
     onClose()
   }
 
-  handleOnSubmit = () => {
-    const { onClose, handleSubmit } = this.props
+  handleOnSubmit = async () => {
+    const { onClose, form, alarmDetail, updateDetailAlarm } = this.props
 
-    handleSubmit()
+    const formValues = form.getFieldsValue()
+    const alarmUpdated = formValues[alarmDetail._id]
+
+    updateDetailAlarm({
+      ...alarmDetail,
+      repeatConfig: alarmUpdated.repeatConfig,
+      channels: alarmUpdated.channels,
+    })
     onClose()
   }
 
