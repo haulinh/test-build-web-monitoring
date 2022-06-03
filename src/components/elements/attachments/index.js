@@ -12,7 +12,7 @@ import MediaApi from 'api/MediaApi'
 import axios from 'axios'
 import { Clearfix, Flex } from 'components/layouts/styles'
 import { translate } from 'hoc/create-lang'
-import _ from 'lodash'
+import _, { get } from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
@@ -108,7 +108,8 @@ const Extension = styled.div`
 
 const FILE_SIZE_LIMIT = 10 * 1024 * 1024
 
-const getDatabaseName = organizationName => organizationName.replace(/_/g, '')
+const getDatabaseName = (organizationName = '') =>
+  organizationName.replace(/_/g, '')
 
 const Attachment = props => {
   const { attachment, onDelete, onDownload } = props
@@ -232,7 +233,7 @@ export default class Attachments extends Component {
   fetchData = async () => {
     const { userInfo, type } = this.props
     const databaseName = getDatabaseName(
-      userInfo.organization.databaseInfo.name
+      get(userInfo, 'organization.databaseInfo.name')
     )
     const id = this.getId()
     this.setState({ loading: true })

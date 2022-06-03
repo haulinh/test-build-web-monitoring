@@ -205,6 +205,13 @@ export function updateWarningLevelColorSensor(id, data) {
   return putFetch(url, data)
 }
 
+//#region alarm
+export function getAlarmConfig() {
+  const url = _getConfigs('alarm')
+  return getFetch(url)
+}
+//#endregion
+
 /* --------------------------- [ END ] config route on category service --------------------------- */
 
 export default {
@@ -234,4 +241,5 @@ export default {
   restoreWarningLevelColorData,
   updateWarningLevelColorSensor,
   toggleQaqcConfig,
+  getAlarmConfig,
 }
