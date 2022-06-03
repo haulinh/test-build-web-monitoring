@@ -61,7 +61,9 @@ const withAlarmForm = WrappedComponent => {
       const { form } = this.props
       const value = form.getFieldsValue()
 
-      const paramsForm = Object.values(value)
+      const paramsForm = Object.values(value).filter(
+        paramsItem => !isEmpty(paramsItem.recipients)
+      )
 
       const params = paramsForm
         .map(({ isCreateLocal, ...paramItem }) => ({

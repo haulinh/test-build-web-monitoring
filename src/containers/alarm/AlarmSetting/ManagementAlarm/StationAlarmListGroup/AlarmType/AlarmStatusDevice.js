@@ -6,16 +6,48 @@ import { DropdownMoreAction } from 'containers/alarm/AlarmSetting/components'
 import { ALARM_LIST_INIT, i18n } from 'containers/alarm/AlarmSetting/constants'
 import withAlarmForm from 'containers/alarm/AlarmSetting/hoc/withAlarmForm'
 import { FIELDS } from 'containers/alarm/AlarmSetting/index'
-import { get, isEmpty, keyBy } from 'lodash'
+import { get, isEmpty, isEqual, keyBy } from 'lodash'
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { createListAlarm } from 'redux/actions/alarm'
+import { selectStationById } from 'redux/actions/globalAction'
 import FormAlarmDetail from '../FormAlarmDetail'
-
 @withAlarmForm
+@connect(
+  state => ({
+    selectStationById: stationId => selectStationById(state, stationId),
+  }),
+  { createListAlarm }
+)
 export default class AlarmStatusDevice extends Component {
+  //#region life cycle
   componentDidMount = () => {
-    const { setFormValues, dataSource } = this.props
+    this.handleCreateAlarmInit()
+  }
+  componentDidUpdate = prevProps => {
+    const { dataSource } = this.props
 
-    setFormValues(dataSource)
+    if (!isEqual(dataSource, prevProps.dataSource)) {
+      this.handleCreateAlarmInit()
+    }
+  }
+
+  //#endregion life cycle
+
+  handleCreateAlarmInit = () => {
+    const { dataSource, stationId, createListAlarm } = this.props
+    if (!dataSource) {
+      createListAlarm(ALARM_LIST_INIT.STATUS_DEVICE, stationId)
+    } else {
+      const statusDeviceCreated = dataSource.map(dataItem =>
+        get(dataItem, ['config', 'type'])
+      )
+
+      const statusDeviceNotCreate = ALARM_LIST_INIT.STATUS_DEVICE.filter(
+        alarm => !statusDeviceCreated.includes(alarm.config.type)
+      )
+      createListAlarm(statusDeviceNotCreate, stationId)
+    }
   }
 
   handleEdit = alarmDetail => {
@@ -96,8 +128,12 @@ export default class AlarmStatusDevice extends Component {
       width: '13%',
       align: 'center',
       render: (_, record) => {
+        const { isCreateLocal } = record
+        const isEdit = !isCreateLocal
         return (
-          <DropdownMoreAction onEdit={() => this.handleEdit(record)} isEdit />
+          isEdit && (
+            <DropdownMoreAction onEdit={() => this.handleEdit(record)} isEdit />
+          )
         )
       },
     },
@@ -148,8 +184,4 @@ export default class AlarmStatusDevice extends Component {
       </React.Fragment>
     )
   }
-}
-
-AlarmStatusDevice.defaultProps = {
-  dataSource: ALARM_LIST_INIT.STATUS_DEVICE,
 }
