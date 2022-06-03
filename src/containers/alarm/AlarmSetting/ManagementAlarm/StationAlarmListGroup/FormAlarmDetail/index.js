@@ -7,8 +7,6 @@ import SelectFrequency, {
 } from 'containers/alarm/Component/SelectFrequency'
 import { get } from 'lodash'
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { updateDetailAlarm } from 'redux/actions/alarm'
 import styled from 'styled-components'
 import { AlarmInfo } from './AlarmInfo'
 import ConfigTemplateStation from './ConfigTemplateStation'

@@ -1,7 +1,7 @@
 import { Form, message } from 'antd'
 import CalculateApi from 'api/CalculateApi'
 import { translate } from 'hoc/create-lang'
-import { get, isEmpty, isEqual } from 'lodash'
+import { get, isEmpty, isEqual, isNil } from 'lodash'
 import React from 'react'
 import { connect } from 'react-redux'
 import { getAlarms, updateDetailAlarm } from 'redux/actions/alarm'
@@ -63,13 +63,30 @@ const withAlarmForm = WrappedComponent => {
 
       const paramsForm = Object.values(value)
 
-      const params = paramsForm.map(({ isCreateLocal, ...paramItem }) => ({
-        ...paramItem,
+      const params = paramsForm
+        .map(({ isCreateLocal, ...paramItem }) => ({
+          ...paramItem,
 
-        recipients: get(paramItem, 'recipients', []).flat(),
-        _id: !isCreateLocal ? paramItem._id : null,
-        status: getStatusAlarm(paramItem.status),
-      }))
+          recipients: get(paramItem, 'recipients', []).flat(),
+          _id: !isCreateLocal ? paramItem._id : null,
+          status: getStatusAlarm(paramItem.status),
+        }))
+        .filter(paramItem => {
+          if (isEmpty(paramItem.recipients)) return false
+
+          if (paramItem.type === FIELDS.DATA_LEVEL) {
+            if (get(paramItem, 'config.name') === '') return false
+
+            const configAlarmType = get(paramItem, 'config.type')
+            if (isDefaultDataLevel(configAlarmType)) return true
+
+            if (isNil(get(paramItem, 'config.standardId'))) return false
+          }
+
+          return true
+        })
+
+      console.log({ params })
 
       return params
     }
@@ -171,6 +188,7 @@ const withAlarmForm = WrappedComponent => {
     }
 
     handleUpdateDetail = async (id, params) => {
+      const { updateDetailAlarm } = this.props
       try {
         await CalculateApi.updateAlarmById(id, params)
         updateDetailAlarm(params)

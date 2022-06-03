@@ -106,7 +106,7 @@ export default class TableQCVN extends Component {
           <Col>{level.title}</Col>
         </Row>
       ),
-      key: `${level.dataIndex}-${level.title}`,
+      key: level.dataIndex,
       align: 'center',
       dataIndex: 'key',
       width: '200px',
