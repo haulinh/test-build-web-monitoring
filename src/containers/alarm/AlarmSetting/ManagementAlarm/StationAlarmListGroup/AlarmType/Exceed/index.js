@@ -39,7 +39,26 @@ const sortDataSource = (alarmList = []) => {
     } // initialValue
   )
 
-  return [...alarmSeparate.alarmDefault, ...alarmSeparate.alarmWithoutDefault]
+  const alarmDefaultSorted = ALARM_LIST_INIT.DATA_LEVEL.map(
+    alarmDataLevelDefaultItem => {
+      const existAlarmDataLevelItem = alarmSeparate.alarmDefault.find(
+        alarmStandardItem =>
+          get(alarmStandardItem, 'config.type') ===
+          alarmDataLevelDefaultItem.config.type
+      )
+
+      if (existAlarmDataLevelItem) {
+        return {
+          ...omit(alarmDataLevelDefaultItem, 'isCreateLocal'),
+          ...existAlarmDataLevelItem,
+        }
+      }
+
+      return alarmDataLevelDefaultItem
+    }
+  )
+
+  return [...alarmDefaultSorted, ...alarmSeparate.alarmWithoutDefault]
 }
 
 @withRouter
