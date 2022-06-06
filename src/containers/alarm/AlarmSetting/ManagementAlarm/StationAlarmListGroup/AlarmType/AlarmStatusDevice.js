@@ -145,6 +145,7 @@ export default class AlarmStatusDevice extends Component {
       stationName,
       form,
       alarmDetail,
+      loadingSubmit,
     } = this.props
 
     return (
@@ -163,6 +164,7 @@ export default class AlarmStatusDevice extends Component {
               block
               size="large"
               onClick={this.handleSubmit}
+              loading={loadingSubmit}
             >
               {i18n().button.save}
             </Button>

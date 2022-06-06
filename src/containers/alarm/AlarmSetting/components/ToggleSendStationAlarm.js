@@ -1,4 +1,4 @@
-import { Checkbox, Col, Divider, Form, Row, Switch } from 'antd'
+import { Checkbox, Col, Form, Row, Switch } from 'antd'
 import { get } from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
@@ -83,32 +83,37 @@ export default class ToggleSendStationAlarm extends Component {
     const status = form.getFieldValue(FIELDS.STATUS)
 
     return (
-      <Row type="flex" align="middle">
-        <Row type="flex" gutter={11} align="middle">
-          <Col onClick={e => e.stopPropagation()}>
-            {form.getFieldDecorator(FIELDS.STATUS, {
-              valuePropName: 'checked',
-              onChange: this.handleOnStatusChange,
-            })(<Switch />)}
-          </Col>
-          <Col>{i18n().toggle.sendAlarm}</Col>
-        </Row>
+      <Row type="flex" align="middle" gutter={25}>
+        <Col>
+          <Row type="flex" gutter={11} align="middle">
+            <Col onClick={e => e.stopPropagation()}>
+              {form.getFieldDecorator(FIELDS.STATUS, {
+                valuePropName: 'checked',
+                onChange: this.handleOnStatusChange,
+              })(<Switch />)}
+            </Col>
+            <Col style={{ paddingRight: 25, borderRight: '2px solid #E5E7EB' }}>
+              {i18n().toggle.sendAlarm}
+            </Col>
+          </Row>
+        </Col>
 
-        <Divider type="vertical" />
-
-        <div
-          onClick={e => e.stopPropagation()}
-          style={{
-            padding: '11px',
-            borderRadius: '8px',
-            border: '1px solid #D0D8E2',
-          }}
-        >
-          {form.getFieldDecorator(FIELDS.CHANNELS, {
-            initialValue: [],
-            onChange: this.handleOnChannelChange,
-          })(<Checkbox.Group disabled={!status} options={options} />)}
-        </div>
+        <Col>
+          <div
+            onClick={e => e.stopPropagation()}
+            style={{
+              padding: '11px',
+              borderRadius: '8px',
+              border: '1px solid #D0D8E2',
+              background: '#FFFFFF',
+            }}
+          >
+            {form.getFieldDecorator(FIELDS.CHANNELS, {
+              initialValue: [],
+              onChange: this.handleOnChannelChange,
+            })(<Checkbox.Group disabled={!status} options={options} />)}
+          </div>
+        </Col>
       </Row>
     )
   }

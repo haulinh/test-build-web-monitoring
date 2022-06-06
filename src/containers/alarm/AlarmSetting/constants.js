@@ -1,6 +1,4 @@
 import { translate } from 'hoc/create-lang'
-import { isNil } from 'lodash'
-import { FIELDS } from './index'
 import { v4 as uuidv4 } from 'uuid'
 
 export const AlarmType = {
@@ -93,53 +91,56 @@ export const i18n = () => {
   }
 }
 
-export const channels = ['email', 'mobile', 'sms', 'webhook']
-export const getHiddenParam = (typeAlarm, stationId, maxDisconnectionTime) => {
-  const paramChannels = channels.reduce((base, currentChanel) => {
-    const valueChanel = {
-      active: true,
-      type: currentChanel,
-      template: alarmTypeObject[typeAlarm].template,
-    }
-    return {
-      ...base,
-      [currentChanel]: valueChanel,
-    }
-  }, {})
+export const channelOptions = [
+  {
+    label: 'SMS',
+    value: 'sms',
+  },
+  {
+    label: 'Email',
+    value: 'email',
+  },
+  {
+    label: 'Web/Mobile',
+    value: 'mobile',
+  },
+  {
+    label: 'Webhook',
+    value: 'webhook',
+  },
+]
 
-  const frequency = typeAlarm === 'disconnect' ? maxDisconnectionTime : 60 * 60
+export const channels = channelOptions.map(option => option.value)
 
-  const paramHidden = {
-    repeatConfig: { active: true, frequency },
-    channels: paramChannels,
-    stationId,
-    type: typeAlarm,
-  }
-  return paramHidden
-}
-
-export const getAlarmGroupByType = alarmList => {
-  const initialValues = {
-    alarmDisconnect: [],
-    alarmStandard: [],
-  }
-
-  if (isNil(alarmList)) return []
-
-  const alarmGroupByType = alarmList.reduce((base, current) => {
-    if (current.type === FIELDS.DISCONNECT) {
-      base.alarmDisconnect.push(current)
-    } else if (current.type === FIELDS.DATA_LEVEL) {
-      base.alarmStandard.push(current)
-    }
-    return base
-  }, initialValues)
-
-  return alarmGroupByType
-}
-
-export const getVisibleEmailSubject = channel => {
+export const getVisibleSubject = channel => {
   return ['email', 'webhook'].includes(channel)
+}
+
+export const subjectContent = alarmId => ({
+  email: {
+    label: 'Email Subject',
+    placeholder: 'Nhập tiêu đề Email',
+    fieldName: `${alarmId}.channels.email.emailSubject`,
+  },
+  webhook: {
+    label: 'URL (POST)',
+    placeholder: 'Nhập webhook URL',
+    fieldName: `${alarmId}.channels.webhook.webhookUrl`,
+  },
+})
+
+export const convertSecondToHrsMins = second => {
+  const hour = Math.floor(second / 3600)
+  const min = Math.floor((second % 3600) / 60)
+
+  if (hour === 0) {
+    return `${min} ${i18n().time.minute}`
+  }
+  if (min === 0) {
+    return `${hour} ${i18n().time.hour}`
+  }
+
+  return `${hour} ${i18n().time.hour} ${min} ${i18n().time.minute}`
 }
 
 export const ALARM_LIST_INIT = {

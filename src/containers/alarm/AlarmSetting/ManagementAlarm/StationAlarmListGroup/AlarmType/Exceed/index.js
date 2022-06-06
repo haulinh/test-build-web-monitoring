@@ -224,6 +224,7 @@ export default class AlarmExceed extends Component {
       handleShowAlarmDetail,
       setHiddenFields,
       stationId,
+      loadingSubmit,
     } = this.props
 
     const qcvnListSelected = this.getQcvnSelected()
@@ -273,6 +274,7 @@ export default class AlarmExceed extends Component {
         <Row type="flex" justify="end">
           <Col span={5}>
             <Button
+              loading={loadingSubmit}
               type="primary"
               block
               size="large"
