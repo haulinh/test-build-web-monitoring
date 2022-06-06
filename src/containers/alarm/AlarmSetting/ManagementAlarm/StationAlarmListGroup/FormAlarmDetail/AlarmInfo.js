@@ -106,7 +106,7 @@ export const AlarmInfo = ({
         </Text>
       </Row>
       <Row type="flex" gutter={27} style={{ marginBottom: 6 }}>
-        <Col className="label">{i18n().drawer.alarmType}:</Col>
+        <Col className="label">{i18n().drawer.alarmType}</Col>
         <Col className="info">
           <Text fontWeight={500} fontSize={16}>
             {alarmTypeName[alarmType]}
