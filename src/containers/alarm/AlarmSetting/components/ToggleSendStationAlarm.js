@@ -90,9 +90,10 @@ export default class ToggleSendStationAlarm extends Component {
               {form.getFieldDecorator(FIELDS.STATUS, {
                 valuePropName: 'checked',
                 onChange: this.handleOnStatusChange,
+                initialValue: true,
               })(<Switch />)}
             </Col>
-            <Col style={{ paddingRight: 25, borderRight: '2px solid #E5E7EB' }}>
+            <Col style={{ paddingRight: 16, borderRight: '2px solid #E5E7EB' }}>
               {i18n().toggle.sendAlarm}
             </Col>
           </Row>
@@ -109,7 +110,7 @@ export default class ToggleSendStationAlarm extends Component {
             }}
           >
             {form.getFieldDecorator(FIELDS.CHANNELS, {
-              initialValue: [],
+              initialValue: channels,
               onChange: this.handleOnChannelChange,
             })(<Checkbox.Group disabled={!status} options={options} />)}
           </div>

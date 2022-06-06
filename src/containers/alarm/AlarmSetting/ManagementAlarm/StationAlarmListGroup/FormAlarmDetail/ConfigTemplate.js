@@ -27,7 +27,7 @@ const CardTemplate = styled.div`
 
 const templateDefault = 'Station: {{station}} disconnected at {{time}}'
 
-export default class ConfigTemplateStation extends Component {
+export default class ConfigTemplate extends Component {
   render() {
     const { form, alarmId, dataAlarmStation } = this.props
     return (
@@ -69,7 +69,7 @@ export default class ConfigTemplateStation extends Component {
 
                       <Col onClick={e => e.stopPropagation()}>
                         {form.getFieldDecorator(
-                          `${alarmId}.channels.${channel.value}.customTemplate`,
+                          `${alarmId}.channels.${channel.value}.useCustom`,
                           {
                             valuePropName: 'checked',
                           }

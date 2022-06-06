@@ -10,7 +10,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { AlarmInfo } from './AlarmInfo'
-import ConfigTemplateStation from './ConfigTemplateStation'
+import ConfigTemplate from './ConfigTemplate'
 import { updateDetailAlarm } from 'redux/actions/alarm'
 import { i18n } from 'containers/alarm/AlarmSetting/constants'
 
@@ -147,7 +147,7 @@ export default class FormAlarmDetail extends Component {
           )}
         </Flex>
         <Clearfix height={24} />
-        <ConfigTemplateStation
+        <ConfigTemplate
           form={form}
           alarmId={alarmId}
           dataAlarmStation={alarmDetail}
