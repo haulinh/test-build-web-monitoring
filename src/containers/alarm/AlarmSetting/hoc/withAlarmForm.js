@@ -164,7 +164,7 @@ const withAlarmForm = WrappedComponent => {
 
     handleSubmitAlarm = async paramGeneral => {
       const { alarmIdsDeleted } = this.state
-      const { getAlarms } = this.props
+      const { getAlarms, dataSource } = this.props
 
       const params = {
         data: paramGeneral,
@@ -175,6 +175,7 @@ const withAlarmForm = WrappedComponent => {
         this.setState({ loadingSubmit: true })
         await CalculateApi.createBulkAlarm(params)
         await getAlarms()
+        this.setFormValues(dataSource)
         message.success(translate('global.saveSuccess'))
       } catch (error) {
         message.error(translate('ticket.message.notificationError'))

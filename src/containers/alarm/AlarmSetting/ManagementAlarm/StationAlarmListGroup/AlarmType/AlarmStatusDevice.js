@@ -89,7 +89,7 @@ export default class AlarmStatusDevice extends Component {
         return (
           <React.Fragment>
             {form.getFieldDecorator(`${record._id}.${FIELDS.RECIPIENTS}`)(
-              <TreeSelectUser users={users} roles={roles} />
+              <TreeSelectUser maxTagCount={5} users={users} roles={roles} />
             )}
           </React.Fragment>
         )

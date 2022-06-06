@@ -7,6 +7,7 @@ import {
   getVisibleSubject,
   subjectContent,
   i18n,
+  alarmTypeObject,
 } from 'containers/alarm/AlarmSetting/constants'
 import { get } from 'lodash'
 import React, { Component } from 'react'
@@ -28,8 +29,25 @@ const CardTemplate = styled.div`
 const templateDefault = 'Station: {{station}} disconnected at {{time}}'
 
 export default class ConfigTemplate extends Component {
+  getTitleTooltipTemplate = () => {
+    const { dataAlarmStation } = this.props
+    const templateFn = get(
+      alarmTypeObject,
+      [dataAlarmStation.type, 'template'],
+      () => ''
+    )
+    return templateFn()
+      .split(',')
+      .map(text => <div>{text}</div>)
+  }
+
   render() {
     const { form, alarmId, dataAlarmStation } = this.props
+
+    form.getFieldDecorator(`${alarmId}.channels.webhook.config.method`, {
+      initialValue: 'POST',
+    })
+
     return (
       <div>
         <Text>{i18n().drawer.title}</Text>
@@ -97,13 +115,14 @@ export default class ConfigTemplate extends Component {
                       </Col>
                     </Row>
                   )}
+
                   <Row gutter={5}>
                     <Col>
                       <Flex alignItems="center" gap={5}>
                         {i18n().drawer.templateSend}
                         <Tooltip
                           placement="top"
-                          title={i18n().drawer.tooltip.exceed}
+                          title={this.getTitleTooltipTemplate()}
                         >
                           <Icon
                             type="info-circle"
