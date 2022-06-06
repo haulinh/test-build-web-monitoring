@@ -11,12 +11,16 @@ export const AlarmType = {
 
 export const alarmTypeObject = {
   [AlarmType.Disconnect]: {
-    template: `Station: {{station}} disconnected at {{time}}`,
+    template: () =>
+      translate('alarm.alarmType.disconnect.template', undefined, false),
   },
   [AlarmType.DataLevel]: {
-    template: `{{station}}: ({{time}})
-      [STATUS_DATA]- {{measure}}: {{value}} {{unit}} ({{sign}} {{config}}) {{standard}}
-      [STATUS_DEVICE]- {{measure}}: Sensor {{status}}`,
+    template: () =>
+      translate('alarm.alarmType.advance.template', undefined, false),
+  },
+  [AlarmType.Device]: {
+    template: () =>
+      translate('alarm.alarmType.device.template', undefined, false),
   },
 }
 
@@ -125,7 +129,7 @@ export const subjectContent = alarmId => ({
   webhook: {
     label: 'URL (POST)',
     placeholder: 'Nhập webhook URL',
-    fieldName: `${alarmId}.channels.webhook.webhookUrl`,
+    fieldName: `${alarmId}.channels.webhook.config.endpoint`,
   },
 })
 
