@@ -1,5 +1,5 @@
 import { Checkbox, Col, Form, Row, Switch } from 'antd'
-import { get } from 'lodash'
+import { get, isEmpty } from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { toggleSendAlarm } from 'redux/actions/globalAction'
@@ -41,6 +41,8 @@ export default class ToggleSendStationAlarm extends Component {
 
   setFieldsValue = () => {
     const { alarmConfig, form } = this.props
+    if (isEmpty(alarmConfig)) return
+
     const fieldsValue = {
       [FIELDS.STATUS]: getStatusAlarmBoolean(alarmConfig.status),
 
@@ -90,7 +92,6 @@ export default class ToggleSendStationAlarm extends Component {
               {form.getFieldDecorator(FIELDS.STATUS, {
                 valuePropName: 'checked',
                 onChange: this.handleOnStatusChange,
-                initialValue: true,
               })(<Switch />)}
             </Col>
             <Col style={{ paddingRight: 16, borderRight: '2px solid #E5E7EB' }}>
@@ -110,7 +111,6 @@ export default class ToggleSendStationAlarm extends Component {
             }}
           >
             {form.getFieldDecorator(FIELDS.CHANNELS, {
-              initialValue: channels,
               onChange: this.handleOnChannelChange,
             })(<Checkbox.Group disabled={!status} options={options} />)}
           </div>
