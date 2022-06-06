@@ -11,7 +11,7 @@ import { FIELDS } from 'containers/alarm/AlarmSetting/index'
 import { isEmpty, isEqual } from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { createAlarm, deleteAlarm, createListAlarm } from 'redux/actions/alarm'
+import { createAlarm, createListAlarm, deleteAlarm } from 'redux/actions/alarm'
 import { selectStationById } from 'redux/actions/globalAction'
 import { v4 as uuidv4 } from 'uuid'
 import FormAlarmDetail from '../FormAlarmDetail'
@@ -75,6 +75,7 @@ export default class AlarmDisconnect extends Component {
   handleSubmit = () => {
     const { handleSubmitAlarm, getQueryParamGeneral } = this.props
     const queryParams = getQueryParamGeneral()
+    console.log({ queryParams })
 
     handleSubmitAlarm(queryParams)
   }
@@ -87,7 +88,7 @@ export default class AlarmDisconnect extends Component {
   columns = [
     {
       title: i18n().timeLabel,
-      width: '20%',
+      width: '15%',
       align: 'left',
       dataIndex: FIELDS.TIME_DISCONNECT,
       render: (_, record) => {
@@ -96,7 +97,7 @@ export default class AlarmDisconnect extends Component {
           <React.Fragment>
             {form.getFieldDecorator(`${record._id}.${FIELDS.TIME_DISCONNECT}`, {
               // initialValue: 1800,
-            })(<SelectTime />)}
+            })(<SelectTime style={{ width: '100%' }} />)}
           </React.Fragment>
         )
       },

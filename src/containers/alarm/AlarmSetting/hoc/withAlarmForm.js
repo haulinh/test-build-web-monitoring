@@ -6,7 +6,12 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { getAlarms, updateDetailAlarm } from 'redux/actions/alarm'
 import { selectStationById } from 'redux/actions/globalAction'
-import { alarmTypeObject, channels, getVisibleEmailSubject } from '../constants'
+import {
+  alarmTypeObject,
+  channels,
+  getVisibleSubject,
+  subjectContent,
+} from '../constants'
 import { FIELDS } from '../index'
 
 export const getStatusAlarm = status => {
@@ -100,7 +105,7 @@ const withAlarmForm = WrappedComponent => {
       const { form } = this.props
 
       channels.forEach(channel => {
-        const visibleEmailSubject = getVisibleEmailSubject(channel)
+        const visibleEmailSubject = getVisibleSubject(channel)
 
         form.getFieldDecorator(
           `${alarmDetail._id}.channels.${channel}.active`,
@@ -133,7 +138,7 @@ const withAlarmForm = WrappedComponent => {
 
         if (visibleEmailSubject) {
           form.getFieldDecorator(
-            `${alarmDetail._id}.channels.${channel}.emailSubject`,
+            subjectContent(alarmDetail._id)[channel].fieldName,
             { initialValue: '' }
           )
         }

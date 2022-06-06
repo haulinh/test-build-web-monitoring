@@ -1,7 +1,10 @@
 import { Col, Row } from 'antd'
 import { optionsStatusDevice } from 'components/core/select/SelectStatusDevice'
 import Text from 'components/elements/text'
-import { i18n } from 'containers/alarm/AlarmSetting/constants'
+import {
+  convertSecondToHrsMins,
+  i18n,
+} from 'containers/alarm/AlarmSetting/constants'
 import { isDefaultDataLevel } from 'containers/alarm/AlarmSetting/hoc/withAlarmForm'
 import { FIELDS } from 'containers/alarm/AlarmSetting/index'
 import { get, keyBy } from 'lodash'
@@ -16,6 +19,10 @@ const CardInfo = styled.div`
   border-radius: 12px;
   .label {
     color: #6b7280;
+    width: 170px;
+  }
+  .info {
+    flex: 1;
   }
 `
 
@@ -48,8 +55,8 @@ export const AlarmInfo = ({
     return {
       [FIELDS.DATA_LEVEL]: (
         <Row type="flex" justify="space-between" gutter={18}>
-          <Col className="label">{i18n().drawer.standard} </Col>
-          <Col span={14} style={{ paddingLeft: '4px' }}>
+          <Col className="label">{i18n().drawer.standard}: </Col>
+          <Col className="info" span={14} style={{ paddingLeft: '4px' }}>
             <Text fontWeight={500} fontSize={16}>
               {get(alarmDetail, ['config', 'name'])}
             </Text>
@@ -66,9 +73,9 @@ export const AlarmInfo = ({
       [FIELDS.DISCONNECT]: (
         <Row type="flex" gutter={27}>
           <Col className="label">Thời gian mất tín hiệu: </Col>
-          <Col>
+          <Col className="info">
             <Text fontWeight={700} fontSize={16}>
-              {maxDisconnectionTime / 60} phút
+              {convertSecondToHrsMins(maxDisconnectionTime)}
             </Text>
           </Col>
         </Row>
@@ -76,7 +83,7 @@ export const AlarmInfo = ({
       [FIELDS.DEVICE]: (
         <Row type="flex" gutter={27}>
           <Col className="label">Trạng thái thiết bị: </Col>
-          <Col>
+          <Col className="info">
             <Text fontWeight={700} fontSize={16}>
               {get(statusDeviceList, [`${statusDevice}`, 'label'])}
             </Text>
@@ -99,10 +106,8 @@ export const AlarmInfo = ({
         </Text>
       </Row>
       <Row type="flex" gutter={27} style={{ marginBottom: 6 }}>
-        <Col className="label" style={{ width: '148px' }}>
-          {i18n().drawer.alarmType}
-        </Col>
-        <Col>
+        <Col className="label">{i18n().drawer.alarmType}:</Col>
+        <Col className="info">
           <Text fontWeight={500} fontSize={16}>
             {alarmTypeName[alarmType]}
           </Text>

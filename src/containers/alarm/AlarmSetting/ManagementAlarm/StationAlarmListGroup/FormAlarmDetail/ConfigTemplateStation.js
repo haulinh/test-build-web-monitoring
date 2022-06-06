@@ -3,7 +3,9 @@ import { Clearfix } from 'components/elements'
 import Text from 'components/elements/text'
 import { Flex } from 'components/layouts/styles'
 import {
-  getVisibleEmailSubject,
+  channelOptions,
+  getVisibleSubject,
+  subjectContent,
   i18n,
 } from 'containers/alarm/AlarmSetting/constants'
 import { get } from 'lodash'
@@ -23,25 +25,6 @@ const CardTemplate = styled.div`
   }
 `
 
-const channels = [
-  {
-    label: 'SMS',
-    value: 'sms',
-  },
-  {
-    label: 'Email',
-    value: 'email',
-  },
-  {
-    label: 'Web/Mobile',
-    value: 'mobile',
-  },
-  {
-    label: 'Webhook',
-    value: 'webhook',
-  },
-]
-
 const templateDefault = 'Station: {{station}} disconnected at {{time}}'
 
 export default class ConfigTemplateStation extends Component {
@@ -53,12 +36,12 @@ export default class ConfigTemplateStation extends Component {
         <Clearfix height={4} />
         <CardTemplate>
           <Collapse>
-            {channels.map(channel => {
+            {channelOptions.map(channel => {
               const isCustomTemplate = form.getFieldValue(
                 `${alarmId}.channels.${channel.value}.customTemplate`
               )
 
-              const visibleEmailSubject = getVisibleEmailSubject(channel.value)
+              const visibleEmailSubject = getVisibleSubject(channel.value)
 
               return (
                 <Panel
@@ -97,16 +80,18 @@ export default class ConfigTemplateStation extends Component {
                 >
                   {visibleEmailSubject && (
                     <Row gutter={5} style={{ marginBottom: 10 }}>
-                      <Col>{i18n().drawer.emailSubject}</Col>
+                      <Col>{subjectContent(alarmId)[channel.value].label}:</Col>
                       <Clearfix height={4} />
                       <Col>
                         {form.getFieldDecorator(
-                          `${alarmId}.channels.${channel.value}.emailSubject`,
+                          subjectContent(alarmId)[channel.value].fieldName,
                           { initialValue: '' }
                         )(
                           <Input
                             style={{ width: '100%' }}
-                            placeholder={i18n().drawer.placeholder.emailSubject}
+                            placeholder={
+                              subjectContent(alarmId)[channel.value].placeholder
+                            }
                           />
                         )}
                       </Col>

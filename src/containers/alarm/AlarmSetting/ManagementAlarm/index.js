@@ -66,7 +66,7 @@ export default class ManagementAlarm extends Component {
     return (
       <div
         style={{
-          border: '1px solid #F3F4F6',
+          // border: '1px solid #F3F4F6',
           borderRadius: '4px',
         }}
       >
