@@ -4,7 +4,8 @@ import Text from 'components/elements/text'
 import { Flex } from 'components/layouts/styles'
 import {
   channelOptions,
-  getVisibleEmailSubject,
+  getVisibleSubject,
+  subjectContent,
 } from 'containers/alarm/AlarmSetting/constants'
 import { get } from 'lodash'
 import React, { Component } from 'react'
@@ -39,7 +40,7 @@ export default class ConfigTemplateStation extends Component {
                 `${alarmId}.channels.${channel.value}.customTemplate`
               )
 
-              const visibleEmailSubject = getVisibleEmailSubject(channel.value)
+              const visibleEmailSubject = getVisibleSubject(channel.value)
 
               return (
                 <Panel
@@ -75,16 +76,18 @@ export default class ConfigTemplateStation extends Component {
                 >
                   {visibleEmailSubject && (
                     <Row gutter={5} style={{ marginBottom: 10 }}>
-                      <Col>Email Subject:</Col>
+                      <Col>{subjectContent(alarmId)[channel.value].label}:</Col>
                       <Clearfix height={4} />
                       <Col>
                         {form.getFieldDecorator(
-                          `${alarmId}.channels.${channel.value}.emailSubject`,
+                          subjectContent(alarmId)[channel.value].fieldName,
                           { initialValue: '' }
                         )(
                           <Input
                             style={{ width: '100%' }}
-                            placeholder="Nhập tiêu đề Email"
+                            placeholder={
+                              subjectContent(alarmId)[channel.value].placeholder
+                            }
                           />
                         )}
                       </Col>

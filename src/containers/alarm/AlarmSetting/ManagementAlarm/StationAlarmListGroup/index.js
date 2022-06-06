@@ -1,4 +1,5 @@
 import { Collapse } from 'antd'
+import Text from 'components/elements/text'
 import { Clearfix } from 'components/layouts/styles'
 import { get, groupBy } from 'lodash'
 import React, { Component } from 'react'
@@ -25,6 +26,16 @@ const Panel = styled(PanelAnt)`
     border: unset;
   }
 `
+
+const StationTypeInfo = styled.div`
+  background: #f3f4f6;
+  padding: 16px;
+  min-height: 50px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  border-bottom: unset;
+  // border: '1px solid',
+`
 @connect(state => ({
   alarmList: get(state, ['alarm', 'alarmList']),
   alarmsGroupByStationId: groupBy(state.alarm.alarmList, 'stationId'),
@@ -41,11 +52,11 @@ export default class StationAlarmListGroup extends Component {
 
     return (
       <div>
-        <div
-          style={{ background: '#F3F4F6', padding: '16px', minHeight: '50px' }}
-        >
-          {stationTypeName}
-        </div>
+        <StationTypeInfo>
+          <Text fontSize={16} fontWeight={600}>
+            {stationTypeName}
+          </Text>
+        </StationTypeInfo>
 
         <Collapse>
           {stationAutoList.map(stationAuto => {

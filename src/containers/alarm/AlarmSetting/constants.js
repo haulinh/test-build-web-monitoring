@@ -122,8 +122,35 @@ export const getAlarmGroupByType = alarmList => {
   return alarmGroupByType
 }
 
-export const getVisibleEmailSubject = channel => {
+export const getVisibleSubject = channel => {
   return ['email', 'webhook'].includes(channel)
+}
+
+export const subjectContent = alarmId => ({
+  email: {
+    label: 'Email Subject',
+    placeholder: 'Nhập tiêu đề Email',
+    fieldName: `${alarmId}.channels.email.emailSubject`,
+  },
+  webhook: {
+    label: 'URL (POST)',
+    placeholder: 'Nhập webhook URL',
+    fieldName: `${alarmId}.channels.webhook.webhookUrl`,
+  },
+})
+
+export const convertSecondToHrsMins = second => {
+  const hour = Math.floor(second / 3600)
+  const min = Math.floor((second % 3600) / 60)
+
+  if (hour === 0) {
+    return `${min} ${i18n().time.minute}`
+  }
+  if (min === 0) {
+    return `${hour} ${i18n().time.hour}`
+  }
+
+  return `${hour} ${i18n().time.hour} ${min} ${i18n().time.minute}`
 }
 
 export const ALARM_LIST_INIT = {
