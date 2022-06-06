@@ -32,9 +32,9 @@ const StationTypeInfo = styled.div`
   padding: 16px;
   min-height: 50px;
   border: 1px solid #d9d9d9;
-  border-radius: 4px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
   border-bottom: unset;
-  // border: '1px solid',
 `
 @connect(state => ({
   alarmList: get(state, ['alarm', 'alarmList']),

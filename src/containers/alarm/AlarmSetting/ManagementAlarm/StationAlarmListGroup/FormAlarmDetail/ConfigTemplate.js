@@ -91,7 +91,12 @@ export default class ConfigTemplate extends Component {
                           {
                             valuePropName: 'checked',
                           }
-                        )(<Switch style={{ marginBottom: '2px' }} />)}
+                        )(
+                          <Switch
+                            size="small"
+                            style={{ marginBottom: '2px' }}
+                          />
+                        )}
                       </Col>
                     </Row>
                   }

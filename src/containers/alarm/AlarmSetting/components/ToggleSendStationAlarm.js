@@ -65,7 +65,7 @@ export default class ToggleSendStationAlarm extends Component {
       channels: getParamChannel(valueChannel),
     }
 
-    toggleSendAlarm(stationAutoId, params)
+    // toggleSendAlarm(stationAutoId, params)
   }
 
   handleOnChannelChange = value => {
@@ -77,7 +77,7 @@ export default class ToggleSendStationAlarm extends Component {
       channels: getParamChannel(value),
     }
 
-    toggleSendAlarm(stationAutoId, params)
+    // toggleSendAlarm(stationAutoId, params)
   }
 
   render() {

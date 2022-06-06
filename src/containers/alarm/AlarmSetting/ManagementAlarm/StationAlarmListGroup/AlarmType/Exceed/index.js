@@ -7,7 +7,7 @@ import withAlarmForm, {
 } from 'containers/alarm/AlarmSetting/hoc/withAlarmForm'
 import { FIELDS } from 'containers/alarm/AlarmSetting/index'
 import { ALARM_LIST_INIT } from 'containers/manager/station-auto/alarm-config/constants'
-import { get, groupBy, isEmpty, isNil, keyBy, omit } from 'lodash'
+import { get, groupBy, isEmpty, isEqual, isNil, keyBy, omit } from 'lodash'
 import { Component, default as React } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
@@ -16,6 +16,50 @@ import { v4 as uuidv4 } from 'uuid'
 import FormAlarmDetail from '../../FormAlarmDetail'
 import TableAlarmExceedForm from './TableAlarmExceedForm'
 import TableQCVN from './TableQCVN'
+
+const sortDataSource = (alarmList = []) => {
+  const alarmSeparate = alarmList.reduce(
+    (base, currentAlarm) => {
+      const existAlarmDefault = ALARM_LIST_INIT.DATA_LEVEL.find(
+        alarmDefault =>
+          alarmDefault.config.type === get(currentAlarm, 'config.type')
+      )
+
+      if (existAlarmDefault) {
+        base.alarmDefault.push(currentAlarm)
+        return base
+      }
+
+      base.alarmWithoutDefault.push(currentAlarm)
+      return base
+    },
+    {
+      alarmDefault: [],
+      alarmWithoutDefault: [],
+    } // initialValue
+  )
+
+  const alarmDefaultSorted = ALARM_LIST_INIT.DATA_LEVEL.map(
+    alarmDataLevelDefaultItem => {
+      const existAlarmDataLevelItem = alarmSeparate.alarmDefault.find(
+        alarmStandardItem =>
+          get(alarmStandardItem, 'config.type') ===
+          alarmDataLevelDefaultItem.config.type
+      )
+
+      if (existAlarmDataLevelItem) {
+        return {
+          ...omit(alarmDataLevelDefaultItem, 'isCreateLocal'),
+          ...existAlarmDataLevelItem,
+        }
+      }
+
+      return alarmDataLevelDefaultItem
+    }
+  )
+
+  return [...alarmDefaultSorted, ...alarmSeparate.alarmWithoutDefault]
+}
 
 @withRouter
 @withAlarmForm
@@ -27,17 +71,47 @@ export default class AlarmExceed extends Component {
   }
 
   componentDidMount = async () => {
-    const { dataSource, stationId, createListAlarm } = this.props
-
     this.setState({ loadingStandard: true })
 
     const qcvnList = await this.getQCVNList()
 
     this.setState({ qcvnList, loadingStandard: false })
 
+    this.handleCreateAlarmInit()
+  }
+
+  componentDidUpdate = prevProps => {
+    const { dataSource } = this.props
+
+    if (!isEqual(dataSource, prevProps.dataSource)) {
+      this.handleCreateAlarmInit()
+    }
+  }
+
+  handleCreateAlarmInit = () => {
+    const { dataSource, stationId, createListAlarm } = this.props
     if (!dataSource) {
       createListAlarm(ALARM_LIST_INIT.DATA_LEVEL, stationId)
+      return
     }
+
+    const alarmDefaultInit = ALARM_LIST_INIT.DATA_LEVEL.reduce(
+      (base, currentAlarm) => {
+        const existAlarmDefault = dataSource.find(
+          alarmItem =>
+            get(alarmItem, 'config.type') === currentAlarm.config.type
+        )
+
+        if (!existAlarmDefault) {
+          base.push(currentAlarm)
+        }
+
+        return base
+      },
+      []
+    )
+
+    createListAlarm(alarmDefaultInit, stationId)
   }
 
   getInitValues = alarmList => {
@@ -163,12 +237,12 @@ export default class AlarmExceed extends Component {
 
     const qcvnsFormArray = Object.values(qcvnsFormValues || {})
 
-    const qcvnsSelected = qcvnsFormArray.filter(
-      qcvn => qcvn[FIELDS.CONFIG][FIELDS.STANDARD_ID]
+    const qcvnsSelected = qcvnsFormArray.filter(qcvn =>
+      get(qcvn, [FIELDS.CONFIG, FIELDS.STANDARD_ID])
     )
 
     const qcvnsSelectedMapValue = qcvnsSelected.map(qcvn => ({
-      ...qcvnListObj[qcvn[FIELDS.CONFIG][FIELDS.STANDARD_ID]],
+      ...get(qcvnListObj, get(qcvn, [FIELDS.CONFIG, FIELDS.STANDARD_ID])),
       name: get(qcvn, [FIELDS.CONFIG, FIELDS.NAME]),
     }))
 
@@ -246,7 +320,7 @@ export default class AlarmExceed extends Component {
     return (
       <React.Fragment>
         <TableAlarmExceedForm
-          dataSource={this.getInitValues(dataSource)}
+          dataSource={sortDataSource(dataSource)}
           form={form}
           users={users}
           roles={roles}
