@@ -41,12 +41,6 @@ const withAlarmForm = WrappedComponent => {
       loadingSubmit: false,
     }
 
-    standardFormRef = React.createRef()
-
-    state = {
-      alarmIdsDeleted: [],
-    }
-
     componentDidMount = () => {
       const { dataSource } = this.props
 
@@ -60,7 +54,7 @@ const withAlarmForm = WrappedComponent => {
         this.setFormValues(dataSource)
       }
 
-      this.handleAlarmStatusChange(prevProps)
+      // this.handleAlarmStatusChange(prevProps)
     }
 
     getQueryParamGeneral = () => {
@@ -165,6 +159,8 @@ const withAlarmForm = WrappedComponent => {
     handleSubmitAlarm = async paramGeneral => {
       const { alarmIdsDeleted } = this.state
       const { getAlarms, dataSource } = this.props
+
+      console.log({ dataSource })
 
       const params = {
         data: paramGeneral,

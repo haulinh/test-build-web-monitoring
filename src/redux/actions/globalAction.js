@@ -1,6 +1,8 @@
+import { message } from 'antd'
 import CalculateApi from 'api/CalculateApi'
 import CategoryApi from 'api/CategoryApi'
 import StationAutoApi from 'api/StationAuto'
+import { translate } from 'hoc/create-lang'
 import update from 'immutability-helper'
 import { get, keyBy } from 'lodash'
 
@@ -109,6 +111,7 @@ export const getStationAutos = () => async dispatch => {
 export const toggleSendAlarm = (stationId, param) => async dispatch => {
   try {
     await CalculateApi.toggleSendAlarm(stationId, param)
+    message.success(translate('global.saveSuccess'))
     dispatch({
       type: TOGGLE_SEND_ALARM,
       payload: {
