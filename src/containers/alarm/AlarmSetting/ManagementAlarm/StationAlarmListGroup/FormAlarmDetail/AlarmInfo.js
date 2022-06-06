@@ -1,7 +1,11 @@
 import { Col, Row } from 'antd'
 import { optionsStatusDevice } from 'components/core/select/SelectStatusDevice'
 import Text from 'components/elements/text'
-import { convertSecondToHrsMins } from 'containers/alarm/AlarmSetting/constants'
+import {
+  convertSecondToHrsMins,
+  i18n,
+} from 'containers/alarm/AlarmSetting/constants'
+import { isDefaultDataLevel } from 'containers/alarm/AlarmSetting/hoc/withAlarmForm'
 import { FIELDS } from 'containers/alarm/AlarmSetting/index'
 import { get, keyBy } from 'lodash'
 import React from 'react'
@@ -43,10 +47,15 @@ export const AlarmInfo = ({
     const statusDeviceList = keyBy(optionsStatusDevice, 'value')
     const statusDevice = get(alarmDetail, ['config', 'type'])
 
+    const configAlarmType = get(alarmDetail, 'config.type')
+    const thresholdName = isDefaultDataLevel(configAlarmType)
+      ? i18n()[configAlarmType]
+      : get(qcvnSelected, ['name'])
+
     return {
       [FIELDS.DATA_LEVEL]: (
         <Row type="flex" justify="space-between" gutter={18}>
-          <Col className="label">Quy chuẩn: </Col>
+          <Col className="label">{i18n().drawer.standard}: </Col>
           <Col className="info" span={14} style={{ paddingLeft: '4px' }}>
             <Text fontWeight={500} fontSize={16}>
               {get(alarmDetail, ['config', 'name'])}
@@ -56,7 +65,7 @@ export const AlarmInfo = ({
               fontWeight={500}
               fontSize={16}
             >
-              {get(qcvnSelected, ['name'])}
+              {thresholdName}
             </Text>
           </Col>
         </Row>
@@ -90,14 +99,14 @@ export const AlarmInfo = ({
     <CardInfo>
       <Row style={{ marginBottom: 13 }}>
         <Text className="label" fontSize={16}>
-          Trạm
+          {i18n().drawer.station}
         </Text>
         <Text fontWeight={700} fontSize={16}>
           {stationName}
         </Text>
       </Row>
       <Row type="flex" gutter={27} style={{ marginBottom: 6 }}>
-        <Col className="label">Loại cảnh báo:</Col>
+        <Col className="label">{i18n().drawer.alarmType}:</Col>
         <Col className="info">
           <Text fontWeight={500} fontSize={16}>
             {alarmTypeName[alarmType]}

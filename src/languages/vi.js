@@ -4275,6 +4275,32 @@ export default {
       province: 'Vui lòng chọn ít nhất một đơn vị',
       timeEnd: 'Thời gian kết thúc phải lớn hơn thời gian bắt đầu',
     },
+    tabs: {
+      managementAlarm: 'Quản lý cảnh báo',
+      templateAlarm: 'Mẫu gửi cảnh báo',
+      exceed: 'Vượt ngưỡng',
+      connection: 'Tín hiệu',
+      device: 'Thiết bị',
+    },
+    toggle: {
+      sendAlarm: 'Gửi cảnh báo',
+    },
+    drawer: {
+      title: 'Cấu hình chi tiết',
+      station: 'Trạm',
+      alarmType: 'Loại cảnh báo:',
+      standard: 'Quy chuẩn: ',
+      repeatSend: 'Gửi lặp lại',
+      templateSend: 'Mẫu gửi',
+      emailSubject: 'Tiêu đề email:',
+      tooltip: {
+        repeatSend: 'Cho phép gửi lặp lại cảnh báo khi sự cố còn đang diễn ra',
+        customTemplate: 'Bật / Tắt tùy chọn thiết lập template riêng',
+      },
+      placeholder: {
+        emailSubject: 'Nhập tiêu đề email',
+      },
+    },
     label: {
       management: {
         name: 'Tên cảnh báo',

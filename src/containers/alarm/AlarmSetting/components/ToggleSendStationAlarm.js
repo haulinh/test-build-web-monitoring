@@ -3,7 +3,7 @@ import { get } from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { toggleSendAlarm } from 'redux/actions/globalAction'
-import { channels } from '../constants'
+import { channels, i18n } from '../constants'
 import { getStatusAlarm, getStatusAlarmBoolean } from '../hoc/withAlarmForm'
 import { FIELDS } from '../index'
 
@@ -93,7 +93,7 @@ export default class ToggleSendStationAlarm extends Component {
               })(<Switch />)}
             </Col>
             <Col style={{ paddingRight: 25, borderRight: '2px solid #E5E7EB' }}>
-              Gửi cảnh báo
+              {i18n().toggle.sendAlarm}
             </Col>
           </Row>
         </Col>

@@ -12,6 +12,7 @@ import styled from 'styled-components'
 import { AlarmInfo } from './AlarmInfo'
 import ConfigTemplateStation from './ConfigTemplateStation'
 import { updateDetailAlarm } from 'redux/actions/alarm'
+import { i18n } from 'containers/alarm/AlarmSetting/constants'
 
 const StyledRow = styled(Row)`
   .ant-btn {
@@ -28,7 +29,7 @@ const HeaderDrawer = ({ onClose, onSubmit }) => {
             <Icon type="close" style={{ color: '#A2A7B3', fontSize: '14px' }} />
           </div>
         </Col>
-        <Col style={{ fontWeight: 700 }}>Cấu hình chi tiết</Col>
+        <Col style={{ fontWeight: 700 }}>{i18n().drawer.title}</Col>
       </Row>
       <StyledRow type="flex" gutter={8} align="middle">
         <Col>
@@ -39,12 +40,12 @@ const HeaderDrawer = ({ onClose, onSubmit }) => {
             }}
             onClick={onClose}
           >
-            Hủy bỏ
+            {i18n().button.cancel}
           </Button>
         </Col>
         <Col>
           <Button type="primary" onClick={onSubmit}>
-            Cập nhật
+            {i18n().button.save}
           </Button>
         </Col>
       </StyledRow>
@@ -116,8 +117,11 @@ export default class FormAlarmDetail extends Component {
           <Row type="flex" gutter={6}>
             <Col>
               <Flex gap={5} alignItems="center">
-                <Text fontWeight={500}>Gửi lặp lại</Text>
-                <Tooltip placement="top" title={'Tooltip lặp lại'}>
+                <Text fontWeight={500}>{i18n().drawer.repeatSend}</Text>
+                <Tooltip
+                  placement="top"
+                  title={i18n().drawer.tooltip.repeatSend}
+                >
                   <Icon type="info-circle" style={{ color: '#A2A7B3' }} />
                 </Tooltip>
                 <Text fontWeight={500} style={{ color: '#A2A7B3' }}>

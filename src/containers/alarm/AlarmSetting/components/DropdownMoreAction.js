@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import EditIcon from 'assets/svg-icons/EditIcon.svg'
 import TrashIcon from 'assets/svg-icons/TrashIcon.svg'
 import ButtonMoreAction from 'assets/svg-icons/ButtonMoreAction.svg'
+import { i18n } from '../constants'
 
 const Flex = styled.div`
   display: flex;
@@ -21,7 +22,7 @@ export const DropdownMoreAction = ({ onEdit, onDelete, isEdit, isDelete }) => {
             <Menu.Item key="1" onClick={onEdit}>
               <Flex>
                 <img src={EditIcon} alt="icon edit" />
-                Chỉnh sửa
+                {i18n().addOn.edit}
               </Flex>
             </Menu.Item>
           )}
@@ -30,7 +31,7 @@ export const DropdownMoreAction = ({ onEdit, onDelete, isEdit, isDelete }) => {
               <Flex>
                 <img src={TrashIcon} alt="icon trash" />
 
-                <div style={{ color: '#E64D3D' }}>Xóa</div>
+                <div style={{ color: '#E64D3D' }}>{i18n().addOn.delete}</div>
               </Flex>
             </Menu.Item>
           )}

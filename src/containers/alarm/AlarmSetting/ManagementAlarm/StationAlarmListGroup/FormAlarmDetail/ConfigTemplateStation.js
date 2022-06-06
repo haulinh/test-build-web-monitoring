@@ -6,6 +6,7 @@ import {
   channelOptions,
   getVisibleSubject,
   subjectContent,
+  i18n,
 } from 'containers/alarm/AlarmSetting/constants'
 import { get } from 'lodash'
 import React, { Component } from 'react'
@@ -31,7 +32,7 @@ export default class ConfigTemplateStation extends Component {
     const { form, alarmId, dataAlarmStation } = this.props
     return (
       <div>
-        <Text>Cấu hình chi tiết</Text>
+        <Text>{i18n().drawer.title}</Text>
         <Clearfix height={4} />
         <CardTemplate>
           <Collapse>
@@ -51,7 +52,10 @@ export default class ConfigTemplateStation extends Component {
                       <Col>
                         <Flex alignItems="center" gap={5}>
                           Custom template
-                          <Tooltip placement="top" title={'Tooltip custom'}>
+                          <Tooltip
+                            placement="top"
+                            title={i18n().drawer.tooltip.customTemplate}
+                          >
                             <Icon
                               type="info-circle"
                               style={{ color: '#A2A7B3' }}
@@ -96,8 +100,11 @@ export default class ConfigTemplateStation extends Component {
                   <Row gutter={5}>
                     <Col>
                       <Flex alignItems="center" gap={5}>
-                        Mẫu gửi
-                        <Tooltip placement="top" title={'Tooltip custom'}>
+                        {i18n().drawer.templateSend}
+                        <Tooltip
+                          placement="top"
+                          title={i18n().drawer.tooltip.exceed}
+                        >
                           <Icon
                             type="info-circle"
                             style={{ color: '#A2A7B3' }}
