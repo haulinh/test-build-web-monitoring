@@ -38,6 +38,7 @@ const withAlarmForm = WrappedComponent => {
       alarmIdsDeleted: [],
       visibleAlarmDetail: false,
       alarmDetail: {},
+      loadingSubmit: false,
     }
 
     standardFormRef = React.createRef()
@@ -171,11 +172,14 @@ const withAlarmForm = WrappedComponent => {
       }
 
       try {
+        this.setState({ loadingSubmit: true })
         await CalculateApi.createBulkAlarm(params)
-        getAlarms()
+        await getAlarms()
         message.success(translate('global.saveSuccess'))
       } catch (error) {
         message.error(translate('ticket.message.notificationError'))
+      } finally {
+        this.setState({ loadingSubmit: false })
       }
     }
 

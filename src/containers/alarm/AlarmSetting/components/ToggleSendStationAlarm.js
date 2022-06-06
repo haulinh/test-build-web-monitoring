@@ -1,4 +1,4 @@
-import { Checkbox, Col, Divider, Form, Row, Switch } from 'antd'
+import { Checkbox, Col, Form, Row, Switch } from 'antd'
 import { get } from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'

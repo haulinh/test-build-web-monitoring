@@ -210,6 +210,10 @@ export function getAlarmConfig() {
   const url = _getConfigs('alarm')
   return getFetch(url)
 }
+export function updateAlarmConfig(param) {
+  const url = _getConfigs('alarm')
+  return pathFetch(url, param)
+}
 //#endregion
 
 /* --------------------------- [ END ] config route on category service --------------------------- */
@@ -242,4 +246,5 @@ export default {
   updateWarningLevelColorSensor,
   toggleQaqcConfig,
   getAlarmConfig,
+  updateAlarmConfig,
 }

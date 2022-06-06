@@ -75,7 +75,6 @@ export default class AlarmDisconnect extends Component {
   handleSubmit = () => {
     const { handleSubmitAlarm, getQueryParamGeneral } = this.props
     const queryParams = getQueryParamGeneral()
-    console.log({ queryParams })
 
     handleSubmitAlarm(queryParams)
   }
@@ -170,6 +169,7 @@ export default class AlarmDisconnect extends Component {
       stationName,
       form,
       alarmDetail,
+      loadingSubmit,
     } = this.props
 
     return (
@@ -195,6 +195,7 @@ export default class AlarmDisconnect extends Component {
         <Row type="flex" justify="end">
           <Col span={5}>
             <Button
+              loading={loadingSubmit}
               type="primary"
               block
               size="large"

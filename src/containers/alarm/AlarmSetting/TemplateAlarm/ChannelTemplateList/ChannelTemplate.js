@@ -8,7 +8,7 @@ import styled from 'styled-components'
 import React, { Component } from 'react'
 import { channelOptions } from '../../constants'
 
-const ChannelTemplate = styled.div`
+const Container = styled.div`
   background: #ffffff;
   border: 1px solid #e5e7eb;
   border-radius: 4px;
@@ -17,19 +17,23 @@ const ChannelTemplate = styled.div`
 `
 const { TextArea } = Input
 
-export class ConfigChannelTemplate extends Component {
+export default class ChannelTemplate extends Component {
   render() {
     const { form, channelKey } = this.props
 
     const channelsObj = keyBy(channelOptions, 'value')
     const isMerge = channelKey === 'merge'
 
+    form.getFieldDecorator(`${channelKey}.active`)
+    form.getFieldDecorator(`${channelKey}.type`)
+
     return (
-      <ChannelTemplate>
+      <Container>
         <Text fontSize={18} fontWeight={700}>
           {isMerge ? 'Merge Template' : channelsObj[channelKey].label}
         </Text>
         <Clearfix height={13} />
+
         <Flex alignItems="center" gap={5}>
           Template
           <Tooltip placement="top" title={'Tooltip custom'}>
@@ -40,15 +44,14 @@ export class ConfigChannelTemplate extends Component {
           </Text>
         </Flex>
         <Clearfix height={5} />
+
         {form.getFieldDecorator(`${channelKey}.template`)(
           <TextArea
             autoSize={{ minRows: 3, maxRows: 3 }}
             style={{ resize: 'none' }}
           />
         )}
-        {form.getFieldDecorator(`${channelKey}.active`)}
-        {form.getFieldDecorator(`${channelKey}.type`)}
-      </ChannelTemplate>
+      </Container>
     )
   }
 }

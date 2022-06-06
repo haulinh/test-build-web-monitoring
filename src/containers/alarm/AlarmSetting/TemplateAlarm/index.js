@@ -4,6 +4,7 @@ import { CloudCross, CpuSetting, Danger } from 'assets/icons'
 import { get } from 'lodash'
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import { i18n } from '../constants'
 import { FIELDS } from '../index'
 import ChannelTemplateList from './ChannelTemplateList'
 
@@ -28,22 +29,26 @@ const Tabs = styled(TabsAnt)`
 
 export default class TemplateAlarm extends Component {
   state = {
-    configTemplate: {},
+    config: {},
     loading: false,
   }
+
   async componentDidMount() {
     this.setState({ loading: true })
-    try {
-      const res = await getAlarmConfig()
-      this.setState({ configTemplate: res.data.value })
-      this.setState({ loading: false })
-    } catch (error) {
-      console.error({ error })
+
+    const res = await getAlarmConfig()
+    if (res.success) {
+      this.setState({ config: get(res, 'data.value') })
     }
+    this.setState({ loading: false })
+  }
+
+  setConfig = newConfig => {
+    this.setState({ config: newConfig })
   }
 
   render() {
-    const { loading, configTemplate } = this.state
+    const { loading, config } = this.state
 
     return (
       <div style={{ background: '#FFFFFF', padding: 16, height: '100%' }}>
@@ -53,13 +58,16 @@ export default class TemplateAlarm extends Component {
               tab={
                 <Row style={{ gap: 5 }} type="flex" align="middle">
                   <Danger />
-                  Vượt ngưỡng
+                  {i18n().tabs.exceed}
                 </Row>
               }
               key="threshold"
             >
               <ChannelTemplateList
-                config={get(configTemplate, `${FIELDS.DATA_LEVEL}.channels`)}
+                setConfig={this.setConfig}
+                config={config}
+                configType={get(config, `${FIELDS.DATA_LEVEL}.channels`)}
+                configTypeKey={FIELDS.DATA_LEVEL}
               />
             </TabPane>
 
@@ -67,13 +75,16 @@ export default class TemplateAlarm extends Component {
               tab={
                 <Row style={{ gap: 5 }} type="flex" align="middle">
                   <CloudCross />
-                  Tín hiệu
+                  {i18n().tabs.connection}
                 </Row>
               }
               key="disconnect"
             >
               <ChannelTemplateList
-                config={get(configTemplate, `${FIELDS.DISCONNECT}.channels`)}
+                setConfig={this.setConfig}
+                config={config}
+                configType={get(config, `${FIELDS.DISCONNECT}.channels`)}
+                configTypeKey={FIELDS.DISCONNECT}
               />
             </TabPane>
 
@@ -81,13 +92,16 @@ export default class TemplateAlarm extends Component {
               tab={
                 <Row style={{ gap: 5 }} type="flex" align="middle">
                   <CpuSetting />
-                  Thiết bị
+                  {i18n().tabs.device}
                 </Row>
               }
               key="device"
             >
               <ChannelTemplateList
-                config={get(configTemplate, `${FIELDS.DEVICE}.channels`)}
+                setConfig={this.setConfig}
+                config={config}
+                configType={get(config, `${FIELDS.DEVICE}.channels`)}
+                configTypeKey={FIELDS.DEVICE}
               />
             </TabPane>
           </Tabs>
