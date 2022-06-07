@@ -1,9 +1,10 @@
-import { Button, Col, Row } from 'antd'
+import { Button, Col, Row, Skeleton } from 'antd'
 import QCVNApi from 'api/QCVNApi'
 import { Clearfix } from 'components/elements'
 import { i18n } from 'containers/alarm/AlarmSetting/constants'
 import withAlarmForm, {
   isDefaultDataLevel,
+  setFormValues,
 } from 'containers/alarm/AlarmSetting/hoc/withAlarmForm'
 import { FIELDS } from 'containers/alarm/AlarmSetting/index'
 import { ALARM_LIST_INIT } from 'containers/manager/station-auto/alarm-config/constants'
@@ -70,28 +71,27 @@ export default class AlarmExceed extends Component {
     loadingStandard: false,
   }
 
+  getQCVNList = async () => {
+    const result = await QCVNApi.getQCVN({}, {})
+    if (result.success) {
+      return result.data
+    }
+  }
+
   componentDidMount = async () => {
     this.setState({ loadingStandard: true })
-
     const qcvnList = await this.getQCVNList()
-
     this.setState({ qcvnList, loadingStandard: false })
 
     this.handleCreateAlarmInit()
   }
 
-  componentDidUpdate = prevProps => {
-    const { dataSource } = this.props
+  handleCreateAlarmInit = async () => {
+    const { dataSource, stationId, createListAlarm, form } = this.props
 
-    if (!isEqual(dataSource, prevProps.dataSource)) {
-      this.handleCreateAlarmInit()
-    }
-  }
-
-  handleCreateAlarmInit = () => {
-    const { dataSource, stationId, createListAlarm } = this.props
     if (!dataSource) {
-      createListAlarm(ALARM_LIST_INIT.DATA_LEVEL, stationId)
+      await createListAlarm(ALARM_LIST_INIT.DATA_LEVEL, stationId)
+      setFormValues(form, ALARM_LIST_INIT.DATA_LEVEL)
       return
     }
 
@@ -111,55 +111,11 @@ export default class AlarmExceed extends Component {
       []
     )
 
-    createListAlarm(alarmDefaultInit, stationId)
+    await createListAlarm(alarmDefaultInit, stationId)
+    setFormValues(form, alarmDefaultInit)
   }
 
-  getInitValues = alarmList => {
-    //#region set alarm data level
-    if (alarmList) {
-      const alarmDataLevelDefault = ALARM_LIST_INIT.DATA_LEVEL.map(
-        alarmDataLevelDefaultItem => {
-          const existAlarmDataLevelItem = alarmList.find(
-            alarmStandardItem =>
-              alarmStandardItem.config.type ===
-              alarmDataLevelDefaultItem.config.type
-          )
-
-          if (existAlarmDataLevelItem) {
-            return {
-              ...omit(alarmDataLevelDefaultItem, 'isCreateLocal'),
-              ...existAlarmDataLevelItem,
-            }
-          }
-
-          return alarmDataLevelDefaultItem
-        }
-      )
-
-      const alarmStandardWithoutDefault = alarmList.filter(
-        alarmStandardItem =>
-          !isDefaultDataLevel(get(alarmStandardItem, 'config.type'))
-      )
-
-      const alarmStandardWithDefault = [
-        ...alarmDataLevelDefault,
-        ...alarmStandardWithoutDefault,
-      ]
-
-      return alarmStandardWithDefault
-    } else {
-      return ALARM_LIST_INIT.DATA_LEVEL
-    }
-  }
-
-  getQCVNList = async () => {
-    const result = await QCVNApi.getQCVN({}, {})
-    if (result.success) {
-      return result.data
-    }
-  }
-
-  handleSubmit = () => {
+  handleSubmit = async () => {
     const { getQueryParamGeneral, handleSubmitAlarm, stationId } = this.props
 
     const paramGeneral = getQueryParamGeneral()
@@ -188,11 +144,13 @@ export default class AlarmExceed extends Component {
         type: FIELDS.DATA_LEVEL,
       }))
 
-    handleSubmitAlarm(params)
+    await handleSubmitAlarm(params)
+    await this.handleCreateAlarmInit()
   }
 
   handleAdd = () => {
-    const { stationId, createAlarm } = this.props
+    const { stationId, createAlarm, form } = this.props
+
     const uuid = uuidv4()
     const newData = {
       _id: uuid,
@@ -204,6 +162,7 @@ export default class AlarmExceed extends Component {
       },
     }
 
+    form.setFieldsValue({ [newData._id]: newData })
     createAlarm(newData)
   }
 
@@ -215,7 +174,6 @@ export default class AlarmExceed extends Component {
   }
 
   getMeasureListEnable = () => {
-    // let config = null
     const { form } = this.props
 
     const { measuringListEnable } = form.getFieldsValue()
@@ -278,13 +236,9 @@ export default class AlarmExceed extends Component {
     return defaultDataLevelValue
   }
 
-  handleCloseAlarmDetail = () => {
-    const { handleCloseAlarmDetail } = this.props
-    handleCloseAlarmDetail()
-  }
-
   render() {
     const { qcvnList, loadingStandard } = this.state
+
     const {
       form,
       users,
@@ -299,6 +253,7 @@ export default class AlarmExceed extends Component {
       setHiddenFields,
       stationId,
       loadingSubmit,
+      handleCloseAlarmDetail,
     } = this.props
 
     const qcvnListSelected = this.getQcvnSelected()
@@ -319,19 +274,21 @@ export default class AlarmExceed extends Component {
 
     return (
       <React.Fragment>
-        <TableAlarmExceedForm
-          dataSource={sortDataSource(dataSource)}
-          form={form}
-          users={users}
-          roles={roles}
-          onAdd={this.handleAdd}
-          onDelete={this.handleDelete}
-          qcvnList={qcvnList}
-          setAlarmDetail={setAlarmDetail}
-          qcvnListSelected={qcvnListSelected}
-          handleShowAlarmDetail={handleShowAlarmDetail}
-          setHiddenFields={setHiddenFields}
-        />
+        <Skeleton loading={loadingSubmit}>
+          <TableAlarmExceedForm
+            dataSource={sortDataSource(dataSource)}
+            form={form}
+            users={users}
+            roles={roles}
+            onAdd={this.handleAdd}
+            onDelete={this.handleDelete}
+            qcvnList={qcvnList}
+            setAlarmDetail={setAlarmDetail}
+            qcvnListSelected={qcvnListSelected}
+            handleShowAlarmDetail={handleShowAlarmDetail}
+            setHiddenFields={setHiddenFields}
+          />
+        </Skeleton>
         <Clearfix height={24} />
         {!loadingStandard && (
           <TableQCVN
@@ -363,7 +320,7 @@ export default class AlarmExceed extends Component {
             qcvnList={qcvnList}
             form={form}
             visible={visibleAlarmDetail}
-            onClose={this.handleCloseAlarmDetail}
+            onClose={handleCloseAlarmDetail}
             alarmDetail={alarmDetail}
             stationId={stationId}
             stationName={stationName}
