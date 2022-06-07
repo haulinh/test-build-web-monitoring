@@ -24,6 +24,22 @@ export const getStatusAlarmBoolean = status => {
   return false
 }
 
+export const setFormValues = (form, alarmList) => {
+  if (isEmpty(alarmList)) return
+
+  const alarmFormValuesFormatted = alarmList
+    .map(item => ({
+      ...item,
+      status:
+        typeof item.status === 'boolean'
+          ? item.status
+          : getStatusAlarmBoolean(item.status),
+    }))
+    .reduce((base, current) => ({ ...base, [current._id]: current }), {})
+
+  form.setFieldsValue(alarmFormValuesFormatted)
+}
+
 export const isDefaultDataLevel = alarmConfigType =>
   [FIELDS.EXCEED, FIELDS.EXCEED_PREPARING].includes(alarmConfigType)
 
@@ -47,14 +63,12 @@ const withAlarmForm = WrappedComponent => {
       this.setFormValues(dataSource)
     }
 
-    componentDidUpdate = (prevProps, prevState) => {
+    componentDidUpdate(prevProps, prevState) {
+      const { loadingSubmit } = this.state
       const { dataSource } = this.props
-
-      if (!isEqual(prevProps.dataSource, dataSource)) {
+      if (prevState.loadingSubmit !== loadingSubmit) {
         this.setFormValues(dataSource)
       }
-
-      // this.handleAlarmStatusChange(prevProps)
     }
 
     getQueryParamGeneral = () => {
@@ -94,6 +108,74 @@ const withAlarmForm = WrappedComponent => {
         .reduce((base, current) => ({ ...base, [current._id]: current }), {})
 
       form.setFieldsValue(alarmFormValuesFormatted)
+    }
+
+    handleSubmitAlarm = async paramGeneral => {
+      const { alarmIdsDeleted } = this.state
+      const { getAlarms, dataSource } = this.props
+
+      const params = {
+        data: paramGeneral,
+        deletedIds: alarmIdsDeleted,
+      }
+
+      try {
+        this.setState({ loadingSubmit: true })
+        await CalculateApi.createBulkAlarm(params)
+        await getAlarms()
+        this.setFormValues(dataSource)
+        message.success(translate('global.saveSuccess'))
+      } catch (error) {
+        console.error(error)
+        message.error(translate('ticket.message.notificationError'))
+      } finally {
+        this.setState({ loadingSubmit: false })
+      }
+    }
+
+    setAlarmDetail = alarmDetail => {
+      this.setState({ alarmDetail })
+    }
+
+    handleShowAlarmDetail = () => {
+      this.setState({ visibleAlarmDetail: true })
+    }
+
+    handleCloseAlarmDetail = () => {
+      this.setState({ visibleAlarmDetail: false })
+    }
+
+    setIdsDeleted = id => {
+      const { alarmIdsDeleted } = this.state
+      const newIdsDeleted = [...alarmIdsDeleted, id]
+
+      this.setState({ alarmIdsDeleted: newIdsDeleted })
+    }
+
+    handleAlarmStatusChange = prevProps => {
+      const { dataSource, selectStationById, stationId, form } = this.props
+
+      if (isEmpty(dataSource)) return
+
+      if (
+        !isEqual(
+          selectStationById(stationId).alarmConfig,
+          prevProps.selectStationById(stationId).alarmConfig
+        )
+      ) {
+        const fieldsValueStatusAlarm = dataSource.reduce(
+          (base, currentAlarm) => ({
+            ...base,
+            [`${currentAlarm._id}.${FIELDS.STATUS}`]: getStatusAlarmBoolean(
+              selectStationById(stationId).alarmConfig.status
+            ),
+          }),
+
+          {}
+        )
+
+        form.setFieldsValue(fieldsValueStatusAlarm)
+      }
     }
 
     setHiddenFields = (alarmDetail, alarmType) => {
@@ -154,75 +236,6 @@ const withAlarmForm = WrappedComponent => {
       form.getFieldDecorator(`${alarmDetail._id}.stationId`, {
         initialValue: alarmDetail.stationId,
       })
-    }
-
-    handleSubmitAlarm = async paramGeneral => {
-      const { alarmIdsDeleted } = this.state
-      const { getAlarms, dataSource } = this.props
-
-      console.log({ dataSource })
-
-      const params = {
-        data: paramGeneral,
-        deletedIds: alarmIdsDeleted,
-      }
-
-      try {
-        this.setState({ loadingSubmit: true })
-        await CalculateApi.createBulkAlarm(params)
-        await getAlarms()
-        this.setFormValues(dataSource)
-        message.success(translate('global.saveSuccess'))
-      } catch (error) {
-        message.error(translate('ticket.message.notificationError'))
-      } finally {
-        this.setState({ loadingSubmit: false })
-      }
-    }
-
-    setAlarmDetail = alarmDetail => {
-      this.setState({ alarmDetail })
-    }
-
-    handleShowAlarmDetail = () => {
-      this.setState({ visibleAlarmDetail: true })
-    }
-
-    handleCloseAlarmDetail = () => {
-      this.setState({ visibleAlarmDetail: false })
-    }
-
-    setIdsDeleted = id => {
-      const { alarmIdsDeleted } = this.state
-      const newIdsDeleted = [...alarmIdsDeleted, id]
-
-      this.setState({ alarmIdsDeleted: newIdsDeleted })
-    }
-
-    handleAlarmStatusChange = prevProps => {
-      const { dataSource, selectStationById, stationId, form } = this.props
-
-      if (isEmpty(dataSource)) return
-
-      if (
-        !isEqual(
-          selectStationById(stationId).alarmConfig,
-          prevProps.selectStationById(stationId).alarmConfig
-        )
-      ) {
-        const fieldsValueStatusAlarm = dataSource.reduce(
-          (base, currentAlarm) => ({
-            ...base,
-            [`${currentAlarm._id}.${FIELDS.STATUS}`]: getStatusAlarmBoolean(
-              selectStationById(stationId).alarmConfig.status
-            ),
-          }),
-
-          {}
-        )
-
-        form.setFieldsValue(fieldsValueStatusAlarm)
-      }
     }
 
     render() {

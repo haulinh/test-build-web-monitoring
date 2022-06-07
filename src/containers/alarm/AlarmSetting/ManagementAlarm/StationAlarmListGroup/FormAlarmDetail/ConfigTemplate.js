@@ -59,8 +59,6 @@ export default class ConfigTemplate extends Component {
                 `${alarmId}.channels.${channel.value}.customTemplate`
               )
 
-              const visibleEmailSubject = getVisibleSubject(channel.value)
-
               return (
                 <Panel
                   key={channel.value}
@@ -101,7 +99,7 @@ export default class ConfigTemplate extends Component {
                     </Row>
                   }
                 >
-                  {visibleEmailSubject && (
+                  {channel.value === 'webhook' && (
                     <Row gutter={5} style={{ marginBottom: 10 }}>
                       <Col>{subjectContent(alarmId)[channel.value].label}:</Col>
                       <Clearfix height={4} />

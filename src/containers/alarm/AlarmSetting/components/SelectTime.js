@@ -38,14 +38,18 @@ const times = [
 ]
 
 export class SelectTime extends Component {
-  formatTimeValue = time => {
-    if (times.some(item => item.value === time)) return time
-    return `${time / 60} ${i18n().time.minute}`
-  }
+  // formatTimeValue = time => {
+  //   if (times.some(item => item.value === time)) return time
+  //   return `${time / 60} ${i18n().time.minute}`
+  // }
   render() {
-    const { value, ...otherProps } = this.props
+    // const { value, ...otherProps } = this.props
     return (
-      <Select value={this.formatTimeValue(value)} {...otherProps}>
+      <Select
+        //  value={this.formatTimeValue(value)}
+        //  {...otherProps}
+        {...this.props}
+      >
         {times.map(time => (
           <Option key={time.id} value={time.value}>
             {time.name()}

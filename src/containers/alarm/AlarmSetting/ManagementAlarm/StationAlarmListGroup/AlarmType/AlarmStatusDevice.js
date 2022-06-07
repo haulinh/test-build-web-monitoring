@@ -24,14 +24,6 @@ export default class AlarmStatusDevice extends Component {
   componentDidMount = () => {
     this.handleCreateAlarmInit()
   }
-  componentDidUpdate = prevProps => {
-    const { dataSource } = this.props
-
-    if (!isEqual(dataSource, prevProps.dataSource)) {
-      this.handleCreateAlarmInit()
-    }
-  }
-
   //#endregion life cycle
 
   handleCreateAlarmInit = () => {
@@ -62,11 +54,12 @@ export default class AlarmStatusDevice extends Component {
     handleCloseAlarmDetail()
   }
 
-  handleSubmit = () => {
+  handleSubmit = async () => {
     const { handleSubmitAlarm, getQueryParamGeneral } = this.props
 
     const queryParams = getQueryParamGeneral()
-    handleSubmitAlarm(queryParams)
+    await handleSubmitAlarm(queryParams)
+    this.handleCreateAlarmInit()
   }
 
   columns = [

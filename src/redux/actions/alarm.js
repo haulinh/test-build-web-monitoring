@@ -11,6 +11,7 @@ export const DELETE_ALARM = 'DELETE_ALARM'
 export const SUBMIT_ALARM = 'SUBMIT_ALARM'
 export const UPDATE_DETAIL_ALARM = 'UPDATE_DETAIL_ALARM'
 export const CREATE_LIST_ALARM = 'CREATE_LIST_ALARM'
+export const CLEAR_ALL_ALARM = 'CLEAR_ALL_ALARM'
 
 export const selectAlarm = (alarm, alarmType) => {
   return {
@@ -29,6 +30,12 @@ export const selectStation = stationId => {
 export const clearAlarmSelected = () => {
   return {
     type: CLEAR_ALARM_SELECTED,
+  }
+}
+
+export const clearAllAlarms = () => {
+  return {
+    type: CLEAR_ALL_ALARM,
   }
 }
 
@@ -64,11 +71,11 @@ export const updateDetailAlarm = alarm => async dispatch => {
   })
 }
 
-export const createListAlarm = (alarmList, stationId) => {
+export const createListAlarm = (alarmList, stationId) => async dispatch => {
   const alarmsAdded = alarmList.map(alarm => ({ ...alarm, stationId }))
 
-  return {
+  dispatch({
     type: CREATE_LIST_ALARM,
     payload: alarmsAdded,
-  }
+  })
 }

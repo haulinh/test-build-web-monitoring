@@ -1,4 +1,4 @@
-import { Button, Col, Icon, Row, Switch, Table } from 'antd'
+import { Button, Col, Icon, Row, Skeleton, Switch, Table } from 'antd'
 import { Clearfix } from 'components/elements'
 import TreeSelectUser from 'components/elements/select-data/TreeSelectUser'
 import {
@@ -6,9 +6,11 @@ import {
   SelectTime,
 } from 'containers/alarm/AlarmSetting/components/index'
 import { ALARM_LIST_INIT, i18n } from 'containers/alarm/AlarmSetting/constants'
-import withAlarmForm from 'containers/alarm/AlarmSetting/hoc/withAlarmForm'
+import withAlarmForm, {
+  setFormValues,
+} from 'containers/alarm/AlarmSetting/hoc/withAlarmForm'
 import { FIELDS } from 'containers/alarm/AlarmSetting/index'
-import { isEmpty, isEqual } from 'lodash'
+import { isEmpty } from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { createAlarm, createListAlarm, deleteAlarm } from 'redux/actions/alarm'
@@ -28,20 +30,14 @@ export default class AlarmDisconnect extends Component {
   componentDidMount = () => {
     this.handleCreateAlarmInit()
   }
-  componentDidUpdate = prevProps => {
-    const { dataSource } = this.props
-
-    if (!isEqual(dataSource, prevProps.dataSource)) {
-      this.handleCreateAlarmInit()
-    }
-  }
   //#endregion life cycle
 
   //#region management
-  handleCreateAlarmInit = () => {
-    const { dataSource, stationId, createListAlarm } = this.props
+  handleCreateAlarmInit = async () => {
+    const { dataSource, stationId, createListAlarm, form } = this.props
     if (!dataSource) {
-      createListAlarm(ALARM_LIST_INIT.DISCONNECT, stationId)
+      await createListAlarm(ALARM_LIST_INIT.DISCONNECT, stationId)
+      setFormValues(form, ALARM_LIST_INIT.DISCONNECT)
     }
   }
 
@@ -76,6 +72,7 @@ export default class AlarmDisconnect extends Component {
     const { handleSubmitAlarm, getQueryParamGeneral } = this.props
     const queryParams = getQueryParamGeneral()
 
+    this.handleCreateAlarmInit()
     handleSubmitAlarm(queryParams)
   }
 
@@ -94,9 +91,10 @@ export default class AlarmDisconnect extends Component {
         const { form } = this.props
         return (
           <React.Fragment>
-            {form.getFieldDecorator(`${record._id}.${FIELDS.TIME_DISCONNECT}`, {
-              // initialValue: 1800,
-            })(<SelectTime style={{ width: '100%' }} />)}
+            {form.getFieldDecorator(
+              `${record._id}.${FIELDS.TIME_DISCONNECT}`,
+              {}
+            )(<SelectTime style={{ width: '100%' }} />)}
           </React.Fragment>
         )
       },
@@ -174,23 +172,25 @@ export default class AlarmDisconnect extends Component {
 
     return (
       <React.Fragment>
-        <Table
-          columns={this.columns}
-          bordered
-          dataSource={dataSource}
-          rowKey={record => record._id}
-          pagination={false}
-          footer={() => (
-            <Button
-              type="link"
-              style={{ fontWeight: 'bold' }}
-              onClick={this.handleAdd}
-            >
-              <Icon type="plus" />
-              {i18n().button.add}
-            </Button>
-          )}
-        />
+        <Skeleton loading={loadingSubmit}>
+          <Table
+            columns={this.columns}
+            bordered
+            dataSource={dataSource}
+            rowKey={record => record._id}
+            pagination={false}
+            footer={() => (
+              <Button
+                type="link"
+                style={{ fontWeight: 'bold' }}
+                onClick={this.handleAdd}
+              >
+                <Icon type="plus" />
+                {i18n().button.add}
+              </Button>
+            )}
+          />
+        </Skeleton>
         <Clearfix height={24} />
         <Row type="flex" justify="end">
           <Col span={5}>
